@@ -1,368 +1,140 @@
-# Business Factory — MVP Delivery Plan
+# Business Factory — TableCards MVP-to-Launch Plan
 
-Prepared: 2026-09-21.
+Updated: 2026-09-21.
 
-Based on [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md). The architecture is preserved unchanged. This plan organizes its broad work areas and adds the manual handoffs needed to execute them.
+This is the current delivery view for the first Business Factory product. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack. Nirvana is the live task-status source, while this document explains the grouping and acceptance boundary.
 
-The BFF implementation stack was accepted on 2026-09-21 in [ADR 0001 — Convex-first BFF stack](../architecture/adr/0001-convex-first-bff-stack.md). Provider setup and credential timing are recorded in [Provider accounts, access and secrets](../operations/provider-accounts-and-secrets.md).
+## Current task system
 
-## Current status
+Nirvana was reorganized and read back on 2026-09-21:
 
-Nirvana has been updated and read back to verify:
-- **Business Factory — MVP — Codex:** 14 open work areas (13 implementation areas plus the documentation commit).
-- **Business Factory — MVP — Manual:** 10 open actions; the already completed GitHub setup remains completed.
-- **Business Factory — Post-MVP:** 7 optional work areas with explicit Codex/Manual ownership.
+- There is one active project: **Business Factory — TableCards MVP to Launch**.
+- It contains nine open actions, all in Next: five **[BUILD — Codex]** phases and four **[BLOCKER — Andrew]** groups.
+- Focus contains only the current three actions: Build 1, Andrew blocker 1 and Andrew blocker 2.
+- Completed repository setup remains in the project's Logbook.
+- The former separate Manual, Codex and Post-MVP projects were moved to Trash after their useful work was consolidated. Nirvana Trash is recoverable until the user empties it.
 
-All three projects are in the Personal area. Existing tasks were reused and moved where appropriate; historical trashed tasks were left alone.
+Task prefixes keep work visually separated without creating multiple projects:
 
-The target repository is [kabytaa/bff](https://github.com/kabytaa/bff). It was empty when inspected. Uploading the architecture returned **403 Resource not accessible by integration**, so no file has been committed. M00 tracks restoring write access and C00 tracks committing these prepared files. No implementation work has been performed as part of this planning update.
+- **[BUILD — Codex]** means implementation, technical configuration, automated verification and runbooks.
+- **[BLOCKER — Andrew]** means a business decision, provider-owner action, approval, physical check or real-world launch action that Codex cannot complete alone.
 
-This document is a planning snapshot. Nirvana is the task-status source; dependencies are written in notes and do not automatically advance tasks.
+Do not put credentials, identity documents or payment details in Nirvana, chat or git. Use the chosen provider connection or secret store.
 
-Repository status since that snapshot:
+## Product and scope
 
-- Convex is selected for the BFF service, database, jobs and webhook runtime.
-- Better Auth hosted in Convex is selected for sessions, with Google as the only initial login provider. Clerk is not required.
-- Cloudflare is selected for static web hosting and DNS, not the BFF database.
-- Paddle remains the billing provider. PostHog and Resend are optional until a real product workflow needs them.
-- Reusable support and feedback submission, backoffice handling and user-visible responses are required for the MVP; AI automation is deferred.
-- The first Business Project is still a separate business decision.
+The working first product is **TableCards**: paste guest names and optional table numbers, preview place cards, and unlock a correctly sized printable PDF for one event. The first buyer hypothesis is a repeat event professional such as a planner, venue or print shop. Demand and the proposed $19 price are unvalidated hypotheses, not research findings.
 
-## Scope and ownership
+The smallest launch scope is:
 
-Use one Nx monorepo. Each Business Project owns its workloads, backend, docs, libraries, infrastructure and assets under `projects/<id>`. BFF provides the shared service, SDK/contracts and central backoffice under `platform/bff`.
+- Pasted names and optional table numbers, preserving spelling, order and duplicates.
+- One fixed folded-card format, one initial page size and two bundled typography choices.
+- Preview of every card before payment.
+- PDF export with cut/fold marks and a scale-check sheet.
+- Explicit handling of long names and unsupported characters.
+- One-time event unlock with corrections and repeat downloads for that event.
+- Google login, in-product feedback/support, minimal operator handling and a public contact path.
 
-Nx and Paddle are chosen in the architecture. ADR 0001 selects Convex, Better Auth with Google login, and Cloudflare for the BFF implementation. Convex, web/mobile, specific product databases and media tooling remain independent choices per Business Project.
+Not in the first launch: CSV import, uploaded artwork, arbitrary dimensions, seating planning, print fulfillment, subscriptions, Apple login, transactional email, PostHog, advanced reporting, AI support automation or a second product.
 
-Codex owns implementation, technical proposals, configuration, integration, verification and runbooks. Andrew owns the business idea, account ownership/verification, paid commitments, access handoff, public launch review and initial distribution.
+## Delivery rules
 
-Keep these as broad work areas. Break down one area when work begins. There are no invented deadlines, duration estimates or assumptions that an unfinished setup is complete. Credentials belong in the selected secret store, never in the repo or task notes.
+- Add data models and API surface only when the active implementation slice uses them.
+- Break down a grouped action only when work begins; do not turn the project into a speculative backlog.
+- Hosted provider setup must not block local work that can be implemented and tested without credentials.
+- Every feature slice must be self-verifiable with real validation commands.
+- Keep browser regression small and valuable: automate the important happy flows and expensive regressions. Put edge cases, authorization denials and webhook replay cases in faster unit or integration tests.
+- Product code consumes the public BFF API/SDK, not Convex implementation internals.
 
-## Suggested execution order
+## Execution order
 
-1. **Start now:** C01 Nx foundations and C02 architecture/contracts. Andrew handles M00 GitHub access, M01 the first idea/validation target and starts M05 Paddle onboarding.
-2. **Establish the core:** C03 service and registry, then C04 identity/accounts. After C02, M02 confirms provider/cost commitments and activates M03/M04/M06 account/access work. Hosted setup should not block local implementation.
-3. **Prove one end-to-end path:** Build C05 billing and C06 attribution with C07 SDK modules alongside them. Start C11 product-specific work as soon as M01 and C01 are ready. Keep the idea tiny.
-4. **Make it operable and reusable:** C08 backoffice including the support inbox, C09 deployments/runbooks and C10 Codex skill, refined against the first product. Andrew performs M07 launch-content and support review.
-5. **Prove production and reuse:** C12 technical deployment and verification, M08 manual acceptance and real traffic, plus C13 a technically different second-project skeleton.
-6. **Review learning:** M09 evaluates the pre-agreed continue/iterate/kill criteria. Product success and factory completion are separate decisions.
+1. Codex starts Build 1. In parallel, Andrew fixes the pilot output contract and starts Paddle onboarding.
+2. Codex builds shared auth/support and the deterministic TableCards core. Andrew's hosted account task becomes actionable when exact domains and OAuth callback URLs exist.
+3. Codex adds the one-time paid entitlement and minimal operator view. Paddle fixtures keep regression independent of live charges.
+4. Codex deploys and runs the automated happy path. Andrew then completes the offer/support review, physical ruler check, live acceptance and first outreach.
 
-C00 can complete as soon as M00 unblocks GitHub. It does not need to block local design or implementation.
+## Grouped launch tasks
 
-## Codex work
+| # | Nirvana action | Owner | Focus now | Main dependency |
+| --- | --- | --- | --- | --- |
+| Build 1 | Foundation: workspace, Convex BFF, contracts and test harness | Codex | Yes | None |
+| Build 2 | Shared MVP: Google auth, accounts, support and SDK | Codex | No | Build 1; production OAuth later needs Andrew 3 |
+| Build 3 | TableCards core: paste list, preview and verified PDF | Codex | No | Build 1; use Andrew 1 decisions when available |
+| Build 4 | Paid flow: Paddle unlock, entitlement and minimal operations | Codex | No | Builds 1–3; hosted checks need Andrew 2 |
+| Build 5 | Deploy, run happy-path regression and prepare launch | Codex | No | Builds 1–4 and relevant provider access |
+| Andrew 1 | Decide the TableCards pilot specifics | Andrew | Yes | None |
+| Andrew 2 | Start Paddle seller onboarding | Andrew | Yes | None; final review needs the real site |
+| Andrew 3 | Provide launch accounts, domain and Google OAuth | Andrew | No | Exact domain/callback values from Codex |
+| Andrew 4 | Approve the offer, support channel and live launch | Andrew | No | Production candidate and Paddle approval |
 
-| ID | Work area | Initial list | Dependencies |
-| --- | --- | --- | --- |
-| C00 | Commit architecture and MVP plan to the repository | Later | M00 |
-| C01 | Bootstrap the Nx monorepo and ownership boundaries | Next (Focus) | None; C00 is only the documentation-publishing blocker |
-| C02 | Define the BFF stack, data model and public contracts | Decision recorded; implementation next | None; coordinate conventions with C01 |
-| C03 | Build the BFF service and project registry | Later | C01, C02; M02/M03 only for hosted provisioning |
-| C04 | Implement identity, accounts, memberships and authentication | Later | C02, C03; M06 for Google OAuth configuration |
-| C05 | Implement Paddle billing, subscriptions and entitlements | Later | C03, C04; M05 for seller credentials and production activation |
-| C06 | Implement business events, analytics and acquisition attribution | Later | C03, C04; integrate payment attribution with C05 |
-| C07 | Build the public BFF SDK and integration examples | Later | C02, C03; implement modules alongside C04-C06 and the C08 support workflow |
-| C08 | Build the central MVP backoffice and support workflow | Later | C03-C06; build its public support SDK slice with C07 |
-| C09 | Set up deployments, secrets, CI and operating runbooks | Later | C01-C03; M02-M04 and relevant M05/M06 credentials for hosted services |
-| C10 | Create the Codex Business Factory skill | Later | C01, C02, C07, C09; refine against C11 |
-| C11 | Build the first tiny Business Project | Later | M01, C01; wire C04-C09 as available |
-| C12 | Deploy and verify the first production product | Later | C05-C09, C11; M03-M07 |
-| C13 | Prove reuse with a technically different second project | Later | C07, C10, C11; run once the first integration is stable |
+### Build 1 — Foundation
 
-### C00 — Commit architecture and MVP plan to the repository
+Create the Nx workspace, ownership boundaries, minimal Convex BFF service and project registry. Define only the contracts and tables used by the first implemented flow. Establish typecheck, lint, unit/integration testing, Playwright infrastructure, deterministic test data and baseline CI.
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** M00
+Done when the repository runs locally, the BFF health/project path works, validation commands are documented and there are no speculative tables or placeholder SDK modules.
 
-**Done when:** Commit the supplied architecture unchanged to docs/architecture/bff-mvp-architecture.md and the execution plan to docs/factory/mvp-delivery-plan.md in kabytaa/bff. Add a short README linking both. Verify the files on GitHub.
+### Build 2 — Shared MVP
 
-Attempted 2026-09-21; GitHub rejected the write with 403 Resource not accessible by integration. Nothing has been committed.
+Add Better Auth in the BFF Convex deployment with Google as the only login provider. Implement only the account and membership shapes TableCards uses. Add support/feedback submission and status, an operator queue/response, and the corresponding thin typed SDK paths. Verify authorization boundaries and the support lifecycle.
 
-### C01 — Bootstrap the Nx monorepo and ownership boundaries
+Done when a Google-authenticated user can submit an issue or feedback and Andrew can review and respond from the minimal backoffice. Apple, Resend and PostHog are not prerequisites.
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** None; C00 is only the documentation-publishing blocker
+### Build 3 — TableCards core
 
-**Done when:** Create one Nx workspace with platform/bff, projects/<business-project>, tools and docs. Define a small project.yaml schema and only necessary folders. Establish Nx tags/public SDK and contract boundaries; reject cross-product internals and BFF service imports. Document local commands and add basic CI.
+Implement pasted guest data, preview, the fixed print layout and deterministic PDF generation. Preserve exact guest multiplicity. Validate font coverage and fitting before payment. Include cut/fold marks and a scale-check page.
 
-Replaces the old reusable starter-repo approach. Each business owns its documentation, workloads, backend, libraries, assets and infrastructure inside this monorepo. Convex is optional per product.
+The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. One physical sheet must still be printed at 100% and measured before the output is called verified.
 
-### C02 — Define the BFF stack, data model and public contracts
+### Build 4 — Paid flow and operations
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** None; coordinate conventions with C01
+Implement a Paddle one-time event unlock, server-side entitlement enforcement, verified idempotent webhooks and minimal purchase/acquisition events. Allow corrections and repeat downloads for the purchased event. Add only the operator views needed for projects, users, purchases, entitlements and support.
 
-**Done when:** Propose and record the BFF service/database/auth/hosting choices in an ADR with minimal cost and setup needs. Specify project and environment scoping, user identity linking, project-owned accounts/memberships/roles, billing, entitlements, events and attribution. Define the API, trusted identity flow and migration approach.
+Signed payment fixtures must let the full happy path run without a live charge. Done means an unpaid user cannot fetch the paid PDF, a verified purchase unlocks it exactly once and webhook replays are harmless.
 
-Architecture leaves the BFF implementation stack open. Propose the technical choices; M02 covers Andrew's cost/account commitments. Do not require every Business Project to adopt the BFF backend technology.
+### Build 5 — Deployment and launch preparation
 
-Decision recorded 2026-09-21 in [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md): Convex backend/database, Better Auth hosted in Convex with Google-only login, a minimal versioned public HTTP/SDK boundary, React/Vite backoffice on Cloudflare and Paddle when billing begins. The ADR records a task-driven data-model sequence; Apple login, PostHog, Resend and Sentry are conditional.
+Configure environments, secrets, Cloudflare deployment, domains, CI, basic health/error monitoring, rollback and recovery notes. Run the focused browser regression:
 
-### C03 — Build the BFF service and project registry
+1. Sign in.
+2. Create a representative guest list.
+3. Preview all cards.
+4. Complete fixture or sandbox payment.
+5. Download the entitled PDF.
+6. Submit support/feedback.
+7. Review and respond in the backoffice.
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C01, C02; M02/M03 only for hosted provisioning
+Run provider-specific sandbox/live smoke checks separately. Done when automated validation passes, the production flow is reachable and Andrew has a concise final acceptance checklist.
 
-**Done when:** Implement the service foundation, durable schema/migrations, API validation/errors and health checks. Support projects, environments, domains/config and workload metadata. Supply local development/seed data and a clear boundary around platform internals.
+## Andrew's blocker groups
 
-Local development can proceed before hosted credentials are supplied.
+### Andrew 1 — Pilot specifics
 
-### C04 — Implement identity, accounts, memberships and authentication
+Choose two or three reachable repeat buyers, the single initial paper/page and folded-card format, required writing systems, and the working product/domain name. Define the evidence that counts as validation: a real target buyer willing to try or pay after seeing existing alternatives.
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C02, C03; M06 for Google OAuth configuration
+### Andrew 2 — Paddle onboarding
 
-**Done when:** Deliver users, auth-identity mappings, project-scoped accounts, memberships/roles and Google login through the shared auth adapter. Support multiple users per account and users in multiple accounts, with server-side access enforcement and environment/project isolation. Keep login UX in the product. Verify cross-account and cross-project access denial.
+Create or confirm the seller account, finish business/identity/payout verification and enable sandbox access. Submit the real product/domain and required policy pages for production review when the site exists. The first offer is a one-time digital software purchase; no subscription setup is needed.
 
-Moved into MVP from Post-MVP because the supplied architecture requires it. Do not add password/email login. Add Apple only for a real product need or applicable App Store requirement; polished invitation and identity-linking UX can follow actual use.
+### Andrew 3 — Accounts, domain and OAuth
 
-### C05 — Implement Paddle billing, subscriptions and entitlements
+Confirm the existing Convex login can create a separate Business Factory project, choose or buy the product domain, and provide Cloudflare/DNS access. After Codex provides exact callback URLs, create/select the Google Cloud project, configure consent/branding and create the web OAuth client.
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C03, C04; M05 for seller credentials and production activation
+Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker, printing or email-delivery provider for its initial scope.
 
-**Done when:** Implement only the billing concepts required by the first real offer: account mapping, its selected Paddle price reference, checkout, verified/idempotent webhook handling, the applicable transaction or subscription state, and the entitlement check. Isolate Paddle details and verify that chosen flow in sandbox. Add the other one-time/recurring lifecycle only when a product uses it.
+### Andrew 4 — Offer, support and live launch
 
-Sandbox implementation can proceed before seller approval. Production checkout is blocked until the required seller/site approvals and production configuration are complete.
+Approve price, refund promise, terms/privacy copy, product claims and a monitored support address. Print the scale-check page at 100%, measure it with a ruler, and complete one real production sign-in, purchase, export and support submission. Then bring the first real pilot traffic from the selected buyers.
 
-### C06 — Implement business events, analytics and acquisition attribution
+## Launch acceptance
 
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C03, C04; integrate payment attribution with C05
+The launch gate is satisfied when:
 
-**Done when:** Implement only the event/attribution fields required by the first product's agreed funnel. Persist canonical business events and link the identifiers actually used from acquisition through signup/account/payment. Define deduplication and a basic source-to-revenue view. Add anonymous visitor/session models, manual campaign-cost storage or PostHog only when the live experiment needs them.
+- TableCards is deployed with the fixed, honestly described output contract.
+- Google login and project/account isolation work in production.
+- Payment webhooks and server-side entitlements protect the paid download.
+- The deterministic PDF checks and focused happy-path regression pass.
+- A user can submit feedback or a problem and Andrew can review/respond.
+- A public support contact works for users who cannot sign in.
+- Andrew approves the offer, verifies physical print scale, completes the live flow and deliberately sends real prospects to it.
 
-Use real server-validated billing outcomes for revenue. Do not build a generic event warehouse or automate advertising platforms.
-
-### C07 — Build the public BFF SDK and integration examples
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C02, C03; implement modules alongside C04-C06 and the C08 support workflow
-
-**Done when:** Establish the typed SDK transport, error shape and versioning rule, then expose only capabilities already implemented by C03-C06 and C08. Start with health and add session, support submission/status, events, entitlements and checkout alongside their real workflows. Keep the core independent of React and backend technology; do not publish placeholder modules or table-shaped CRUD clients.
-
-Products use the public SDK/API instead of platform implementation imports. Add platform-specific adapters only where needed.
-
-### C08 — Build the central MVP backoffice and support workflow
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C03-C06; build its public support SDK slice with C07
-
-**Done when:** Implement the reusable support-request functions and provide an admin-protected view across projects/environments, workloads/domains/integrations, users/accounts/memberships, subscriptions/payments/revenue and entitlements. Include a support inbox where an operator can inspect trusted request context, set status and add a response. Show acquisition sources/campaigns, signups and basic conversion funnels. Audit privileged changes such as manual grants.
-
-The basic cross-project backoffice belongs in MVP. Advanced BI, financial reporting and polished design remain in Post-MVP.
-
-### C09 — Set up deployments, secrets, CI and operating runbooks
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C01-C03; M02-M04 and relevant M05/M06 credentials for hosted services
-
-**Done when:** Set up independent workload deployments, environment separation, CI checks, configuration templates, server-side secret storage, HTTPS/domains, basic health/error monitoring, backup/recovery and rollback steps. Keep credentials out of git and Nirvana. Document local, test and production operations.
-
-Use the existing VPS where appropriate; do not purchase services. Sophisticated orchestration and advanced observability are deferred.
-
-### C10 — Create the Codex Business Factory skill
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C01, C02, C07, C09; refine against C11
-
-**Done when:** Write and validate a repository skill that creates a Business Project manifest, only required docs/workloads, Nx tags and BFF integration. Cover registry, auth/billing when required, support/feedback, analytics/attribution, deployment and ADRs. Validate it with the first project and the second reuse test.
-
-Codex creates projects; BFF does not generate applications. No new repository per idea and no forced Convex/web/mobile/Remotion stack. Read the skill-creator instructions when implementing this work area.
-
-### C11 — Build the first tiny Business Project
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** M01, C01; wire C04-C09 as available
-
-**Done when:** Build the smallest usable product under projects/<id>, with its own product/technical/marketing/analytics docs, manifest and chosen workloads/backend. Exercise BFF user/account lifecycle, login, support/feedback, acquisition analytics and paid access. Include a discoverable signed-in Help / Feedback form, a view of the user's submitted request/status/response, and a public support contact for people who cannot sign in.
-
-The purpose is to prove the factory. Keep product scope tiny; optional mobile and Remotion workloads only when the chosen experiment needs them.
-
-### C12 — Deploy and verify the first production product
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C05-C09, C11; M03-M07
-
-**Done when:** Deploy BFF, backoffice and the first product using approved access. Verify a tracked visit -> login -> account -> checkout -> webhook -> entitlement -> revenue/funnel view. Also verify support submission -> backoffice triage/response -> user-visible status, plus the unauthenticated support contact path. Check a denied access case, duplicate webhook handling and recovery instructions. Provide a concise acceptance checklist and launch URLs to Andrew.
-
-Technical release is Codex work. Andrew performs M08 manual acceptance and initial distribution; real external traffic and provider production activation are required for MVP completion.
-
-### C13 — Prove reuse with a technically different second project
-
-**Owner:** Codex  
-**Priority:** Must for MVP  
-**Dependencies:** C07, C10, C11; run once the first integration is stable
-
-**Done when:** Use the skill to create a second Business Project skeleton with a different frontend/runtime or different/no product backend. Demonstrate BFF integration, Nx ownership isolation and independent configuration without redesigning BFF. Document any gaps and fix reusable issues.
-
-A skeleton and integration demonstration suffice; no second public launch, store account or paid acquisition required. This is an MVP exit criterion.
-
-
-## Andrew's manual work
-
-| ID | Work area | Initial list | Dependencies |
-| --- | --- | --- | --- |
-| M00 | Enable GitHub integration write access to kabytaa/bff | Next (Focus) | None |
-| M01 | Choose the tiny first idea and validation target | Next (Focus) | None |
-| M02 | Confirm proposed providers, budget and paid commitments | Later | C02 |
-| M03 | Provision the selected backend accounts and access | Later | M02 |
-| M04 | Provide hosting, domain and DNS access | Later | M02 |
-| M05 | Complete Paddle seller onboarding and production approval | Next | Start now; final site/domain review follows M04 and C11 |
-| M06 | Provide Google OAuth and optional analytics account access | Later | Start when C04 or an analytics-dependent product task begins |
-| M07 | Review launch offer, policies and support contact | Later | M01, C11; coordinate seller/site requirements with M05 |
-| M08 | Accept the live flow and bring the first real traffic | Later | C12, M07; M05 production activation |
-| M09 | Review validation results and decide the next move | Later | M08 and the observation window defined in M01; use C08 reports |
-
-### M00 — Enable GitHub integration write access to kabytaa/bff
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** None
-
-**Done when:** Authorize the GitHub connection to write repository contents for kabytaa/bff, then ask Codex to retry C00. Read access already works.
-
-2026-09-21 write attempt returned 403 Resource not accessible by integration. This is separate from the completed GitHub CLI authentication on the VPS.
-
-### M01 — Choose the tiny first idea and validation target
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** None
-
-**Done when:** Choose the target audience, problem, smallest useful feature, proposed pricing and first traffic source. Write measurable continue/kill criteria and a time/spend limit. Pick a tiny product that can exercise login, accounts, acquisition tracking and payments.
-
-Codex can draft options; Andrew owns the business choice. Success of the idea itself is not required to validate the reusable foundation.
-
-### M02 — Confirm proposed providers, budget and paid commitments
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** C02
-
-**Done when:** Review Codex's technical proposal and confirm which provider accounts and ongoing costs you accept. Confirm the BFF hosting/database/auth direction and first-product needs. Record decisions so setup tasks can be activated.
-
-No need to register every provider in advance. Andrew accepted Convex for the BFF quick start. Confirm the expected move from Convex Free during development to Professional before meaningful production customer/payment data, plus any Cloudflare/domain costs. Product-specific stacks remain independent.
-
-### M03 — Provision the selected backend accounts and access
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** M02
-
-**Done when:** Create or confirm only the backend/database account/team selected for BFF or the first product. Complete account login/billing steps and grant Codex the minimum necessary access using the secret store.
-
-Use the existing Convex account to create a new Business Factory project with separate development and production deployments; do not reuse Podcat and do not install Convex globally. BFF Convex code belongs under `platform/bff/service`. A product that independently chooses Convex keeps its backend under that Business Project.
-
-### M04 — Provide hosting, domain and DNS access
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** M02
-
-**Done when:** Confirm the hosting account and existing VPS access needed by the chosen deployment. Choose a domain if launch/provider requirements need one, complete any purchase, and provide DNS/Cloudflare permissions where used. Put restricted credentials in the approved secret store.
-
-A separate purchased domain for every experiment is not assumed. Cloudflare access is not currently connected on this machine. Codex handles Worker/static-asset deployment and DNS configuration once authorized; Andrew handles ownership, checkout and account access.
-
-### M05 — Complete Paddle seller onboarding and production approval
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** Start now; final site/domain review follows M04 and C11
-
-**Done when:** Create/confirm the seller account, complete business/identity verification and payout details, and provide sandbox access securely. Complete the required website/domain and production approval steps when the first site is ready.
-
-Codex implements checkout/webhooks/catalog configuration; Andrew supplies seller information, verification and approval submissions. Do not put documents or API secrets in task notes. Production billing is gated by provider approval.
-
-### M06 — Provide Google OAuth and optional analytics account access
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** Start when C04 or an analytics-dependent product task begins
-
-**Done when:** When C04 begins, create or select the Google Cloud project, configure the OAuth consent/branding screen, and create the web OAuth client for the development and production callback URLs. Supply the client ID and secret through the configured secret store. Create PostHog only if an active product task requires product-interaction analytics beyond BFF's canonical events.
-
-Better Auth runs inside Convex and needs no separate hosted-auth registration. Apple Developer access and Apple credentials remain conditional on an iOS/App Store or product requirement. PostHog and a transactional email provider also remain conditional on implemented workflows.
-
-### M07 — Review launch offer, policies and support contact
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** M01, C11; coordinate seller/site requirements with M05
-
-**Done when:** Approve the public product name/message, price, refund/cancellation wording, privacy/terms drafts and a working monitored support address. Confirm who will check new support requests and the initial response expectation. Check the launch copy matches the real product and seller details; obtain professional input if you need it.
-
-Codex prepares drafts/pages. A branded mailbox is optional; a working contact address is part of launch readiness.
-
-### M08 — Accept the live flow and bring the first real traffic
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for MVP  
-**Dependencies:** C12, M07; M05 production activation
-
-**Done when:** Use the product yourself on the target device and complete the agreed live payment verification with your approval. Publish/share the tracked launch link through the chosen audience/channel. Record campaign spend, initial feedback and the review date.
-
-Codex supplies the acceptance checklist, tracked links and analytics. Andrew owns outbound posting/outreach, any advertising spend and launch acceptance. No automatic messages or purchases are authorized by this planning task.
-
-### M09 — Review validation results and decide the next move
-
-**Owner:** Andrew (manual)  
-**Priority:** Must for the learning review  
-**Dependencies:** M08 and the observation window defined in M01; use C08 reports
-
-**Done when:** Compare traffic, activation, conversion, revenue and spend with the pre-agreed criteria. Record continue/iterate/kill and the reason. Separately confirm that all factory exit criteria, including C13 reuse, are met.
-
-Do not confuse a failed product hypothesis with a failed foundation. Scale spend only after a deliberate decision.
-
-
-## Post-MVP
-
-These tasks are in Someday. Conditional items move earlier only when the selected product flow requires them.
-
-| Owner | Work area |
-| --- | --- |
-| Andrew | Set up a branded support/contact mailbox if the existing monitored address becomes insufficient |
-| Andrew | Set up transactional email provider access when needed |
-| Codex | Add advanced cross-product observability |
-| Andrew | Provide Apple Developer access if an iOS/App Store or product requirement activates Apple login |
-| Codex | Harden proven platform and deployment patterns |
-| Codex | Extend cross-project reporting and experiments |
-| Codex | Add optional email and authentication integrations |
-
-The architecture also defers automated campaigns/content strategy, sophisticated A/B, full CRM, threaded support conversations, attachments, external helpdesk/live-chat integrations, AI-assisted or autonomous support, referrals, generic email marketing, advanced financial reporting, automatic technology selection, sophisticated deployment orchestration and polished backoffice design. Do not add these to the critical path without demonstrated need. BFF application generation is outside the chosen model; Codex creates projects.
-
-## MVP exit criteria
-
-- The Nx monorepo enforces business ownership boundaries.
-- BFF has a reusable service, public SDK/contracts and protected central backoffice.
-- Projects/environments, users/accounts/memberships, authentication, payments/subscriptions, entitlements, business analytics and acquisition attribution work end to end.
-- A user can submit feedback or a problem, an operator can triage and respond, and the user can see the result; a public support contact works without login.
-- One intentionally tiny real product runs in production with BFF integration, production payment capability, analytics and real external traffic.
-- Codex can use the Business Factory skill to create a technically different second-project skeleton without redesigning BFF.
-- Andrew can inspect the validation signals and record a business decision.
-
-A successful business hypothesis is not a prerequisite for factory completion. A large feature backlog is not proof of reuse.
-
-## Changes from the previous Nirvana plan
-
-- Replaced the reusable starter-repo task with one Nx monorepo and business-owned folders.
-- Moved reusable authentication, the basic central dashboard and Codex project-creation conventions from Post-MVP into MVP.
-- Split technical deployment from Andrew's launch acceptance and distribution.
-- Made Convex/backend provisioning conditional on the chosen stack.
-- Accepted Convex for the BFF server/database and recorded the complete supporting stack in ADR 0001.
-- Added an explicit provider-account and secret handoff without storing credential values.
-- Made the reusable support/feedback lifecycle an MVP requirement while deferring AI and helpdesk automation.
-- Preserved completed GitHub CLI setup; tracked the separate integration write-access failure explicitly.
-- Kept dependent work in Later and optional work in Someday. Focus contains C01, M00 and M01.
+Post-launch validation review, advanced integrations, platform hardening, a reusable factory skill and a technically different second-project proof are intentionally parked. They are not blockers for shipping the first product.

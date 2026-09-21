@@ -58,7 +58,7 @@ platform/bff/
 projects/<project-id>/       # product-owned UI, data and infrastructure
 ```
 
-The exact folders may be adjusted during C01, but public contracts must not depend on Convex-generated internals.
+The exact folders may be adjusted during **Build 1 — Foundation**, but public contracts must not depend on Convex-generated internals.
 
 ## Technology boundary
 
@@ -94,7 +94,7 @@ For every method, derive identity from the verified token rather than request fi
 
 ## Identity and trusted request flow
 
-Clerk is not required for the MVP. When C04 begins, use [Better Auth with the Convex component](https://labs.convex.dev/better-auth/framework-guides/react) as the session and OAuth layer running in the BFF Convex deployment. Enable only Google login. Do not enable passwords, magic links, email OTP or other social providers without a real product requirement.
+Clerk is not required for the MVP. During **Build 2 — Shared MVP**, use [Better Auth with the Convex component](https://labs.convex.dev/better-auth/framework-guides/react) as the session and OAuth layer running in the BFF Convex deployment. Enable only Google login. Do not enable passwords, magic links, email OTP or other social providers without a real product requirement.
 
 Better Auth is a code dependency, not another hosted identity account. It avoids a separate identity vendor while still handling OAuth callbacks, provider account records and sessions. Pin compatible package versions and keep it behind `platform/bff/libs/auth`; products consume the BFF session/API contract, not Better Auth internals. Convex Auth is also provider-free but remains beta and may change incompatibly, so it is not the default. See [Convex authentication](https://docs.convex.dev/auth/overview).
 
@@ -162,6 +162,20 @@ Paddle details stay behind a provider adapter. The BFF model separates payment, 
 - Store provider references, not secrets, in ordinary database records.
 
 Paddle client-side tokens may be exposed only to Paddle.js. Paddle API keys and webhook secrets remain server-only. See [Paddle authentication](https://developer.paddle.com/api-reference/about/authentication/) and [webhook signature verification](https://developer.paddle.com/webhooks/about/signature-verification/).
+
+## Testing and regression policy
+
+Every implementation slice must be executable and verifiable by Codex before handoff. Manual founder acceptance complements automated verification; it does not replace it.
+
+Use the smallest test layer that proves the behavior:
+
+- Unit and contract tests cover pure rules, schemas, event names and provider-neutral adapters.
+- Integration tests cover authorization isolation, billing signature/idempotency and ordering rules, entitlements, support-request ownership and other server invariants.
+- A deliberately small Playwright end-to-end regression suite covers only important user happy paths. Add a flow when the corresponding capability becomes real: Google login/session bootstrap, the first product's core value action, paid unlock from checkout outcome, and support submission through operator response.
+
+Do not create an end-to-end test for every validation rule or error branch. Keep edge cases, denial paths and provider permutations at the unit/integration level. Ordinary CI regression must be deterministic and must not depend on live Google or Paddle services; use test identities, provider adapters and signed fixtures. Keep a separate sandbox/live smoke checklist for provider wiring that cannot be proven locally.
+
+During **Build 1 — Foundation**, choose and document the unit/integration runner that fits the generated Nx workspace; prefer Playwright for browser end-to-end tests unless the selected product runtime requires another tool. Each feature plan must name its validation commands and the regression flow it adds or changes.
 
 ## Schema changes, migrations and recovery
 
@@ -238,7 +252,7 @@ These provide managed user administration and broader authentication features, b
 
 ### Convex Auth
 
-It also avoids a hosted identity vendor and is the quickest Convex-native option, but Convex currently labels it beta and warns that it may change incompatibly. Better Auth is selected because the provider adapter and account model make the Google-first, Apple-later path explicit. Reconsider this choice when C04 begins if either integration's current support materially changes.
+It also avoids a hosted identity vendor and is the quickest Convex-native option, but Convex currently labels it beta and warns that it may change incompatibly. Better Auth is selected because the provider adapter and account model make the Google-first, Apple-later path explicit. Reconsider this choice when **Build 2 — Shared MVP** begins if either integration's current support materially changes.
 
 ### Direct Google token handling
 

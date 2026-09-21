@@ -14,6 +14,18 @@ No Cloudflare/Wrangler credentials were found on this machine. That does not pro
 
 Do not paste provider secrets into chat. Use a local ignored `.env.local`, the provider's environment-variable store, or GitHub Actions secrets as appropriate.
 
+## Blocker-first setup
+
+For the current TableCards direction, the known external setup tracks for the first public paid launch are:
+
+1. **Paddle seller verification:** Start or continue the seller account, identity/business verification and payout setup now. Sandbox work can proceed without production approval. Final [Paddle domain review](https://www.paddle.com/help/start/account-verification/what-is-domain-verification) waits for the real HTTPS product site with a clear description, pricing, terms, refund policy and privacy policy; Paddle says manual review is typically 5–7 business days but does not guarantee that timing.
+2. **Owned domain and Cloudflare access:** Choose or confirm the launch domain and make sure Andrew controls it. This unlocks the public product, Paddle domain review and Google production branding/domain verification. Codex needs scoped Cloudflare access only when DNS or deployment begins.
+3. **Google production OAuth:** Development can use a test project and test users. Once the product name, domain and callback URL are stable, configure the production Google Cloud project, consent branding, verified domain, homepage and privacy policy, then provide the client credentials through the secret store. Keep scopes to basic identity; sensitive or restricted Google API scopes are not part of the MVP.
+
+Convex is not an external-account blocker based on the recorded local CLI authentication; recheck access when creating the separate BFF project. TableCards' proposed PDF generation uses a code library, so no AI token, scanner/browser service, printing integration or transactional-email account is needed for its initial scope. PDF/runtime compatibility and physical print quality still require implementation verification.
+
+Do not register Clerk, Apple Developer, PostHog, Resend, Sentry or a helpdesk for the initial web MVP. None is a launch blocker under the current scope. The remaining human inputs are a monitored support email and review of the public product/policy wording.
+
 ## Account checklist
 
 | Provider | Current evidence | Registration/action | Needed when |
@@ -121,11 +133,11 @@ Domain ownership and DNS verification are manual prerequisites. Resend is not re
 | Cloudflare build/deploy secrets | Cloudflare environment variables or GitHub Actions secrets |
 | Human recovery credentials | Existing password manager |
 
-Every example environment file must contain names and placeholders only. Add repository secret scanning and `.env*` ignore rules when C01 creates the workspace.
+Every example environment file must contain names and placeholders only. Add repository secret scanning and `.env*` ignore rules during **Build 1 — Foundation**.
 
 ## Setup sequence
 
-1. Start C01 and local C02/C03 work with no new credentials.
+1. Start **Build 1 — Foundation** locally with no new credentials.
 2. From the existing Convex login, create the separate BFF project and select its development deployment.
 3. When the first product adds login, configure Better Auth in Convex, create the Google OAuth clients/branding and set the development/production secrets separately.
 4. When the first product adds a paid gate, use Paddle sandbox credentials; keep live credentials blocked on seller/domain approval.
