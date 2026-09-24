@@ -37,7 +37,7 @@ It contains ten worksheet areas: an experiment dashboard, contribution/CAC calcu
 
 The blueprint's section 18 defines TableCards as a guest-list-to-printable-place-card-PDF utility and ContentChase as a client-content checklist, upload and reminder workflow. The older local memo at `/root/Documents/Codex/2026-09-15/new-realtime-voice-chat/business-factory/docs/BUSINESS_FACTORY.md` records a preference for TableCards buyers who repeat the job—planners, venues, print shops and event producers—and for ContentChase agencies with concurrent projects. Its platform topology is historical; the current BFF ADR still governs.
 
-On 2026-09-21 the user asked for an easier project and delegated the choice, requesting an Astra reviewer. The working choice is **TableCards**, with one-event paid export and edits/re-exports. It has a smaller controllable core than accessibility scanning or a multi-party content-reminder workflow. This is a scope choice, not validated market demand.
+On 2026-09-21 the user asked for an easier project and delegated the choice, requesting an Astra reviewer. The working choice is **TableCards** because it has a smaller controllable core than accessibility scanning or a multi-party content-reminder workflow. The original one-event purchase idea was superseded on 2026-09-24 by Free, Personal Pro and Studio subscription hypotheses. This is a scope choice, not validated market demand; the current decisions live in the [TableCards MVP product specification](../products/tablecards-mvp.md).
 
 [Place Card Me](https://www.placecardme.com/our-printable-place-cards/) already supports guest-list import, automatic layout and printable PDF export. Batch generation is therefore not a unique advantage. The pilot must establish why a repeat professional buyer prefers our workflow. ContentChase remains a second candidate; [Content Snare](https://contentsnare.com/pricing/) is an established request/upload/reminder alternative. See the [living comparison](../../.agent/brainstorms/first-business-project.md) for scope, tradeoffs and open questions.
 
@@ -116,6 +116,8 @@ Machine-specific paths are recovery clues only. Repository documents and linked 
 - **Accepted MVP support approach:** BFF/Convex support requests, manual backoffice triage and user-visible responses, with a public support-address fallback; AI automation is later.
 - **Optional product analytics provider:** PostHog, only when canonical BFF events are insufficient.
 - **Working first Business Project:** TableCards, selected under the user's delegated choice for a simpler first implementation; demand and pricing remain unvalidated.
-- **Still open:** TableCards pilot buyer, paper/card format, supported writing systems and detailed product implementation.
+- **Accepted TableCards output:** US launch, Latin-script names without RTL, one 3.5 × 2 inch folded tent-card format on US Letter, four per sheet.
+- **Accepted TableCards account direction:** Google is required to use the generator, while the internal identity model remains ready for multiple login providers; Studio supports explicit invitations and up to 20 seats without domain joining.
+- **Still open:** reachable pilot users, final free/paid export boundary, Studio invite delivery and launch marketing/attribution.
 
 The first product may use different infrastructure. For example, a webhook-reliability product could use a Cloudflare edge ingress while relying on BFF/Convex for accounts, billing, entitlements and attribution.

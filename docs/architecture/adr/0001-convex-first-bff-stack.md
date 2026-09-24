@@ -100,6 +100,8 @@ Better Auth is a code dependency, not another hosted identity account. It avoids
 
 Google is the only initial external identity provider. Create its OAuth client only when the first login flow is implemented. Apple login remains disabled for the web MVP. Add it when a selected product needs it or before an iOS App Store launch that uses Google for the primary account and does not qualify for an exception under [App Review Guideline 4.8](https://developer.apple.com/app-store/review/guidelines/#login-services).
 
+The identity model is multi-provider even while only Google is enabled: a stable BFF user can own multiple provider-qualified identity mappings. Adding a provider must not replace the internal user ID or change accounts, memberships or public session contracts. Provider enablement and account-linking UX remain incremental work and are not reasons to add unused flows now.
+
 Trusted user flow:
 
 1. The product starts Google login through the BFF auth adapter.

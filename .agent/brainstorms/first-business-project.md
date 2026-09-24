@@ -4,7 +4,7 @@
 
 Choose the first tiny paid product that can validate real demand while exercising BFF login, project/account context, attribution, payment, entitlement, support and backoffice flows.
 
-The current comparison prioritizes the user's request for an easier product whose useful output we can verify ourselves. On 2026-09-21, the user delegated the choice and requested an Astra subagent review. The working choice is **TableCards for repeat event professionals**.
+The current comparison prioritizes the user's request for an easier product whose useful output we can verify ourselves. On 2026-09-21, the user delegated the choice and requested an Astra subagent review. The working choice is **TableCards for repeat event professionals**. Product exploration later continued in conversation; accepted scope now lives in the [TableCards MVP product specification](../../docs/products/tablecards-mvp.md).
 
 The blueprint and workbook contain TableCards, ContentChase and CatalogFix. The recovered 2026-09-15 founder memo favors repeat professional TableCards buyers and agencies with concurrent projects for ContentChase. The workbook's scores, budgets and success thresholds are proposals or illustrative examples, not observed business results.
 
@@ -30,29 +30,29 @@ The two later research reports proposed a Stripe webhook proxy and an accessibil
 ### Opportunities
 
 - TableCards has a bounded input and an inspectable output: names/table labels become a printable PDF.
-- A one-event export entitlement exercises BFF's real paid path without introducing subscriptions before repeated demand exists.
+- Personal and Studio subscriptions exercise BFF entitlements, workspaces and multi-user membership. These are product/architecture hypotheses, not validated demand.
 - PDF generation can use a JavaScript library without a hosted browser, AI service or printing API. This is a proposed architecture, not an implemented integration.
 - Planners, venues and print shops repeat the job across customers. This is the buyer direction already recorded in the earlier founder memo.
 
 ### What a working TableCards product means
 
-A user pastes guest names with optional assigned table labels, chooses a typography template, sees a print layout, pays for one event and downloads the correctly sized PDF. Corrections and repeat downloads within the purchased event belong to the same purchase. We do not assign seats or infer names.
+A Google-authenticated user pastes names or uploads a CSV with optional table labels, selects the built-in or a paid custom design preset, previews the fixed print layout and downloads a correctly sized PDF. We do not assign seats or infer names, and TableCards is not the system of record for the guest list.
 
-The smallest useful scope is one card format, one paper size chosen for the pilot and a few bundled typography styles. The blueprint proposes three templates; one polished template is enough for the first output proof. The supported writing systems must be explicit before payment: font embedding alone does not establish correct Hebrew/Arabic shaping or mixed-direction text.
+The smallest useful scope is three polished free designs, a premium library and one 3.5 × 2 inch folded tent-card format, four per US Letter sheet. Paid plans also support constrained custom-background presets. Version one supports Latin-script names with common accents and explicitly defers right-to-left scripts.
 
 The result is successful when every supplied guest row appears correctly, text fits legibly, page dimensions and cut/fold guides match the preview, and a physical print at actual size produces usable cards. Duplicate names may be legitimate separate guests; preserve the user's rows. Invalid or unsupported input must be visible before purchase.
 
-The main automated regression would cover list entry, preview, confirmed test payment, PDF download, a name correction and re-export under the same entitlement. PDF content/geometry and overflow cases belong in focused integration tests. Andrew's physical print check complements these automated checks. No such tests have been implemented yet.
+The main automated regression covers sign-in through a deterministic test adapter, list/CSV entry, preview, subscription entitlement, PDF download and support. Studio collaboration joins that flow when implemented. PDF content/geometry and overflow cases belong in focused integration tests. Andrew's physical print check complements these automated checks. No such tests have been implemented yet.
 
-Keep guest lists out of analytics and logs. The preview can be local; an export generated on the server requires an explicit retention choice. The paid export must be enforced on the server, consistent with the accepted BFF contract.
+Keep guest lists out of analytics and logs. The preview can be local; an export generated on the server requires an explicit retention choice. Paid design and collaboration capabilities must be enforced on the server, consistent with the accepted BFF contract.
 
 ## Options
 
 ### Option A: TableCards — chosen first project
 
-**Approach**: Batch guest names and assigned table labels into printable place cards, beginning with planners or venues that already repeat this task. Offer a free preview and one paid event export with corrections/re-exports.
+**Approach**: Batch guest names and assigned table labels into printable place cards, beginning with planners or venues that already repeat this task. Offer a useful Free tier, paid custom design presets and a Studio workspace for teams.
 
-**Leverages**: BFF Google login, one-time payments, account/event access, attribution and support. A product-owned PDF generator can plausibly run in a Convex action; confirm package/font compatibility during the first technical slice.
+**Leverages**: BFF Google login, subscriptions, accounts/memberships, attribution and support. A product-owned PDF generator can plausibly run in a Convex action; confirm package/font compatibility during the first technical slice.
 
 **Constraints**: Fixed paper/card choices, bounded guest count and verified fonts. Seating optimization, a freeform design editor, printing fulfillment and integrations would expand the scope materially.
 
@@ -99,16 +99,16 @@ Keep guest lists out of analytics and logs. The preview can be local; an export 
 ## Open Questions
 
 - Which reachable planner, venue or print shop has an upcoming event and an unsatisfactory current workflow?
-- Which paper/card format and writing systems does that buyer actually need? A4 versus US Letter and Hebrew/RTL support must follow the intended pilot.
+- Does the fixed US Letter tent-card output fit the first reachable planner's real printer and cardstock workflow?
 - What would make that buyer choose this over Place Card Me, Canva or their existing template?
-- Does the blueprint's proposed $19 event export earn a real purchase? It is a price hypothesis, not a validated recommendation.
+- Will a repeat planner pay the proposed Personal Pro or Studio subscription for custom designs, saved presets and collaboration? Prices remain unvalidated hypotheses.
 - Can the offered print layout succeed on the intended printer/cardstock without individual troubleshooting?
 
 ## Current Direction
 
 Choose **TableCards** as the working first Business Project in response to the user's delegated choice. Root and the requested Astra reviewer independently favor it for the smallest controllable product scope and fewest product-specific providers. This supersedes the accessibility recommendation.
 
-The first offer is one paid event export with edits/re-exports; investigate professional repeat buyers while deferring subscription mechanics. There is no evidence yet of demand, profitable acquisition or a commercial advantage over incumbents. The workbook's proposed five independent buyers and four successful print outputs are useful learning gates, not achieved results or a promise of profit.
+The accepted offer now has Free, Personal Pro and Studio plans. Custom background upload is the main individual paid feature; Studio adds shared designs, explicit invitations and up to 20 members. The exact free-export boundary and invite delivery remain open. There is no evidence yet of demand, profitable acquisition or a commercial advantage over incumbents.
 
 The decisive first artifact is a correct PDF generated from a representative guest list, alongside a matching preview and successful physical print. This research task selects and scopes the idea; no application code, provider resources or outreach were created.
 
