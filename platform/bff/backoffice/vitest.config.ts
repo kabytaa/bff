@@ -14,6 +14,10 @@ export default defineConfig({
         workspaceRoot,
         'platform/bff/libs/contracts/src/index.ts',
       ),
+      '@bff/static-config': resolve(
+        workspaceRoot,
+        'platform/bff/libs/config/src/index.ts',
+      ),
       '@bff/service-api': resolve(
         workspaceRoot,
         'platform/bff/service/convex/_generated/api.js',

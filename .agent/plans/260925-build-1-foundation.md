@@ -1,10 +1,10 @@
 # Feature: Build 1 Foundation
 
-> **Status**: Locally complete — Hosted verification pending
+> **Status**: Development verified — Production delivery pending
 > **Created**: 2026-09-25
 > **Last updated**: 2026-09-26
 > **Repository baseline**: `73608e446538`
-> **Source brainstorm**: [Build 1 Foundation](../brainstorms/build-1-foundation.md), accepted 2026-09-25
+> **Source brainstorm**: [Build 1 Foundation](../brainstorms/260925-build-1-foundation.md), accepted 2026-09-25
 >
 > Implementation plan based on the repository state inspected on 2026-09-25. Re-verify referenced files, dependency versions and external documentation if the repository changes before implementation.
 
@@ -46,12 +46,20 @@ Create an integrated Nx workspace rooted in the existing repository and implemen
 - a technology-neutral `GET /v1/health` contract and Convex HTTP action;
 - a single `businessEnvironments` table managed only by typed internal Convex functions;
 - a repository-owned operator CLI that invokes those internal functions against an explicitly selected deployment;
-- bounded exported dashboard queries protected by Google OIDC identity verification and a shared `(issuer, subject)` allowlist guard;
+- bounded exported dashboard queries protected by Google OIDC identity verification and a shared verified-email allowlist guard;
 - a React/Vite/Tailwind backoffice that shows health, build version and read-only Business environments on desktop and phone;
 - a separate test-only dashboard entry point for deterministic Playwright coverage without live Google or any production authentication bypass;
 - local Convex development, `convex-test` integration tests, Nx boundaries, secret scanning and validation-only GitHub Actions.
 
 The hosted verification phase adds only provider configuration and deployment. It does not change application behavior.
+
+### Hosted-gate amendment — 2026-09-26
+
+After local completion, Andrew bought `tofler.tech` and accepted explicit development/production hostnames. Build 1 development verification therefore uses the Custom Domain `ops-dev.tofler.tech` rather than a generated `workers.dev` hostname. `ops.tofler.tech` is reserved for a future production environment and remains out of scope. The Cloudflare Worker name remains `business-factory-backoffice-dev`; the BFF remains a separate Convex development deployment. This amendment changes only the approved hosted address, not application behavior or the local acceptance boundary.
+
+During hosted verification Andrew also chose one Google OAuth web client for both backoffice origins and a two-address verified-email operator allowlist. This supersedes the plan's earlier `(issuer, subject)` allowlist only for the tiny operator dashboard. Convex still validates the token issuer, audience, signature and expiry; authorization also requires `email_verified: true`. Development and production retain separate BFF deployments and data, while intentionally sharing the code-owned two-operator list.
+
+The shared public Google client ID and operator identifiers now live together in the internal `bff-static-config` Nx library. Credentials and lane-specific Convex URLs/build versions remain external. The dashboard imports only the public client ID, while a production-bundle assertion proves the operator list is not shipped to browsers.
 
 ## Metadata
 
@@ -107,7 +115,7 @@ The locally complete gate is estimated at **9/10 confidence**. The hosted-verifi
 - Users, authentication identities, accounts, memberships, service credentials, subscriptions, support, billing and analytics tables.
 - A public BFF SDK or generated Convex types in public contracts.
 - Live Google or cloud deployment in ordinary CI.
-- Production/staging deployments, custom domain/DNS, Paddle and automated deployment credentials.
+- Production/staging deployments, production domain/DNS, Paddle and automated deployment credentials. The single development Custom Domain `ops-dev.tofler.tech` is included only in the approval-gated hosted verification.
 
 ## Required Reading
 
@@ -116,12 +124,12 @@ The locally complete gate is estimated at **9/10 confidence**. The hosted-verifi
 - `AGENTS.md:1` — repository source ordering, durable-artifact, status and secret-handling rules.
 - `STATUS.md:7` — accepted Foundation handoff and current no-code state.
 - `STATUS.md:40` — required planning/review sequence and immediate next moves.
-- `.agent/brainstorms/build-1-foundation.md:154` — no remaining architecture questions and explicitly deferred choices.
-- `.agent/brainstorms/build-1-foundation.md:160` — complete accepted Build 1 direction.
-- `.agent/brainstorms/build-1-foundation.md:168` — exact table fields and excluded tables.
-- `.agent/brainstorms/build-1-foundation.md:172` — dashboard, direct Google OIDC and operator-allowlist rules.
-- `.agent/brainstorms/build-1-foundation.md:178` — deterministic local/CI quality gates.
-- `.agent/brainstorms/build-1-foundation.md:196` — boundary-specific authentication model.
+- `.agent/brainstorms/260925-build-1-foundation.md:154` — no remaining architecture questions and explicitly deferred choices.
+- `.agent/brainstorms/260925-build-1-foundation.md:160` — complete accepted Build 1 direction.
+- `.agent/brainstorms/260925-build-1-foundation.md:168` — exact table fields and excluded tables.
+- `.agent/brainstorms/260925-build-1-foundation.md:172` — dashboard, direct Google OIDC and operator-allowlist rules.
+- `.agent/brainstorms/260925-build-1-foundation.md:178` — deterministic local/CI quality gates.
+- `.agent/brainstorms/260925-build-1-foundation.md:196` — boundary-specific authentication model.
 - `docs/factory/mvp-delivery-plan.md:56` — original Build 1 boundary to reconcile with the accepted brainstorm.
 - `docs/architecture/adr/0001-convex-first-bff-stack.md:21` — accepted platform stack.
 - `docs/architecture/adr/0001-convex-first-bff-stack.md:43` — monorepo ownership and public-contract boundary.
@@ -269,9 +277,9 @@ No runtime convention exists, so Build 1 establishes one deliberately small patt
 #### Authentication and Authorization
 
 - `/v1/health` is public and contains no registry or configuration details.
-- Convex `auth.config.ts` trusts only Google's exact issuer and the configured public client audience when `GOOGLE_CLIENT_ID` is present.
-- `requireOperator` requires a verified identity and matches the pair `(issuer, subject)` against a strict server-side JSON allowlist. It fails closed when the variable is absent, malformed or empty.
-- The bounded `currentOperator` probe may return only the caller's own issuer, subject and `authorized` boolean so the first operator can be identified without exposing the allowlist.
+- Convex `auth.config.ts` trusts only Google's exact issuer and the reviewed public client audience from `@bff/static-config`.
+- `requireOperator` requires a verified identity with `email_verified: true` and matches its normalized email against the reviewed code-owned allowlist. Invalid or empty code-owned configuration fails closed and fails validation.
+- The bounded `currentOperator` probe may return only the caller's own email, verification state and `authorized` boolean without exposing the allowlist.
 - The protected `backoffice.overview` query must call `requireOperator` before reading any table.
 - The Google token remains in browser memory. On expiry, the adapter obtains a fresh token if supported or returns to signed-out/re-authentication; it does not persist the ID token in local storage.
 - Unit/Convex tests use `withIdentity`. Playwright uses a separate test-only app entry and adapter. Shared development and production builds contain no unsigned-token, header, test-issuer or skip-auth path.
@@ -376,7 +384,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
 
 ### Task 2: CREATE the pinned root Nx/pnpm/TypeScript workspace
 
-- **Targets**: root manifest/config files listed under New Files, plus Nx `project.json` files for the five real projects.
+- **Targets**: root manifest/config files listed under New Files, plus Nx `project.json` files for the six real projects after the hosted-verification static-configuration amendment.
 - **Implement**:
   - Declare Node 24 and `pnpm@12.6.0`; pin the dependency baseline and commit the lockfile.
   - Initialize Nx in the existing repository without moving or deleting documentation.
@@ -397,7 +405,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   - Define a Zod-backed, JSON-safe `HealthResponse` containing `status: "ok"`, `service: "business-factory-bff"` and a non-empty `version`.
   - Export inferred TypeScript types and parse helpers from the library entry only.
   - Keep the contract independent of Convex, React and database IDs.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:38` — public contracts cannot import Convex-generated types.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:38` — public contracts cannot import Convex-generated types.
 - **Dependencies/Imports**: `zod` only.
 - **Gotchas**: Do not create a generic SDK, client or speculative universal response envelope.
 - **Validate**: **planned** `pnpm exec nx test bff-contracts && pnpm exec nx lint bff-contracts && pnpm exec nx build bff-contracts`.
@@ -410,7 +418,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   - Register `GET /v1/health` in `http.ts`; populate version from deployment/build configuration with `development` fallback and validate the response against the public contract.
   - Add strict value/return validators to all functions and bounded HTTP headers (`application/json`, no-store where appropriate).
   - Generate and commit Convex API/data model output required by clients and CI.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:168` — authoritative Build 1 table shape.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:168` — authoritative Build 1 table shape.
 - **Dependencies/Imports**: `convex`, `bff-contracts`.
 - **Gotchas**: No seed rows, auth tables, `status`, `settings` or environment URLs. Do not expose table documents from the public HTTP boundary.
 - **Validate**: **planned** `pnpm exec nx test bff-service --testPathPattern=health && pnpm convex:check`.
@@ -426,7 +434,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   - Set `updatedAt` with server time and return a deliberate projection.
   - Bound list results to 100 and use deterministic key ordering for the initial operator view.
   - Share pure validation/domain helpers with adapters without making internal Convex functions public.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:164` — create/inspect/update only, no lifecycle or deletion.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:164` — create/inspect/update only, no lifecycle or deletion.
 - **Dependencies/Imports**: Convex validators/errors; no UI or CLI imports.
 - **Gotchas**: Never use raw import/direct database edits as the management path. Two rows for the same Business are valid when their environment keys differ.
 - **Validate**: **planned** `pnpm exec nx test bff-service --testPathPattern=businessEnvironments`.
@@ -442,7 +450,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   - Require an explicit confirmation flag for every cloud target; Build 1 runbooks must not define a production target.
   - Keep backend validation authoritative and map its structured errors to stable CLI exits.
   - Unit-test the runner through an injected subprocess port; do not invoke a live backend in unit tests.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:166` — local wrapper around authenticated internal Convex operations.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:166` — local wrapper around authenticated internal Convex operations.
 - **Dependencies/Imports**: Node standard library, `tsx`; subprocess boundary to Convex CLI rather than service-source import.
 - **Gotchas**: Redact inherited deployment credentials in errors and never accept credentials as CLI arguments.
 - **Validate**: **planned** `pnpm exec nx test bff-operator && pnpm bff:environment -- --help`; after Task 11, exercise all four commands against disposable local state.
@@ -451,15 +459,15 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
 
 - **Targets**: `platform/bff/service/convex/auth.config.ts`, `lib/authorization.ts`, `backoffice.ts` and auth tests.
 - **Implement**:
-  - Configure Google's exact issuer and `GOOGLE_CLIENT_ID` audience for hosted deployments; permit an empty provider list only when the variable is absent in local deterministic development.
-  - Parse `BFF_OPERATOR_IDENTITIES` as a strict JSON array of `{ "issuer": string, "subject": string }`; reject malformed/duplicate entries and fail closed.
+  - Configure Google's exact issuer and the code-owned public client audience for every deployment.
+  - Keep the public client ID and two operator emails together in `@bff/static-config`; normalize addresses, reject malformed/duplicate entries and fail closed.
   - Implement `requireOperator(ctx)` once and call it at the top of every protected dashboard query.
-  - Add `currentOperator` as the only bounded bootstrap probe: signed-out state or the caller's own issuer/subject and authorization flag, never the allowlist.
+  - Add `currentOperator` as the only bounded bootstrap probe: signed-out state or the caller's own email, verification state and authorization flag, never the allowlist.
   - Add `backoffice.overview` returning service/build metadata and a bounded projected environment list only after authorization.
-  - Test signed out, allowed identity, unrelated Google identity, wrong issuer/audience behavior at the correct layer, malformed allowlist and absent allowlist.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:172` — direct OIDC plus fixed allowlist; no general auth data model.
+  - Test signed out, allowed verified email, unrelated Google identity, allowlisted-but-unverified email, wrong issuer/audience behavior at the correct layer and malformed/duplicate allowlist validation.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:172` — direct OIDC plus fixed allowlist; no general auth data model.
 - **Dependencies/Imports**: Convex custom auth and `ConvexError`.
-- **Gotchas**: Do not authorize by email, do not store Google access/refresh tokens, and do not reuse this guard as future Business-user auth.
+- **Gotchas**: Require Google's verified-email claim rather than trusting a caller-provided address, do not store Google access/refresh tokens, and do not reuse this small fixed-operator guard as future Business-user auth.
 - **Validate**: **planned** `pnpm exec nx test bff-service --testPathPattern=authorization`.
 
 ### Task 8: CREATE the responsive read-only backoffice
@@ -467,13 +475,13 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
 - **Targets**: `platform/bff/backoffice/src/`, Vite/Tailwind configs, `.env.example`, `public/_headers`, `wrangler.jsonc` and component tests.
 - **Implement**:
   - Build explicit signed-out, identifying, forbidden, loading, empty, ready and error states.
-  - Load Google Identity Services only in the production entry; use popup mode and the public `VITE_GOOGLE_CLIENT_ID`.
+  - Load Google Identity Services only in the production entry; use popup mode and the public client ID from `@bff/static-config`.
   - Adapt the short-lived in-memory Google ID token to Convex auth. Decode expiry only to decide when to reauthenticate; rely on Convex for cryptographic verification.
   - Query `currentOperator`, then `backoffice.overview` only for an authorized identity. Fetch and validate `/v1/health` through the public contract.
   - Show status, version and Business-environment key/names/timestamps in a phone-first layout. Provide the unauthorized operator's own stable identity values with a copy action for controlled bootstrap.
   - Add no registry mutation controls, navigation shell, design system or future domain cards.
   - Configure the Workers Static Assets SPA output and security headers: restrictive CSP that admits required Google/Convex origins, `frame-ancestors 'none'`, no sniffing, strict referrer policy, permissions policy and search-engine noindex.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:172` — exact dashboard purpose and authentication boundary.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:172` — exact dashboard purpose and authentication boundary.
 - **Dependencies/Imports**: React, Convex React client, Tailwind/Vite, `bff-contracts`, BFF-internal generated API.
 - **Gotchas**: The Google client ID and Convex URL are public build configuration; deployment keys and the operator allowlist never enter Vite variables. Verify Google CSP/COOP needs in popup mode rather than copying a permissive policy.
 - **Validate**: **planned** `pnpm exec nx test bff-backoffice && pnpm exec nx build bff-backoffice`.
@@ -502,7 +510,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   - Run `pnpm check` as the single CI quality command.
   - Grant minimal workflow permissions (`contents: read`) and provide no provider/deploy secrets.
   - Add Nx boundary tests or fixture validation proving future `scope:business` cannot import `scope:bff` and public contracts cannot import service internals.
-- **Pattern**: `.agent/brainstorms/build-1-foundation.md:178` — local/CI parity and no live-provider CI.
+- **Pattern**: `.agent/brainstorms/260925-build-1-foundation.md:178` — local/CI parity and no live-provider CI.
 - **Dependencies/Imports**: GitHub-maintained action versions, Nx, Playwright, Secretlint.
 - **Gotchas**: Do not add coverage quotas, Nx Cloud, live Google, a cloud Convex deployment or Cloudflare deployment to CI.
 - **Validate**: **planned** `pnpm check`; inspect workflow with `pnpm exec prettier --check .github/workflows/ci.yml` and confirm no `${{ secrets.* }}` references exist.
@@ -537,16 +545,16 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
   1. Recheck CLI identities and show Andrew the exact Convex team/project and Cloudflare account/site names. Wait for explicit approval before creation/deploy.
   2. Use the existing Convex login if still valid; otherwise Andrew completes the one-time browser/device login. Select or create one cloud development deployment inside the existing Business Factory project record; never reuse Podcat.
   3. Push the already-validated schema/functions and set non-secret build version. Do not create dummy cloud rows.
-  4. With Andrew's approval, complete `wrangler login --device` and deploy an initial configuration-pending static shell to the stable `workers.dev` origin (planned name `business-factory-backoffice-dev`, subject to availability).
+  4. With Andrew's approval, complete the narrow Wrangler device authorization and deploy the dashboard Worker `business-factory-backoffice-dev` to the accepted Custom Domain `ops-dev.tofler.tech`.
   5. Andrew creates/selects a Google Cloud web client or grants equivalent scoped access. Configure only the localhost origin(s) and exact Cloudflare origin, basic identity and popup flow. Capture only the public client ID; no client secret is requested or stored.
-  6. Set `GOOGLE_CLIENT_ID` in the Convex development environment and the corresponding public Vite build variable outside the repository; rebuild/redeploy.
-  7. Andrew performs one real Google sign-in. The bounded probe displays his verified issuer/subject while denying overview access.
-  8. Add only that identity to `BFF_OPERATOR_IDENTITIES` through `convex env set`/stdin or another non-logging secret-safe path; reload and verify authorized overview access.
+  6. Add the shared public Google client ID to `@bff/static-config`, then rebuild/redeploy both backend and dashboard.
+  7. Andrew performs one real Google sign-in. The bounded probe displays his verified email while denying overview access if the email allowlist is not configured.
+  8. Add only the two approved operator emails to the reviewed code-owned allowlist, rerun authorization tests, deploy the BFF, then reload and verify authorized overview access.
   9. Run public health, pre-allowlist denial, authorized dashboard, token-expiry/re-login and phone-size smoke checks. Optionally Andrew opens the URL on his physical phone; Playwright phone viewport remains the required automated check.
   10. Record exact resource names and verification outcome in the hosted runbook and `STATUS.md`, without recording tokens, deploy keys or operator identity values.
 - **Pattern**: `docs/operations/provider-accounts-and-secrets.md:140` — provider work follows credential-free local completion and stays explicitly authorized.
 - **Dependencies/Imports**: successful local gate and Andrew's explicit deployment approval.
-- **Gotchas**: Do not create a Google client secret, custom domain, production/staging deployment, Cloudflare API token, GitHub deployment secret or Paddle resource. Never paste a Google ID token or deploy key into chat/repository/logs.
+- **Gotchas**: Do not create a Google client secret, production/staging deployment, broad Cloudflare API token, GitHub deployment secret or Paddle resource. Never paste a Google ID token or deploy key into chat/repository/logs.
 - **Validate**: run the hosted checklist in `docs/operations/build-1-hosted-verification.md`; rerun local **planned** `pnpm check` against the exact deployed commit before and after provider configuration.
 
 ### Task 14: MARK the retained plan complete only after both required gates
@@ -556,7 +564,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
 - **Pattern**: `AGENTS.md:21` — retain plans and use lifecycle status rather than deleting them.
 - **Dependencies/Imports**: completion evidence.
 - **Gotchas**: A responsive Playwright viewport is not a claim that Andrew personally tested a physical phone; record that separately if performed.
-- **Validate**: `git diff --check -- .agent/plans/build-1-foundation.md STATUS.md`.
+- **Validate**: `git diff --check -- .agent/plans/260925-build-1-foundation.md STATUS.md`.
 
 ## Access and Human Handoff Matrix
 
@@ -599,7 +607,7 @@ Execute in dependency order. Commands labeled **planned** are created by the nam
 
 - Health contract accepts the exact shape and rejects missing/invalid status, service or version.
 - Key/label normalization and validation cover empty, whitespace, length, uppercase/invalid separators and boundary lengths.
-- Operator allowlist parser covers absent, malformed, duplicate and valid pairs and never authorizes by email.
+- Operator allowlist parser covers absent, malformed, duplicate and valid emails; authorization also requires the verified-email JWT claim.
 - CLI parser covers every command, explicit targets, cloud confirmation, immutable key, invalid flags and safe argument construction.
 - Dashboard components cover signed-out, forbidden, loading, empty, ready and error states.
 
@@ -716,7 +724,7 @@ Also verify duplicate create and key-update attempts fail. The precise CLI flag 
 - [ ] The Cloudflare-hosted backoffice is reachable by HTTPS and usable at a phone viewport.
 - [ ] Google accepts only the configured local/hosted origins and requires no client secret.
 - [ ] An arbitrary/unlisted signed-in identity cannot read the dashboard overview.
-- [ ] Andrew's verified `(issuer, subject)` can be allowlisted without storing it or any token in the repository.
+- [ ] Andrew's verified Google email can be allowlisted without storing it or any token in the repository.
 - [ ] The authorized dashboard shows hosted health/version and an intentional empty or real environment list.
 - [ ] No production, staging, domain, billing or continuous-deployment resource was created.
 
@@ -758,7 +766,7 @@ Also verify duplicate create and key-update attempts fail. The precise CLI flag 
 - On the development Convex deployment, redeploy the last validated commit if a function/auth configuration regression occurs. Do not delete data as a rollback strategy.
 - On Cloudflare, redeploy the prior known-good static artifact/commit; no DNS/custom domain is changed in Build 1.
 - If Google wiring fails, remove/disable the hosted client configuration and leave the public health endpoint available; local deterministic checks remain authoritative for code behavior.
-- If operator configuration is wrong, use authenticated deployment access to replace `BFF_OPERATOR_IDENTITIES`; never add a temporary bypass.
+- If operator configuration is wrong, change the code-owned allowlist, rerun authorization tests and redeploy; never add a temporary bypass.
 
 ## Open Questions
 
@@ -778,3 +786,5 @@ None. Resource names and account selections are execution-time authorization gat
 | 2026-09-25 | Approved — In progress | Andrew approved execution through every locally completable task; hosted provider actions remain separately approval-gated. |
 | 2026-09-25 | Approved — In progress | Fresh install peer checks replaced planned TypeScript 7/Vitest 5 with TypeScript 6.0.3/Vitest 4.1.11, matching TypeScript-ESLint and Nx 23's declared compatibility ranges. |
 | 2026-09-26 | Locally complete — Hosted verification pending | Implemented all local tasks and passed the complete `pnpm check` gate, live local health/CLI smoke checks and Cloudflare build dry-run. Local Convex setup created the separate `andrew-tofler/business-factory` project record and local deployment, but no BFF functions/data or web assets were deployed to cloud infrastructure. |
+| 2026-09-26 | Development verified — Production delivery pending | Deployed the tested BFF to `compassionate-buffalo-689` and the dashboard to `ops-dev.tofler.tech`; verified live health, HTTPS/security headers, signed-out rendering, deterministic desktop/phone flows and Andrew's real Google sign-in with authorized read-only overview access. Andrew subsequently established that work is not complete until it is deployed and smoke-verified in production, so the plan remains open pending the production-delivery successor. |
+| 2026-09-26 | Development verified — Production delivery pending | Renamed the retained plan to the repository's `YYMMDD-topic.md` log convention using its immutable creation date; lifecycle and update history remain inside the document. |

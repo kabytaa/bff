@@ -1,3 +1,4 @@
+import { BACKOFFICE_GOOGLE_CLIENT_ID } from '@bff/static-config';
 import { ConvexProviderWithAuth, ConvexReactClient } from 'convex/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -15,16 +16,15 @@ if (!rootElement) throw new Error('Dashboard root element is missing');
 const root = createRoot(rootElement);
 const convexUrl = import.meta.env.VITE_CONVEX_URL?.trim();
 const siteUrl = import.meta.env.VITE_CONVEX_SITE_URL?.trim();
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID?.trim();
 
-if (!convexUrl || !siteUrl || !googleClientId) {
+if (!convexUrl || !siteUrl) {
   root.render(
     <StrictMode>
       <Dashboard
         model={{
           state: 'configuration-error',
           message:
-            'VITE_CONVEX_URL, VITE_CONVEX_SITE_URL, and VITE_GOOGLE_CLIENT_ID are required for the hosted dashboard.',
+            'VITE_CONVEX_URL and VITE_CONVEX_SITE_URL are required for the hosted dashboard.',
         }}
       />
     </StrictMode>,
@@ -33,7 +33,7 @@ if (!convexUrl || !siteUrl || !googleClientId) {
   const client = new ConvexReactClient(convexUrl);
   root.render(
     <StrictMode>
-      <GoogleIdentityProvider clientId={googleClientId}>
+      <GoogleIdentityProvider clientId={BACKOFFICE_GOOGLE_CLIENT_ID}>
         <ConvexProviderWithAuth
           client={client}
           useAuth={useGoogleAuthForConvex}

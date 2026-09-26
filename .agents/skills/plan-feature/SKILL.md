@@ -55,10 +55,10 @@ Make every implementation task atomic and verifiable. Each task must name its ta
 Before writing, read [references/plan-template.md](references/plan-template.md). Create or update:
 
 ```text
-.agent/plans/{kebab-case-feature-name}.md
+.agent/plans/{YYMMDD}-{kebab-case-feature-name}.md
 ```
 
-Use a concise feature name derived from the request. Update an existing plan when the request clearly continues the same feature. Preserve still-valid evidence and revise stale conclusions rather than creating a duplicate.
+Use the plan's creation date as the immutable six-digit `YYMMDD` prefix and a concise kebab-case feature name derived from the request. Record the full `YYYY-MM-DD` creation and update dates inside the document. Never rename the file merely because it is updated, approved, completed or superseded. Update an existing plan when the request clearly continues the same feature instead of creating a newly dated duplicate. Preserve still-valid evidence and revise stale conclusions rather than creating a duplicate.
 
 Record the plan's lifecycle status, creation/update dates, inspected repository commit, source brainstorm and a concise repository-status snapshot. Preserve that snapshot as historical context. If later repository changes require a revised plan, append a dated context/revision note; if the accepted direction is materially replaced, mark the old plan `Superseded` and link to its successor rather than deleting it.
 

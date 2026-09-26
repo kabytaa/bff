@@ -1,7 +1,8 @@
 import { convexTest } from 'convex-test';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { parseHealthResponse } from '@bff/contracts';
+import { BACKOFFICE_OPERATOR_EMAILS } from '@bff/static-config';
 import { api, internal } from './_generated/api';
 import schema from './schema';
 
@@ -11,17 +12,17 @@ const operatorIdentity = {
   issuer: 'https://accounts.google.com',
   subject: 'operator-123',
   tokenIdentifier: 'https://accounts.google.com|operator-123',
+  email: BACKOFFICE_OPERATOR_EMAILS[0],
+  emailVerified: true,
 };
 
 const otherIdentity = {
   issuer: 'https://accounts.google.com',
   subject: 'other-456',
   tokenIdentifier: 'https://accounts.google.com|other-456',
+  email: 'other@example.com',
+  emailVerified: true,
 };
-
-afterEach(() => {
-  vi.unstubAllEnvs();
-});
 
 describe('businessEnvironments', () => {
   it('creates, lists, inspects, and updates independent environments', async () => {
@@ -100,7 +101,6 @@ describe('businessEnvironments', () => {
 
 describe('operator authorization', () => {
   it('denies unauthenticated and unlisted callers', async () => {
-    vi.stubEnv('BFF_OPERATOR_IDENTITIES', JSON.stringify([operatorIdentity]));
     const t = convexTest(schema, modules);
 
     expect(await t.query(api.backoffice.currentOperator, {})).toEqual({
@@ -113,8 +113,8 @@ describe('operator authorization', () => {
     const other = t.withIdentity(otherIdentity);
     expect(await other.query(api.backoffice.currentOperator, {})).toEqual({
       authenticated: true,
-      issuer: otherIdentity.issuer,
-      subject: otherIdentity.subject,
+      email: otherIdentity.email,
+      emailVerified: true,
       authorized: false,
     });
     await expect(other.query(api.backoffice.overview, {})).rejects.toThrow(
@@ -123,15 +123,6 @@ describe('operator authorization', () => {
   });
 
   it('allows only the configured operator and returns a bounded projection', async () => {
-    vi.stubEnv(
-      'BFF_OPERATOR_IDENTITIES',
-      JSON.stringify([
-        {
-          issuer: operatorIdentity.issuer,
-          subject: operatorIdentity.subject,
-        },
-      ]),
-    );
     const t = convexTest(schema, modules);
     await t.mutation(internal.businessEnvironments.create, {
       key: 'sample-development',
@@ -142,8 +133,8 @@ describe('operator authorization', () => {
     const operator = t.withIdentity(operatorIdentity);
     expect(await operator.query(api.backoffice.currentOperator, {})).toEqual({
       authenticated: true,
-      issuer: operatorIdentity.issuer,
-      subject: operatorIdentity.subject,
+      email: operatorIdentity.email,
+      emailVerified: true,
       authorized: true,
     });
 
@@ -164,12 +155,16 @@ describe('operator authorization', () => {
     );
   });
 
-  it('fails closed when the allowlist is malformed', async () => {
-    vi.stubEnv('BFF_OPERATOR_IDENTITIES', 'not-json');
-    const t = convexTest(schema, modules).withIdentity(operatorIdentity);
+  it('rejects an unverified email even when the address is allowlisted', async () => {
+    const t = convexTest(schema, modules).withIdentity({
+      ...operatorIdentity,
+      emailVerified: false,
+    });
 
     expect(await t.query(api.backoffice.currentOperator, {})).toMatchObject({
       authenticated: true,
+      email: operatorIdentity.email,
+      emailVerified: false,
       authorized: false,
     });
     await expect(t.query(api.backoffice.overview, {})).rejects.toThrow(

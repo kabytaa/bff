@@ -49,8 +49,8 @@ export function App({ siteUrl }: { siteUrl: string }) {
     model = {
       state: 'forbidden',
       health,
-      issuer: operator.issuer,
-      subject: operator.subject,
+      email: operator.email,
+      emailVerified: operator.emailVerified,
     };
   } else if (!health || overview === undefined) {
     model = { state: 'checking', health };
@@ -62,11 +62,5 @@ export function App({ siteUrl }: { siteUrl: string }) {
     };
   }
 
-  return (
-    <Dashboard
-      model={model}
-      signInControl={<GoogleSignInButton />}
-      onCopyIdentity={(identity) => navigator.clipboard.writeText(identity)}
-    />
-  );
+  return <Dashboard model={model} signInControl={<GoogleSignInButton />} />;
 }

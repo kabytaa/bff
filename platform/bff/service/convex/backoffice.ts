@@ -14,8 +14,8 @@ export const currentOperator = query({
     v.object({ authenticated: v.literal(false) }),
     v.object({
       authenticated: v.literal(true),
-      issuer: v.string(),
-      subject: v.string(),
+      email: v.union(v.string(), v.null()),
+      emailVerified: v.boolean(),
       authorized: v.boolean(),
     }),
   ),
@@ -27,12 +27,9 @@ export const currentOperator = query({
 
     return {
       authenticated: true as const,
-      issuer: identity.issuer,
-      subject: identity.subject,
-      authorized: isAllowedOperator({
-        issuer: identity.issuer,
-        subject: identity.subject,
-      }),
+      email: identity.email ?? null,
+      emailVerified: identity.emailVerified === true,
+      authorized: isAllowedOperator(identity),
     };
   },
 });

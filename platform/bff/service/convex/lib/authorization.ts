@@ -1,75 +1,65 @@
+import { BACKOFFICE_OPERATOR_EMAILS } from '@bff/static-config';
 import type { GenericQueryCtx } from 'convex/server';
 
 import type { DataModel } from '../_generated/dataModel';
 import { fail } from './errors';
 
-export interface OperatorIdentity {
-  issuer: string;
-  subject: string;
+export interface OperatorEmailIdentity {
+  email?: string;
+  emailVerified?: boolean;
 }
 
-function isOperatorIdentity(value: unknown): value is OperatorIdentity {
-  if (typeof value !== 'object' || value === null) {
-    return false;
+function normalizeEmail(value: string): string | null {
+  const trimmed = value.trim();
+  if (
+    trimmed.length === 0 ||
+    trimmed !== value ||
+    !/^[^@\s]+@[^@\s]+$/.test(trimmed)
+  ) {
+    return null;
   }
-
-  const candidate = value as Record<string, unknown>;
-  const fields = Object.keys(candidate).sort();
-  return (
-    fields.length === 2 &&
-    fields[0] === 'issuer' &&
-    fields[1] === 'subject' &&
-    typeof candidate.issuer === 'string' &&
-    candidate.issuer.trim() === candidate.issuer &&
-    candidate.issuer.length > 0 &&
-    typeof candidate.subject === 'string' &&
-    candidate.subject.trim() === candidate.subject &&
-    candidate.subject.length > 0
-  );
+  return trimmed.toLowerCase();
 }
 
-export function parseOperatorIdentities(
-  raw: string | undefined,
-): OperatorIdentity[] {
-  if (!raw?.trim()) {
-    return [];
-  }
-
-  let value: unknown;
-  try {
-    value = JSON.parse(raw);
-  } catch {
+export function normalizeOperatorEmails(values: readonly unknown[]): string[] {
+  if (!values.every((item) => typeof item === 'string')) {
     return fail('CONFIGURATION_ERROR', 'Operator allowlist is malformed');
   }
 
-  if (!Array.isArray(value) || !value.every(isOperatorIdentity)) {
+  const emails = values.map((value) => normalizeEmail(value as string));
+  if (emails.some((email) => email === null)) {
     return fail('CONFIGURATION_ERROR', 'Operator allowlist is malformed');
   }
 
-  const keys = value.map(({ issuer, subject }) => `${issuer}\u0000${subject}`);
-  if (new Set(keys).size !== keys.length) {
+  const normalizedEmails = emails as string[];
+  if (new Set(normalizedEmails).size !== normalizedEmails.length) {
     return fail(
       'CONFIGURATION_ERROR',
       'Operator allowlist contains duplicates',
     );
   }
 
-  return value;
+  return normalizedEmails;
 }
 
-export function isAllowedOperator(identity: OperatorIdentity): boolean {
-  let allowlist: OperatorIdentity[];
+export function isAllowedOperator(identity: OperatorEmailIdentity): boolean {
+  if (identity.emailVerified !== true || typeof identity.email !== 'string') {
+    return false;
+  }
+
+  const email = normalizeEmail(identity.email);
+  if (email === null) {
+    return false;
+  }
+
+  let allowlist: string[];
   try {
-    allowlist = parseOperatorIdentities(process.env.BFF_OPERATOR_IDENTITIES);
+    allowlist = normalizeOperatorEmails(BACKOFFICE_OPERATOR_EMAILS);
   } catch {
     return false;
   }
 
-  return allowlist.some(
-    (allowed) =>
-      allowed.issuer === identity.issuer &&
-      allowed.subject === identity.subject,
-  );
+  return allowlist.includes(email);
 }
 
 export async function requireOperator(ctx: GenericQueryCtx<DataModel>) {
@@ -78,9 +68,7 @@ export async function requireOperator(ctx: GenericQueryCtx<DataModel>) {
     return fail('UNAUTHENTICATED', 'Authentication is required');
   }
 
-  if (
-    !isAllowedOperator({ issuer: identity.issuer, subject: identity.subject })
-  ) {
+  if (!isAllowedOperator(identity)) {
     return fail('FORBIDDEN', 'Operator access is required');
   }
 

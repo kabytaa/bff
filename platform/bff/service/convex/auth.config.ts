@@ -1,14 +1,11 @@
+import { BACKOFFICE_GOOGLE_CLIENT_ID } from '@bff/static-config';
 import type { AuthConfig } from 'convex/server';
 
-const googleClientId = process.env.GOOGLE_CLIENT_ID?.trim();
-
 export default {
-  providers: googleClientId
-    ? [
-        {
-          domain: 'https://accounts.google.com',
-          applicationID: googleClientId,
-        },
-      ]
-    : [],
+  providers: [
+    {
+      domain: 'https://accounts.google.com',
+      applicationID: BACKOFFICE_GOOGLE_CLIENT_ID,
+    },
+  ],
 } satisfies AuthConfig;

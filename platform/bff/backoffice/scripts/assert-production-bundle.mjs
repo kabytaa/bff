@@ -1,8 +1,14 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { extname, join, resolve } from 'node:path';
 
+import { BACKOFFICE_OPERATOR_EMAILS } from '../../libs/config/src/index.ts';
+
 const output = resolve('dist/platform/bff/backoffice');
-const forbidden = ['BFF_E2E_FIXTURE_DO_NOT_SHIP', 'main.e2e'];
+const forbidden = [
+  'BFF_E2E_FIXTURE_DO_NOT_SHIP',
+  'main.e2e',
+  ...BACKOFFICE_OPERATOR_EMAILS,
+];
 
 async function files(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -27,4 +33,6 @@ for (const file of await files(output)) {
   }
 }
 
-console.info('Production bundle contains no test-auth fixture markers.');
+console.info(
+  'Production bundle contains no test-auth fixtures or operator allowlist.',
+);

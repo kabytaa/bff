@@ -18,8 +18,8 @@ export type DashboardModel =
   | {
       state: 'forbidden';
       health?: HealthResponse;
-      issuer: string;
-      subject: string;
+      email: string | null;
+      emailVerified: boolean;
     }
   | {
       state: 'ready';
@@ -30,7 +30,6 @@ export type DashboardModel =
 export interface DashboardProps {
   model: DashboardModel;
   signInControl?: ReactNode;
-  onCopyIdentity?: (identity: string) => void;
 }
 
 function Header({ health }: { health?: HealthResponse }) {
@@ -72,11 +71,7 @@ function formatTimestamp(value: number): string {
   }).format(new Date(value));
 }
 
-export function Dashboard({
-  model,
-  signInControl,
-  onCopyIdentity,
-}: DashboardProps) {
+export function Dashboard({ model, signInControl }: DashboardProps) {
   if (model.state === 'configuration-error') {
     return (
       <StateCard title="Configuration required">
@@ -113,10 +108,6 @@ export function Dashboard({
   }
 
   if (model.state === 'forbidden') {
-    const identity = JSON.stringify({
-      issuer: model.issuer,
-      subject: model.subject,
-    });
     return (
       <StateCard title="Access not enabled">
         <p className="subtle">
@@ -124,18 +115,11 @@ export function Dashboard({
           allowlist.
         </p>
         <div className="identity">
-          <strong>Issuer</strong>
-          <code>{model.issuer}</code>
-          <strong>Subject</strong>
-          <code>{model.subject}</code>
+          <strong>Google email</strong>
+          <code>{model.email ?? 'Unavailable'}</code>
+          <strong>Email verification</strong>
+          <code>{model.emailVerified ? 'Verified' : 'Not verified'}</code>
         </div>
-        <button
-          className="button"
-          type="button"
-          onClick={() => onCopyIdentity?.(identity)}
-        >
-          Copy operator identity
-        </button>
       </StateCard>
     );
   }

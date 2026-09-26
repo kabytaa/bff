@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-09-24.
+Updated: 2026-09-26.
 
 This is the current delivery view for the first Business Factory product. The [TableCards MVP product specification](../products/tablecards-mvp.md) is the canonical product scope. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack.
 
@@ -34,6 +34,7 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 - Every feature slice must be self-verifiable with real validation commands.
 - Keep browser regression small and valuable: automate the important happy flows and expensive regressions. Put edge cases, authorization denials and webhook replay cases in faster unit or integration tests.
 - Product code consumes the public BFF API/SDK, not Convex implementation internals.
+- Treat a slice intended for production as complete only after its production deployment and production smoke pass; local and development verification are readiness gates.
 
 ## Execution order
 
@@ -57,7 +58,7 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 
 Create the Nx workspace, ownership boundaries, minimal Convex BFF service and operator-managed `businessEnvironments` registry. Add the repository-owned operator CLI and a hosted, phone-friendly, read-only backoffice protected by direct Google OIDC plus a fixed server-side operator allowlist. Define only the contracts and table used by this flow. Establish typecheck, lint, unit/Convex integration testing, a deterministic Playwright dashboard flow, secret scanning and baseline GitHub Actions CI.
 
-The required local gate is done when the repository runs without provider accounts, the public health and internal Business-environment paths work, auth denial/allow tests pass, the dashboard browser test passes and validation commands are documented. Hosted verification follows only after Andrew authorizes one Convex development deployment, Cloudflare site and public Google web client. No speculative tables, TableCards code or placeholder SDK modules belong in Build 1.
+The required local gate is done when the repository runs without provider accounts, the public health and internal Business-environment paths work, auth denial/allow tests pass, the dashboard browser test passes and validation commands are documented. Hosted development verification follows only after Andrew authorizes one Convex development deployment, Cloudflare site and public Google web client. Build 1 is complete only when the reviewed `main` commit passes GitHub validation, automatically deploys the separate production Convex backend and `ops.tofler.tech` dashboard, passes production smoke and Andrew confirms one real production Google sign-in. No speculative tables, TableCards code or placeholder SDK modules belong in Build 1.
 
 ### Build 2 — Shared MVP
 

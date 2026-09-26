@@ -37,13 +37,7 @@ The default local API and HTTP-action ports are `3210` and `3211`. Treat the val
 
 If this is a new checkout with no `.env.local`, stop and identify the exact Convex team/project before configuring it. The current Convex CLI associates even a local deployment with project metadata. Creating or selecting that project is an external account action; it is not required again for this repository's existing local configuration. Once the intended project is confirmed, create/select its local deployment with the installed CLI rather than borrowing another product's deployment.
 
-Convex currently requires a non-empty auth-provider configuration while pushing these functions. The local deployment may use this public, non-secret placeholder audience; it does not enable a test-auth bypass:
-
-```bash
-pnpm exec convex env set GOOGLE_CLIENT_ID local-test-client-id --deployment local
-```
-
-`BFF_OPERATOR_IDENTITIES` should remain absent locally unless a specific manual authorization check requires it. All required operator authorization cases run deterministically through `convex-test`.
+The Google client ID and fixed operator emails are code-owned in `@bff/static-config` because the same identity configuration applies to every deployment. No local auth environment variable is required. All required operator authorization cases run deterministically through `convex-test`; a configuration change must pass those tests before deployment.
 
 ## Verify the live local health route
 
@@ -132,7 +126,7 @@ git check-ignore .env.local .convex/local playwright-report dist
 
 - **Node or peer-version errors:** switch to Node 24 and rerun the frozen install; do not bypass peer checks.
 - **Local site port refuses connections:** keep `pnpm convex:local` running and use `VITE_CONVEX_SITE_URL` from `.env.local`.
-- **Convex rejects auth configuration:** set the non-secret local placeholder `GOOGLE_CLIENT_ID` shown above and restart the local backend.
+- **Convex rejects auth configuration:** verify `@bff/static-config` contains the intended public Google client ID, then restart the local backend.
 - **Generated API is missing or stale:** run `pnpm exec convex dev --once --tail-logs disable` against the selected local deployment.
 - **Playwright cannot find Chromium:** run `pnpm exec playwright install chromium`.
 - **A cloud CLI target is refused:** this is intentional. Recheck the target and obtain explicit deployment approval before using `--confirm-cloud`.

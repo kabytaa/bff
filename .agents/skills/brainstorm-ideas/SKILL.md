@@ -48,10 +48,10 @@ Treat the brainstorm document as durable memory for the discussion, not as a sub
 Create or update:
 
 ```text
-.agent/brainstorms/{kebab-case-topic}.md
+.agent/brainstorms/{YYMMDD}-{kebab-case-topic}.md
 ```
 
-Use a concise kebab-case topic derived from the request. If continued discussion is clearly about an existing brainstorm, update that document instead of creating a duplicate. Preserve useful prior reasoning, revise the current direction as decisions change, and append durable insights to Notes.
+Use the brainstorm's creation date as the immutable six-digit `YYMMDD` prefix and a concise kebab-case topic derived from the request. Record the full `YYYY-MM-DD` creation and update dates inside the document. Never rename the file merely because it is updated, accepted or superseded. If continued discussion is clearly about an existing brainstorm, find it by topic/status and update that document instead of creating a newly dated duplicate. Preserve useful prior reasoning, revise the current direction as decisions change, and append durable insights to Notes.
 
 Anchor the discussion historically. Record the document status, creation and update dates, the inspected repository commit, and the `STATUS.md` state at the start. Keep that context snapshot stable; if repository state changes during a long discussion, append a dated context update rather than rewriting history.
 
@@ -61,7 +61,7 @@ Use this structure:
 # Brainstorm: Topic
 
 > **Status**: Active
-> **Started**: YYYY-MM-DD
+> **Created**: YYYY-MM-DD
 > **Last updated**: YYYY-MM-DD
 > **Repository baseline**: `<commit>`
 

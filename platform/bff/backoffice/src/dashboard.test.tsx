@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { Dashboard, type DashboardModel } from './dashboard';
 
@@ -36,22 +36,21 @@ describe('Dashboard', () => {
     expect(screen.queryByRole('button', { name: /delete/i })).toBeNull();
   });
 
-  it('shows the verified identity without revealing an allowlist', () => {
-    const onCopyIdentity = vi.fn();
+  it('shows the verified email without revealing an allowlist', () => {
     render(
       <Dashboard
         model={{
           state: 'forbidden',
-          issuer: 'https://accounts.google.com',
-          subject: 'operator-123',
+          email: 'operator@example.com',
+          emailVerified: true,
         }}
-        onCopyIdentity={onCopyIdentity}
       />,
     );
 
     expect(screen.getByText('Access not enabled')).toBeInTheDocument();
-    expect(screen.getByText('operator-123')).toBeInTheDocument();
-    expect(screen.queryByText(/allowlist.*operator-123/i)).toBeNull();
+    expect(screen.getByText('operator@example.com')).toBeInTheDocument();
+    expect(screen.getByText('Verified')).toBeInTheDocument();
+    expect(screen.queryByText(/allowlist.*operator@example.com/i)).toBeNull();
   });
 
   it('renders an intentional empty registry state', () => {

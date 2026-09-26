@@ -39,7 +39,7 @@ The blueprint's section 18 defines TableCards as a guest-list-to-printable-place
 
 On 2026-09-21 the user asked for an easier project and delegated the choice, requesting an Astra reviewer. The working choice is **TableCards** because it has a smaller controllable core than accessibility scanning or a multi-party content-reminder workflow. The original one-event purchase idea was superseded on 2026-09-24 by Free, Personal Pro and Studio subscription hypotheses. This is a scope choice, not validated market demand; the current decisions live in the [TableCards MVP product specification](../products/tablecards-mvp.md).
 
-[Place Card Me](https://www.placecardme.com/our-printable-place-cards/) already supports guest-list import, automatic layout and printable PDF export. Batch generation is therefore not a unique advantage. The pilot must establish why a repeat professional buyer prefers our workflow. ContentChase remains a second candidate; [Content Snare](https://contentsnare.com/pricing/) is an established request/upload/reminder alternative. See the [living comparison](../../.agent/brainstorms/first-business-project.md) for scope, tradeoffs and open questions.
+[Place Card Me](https://www.placecardme.com/our-printable-place-cards/) already supports guest-list import, automatic layout and printable PDF export. Batch generation is therefore not a unique advantage. The pilot must establish why a repeat professional buyer prefers our workflow. ContentChase remains a second candidate; [Content Snare](https://contentsnare.com/pricing/) is an established request/upload/reminder alternative. See the [living comparison](../../.agent/brainstorms/260921-first-business-project.md) for scope, tradeoffs and open questions.
 
 ### Micro-Product Business Analysis
 
@@ -77,7 +77,7 @@ Important reconciliation before selection:
 - The demand evidence remains indirect. Require paid pre-purchases/deposits or another behavioral commitment before treating freelancer willingness to pay as validated.
 - The product can use open-source browser tooling on the existing VPS initially, so no paid scanner API or new provider account is required. URL scanning still needs strict public-network and resource limits.
 
-The living comparison and current recommendation are recorded in [First Business Project brainstorm](../../.agent/brainstorms/first-business-project.md).
+The living comparison and current recommendation are recorded in [First Business Project brainstorm](../../.agent/brainstorms/260921-first-business-project.md).
 
 ## Prior Convex research outside the BFF folder
 

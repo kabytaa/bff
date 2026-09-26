@@ -26,3 +26,48 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm check
+
+  deploy-production:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: ${{ vars.BACKOFFICE_URL }}
+    concurrency:
+      group: production
+      cancel-in-progress: false
+    env:
+      BACKOFFICE_URL: ${{ vars.BACKOFFICE_URL }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+      CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}
+      EXPECTED_CONVEX_URL: ${{ vars.CONVEX_URL }}
+      VITE_CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.6.0
+          run_install: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Deploy Convex and build the production dashboard
+        run: >-
+          pnpm exec convex deploy
+          --cmd "pnpm production:build"
+          --cmd-url-env-var-name VITE_CONVEX_URL
+          --message "$GITHUB_SHA"
+      - name: Stamp the deployed backend version
+        run: pnpm exec convex env set BFF_BUILD_VERSION "$GITHUB_SHA"
+      - name: Deploy the production dashboard
+        run: >-
+          pnpm exec wrangler deploy
+          --config platform/bff/backoffice/wrangler.production.jsonc
+      - name: Smoke-check the production release
+        run: pnpm production:smoke

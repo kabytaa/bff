@@ -1,6 +1,6 @@
 # Feature plan template
 
-Use this structure for `.agent/plans/{kebab-case-feature-name}.md`. Replace every instructional placeholder with repository-specific content. Do not leave example paths, commands, or generic task text in the completed plan.
+Use this structure for `.agent/plans/{YYMMDD}-{kebab-case-feature-name}.md`, where the immutable six-digit prefix is the plan's creation date. Replace every instructional placeholder with repository-specific content. Do not leave example paths, commands, or generic task text in the completed plan.
 
 ````markdown
 # Feature: {Feature Name}

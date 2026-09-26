@@ -1,5 +1,10 @@
 # Brainstorm: First Business Project
 
+> **Status**: Superseded — Canonical scope lives in [TableCards MVP](../../docs/products/tablecards-mvp.md)
+> **Created**: 2026-09-21
+> **Last updated**: 2026-09-26
+> **Repository baseline**: `0e800ba2b7520d7ebadf8bc14b1990fe9dfcdfc2`
+
 ## The Idea
 
 Choose the first tiny paid product that can validate real demand while exercising BFF login, project/account context, attribution, payment, entitlement, support and backoffice flows.

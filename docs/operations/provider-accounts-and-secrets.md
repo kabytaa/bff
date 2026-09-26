@@ -6,11 +6,11 @@ This is the manual handoff for [ADR 0001 — Convex-first BFF stack](../architec
 
 ## Immediate answer
 
-No new token is needed to implement or deterministically test Build 1 locally. The workspace, contracts, Convex schema/functions, operator authorization, dashboard and browser flow use the repository's local Convex deployment plus mocked identities. Better Auth is not part of Build 1.
+No new token is needed to implement or deterministically test Build 1 locally. The workspace, contracts, Convex schema/functions, operator authorization, dashboard and browser flow use the repository's local Convex deployment plus mocked identities. Better Auth is not part of Build 1. Production CI/CD additionally needs one Convex production deploy key and the shared Tofler Cloudflare CI token stored in the GitHub `production` environment.
 
-The machine already has an authenticated Convex CLI user token and a separate working Convex project under `/root/podcat`. Do not copy that token or reuse the Podcat deployment. Build 1 local initialization created the separate `business-factory` Convex project record and a local deployment, but pushed no BFF functions or data to a cloud deployment. Recheck the exact account and create/select only its development deployment when hosted work is explicitly approved.
+The machine has an authenticated Convex CLI user token. Do not copy that token or reuse the unrelated Podcat deployment. Build 1 uses the separate `andrew-tofler/business-factory` project; its personal development deployment is live and verified, while the default production deployment remains empty pending the CI/CD rollout.
 
-No Cloudflare/Wrangler credentials were found on this machine. That does not prove an account does not exist; it means account access is not currently connected here.
+Wrangler is interactively authenticated to Andrew's Cloudflare account with the narrow development authorization used for `ops-dev.tofler.tech`. That OAuth session is not a CI credential. GitHub production deployment requires a separate scoped API token entered directly into the GitHub environment.
 
 Do not paste provider secrets into chat. Use a local ignored `.env.local`, the provider's environment-variable store, or GitHub Actions secrets as appropriate.
 
@@ -30,20 +30,20 @@ Do not register Clerk, Apple Developer, PostHog, Resend, Sentry or a helpdesk fo
 
 | Provider | Current evidence | Registration/action | Needed when |
 | --- | --- | --- | --- |
-| Convex | CLI is authenticated; the separate `business-factory` project record and local deployment exist | No new personal account expected; create/select one BFF cloud development deployment only after approval | Hosted backend development |
-| Google Cloud OAuth | Not confirmed | Create one development web client for the hosted Build 1 operator dashboard; Business-user clients wait for their owning build | Hosted Build 1 verification |
+| Convex | CLI is authenticated; `andrew-tofler/business-factory` development is live and production is empty | Create a production-scoped CI deploy key named `bff-github-production`; never reuse the personal CLI token | Production CI/CD |
+| Google Cloud OAuth | One shared backoffice web client exists with exact development and production origins | No additional Build 1 credential; Business-user clients wait for their owning build | Complete for Build 1 |
 | Apple Developer | Not confirmed and conditional | Do not register/configure yet; provide access and create Sign in with Apple credentials only when an iOS/App Store or product requirement activates it | Conditional Apple login |
-| Cloudflare | No local credentials/config found | Confirm account and domain; connect Wrangler/plugin or issue a scoped token | First hosted backoffice/domain |
+| Cloudflare | Interactive Wrangler access is connected; `ops-dev.tofler.tech` is live; both Tofler zones are owned in Cloudflare | Create shared `tofler-github-ci` with Workers Scripts Edit and Workers Routes Edit for both Tofler zones | Production and future Tofler CI/CD |
 | Paddle | Seller status not verified here | Continue seller onboarding; create sandbox credentials first, live credentials after approval | Billing implementation and launch |
 | PostHog | Not confirmed and optional | Do not register yet; create a project only if the first product outgrows canonical BFF events | High-volume product analytics/funnels |
 | Resend | Not confirmed and optional | Do not register yet; Google/Apple social login needs no authentication email | First separate transactional email flow |
 | Support mailbox | Existing address may be used | Confirm one monitored public address; a branded mailbox can wait | Before first public launch |
 | Sentry | Not confirmed and optional | Defer until Convex logs are insufficient | After observed monitoring need |
-| GitHub | Repository and local remote exist | No new token for local edits; CI secrets are added when deployment begins | CI/deployment |
+| GitHub | Repository, Actions validation and authenticated CLI access exist | Create the `production` environment, branch restriction, public variables and two environment secrets | Production CI/CD |
 
 ## Credential inventory
 
-Names below are the intended configuration contract. Values remain outside git.
+Names below are the intended configuration contract. Credentials and deployment-specific values remain outside git; explicitly identified public, deployment-invariant identifiers are reviewed in `@bff/static-config`.
 
 ### Convex
 
@@ -55,6 +55,8 @@ Names below are the intended configuration contract. Values remain outside git.
 | `CONVEX_SITE_URL` | Public configuration | HTTP action/webhook base URL |
 | `CONVEX_DEPLOY_KEY` | Secret, CI only | Non-interactive production or preview deployment |
 
+GitHub production also stores the public expected `CONVEX_URL` and `CONVEX_SITE_URL` as environment variables so the build and smoke checks can reject a key/target mismatch.
+
 Interactive local development uses the existing CLI login; it does not need `CONVEX_DEPLOY_KEY`. Generate a deploy key scoped only to the BFF production deployment for GitHub Actions. See [Convex deploy keys](https://docs.convex.dev/cli/deploy-key-types).
 
 ### Build 1 operator Google OIDC
@@ -63,11 +65,10 @@ The hosted backoffice uses Google Identity Services popup mode and passes the sh
 
 | Name | Exposure | Purpose |
 | --- | --- | --- |
-| `VITE_GOOGLE_CLIENT_ID` | Public frontend configuration | Initializes Google Identity Services |
-| `GOOGLE_CLIENT_ID` | Public identifier, Convex environment | Restricts accepted token audience |
-| `BFF_OPERATOR_IDENTITIES` | Private server configuration, Convex environment | Fixed JSON allowlist of verified `(issuer, subject)` operator pairs |
+| `BACKOFFICE_GOOGLE_CLIENT_ID` | Public, code-owned identifier in `@bff/static-config` | Initializes Google Identity Services and restricts the accepted token audience |
+| `BACKOFFICE_OPERATOR_EMAILS` | Code-owned identity allowlist in `@bff/static-config` | Authorizes the fixed backoffice operators after verified Google authentication |
 
-For development, authorize the exact localhost and Cloudflare `workers.dev` origins. Request only basic identity. The browser keeps the ID token in memory; do not record it or the operator allowlist in repository files. Production OAuth branding/domain requirements wait for production. See [Google Identity setup](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) and [Google OAuth policies](https://developers.google.com/identity/protocols/oauth2/policies).
+Authorize the exact localhost and Cloudflare origins. Request only basic identity. The browser keeps the ID token in memory and the production bundle must not contain the operator allowlist. Production OAuth branding/domain requirements wait for production. See [Google Identity setup](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) and [Google OAuth policies](https://developers.google.com/identity/protocols/oauth2/policies).
 
 Do not add Apple credential names or placeholders until Apple login is activated. At that point configure the Apple Service ID/app capability, Team ID, Key ID and private key in the relevant deployment's secret store; never commit the private key. Apple login uses the same BFF auth adapter, so enabling it must not change BFF user/account IDs or public session contracts.
 
@@ -106,6 +107,8 @@ Local interactive setup can use Wrangler OAuth. CI should use a narrowly scoped 
 
 Use separate deployment and DNS tokens if practical. Restrict them to the selected account/zone and only required permissions. See [Cloudflare API authentication](https://developers.cloudflare.com/fundamentals/api/get-started/).
 
+The shared Tofler CI token does not need general-purpose DNS-write access. In Cloudflare's current three-column user-token UI, add `Account > Workers Scripts > Edit`, `Zone > Workers Routes > Edit`, `Account > Account Settings > Read`, `Zone > Zone > Read`, `User > User Details > Read` and `User > Memberships > Read`. Scope the account rows to the selected Cloudflare account and the zone rows to `tofler.tech` plus `tofler.app`. Workers Scripts Edit uploads/deploys Workers; Workers Routes Edit attaches Custom Domains and their automatically managed subdomain records; the read-only rows support Wrangler discovery. This is an accepted simplicity tradeoff for the solo phase; move to per-Business tokens when real users/data, another collaborator or sensitive infrastructure increases the blast radius. `CLOUDFLARE_ACCOUNT_ID` is a GitHub production environment variable; `CLOUDFLARE_API_TOKEN` is an environment secret.
+
 ### Resend, when required
 
 | Name | Exposure | Purpose |
@@ -133,11 +136,11 @@ Every example environment file must contain names and placeholders only. Add rep
 1. Start **Build 1 — Foundation** locally with no new credentials.
 2. Complete and validate the entire local gate with local Convex and deterministic identities.
 3. After explicit approval, create/select the BFF Convex cloud development deployment inside the existing `business-factory` project record and create the initial Cloudflare backoffice origin.
-4. Create the development Google web client for those exact origins, bootstrap Andrew's verified operator identity and store the allowlist only in Convex deployment configuration.
+4. Create the Google web client for the exact backoffice origins, then place its public client ID and the small verified-email operator allowlist in `@bff/static-config` after review.
 5. When the first product adds login, choose and configure the Business-user authentication mechanism separately.
 6. When the first product adds a paid gate, use Paddle sandbox credentials; keep live credentials blocked on seller/domain approval.
 7. Confirm Cloudflare account/domain access before the first production backoffice or product deployment.
-8. Generate narrowly scoped CI deploy credentials only after the manual deployment path works.
+8. Create the GitHub `production` environment, public target variables and narrowly scoped Convex/Cloudflare secrets; follow [the production-delivery runbook](production-delivery.md).
 9. Before launch, confirm the monitored public support address; do not create a helpdesk account for the initial BFF support inbox.
 10. Add Apple login, PostHog, Resend or Sentry only when an implemented workflow or platform rule needs them.
 
