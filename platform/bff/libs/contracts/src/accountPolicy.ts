@@ -8,6 +8,7 @@ export const SESSION_IDLE_DEFAULT_SECONDS = 7 * 24 * 60 * 60;
 export const SESSION_ABSOLUTE_DEFAULT_SECONDS = 30 * 24 * 60 * 60;
 export const CONTEXT_TOKEN_TTL_SECONDS = 10 * 60;
 export const HANDOFF_CODE_TTL_SECONDS = 60;
+export const LOGIN_TRANSACTION_TTL_SECONDS = 10 * 60;
 export const AUTOMATION_GRANT_TTL_SECONDS = 2 * 60;
 export const OWNERSHIP_TRANSFER_PROOF_TTL_SECONDS = 5 * 60;
 
@@ -80,8 +81,7 @@ export const businessAccountPolicySchema = z
   .strict()
   .refine(
     (policy) =>
-      policy.maxOwnedAccountsPerUser <=
-      policy.maxAccountMembershipsPerUser,
+      policy.maxOwnedAccountsPerUser <= policy.maxAccountMembershipsPerUser,
     {
       message:
         'maxOwnedAccountsPerUser must not exceed maxAccountMembershipsPerUser',
@@ -89,9 +89,7 @@ export const businessAccountPolicySchema = z
     },
   );
 
-export type BusinessAccountPolicy = z.infer<
-  typeof businessAccountPolicySchema
->;
+export type BusinessAccountPolicy = z.infer<typeof businessAccountPolicySchema>;
 
 export const accountPolicyValuesSchema = z
   .object({

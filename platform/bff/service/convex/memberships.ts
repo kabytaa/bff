@@ -39,6 +39,23 @@ export async function listMembershipsForUser(
     .take(limit);
 }
 
+export async function findMembershipForAccountUser(
+  ctx: QueryCtx | MutationCtx,
+  environmentId: Id<'businessEnvironments'>,
+  accountId: Id<'accounts'>,
+  userId: Id<'businessUsers'>,
+) {
+  return await ctx.db
+    .query('memberships')
+    .withIndex('by_environment_account_user', (query) =>
+      query
+        .eq('environmentId', environmentId)
+        .eq('accountId', accountId)
+        .eq('userId', userId),
+    )
+    .unique();
+}
+
 export function toMembershipView(
   membership: Doc<'memberships'>,
   account: Doc<'accounts'>,

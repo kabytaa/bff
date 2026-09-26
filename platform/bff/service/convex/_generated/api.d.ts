@@ -17,9 +17,13 @@ import type * as lib_authorization from "../lib/authorization.js";
 import type * as lib_businessEnvironment from "../lib/businessEnvironment.js";
 import type * as lib_businessEnvironmentView from "../lib/businessEnvironmentView.js";
 import type * as lib_customerConfiguration from "../lib/customerConfiguration.js";
+import type * as lib_customerCrypto from "../lib/customerCrypto.js";
+import type * as lib_customerHttp from "../lib/customerHttp.js";
 import type * as lib_errors from "../lib/errors.js";
 import type * as lib_serviceMetadata from "../lib/serviceMetadata.js";
+import type * as loginTransactions from "../loginTransactions.js";
 import type * as memberships from "../memberships.js";
+import type * as sessions from "../sessions.js";
 
 import type {
   ApiFromModules,
@@ -37,9 +41,13 @@ declare const fullApi: ApiFromModules<{
   "lib/businessEnvironment": typeof lib_businessEnvironment;
   "lib/businessEnvironmentView": typeof lib_businessEnvironmentView;
   "lib/customerConfiguration": typeof lib_customerConfiguration;
+  "lib/customerCrypto": typeof lib_customerCrypto;
+  "lib/customerHttp": typeof lib_customerHttp;
   "lib/errors": typeof lib_errors;
   "lib/serviceMetadata": typeof lib_serviceMetadata;
+  loginTransactions: typeof loginTransactions;
   memberships: typeof memberships;
+  sessions: typeof sessions;
 }>;
 
 /**
