@@ -59,6 +59,22 @@ describe('production smoke', () => {
     );
   });
 
+  it('ignores the Convex client URL-validation example in the bundle', async () => {
+    const asset = new Response(
+      [
+        `const convexUrl=${JSON.stringify(config.expectedConvexUrl)};`,
+        "const validationExample='https://happy-otter-123.convex.cloud';",
+      ].join(''),
+    );
+    const fetcher = vi
+      .fn<Fetcher>()
+      .mockResolvedValueOnce(healthy())
+      .mockResolvedValueOnce(dashboard())
+      .mockResolvedValueOnce(asset);
+
+    await expect(checkProductionOnce(config, fetcher)).resolves.toBeUndefined();
+  });
+
   it('retries a propagating deployment and then succeeds', async () => {
     const fetcher = vi
       .fn<Fetcher>()

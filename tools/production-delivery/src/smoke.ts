@@ -5,6 +5,9 @@ import { readSmokeConfig, type SmokeConfig } from './config';
 const DEFAULT_ATTEMPTS = 30;
 const DEFAULT_DELAY_MS = 10_000;
 const REQUEST_TIMEOUT_MS = 10_000;
+// ConvexReactClient includes this URL only in its invalid-URL error message.
+// It is dependency text, not a configured deployment target.
+const CONVEX_CLIENT_EXAMPLE_URL = 'https://happy-otter-123.convex.cloud';
 
 type Fetcher = typeof fetch;
 type Sleeper = (milliseconds: number) => Promise<void>;
@@ -62,7 +65,9 @@ function assertConvexTarget(bundle: string, expectedUrl: string): void {
   const referencedUrls = new Set(
     bundle.match(/https:\/\/[a-z0-9-]+\.convex\.cloud/gi) ?? [],
   );
-  const unexpected = [...referencedUrls].filter((url) => url !== expectedUrl);
+  const unexpected = [...referencedUrls].filter(
+    (url) => url !== expectedUrl && url !== CONVEX_CLIENT_EXAMPLE_URL,
+  );
   if (unexpected.length > 0) {
     throw new Error('Dashboard bundle contains an unexpected Convex URL.');
   }
