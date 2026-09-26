@@ -6,16 +6,34 @@
   "tags": ["scope:bff", "type:e2e"],
   "implicitDependencies": ["bff-backoffice"],
   "targets": {
+    "generate-development-auth-key": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx --tsconfig tsconfig.base.json platform/bff/backoffice-e2e/src/generateDevelopmentAuthKey.ts"
+      }
+    },
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
         "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config platform/bff/backoffice-e2e/playwright.config.ts"
       }
     },
+    "e2e-hosted-development": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config platform/bff/backoffice-e2e/playwright.hosted-development.config.ts"
+      }
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint platform/bff/backoffice-e2e --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config platform/bff/backoffice-e2e/vitest.config.ts"
       }
     },
     "typecheck": {

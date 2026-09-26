@@ -11,9 +11,12 @@ Updated: 2026-09-26.
 - Product scope remains canonical in [the TableCards MVP specification](docs/products/tablecards-mvp.md); no TableCards workload, Business-user auth, billing, accounts or speculative SDK/domain tables were added.
 - An active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md) records the incubation-to-brand model. KooMasha is the actual developer/operator; Tofler is its software domain family. Andrew owns `tofler.tech` and `tofler.app`; `.app` is customer-facing and `.tech` internal/operator/technical. Stable development uses explicit `-dev` hostnames: Build 1 development uses `ops-dev.tofler.tech`, while production is live at `ops.tofler.tech`.
 - The [production-delivery brainstorm](.agent/brainstorms/260926-production-delivery.md) is accepted, and its [implementation plan](.agent/plans/260926-production-delivery.md) is completed. GitHub run `36243427909` passed validation, Convex deploy/version stamping, Cloudflare publication and automated production smoke for commit `2c25226`; Andrew then confirmed authenticated production access.
+- The accepted [automated-development-auth brainstorm](.agent/brainstorms/260926-automated-development-auth.md) and [implementation plan](.agent/plans/260926-automated-development-auth.md) now have a development-verified implementation: Codex can mint a two-minute ES256 token for a dedicated automation identity and verify the real protected `ops-dev` overview on demand. Production remains Google-only.
 
 ## Last completed
 
+- Added the ignored mode-`0600` local signer, deployment-specific public JWKS/audience configuration, exact automation issuer/subject authorization, separate development-only dashboard entry and on-demand hosted Playwright check. Convex development and Cloudflare Worker version `ae486a9f-f839-4fef-85b2-814d7a627f94` accepted the configuration, and the live authenticated overview passed without human login.
+- Tightened the human operator path to require Google's exact issuer as well as verified allowlisted email, preventing a development token from impersonating a human through copied claims. Targeted tests and the hosted check pass after the correction.
 - Added the main-only post-validation production job, a separate `business-factory-backoffice` manifest for `ops.tofler.tech`, strict target/build validation, bounded public production smoke, ADR 0003 and the production runbook; the full automated path is green in production.
 - Created the GitHub `production` environment with a `main`-only branch policy, four public target variables and the Business Factory production-deployment key. No credential value entered git, docs, chat or browser artifacts.
 - Passed the production dashboard rehearsal, Cloudflare asset dry run, Convex production dry run against `exuberant-goldfinch-830` and the complete `pnpm check` gate after implementation.
@@ -21,6 +24,7 @@ Updated: 2026-09-26.
 - Published production Convex and the `business-factory-backoffice` Worker at `https://ops.tofler.tech` from commit `86a7e75`; the backend reports that full SHA and a manual run of the corrected bounded production smoke passes against the live backend, headers, dashboard and bundled Convex target.
 - Fixed the direct smoke runner's TypeScript-path resolution and excluded only ConvexReactClient's built-in example URL from deployment-target detection. Fix-forward commit `2c25226` passed the complete GitHub validation and production deployment jobs, including the automated live smoke.
 - Andrew completed the final real Google sign-in at `https://ops.tofler.tech` and confirmed the authenticated read-only overview loads. Build 1 and its production-delivery successor are complete.
+- Documentation closeout commit `eed726c` also passed the complete main-to-production workflow in GitHub run `36243689190`, confirming later documentation-only pushes still preserve the automated validation, deploy and live-smoke contract.
 - Renamed retained brainstorms and plans to immutable `YYMMDD-topic.md` creation-date filenames, repaired repository links and updated the brainstorming/planning skills and repository rule. Full update dates remain inside each artifact.
 - Deployed Cloudflare Worker `business-factory-backoffice-dev` with the Custom Domain `ops-dev.tofler.tech`; `ops.tofler.tech` and production remain untouched. HTTPS, CSP/security headers, signed-out Google UI and desktop/Pixel 7 rendering were verified against the live site.
 - Published the centralized static configuration to Convex development and Cloudflare Worker version `45cc63d7-b78f-4c41-86a9-dd8335d10eef`, then removed the now-unused per-deployment `GOOGLE_CLIENT_ID` value. Live backend health and the hosted page both return `200`.
@@ -38,9 +42,10 @@ Updated: 2026-09-26.
 
 ## Next moves
 
-1. Finish or supersede the active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md), then select the next MVP slice before creating its implementation plan.
-2. Reassess per-Business Cloudflare tokens only when real usage, collaborators or sensitive infrastructure increase the shared token's impact.
-3. Keep the current development and production backoffices as functional operator surfaces; treat visual redesign as separate scoped work if it becomes valuable.
+1. Complete the final post-cleanup gate and diff audit for automated development authentication, then obtain Andrew's approval to commit and push. Require the normal main production workflow and production-absence checks before marking the plan completed.
+2. Finish or supersede the active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md), then select the next MVP slice before creating its implementation plan.
+3. Reassess per-Business Cloudflare tokens only when real usage, collaborators or sensitive infrastructure increase the shared token's impact.
+4. Keep the current development and production backoffices as functional operator surfaces; treat visual redesign as separate scoped work if it becomes valuable.
 
 ## Human blockers
 

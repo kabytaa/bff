@@ -1,10 +1,9 @@
 import { parseHealthResponse, type HealthResponse } from '@bff/contracts';
 import { api } from '@bff/service-api';
 import { useQuery } from 'convex/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { Dashboard, type DashboardModel } from './dashboard';
-import { GoogleSignInButton } from './googleIdentity';
 
 function useHealth(siteUrl: string) {
   const [health, setHealth] = useState<HealthResponse>();
@@ -30,7 +29,13 @@ function useHealth(siteUrl: string) {
   return { health, error };
 }
 
-export function App({ siteUrl }: { siteUrl: string }) {
+export function App({
+  signInControl,
+  siteUrl,
+}: {
+  signInControl: ReactNode;
+  siteUrl: string;
+}) {
   const { health, error: healthError } = useHealth(siteUrl);
   const operator = useQuery(api.backoffice.currentOperator, {});
   const overview = useQuery(
@@ -62,5 +67,5 @@ export function App({ siteUrl }: { siteUrl: string }) {
     };
   }
 
-  return <Dashboard model={model} signInControl={<GoogleSignInButton />} />;
+  return <Dashboard model={model} signInControl={signInControl} />;
 }

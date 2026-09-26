@@ -52,6 +52,12 @@ Google sign-in alone does not grant access. The browser receives neither the all
 
 Public health has no authentication. Registry mutations remain internal deployment operations. Provider webhooks and future Business users/services each use their own boundary-specific authentication guard.
 
+### Development-only automated operator verification
+
+The shared development deployment may additionally accept a custom ES256 JWT provider so Codex can exercise the real hosted protected dashboard without a reusable Google credential. The private signing key remains in ignored mode-`0600` local state. Convex receives only the matching public JWKS plus an exact deployment audience, and every token expires after two minutes.
+
+The token represents one dedicated automation subject, not either human operator. The shared guard accepts that subject only with the exact reviewed automation issuer after Convex has validated its signature, issuer, audience and expiry. Human email authorization explicitly requires Google's issuer, so a development token cannot impersonate an allowlisted human by copying email claims. Production configures no automation JWKS or audience and its default dashboard build excludes the automation entry, issuer, subject and token transport marker. The same signer may be reused for the current solo developer's development deployments, but each deployment must configure a distinct audience; use separate keys when independent revocation by developer or machine becomes valuable.
+
 ### Future Business-user identity
 
 Build 1 does not select or scaffold Better Auth, Convex Auth or another Business-user authentication library. Build 2 chooses the current supported mechanism when a real Business login flow exists.
@@ -94,6 +100,7 @@ The invariant is already fixed: technical provider identities remain private to 
 - Authorization tests prove that an allowlisted but unverified email still fails closed.
 - A deterministic Playwright entry tests the dashboard without a live Google dependency and is excluded from production output.
 - Live Google/origin wiring is a separate hosted development smoke check after local completion.
+- An on-demand hosted Playwright check mints a fresh development-only token in process memory, injects it before the automation page starts and proves the real protected overview loads. Deterministic browser tests remain provider-independent, and production bundle checks reject every automation artifact.
 
 ## Historical relationship
 
@@ -102,3 +109,4 @@ ADR 0001 remains authoritative for Convex, Nx/pnpm/TypeScript, the technology-ne
 ## Amendment history
 
 - **2026-09-26:** The original accepted operator rule used Google's stable `(issuer, subject)` pair. Andrew deliberately simplified this tiny, manually administered backoffice to a verified-email allowlist for himself and his wife. He also chose to keep the list in source because it is intentionally identical across deployments; changing it requires a code release. Convex still performs cryptographic issuer/audience/signature/expiry validation, the guard requires `email_verified: true`, and no browser-supplied address is trusted. This amendment does not apply to future Business-user identity.
+- **2026-09-26:** Added a development-only ES256 automation identity for on-demand hosted dashboard verification. It is a separate exact issuer/subject accepted only after Convex authentication; production remains Google-only and ships no automation browser entry.

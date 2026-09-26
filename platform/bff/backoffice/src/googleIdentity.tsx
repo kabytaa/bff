@@ -34,7 +34,7 @@ interface GoogleIdentityValue {
 
 const GoogleIdentityContext = createContext<GoogleIdentityValue | null>(null);
 
-function tokenExpiry(token: string): number | null {
+export function tokenExpiry(token: string): number | null {
   try {
     const [, payload] = token.split('.');
     if (!payload) return null;

@@ -14,6 +14,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 - [Provider accounts, access and secrets](docs/operations/provider-accounts-and-secrets.md)
 - [Build 1 local development](docs/operations/build-1-local-development.md)
 - [Build 1 hosted verification](docs/operations/build-1-hosted-verification.md)
+- [Development authenticated dashboard smoke](docs/operations/development-authenticated-smoke.md)
 - [Production delivery](docs/operations/production-delivery.md)
 - [Research source map and reconciliation](docs/research/source-map.md)
 - [First Business Project brainstorm](.agent/brainstorms/260921-first-business-project.md)
@@ -24,4 +25,4 @@ The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server 
 
 Deployment-invariant, non-secret BFF identifiers live in the internal `bff-static-config` library. Credentials and values that actually vary by deployment remain external configuration.
 
-Build 1 is development-verified and its production CI/CD completion slice is in progress. See [the current handoff](STATUS.md) for the exact state.
+Build 1 is complete in development and production. See [the current handoff](STATUS.md) for the exact state and active enhancement.

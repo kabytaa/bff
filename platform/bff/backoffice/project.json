@@ -19,6 +19,13 @@
       },
       "outputs": ["{workspaceRoot}/dist/platform/bff/backoffice"]
     },
+    "build-development-auth": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite build --config platform/bff/backoffice/vite.development-auth.config.ts"
+      },
+      "outputs": ["{workspaceRoot}/dist/platform/bff/backoffice"]
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {

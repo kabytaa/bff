@@ -2,7 +2,11 @@ import { convexTest } from 'convex-test';
 import { describe, expect, it } from 'vitest';
 
 import { parseHealthResponse } from '@bff/contracts';
-import { BACKOFFICE_OPERATOR_EMAILS } from '@bff/static-config';
+import {
+  BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER,
+  BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT,
+  BACKOFFICE_OPERATOR_EMAILS,
+} from '@bff/static-config';
 import { api, internal } from './_generated/api';
 import schema from './schema';
 
@@ -22,6 +26,12 @@ const otherIdentity = {
   tokenIdentifier: 'https://accounts.google.com|other-456',
   email: 'other@example.com',
   emailVerified: true,
+};
+
+const developmentAutomationIdentity = {
+  issuer: BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER,
+  subject: BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT,
+  tokenIdentifier: `${BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER}|${BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT}`,
 };
 
 describe('businessEnvironments', () => {
@@ -170,6 +180,22 @@ describe('operator authorization', () => {
     await expect(t.query(api.backoffice.overview, {})).rejects.toThrow(
       /FORBIDDEN|Operator access is required/,
     );
+  });
+
+  it('allows the exact authenticated development automation identity', async () => {
+    const automation = convexTest(schema, modules).withIdentity(
+      developmentAutomationIdentity,
+    );
+
+    expect(await automation.query(api.backoffice.currentOperator, {})).toEqual({
+      authenticated: true,
+      email: null,
+      emailVerified: false,
+      authorized: true,
+    });
+    await expect(
+      automation.query(api.backoffice.overview, {}),
+    ).resolves.toMatchObject({ service: 'business-factory-bff' });
   });
 });
 
