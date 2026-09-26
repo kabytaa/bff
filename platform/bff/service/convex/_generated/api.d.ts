@@ -9,8 +9,10 @@
  */
 
 import type * as accounts from "../accounts.js";
+import type * as authCleanup from "../authCleanup.js";
 import type * as backoffice from "../backoffice.js";
 import type * as businessEnvironments from "../businessEnvironments.js";
+import type * as crons from "../crons.js";
 import type * as customerAuth from "../customerAuth.js";
 import type * as http from "../http.js";
 import type * as invitations from "../invitations.js";
@@ -24,6 +26,9 @@ import type * as lib_errors from "../lib/errors.js";
 import type * as lib_serviceMetadata from "../lib/serviceMetadata.js";
 import type * as loginTransactions from "../loginTransactions.js";
 import type * as memberships from "../memberships.js";
+import type * as ownershipTransfers from "../ownershipTransfers.js";
+import type * as rateLimits from "../rateLimits.js";
+import type * as securityEvents from "../securityEvents.js";
 import type * as sessions from "../sessions.js";
 
 import type {
@@ -34,8 +39,10 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   accounts: typeof accounts;
+  authCleanup: typeof authCleanup;
   backoffice: typeof backoffice;
   businessEnvironments: typeof businessEnvironments;
+  crons: typeof crons;
   customerAuth: typeof customerAuth;
   http: typeof http;
   invitations: typeof invitations;
@@ -49,6 +56,9 @@ declare const fullApi: ApiFromModules<{
   "lib/serviceMetadata": typeof lib_serviceMetadata;
   loginTransactions: typeof loginTransactions;
   memberships: typeof memberships;
+  ownershipTransfers: typeof ownershipTransfers;
+  rateLimits: typeof rateLimits;
+  securityEvents: typeof securityEvents;
   sessions: typeof sessions;
 }>;
 
@@ -78,4 +88,6 @@ export declare const internal: FilterApi<
   FunctionReference<any, "internal">
 >;
 
-export declare const components: {};
+export declare const components: {
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
+};

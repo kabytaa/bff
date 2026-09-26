@@ -16,6 +16,7 @@ import {
   findMembershipForAccountUser,
   listMembershipsForUser,
 } from './memberships';
+import { recordSecurityEvent } from './securityEvents';
 
 const RETENTION_MILLISECONDS = 90 * 24 * 60 * 60 * 1_000;
 const sha256HashSchema = z
@@ -164,7 +165,7 @@ export const exchangeForSession = internalMutation({
       args.now +
         exchange.environment.customerAuth.sessionPolicy.idleSeconds * 1_000,
     );
-    await ctx.db.insert('businessSessions', {
+    const sessionId = await ctx.db.insert('businessSessions', {
       environmentId: exchange.environment._id,
       userId: user._id,
       publicId: sessionPublicId,
@@ -180,6 +181,14 @@ export const exchangeForSession = internalMutation({
     await ctx.db.patch(transaction._id, {
       status: 'exchanged',
       consumedAt: args.now,
+    });
+    await recordSecurityEvent(ctx, {
+      environmentId: exchange.environment._id,
+      userId: user._id,
+      sessionId,
+      type: 'customer_login_succeeded',
+      correlationId: sessionPublicId,
+      occurredAt: args.now,
     });
 
     return {
@@ -359,6 +368,14 @@ export const logout = internalMutation({
         revokedAt: args.now,
         revocationReason: 'logout',
         cleanupAt: args.now + RETENTION_MILLISECONDS,
+      });
+      await recordSecurityEvent(ctx, {
+        environmentId: environment._id,
+        userId: session.userId,
+        sessionId: session._id,
+        type: 'customer_logout',
+        correlationId: session.publicId,
+        occurredAt: args.now,
       });
     }
     return { revoked: true };

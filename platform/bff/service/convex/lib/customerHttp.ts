@@ -15,6 +15,7 @@ import {
   verifyCustomerContextToken,
   verifyGoogleIdentityToken,
 } from './customerCrypto';
+import { limitGoogleVerification } from '../rateLimits';
 
 const MAX_JSON_BYTES = 20 * 1024;
 const decoder = new TextDecoder();
@@ -313,6 +314,14 @@ export async function completeGoogleLoginHandler(
     const environmentKey = requiredString(body, 'environmentKey', 64);
     const reference = requiredString(body, 'reference', 128);
     const credential = requiredString(body, 'credential', 16 * 1024);
+    const rateLimit = await limitGoogleVerification(ctx, environmentKey);
+    if (!rateLimit.ok) {
+      throw new HttpInputError(
+        429,
+        'RATE_LIMITED',
+        'Too many sign-in attempts. Try again later.',
+      );
+    }
     const challenge = await ctx.runQuery(
       internal.loginTransactions.readChallenge,
       { environmentKey, reference, now: Date.now() },

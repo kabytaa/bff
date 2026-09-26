@@ -190,5 +190,63 @@ export default defineSchema({
       'state',
       'expiresAt',
     ])
+    .index('by_state_expires_at', ['state', 'expiresAt'])
+    .index('by_cleanup_at', ['cleanupAt']),
+  ownershipTransferProofs: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    sessionId: v.id('businessSessions'),
+    currentOwnerMembershipId: v.id('memberships'),
+    targetMembershipId: v.id('memberships'),
+    publicId: v.string(),
+    proofHash: v.string(),
+    expiresAt: v.number(),
+    consumedAt: v.optional(v.number()),
+    auditId: v.optional(v.id('ownershipTransferAudits')),
+    createdAt: v.number(),
+    cleanupAt: v.number(),
+  })
+    .index('by_environment_proof_hash', ['environmentId', 'proofHash'])
+    .index('by_environment_public_id', ['environmentId', 'publicId'])
+    .index('by_cleanup_at', ['cleanupAt']),
+  ownershipTransferAudits: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    sessionId: v.id('businessSessions'),
+    proofId: v.id('ownershipTransferProofs'),
+    previousOwnerUserId: v.id('businessUsers'),
+    newOwnerUserId: v.id('businessUsers'),
+    previousOwnerMembershipId: v.id('memberships'),
+    newOwnerMembershipId: v.id('memberships'),
+    accountPublicId: v.string(),
+    sessionPublicId: v.string(),
+    proofPublicId: v.string(),
+    previousOwnerUserPublicId: v.string(),
+    newOwnerUserPublicId: v.string(),
+    previousOwnerMembershipPublicId: v.string(),
+    newOwnerMembershipPublicId: v.string(),
+    occurredAt: v.number(),
+  })
+    .index('by_environment_account_occurred_at', [
+      'environmentId',
+      'accountId',
+      'occurredAt',
+    ])
+    .index('by_proof', ['proofId']),
+  securityEvents: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    userId: v.optional(v.id('businessUsers')),
+    accountId: v.optional(v.id('accounts')),
+    sessionId: v.optional(v.id('businessSessions')),
+    type: v.union(
+      v.literal('customer_login_succeeded'),
+      v.literal('customer_logout'),
+      v.literal('ownership_transferred'),
+    ),
+    correlationId: v.string(),
+    occurredAt: v.number(),
+    cleanupAt: v.number(),
+  })
+    .index('by_environment_occurred_at', ['environmentId', 'occurredAt'])
     .index('by_cleanup_at', ['cleanupAt']),
 });

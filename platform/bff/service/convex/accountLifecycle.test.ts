@@ -361,14 +361,19 @@ describe('account and invitation lifecycle', () => {
     expect(invitation.kind).toBe('ok');
 
     expect(
-      await t.mutation(internal.invitations.accept, {
+      await t.mutation(internal.authCleanup.expirePendingInvitations, {
+        now: 8 * 24 * 60 * 60 * 1_000,
+      }),
+    ).toEqual({ expired: 1 });
+    await expect(
+      t.mutation(internal.invitations.accept, {
         environmentKey: 'example-development',
         userPublicId: memberUserId,
         tokenHash: await invitationHash(token),
         membershipPublicId: 'membership_expired_001',
         now: 8 * 24 * 60 * 60 * 1_000,
       }),
-    ).toEqual({ kind: 'expired' });
+    ).rejects.toThrow(/UNAUTHENTICATED|invalid/u);
 
     expect(
       await t.run(async (ctx) => {
