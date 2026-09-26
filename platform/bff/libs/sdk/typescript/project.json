@@ -1,0 +1,36 @@
+{
+  "name": "bff-sdk-typescript",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "platform/bff/libs/sdk/typescript/src",
+  "projectType": "library",
+  "tags": ["scope:public", "type:sdk"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/libs/sdk/typescript/tsconfig.lib.json"
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/platform/bff/libs/sdk/typescript"
+      ]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint platform/bff/libs/sdk/typescript --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config platform/bff/libs/sdk/typescript/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/libs/sdk/typescript/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

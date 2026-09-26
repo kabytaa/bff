@@ -10,6 +10,18 @@ export const BACKOFFICE_GOOGLE_CLIENT_ID =
 
 export const BACKOFFICE_GOOGLE_ISSUER = 'https://accounts.google.com';
 
+/**
+ * Public Google Identity Services audience for Business customers. This client
+ * is intentionally separate from the operator/backoffice audience above.
+ */
+export const CUSTOMER_GOOGLE_CLIENT_ID =
+  '701936923122-u4vceunu9hoagjilj4raisiqgtme6mmt.apps.googleusercontent.com';
+
+export const CUSTOMER_GOOGLE_ISSUERS = [
+  'https://accounts.google.com',
+  'accounts.google.com',
+] as const;
+
 export const BACKOFFICE_OPERATOR_EMAILS = [
   'kabytaa@gmail.com',
   'masha@koomasha.com',

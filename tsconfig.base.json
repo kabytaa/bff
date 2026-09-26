@@ -15,7 +15,22 @@
     "paths": {
       "@bff/contracts": ["./platform/bff/libs/contracts/src/index.ts"],
       "@bff/static-config": ["./platform/bff/libs/config/src/index.ts"],
-      "@bff/service-api": ["./platform/bff/service/convex/_generated/api.d.ts"]
+      "@bff/service-api": ["./platform/bff/service/convex/_generated/api.d.ts"],
+      "@tofler/bff-auth/core": [
+        "./platform/bff/libs/sdk/typescript/src/core/index.ts"
+      ],
+      "@tofler/bff-auth/browser": [
+        "./platform/bff/libs/sdk/typescript/src/browser/index.ts"
+      ],
+      "@tofler/bff-auth/server": [
+        "./platform/bff/libs/sdk/typescript/src/server/index.ts"
+      ],
+      "@tofler/bff-auth/react": [
+        "./platform/bff/libs/sdk/typescript/src/react/index.ts"
+      ],
+      "@tofler/bff-auth/convex": [
+        "./platform/bff/libs/sdk/typescript/src/adapters/convex/index.ts"
+      ]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

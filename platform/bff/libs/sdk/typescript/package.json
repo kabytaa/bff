@@ -1,0 +1,17 @@
+{
+  "name": "@tofler/bff-auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./core": "./src/core/index.ts",
+    "./browser": "./src/browser/index.ts",
+    "./server": "./src/server/index.ts",
+    "./react": "./src/react/index.ts",
+    "./convex": "./src/adapters/convex/index.ts"
+  },
+  "peerDependencies": {
+    "convex": "^1.46.0",
+    "react": "^19.3.0"
+  }
+}
