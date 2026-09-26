@@ -6,9 +6,9 @@
 
 BFF is the reusable business platform shared by all products created through the Business Factory.
 
-Each business idea is a **Business Project**.
+Each commercial idea is a **Business**. A Business can have several independently isolated **Business environments** inside one BFF deployment.
 
-A Business Project can contain any number of technical components:
+A Business can contain any number of technical components:
 
 - web application
 - mobile application
@@ -36,7 +36,7 @@ For example:
 
 BFF provides the reusable **business capabilities**.
 
-The individual Business Project chooses the technology needed for its actual product.
+The individual Business chooses the technology needed for its actual product.
 
 ---
 
@@ -44,7 +44,7 @@ The individual Business Project chooses the technology needed for its actual pro
 
 We should be precise because words such as “app” and “project” are overloaded.
 
-## Business Project
+## Business
 
 A business/product idea being tested.
 
@@ -56,13 +56,35 @@ invoice-assistant
 chess-trainer
 ```
 
-A Business Project contains **everything related to that business idea**.
+A Business contains **everything related to that business idea**.
+
+---
+
+## Business environment
+
+One hard BFF data and authorization boundary for a Business.
+
+Examples:
+
+```text
+tablecards-development
+tablecards-qa
+tablecards-production
+```
+
+Several Business environments may exist in one BFF deployment. Display names are metadata; the stable environment key scopes data and credentials.
+
+---
+
+## BFF deployment
+
+One running Convex backend and database. Development, future staging and production are different deployment lanes. A BFF deployment is infrastructure and is not the same thing as a Business environment.
 
 ---
 
 ## Workload
 
-An independently executable or deployable piece of software belonging to a Business Project.
+An independently executable or deployable piece of software belonging to a Business.
 
 Examples:
 
@@ -80,9 +102,9 @@ These may also technically be Nx projects, but in Business Factory documentation
 
 ---
 
-## Project Library
+## Business Library
 
-Code reusable **inside one Business Project**.
+Code reusable **inside one Business**.
 
 For example:
 
@@ -97,7 +119,7 @@ These libraries should not automatically become global Business Factory librarie
 
 ## Shared BFF Library
 
-Code intentionally reusable across multiple Business Projects.
+Code intentionally reusable across multiple Businesses.
 
 Examples:
 
@@ -259,7 +281,7 @@ The repository structure should reflect reality rather than force every idea int
 
 # Project isolation
 
-A Business Project should feel like its own small repository living inside the monorepo.
+A Business should feel like its own small repository living inside the monorepo.
 
 Everything specific to that business should normally live under:
 
@@ -288,9 +310,9 @@ without searching through unrelated global folders.
 
 ---
 
-# Project manifest
+# Future Business workspace manifest
 
-Each Business Project should probably have a small machine-readable manifest.
+A Business workspace may later have a small machine-readable manifest when a real workload needs it. Build 1 has no Business workspace or manifest.
 
 For example:
 
@@ -301,7 +323,7 @@ name: Bedtime Stories
 status: validating
 
 bff:
-  projectId: proj_xxx
+  businessEnvironmentKey: bedtime-stories-production
 
 workloads:
   web:
@@ -339,7 +361,7 @@ It gives Codex and tooling a predictable place to discover:
 
 # Project documentation
 
-Each Business Project owns its own documentation.
+Each Business owns its own documentation.
 
 Example:
 
@@ -414,7 +436,7 @@ A product workload should **not** import the implementation of:
 - BFF billing
 - BFF database
 - BFF authentication internals
-- another Business Project
+- another Business
 
 Nx tags can eventually enforce rules such as:
 
@@ -434,11 +456,11 @@ We don't need to overengineer the lint rules immediately, but the architectural 
 
 # Technology independence
 
-BFF must not force Business Projects to use the same product technology.
+BFF must not force Businesses to use the same product technology.
 
 This is important.
 
-For example, BFF itself might use one backend technology while a Business Project uses another.
+For example, BFF itself might use one backend technology while a Business uses another.
 
 An idea could use:
 
@@ -480,19 +502,19 @@ BFF
 
 The BFF SDK/API is the stable integration point.
 
-Business Projects should not care how BFF stores its own data.
+Businesses should not care how BFF stores its own data.
 
 Likewise, BFF should not care how a product stores its product-specific data.
 
 ---
 
-# What belongs in BFF versus the Business Project
+# What belongs in BFF versus the Business
 
 The simplest rule is:
 
 > If the concept exists because we run a software business, it probably belongs in BFF.
 
-> If the concept exists because of what this particular product does, it belongs in the Business Project.
+> If the concept exists because of what this particular product does, it belongs in the Business.
 
 For example:
 
@@ -539,20 +561,17 @@ BFF should never need to understand a `Story` or a `ChessMove`.
 
 BFF should contain capabilities that are common across almost every software business and difficult or expensive to retrofit later.
 
-## Business Projects
+## Business environments
 
-BFF has its own representation of every Business Project.
+BFF has one persisted representation of every isolated Business environment.
 
 For example:
 
 ```text
-projects
-project_environments
-project_domains
-project_config
+businessEnvironments
 ```
 
-Every relevant BFF entity should be correctly scoped to a Business Project.
+Build 1 stores only the stable key, Business/environment display names and timestamps. Domains, settings and credentials appear only when an implemented capability needs them. Every future Business-owned BFF entity must be scoped to a Business environment.
 
 ---
 
@@ -560,20 +579,21 @@ Every relevant BFF entity should be correctly scoped to a Business Project.
 
 This should be designed properly in the first version.
 
-Core concepts should include:
+When the first Business-user flow is implemented, its concepts should include:
 
 ```text
-users
+technical_auth_identities
+environment_users
 accounts
 account_memberships
-projects
+business_environments
 ```
 
 A user can participate in multiple accounts.
 
 An account can contain multiple users.
 
-A particular Business Project may expose only single-user accounts today, but the underlying model should not assume this forever.
+A particular Business may expose only single-user accounts today, but the underlying model should not assume this forever.
 
 Conceptually:
 
@@ -592,7 +612,7 @@ Membership can contain:
 - invitation state
 - metadata
 
-Accounts should normally be scoped to a Business Project.
+Accounts should normally be scoped to a Business.
 
 For example:
 
@@ -608,7 +628,7 @@ Business Tool
         Employee 1
 ```
 
-The same person may therefore participate differently in different businesses.
+The same person may therefore participate differently in different environments and Businesses. Provider identities remain private to BFF authentication; each Business environment exposes a different local user ID for that person.
 
 ---
 
@@ -631,7 +651,7 @@ Project C
 Email magic link
 ```
 
-All of these can eventually map into the same BFF identity/account model.
+All of these can eventually map into provider-neutral technical authentication, but authorization and Business-visible user records remain local to one Business environment. The exact Business-user authentication library is chosen by the first owning flow rather than by Build 1.
 
 The product should not need to invent its own core user/account database.
 
@@ -766,8 +786,7 @@ BFF should understand these because they matter to the Business Factory itself.
 Events should carry a consistent context where available:
 
 ```text
-projectId
-environment
+businessEnvironmentKey
 anonymousVisitorId
 sessionId
 userId
@@ -843,7 +862,7 @@ BFF's job is to make that traffic measurable.
 
 # BFF SDK
 
-Business Projects interact with BFF through a stable SDK.
+Businesses eventually interact with BFF through stable public contracts and, when a real caller needs it, a thin SDK. Build 1 creates the contracts but no placeholder SDK.
 
 Conceptually:
 
@@ -853,7 +872,7 @@ bff.accounts
 bff.billing
 bff.entitlements
 bff.analytics
-bff.projects
+bff.businessEnvironments
 bff.config
 ```
 
@@ -884,18 +903,16 @@ Where platform-specific SDK variants are needed, they can share common contracts
 
 BFF has a central backoffice.
 
-The backoffice should provide a view across all Business Projects.
+The backoffice should provide explicitly authorized views across Business environments. Configuration remains in validated operator automation unless an action genuinely needs human judgment.
 
-## Projects
+## Business environments
 
-For every project:
+For every Business environment, beginning with only the fields its active slice owns:
 
-- status
-- workloads
-- domains
-- environments
-- integrations
-- launch date
+- stable key
+- Business name
+- environment name
+- creation and update timestamps
 
 ## Users and accounts
 
@@ -933,7 +950,7 @@ Its purpose is to make the whole factory visible.
 
 # Product-specific marketing assets
 
-Marketing implementation belongs primarily to the Business Project.
+Marketing implementation belongs primarily to the Business.
 
 For example:
 
@@ -967,7 +984,7 @@ but only after actual reuse appears.
 
 # Codex
 
-Codex is responsible for creating and modifying Business Projects.
+Codex is responsible for creating and modifying Businesses.
 
 BFF itself does **not** generate applications.
 
@@ -1035,13 +1052,13 @@ It should not impose unnecessary technologies.
 The skill should eventually cover:
 
 1. Understand the requested business/project.
-2. Create the Business Project folder.
+2. Create the Business folder.
 3. Create `project.yaml`.
 4. Create only the documentation folders actually needed.
 5. Choose/create required workloads.
 6. Apply Nx tags and boundaries.
 7. Integrate the BFF SDK.
-8. Register the project with BFF.
+8. Register each required Business environment with BFF through operator automation.
 9. Configure analytics.
 10. Configure acquisition tracking.
 11. Add authentication if required.
@@ -1053,7 +1070,7 @@ The skill can evolve as we build more products.
 
 ---
 
-# First Business Project
+# First Business
 
 The first project should be intentionally tiny.
 
@@ -1081,7 +1098,7 @@ The reusable foundation is what we are validating.
 
 # Second-project reuse test
 
-Before declaring the MVP complete, Codex should create a second Business Project skeleton.
+Before declaring the MVP complete, Codex should create a second Business skeleton.
 
 It does not need real users or a real launch.
 
@@ -1123,7 +1140,7 @@ The Business Factory MVP is complete when:
 
 The architecture supports:
 
-- multiple Business Projects
+- multiple Businesses
 - users
 - accounts
 - memberships
@@ -1134,7 +1151,7 @@ The architecture supports:
 - analytics
 - acquisition attribution
 
-Business Projects are cleanly separated in the repository.
+Businesses are cleanly separated in the repository.
 
 Each project can independently choose:
 
@@ -1145,7 +1162,7 @@ Each project can independently choose:
 - media tooling
 - infrastructure
 
-One intentionally tiny real Business Project is running in production.
+One intentionally tiny real Business is running in production.
 
 It has:
 
@@ -1202,7 +1219,7 @@ The implementation should roughly break down into:
 8. **BFF backoffice**
 9. **Infrastructure, domains and deployment**
 10. **Codex Business Factory skill**
-11. **First tiny Business Project**
+11. **First tiny Business**
 12. **Production launch and real traffic**
 13. **Second-project reuse test**
 

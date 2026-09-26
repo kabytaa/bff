@@ -1,14 +1,14 @@
 # Provider accounts, access and secrets
 
-Updated: 2026-09-21.
+Updated: 2026-09-26.
 
 This is the manual handoff for [ADR 0001 — Convex-first BFF stack](../architecture/adr/0001-convex-first-bff-stack.md). It records which accounts are needed, when they are needed and how access should be supplied. It must never contain credential values.
 
 ## Immediate answer
 
-No new token is needed to write the repository, scaffold Nx, define the first public contracts, begin the local Convex schema or build the initial support/feedback workflow. Convex is the only provider needed for the first backend slice. Better Auth is installed as code inside Convex and does not require a Better Auth account.
+No new token is needed to implement or deterministically test Build 1 locally. The workspace, contracts, Convex schema/functions, operator authorization, dashboard and browser flow use the repository's local Convex deployment plus mocked identities. Better Auth is not part of Build 1.
 
-The machine already has an authenticated Convex CLI user token and a separate working Convex project under `/root/podcat`. Do not copy that token or reuse the Podcat deployment. Create a new `business-factory` Convex project under the existing account when hosted development begins.
+The machine already has an authenticated Convex CLI user token and a separate working Convex project under `/root/podcat`. Do not copy that token or reuse the Podcat deployment. Build 1 local initialization created the separate `business-factory` Convex project record and a local deployment, but pushed no BFF functions or data to a cloud deployment. Recheck the exact account and create/select only its development deployment when hosted work is explicitly approved.
 
 No Cloudflare/Wrangler credentials were found on this machine. That does not prove an account does not exist; it means account access is not currently connected here.
 
@@ -30,8 +30,8 @@ Do not register Clerk, Apple Developer, PostHog, Resend, Sentry or a helpdesk fo
 
 | Provider | Current evidence | Registration/action | Needed when |
 | --- | --- | --- | --- |
-| Convex | CLI is already authenticated locally | No new personal account expected; create a separate BFF project with dev/prod deployments | Hosted backend development |
-| Google Cloud OAuth | Not confirmed | Use an owned Google Cloud project; configure OAuth branding and create web clients for the required environments | First real login flow |
+| Convex | CLI is authenticated; the separate `business-factory` project record and local deployment exist | No new personal account expected; create/select one BFF cloud development deployment only after approval | Hosted backend development |
+| Google Cloud OAuth | Not confirmed | Create one development web client for the hosted Build 1 operator dashboard; Business-user clients wait for their owning build | Hosted Build 1 verification |
 | Apple Developer | Not confirmed and conditional | Do not register/configure yet; provide access and create Sign in with Apple credentials only when an iOS/App Store or product requirement activates it | Conditional Apple login |
 | Cloudflare | No local credentials/config found | Confirm account and domain; connect Wrangler/plugin or issue a scoped token | First hosted backoffice/domain |
 | Paddle | Seller status not verified here | Continue seller onboarding; create sandbox credentials first, live credentials after approval | Billing implementation and launch |
@@ -57,24 +57,17 @@ Names below are the intended configuration contract. Values remain outside git.
 
 Interactive local development uses the existing CLI login; it does not need `CONVEX_DEPLOY_KEY`. Generate a deploy key scoped only to the BFF production deployment for GitHub Actions. See [Convex deploy keys](https://docs.convex.dev/cli/deploy-key-types).
 
-### Better Auth and Google, when login is implemented
+### Build 1 operator Google OIDC
 
-Better Auth runs in the Convex deployment. Pin its package versions and configure only the Google social provider; do not enable email/password or additional providers. The initial configuration is:
+The hosted backoffice uses Google Identity Services popup mode and passes the short-lived ID token to Convex for verification. It needs a public web client ID and exact authorized JavaScript origins; it does not need a Google client secret or callback URL.
 
 | Name | Exposure | Purpose |
 | --- | --- | --- |
-| `BETTER_AUTH_SECRET` | Secret, Convex environment | Encrypts/signs Better Auth session material |
-| `SITE_URL` | Public configuration, Convex environment | Identifies the allowed frontend origin for the current environment |
-| `GOOGLE_CLIENT_ID` | OAuth identifier, Convex environment | Identifies the Google OAuth web client |
-| `GOOGLE_CLIENT_SECRET` | Secret, Convex environment | Authenticates the OAuth client to Google |
+| `VITE_GOOGLE_CLIENT_ID` | Public frontend configuration | Initializes Google Identity Services |
+| `GOOGLE_CLIENT_ID` | Public identifier, Convex environment | Restricts accepted token audience |
+| `BFF_OPERATOR_IDENTITIES` | Private server configuration, Convex environment | Fixed JSON allowlist of verified `(issuer, subject)` operator pairs |
 
-Create development and production OAuth clients/configuration separately. Register the exact callback generated from the environment's Convex site URL:
-
-```text
-https://<deployment>.convex.site/api/auth/callback/google
-```
-
-Google requires an OAuth client ID plus configured branding/consent details. A production OAuth app needs an owned domain, public home page, privacy policy and terms links. Request only basic identity scopes for login; do not request Google API access scopes until a product feature needs them. See [Google Identity setup](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid), [Google OAuth policies](https://developers.google.com/identity/protocols/oauth2/policies) and the [Convex Better Auth React guide](https://labs.convex.dev/better-auth/framework-guides/react).
+For development, authorize the exact localhost and Cloudflare `workers.dev` origins. Request only basic identity. The browser keeps the ID token in memory; do not record it or the operator allowlist in repository files. Production OAuth branding/domain requirements wait for production. See [Google Identity setup](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid) and [Google OAuth policies](https://developers.google.com/identity/protocols/oauth2/policies).
 
 Do not add Apple credential names or placeholders until Apple login is activated. At that point configure the Apple Service ID/app capability, Team ID, Key ID and private key in the relevant deployment's secret store; never commit the private key. Apple login uses the same BFF auth adapter, so enabling it must not change BFF user/account IDs or public session contracts.
 
@@ -138,13 +131,15 @@ Every example environment file must contain names and placeholders only. Add rep
 ## Setup sequence
 
 1. Start **Build 1 — Foundation** locally with no new credentials.
-2. From the existing Convex login, create the separate BFF project and select its development deployment.
-3. When the first product adds login, configure Better Auth in Convex, create the Google OAuth clients/branding and set the development/production secrets separately.
-4. When the first product adds a paid gate, use Paddle sandbox credentials; keep live credentials blocked on seller/domain approval.
-5. Confirm Cloudflare account/domain access before the first public backoffice or product deployment.
-6. Generate narrowly scoped CI deploy credentials only after the manual deployment path works.
-7. Before launch, confirm the monitored public support address; do not create a helpdesk account for the initial BFF support inbox.
-8. Add Apple login, PostHog, Resend or Sentry only when an implemented workflow or platform rule needs them.
+2. Complete and validate the entire local gate with local Convex and deterministic identities.
+3. After explicit approval, create/select the BFF Convex cloud development deployment inside the existing `business-factory` project record and create the initial Cloudflare backoffice origin.
+4. Create the development Google web client for those exact origins, bootstrap Andrew's verified operator identity and store the allowlist only in Convex deployment configuration.
+5. When the first product adds login, choose and configure the Business-user authentication mechanism separately.
+6. When the first product adds a paid gate, use Paddle sandbox credentials; keep live credentials blocked on seller/domain approval.
+7. Confirm Cloudflare account/domain access before the first production backoffice or product deployment.
+8. Generate narrowly scoped CI deploy credentials only after the manual deployment path works.
+9. Before launch, confirm the monitored public support address; do not create a helpdesk account for the initial BFF support inbox.
+10. Add Apple login, PostHog, Resend or Sentry only when an implemented workflow or platform rule needs them.
 
 ## Account ownership rules
 

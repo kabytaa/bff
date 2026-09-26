@@ -5,7 +5,17 @@ Use this structure for `.agent/plans/{kebab-case-feature-name}.md`. Replace ever
 ````markdown
 # Feature: {Feature Name}
 
+> **Status**: Draft — Awaiting review
+> **Created**: {YYYY-MM-DD}
+> **Last updated**: {YYYY-MM-DD}
+> **Repository baseline**: `{inspected commit}`
+> **Source brainstorm**: [{brainstorm title}]({repository-relative path}), accepted {date}, or `None — direction supplied directly by the user`
+>
 > Implementation plan based on the repository state inspected on {date}. Re-verify referenced files, versions, and external documentation if the repository changes before implementation.
+
+## Repository Context Snapshot
+
+{Concise historical snapshot of implementation state, active `STATUS.md` handoff, canonical decisions and important gaps when the plan was created. Do not silently rewrite this section to match later repository state; record later changes in Document History.}
 
 ## Feature Description
 
@@ -188,6 +198,12 @@ Run from `{working directory}` unless noted.
 ## Notes
 
 {Important context, rejected alternatives, rollout or rollback considerations}
+
+## Document History
+
+| Date | Status | Change |
+| --- | --- | --- |
+| {YYYY-MM-DD} | Draft — Awaiting review | Initial implementation-ready plan created from the accepted direction. |
 ````
 
 ## Final quality check
@@ -204,3 +220,4 @@ Before reporting completion, confirm:
 - Risks, security boundaries, migration needs, and failure modes are included when relevant.
 - Assumptions and unresolved decisions are visible.
 - Another implementer could execute the plan without repeating the discovery work.
+- Metadata, context snapshot and document history preserve when and from which repository state the plan was produced.

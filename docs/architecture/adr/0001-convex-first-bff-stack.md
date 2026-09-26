@@ -4,11 +4,13 @@
 - **Date:** 2026-09-21
 - **Decision owner:** Andrew
 - **Implementation owner:** Codex
-- **Scope:** Business Factory Foundation (BFF), not every Business Project
+- **Scope:** Business Factory Foundation (BFF), not every Business workload
+
+> **Partially superseded 2026-09-25:** [ADR 0002](0002-business-environments-and-operator-auth.md) replaces the `projects` registry, Build 1 operator-authentication and global-user assumptions. The stack, ownership boundary and incremental-delivery decisions below remain accepted.
 
 ## Context
 
-BFF needs a reusable backend, public SDK and central backoffice for many small Business Projects. The founder's scarce resource is operating time, so the MVP should minimize infrastructure and deployment work without coupling every product to the same technology.
+BFF needs a reusable backend, public SDK and central backoffice for many small Businesses. The founder's scarce resource is operating time, so the MVP should minimize infrastructure and deployment work without coupling every product to the same technology.
 
 The original Business Factory blueprint proposed separate Next.js, Vercel and Supabase projects. The current architecture supersedes that topology with one Nx monorepo and a centralized BFF service. The machine and Google Drive also contain substantial prior Convex research and a working Convex backend in the separate Podcat project. Reusing that experience materially reduces implementation and operating risk.
 
@@ -20,7 +22,7 @@ Use Convex as the primary BFF server runtime and database for the MVP.
 | --- | --- |
 | Workspace | Nx, pnpm and TypeScript |
 | BFF functions, database, jobs and webhooks | Convex |
-| User authentication | Better Auth hosted in Convex; enable Google only for the first login flow |
+| Authentication | Direct Google OIDC for the fixed Build 1 operator dashboard; choose Business-user auth in Build 2 |
 | Authorization, accounts and memberships | BFF data and server-side Convex function checks |
 | Public integration | Versioned JSON/HTTP API and technology-neutral TypeScript SDK |
 | BFF backoffice | React, Vite and Tailwind |
@@ -62,7 +64,7 @@ The exact folders may be adjusted during **Build 1 — Foundation**, but public 
 
 ## Technology boundary
 
-Business Projects must integrate through BFF contracts, not import files from the Convex service.
+Business workloads must integrate through BFF contracts, not import files from the Convex service.
 
 - Browser and mobile callers authenticate through the BFF auth adapter and use the public BFF SDK.
 - Server workloads use a project/environment-scoped service credential.
@@ -94,22 +96,26 @@ For every method, derive identity from the verified token rather than request fi
 
 ## Identity and trusted request flow
 
-Clerk is not required for the MVP. During **Build 2 — Shared MVP**, use [Better Auth with the Convex component](https://labs.convex.dev/better-auth/framework-guides/react) as the session and OAuth layer running in the BFF Convex deployment. Enable only Google login. Do not enable passwords, magic links, email OTP or other social providers without a real product requirement.
+The Build 1 operator flow and the future Business-user invariants are defined by [ADR 0002](0002-business-environments-and-operator-auth.md). Authentication is boundary-specific: public health is anonymous, protected backoffice reads require verified Google OIDC plus the operator allowlist, internal registry mutations require authenticated deployment access, and later Business callers receive Business-environment-bound credentials.
 
-Better Auth is a code dependency, not another hosted identity account. It avoids a separate identity vendor while still handling OAuth callbacks, provider account records and sessions. Pin compatible package versions and keep it behind `platform/bff/libs/auth`; products consume the BFF session/API contract, not Better Auth internals. Convex Auth is also provider-free but remains beta and may change incompatibly, so it is not the default. See [Convex authentication](https://docs.convex.dev/auth/overview).
+The material below records the superseded Business-user proposal and is retained as historical context. Better Auth is no longer preselected; its current fit is reassessed when Build 2 owns a real login flow.
+
+The earlier proposal rejected Clerk and selected [Better Auth with the Convex component](https://labs.convex.dev/better-auth/framework-guides/react) as the session and OAuth layer for **Build 2 — Shared MVP**, initially with Google only. ADR 0002 supersedes that selection; Build 2 must compare the then-current supported options before choosing the Business-user mechanism.
+
+The rationale was that Better Auth is a code dependency rather than another hosted identity account and could handle OAuth callbacks, provider account records and sessions. Convex Auth was also considered but was beta at the time. These observations are historical inputs, not a current package or placement decision. See [Convex authentication](https://docs.convex.dev/auth/overview).
 
 Google is the only initial external identity provider. Create its OAuth client only when the first login flow is implemented. Apple login remains disabled for the web MVP. Add it when a selected product needs it or before an iOS App Store launch that uses Google for the primary account and does not qualify for an exception under [App Review Guideline 4.8](https://developer.apple.com/app-store/review/guidelines/#login-services).
 
 The identity model is multi-provider even while only Google is enabled: a stable BFF user can own multiple provider-qualified identity mappings. Adding a provider must not replace the internal user ID or change accounts, memberships or public session contracts. Provider enablement and account-linking UX remain incremental work and are not reasons to add unused flows now.
 
-Trusted user flow:
+The superseded proposed user flow was:
 
 1. The product starts Google login through the BFF auth adapter.
-2. Google returns to the Better Auth callback hosted by Convex.
-3. Better Auth verifies the OAuth response and establishes the session.
+2. Google returns to an authentication callback hosted by Convex.
+3. The selected Business-user authentication mechanism verifies the response and establishes the session.
 4. Convex validates the authenticated request and exposes the verified identity.
 5. BFF maps `(issuer, subject)` to its own stable internal user.
-6. Every function verifies the requested project, environment, account and membership before reading or changing data.
+6. Every function verifies the requested Business environment, account and membership before reading or changing data.
 
 Do not use an email address as proof of identity. The Podcat `signInOrCreate` email lookup is product prototype code, not a reusable authentication pattern.
 
@@ -131,8 +137,8 @@ Implement in capability-sized slices:
 
 | Task/capability | Add only these likely collections | Defer from that slice |
 | --- | --- | --- |
-| Project registry | Start with `projects`; keep environment configuration on the project until it needs an independent lifecycle/query | Users, billing and analytics |
-| First login/account flow | `users`, `authIdentities`, `accounts`, `memberships`; map each verified `(issuer, subject)` to a stable BFF user | Account-linking UI, invitations and elaborate roles until a workflow needs them |
+| Business-environment registry | Start with `businessEnvironments`; one row is one isolated environment and is managed by internal operator automation | Users, settings, credentials, billing and analytics |
+| First login/account flow | Add only the provider-neutral technical identities and environment-local users/accounts/memberships used by the first Business flow | Account-linking UI, invitations and elaborate roles until a workflow needs them |
 | First support/feedback flow | `supportRequests`; keep one user message, one operator response and current status on the request | Threads, attachments, knowledge bases, AI automation and external helpdesk synchronization |
 | First Paddle checkout/paid gate | Always add `webhookReceipts`; add only the billing customer, transaction, subscription and entitlement collections used by the chosen one-time or recurring offer | Generic catalog tables, unused billing states, usage counters and multiple-provider abstractions beyond a clean adapter |
 | First acquisition funnel | Start with `businessEvents`; add anonymous visitors/sessions only when pre-login attribution needs them | General event warehouse and campaign management |
@@ -195,7 +201,7 @@ Convex does not provide SQL joins or general ad-hoc relational reporting. Use in
 - Create a new Convex project for Business Factory; do not reuse Podcat.
 - Use separate Convex development and production deployments.
 - Add preview deployments only when CI or review workflows need them.
-- Keep environment-specific Google OAuth, auth-session, Paddle, optional analytics and domain configuration separate.
+- Keep BFF-deployment Google/OIDC, Business-auth, Paddle, optional analytics and domain configuration separate.
 - Use a production-scoped `CONVEX_DEPLOY_KEY` in CI; the existing personal CLI token is for interactive development only.
 - Deploy the backoffice as static React assets on Cloudflare Workers. It talks to BFF through the public endpoint or an internal backoffice client.
 - Use Convex's generated domains during development. A Convex custom API domain requires Professional and can wait until launch.
@@ -205,8 +211,8 @@ Convex does not provide SQL joins or general ad-hoc relational reporting. Use in
 The intended pre-launch baseline is zero provider subscription cost:
 
 - Convex Free for development
-- Better Auth runs in Convex; no separate hosted authentication subscription
-- Google OAuth credentials when login is introduced
+- Direct Google OIDC for the tiny operator dashboard has no separate authentication subscription
+- The public Google web client ID when the hosted backoffice is verified
 - Cloudflare Free for static assets/DNS within its limits
 - No PostHog account until product interaction analytics require it
 - No Resend account until a transactional email flow requires it
@@ -230,7 +236,7 @@ Tradeoffs:
 - No SQL or general join/aggregation layer
 - Function-level authorization requires disciplined reusable guards
 - Production backups/custom domains require a paid Convex plan
-- The Convex Better Auth component and pinned Better Auth version add an upgrade surface
+- The future Business-user authentication choice adds an upgrade surface once selected in Build 2
 
 Required guardrails:
 
@@ -254,11 +260,11 @@ These provide managed user administration and broader authentication features, b
 
 ### Convex Auth
 
-It also avoids a hosted identity vendor and is the quickest Convex-native option, but Convex currently labels it beta and warns that it may change incompatibly. Better Auth is selected because the provider adapter and account model make the Google-first, Apple-later path explicit. Reconsider this choice when **Build 2 — Shared MVP** begins if either integration's current support materially changes.
+It also avoids a hosted identity vendor and was the quickest Convex-native option, but Convex labeled it beta when this ADR was written. The original decision preferred Better Auth; ADR 0002 reopens the choice for **Build 2 — Shared MVP**.
 
 ### Direct Google token handling
 
-Calling Google directly without a session/authentication library appears smaller but would make BFF responsible for callback security, state/nonce validation, sessions, rotation, logout and account linking. That is security-sensitive custom infrastructure and is not selected.
+Calling Google directly for general Business-user authentication appears smaller but would make BFF responsible for callback security, state/nonce validation, sessions, rotation, logout and account linking. That security-sensitive product-auth choice remains deferred. Build 1's fixed operator dashboard is narrower: Convex verifies a short-lived Google ID token and the BFF applies a server-side operator allowlist, without implementing product sessions or account linking.
 
 ### Fastify on the existing VPS
 
@@ -277,5 +283,5 @@ Re-evaluate this ADR if any of the following occurs:
 - Required residency, compliance, backup or SLA guarantees are unavailable.
 - A product needs direct BFF access from an unsupported runtime and the HTTP boundary is insufficient.
 - Repeated authorization or data-model friction shows the document model is the wrong fit.
-- The Better Auth Convex component proves unstable, incompatible with a required client, or costly to maintain.
+- The selected Business-user authentication mechanism proves unstable, incompatible with a required client or costly to maintain.
 - Vendor exit requirements become a near-term business constraint.

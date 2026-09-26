@@ -1,41 +1,40 @@
 # Business Factory Handoff
 
-Updated: 2026-09-24.
+Updated: 2026-09-26.
 
 ## Current state
 
-- Planning is aligned; application implementation has not started.
-- TableCards is the first Business Project.
-- Product scope is canonical in [the TableCards MVP specification](docs/products/tablecards-mvp.md).
-- Delivery order and the focused regression policy are in [the MVP delivery plan](docs/factory/mvp-delivery-plan.md).
-- The accepted stack is Nx/pnpm/TypeScript, Convex, Better Auth with Google initially, Cloudflare and Paddle.
+- [Build 1 Foundation](.agent/plans/build-1-foundation.md) is **locally complete**; hosted verification remains approval-gated and has not been executed.
+- The Nx workspace contains five real projects: public contracts, Convex BFF service, operator CLI, read-only backoffice and backoffice Playwright tests.
+- The only application table is `businessEnvironments`. Public health, protected operator overview and internal create/list/inspect/update operations are implemented.
+- The phone-friendly backoffice is production-built but not hosted. Direct Google OIDC configuration and a fixed server-side operator allowlist are implemented but require a real hosted Google smoke test.
+- Product scope remains canonical in [the TableCards MVP specification](docs/products/tablecards-mvp.md); no TableCards workload, Business-user auth, billing, accounts or speculative SDK/domain tables were added.
 
 ## Last completed
 
-- Replaced the old one-time-purchase TableCards concept with Free, Personal Pro and Studio subscriptions.
-- Fixed Studio at up to 20 seats with explicit invitations and no domain joining or per-seat billing.
-- Required Google sign-in for the generator while keeping BFF identity provider-neutral for future login methods.
-- Fixed the first output at four 3.5 × 2 inch folded tent cards per US Letter sheet.
-- Split the design catalog into three free designs, a paid premium library and paid custom background presets.
-- Clarified that Nirvana contains only Andrew's genuine offline/personal blockers.
+- Passed the final `pnpm check`: formatting, lint, Nx boundaries, type checks, 24 unit/component tests, 14 Convex integration tests, four production builds, bundle leak assertion, secret scan and desktop/phone Playwright checks.
+- Passed a frozen-lockfile install, peer-dependency check, local Convex function push, live local health request, operator CLI smoke sequence and Cloudflare `wrangler deploy --dry-run` without uploading assets.
+- Added GitHub Actions with the same deterministic gate and no provider secrets or deployment step.
+- Reconciled the architecture, delivery plan and provider guidance through [ADR 0002](docs/architecture/adr/0002-business-environments-and-operator-auth.md).
+- Added the [local development](docs/operations/build-1-local-development.md) and [hosted verification](docs/operations/build-1-hosted-verification.md) runbooks.
+- Added a standing repository rule to assess local documentation whenever an Nx project is created or materially expanded, while avoiding boilerplate READMEs and unnecessary nested instructions.
+- Local Convex setup created the separate `andrew-tofler/business-factory` project record and ignored local deployment. No BFF functions or data were pushed to a cloud deployment.
 
 ## Next moves
 
-1. Confirm the remaining Free boundary: recommended clean PDF with no watermark; paid value is premium/custom designs, saved presets and collaboration.
-2. Choose the smallest Studio invitation delivery method without adding transactional email prematurely.
-3. Create the implementation-ready plan for **Build 1 — Foundation**.
-4. Execute Build 1: Nx workspace, minimal Convex BFF/project registry, public contracts, test harness and CI baseline.
-5. Continue through auth/support, TableCards core, subscriptions/teams and deployment in the order defined by the delivery plan.
+1. Review and commit the locally complete Build 1 change set.
+2. Only after explicit approval, run the hosted gate: confirm the existing Business Factory Convex project/cloud development deployment, Cloudflare account/Worker and Google web client; then deploy and perform one real operator sign-in.
+3. After Build 1 hosting is accepted, brainstorm and plan the next delivery slice before implementing it.
 
 ## Human blockers
 
-- Andrew can start or continue Paddle seller verification now.
-- Domain, production Google OAuth credentials and Cloudflare access wait until implementation supplies exact names and callback/deployment values.
-- A physical 100%-scale print and ruler check is required before launch.
+- Hosted Build 1 needs approval for the exact Convex cloud development deployment and Cloudflare Worker, access to the Cloudflare account, one Google web client for the final origins and one real operator sign-in. No client secret is needed.
+- Andrew can continue Paddle seller verification independently; Paddle is not a Build 1 dependency.
+- A physical 100%-scale TableCards print and ruler check remains required before product launch, not for Build 1.
 
 ## Guardrails
 
-- Add models and APIs only when the active implementation slice uses them.
-- Keep browser regression focused on important happy flows; prove edge cases and denials at unit/integration level.
-- Do not treat pricing or demand as validated.
-- Do not build generic marketing automation; decide TableCards acquisition and attribution when launch planning begins.
+- Do not deploy or create provider resources merely because local validation passed.
+- Never store provider credentials, Google identity values or operator allowlists in git.
+- Keep repeatable configuration in the operator CLI, essential state read-only in the backoffice and human-judgment actions in the appropriate web workflow.
+- Add models and APIs only when their owning implementation slice has a real caller and denial tests.

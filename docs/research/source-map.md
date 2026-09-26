@@ -110,7 +110,7 @@ Machine-specific paths are recovery clues only. Repository documents and linked 
 ## Current reconciliation
 
 - **Accepted BFF backend:** Convex.
-- **Accepted authentication approach:** Better Auth hosted in Convex, with Google as the only initial identity provider; Clerk is not required and Apple is conditional.
+- **Accepted authentication approach:** Build 1's fixed operator dashboard uses direct Google OIDC plus a server-side allowlist. Build 2 selects the supported Business-user mechanism behind the BFF adapter, with Google as the only initial provider; Clerk is not required and Apple is conditional.
 - **Accepted web/DNS provider:** Cloudflare for static assets and DNS, not the BFF database.
 - **Accepted billing provider:** Paddle.
 - **Accepted MVP support approach:** BFF/Convex support requests, manual backoffice triage and user-visible responses, with a public support-address fallback; AI automation is later.

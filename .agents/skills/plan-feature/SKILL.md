@@ -1,11 +1,19 @@
 ---
 name: plan-feature
-description: Create implementation-ready feature plans through deep repository analysis and targeted official research without writing code. Use when a feature direction is sufficiently decided and the user wants a comprehensive, evidence-backed plan; do not use for open-ended brainstorming or direct implementation.
+description: Create implementation-ready feature plans from an explicitly accepted direction through deep repository analysis and targeted official research, without writing code. Use after brainstorming is approved or the user otherwise provides a settled direction; do not use for open-ended exploration or direct implementation.
 ---
 
 # Plan Feature
 
 Transform the requested feature into a context-rich plan that another developer or agent can implement without rediscovering repository patterns. The only file this workflow creates or changes is the plan document.
+
+## Confirm the handoff
+
+- When planning follows a repository brainstorm, read the complete matching file in `.agent/brainstorms/` before planning.
+- Verify that the user explicitly accepted the overall brainstorm direction and asked to proceed to planning. Approval of one option or answer is not an automatic handoff.
+- Carry accepted decisions and exclusions into the plan. Do not silently reopen them or replace them with a preferred implementation.
+- If a consequential product, scope, or architecture question remains unresolved, return it to discussion instead of hiding it as a planning assumption.
+- If no brainstorm exists, planning may proceed when the user's request itself gives a sufficiently settled direction.
 
 ## Establish the feature
 
@@ -52,6 +60,8 @@ Before writing, read [references/plan-template.md](references/plan-template.md).
 
 Use a concise feature name derived from the request. Update an existing plan when the request clearly continues the same feature. Preserve still-valid evidence and revise stale conclusions rather than creating a duplicate.
 
+Record the plan's lifecycle status, creation/update dates, inspected repository commit, source brainstorm and a concise repository-status snapshot. Preserve that snapshot as historical context. If later repository changes require a revised plan, append a dated context/revision note; if the accepted direction is materially replaced, mark the old plan `Superseded` and link to its successor rather than deleting it.
+
 The plan must be self-contained but not repetitive. Omit inapplicable subsections only when the omission is obvious; explicitly state meaningful gaps such as missing tests, absent logging conventions, or unresolved provider access.
 
 After writing the plan, report:
@@ -61,6 +71,10 @@ After writing the plan, report:
 3. the complexity assessment
 4. key risks or unresolved decisions
 5. a 1–10 confidence score for one-pass implementation, with the reason for any deduction
+
+Treat the completed plan as a review artifact. Do not begin implementation until the user explicitly asks to execute it.
+
+After implementation, retain the plan and mark its lifecycle status `Completed` with the completion date. `STATUS.md` remains the live handoff; the plan records what was intended and known at planning time.
 
 ## Boundaries
 

@@ -1,0 +1,28 @@
+{
+  "name": "bff-backoffice-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "platform/bff/backoffice-e2e/src",
+  "projectType": "application",
+  "tags": ["scope:bff", "type:e2e"],
+  "implicitDependencies": ["bff-backoffice"],
+  "targets": {
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config platform/bff/backoffice-e2e/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint platform/bff/backoffice-e2e --max-warnings 0"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/backoffice-e2e/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

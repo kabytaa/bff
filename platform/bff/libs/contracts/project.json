@@ -1,0 +1,34 @@
+{
+  "name": "bff-contracts",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "platform/bff/libs/contracts/src",
+  "projectType": "library",
+  "tags": ["scope:public", "type:contract"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/libs/contracts/tsconfig.lib.json"
+      },
+      "outputs": ["{workspaceRoot}/dist/platform/bff/libs/contracts"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint platform/bff/libs/contracts --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config platform/bff/libs/contracts/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/libs/contracts/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

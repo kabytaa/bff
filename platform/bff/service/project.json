@@ -1,0 +1,33 @@
+{
+  "name": "bff-service",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "platform/bff/service/convex",
+  "projectType": "application",
+  "tags": ["scope:bff", "type:service"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/service/tsconfig.json --noEmit"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint platform/bff/service --max-warnings 0"
+      }
+    },
+    "test-integration": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config platform/bff/service/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p platform/bff/service/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

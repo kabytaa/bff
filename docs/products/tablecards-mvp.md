@@ -72,12 +72,12 @@ There is no freeform design studio, vector editor, design marketplace, logo syst
 
 - The landing and policy pages are public; using the generator requires authentication.
 - Google is the only enabled login provider in version one.
-- A BFF user has a stable internal ID independent of Google.
-- External identities are provider-qualified mappings such as `(issuer, subject)`, and one BFF user may eventually have multiple identities.
-- Adding Apple or another provider later must not change product user IDs, account IDs, memberships or public BFF contracts.
+- A TableCards user has a stable Business-environment-local ID independent of Google.
+- External identities are provider-qualified technical mappings such as `(issuer, subject)` and remain private to BFF authentication; the same person may eventually authenticate through multiple providers.
+- Adding Apple or another provider later must not change environment-local user IDs, account IDs, memberships or public BFF contracts.
 - Account linking UI and additional providers are deferred until a second provider is actually enabled.
 
-Clerk is not required. Better Auth remains behind the BFF authentication adapter as specified by ADR 0001.
+Clerk is not required. The supported Business-user authentication mechanism is selected in Build 2 behind the BFF authentication adapter; Build 1 does not preselect Better Auth or Convex Auth.
 
 ## Plans and working prices
 

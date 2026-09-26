@@ -55,13 +55,13 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 
 ### Build 1 — Foundation
 
-Create the Nx workspace, ownership boundaries, minimal Convex BFF service and project registry. Define only the contracts and tables used by the first implemented flow. Establish typecheck, lint, unit/integration testing, Playwright infrastructure, deterministic test data and baseline CI.
+Create the Nx workspace, ownership boundaries, minimal Convex BFF service and operator-managed `businessEnvironments` registry. Add the repository-owned operator CLI and a hosted, phone-friendly, read-only backoffice protected by direct Google OIDC plus a fixed server-side operator allowlist. Define only the contracts and table used by this flow. Establish typecheck, lint, unit/Convex integration testing, a deterministic Playwright dashboard flow, secret scanning and baseline GitHub Actions CI.
 
-Done when the repository runs locally, the BFF health/project path works, validation commands are documented and there are no speculative tables or placeholder SDK modules.
+The required local gate is done when the repository runs without provider accounts, the public health and internal Business-environment paths work, auth denial/allow tests pass, the dashboard browser test passes and validation commands are documented. Hosted verification follows only after Andrew authorizes one Convex development deployment, Cloudflare site and public Google web client. No speculative tables, TableCards code or placeholder SDK modules belong in Build 1.
 
 ### Build 2 — Shared MVP
 
-Add Better Auth in the BFF Convex deployment with Google as the only enabled login provider. Keep stable BFF users separate from provider-qualified identities so another provider can be attached later without changing product identity. Implement only the account and membership shapes TableCards uses. Add support/feedback submission and status, an operator queue/response, and the corresponding thin typed SDK paths. Verify authorization boundaries and the support lifecycle.
+Choose the current supported Business-user authentication mechanism and enable Google as the only MVP provider. Keep provider-qualified technical identities private to BFF auth and create a distinct local user row in each Business environment the person accesses. Implement only the account and membership shapes TableCards uses, with short-lived environment-bound user credentials. Add support/feedback submission and status, an operator queue/response, and the corresponding thin typed SDK paths. Verify authorization, cross-environment denial and the support lifecycle.
 
 Done when a Google-authenticated user can submit an issue or feedback and Andrew can review and respond from the minimal backoffice. Apple, Resend and PostHog are not prerequisites.
 

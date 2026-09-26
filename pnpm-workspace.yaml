@@ -1,0 +1,35 @@
+packages:
+  - platform/**
+  - tools/**
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  nx: true
+  unrs-resolver: true
+  workerd: true
+
+minimumReleaseAgeExclude:
+  - '@cloudflare/workerd-darwin-64@1.20260925.1'
+  - '@cloudflare/workerd-darwin-arm64@1.20260925.1'
+  - '@cloudflare/workerd-linux-64@1.20260925.1'
+  - '@cloudflare/workerd-linux-arm64@1.20260925.1'
+  - '@cloudflare/workerd-windows-64@1.20260925.1'
+  - '@secretlint/config-creator@13.0.6'
+  - '@secretlint/config-loader@13.0.6'
+  - '@secretlint/core@13.0.6'
+  - '@secretlint/formatter@13.0.6'
+  - '@secretlint/node@13.0.6'
+  - '@secretlint/profiler@13.0.6'
+  - '@secretlint/resolver@13.0.6'
+  - '@secretlint/secretlint-rule-preset-recommend@13.0.6'
+  - '@secretlint/source-creator@13.0.6'
+  - '@secretlint/types@13.0.6'
+  - '@secretlint/walker@13.0.6'
+  - '@vitest/mocker@5.0.2'
+  - '@vitest/spy@5.0.2'
+  - miniflare@5.20260925.0-alpha
+  - secretlint@13.0.6
+  - vitest@5.0.2
+  - workerd@1.20260925.1
+  - wrangler@4.141.0
