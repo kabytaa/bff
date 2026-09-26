@@ -6,6 +6,7 @@ import {
 import type { AuthConfig } from 'convex/server';
 
 const JWKS_DATA_URI_PREFIX = 'data:application/json;base64,';
+const DEVELOPMENT_AUTOMATION_DISABLED = 'disabled';
 
 interface DevelopmentAutomationConfig {
   audience?: string;
@@ -94,9 +95,23 @@ export function buildAuthConfig({
   const normalizedAudience = audience?.trim();
   const normalizedJwks = jwks?.trim();
   if (!normalizedAudience && !normalizedJwks) return { providers };
+  if (
+    normalizedAudience === DEVELOPMENT_AUTOMATION_DISABLED &&
+    normalizedJwks === DEVELOPMENT_AUTOMATION_DISABLED
+  ) {
+    return { providers };
+  }
   if (!normalizedAudience || !normalizedJwks) {
     throw new Error(
       'Development automation audience and JWKS must be configured together',
+    );
+  }
+  if (
+    normalizedAudience === DEVELOPMENT_AUTOMATION_DISABLED ||
+    normalizedJwks === DEVELOPMENT_AUTOMATION_DISABLED
+  ) {
+    throw new Error(
+      'Development automation must be fully enabled or explicitly disabled',
     );
   }
 

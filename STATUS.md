@@ -11,7 +11,7 @@ Updated: 2026-09-26.
 - Product scope remains canonical in [the TableCards MVP specification](docs/products/tablecards-mvp.md); no TableCards workload, Business-user auth, billing, accounts or speculative SDK/domain tables were added.
 - An active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md) records the incubation-to-brand model. KooMasha is the actual developer/operator; Tofler is its software domain family. Andrew owns `tofler.tech` and `tofler.app`; `.app` is customer-facing and `.tech` internal/operator/technical. Stable development uses explicit `-dev` hostnames: Build 1 development uses `ops-dev.tofler.tech`, while production is live at `ops.tofler.tech`.
 - The [production-delivery brainstorm](.agent/brainstorms/260926-production-delivery.md) is accepted, and its [implementation plan](.agent/plans/260926-production-delivery.md) is completed. GitHub run `36243427909` passed validation, Convex deploy/version stamping, Cloudflare publication and automated production smoke for commit `2c25226`; Andrew then confirmed authenticated production access.
-- The accepted [automated-development-auth brainstorm](.agent/brainstorms/260926-automated-development-auth.md) and [implementation plan](.agent/plans/260926-automated-development-auth.md) now have a development-verified implementation: Codex can mint a two-minute ES256 token for a dedicated automation identity and verify the real protected `ops-dev` overview on demand. Production remains Google-only.
+- The accepted [automated-development-auth brainstorm](.agent/brainstorms/260926-automated-development-auth.md) and [implementation plan](.agent/plans/260926-automated-development-auth.md) now have a development-verified implementation: Codex can mint a two-minute ES256 token for a dedicated automation identity and verify the real protected `ops-dev` overview on demand. Production remains Google-only. Source commit `e733e3a` passed GitHub validation, but its production deployment stopped before mutation because Convex requires every environment variable referenced by `auth.config.ts`; a fail-closed explicit-disabled fix is in progress.
 
 ## Last completed
 
@@ -42,7 +42,7 @@ Updated: 2026-09-26.
 
 ## Next moves
 
-1. Complete the final post-cleanup gate and diff audit for automated development authentication, then obtain Andrew's approval to commit and push. Require the normal main production workflow and production-absence checks before marking the plan completed.
+1. Complete the explicit-disabled Convex auth-config fix, rerun the repository gate, release it through the normal main workflow and prove production remains Google-only before marking automated development authentication completed.
 2. Finish or supersede the active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md), then select the next MVP slice before creating its implementation plan.
 3. Reassess per-Business Cloudflare tokens only when real usage, collaborators or sensitive infrastructure increase the shared token's impact.
 4. Keep the current development and production backoffices as functional operator surfaces; treat visual redesign as separate scoped work if it becomes valuable.

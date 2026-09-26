@@ -1,6 +1,6 @@
 # Feature: Automated Development Authentication
 
-> **Status**: Implemented and development-verified — Awaiting source release
+> **Status**: Implemented and development-verified — Source release fix-forward in progress
 > **Created**: 2026-09-26
 > **Last updated**: 2026-09-26
 > **Repository baseline**: `eed726ce95df1f37bda477d521d84228c6a5c228`
@@ -15,6 +15,7 @@
 - The normal dashboard keeps its Google token only in React memory. The deterministic Playwright entry and `convex-test` authorization suite cover UI and backend logic separately, but Codex cannot authenticate through the hosted development dashboard without Andrew.
 - The accepted brainstorm selected the easiest safe approach: a short-lived signed test identity accepted only by shared development, an on-demand hosted Playwright check, no Google-account automation, no third environment and no development CI/CD.
 - The accepted scope ends at development for the automated identity. The source change still follows the normal reviewed push to `main`; production must deploy successfully with Google as its only configured provider and without the development automation page.
+- The first source-release attempt passed validation but exposed a Convex auth-config limitation: every environment variable accessed by `auth.config.ts` is required in every deployment, even when application logic treats it as optional. Production therefore uses the explicit non-secret value `disabled` for both development-automation settings; the auth builder interprets only that exact pair as Google-only and rejects partial or mixed configuration.
 - At planning time, the accepted brainstorm and short `STATUS.md` handoff are modified but uncommitted. No application code, dependency, credential or provider configuration has changed for this feature.
 
 ## Feature Description
@@ -45,7 +46,7 @@ The first version runs only on demand and asserts the real protected overview lo
 - **Complexity**: Medium — the code is bounded, but it crosses Convex auth configuration, signed credential handling, a second Vite entry, hosted Playwright and development deployment safety.
 - **Systems Affected**: `@bff/static-config`, Convex auth configuration, backoffice bootstrap/build, backoffice Playwright project, development Convex deployment, development Cloudflare Worker, operator documentation.
 - **Dependencies**: Add `jose@6.2.12` as a pinned development dependency; existing Convex `1.46.0`, Playwright `1.63.0`, Vite `8.3.1`, Node.js 24 and Cloudflare tooling remain unchanged.
-- **Assumptions**: The currently authenticated Convex and Cloudflare CLI sessions retain access to the named development resources; production has no `BFF_DEVELOPMENT_AUTOMATION_JWKS` variable; the dedicated automation issuer-and-subject pair is accepted only after Convex authenticates the development JWT; no hosted development test runs in GitHub Actions initially.
+- **Assumptions**: The currently authenticated Convex and Cloudflare CLI sessions retain access to the named development resources; production uses the exact non-secret `disabled` pair for the development automation variables and therefore emits no custom provider; the dedicated automation issuer-and-subject pair is accepted only after Convex authenticates the development JWT; no hosted development test runs in GitHub Actions initially.
 
 ## Required Reading
 
@@ -103,7 +104,7 @@ The first version runs only on demand and asserts the real protected overview lo
 
 The browser currently obtains a Google ID token in `GoogleIdentityProvider`, and `ConvexProviderWithAuth` forwards it to the configured Convex deployment. `App` first calls the public health route, then `currentOperator`, and only calls `overview` after authorization succeeds. The new entry changes only the token source: it supplies a signed development token to the same Convex provider and queries. Convex validates that token before `ctx.auth.getUserIdentity()` reaches the existing allowlist guard.
 
-The custom provider is absent unless both `BFF_DEVELOPMENT_AUTOMATION_JWKS` and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` exist in the selected Convex deployment. Its issuer and subject are reviewed non-secret constants shared by the signer and server; the audience is an exact deployment-specific HTTPS URL. The JWKS is public but deployment-specific; the corresponding private JWK remains only in `.convex/development-auth-private.jwk`. Production does not set either variable, so its generated auth configuration contains only Google.
+The custom provider is enabled only when `BFF_DEVELOPMENT_AUTOMATION_JWKS` contains a valid public key and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` contains an exact canonical HTTPS URL. Its issuer and subject are reviewed non-secret constants shared by the signer and server; the audience is deployment-specific. The JWKS is public but deployment-specific; the corresponding private JWK remains only in `.convex/development-auth-private.jwk`. Because Convex requires every auth-config environment-variable reference in every deployment, production sets both values to the exact non-secret sentinel `disabled`; the generated production auth configuration still contains only Google.
 
 The normal Vite target continues to build `index.html`. An explicit development-auth target additionally builds `index.development-auth.html`; only this output is uploaded to `business-factory-backoffice-dev`. Production CI invokes the existing default production build and bundle assertion, so it cannot publish the automation entry accidentally.
 
@@ -117,7 +118,7 @@ The normal Vite target continues to build `index.html`. An explicit development-
 
 #### Error Handling
 
-- Missing or empty JWKS means Google-only configuration; malformed present JWKS must make the auth configuration/deploy fail rather than silently weaken validation.
+- Missing or empty JWKS remains Google-only in pure tests. A deployed configuration uses either a valid audience/JWKS pair or the exact `disabled`/`disabled` pair; partial, mixed or malformed values must make deployment fail rather than silently weaken validation.
 - Missing, malformed or overly permissive local key files make key generation/signing fail with a bounded message that never prints key material or JWTs.
 - The automation page without an injected, unexpired token shows a bounded configuration failure and never falls back to an unsigned identity.
 
@@ -195,10 +196,10 @@ Execute in dependency order.
 
 ### Task 2: UPDATE Convex auth configuration to fail closed
 
-- **Implement**: Refactor `auth.config.ts` to export a pure config builder for tests. Always configure Google first. Add the ES256 custom provider only when both `BFF_DEVELOPMENT_AUTOMATION_JWKS` and the exact HTTPS `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` are present; a partial or malformed configuration throws during deployment. Use the exact code-owned issuer. Extend the shared operator guard to accept the exact authenticated automation issuer-and-subject pair without adding a fake human email. Add tests proving absent means Google-only, valid means exactly two providers, malformed input fails and near-match automation identities remain forbidden.
+- **Implement**: Refactor `auth.config.ts` to export a pure config builder for tests. Always configure Google first. Add the ES256 custom provider only when both `BFF_DEVELOPMENT_AUTOMATION_JWKS` and the exact HTTPS `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` are valid; the exact `disabled` pair produces Google-only configuration, while partial, mixed or malformed configuration throws during deployment. Use the exact code-owned issuer. Extend the shared operator guard to accept the exact authenticated automation issuer-and-subject pair without adding a fake human email. Add tests proving absent and explicitly disabled mean Google-only, valid means exactly two providers, malformed input fails and near-match automation identities remain forbidden.
 - **Pattern**: `platform/bff/service/convex/auth.config.ts:4` for the current provider; `platform/bff/service/convex/businessEnvironments.test.ts:102` for fail-closed authorization expectations.
 - **Dependencies/Imports**: `AuthConfig` from `convex/server`; automation constants from `@bff/static-config`.
-- **Gotchas**: Do not require the variable in production or local deterministic tests. Do not add a custom function-level bypass; every request must still use `ctx.auth` and `requireOperator`.
+- **Gotchas**: Production must use only the exact `disabled` pair; local deterministic tests may still call the pure builder without values. Do not add a custom function-level bypass; every request must still use `ctx.auth` and `requireOperator`.
 - **Validate**: `corepack pnpm nx run bff-service:test-integration && corepack pnpm nx run bff-service:typecheck`.
 
 ### Task 3: ADD the development-only dashboard entry
@@ -235,7 +236,7 @@ Execute in dependency order.
 
 ### Task 7: PROVISION and verify the named development lane
 
-- **Implement**: After targeted/local validation and explicit target confirmation, generate the local key if absent; set `BFF_DEVELOPMENT_AUTOMATION_JWKS` from the public file and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE=https://ops-dev.tofler.tech/` only on Convex deployment `compassionate-buffalo-689`; confirm both names are absent from production using names-only/read-only inspection; push the tested Convex functions to the selected development deployment. Build with the explicit development-auth Vite target, run Wrangler dry-run, publish only `business-factory-backoffice-dev`, then run the hosted authenticated Playwright command.
+- **Implement**: After targeted/local validation and explicit target confirmation, generate the local key if absent; set `BFF_DEVELOPMENT_AUTOMATION_JWKS` from the public file and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE=https://ops-dev.tofler.tech/` on Convex deployment `compassionate-buffalo-689`; set both values to `disabled` on production so Convex can evaluate the shared auth config without adding the custom provider; push the tested Convex functions to the selected development deployment. Build with the explicit development-auth Vite target, run Wrangler dry-run, publish only `business-factory-backoffice-dev`, then run the hosted authenticated Playwright command.
 - **Pattern**: `docs/operations/build-1-hosted-verification.md:40` for target verification, `:57` for development Convex push and `:69` for Cloudflare development publishing.
 - **Dependencies/Imports**: Existing authenticated Convex and Wrangler sessions; generated ignored key/JWKS files.
 - **Gotchas**: Do not use `--prod`, `wrangler.production.jsonc`, `ops.tofler.tech`, project environment-variable defaults or a GitHub secret. The public JWKS update invalidates previously signed tokens; mint only after the backend push. Report and fix any provider rejection without enabling a bypass.
@@ -243,11 +244,11 @@ Execute in dependency order.
 
 ### Task 8: VALIDATE, release and close the feature
 
-- **Implement**: Run the complete local gate after all source/docs changes, review the diff for key/token leakage, commit locally and present it for Andrew's pre-push review. After approval, push to `main`; require GitHub validation, production Convex/Cloudflare deployment and production public smoke to pass. Confirm the production Convex environment names do not include the development JWKS variable and the production bundle assertion remains green. Update this plan to `Completed` and shorten `STATUS.md` to the verified outcome and next move.
+- **Implement**: Run the complete local gate after all source/docs changes, review the diff for key/token leakage, commit locally and present it for Andrew's pre-push review. After approval, push to `main`; require GitHub validation, production Convex/Cloudflare deployment and production public smoke to pass. Confirm the production auth builder receives the exact `disabled` pair, contains only Google and the production bundle assertion remains green. Update this plan to `Completed` and shorten `STATUS.md` to the verified outcome and next move.
 - **Pattern**: `package.json:14` for `pnpm check`; `.github/workflows/ci.yml:30` for the production completion path; `AGENTS.md:37` for the completion rule.
 - **Dependencies/Imports**: The repository's existing GitHub production environment; no new production secret.
 - **Gotchas**: The feature is intentionally usable only in development, but the source task is not complete until the normal production release proves the test path remains inactive there. A fresh human production Google sign-in is not required because the human provider flow is unchanged; automated production smoke plus the exclusion checks are the release gate.
-- **Validate**: `corepack pnpm check && git diff --check`, followed by a green main workflow and read-only confirmation that production has no development-auth environment variable.
+- **Validate**: `corepack pnpm check && git diff --check`, followed by a green main workflow and read-only confirmation that production has the exact non-secret `disabled` pair and therefore emits no development-auth provider.
 
 ## Testing Strategy
 
@@ -255,7 +256,7 @@ Execute in dependency order.
 
 - Generate an ephemeral ES256 pair, sign a token and verify its signature plus exact issuer, audience, dedicated subject, `kid`, issue time and two-minute expiry.
 - Reject missing, malformed and permissively readable private-key files without exposing contents in the error.
-- Prove the Convex auth config contains only Google without the JWKS variable, adds exactly one custom provider with a valid data URI and throws for malformed non-empty input.
+- Prove the Convex auth config contains only Google when values are absent in a pure test or explicitly disabled for a deployment, adds exactly one custom provider with a valid data URI and throws for malformed or mixed input.
 - Preserve existing dashboard component tests after the sign-in control becomes injectable.
 
 ### Integration Tests
@@ -279,7 +280,7 @@ Execute in dependency order.
 - The automation page is requested without Playwright token injection.
 - Development registry is empty.
 - Default production build accidentally includes an automation filename, marker, issuer or audience.
-- Production environment accidentally acquires the development JWKS variable.
+- Production receives anything other than the exact `disabled` pair for the development-automation settings.
 
 ## Validation Commands
 
@@ -323,7 +324,7 @@ corepack pnpm check
 
 - Confirm the selected Convex target is `andrew-tofler/business-factory` development deployment `compassionate-buffalo-689` before setting the JWKS or pushing functions.
 - Confirm Wrangler identifies the approved account and `platform/bff/backoffice/wrangler.jsonc` still targets only `business-factory-backoffice-dev` / `ops-dev.tofler.tech`.
-- Inspect only Convex environment-variable names to confirm both development automation variables are present in development and absent from production; do not print values.
+- Confirm both development automation variables contain valid public verification configuration in development and the exact non-secret `disabled` value in production; do not print the development JWKS.
 - Confirm the ignored private JWK is mode `0600`, `git check-ignore` recognizes it and `git status --short` never lists it.
 - After the reviewed push, require the GitHub main workflow's validation, production deployment and smoke jobs to pass.
 
@@ -334,7 +335,7 @@ corepack pnpm check
 - [x] The token exists only in test-process/page memory, lasts no more than two minutes and is never logged, placed in a URL, persisted in browser storage or retained in Playwright traces.
 - [x] The private key exists only in an ignored mode-`0600` local file; git, Cloudflare assets, Convex environment configuration and docs contain no private key or token.
 - [x] The normal `ops-dev` Google entry remains available and unchanged for Andrew and his wife.
-- [x] Production configures only Google, has neither development automation variable and ships no development-auth HTML, source marker, issuer or audience.
+- [x] Production configures only Google by using the exact `disabled` pair and ships no development-auth HTML, source marker, issuer or audience.
 - [x] Existing authorization denials, deterministic desktop/phone Playwright and all repository gates continue to pass.
 - [x] The exact development provisioning, rotation, execution and rollback process is documented and runnable by Codex.
 - [ ] The reviewed source reaches `main`; production validation/deployment/smoke is green even though the feature itself is enabled only in development.
@@ -344,7 +345,7 @@ corepack pnpm check
 - **Risk**: The private signer is stolen and used for development operator access.
   - **Mitigation**: Store it only in ignored mode-`0600` local state, bind tokens to exact development issuer/audience, use a two-minute TTL, never persist browser state and document immediate JWKS removal/rotation.
 - **Risk**: The test provider is accidentally enabled in production.
-  - **Mitigation**: Activation requires deployment-specific JWKS and audience variables that remain absent from production; verify names only, keep CI on the default build and reject automation artifacts in the production bundle.
+  - **Mitigation**: Activation requires a valid deployment-specific JWKS and canonical audience; production uses the fail-closed `disabled` pair, CI keeps the default build and the bundle assertion rejects automation artifacts.
 - **Risk**: An automation token leaks into Playwright artifacts or logs.
   - **Mitigation**: Disable hosted traces, inject through `addInitScript`, do not log/attach the token and avoid URL/storage-state transport.
 - **Risk**: Vite multi-entry output or Cloudflare SPA behavior hides an exclusion mistake.
@@ -366,7 +367,7 @@ None. The accepted brainstorm resolved lane, trigger and hosted coverage scope.
 - Rejected: a third hosted test lane, because Andrew explicitly chose the easiest safe option for the current solo phase.
 - Rejected: a function-level fake-auth flag, because it would not exercise Convex token validation and would create a more dangerous bypass.
 - No Business-user authentication decision, service credential, table or public API is introduced.
-- Rollback is development-only: remove `BFF_DEVELOPMENT_AUTOMATION_JWKS` and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` from the exact development deployment, push Convex config, rebuild development with the default Vite target and republish the development Worker. Keeping the now-inert ignored private key is safe; rotate or remove it locally if compromise is suspected.
+- Rollback is development-only: set both `BFF_DEVELOPMENT_AUTOMATION_JWKS` and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` to `disabled` on the exact development deployment, push Convex config, rebuild development with the default Vite target and republish the development Worker. Keeping the now-inert ignored private key is safe; rotate or remove it locally if compromise is suspected.
 
 ## Document History
 
@@ -375,3 +376,4 @@ None. The accepted brainstorm resolved lane, trigger and hosted coverage scope.
 | 2026-09-26 | Draft — Awaiting review | Initial implementation-ready plan created from the accepted simple shared-development direction. |
 | 2026-09-26 | Accepted — Implementation in progress | Andrew approved implementation and the existing development deployment rollout. Replaced human-email impersonation with a dedicated automation identity and recorded one reusable solo-development signer with audience-bound tokens. |
 | 2026-09-26 | Implemented and development-verified — Awaiting source release | Local gates passed, the exact development Convex/Cloudflare lane was provisioned, and the authenticated hosted overview passed. Cleanup additionally bound human email authorization to Google's issuer. Commit, push and the normal production exclusion release remain pending Andrew's review. |
+| 2026-09-26 | Source release fix-forward in progress | Commit `e733e3a` passed validation, but production deployment stopped before mutation because Convex requires every auth-config environment-variable reference. Adopted the explicit `disabled` pair so production remains Google-only while satisfying that platform constraint. |

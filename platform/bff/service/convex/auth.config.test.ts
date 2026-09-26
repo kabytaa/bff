@@ -24,6 +24,18 @@ describe('buildAuthConfig', () => {
     });
   });
 
+  it('configures only Google when development automation is explicitly disabled', () => {
+    const config = buildAuthConfig({
+      audience: 'disabled',
+      jwks: 'disabled',
+    });
+
+    expect(config.providers).toHaveLength(1);
+    expect(config.providers[0]).toMatchObject({
+      domain: 'https://accounts.google.com',
+    });
+  });
+
   it('adds one exact ES256 development provider', () => {
     const config = buildAuthConfig({
       audience: 'https://ops-dev.tofler.tech/',
@@ -43,6 +55,8 @@ describe('buildAuthConfig', () => {
   it.each([
     { audience: 'https://ops-dev.tofler.tech/' },
     { jwks: validJwks },
+    { audience: 'disabled', jwks: validJwks },
+    { audience: 'https://ops-dev.tofler.tech/', jwks: 'disabled' },
     { audience: 'not-a-url', jwks: validJwks },
     {
       audience: 'https://ops-dev.tofler.tech/',

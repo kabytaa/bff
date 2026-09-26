@@ -51,7 +51,11 @@ pnpm exec convex env list \
 pnpm exec convex env list --prod --names-only
 ```
 
-Development must list both automation names. Production must list neither.
+Development and production both list the two names because Convex requires every
+environment variable referenced by `auth.config.ts` to exist. Development holds
+the real public verification configuration. Production holds the exact
+non-secret value `disabled` for both names, which produces a Google-only auth
+configuration.
 
 ## 3. Validate and publish development
 
@@ -86,12 +90,16 @@ Success means the live page used the short-lived signed automation identity, Con
 - Hosted Playwright tracing, screenshots and video are disabled.
 - The token appears only in the test process and page memory for at most two minutes.
 - `pnpm bundle:assert` proves the ordinary production build contains no automation entry, marker, issuer, subject or development URL.
-- Production environment-variable names contain no automation JWKS or audience.
+- Production sets both automation values to the exact non-secret sentinel
+  `disabled`; the auth-config tests prove this emits only Google.
 
 ## Verification result — 2026-09-26
 
 - Generated one ignored mode-`0600` ES256 private key and installed only its public JWKS plus the exact audience in `compassionate-buffalo-689`.
-- Confirmed production environment-variable names contain neither development automation setting.
+- The first source-release attempt showed that Convex treats every environment
+  variable referenced by `auth.config.ts` as required. Production now sets both
+  development-automation values to `disabled`; the fail-closed builder emits
+  only Google for that exact pair and rejects mixed values.
 - Convex accepted the custom provider configuration and published the tightened exact-issuer/subject operator guard.
 - Cloudflare published the explicit two-entry development build as Worker version `ae486a9f-f839-4fef-85b2-814d7a627f94` at `ops-dev.tofler.tech`.
 - The on-demand hosted Chromium check minted a fresh two-minute token and loaded the real protected read-only overview without a Google account or Andrew's participation.
@@ -103,4 +111,10 @@ Delete the two ignored development-auth key files, rerun key generation, replace
 
 ## Rollback
 
-Remove `BFF_DEVELOPMENT_AUTOMATION_JWKS` and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` from `compassionate-buffalo-689`, push the Convex configuration, build the ordinary `bff-backoffice:build` target and republish only `business-factory-backoffice-dev`. The ignored private key may then be deleted locally. Production is not part of rollback because it never trusts this provider.
+Set both `BFF_DEVELOPMENT_AUTOMATION_JWKS` and
+`BFF_DEVELOPMENT_AUTOMATION_AUDIENCE` to `disabled` on
+`compassionate-buffalo-689`, push the Convex configuration, build the ordinary
+`bff-backoffice:build` target and republish only
+`business-factory-backoffice-dev`. The ignored private key may then be deleted
+locally. Production already uses this disabled configuration and never trusts
+the provider.
