@@ -11,6 +11,9 @@ export const HANDOFF_CODE_TTL_SECONDS = 60;
 export const LOGIN_TRANSACTION_TTL_SECONDS = 10 * 60;
 export const AUTOMATION_GRANT_TTL_SECONDS = 2 * 60;
 export const OWNERSHIP_TRANSFER_PROOF_TTL_SECONDS = 5 * 60;
+export const MAX_ACCOUNT_MEMBERSHIPS_PER_USER = 100;
+export const MAX_OWNED_ACCOUNTS_PER_USER = 100;
+export const MAX_ACCOUNT_SEAT_LIMIT = 100;
 
 export const accountRoleSchema = z.enum(['owner', 'admin', 'member']);
 export type AccountRole = z.infer<typeof accountRoleSchema>;
@@ -74,8 +77,16 @@ export const businessAccountPolicySchema = z
   .object({
     createAccountOnFirstSignIn: z.boolean(),
     userAccountCreationEnabled: z.boolean(),
-    maxAccountMembershipsPerUser: z.number().int().positive(),
-    maxOwnedAccountsPerUser: z.number().int().positive(),
+    maxAccountMembershipsPerUser: z
+      .number()
+      .int()
+      .positive()
+      .max(MAX_ACCOUNT_MEMBERSHIPS_PER_USER),
+    maxOwnedAccountsPerUser: z
+      .number()
+      .int()
+      .positive()
+      .max(MAX_OWNED_ACCOUNTS_PER_USER),
     ownershipTransferEnabled: z.boolean(),
   })
   .strict()
@@ -93,13 +104,18 @@ export type BusinessAccountPolicy = z.infer<typeof businessAccountPolicySchema>;
 
 export const accountPolicyValuesSchema = z
   .object({
-    seatLimit: z.number().int().positive(),
+    seatLimit: z.number().int().positive().max(MAX_ACCOUNT_SEAT_LIMIT),
     adminRoleEnabled: z.boolean(),
     memberInvitationsEnabled: z.boolean(),
   })
   .strict();
 
 export type AccountPolicyValues = z.infer<typeof accountPolicyValuesSchema>;
+
+export const accountPolicyOverridesSchema = accountPolicyValuesSchema.partial();
+export type AccountPolicyOverrides = z.infer<
+  typeof accountPolicyOverridesSchema
+>;
 
 export const policySourceSchema = z.enum([
   'business_default',

@@ -1,6 +1,7 @@
 import { ConvexError } from 'convex/values';
 
 export type BffErrorCode =
+  | 'CAPACITY_CONFLICT'
   | 'CONFIGURATION_ERROR'
   | 'CONFLICT'
   | 'FORBIDDEN'

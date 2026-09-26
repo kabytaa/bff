@@ -13,6 +13,7 @@ import type * as backoffice from "../backoffice.js";
 import type * as businessEnvironments from "../businessEnvironments.js";
 import type * as customerAuth from "../customerAuth.js";
 import type * as http from "../http.js";
+import type * as invitations from "../invitations.js";
 import type * as lib_authorization from "../lib/authorization.js";
 import type * as lib_businessEnvironment from "../lib/businessEnvironment.js";
 import type * as lib_businessEnvironmentView from "../lib/businessEnvironmentView.js";
@@ -37,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   businessEnvironments: typeof businessEnvironments;
   customerAuth: typeof customerAuth;
   http: typeof http;
+  invitations: typeof invitations;
   "lib/authorization": typeof lib_authorization;
   "lib/businessEnvironment": typeof lib_businessEnvironment;
   "lib/businessEnvironmentView": typeof lib_businessEnvironmentView;

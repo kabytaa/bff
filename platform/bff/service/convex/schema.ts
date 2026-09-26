@@ -156,4 +156,39 @@ export default defineSchema({
       'role',
     ])
     .index('by_environment_public_id', ['environmentId', 'publicId']),
+  accountInvitations: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    inviterUserId: v.id('businessUsers'),
+    publicId: v.string(),
+    tokenHash: v.string(),
+    recipientEmail: v.string(),
+    state: v.union(
+      v.literal('pending'),
+      v.literal('accepted'),
+      v.literal('revoked'),
+      v.literal('expired'),
+    ),
+    expiresAt: v.number(),
+    acceptedUserId: v.optional(v.id('businessUsers')),
+    acceptedMembershipId: v.optional(v.id('memberships')),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    cleanupAt: v.number(),
+  })
+    .index('by_environment_token_hash', ['environmentId', 'tokenHash'])
+    .index('by_environment_public_id', ['environmentId', 'publicId'])
+    .index('by_environment_account_recipient_state', [
+      'environmentId',
+      'accountId',
+      'recipientEmail',
+      'state',
+    ])
+    .index('by_environment_account_state_expires_at', [
+      'environmentId',
+      'accountId',
+      'state',
+      'expiresAt',
+    ])
+    .index('by_cleanup_at', ['cleanupAt']),
 });
