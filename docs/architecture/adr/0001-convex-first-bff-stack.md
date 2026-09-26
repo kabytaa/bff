@@ -8,6 +8,8 @@
 
 > **Partially superseded 2026-09-25:** [ADR 0002](0002-business-environments-and-operator-auth.md) replaces the `projects` registry, Build 1 operator-authentication and global-user assumptions. The stack, ownership boundary and incremental-delivery decisions below remain accepted.
 
+> **Support detail superseded 2026-09-26:** The one-message/one-response, no-email support shape recorded below is historical. The canonical [TableCards MVP specification](../../products/tablecards-mvp.md) and [MVP delivery plan](../../factory/mvp-delivery-plan.md) now require a separate Build 5 two-way support conversation with outbound email and correlated inbound replies. BFF/Convex ownership remains accepted; the eventual email/helpdesk bridge still requires its focused design.
+
 ## Context
 
 BFF needs a reusable backend, public SDK and central backoffice for many small Businesses. The founder's scarce resource is operating time, so the MVP should minimize infrastructure and deployment work without coupling every product to the same technology.
@@ -139,7 +141,7 @@ Implement in capability-sized slices:
 | --- | --- | --- |
 | Business-environment registry | Start with `businessEnvironments`; one row is one isolated environment and is managed by internal operator automation | Users, settings, credentials, billing and analytics |
 | First login/account flow | Add only the provider-neutral technical identities and environment-local users/accounts/memberships used by the first Business flow | Account-linking UI, invitations and elaborate roles until a workflow needs them |
-| First support/feedback flow | `supportRequests`; keep one user message, one operator response and current status on the request | Threads, attachments, knowledge bases, AI automation and external helpdesk synchronization |
+| First support/feedback flow (historical; superseded 2026-09-26) | `supportRequests`; keep one user message, one operator response and current status on the request | Threads, attachments, knowledge bases, AI automation and external helpdesk synchronization |
 | First Paddle checkout/paid gate | Always add `webhookReceipts`; add only the billing customer, transaction, subscription and entitlement collections used by the chosen one-time or recurring offer | Generic catalog tables, unused billing states, usage counters and multiple-provider abstractions beyond a clean adapter |
 | First acquisition funnel | Start with `businessEvents`; add anonymous visitors/sessions only when pre-login attribution needs them | General event warehouse and campaign management |
 
@@ -147,7 +149,9 @@ Keep Paddle price references in project configuration until independent catalog 
 
 Convex stores canonical events required for billing, entitlement, attribution and factory decisions. If a product later needs high-volume interaction analytics, add PostHog at that point rather than creating a speculative analytics integration now.
 
-## MVP support and feedback
+## MVP support and feedback (historical; superseded 2026-09-26)
+
+The following shape is retained to explain the earlier decision but is no longer current scope. Build 5 follows the canonical product and delivery documents linked in the supersession note above.
 
 Every launched Business Project must have a discoverable **Help / Feedback** entry point for signed-in users. The first implementation supports three request kinds: `feedback`, `problem` and `question`.
 

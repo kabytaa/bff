@@ -16,7 +16,10 @@ Keep durable Codex work products in the repository rather than relying on chat h
 - active explorations and their discussion decisions in `.agent/brainstorms/`
 - implementation-ready plans in `.agent/plans/`
 - accepted architecture decisions in `docs/architecture/adr/`
+- non-authoritative deferred architecture ideas in `docs/architecture/future-ideas.md`
 - only the short current handoff in `STATUS.md`
+
+During brainstorming, consult only the relevant entries in `docs/architecture/future-ideas.md` when the topic matches. Treat them as historical prompts, not accepted decisions or queued work. Re-evaluate them against current requirements and official sources, then link the entry to the successor brainstorm or ADR when it is adopted, changed or rejected.
 
 Name every brainstorm and implementation plan with an immutable six-digit creation-date prefix followed by its concise kebab-case topic: `YYMMDD-topic.md`. The prefix records when the artifact was created and must never change when the document is updated, accepted, completed or superseded. Record the full `YYYY-MM-DD` creation and last-updated dates inside the document; lifecycle status inside the artifact remains authoritative. Continue an existing artifact instead of creating a new dated copy when the same discussion or plan evolves.
 

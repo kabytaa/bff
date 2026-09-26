@@ -29,7 +29,7 @@ Marketing execution is deliberately undecided until the TableCards launch is pla
 4. TableCards preserves spelling, order and duplicates, then previews every card and warns about unsupported characters, insufficient image resolution and text that cannot fit.
 5. The user selects the built-in design or, with a paid plan, a saved custom design preset.
 6. TableCards generates a deterministic PDF with the chosen names, cut marks, fold marks and a scale-check page.
-7. The user can submit feedback, a question or a problem and see the operator's response.
+7. The user can start a support conversation for feedback, a question or a problem, receive operator replies by email and reply by email or from the product.
 
 TableCards is not the system of record for an agency's guest list. A corrected or partial CSV follows the same generation workflow; there is no separate “correction printing” feature.
 
@@ -102,15 +102,17 @@ The exact free-versus-paid export boundary is still being confirmed. The current
 
 ## Support, feedback and operations
 
-Support and feedback are launch requirements, not post-launch polish. Signed-in users can submit `feedback`, `problem` or `question` requests. The BFF backoffice provides a small operator inbox, status handling and one response visible to the user. A public support address remains visible for people who cannot sign in.
+Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in users can start `feedback`, `problem` or `question` conversations with authenticated Business/user/account context. The operator workflow supports status handling and a real reply thread. Replies are delivered by email, and a user can reply by email or from the product; the resulting messages remain part of the same case. A public monitored support address remains available to people who cannot sign in.
+
+Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 
 Future AI support automation may classify or draft responses, but autonomous actions and resolution are not part of this MVP.
 
-Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. PostHog, Resend, Sentry and a helpdesk are optional until a concrete workflow requires them.
+Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. The support slice must select a concrete outbound/inbound email or helpdesk mechanism; no specific vendor is preselected. PostHog and Sentry remain optional until a concrete workflow requires them.
 
 ## Test policy
 
-Every implementation slice must be self-verifiable. The browser regression remains deliberately small and covers the important happy flows: Google session bootstrap using a deterministic test adapter, list/CSV input, preview, PDF export, subscription entitlement, team access when implemented, and support submission through operator response.
+Every implementation slice must be self-verifiable. The browser regression remains deliberately small and covers the important happy flows: Google session bootstrap using a deterministic test adapter, list/CSV input, preview, PDF export, subscription entitlement, team access when implemented, and support submission through operator response. The separate support slice also verifies outbound delivery, an inbound email reply joining the correct case and denial of spoofed or cross-environment replies without making ordinary CI depend on a live email provider.
 
 PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, authorization, webhook signatures/replays and role denials belong in faster unit or integration tests. Live Google and Paddle checks are separate smoke tests; ordinary CI must not depend on those services.
 
@@ -123,13 +125,14 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 - domain-based team joining and per-seat billing
 - Apple login and other identity providers
 - marketing campaign automation
-- transactional email, PostHog, Sentry, a helpdesk and AI support automation unless activated by a real workflow
+- marketing/transactional email outside the required support and invitation workflows, PostHog, Sentry and AI support automation
 - print fulfillment and shipping
 
 ## Remaining decisions
 
 - Confirm the recommended clean, watermark-free Free export and final feature boundary.
 - Choose how Studio invitation links are delivered without prematurely requiring an email provider.
+- Choose whether the required two-way support conversation is BFF-owned with an email bridge or integrated with a helpdesk, then select the provider and safe inbound-reply correlation mechanism.
 - Choose the working product/domain name and reachable launch users.
 - Decide the first launch/attribution approach when marketing work begins.
 - Confirm guest-list retention/deletion behavior during implementation; retain no more data than the real workflow requires.

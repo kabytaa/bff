@@ -22,7 +22,7 @@ The smallest launch scope is:
 - PDF export with cut/fold marks and a scale-check sheet.
 - Explicit handling of long names and unsupported characters.
 - Free, Personal Pro and Studio plans; paid plans add premium/custom reusable designs and Studio adds a shared workspace for up to 20 members.
-- Required Google login through a provider-neutral identity model, in-product feedback/support, minimal operator handling and a public contact path.
+- Required Google login through a provider-neutral identity model, an email-capable in-product support conversation, operator handling and a public contact path.
 
 Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts, seating planning, guest-list management, meal/caterer workflows, print fulfillment, per-seat billing, domain joining, Apple login, generic marketing automation, advanced reporting, AI support automation or a second product.
 
@@ -39,19 +39,21 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 ## Execution order
 
 1. Codex starts Build 1. In parallel, Andrew can begin Paddle onboarding.
-2. Codex builds provider-neutral auth/support and the deterministic TableCards core. Production OAuth becomes actionable when exact domains and callback URLs exist.
+2. Codex builds provider-neutral auth/accounts and the deterministic TableCards core. Production OAuth becomes actionable when exact domains and callback URLs exist.
 3. Codex adds subscriptions, plan entitlements, Studio membership and the minimal operator view. Paddle fixtures keep regression independent of live charges.
-4. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
+4. Codex adds the separate customer-support conversation slice with outbound and inbound email replies.
+5. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
 
 ## Grouped launch tasks
 
 | # | Work group | Owner | Main dependency |
 | --- | --- | --- | --- |
 | Build 1 | Foundation: workspace, Convex BFF, contracts and test harness | Codex | None |
-| Build 2 | Shared MVP: Google auth, accounts, support and SDK | Codex | Build 1; production OAuth later needs provider access |
+| Build 2 | Shared identity: Google auth, accounts and SDK | Codex | Build 1; production OAuth later needs provider access |
 | Build 3 | TableCards core: list/CSV, designs, preview and verified PDF | Codex | Build 1 and the accepted product specification |
 | Build 4 | Paid/team flow: Paddle subscriptions, entitlements, membership and minimal operations | Codex | Builds 1–3; hosted checks need Paddle access |
-| Build 5 | Deploy, run happy-path regression and prepare launch | Codex | Builds 1–4 and relevant provider access |
+| Build 5 | Customer support: case conversation, email replies and operator workflow | Codex | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
+| Build 6 | Deploy, run happy-path regression and prepare launch | Codex | Builds 1–5 and relevant provider access |
 | Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance | Andrew | Activated only when Codex cannot complete the action |
 
 ### Build 1 — Foundation
@@ -62,11 +64,11 @@ Create the Nx workspace, ownership boundaries, minimal Convex BFF service and op
 
 The required local gate is done when the repository runs without provider accounts, the public health and internal Business-environment paths work, auth denial/allow tests pass, the dashboard browser test passes and validation commands are documented. Hosted development verification follows only after Andrew authorizes one Convex development deployment, Cloudflare site and public Google web client. Build 1 is complete only when the reviewed `main` commit passes GitHub validation, automatically deploys the separate production Convex backend and `ops.tofler.tech` dashboard, passes production smoke and Andrew confirms one real production Google sign-in. No speculative tables, TableCards code or placeholder SDK modules belong in Build 1.
 
-### Build 2 — Shared MVP
+### Build 2 — Shared identity, accounts and SDK
 
-Choose the current supported Business-user authentication mechanism and enable Google as the only MVP provider. Keep provider-qualified technical identities private to BFF auth and create a distinct local user row in each Business environment the person accesses. Implement only the account and membership shapes TableCards uses, with short-lived environment-bound user credentials. Add support/feedback submission and status, an operator queue/response, and the corresponding thin typed SDK paths. Verify authorization, cross-environment denial and the support lifecycle.
+Choose the current supported Business-user authentication mechanism and enable Google as the only production MVP provider. Keep provider-qualified technical identities private to BFF auth and create a distinct local user row in each Business environment the person accesses. Implement the accepted configurable account/membership boundary, fixed Owner/Admin/Member roles, invitations, provider-neutral ownership transfer/reauthentication and thin typed SDK paths, with a stable centrally revocable Business session, short-lived environment/account-bound JWTs and the retained minimal example Business. Verify signup/onboarding policies, authorization, renewal, independent tab account selection, concurrent/replayed login denials, cross-environment isolation and the development-only automated identity path. Do not add paid-plan/subscription tables, product-entitlement evaluation or restricted-account guards before Build 4 has their first real caller.
 
-Done when a Google-authenticated user can submit an issue or feedback and Andrew can review and respond from the minimal backoffice. Apple, Resend and PostHog are not prerequisites.
+Development readiness requires the hosted example to create or reuse an authenticated environment user/account, exercise protected Business backend access, select account context when multiple memberships exist and appear correctly in the development backoffice. Repeatable automation uses the development-only provider. Build 2 is complete only after the reviewed commit deploys BFF/auth and the non-promoted production example at `example.tofler.app`, production smoke passes with no automation provider/configuration present and Andrew uses real Safari to verify Google login, protected access, hard reload, renewal after the first ten-minute JWT expires, a second tab, logout preventing both tabs from minting again and the corresponding production-backoffice records. Support is not part of this build. Apple, email delivery and PostHog are not prerequisites.
 
 ### Build 3 — TableCards core
 
@@ -76,11 +78,17 @@ The core regression fixture includes duplicate names, accents and long names. Au
 
 ### Build 4 — Paid/team flow and operations
 
-Implement Paddle subscriptions for Personal Pro and Studio, server-side plan entitlements, verified idempotent webhooks and minimal purchase/acquisition events. Add Studio invitations, the 20-seat limit, shared design presets and only the operator views needed for projects, users, subscriptions, entitlements, memberships and support.
+Implement Paddle subscriptions for Personal Pro and Studio, server-side plan entitlements, verified idempotent webhooks and minimal purchase/acquisition events. Configure the shared account machinery for Studio invitations and its 20-seat limit, add shared design presets and add only the operator views needed for projects, users, subscriptions, entitlements and memberships.
 
-Signed payment fixtures must let the full happy path run without a live charge. Done means Free cannot use paid design capabilities, verified subscriptions produce the correct entitlements, cancellation/status changes are handled, seat and role rules are enforced and webhook replays are harmless.
+Signed payment fixtures must let the full happy path run without a live charge. A requested downgrade is rejected until the account satisfies the target plan's limits. An unavoidable expiration or payment failure preserves users, memberships and data, restricts ordinary product access and keeps Owner/Admin remediation access so they can restore payment or reduce usage; it never removes members automatically. Done means Free cannot use paid design capabilities, verified subscriptions produce the correct entitlements, cancellation/status changes are handled, seat and role rules are enforced and webhook replays are harmless.
 
-### Build 5 — Deployment and launch preparation
+### Build 5 — Customer support conversation
+
+Add the required support capability as its own implementation slice rather than expanding Build 2. Signed-in users can start `feedback`, `problem` or `question` cases with trusted environment/user/account context. Andrew can review and respond through the operator workflow. Replies are delivered by email, and customer replies from email or the product join the same conversation. Provide a monitored public support path for people who cannot sign in.
+
+Select the concrete BFF-owned email bridge or helpdesk integration only after its focused design discussion. Finance-related cases may show bounded account/subscription/payment-status context, but support messages never authorize refunds, billing changes or credential disclosure. Done means the signed-in and public paths work, outbound delivery and inbound reply correlation are verified, spoofed/cross-environment replies are denied and the complete conversation is visible to the appropriate user and operator.
+
+### Build 6 — Deployment and launch preparation
 
 Configure environments, secrets, Cloudflare deployment, domains, CI, basic health/error monitoring, rollback and recovery notes. Run the focused browser regression:
 
@@ -90,8 +98,8 @@ Configure environments, secrets, Cloudflare deployment, domains, CI, basic healt
 4. Download the permitted Free PDF.
 5. Complete fixture or sandbox subscription and use a paid design capability.
 6. Exercise Studio membership when that slice is implemented.
-7. Submit support/feedback.
-8. Review and respond in the backoffice.
+7. Start a support conversation.
+8. Review and respond in the backoffice, then verify the emailed response and one customer reply returns to the same case.
 
 Run provider-specific sandbox/live smoke checks separately. Done when automated validation passes, the production flow is reachable and Andrew has a concise final acceptance checklist.
 
@@ -107,11 +115,11 @@ Create or confirm the seller account, finish business/identity/payout verificati
 
 Confirm the existing Convex login can create a separate Business Factory project, choose or buy the product domain, and provide Cloudflare/DNS access. After Codex provides exact callback URLs, create/select the Google Cloud project, configure consent/branding and create the web OAuth client.
 
-Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker, printing or email-delivery provider for its initial scope.
+Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow.
 
 ### Physical and live launch checks
 
-Provide a monitored support address. Print the scale-check page at 100%, measure it with a ruler, and complete one real production sign-in, subscription, export and support submission. Then bring the first real pilot traffic from selected buyers. Offer, policy and product-claim reviews happen in conversation rather than becoming Nirvana tasks.
+Provide or approve the monitored support address and any provider verification that cannot be automated. Print the scale-check page at 100%, measure it with a ruler, and complete one real production sign-in, subscription, export and two-way support conversation. Then bring the first real pilot traffic from selected buyers. Offer, policy and product-claim reviews happen in conversation rather than becoming Nirvana tasks.
 
 ## Launch acceptance
 
@@ -121,8 +129,8 @@ The launch gate is satisfied when:
 - Google login and project/account isolation work in production.
 - Subscription webhooks and server-side entitlements protect paid designs and collaboration.
 - The deterministic PDF checks and focused happy-path regression pass.
-- A user can submit feedback or a problem and Andrew can review/respond.
-- A public support contact works for users who cannot sign in.
+- A user can begin a support conversation, receive Andrew's reply by email and reply into the same case.
+- A monitored public support contact works for users who cannot sign in, without treating email possession as authority for sensitive account or payment actions.
 - Andrew verifies physical print scale, completes the live flow and deliberately sends real prospects to it.
 
 Post-launch validation review, advanced integrations, platform hardening, a reusable factory skill and a technically different second-project proof are intentionally parked. They are not blockers for shipping the first product.
