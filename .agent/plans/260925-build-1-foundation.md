@@ -1,6 +1,6 @@
 # Feature: Build 1 Foundation
 
-> **Status**: Development verified — Production delivery pending
+> **Status**: Completed
 > **Created**: 2026-09-25
 > **Last updated**: 2026-09-26
 > **Repository baseline**: `73608e446538`
@@ -788,3 +788,4 @@ None. Resource names and account selections are execution-time authorization gat
 | 2026-09-26 | Locally complete — Hosted verification pending | Implemented all local tasks and passed the complete `pnpm check` gate, live local health/CLI smoke checks and Cloudflare build dry-run. Local Convex setup created the separate `andrew-tofler/business-factory` project record and local deployment, but no BFF functions/data or web assets were deployed to cloud infrastructure. |
 | 2026-09-26 | Development verified — Production delivery pending | Deployed the tested BFF to `compassionate-buffalo-689` and the dashboard to `ops-dev.tofler.tech`; verified live health, HTTPS/security headers, signed-out rendering, deterministic desktop/phone flows and Andrew's real Google sign-in with authorized read-only overview access. Andrew subsequently established that work is not complete until it is deployed and smoke-verified in production, so the plan remains open pending the production-delivery successor. |
 | 2026-09-26 | Development verified — Production delivery pending | Renamed the retained plan to the repository's `YYMMDD-topic.md` log convention using its immutable creation date; lifecycle and update history remain inside the document. |
+| 2026-09-26 | Completed | Successor [Production Delivery](260926-production-delivery.md) deployed the reviewed system to production. GitHub validation, Convex deployment and SHA stamping, Cloudflare publication, automated production smoke and Andrew's real Google operator sign-in at `ops.tofler.tech` all passed. |

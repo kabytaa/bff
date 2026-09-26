@@ -1,6 +1,6 @@
 # Feature: Production Delivery
 
-> **Status**: Approved — In progress
+> **Status**: Completed
 > **Created**: 2026-09-26
 > **Last updated**: 2026-09-26
 > **Repository baseline**: `b754169e9144a437b99dcd7c8aae655a09aa00db`
@@ -548,3 +548,5 @@ None. Cloudflare token creation, secret entry and Andrew's first production sign
 | 2026-09-26 | Approved — In progress | Reconciled the abstract Workers role wording with Cloudflare's actual three-column user-token UI: Workers Scripts Edit uploads/deploys, Workers Routes Edit connects both zones, and read-only discovery rows support Wrangler. |
 | 2026-09-26 | Approved — Ready to release | Andrew stored the Cloudflare token directly in the GitHub production environment. Both provider secrets are present, the complete Node.js 24 gate passed again and the final diff audit found no blocker. Waiting only for Andrew's explicit authorization to commit and push the production-triggering release. |
 | 2026-09-26 | Approved — Fix forward | Andrew authorized and pushed release `86a7e75`. Validation, Convex deploy/version stamping and Cloudflare publication passed. The workflow smoke failed before network checks because direct `tsx` execution did not load `tsconfig.base.json`; the corrected command then exposed ConvexReactClient's harmless built-in example URL in the bundle. The fix now loads workspace aliases explicitly, permits only that known dependency example while still rejecting other deployment URLs, passes all 18 tool tests and passes the exact live production smoke locally. |
+| 2026-09-26 | Production verified — Final human sign-in pending | Fix-forward commit `2c25226` passed GitHub run `36243427909` end to end: complete validation, Convex deployment and SHA stamp, Cloudflare publication, and bounded automated production smoke. Only Andrew's real production Google sign-in remains before completion. |
+| 2026-09-26 | Completed | Andrew completed the final real Google sign-in at `https://ops.tofler.tech` and confirmed the authenticated read-only overview is accessible. Every automated and human production acceptance gate passed. |
