@@ -2,7 +2,7 @@
 
 Updated: 2026-09-26.
 
-Status: development verified 2026-09-26; source release pending.
+Status: development and source release verified 2026-09-26.
 
 This runbook gives Codex an on-demand authenticated check of the real hosted development backoffice. It does not automate Google, add a third deployment or enable any production identity.
 
@@ -14,7 +14,7 @@ This runbook gives Codex an on-demand authenticated check of the real hosted dev
 - Dashboard: `https://ops-dev.tofler.tech/`
 - Production exclusions: `exuberant-goldfinch-830`, `business-factory-backoffice` and `https://ops.tofler.tech/`
 
-Before a provider mutation, confirm the selected Convex deployment and Wrangler account. Never use `--prod`, `wrangler.production.jsonc`, a GitHub secret or a production hostname in this procedure.
+Before a provider mutation, confirm the selected Convex deployment and Wrangler account. The only production mutation in this procedure is the exact non-secret disabled pair documented below. Never publish functions with `--prod`, use `wrangler.production.jsonc`, read a GitHub secret or publish a production hostname from this development procedure.
 
 ## 1. Generate or validate the local signer
 
@@ -26,7 +26,7 @@ git check-ignore .convex/development-auth-private.jwk
 
 The permission output must be `600`. The command prints only whether the pair was created or already valid. It must never print the private JWK or a signed token.
 
-## 2. Configure only Convex development
+## 2. Configure the Convex auth modes
 
 Confirm the existing deployment selection, then set the public values:
 
@@ -43,6 +43,20 @@ pnpm exec convex env set \
 ```
 
 The JWKS and audience are public verification configuration; only the local private JWK can mint tokens. Inspect names without printing values:
+
+Convex currently requires every environment variable referenced by
+`auth.config.ts` to exist in every deployment. Set the exact non-secret disabled
+pair on production atomically; this does not install a key or enable the custom
+provider:
+
+```bash
+printf '%s\n' \
+  'BFF_DEVELOPMENT_AUTOMATION_AUDIENCE=disabled' \
+  'BFF_DEVELOPMENT_AUTOMATION_JWKS=disabled' | \
+  pnpm exec convex env set --prod --force
+```
+
+Then inspect names without printing the development JWKS:
 
 ```bash
 pnpm exec convex env list \
@@ -103,7 +117,11 @@ Success means the live page used the short-lived signed automation identity, Con
 - Convex accepted the custom provider configuration and published the tightened exact-issuer/subject operator guard.
 - Cloudflare published the explicit two-entry development build as Worker version `ae486a9f-f839-4fef-85b2-814d7a627f94` at `ops-dev.tofler.tech`.
 - The on-demand hosted Chromium check minted a fresh two-minute token and loaded the real protected read-only overview without a Google account or Andrew's participation.
-- The complete local repository gate and production-bundle exclusion passed before provisioning. A final post-cleanup gate remains part of the source release review.
+- The complete local repository gate and production-bundle exclusion passed before provisioning and again before the source release.
+- Fix-forward commit `382afac` passed GitHub validation, production Convex
+  deployment, dashboard publication and live smoke in run `36248220511`.
+  Production emitted only the Google provider; no automation browser artifact
+  shipped.
 
 ## Rotation
 

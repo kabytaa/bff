@@ -1,6 +1,6 @@
 # Feature: Automated Development Authentication
 
-> **Status**: Implemented and development-verified — Source release fix-forward in progress
+> **Status**: Completed 2026-09-26
 > **Created**: 2026-09-26
 > **Last updated**: 2026-09-26
 > **Repository baseline**: `eed726ce95df1f37bda477d521d84228c6a5c228`
@@ -239,7 +239,7 @@ Execute in dependency order.
 - **Implement**: After targeted/local validation and explicit target confirmation, generate the local key if absent; set `BFF_DEVELOPMENT_AUTOMATION_JWKS` from the public file and `BFF_DEVELOPMENT_AUTOMATION_AUDIENCE=https://ops-dev.tofler.tech/` on Convex deployment `compassionate-buffalo-689`; set both values to `disabled` on production so Convex can evaluate the shared auth config without adding the custom provider; push the tested Convex functions to the selected development deployment. Build with the explicit development-auth Vite target, run Wrangler dry-run, publish only `business-factory-backoffice-dev`, then run the hosted authenticated Playwright command.
 - **Pattern**: `docs/operations/build-1-hosted-verification.md:40` for target verification, `:57` for development Convex push and `:69` for Cloudflare development publishing.
 - **Dependencies/Imports**: Existing authenticated Convex and Wrangler sessions; generated ignored key/JWKS files.
-- **Gotchas**: Do not use `--prod`, `wrangler.production.jsonc`, `ops.tofler.tech`, project environment-variable defaults or a GitHub secret. The public JWKS update invalidates previously signed tokens; mint only after the backend push. Report and fix any provider rejection without enabling a bypass.
+- **Gotchas**: The exact non-secret production `disabled` pair is the only `--prod` exception in this provisioning task. Do not publish production functions, use `wrangler.production.jsonc`, target `ops.tofler.tech`, read a GitHub secret or put the development JWKS in production. The public JWKS update invalidates previously signed tokens; mint only after the backend push. Report and fix any provider rejection without enabling a bypass.
 - **Validate**: `corepack pnpm test:e2e:development-auth` returns success and visibly reaches the real ready overview at `ops-dev.tofler.tech` without Andrew signing in.
 
 ### Task 8: VALIDATE, release and close the feature
@@ -338,7 +338,7 @@ corepack pnpm check
 - [x] Production configures only Google by using the exact `disabled` pair and ships no development-auth HTML, source marker, issuer or audience.
 - [x] Existing authorization denials, deterministic desktop/phone Playwright and all repository gates continue to pass.
 - [x] The exact development provisioning, rotation, execution and rollback process is documented and runnable by Codex.
-- [ ] The reviewed source reaches `main`; production validation/deployment/smoke is green even though the feature itself is enabled only in development.
+- [x] The reviewed source reaches `main`; production validation/deployment/smoke is green even though the feature itself is enabled only in development.
 
 ## Risks and Mitigations
 
@@ -377,3 +377,4 @@ None. The accepted brainstorm resolved lane, trigger and hosted coverage scope.
 | 2026-09-26 | Accepted — Implementation in progress | Andrew approved implementation and the existing development deployment rollout. Replaced human-email impersonation with a dedicated automation identity and recorded one reusable solo-development signer with audience-bound tokens. |
 | 2026-09-26 | Implemented and development-verified — Awaiting source release | Local gates passed, the exact development Convex/Cloudflare lane was provisioned, and the authenticated hosted overview passed. Cleanup additionally bound human email authorization to Google's issuer. Commit, push and the normal production exclusion release remain pending Andrew's review. |
 | 2026-09-26 | Source release fix-forward in progress | Commit `e733e3a` passed validation, but production deployment stopped before mutation because Convex requires every auth-config environment-variable reference. Adopted the explicit `disabled` pair so production remains Google-only while satisfying that platform constraint. |
+| 2026-09-26 | Completed | Fix-forward commit `382afac` passed the full GitHub validation, production Convex deployment, dashboard publication and live smoke in run `36248220511`. Production emits only Google auth; development retains the independently verified automation provider. |

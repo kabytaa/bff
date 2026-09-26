@@ -2,7 +2,7 @@
 
 Updated: 2026-09-26.
 
-Status: implementation in progress; production has not yet been deployed.
+Status: completed and production-verified 2026-09-26.
 
 This runbook implements [ADR 0003](../architecture/adr/0003-production-delivery.md). Never record a deploy key, API token or Google ID token here, in chat or in git.
 

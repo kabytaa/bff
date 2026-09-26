@@ -11,10 +11,11 @@ Updated: 2026-09-26.
 - Product scope remains canonical in [the TableCards MVP specification](docs/products/tablecards-mvp.md); no TableCards workload, Business-user auth, billing, accounts or speculative SDK/domain tables were added.
 - An active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md) records the incubation-to-brand model. KooMasha is the actual developer/operator; Tofler is its software domain family. Andrew owns `tofler.tech` and `tofler.app`; `.app` is customer-facing and `.tech` internal/operator/technical. Stable development uses explicit `-dev` hostnames: Build 1 development uses `ops-dev.tofler.tech`, while production is live at `ops.tofler.tech`.
 - The [production-delivery brainstorm](.agent/brainstorms/260926-production-delivery.md) is accepted, and its [implementation plan](.agent/plans/260926-production-delivery.md) is completed. GitHub run `36243427909` passed validation, Convex deploy/version stamping, Cloudflare publication and automated production smoke for commit `2c25226`; Andrew then confirmed authenticated production access.
-- The accepted [automated-development-auth brainstorm](.agent/brainstorms/260926-automated-development-auth.md) and [implementation plan](.agent/plans/260926-automated-development-auth.md) now have a development-verified implementation: Codex can mint a two-minute ES256 token for a dedicated automation identity and verify the real protected `ops-dev` overview on demand. Production remains Google-only. Source commit `e733e3a` passed GitHub validation, but its production deployment stopped before mutation because Convex requires every environment variable referenced by `auth.config.ts`; a fail-closed explicit-disabled fix is in progress.
+- The accepted [automated-development-auth brainstorm](.agent/brainstorms/260926-automated-development-auth.md) and completed [implementation plan](.agent/plans/260926-automated-development-auth.md) let Codex mint a two-minute ES256 token for a dedicated automation identity and verify the real protected `ops-dev` overview on demand. Production remains Google-only through a fail-closed explicit-disabled configuration and ships no automation browser entry.
 
 ## Last completed
 
+- Released automated development authentication through fix-forward commit `382afac`. GitHub run `36248220511` passed the complete validation gate, production Convex deployment, dashboard publication and live smoke; production emitted only Google auth, while hosted development authentication remains independently runnable by Codex.
 - Added the ignored mode-`0600` local signer, deployment-specific public JWKS/audience configuration, exact automation issuer/subject authorization, separate development-only dashboard entry and on-demand hosted Playwright check. Convex development and Cloudflare Worker version `ae486a9f-f839-4fef-85b2-814d7a627f94` accepted the configuration, and the live authenticated overview passed without human login.
 - Tightened the human operator path to require Google's exact issuer as well as verified allowlisted email, preventing a development token from impersonating a human through copied claims. Targeted tests and the hosted check pass after the correction.
 - Added the main-only post-validation production job, a separate `business-factory-backoffice` manifest for `ops.tofler.tech`, strict target/build validation, bounded public production smoke, ADR 0003 and the production runbook; the full automated path is green in production.
@@ -42,8 +43,8 @@ Updated: 2026-09-26.
 
 ## Next moves
 
-1. Complete the explicit-disabled Convex auth-config fix, rerun the repository gate, release it through the normal main workflow and prove production remains Google-only before marking automated development authentication completed.
-2. Finish or supersede the active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md), then select the next MVP slice before creating its implementation plan.
+1. Begin the Build 2 Shared MVP brainstorm with the Business-user authentication/session boundary, then cover the minimal environment-local user, account, membership, SDK and support vertical slice before implementation planning.
+2. Finish or supersede the active [domain-strategy brainstorm](.agent/brainstorms/260926-domain-strategy.md) before TableCards public-hosting decisions; its remaining brand/graduation questions do not block Build 2 architecture.
 3. Reassess per-Business Cloudflare tokens only when real usage, collaborators or sensitive infrastructure increase the shared token's impact.
 4. Keep the current development and production backoffices as functional operator surfaces; treat visual redesign as separate scoped work if it becomes valuable.
 
