@@ -48,6 +48,7 @@ export default defineSchema({
       v.literal('exchanged'),
     ),
     callbackUrl: v.string(),
+    webOrigin: v.optional(v.string()),
     returnPath: v.string(),
     state: v.string(),
     providerNonce: v.string(),

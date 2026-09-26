@@ -52,6 +52,7 @@ const providerCompletionResultValidator = v.union(
   v.object({
     kind: v.literal('ok'),
     callbackUrl: v.string(),
+    webOrigin: v.string(),
     returnPath: v.string(),
     state: v.string(),
     handoffCodeExpiresAt: v.number(),
@@ -66,6 +67,8 @@ const proofExchangeResultValidator = v.union(
   v.object({
     kind: v.literal('ok'),
     proofPublicId: v.string(),
+    webOrigin: v.string(),
+    returnPath: v.string(),
     expiresAt: v.number(),
   }),
 );
@@ -180,6 +183,7 @@ export const start = internalMutation({
     providerNonce: v.string(),
     pkceChallenge: v.string(),
     callbackUrl: v.string(),
+    webOrigin: v.string(),
     returnPath: v.string(),
     now: v.number(),
   },
@@ -207,6 +211,11 @@ export const start = internalMutation({
         'VALIDATION_ERROR',
         'Authentication callback is not registered',
       );
+    }
+    if (
+      !environment.customerAuth.transport.webOrigins.includes(args.webOrigin)
+    ) {
+      return fail('VALIDATION_ERROR', 'Web origin is not registered');
     }
     const session = await ctx.db
       .query('businessSessions')
@@ -239,6 +248,7 @@ export const start = internalMutation({
       purpose: 'ownership_transfer',
       status: 'pending_provider',
       callbackUrl: environment.customerAuth.callbackUrl,
+      webOrigin: args.webOrigin,
       returnPath,
       state,
       providerNonce,
@@ -356,6 +366,9 @@ export const completeProvider = internalMutation({
     return {
       kind: 'ok' as const,
       callbackUrl: transaction.callbackUrl,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Transfer origin is missing'),
       returnPath: transaction.returnPath,
       state: transaction.state,
       handoffCodeExpiresAt,
@@ -463,7 +476,15 @@ export const exchangeProof = internalMutation({
       status: 'exchanged',
       consumedAt: args.now,
     });
-    return { kind: 'ok' as const, proofPublicId, expiresAt };
+    return {
+      kind: 'ok' as const,
+      proofPublicId,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Transfer origin is missing'),
+      returnPath: transaction.returnPath,
+      expiresAt,
+    };
   },
 });
 

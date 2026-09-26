@@ -8,14 +8,26 @@ import {
   readCustomerSigningConfiguration,
 } from './lib/customerCrypto';
 import {
+  acceptInvitationHandler,
+  changeMembershipRoleHandler,
+  completeOwnershipTransferHandler,
   completeGoogleLoginHandler,
+  createAccountHandler,
+  createInvitationHandler,
+  customerApiOptionsHandler,
   currentCustomerHandler,
   customerAuthOptionsHandler,
   exchangeLoginHandler,
   issueContextHandler,
+  listAccountMembersHandler,
   logoutHandler,
   readLoginChallengeHandler,
+  removeMembershipHandler,
+  revokeInvitationHandler,
   startLoginHandler,
+  startOwnershipTransferHandler,
+  exchangeOwnershipTransferHandler,
+  updateAccountPolicyHandler,
 } from './lib/customerHttp';
 
 const http = httpRouter();
@@ -89,6 +101,90 @@ http.route({
   path: '/v1/me',
   method: 'GET',
   handler: httpAction(currentCustomerHandler),
+});
+
+http.route({
+  path: '/v1/accounts',
+  method: 'POST',
+  handler: httpAction(createAccountHandler),
+});
+
+http.route({
+  path: '/v1/accounts/members',
+  method: 'GET',
+  handler: httpAction(listAccountMembersHandler),
+});
+
+http.route({
+  path: '/v1/accounts/members/role',
+  method: 'POST',
+  handler: httpAction(changeMembershipRoleHandler),
+});
+
+http.route({
+  path: '/v1/accounts/members/remove',
+  method: 'POST',
+  handler: httpAction(removeMembershipHandler),
+});
+
+http.route({
+  path: '/v1/accounts/policy',
+  method: 'POST',
+  handler: httpAction(updateAccountPolicyHandler),
+});
+
+http.route({
+  path: '/v1/accounts/invitations',
+  method: 'POST',
+  handler: httpAction(createInvitationHandler),
+});
+
+http.route({
+  path: '/v1/accounts/invitations/accept',
+  method: 'POST',
+  handler: httpAction(acceptInvitationHandler),
+});
+
+http.route({
+  path: '/v1/accounts/invitations/revoke',
+  method: 'POST',
+  handler: httpAction(revokeInvitationHandler),
+});
+
+for (const path of [
+  '/v1/me',
+  '/v1/accounts',
+  '/v1/accounts/members',
+  '/v1/accounts/members/role',
+  '/v1/accounts/members/remove',
+  '/v1/accounts/policy',
+  '/v1/accounts/invitations',
+  '/v1/accounts/invitations/accept',
+  '/v1/accounts/invitations/revoke',
+] as const) {
+  http.route({
+    path,
+    method: 'OPTIONS',
+    handler: httpAction(customerApiOptionsHandler),
+  });
+}
+
+http.route({
+  path: '/v1/auth/transfer/start',
+  method: 'POST',
+  handler: httpAction(startOwnershipTransferHandler),
+});
+
+http.route({
+  path: '/v1/auth/transfer/exchange',
+  method: 'POST',
+  handler: httpAction(exchangeOwnershipTransferHandler),
+});
+
+http.route({
+  path: '/v1/auth/transfer/complete',
+  method: 'POST',
+  handler: httpAction(completeOwnershipTransferHandler),
 });
 
 http.route({

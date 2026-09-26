@@ -1,7 +1,7 @@
 export interface ConvexAuthTokenFetcher {
-  fetchAccessToken(options: { forceRefreshToken: boolean }): Promise<
-    string | null
-  >;
+  fetchAccessToken(options: {
+    forceRefreshToken: boolean;
+  }): Promise<string | null>;
 }
 
 export function createConvexAuthTokenFetcher(
@@ -12,3 +12,5 @@ export function createConvexAuthTokenFetcher(
       await fetchToken(forceRefreshToken),
   };
 }
+
+export { createConvexBffAuthHttpAction } from './http';

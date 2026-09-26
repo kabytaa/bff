@@ -71,6 +71,7 @@ const completionResultValidator = v.union(
   v.object({
     kind: v.literal('ok'),
     callbackUrl: v.string(),
+    webOrigin: v.string(),
     returnPath: v.string(),
     state: v.string(),
     handoffCodeExpiresAt: v.number(),
@@ -123,6 +124,7 @@ export const startLogin = internalMutation({
     providerNonce: v.string(),
     pkceChallenge: v.string(),
     callbackUrl: v.string(),
+    webOrigin: v.string(),
     returnPath: v.string(),
     now: v.number(),
   },
@@ -143,6 +145,11 @@ export const startLogin = internalMutation({
         'Authentication callback is not registered',
       );
     }
+    if (
+      !environment.customerAuth.transport.webOrigins.includes(args.webOrigin)
+    ) {
+      return fail('VALIDATION_ERROR', 'Web origin is not registered');
+    }
     if (await findByReference(ctx, environment, reference)) {
       return { kind: 'collision' as const };
     }
@@ -154,6 +161,7 @@ export const startLogin = internalMutation({
       purpose: 'login',
       status: 'pending_provider',
       callbackUrl: environment.customerAuth.callbackUrl,
+      webOrigin: args.webOrigin,
       returnPath,
       state,
       providerNonce,
@@ -286,6 +294,9 @@ export const completeProvider = internalMutation({
     return {
       kind: 'ok' as const,
       callbackUrl: transaction.callbackUrl,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Login transaction origin is missing'),
       returnPath: transaction.returnPath,
       state: transaction.state,
       handoffCodeExpiresAt,

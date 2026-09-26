@@ -10,6 +10,8 @@ export {
   customerContextClaimsSchema,
   deriveCustomerAuthCallbackUrl,
   onboardingContextClaimsSchema,
+  publicIdentifierSchema,
+  relativeApplicationPathSchema,
   type AccountContextClaims,
   type BusinessTransportConfig,
   type CustomerAuthErrorCode,

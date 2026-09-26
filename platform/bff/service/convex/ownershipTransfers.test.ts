@@ -159,6 +159,7 @@ async function startConfirmation(t: TestBackend, handleHash: string) {
     providerNonce: 'nonce_abcdefghijklmnopqrstuvwxyz012345',
     pkceChallenge,
     callbackUrl,
+    webOrigin: 'https://example.tofler.app',
     returnPath: '/settings/members',
     now: baseTime,
   });

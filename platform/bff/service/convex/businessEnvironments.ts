@@ -115,6 +115,16 @@ export const list = internalQuery({
   },
 });
 
+export const customerWebOrigins = internalQuery({
+  args: { key: v.string() },
+  returns: v.array(v.string()),
+  handler: async (ctx, args) => {
+    const key = validateBusinessEnvironmentKey(args.key);
+    const environment = await findByKey(ctx, key);
+    return environment?.customerAuth?.transport.webOrigins ?? [];
+  },
+});
+
 export const update = internalMutation({
   args: {
     key: v.string(),

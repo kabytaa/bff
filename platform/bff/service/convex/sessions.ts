@@ -32,6 +32,8 @@ const establishSessionResultValidator = v.union(
   v.object({
     kind: v.literal('ok'),
     sessionPublicId: v.string(),
+    webOrigin: v.string(),
+    returnPath: v.string(),
     absoluteExpiresAt: v.number(),
     idleExpiresAt: v.number(),
   }),
@@ -194,6 +196,10 @@ export const exchangeForSession = internalMutation({
     return {
       kind: 'ok' as const,
       sessionPublicId,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Login transaction origin is missing'),
+      returnPath: transaction.returnPath,
       absoluteExpiresAt,
       idleExpiresAt,
     };

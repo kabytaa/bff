@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import {
+  accountPolicyOverridesSchema,
   accountRoleSchema,
   effectiveAccountPolicySchema,
 } from './accountPolicy';
@@ -68,6 +69,29 @@ export const createInvitationRequestSchema = z
     accountId: publicIdentifierSchema,
     recipientEmail: z.string().trim().toLowerCase().email(),
   })
+  .strict();
+
+export const acceptInvitationRequestSchema = z
+  .object({ invitationToken: z.string().min(32).max(256) })
+  .strict();
+
+export const revokeInvitationRequestSchema = z
+  .object({ invitationId: publicIdentifierSchema })
+  .strict();
+
+export const changeMembershipRoleRequestSchema = z
+  .object({
+    membershipId: publicIdentifierSchema,
+    role: z.enum(['admin', 'member']),
+  })
+  .strict();
+
+export const removeMembershipRequestSchema = z
+  .object({ membershipId: publicIdentifierSchema })
+  .strict();
+
+export const updateAccountPolicyRequestSchema = z
+  .object({ policyOverrides: accountPolicyOverridesSchema })
   .strict();
 
 export const invitationStateSchema = z.enum([

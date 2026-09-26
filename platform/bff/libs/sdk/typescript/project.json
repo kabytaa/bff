@@ -7,12 +7,11 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "options": {
         "command": "tsc -p platform/bff/libs/sdk/typescript/tsconfig.lib.json"
       },
-      "outputs": [
-        "{workspaceRoot}/dist/platform/bff/libs/sdk/typescript"
-      ]
+      "outputs": ["{workspaceRoot}/dist/platform/bff/libs/sdk/typescript"]
     },
     "lint": {
       "executor": "nx:run-commands",

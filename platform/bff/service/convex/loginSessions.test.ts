@@ -89,6 +89,7 @@ async function startAndComplete(
     providerNonce: nonce,
     pkceChallenge,
     callbackUrl,
+    webOrigin: 'https://example.tofler.app',
     returnPath: '/cards?table=one',
     now,
   });
@@ -273,6 +274,7 @@ describe('bound login and durable sessions', () => {
       providerNonce: nonce,
       pkceChallenge,
       callbackUrl,
+      webOrigin: 'https://example.tofler.app',
       returnPath: '/',
       now,
     });
@@ -416,6 +418,7 @@ describe('bound login and durable sessions', () => {
           state: 'state_abcdefghijklmnopqrstuvwxyz012345',
           pkceChallenge,
           callbackUrl,
+          webOrigin: 'https://example.tofler.app',
           returnPath: '/',
         }),
       });
