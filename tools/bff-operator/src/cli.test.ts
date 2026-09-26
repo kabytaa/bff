@@ -8,6 +8,30 @@ import {
 } from './cli';
 import { run } from './main';
 
+const customerAuthConfiguration = JSON.stringify({
+  version: 1,
+  enabledProviders: ['google'],
+  developmentAutomationEnabled: false,
+  transport: {
+    webOrigins: ['https://example.tofler.app'],
+    sessionAdapterBaseUrl: 'https://example-backend.convex.site',
+    defaultPostLoginPath: '/',
+  },
+  sessionPolicy: { idleSeconds: 604_800, absoluteSeconds: 2_592_000 },
+  accountPolicy: {
+    createAccountOnFirstSignIn: true,
+    userAccountCreationEnabled: false,
+    maxAccountMembershipsPerUser: 1,
+    maxOwnedAccountsPerUser: 1,
+    ownershipTransferEnabled: false,
+  },
+  accountDefaults: {
+    seatLimit: 1,
+    adminRoleEnabled: false,
+    memberInvitationsEnabled: false,
+  },
+});
+
 describe('parseCommand', () => {
   it('parses a local create command', () => {
     expect(
@@ -52,6 +76,73 @@ describe('parseCommand', () => {
     });
   });
 
+  it('previews and applies validated customer auth configuration', () => {
+    const preview = parseCommand([
+      'preview-customer-auth',
+      '--deployment',
+      'local',
+      '--key',
+      'sample-development',
+      '--configuration-json',
+      customerAuthConfiguration,
+    ]);
+    expect(preview).toMatchObject({
+      name: 'preview-customer-auth',
+      args: {
+        key: 'sample-development',
+        configuration: { version: 1, enabledProviders: ['google'] },
+      },
+    });
+    expect(buildConvexInvocation(preview).args[2]).toBe(
+      'businessEnvironments:previewCustomerAuth',
+    );
+
+    const configure = parseCommand([
+      'configure-customer-auth',
+      '--deployment',
+      'local',
+      '--key',
+      'sample-development',
+      '--expected-revision',
+      '3',
+      '--configuration-json',
+      customerAuthConfiguration,
+    ]);
+    expect(configure).toMatchObject({
+      name: 'configure-customer-auth',
+      args: { expectedRevision: 3 },
+    });
+    expect(buildConvexInvocation(configure).args[2]).toBe(
+      'businessEnvironments:configureCustomerAuth',
+    );
+  });
+
+  it('rejects invalid customer config and revisions before Convex', () => {
+    expect(() =>
+      parseCommand([
+        'preview-customer-auth',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--configuration-json',
+        '{"enabledProviders":["github"]}',
+      ]),
+    ).toThrow(/valid customer auth configuration JSON/);
+    expect(() =>
+      parseCommand([
+        'configure-customer-auth',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--expected-revision=-1',
+        '--configuration-json',
+        customerAuthConfiguration,
+      ]),
+    ).toThrow(/non-negative integer/);
+  });
+
   it('refuses cloud targets without explicit confirmation', () => {
     expect(() => parseCommand(['list', '--deployment', 'dev'])).toThrowError(
       CliError,
@@ -83,7 +174,7 @@ describe('parseCommand', () => {
     (deployment) => {
       expect(() =>
         parseCommand(['list', '--deployment', deployment, '--confirm-cloud']),
-      ).toThrow(/Production targets are not supported/);
+      ).toThrow(/reviewed production delivery workflow/);
     },
   );
 
@@ -165,7 +256,7 @@ describe('parseCommand', () => {
       }),
     ).toEqual({
       exitCode: 3,
-      message: 'Business environment already exists.',
+      message: 'Operation conflicts with current state.',
     });
   });
 });

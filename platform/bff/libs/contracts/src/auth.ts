@@ -1,9 +1,21 @@
 import { z } from 'zod';
 
-import { accountPermissionSchema, accountRoleSchema } from './accountPolicy';
+import {
+  accountPermissionSchema,
+  accountPolicyValuesSchema,
+  accountRoleSchema,
+  businessAccountPolicySchema,
+  sessionPolicySchema,
+} from './accountPolicy';
 
 export const CUSTOMER_CONTEXT_VERSION = 1 as const;
+export const CUSTOMER_AUTH_CONFIGURATION_VERSION = 1 as const;
 export const CUSTOMER_AUTH_CALLBACK_PATH = '/_tofler/auth/callback' as const;
+
+export const customerIdentityProviderSchema = z.enum(['google']);
+export type CustomerIdentityProvider = z.infer<
+  typeof customerIdentityProviderSchema
+>;
 
 export const publicIdentifierSchema = z
   .string()
@@ -75,11 +87,41 @@ export type BusinessTransportConfig = z.infer<
   typeof businessTransportConfigSchema
 >;
 
+export const customerAuthConfigurationSchema = z
+  .object({
+    version: z.literal(CUSTOMER_AUTH_CONFIGURATION_VERSION),
+    enabledProviders: z
+      .array(customerIdentityProviderSchema)
+      .min(1)
+      .max(1)
+      .refine((providers) => new Set(providers).size === providers.length, {
+        message: 'enabledProviders must not contain duplicates',
+      }),
+    developmentAutomationEnabled: z.boolean(),
+    transport: businessTransportConfigSchema,
+    sessionPolicy: sessionPolicySchema,
+    accountPolicy: businessAccountPolicySchema,
+    accountDefaults: accountPolicyValuesSchema,
+  })
+  .strict();
+
+export type CustomerAuthConfiguration = z.infer<
+  typeof customerAuthConfigurationSchema
+>;
+
 export function deriveCustomerAuthCallbackUrl(
   sessionAdapterBaseUrl: string,
 ): string {
   const origin = normalizeHttpsOrigin(sessionAdapterBaseUrl);
   return new URL(CUSTOMER_AUTH_CALLBACK_PATH, origin).href;
+}
+
+export function customerAuthCallbackUrl(
+  configuration: CustomerAuthConfiguration,
+): string {
+  return deriveCustomerAuthCallbackUrl(
+    configuration.transport.sessionAdapterBaseUrl,
+  );
 }
 
 const baseContextClaimsShape = {
@@ -128,12 +170,8 @@ export const customerContextClaimsSchema = z.union([
 export type OnboardingContextClaims = z.infer<
   typeof onboardingContextClaimsSchema
 >;
-export type AccountContextClaims = z.infer<
-  typeof accountContextClaimsSchema
->;
-export type CustomerContextClaims = z.infer<
-  typeof customerContextClaimsSchema
->;
+export type AccountContextClaims = z.infer<typeof accountContextClaimsSchema>;
+export type CustomerContextClaims = z.infer<typeof customerContextClaimsSchema>;
 
 export const customerAuthErrorCodeSchema = z.enum([
   'UNAUTHENTICATED',
@@ -146,9 +184,7 @@ export const customerAuthErrorCodeSchema = z.enum([
   'RATE_LIMITED',
   'RETRYABLE_UNAVAILABLE',
 ]);
-export type CustomerAuthErrorCode = z.infer<
-  typeof customerAuthErrorCodeSchema
->;
+export type CustomerAuthErrorCode = z.infer<typeof customerAuthErrorCodeSchema>;
 
 export const customerAuthErrorResponseSchema = z
   .object({

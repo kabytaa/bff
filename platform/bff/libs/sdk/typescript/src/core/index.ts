@@ -1,9 +1,12 @@
 export {
   CUSTOMER_AUTH_CALLBACK_PATH,
+  CUSTOMER_AUTH_CONFIGURATION_VERSION,
   CUSTOMER_CONTEXT_VERSION,
   accountContextClaimsSchema,
   businessTransportConfigSchema,
   customerAuthErrorResponseSchema,
+  customerAuthCallbackUrl,
+  customerAuthConfigurationSchema,
   customerContextClaimsSchema,
   deriveCustomerAuthCallbackUrl,
   onboardingContextClaimsSchema,
@@ -11,6 +14,7 @@ export {
   type BusinessTransportConfig,
   type CustomerAuthErrorCode,
   type CustomerAuthErrorResponse,
+  type CustomerAuthConfiguration,
   type CustomerContextClaims,
   type OnboardingContextClaims,
 } from '@bff/contracts';

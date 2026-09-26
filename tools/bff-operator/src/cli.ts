@@ -1,5 +1,10 @@
 import { parseArgs } from 'node:util';
 
+import {
+  customerAuthConfigurationSchema,
+  type CustomerAuthConfiguration,
+} from '@bff/contracts';
+
 export type OperatorCommand =
   | {
       name: 'create';
@@ -32,6 +37,25 @@ export type OperatorCommand =
         businessName?: string;
         environmentName?: string;
       };
+    }
+  | {
+      name: 'preview-customer-auth';
+      deployment: string;
+      confirmCloud: boolean;
+      args: {
+        key: string;
+        configuration: CustomerAuthConfiguration;
+      };
+    }
+  | {
+      name: 'configure-customer-auth';
+      deployment: string;
+      confirmCloud: boolean;
+      args: {
+        key: string;
+        expectedRevision: number;
+        configuration: CustomerAuthConfiguration;
+      };
     };
 
 export class CliError extends Error {
@@ -46,10 +70,20 @@ export const HELP = `Usage:
   pnpm bff:environment -- inspect --deployment <local|reference> --key <key> [--confirm-cloud]
   pnpm bff:environment -- list --deployment <local|reference> [--confirm-cloud]
   pnpm bff:environment -- update --deployment <local|reference> --key <key> [--business-name <name>] [--environment-name <name>] [--confirm-cloud]
+  pnpm bff:environment -- preview-customer-auth --deployment <local|reference> --key <key> --configuration-json <json> [--confirm-cloud]
+  pnpm bff:environment -- configure-customer-auth --deployment <local|reference> --key <key> --expected-revision <revision> --configuration-json <json> [--confirm-cloud]
 
-Cloud targets are refused unless --confirm-cloud is present. Build 1 defines no production shortcut.`;
+Customer auth must be previewed before apply. Configuration JSON contains public registration and policy values, never credentials.
+Cloud targets are refused unless --confirm-cloud is present. Production has no shortcut.`;
 
-const commandNames = ['create', 'inspect', 'list', 'update'] as const;
+const commandNames = [
+  'create',
+  'inspect',
+  'list',
+  'update',
+  'preview-customer-auth',
+  'configure-customer-auth',
+] as const;
 type CommandName = (typeof commandNames)[number];
 const KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -80,6 +114,28 @@ function validLabel(value: string, flag: string): string {
   return label;
 }
 
+function validRevision(value: string | undefined): number {
+  const parsed = Number(required(value, '--expected-revision'));
+  if (!Number.isSafeInteger(parsed) || parsed < 0) {
+    throw new CliError('--expected-revision must be a non-negative integer');
+  }
+  return parsed;
+}
+
+function validCustomerAuthConfiguration(
+  value: string | undefined,
+): CustomerAuthConfiguration {
+  try {
+    return customerAuthConfigurationSchema.parse(
+      JSON.parse(required(value, '--configuration-json')),
+    );
+  } catch {
+    throw new CliError(
+      '--configuration-json must be valid customer auth configuration JSON',
+    );
+  }
+}
+
 function isProductionDeployment(deployment: string): boolean {
   const reference = deployment.toLowerCase().split(':').at(-1);
   return reference === 'prod' || reference === 'production';
@@ -102,8 +158,10 @@ export function parseCommand(argv: string[]): OperatorCommand {
     options: {
       'business-name': { type: 'string' },
       'confirm-cloud': { type: 'boolean', default: false },
+      'configuration-json': { type: 'string' },
       deployment: { type: 'string' },
       'environment-name': { type: 'string' },
+      'expected-revision': { type: 'string' },
       key: { type: 'string' },
     },
   });
@@ -116,7 +174,7 @@ export function parseCommand(argv: string[]): OperatorCommand {
   const confirmCloud = values['confirm-cloud'] ?? false;
   if (isProductionDeployment(deployment)) {
     throw new CliError(
-      'Production targets are not supported by the Build 1 CLI',
+      'Production targets must use the reviewed production delivery workflow',
     );
   }
   if (deployment !== 'local' && !confirmCloud) {
@@ -132,6 +190,35 @@ export function parseCommand(argv: string[]): OperatorCommand {
   const key = validKey(required(values.key, '--key'));
   if (name === 'inspect') {
     return { name, deployment, confirmCloud, args: { key } };
+  }
+
+  if (name === 'preview-customer-auth') {
+    return {
+      name,
+      deployment,
+      confirmCloud,
+      args: {
+        key,
+        configuration: validCustomerAuthConfiguration(
+          values['configuration-json'],
+        ),
+      },
+    };
+  }
+
+  if (name === 'configure-customer-auth') {
+    return {
+      name,
+      deployment,
+      confirmCloud,
+      args: {
+        key,
+        expectedRevision: validRevision(values['expected-revision']),
+        configuration: validCustomerAuthConfiguration(
+          values['configuration-json'],
+        ),
+      },
+    };
   }
 
   if (name === 'create') {
@@ -203,7 +290,10 @@ export function classifyConvexFailure(error: unknown): CliFailure {
         message: 'Backend validation rejected the request.',
       };
     case 'CONFLICT':
-      return { exitCode: 3, message: 'Business environment already exists.' };
+      return {
+        exitCode: 3,
+        message: 'Operation conflicts with current state.',
+      };
     case 'NOT_FOUND':
       return { exitCode: 4, message: 'Business environment was not found.' };
     case 'UNAUTHENTICATED':
@@ -221,12 +311,18 @@ export function classifyConvexFailure(error: unknown): CliFailure {
 export function buildConvexInvocation(
   command: OperatorCommand,
 ): ConvexInvocation {
+  const functionName =
+    command.name === 'preview-customer-auth'
+      ? 'previewCustomerAuth'
+      : command.name === 'configure-customer-auth'
+        ? 'configureCustomerAuth'
+        : command.name;
   return {
     executable: process.execPath,
     args: [
       'node_modules/convex/bin/main.js',
       'run',
-      `businessEnvironments:${command.name}`,
+      `businessEnvironments:${functionName}`,
       JSON.stringify(command.args),
       '--deployment',
       command.deployment,

@@ -14,6 +14,11 @@ import {
   businessEnvironmentViewValidator,
   toBusinessEnvironmentView,
 } from './lib/businessEnvironmentView';
+import {
+  customerAuthConfigurationValidator,
+  storedCustomerAuthConfigurationValidator,
+  validateCustomerAuthConfiguration,
+} from './lib/customerConfiguration';
 import { fail } from './lib/errors';
 
 async function findByKey(ctx: QueryCtx | MutationCtx, key: string) {
@@ -21,6 +26,26 @@ async function findByKey(ctx: QueryCtx | MutationCtx, key: string) {
     .query('businessEnvironments')
     .withIndex('by_key', (query) => query.eq('key', key))
     .unique();
+}
+
+const customerAuthConfigurationPreviewValidator = v.object({
+  key: v.string(),
+  configuration: storedCustomerAuthConfigurationValidator,
+  currentRevision: v.number(),
+  nextRevision: v.number(),
+});
+
+function parseCustomerAuthConfiguration(
+  configuration: Parameters<typeof validateCustomerAuthConfiguration>[0],
+) {
+  try {
+    return validateCustomerAuthConfiguration(configuration);
+  } catch {
+    return fail(
+      'VALIDATION_ERROR',
+      'Customer authentication configuration is invalid',
+    );
+  }
 }
 
 export const create = internalMutation({
@@ -47,6 +72,8 @@ export const create = internalMutation({
       key,
       businessName,
       environmentName,
+      customerAuthConfigurationRevision: 0,
+      accountPolicyStateRevision: 0,
       updatedAt: now,
     });
     const created = await ctx.db.get(id);
@@ -123,6 +150,67 @@ export const update = internalMutation({
     });
     const updated = await ctx.db.get(existing._id);
 
+    if (!updated) {
+      return fail('NOT_FOUND', `Business environment ${key} was not found`);
+    }
+
+    return toBusinessEnvironmentView(updated);
+  },
+});
+
+export const previewCustomerAuth = internalQuery({
+  args: {
+    key: v.string(),
+    configuration: customerAuthConfigurationValidator,
+  },
+  returns: customerAuthConfigurationPreviewValidator,
+  handler: async (ctx, args) => {
+    const key = validateBusinessEnvironmentKey(args.key);
+    const existing = await findByKey(ctx, key);
+    if (!existing) {
+      return fail('NOT_FOUND', `Business environment ${key} was not found`);
+    }
+
+    const currentRevision = existing.customerAuthConfigurationRevision ?? 0;
+    return {
+      key,
+      configuration: parseCustomerAuthConfiguration(args.configuration),
+      currentRevision,
+      nextRevision: currentRevision + 1,
+    };
+  },
+});
+
+export const configureCustomerAuth = internalMutation({
+  args: {
+    key: v.string(),
+    expectedRevision: v.number(),
+    configuration: customerAuthConfigurationValidator,
+  },
+  returns: businessEnvironmentViewValidator,
+  handler: async (ctx, args) => {
+    const key = validateBusinessEnvironmentKey(args.key);
+    const existing = await findByKey(ctx, key);
+    if (!existing) {
+      return fail('NOT_FOUND', `Business environment ${key} was not found`);
+    }
+
+    const currentRevision = existing.customerAuthConfigurationRevision ?? 0;
+    if (args.expectedRevision !== currentRevision) {
+      return fail(
+        'CONFLICT',
+        'Customer authentication configuration changed; preview it again',
+      );
+    }
+
+    const customerAuth = parseCustomerAuthConfiguration(args.configuration);
+    await ctx.db.patch(existing._id, {
+      customerAuth,
+      customerAuthConfigurationRevision: currentRevision + 1,
+      accountPolicyStateRevision: existing.accountPolicyStateRevision ?? 0,
+      updatedAt: Math.max(Date.now(), existing.updatedAt + 1),
+    });
+    const updated = await ctx.db.get(existing._id);
     if (!updated) {
       return fail('NOT_FOUND', `Business environment ${key} was not found`);
     }

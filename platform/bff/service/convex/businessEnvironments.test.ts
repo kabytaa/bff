@@ -1,7 +1,14 @@
 import { convexTest } from 'convex-test';
 import { describe, expect, it } from 'vitest';
 
-import { parseHealthResponse } from '@bff/contracts';
+import {
+  CUSTOMER_AUTH_CONFIGURATION_VERSION,
+  DEFAULT_ACCOUNT_POLICY,
+  DEFAULT_BUSINESS_ACCOUNT_POLICY,
+  DEFAULT_SESSION_POLICY,
+  parseHealthResponse,
+  type CustomerAuthConfiguration,
+} from '@bff/contracts';
 import {
   BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER,
   BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT,
@@ -34,6 +41,20 @@ const developmentAutomationIdentity = {
   tokenIdentifier: `${BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER}|${BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT}`,
 };
 
+const customerAuthConfiguration: CustomerAuthConfiguration = {
+  version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+  enabledProviders: ['google'],
+  developmentAutomationEnabled: true,
+  transport: {
+    webOrigins: ['https://example.tofler.app'],
+    sessionAdapterBaseUrl: 'https://example-backend.convex.site',
+    defaultPostLoginPath: '/',
+  },
+  sessionPolicy: DEFAULT_SESSION_POLICY,
+  accountPolicy: DEFAULT_BUSINESS_ACCOUNT_POLICY,
+  accountDefaults: DEFAULT_ACCOUNT_POLICY,
+};
+
 describe('businessEnvironments', () => {
   it('creates, lists, inspects, and updates independent environments', async () => {
     const t = convexTest(schema, modules);
@@ -53,7 +74,10 @@ describe('businessEnvironments', () => {
       key: 'tablecards-development',
       businessName: 'TableCards',
       environmentName: 'Development',
+      customerAuthConfigurationRevision: 0,
+      accountPolicyStateRevision: 0,
     });
+    expect(development).not.toHaveProperty('customerAuth');
 
     const beforeUpdate = await t.query(internal.businessEnvironments.inspect, {
       key: 'tablecards-development',
@@ -74,6 +98,78 @@ describe('businessEnvironments', () => {
         ({ key }) => key,
       ),
     ).toEqual(['tablecards-development', 'tablecards-qa']);
+  });
+
+  it('previews and applies an exact versioned customer configuration', async () => {
+    const t = convexTest(schema, modules);
+    await t.mutation(internal.businessEnvironments.create, {
+      key: 'sample-development',
+      businessName: 'Sample',
+      environmentName: 'Development',
+    });
+
+    const preview = await t.query(
+      internal.businessEnvironments.previewCustomerAuth,
+      {
+        key: 'sample-development',
+        configuration: customerAuthConfiguration,
+      },
+    );
+    expect(preview).toMatchObject({
+      key: 'sample-development',
+      currentRevision: 0,
+      nextRevision: 1,
+      configuration: {
+        callbackUrl:
+          'https://example-backend.convex.site/_tofler/auth/callback',
+      },
+    });
+
+    const configured = await t.mutation(
+      internal.businessEnvironments.configureCustomerAuth,
+      {
+        key: 'sample-development',
+        expectedRevision: preview.currentRevision,
+        configuration: customerAuthConfiguration,
+      },
+    );
+    expect(configured.customerAuthConfigurationRevision).toBe(1);
+    expect(configured.customerAuth).toEqual(preview.configuration);
+
+    await expect(
+      t.mutation(internal.businessEnvironments.configureCustomerAuth, {
+        key: 'sample-development',
+        expectedRevision: 0,
+        configuration: customerAuthConfiguration,
+      }),
+    ).rejects.toThrow(/CONFLICT|preview it again/);
+  });
+
+  it('rejects unsafe registered origins without changing the environment', async () => {
+    const t = convexTest(schema, modules);
+    await t.mutation(internal.businessEnvironments.create, {
+      key: 'sample-development',
+      businessName: 'Sample',
+      environmentName: 'Development',
+    });
+
+    await expect(
+      t.query(internal.businessEnvironments.previewCustomerAuth, {
+        key: 'sample-development',
+        configuration: {
+          ...customerAuthConfiguration,
+          transport: {
+            ...customerAuthConfiguration.transport,
+            webOrigins: ['https://*.tofler.app'],
+          },
+        },
+      }),
+    ).rejects.toThrow(/VALIDATION_ERROR|configuration is invalid/);
+    expect(
+      await t.query(internal.businessEnvironments.inspect, {
+        key: 'sample-development',
+      }),
+    ).not.toHaveProperty('customerAuth');
   });
 
   it('rejects duplicate, invalid, missing, and empty updates', async () => {
