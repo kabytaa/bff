@@ -31,8 +31,8 @@ export interface BuildConfig extends ProductionConfig {
 }
 
 export interface ExampleDeploymentTargetConfig {
+  deploymentName: string;
   exampleConvexUrl: string;
-  injectedExampleConvexUrl: string;
 }
 
 export type SmokeConfig = ProductionConfig;
@@ -233,15 +233,22 @@ export function readExampleDeploymentTargetConfig(
     'EXPECTED_EXAMPLE_CONVEX_URL',
     '.convex.cloud',
   );
-  const injectedExampleConvexUrl = httpsOrigin(
-    environment,
-    'EXAMPLE_DEPLOY_CONVEX_URL',
-    '.convex.cloud',
-  );
-  if (injectedExampleConvexUrl !== exampleConvexUrl) {
+  const deployKey = required(environment, 'CONVEX_DEPLOY_KEY');
+  const match = /^prod:([a-z0-9-]+)\|.+$/u.exec(deployKey);
+  if (!match) {
     throw new ProductionConfigError(
-      'EXAMPLE_DEPLOY_CONVEX_URL does not match EXPECTED_EXAMPLE_CONVEX_URL.',
+      'CONVEX_DEPLOY_KEY must be a deployment-scoped production key.',
     );
   }
-  return { exampleConvexUrl, injectedExampleConvexUrl };
+  const deploymentName = match[1];
+  const expectedDeploymentName = new URL(exampleConvexUrl).hostname.replace(
+    /\.convex\.cloud$/u,
+    '',
+  );
+  if (deploymentName !== expectedDeploymentName) {
+    throw new ProductionConfigError(
+      'CONVEX_DEPLOY_KEY does not target EXPECTED_EXAMPLE_CONVEX_URL.',
+    );
+  }
+  return { deploymentName, exampleConvexUrl };
 }

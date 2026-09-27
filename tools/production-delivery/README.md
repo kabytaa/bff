@@ -28,11 +28,11 @@ asset metadata and the exact targets embedded in every published JavaScript
 bundle. It never uses a Google token, session cookie or provider deployment
 credential.
 
-`production:verify-example-target` runs only as the command hook of an example
-Convex `deploy --dry-run`. Convex injects the deployment URL selected by
-`EXAMPLE_CONVEX_DEPLOY_KEY`; the command rejects it unless it exactly matches
-`EXPECTED_EXAMPLE_CONVEX_URL`. CI performs this no-upload guard before any
-example environment write.
+`production:verify-example-target` validates the documented Convex
+deployment-scoped key format before the CLI is allowed to run. It extracts only
+the non-secret production deployment name and rejects the key unless it exactly
+matches `EXPECTED_EXAMPLE_CONVEX_URL`. The token is never printed or returned.
+CI performs this local guard before any example environment write.
 
 ## Public inputs
 
@@ -48,10 +48,10 @@ example environment write.
 | `BFF_DEPLOY_CONVEX_URL`        | build        | Convex-injected BFF client origin; must equal `EXPECTED_CONVEX_URL` |
 | `EXAMPLE_CONVEX_SITE_URL`      | build, smoke | Separate example production HTTP-action origin                      |
 | `EXPECTED_EXAMPLE_CONVEX_URL`  | build, smoke | Matching separate example production client origin                  |
-| `EXAMPLE_DEPLOY_CONVEX_URL`    | target guard | Convex-injected example URL; must equal the expected example origin |
 | `GITHUB_SHA`                   | build, smoke | Full 40-character commit expected everywhere                        |
 
-Deployment secrets stay in the GitHub `production` environment and are not
-inputs to this tool. See `docs/operations/build-2-customer-auth.md` for the
-multi-surface setup, key handling, deployment order, smoke contract and partial
-release recovery.
+Deployment secrets stay in the GitHub `production` environment. The target
+guard reads `CONVEX_DEPLOY_KEY` only to compare its non-secret deployment-name
+prefix; build and smoke never receive deploy keys. See
+`docs/operations/build-2-customer-auth.md` for the multi-surface setup, key
+handling, deployment order, smoke contract and partial release recovery.

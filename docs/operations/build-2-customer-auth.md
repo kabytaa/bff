@@ -158,8 +158,9 @@ After the normal `pnpm check` validation job, the production job:
 
 1. preflights every URL, separate deployment pair, static build and production bundle before mutation;
 2. deploys the BFF and stamps `BFF_BUILD_VERSION` with `GITHUB_SHA`;
-3. uses a no-upload Convex deploy hook to verify the example deploy key resolves
-   to `EXPECTED_EXAMPLE_CONVEX_URL` before any example environment write;
+3. validates the deployment name embedded in the scoped example deploy key
+   against `EXPECTED_EXAMPLE_CONVEX_URL` before invoking Convex or writing any
+   example environment value;
 4. configures only that verified example deployment's public trust/transport values using its own working directory and deploy key;
 5. deploys the example backend and stamps `EXAMPLE_BUILD_VERSION` with the same SHA;
 6. deploys the gateway with the exact example HTTP origin as its fixed upstream;

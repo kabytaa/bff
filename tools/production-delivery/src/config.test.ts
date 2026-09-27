@@ -98,18 +98,24 @@ describe('production configuration', () => {
     expect(
       readExampleDeploymentTargetConfig({
         EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
-        EXAMPLE_DEPLOY_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
+        CONVEX_DEPLOY_KEY: 'prod:kind-fox-456|test',
       }),
     ).toEqual({
+      deploymentName: 'kind-fox-456',
       exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
-      injectedExampleConvexUrl: 'https://kind-fox-456.convex.cloud',
     });
     expect(() =>
       readExampleDeploymentTargetConfig({
         EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
-        EXAMPLE_DEPLOY_CONVEX_URL: 'https://wrong-otter-789.convex.cloud',
+        CONVEX_DEPLOY_KEY: 'prod:wrong-otter-789|test',
       }),
-    ).toThrow(/does not match EXPECTED_EXAMPLE_CONVEX_URL/u);
+    ).toThrow(/does not target EXPECTED_EXAMPLE_CONVEX_URL/u);
+    expect(() =>
+      readExampleDeploymentTargetConfig({
+        EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
+        CONVEX_DEPLOY_KEY: 'project:team:project|test',
+      }),
+    ).toThrow(/deployment-scoped production key/u);
   });
 
   it.each([

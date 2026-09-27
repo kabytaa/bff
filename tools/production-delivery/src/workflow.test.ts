@@ -65,10 +65,8 @@ describe('production workflow credential boundaries', () => {
       expect(section).toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
       expect(section).not.toContain('secrets.CONVEX_DEPLOY_KEY }}');
     }
-    expect(exampleTarget).toContain('convex deploy --dry-run');
-    expect(exampleTarget).toContain(
-      '--cmd-url-env-var-name EXAMPLE_DEPLOY_CONVEX_URL',
-    );
+    expect(exampleTarget).toContain('production:verify-example-target');
+    expect(exampleTarget).not.toContain('convex deploy');
     expect(exampleTarget).not.toContain('convex env set');
   });
 
