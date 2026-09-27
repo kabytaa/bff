@@ -47,9 +47,10 @@ if (
 
 if (
   !Array.isArray(options.allow) ||
-  JSON.stringify(options.allow) !== JSON.stringify(['@bff/service-api'])
+  JSON.stringify(options.allow) !==
+    JSON.stringify(['@bff/service-api', '@example/backend-api'])
 ) {
-  fail('only the explicit BFF-internal generated API exception is allowed');
+  fail('only explicit generated Convex API imports are allowed');
 }
 
 console.info('Nx ownership boundary policy is present and restrictive.');

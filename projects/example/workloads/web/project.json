@@ -1,0 +1,41 @@
+{
+  "name": "example-web",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/example/workloads/web/src",
+  "projectType": "application",
+  "tags": ["scope:business", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "options": {
+        "command": "vite build --config projects/example/workloads/web/vite.config.ts"
+      },
+      "outputs": ["{workspaceRoot}/dist/projects/example/workloads/web"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint projects/example/workloads/web --max-warnings 0"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite --config projects/example/workloads/web/vite.config.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config projects/example/workloads/web/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/example/workloads/web/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

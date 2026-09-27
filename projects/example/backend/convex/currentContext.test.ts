@@ -98,4 +98,47 @@ describe('example native customer context', () => {
       }),
     ).rejects.toThrow(/FORBIDDEN|account scope/u);
   });
+
+  it('exposes the same verified context through the protected HTTP route', async () => {
+    const t = convexTest(schema, modules).withIdentity(accountIdentity());
+    const response = await t.fetch('/v1/context', {
+      headers: { origin: 'https://example-dev.tofler.app' },
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('access-control-allow-origin')).toBe(
+      'https://example-dev.tofler.app',
+    );
+    await expect(response.json()).resolves.toEqual({
+      userId: 'user_abcdefghijklmnop',
+      sessionId: 'session_abcdefghijklmnop',
+      accountId: 'account_abcdefghijklmnop',
+      membershipId: 'membership_abcdefghijklmnop',
+      role: 'owner',
+      permissions: ['account:read', 'members:read'],
+    });
+  });
+
+  it('registers the session adapter and denies unregistered HTTP origins', async () => {
+    const sessionResponse = await convexTest(schema, modules).fetch(
+      '/_tofler/auth/context',
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          origin: 'https://example-dev.tofler.app',
+          'x-tofler-csrf': '1',
+        },
+        body: '{}',
+      },
+    );
+    expect(sessionResponse.status).toBe(401);
+
+    const protectedResponse = await convexTest(schema, modules)
+      .withIdentity(accountIdentity())
+      .fetch('/v1/context', {
+        headers: { origin: 'https://attacker.example' },
+      });
+    expect(protectedResponse.status).toBe(403);
+  });
 });
