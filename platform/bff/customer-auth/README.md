@@ -23,6 +23,7 @@ pnpm exec nx run bff-customer-auth:build
 pnpm exec nx run bff-customer-auth:assert-production-bundle
 ```
 
-`build-development` writes a separate artifact for `auth-dev.tofler.app`.
-Development automation is a distinct entry added by the protected automation
-slice; it must never enter the production artifact.
+`build-development` writes a separate artifact for `auth-dev.tofler.app`,
+including a protected `index.development-auth.html` entry used only by browser
+automation with an in-memory two-minute grant. The entry and all automation
+markers are forbidden by the production bundle audit.

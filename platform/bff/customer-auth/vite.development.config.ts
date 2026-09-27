@@ -13,5 +13,11 @@ export default mergeConfig(baseConfig, {
       workspaceRoot,
       'dist/platform/bff/customer-auth-development',
     ),
+    rollupOptions: {
+      input: {
+        main: resolve(projectRoot, 'index.html'),
+        developmentAuth: resolve(projectRoot, 'index.development-auth.html'),
+      },
+    },
   },
 });

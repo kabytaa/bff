@@ -22,6 +22,17 @@ export const CUSTOMER_GOOGLE_ISSUERS = [
   'accounts.google.com',
 ] as const;
 
+/**
+ * Fixed identity namespace for locally signed customer-development grants.
+ * The corresponding private key remains on the operator machine and this
+ * provider is never configured in production.
+ */
+export const CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER =
+  'https://customer-development-auth.tofler.tech';
+
+export const CUSTOMER_DEVELOPMENT_AUTOMATION_SUBJECT =
+  'business-factory-customer-auth-automation';
+
 export const BACKOFFICE_OPERATOR_EMAILS = [
   'kabytaa@gmail.com',
   'masha@koomasha.com',

@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { CustomerAuthTransactionChallenge } from '@bff/contracts';
 
 import {
+  completeDevelopmentCustomerAuth,
   completeGoogleCustomerAuth,
   customerAuthLocation,
   CustomerAuthFlowError,
@@ -130,6 +131,36 @@ describe('customer auth flow', () => {
       new URL(
         'https://api.example.tofler.app/_tofler/auth/callback?code=one&state=two',
       ),
+    );
+  });
+
+  it('posts a development grant only to the protected completion endpoint', async () => {
+    const fetcher = vi.fn(
+      async (_input: RequestInfo | URL, init?: RequestInit) => {
+        expect(init?.method).toBe('POST');
+        expect(JSON.parse(String(init?.body))).toEqual({
+          environmentKey: location.environmentKey,
+          reference: location.reference,
+          grant: 'signed.two-minute.grant',
+        });
+        return new Response(
+          JSON.stringify({
+            redirectUrl:
+              'https://api.example.tofler.app/_tofler/auth/callback?code=one&state=two',
+          }),
+        );
+      },
+    );
+    await expect(
+      completeDevelopmentCustomerAuth({
+        bffSiteUrl: 'https://example.convex.site',
+        challenge,
+        grant: 'signed.two-minute.grant',
+        fetch: fetcher,
+      }),
+    ).resolves.toBeInstanceOf(URL);
+    expect(String(fetcher.mock.calls[0]?.[0])).toBe(
+      'https://example.convex.site/v1/auth/transactions/development',
     );
   });
 

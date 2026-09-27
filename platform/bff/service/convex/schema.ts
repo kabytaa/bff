@@ -243,7 +243,17 @@ export default defineSchema({
       v.literal('customer_login_succeeded'),
       v.literal('customer_logout'),
       v.literal('ownership_transferred'),
+      v.literal('development_automation_used'),
     ),
+    automationCapability: v.optional(
+      v.union(
+        v.literal('signup'),
+        v.literal('login_as'),
+        v.literal('ownership_transfer'),
+      ),
+    ),
+    automationTarget: v.optional(v.string()),
+    grantIdHash: v.optional(v.string()),
     correlationId: v.string(),
     occurredAt: v.number(),
     cleanupAt: v.number(),

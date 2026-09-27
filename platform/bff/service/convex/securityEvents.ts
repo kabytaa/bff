@@ -4,7 +4,10 @@ import type { MutationCtx } from './_generated/server';
 const SECURITY_EVENT_RETENTION_MILLISECONDS = 90 * 24 * 60 * 60 * 1_000;
 
 export type SecurityEventType =
-  'customer_login_succeeded' | 'customer_logout' | 'ownership_transferred';
+  | 'customer_login_succeeded'
+  | 'customer_logout'
+  | 'ownership_transferred'
+  | 'development_automation_used';
 
 export async function recordSecurityEvent(
   ctx: MutationCtx,
@@ -14,6 +17,9 @@ export async function recordSecurityEvent(
     accountId?: Id<'accounts'>;
     sessionId?: Id<'businessSessions'>;
     type: SecurityEventType;
+    automationCapability?: 'signup' | 'login_as' | 'ownership_transfer';
+    automationTarget?: string;
+    grantIdHash?: string;
     correlationId: string;
     occurredAt: number;
   },

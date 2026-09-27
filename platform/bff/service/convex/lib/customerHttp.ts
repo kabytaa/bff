@@ -22,6 +22,7 @@ import {
   readCustomerSigningConfiguration,
   sha256Base64Url,
   signCustomerContextToken,
+  verifyCustomerDevelopmentGrant,
   verifyCustomerContextToken,
   verifyGoogleIdentityToken,
 } from './customerCrypto';
@@ -503,6 +504,120 @@ export async function completeGoogleLoginHandler(
     return publicError(
       'RETRYABLE_UNAVAILABLE',
       'Unable to complete sign-in. Try again.',
+      503,
+      cors,
+    );
+  } catch (error) {
+    return mapError(error, cors);
+  }
+}
+
+export async function completeDevelopmentLoginHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  let cors: HeadersInit = {};
+  try {
+    cors = authOriginHeaders(request);
+    const body = await readBoundedJson(request);
+    const environmentKey = requiredString(body, 'environmentKey', 64);
+    const reference = requiredString(body, 'reference', 128);
+    const grant = requiredString(body, 'grant', 16 * 1024);
+    let claims;
+    try {
+      claims = await verifyCustomerDevelopmentGrant({ token: grant });
+    } catch {
+      throw new HttpInputError(
+        401,
+        'UNAUTHENTICATED',
+        'Development sign-in could not be verified.',
+      );
+    }
+    if (
+      claims.environmentKey !== environmentKey ||
+      claims.transactionReference !== reference
+    ) {
+      throw new HttpInputError(
+        401,
+        'UNAUTHENTICATED',
+        'Development sign-in could not be verified.',
+      );
+    }
+    const challenge = await ctx.runQuery(
+      internal.loginTransactions.readChallenge,
+      { environmentKey, reference, now: Date.now() },
+    );
+    if (
+      (challenge.purpose === 'login' &&
+        claims.capability === 'ownership_transfer') ||
+      (challenge.purpose === 'ownership_transfer' &&
+        claims.capability !== 'ownership_transfer')
+    ) {
+      throw new HttpInputError(
+        401,
+        'UNAUTHENTICATED',
+        'Development sign-in could not be verified.',
+      );
+    }
+
+    const grantHash = await sha256Base64Url(grant);
+    const grantIdHash = await sha256Base64Url(claims.jti);
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      const handoffCode = randomOpaqueSecret();
+      const handoffCodeHash = await sha256Base64Url(handoffCode);
+      const completed =
+        claims.capability === 'ownership_transfer'
+          ? await ctx.runMutation(
+              internal.ownershipTransfers.completeDevelopmentProvider,
+              {
+                environmentKey,
+                reference,
+                userPublicId: claims.userId,
+                grantHash,
+                grantIdHash,
+                authenticatedAt: claims.iat,
+                handoffCodeHash,
+                now: Date.now(),
+              },
+            )
+          : await ctx.runMutation(
+              internal.loginTransactions.completeDevelopmentProvider,
+              {
+                environmentKey,
+                reference,
+                target:
+                  claims.capability === 'signup'
+                    ? {
+                        capability: 'signup' as const,
+                        personaId: claims.personaId,
+                        profile: claims.profile,
+                      }
+                    : {
+                        capability: 'login_as' as const,
+                        userPublicId: claims.userId,
+                      },
+                grantHash,
+                grantIdHash,
+                handoffCodeHash,
+                authenticatedAt: claims.iat,
+                candidates: {
+                  userPublicId: randomPublicIdentifier('user'),
+                  accountPublicId: randomPublicIdentifier('account'),
+                  membershipPublicId: randomPublicIdentifier('membership'),
+                },
+                now: Date.now(),
+              },
+            );
+      if (completed.kind === 'collision') continue;
+
+      const redirectUrl = new URL(completed.callbackUrl);
+      redirectUrl.searchParams.set('code', handoffCode);
+      redirectUrl.searchParams.set('state', completed.state);
+      return jsonResponse({ redirectUrl: redirectUrl.href }, 200, cors);
+    }
+    return publicError(
+      'RETRYABLE_UNAVAILABLE',
+      'Unable to complete development sign-in. Try again.',
       503,
       cors,
     );

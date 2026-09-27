@@ -12,16 +12,22 @@ import { z } from 'zod';
 
 import {
   CONTEXT_TOKEN_TTL_SECONDS,
+  CUSTOMER_DEVELOPMENT_AUTH_PATH,
+  CUSTOMER_DEVELOPMENT_GRANT_TTL_SECONDS,
   CUSTOMER_CONTEXT_VERSION,
   customerContextAudience,
   customerContextClaimsSchema,
+  customerDevelopmentGrantClaimsSchema,
   normalizeHttpsOrigin,
   publicIdentifierSchema,
   type AccountPermission,
   type AccountRole,
   type CustomerContextClaims,
+  type CustomerDevelopmentGrantClaims,
 } from '@bff/contracts';
 import {
+  CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER,
+  CUSTOMER_DEVELOPMENT_AUTOMATION_SUBJECT,
   CUSTOMER_GOOGLE_CLIENT_ID,
   CUSTOMER_GOOGLE_ISSUERS,
 } from '@bff/static-config';
@@ -30,6 +36,7 @@ const GOOGLE_JWKS_URL = new URL('https://www.googleapis.com/oauth2/v3/certs');
 const GOOGLE_JWKS = createRemoteJWKSet(GOOGLE_JWKS_URL);
 const MAX_PROVIDER_TOKEN_LENGTH = 16 * 1024;
 const MAX_CONTEXT_TOKEN_LENGTH = 16 * 1024;
+const MAX_DEVELOPMENT_GRANT_LENGTH = 16 * 1024;
 const textEncoder = new TextEncoder();
 const verifiedEmailSchema = z.string().trim().toLowerCase().email().max(320);
 
@@ -38,6 +45,13 @@ export const CUSTOMER_SIGNING_ENVIRONMENT = {
   privateJwk: 'BFF_CUSTOMER_SIGNING_PRIVATE_JWK',
   publicJwks: 'BFF_CUSTOMER_SIGNING_PUBLIC_JWKS',
 } as const;
+
+export const CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT = {
+  audience: 'BFF_CUSTOMER_DEVELOPMENT_AUTOMATION_AUDIENCE',
+  publicJwks: 'BFF_CUSTOMER_DEVELOPMENT_AUTOMATION_PUBLIC_JWKS',
+} as const;
+
+const DEVELOPMENT_AUTOMATION_DISABLED = 'disabled';
 
 interface CustomerPrivateJwk extends JWK {
   alg: 'ES256';
@@ -53,6 +67,11 @@ interface CustomerPrivateJwk extends JWK {
 export interface CustomerSigningConfiguration {
   readonly issuer: string;
   readonly privateJwk: CustomerPrivateJwk;
+  readonly publicJwks: JSONWebKeySet;
+}
+
+export interface CustomerDevelopmentAutomationConfiguration {
+  readonly audience: string;
   readonly publicJwks: JSONWebKeySet;
 }
 
@@ -143,6 +162,130 @@ function isPublicJwk(value: unknown): value is JWK & {
     value.y.length > 0 &&
     !('d' in value)
   );
+}
+
+function parseCustomerDevelopmentAudience(value: string): string {
+  const url = new URL(value);
+  if (
+    url.protocol !== 'https:' ||
+    url.username ||
+    url.password ||
+    url.pathname !== CUSTOMER_DEVELOPMENT_AUTH_PATH ||
+    url.search ||
+    url.hash ||
+    url.href !== value
+  ) {
+    throw new Error(
+      'Customer development automation audience must be the exact HTTPS endpoint',
+    );
+  }
+  return value;
+}
+
+export function parseCustomerDevelopmentAutomationConfiguration({
+  audience,
+  publicJwks,
+}: {
+  readonly audience: string | undefined;
+  readonly publicJwks: string | undefined;
+}): CustomerDevelopmentAutomationConfiguration | null {
+  const normalizedAudience = audience?.trim();
+  const normalizedJwks = publicJwks?.trim();
+  if (!normalizedAudience && !normalizedJwks) return null;
+  if (
+    normalizedAudience === DEVELOPMENT_AUTOMATION_DISABLED &&
+    normalizedJwks === DEVELOPMENT_AUTOMATION_DISABLED
+  ) {
+    return null;
+  }
+  if (
+    !normalizedAudience ||
+    !normalizedJwks ||
+    normalizedAudience === DEVELOPMENT_AUTOMATION_DISABLED ||
+    normalizedJwks === DEVELOPMENT_AUTOMATION_DISABLED
+  ) {
+    throw new Error(
+      'Customer development automation must be fully configured or disabled',
+    );
+  }
+  const parsedJwks = parseJson(
+    normalizedJwks,
+    CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.publicJwks,
+  );
+  if (
+    !isRecord(parsedJwks) ||
+    !Array.isArray(parsedJwks.keys) ||
+    parsedJwks.keys.length !== 1 ||
+    !isPublicJwk(parsedJwks.keys[0])
+  ) {
+    throw new Error('Customer development automation public JWKS is invalid');
+  }
+  return {
+    audience: parseCustomerDevelopmentAudience(normalizedAudience),
+    publicJwks: { keys: parsedJwks.keys },
+  };
+}
+
+export function customerDevelopmentAutomationRouteEnabled(
+  environment: Record<string, string | undefined> = process.env,
+): boolean {
+  return (
+    parseCustomerDevelopmentAutomationConfiguration({
+      audience:
+        environment[CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.audience],
+      publicJwks:
+        environment[CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.publicJwks],
+    }) !== null
+  );
+}
+
+export function readCustomerDevelopmentAutomationConfiguration(): CustomerDevelopmentAutomationConfiguration {
+  const configuration = parseCustomerDevelopmentAutomationConfiguration({
+    audience: process.env[CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.audience],
+    publicJwks:
+      process.env[CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.publicJwks],
+  });
+  if (!configuration) {
+    throw new Error('Customer development automation is disabled');
+  }
+  return configuration;
+}
+
+export async function verifyCustomerDevelopmentGrant({
+  token,
+  configuration = readCustomerDevelopmentAutomationConfiguration(),
+  currentDate = new Date(),
+}: {
+  readonly token: string;
+  readonly configuration?: CustomerDevelopmentAutomationConfiguration;
+  readonly currentDate?: Date;
+}): Promise<CustomerDevelopmentGrantClaims> {
+  if (!token || token.length > MAX_DEVELOPMENT_GRANT_LENGTH) {
+    throw new Error('Customer development grant is invalid');
+  }
+  const verified = await jwtVerify(
+    token,
+    createLocalJWKSet(configuration.publicJwks),
+    {
+      algorithms: ['ES256'],
+      issuer: CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER,
+      subject: CUSTOMER_DEVELOPMENT_AUTOMATION_SUBJECT,
+      audience: configuration.audience,
+      currentDate,
+    },
+  );
+  if (verified.protectedHeader.typ !== 'JWT') {
+    throw new Error('Customer development grant type is invalid');
+  }
+  const claims = customerDevelopmentGrantClaimsSchema.parse(verified.payload);
+  const now = Math.floor(currentDate.getTime() / 1_000);
+  if (
+    claims.exp - claims.iat > CUSTOMER_DEVELOPMENT_GRANT_TTL_SECONDS ||
+    claims.iat > now + 60
+  ) {
+    throw new Error('Customer development grant lifetime is invalid');
+  }
+  return claims;
 }
 
 export function parseCustomerSigningConfiguration({

@@ -168,6 +168,39 @@ async function startConfirmation(t: TestBackend, handleHash: string) {
 }
 
 describe('provider-confirmed ownership transfer', () => {
+  it('allows exact-owner development reauthentication and denies another user', async () => {
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    await configure(t);
+    const { ownerUserId, targetUserId, handleHash } = await setupTeam(t);
+    await startConfirmation(t, handleHash);
+
+    await expect(
+      t.mutation(internal.ownershipTransfers.completeDevelopmentProvider, {
+        environmentKey: 'example-development',
+        reference: 'transfer_reference_0001',
+        userPublicId: targetUserId,
+        grantHash: await sha256Base64Url('wrong-user-development-grant'),
+        grantIdHash: await sha256Base64Url('wrong-user-grant-id'),
+        authenticatedAt: Math.floor((baseTime + 1_000) / 1_000),
+        handoffCodeHash: await sha256Base64Url('wrong-user-handoff'),
+        now: baseTime + 1_000,
+      }),
+    ).rejects.toThrow(/UNAUTHENTICATED|match the Owner/u);
+
+    await expect(
+      t.mutation(internal.ownershipTransfers.completeDevelopmentProvider, {
+        environmentKey: 'example-development',
+        reference: 'transfer_reference_0001',
+        userPublicId: ownerUserId,
+        grantHash: await sha256Base64Url('owner-development-grant'),
+        grantIdHash: await sha256Base64Url('owner-grant-id'),
+        authenticatedAt: Math.floor((baseTime + 2_000) / 1_000),
+        handoffCodeHash: await sha256Base64Url('owner-handoff'),
+        now: baseTime + 2_000,
+      }),
+    ).resolves.toMatchObject({ kind: 'ok', callbackUrl });
+  });
+
   it('requires the same principal, transfers atomically, and returns an idempotent result', async () => {
     const t = convexTest({ schema, modules, transactionLimits: true });
     await configure(t);

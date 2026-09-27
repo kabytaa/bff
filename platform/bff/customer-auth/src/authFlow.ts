@@ -146,7 +146,16 @@ export async function completeGoogleCustomerAuth(input: {
   );
   if (!response.ok) throw await responseFailure(response);
 
-  const body: unknown = await response.json();
+  return validateCompletionDestination(
+    input.challenge,
+    (await response.json()) as unknown,
+  );
+}
+
+function validateCompletionDestination(
+  challenge: CustomerAuthTransactionChallenge,
+  body: unknown,
+): URL {
   const completion = completeCustomerAuthResponseSchema.safeParse(body);
   if (!completion.success) {
     throw new CustomerAuthFlowError(
@@ -155,7 +164,7 @@ export async function completeGoogleCustomerAuth(input: {
     );
   }
   const destination = new URL(completion.data.redirectUrl);
-  const callback = new URL(input.challenge.callbackUrl);
+  const callback = new URL(challenge.callbackUrl);
   const destinationParameters = [...destination.searchParams.keys()].sort();
   if (
     destination.origin !== callback.origin ||
@@ -173,4 +182,41 @@ export async function completeGoogleCustomerAuth(input: {
     );
   }
   return destination;
+}
+
+export async function completeDevelopmentCustomerAuth(input: {
+  readonly bffSiteUrl: string;
+  readonly challenge: CustomerAuthTransactionChallenge;
+  readonly grant: string;
+  readonly fetch: typeof globalThis.fetch;
+}): Promise<URL> {
+  if (!input.grant || input.grant.length > 16 * 1024) {
+    throw new CustomerAuthFlowError(
+      { message: 'The development sign-in grant is invalid or expired.' },
+      false,
+    );
+  }
+  const response = await input.fetch(
+    new URL(
+      '/v1/auth/transactions/development',
+      normalizeBffSiteUrl(input.bffSiteUrl),
+    ),
+    {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        environmentKey: input.challenge.environmentKey,
+        reference: input.challenge.reference,
+        grant: input.grant,
+      }),
+    },
+  );
+  if (!response.ok) throw await responseFailure(response);
+  return validateCompletionDestination(
+    input.challenge,
+    (await response.json()) as unknown,
+  );
 }

@@ -1,0 +1,33 @@
+{
+  "name": "bff-customer-auth-tools",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/bff-customer-auth/src",
+  "projectType": "application",
+  "tags": ["scope:bff", "type:tool"],
+  "targets": {
+    "generate-development-auth-key": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx --tsconfig tsconfig.base.json tools/bff-customer-auth/src/generateDevelopmentAuthKey.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint tools/bff-customer-auth --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config tools/bff-customer-auth/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tools/bff-customer-auth/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

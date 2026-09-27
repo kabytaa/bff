@@ -10,6 +10,7 @@ import {
 import {
   acceptInvitationHandler,
   changeMembershipRoleHandler,
+  completeDevelopmentLoginHandler,
   completeOwnershipTransferHandler,
   completeGoogleLoginHandler,
   createAccountHandler,
@@ -29,6 +30,7 @@ import {
   exchangeOwnershipTransferHandler,
   updateAccountPolicyHandler,
 } from './lib/customerHttp';
+import { customerDevelopmentAutomationRouteEnabled } from './lib/customerCrypto';
 
 const http = httpRouter();
 
@@ -52,6 +54,22 @@ http.route({
     });
   }),
 });
+
+if (customerDevelopmentAutomationRouteEnabled()) {
+  http.route({
+    path: '/v1/auth/transactions/development',
+    method: 'POST',
+    handler: httpAction(completeDevelopmentLoginHandler),
+  });
+
+  http.route({
+    path: '/v1/auth/transactions/development',
+    method: 'OPTIONS',
+    handler: httpAction(async (_ctx, request) =>
+      customerAuthOptionsHandler(request),
+    ),
+  });
+}
 
 http.route({
   path: '/v1/auth/transactions',

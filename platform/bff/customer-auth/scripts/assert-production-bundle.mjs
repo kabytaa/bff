@@ -13,11 +13,15 @@ const forbidden = [
   'BFF_DEVELOPMENT_AUTH_DO_NOT_SHIP',
   '__BFF_DEVELOPMENT_AUTOMATION_TOKEN__',
   'development-auth',
+  'BFF_CUSTOMER_DEVELOPMENT_AUTH_DO_NOT_SHIP',
+  '__BFF_CUSTOMER_DEVELOPMENT_GRANT__',
+  'main.developmentAuth',
   BACKOFFICE_DEVELOPMENT_AUTOMATION_ISSUER,
   BACKOFFICE_DEVELOPMENT_AUTOMATION_SUBJECT,
   BACKOFFICE_GOOGLE_CLIENT_ID,
   'ops-dev.tofler.tech',
 ];
+const forbiddenFileNames = ['developmentAuth', 'index.development-auth.html'];
 
 async function files(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -32,6 +36,13 @@ async function files(directory) {
 
 let includesCustomerClient = false;
 for (const file of await files(output)) {
+  for (const marker of forbiddenFileNames) {
+    if (file.includes(marker)) {
+      throw new Error(
+        `Production customer-auth bundle contains a development entry: ${marker}`,
+      );
+    }
+  }
   if (!['.html', '.js', '.css'].includes(extname(file))) continue;
   const content = await readFile(file, 'utf8');
   includesCustomerClient ||= content.includes(CUSTOMER_GOOGLE_CLIENT_ID);

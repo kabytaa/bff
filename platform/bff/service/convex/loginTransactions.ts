@@ -7,6 +7,7 @@ import {
   publicIdentifierSchema,
   relativeApplicationPathSchema,
 } from '@bff/contracts';
+import { CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER } from '@bff/static-config';
 import type { Doc } from './_generated/dataModel';
 import {
   internalMutation,
@@ -20,6 +21,7 @@ import {
 } from './customerAuth';
 import { validateBusinessEnvironmentKey } from './lib/businessEnvironment';
 import { fail } from './lib/errors';
+import { recordSecurityEvent } from './securityEvents';
 
 const DAY_MILLISECONDS = 24 * 60 * 60 * 1_000;
 const LOGIN_TRANSACTION_TTL_MILLISECONDS =
@@ -76,6 +78,22 @@ const completionResultValidator = v.union(
     returnPath: v.string(),
     state: v.string(),
     handoffCodeExpiresAt: v.number(),
+  }),
+);
+
+const developmentCompletionTargetValidator = v.union(
+  v.object({
+    capability: v.literal('signup'),
+    personaId: v.string(),
+    profile: v.object({
+      verifiedEmail: v.string(),
+      displayName: v.string(),
+      pictureUrl: v.optional(v.string()),
+    }),
+  }),
+  v.object({
+    capability: v.literal('login_as'),
+    userPublicId: v.string(),
   }),
 );
 
@@ -292,6 +310,144 @@ export const completeProvider = internalMutation({
       cleanupAt:
         Math.max(transaction.expiresAt, handoffCodeExpiresAt) +
         DAY_MILLISECONDS,
+    });
+    return {
+      kind: 'ok' as const,
+      callbackUrl: transaction.callbackUrl,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Login transaction origin is missing'),
+      returnPath: transaction.returnPath,
+      state: transaction.state,
+      handoffCodeExpiresAt,
+    };
+  },
+});
+
+export const completeDevelopmentProvider = internalMutation({
+  args: {
+    environmentKey: v.string(),
+    reference: v.string(),
+    target: developmentCompletionTargetValidator,
+    grantHash: v.string(),
+    grantIdHash: v.string(),
+    handoffCodeHash: v.string(),
+    authenticatedAt: v.number(),
+    candidates: v.object({
+      userPublicId: v.string(),
+      accountPublicId: v.string(),
+      membershipPublicId: v.string(),
+    }),
+    now: v.number(),
+  },
+  returns: completionResultValidator,
+  handler: async (ctx, args) => {
+    const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+    const environment = requireConfiguredEnvironment(
+      await findEnvironment(ctx, environmentKey),
+    );
+    if (!environment.customerAuth.developmentAutomationEnabled) {
+      return fail('FORBIDDEN', 'Development automation is not enabled');
+    }
+    const reference = publicIdentifierSchema.parse(args.reference);
+    const grantHash = sha256HashSchema.parse(args.grantHash);
+    const grantIdHash = sha256HashSchema.parse(args.grantIdHash);
+    const handoffCodeHash = sha256HashSchema.parse(args.handoffCodeHash);
+    const transaction = await findByReference(ctx, environment, reference);
+    if (
+      !transaction ||
+      transaction.purpose !== 'login' ||
+      transaction.status !== 'pending_provider' ||
+      transaction.expiresAt <= args.now ||
+      transaction.callbackUrl !== environment.customerAuth.callbackUrl
+    ) {
+      return fail('CONFLICT', 'Login transaction cannot be completed');
+    }
+    if (
+      await ctx.db
+        .query('loginTransactions')
+        .withIndex('by_development_grant_hash', (query) =>
+          query.eq('developmentGrantHash', grantHash),
+        )
+        .unique()
+    ) {
+      return fail('CONFLICT', 'Development grant was already used');
+    }
+    const existingCode = await ctx.db
+      .query('loginTransactions')
+      .withIndex('by_environment_code_hash', (query) =>
+        query
+          .eq('environmentId', environment._id)
+          .eq('handoffCodeHash', handoffCodeHash),
+      )
+      .unique();
+    if (existingCode) {
+      return {
+        kind: 'collision' as const,
+        field: 'handoffCodeHash' as const,
+      };
+    }
+
+    let principalId: Doc<'businessUsers'>['principalId'];
+    let userId: Doc<'businessUsers'>['_id'];
+    let automationTarget: string;
+    if (args.target.capability === 'signup') {
+      const bootstrap = await bootstrapCustomerInMutation(ctx, {
+        environmentKey,
+        provider: 'development',
+        issuer: CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER,
+        subject: `persona:${args.target.personaId}`,
+        profile: args.target.profile,
+        candidates: args.candidates,
+        now: args.now,
+      });
+      if (bootstrap.kind === 'collision') return bootstrap;
+      principalId = bootstrap.principalId;
+      userId = bootstrap.userId;
+      automationTarget = args.target.personaId;
+    } else {
+      const userPublicId = publicIdentifierSchema.parse(
+        args.target.userPublicId,
+      );
+      const user = await ctx.db
+        .query('businessUsers')
+        .withIndex('by_environment_public_id', (query) =>
+          query
+            .eq('environmentId', environment._id)
+            .eq('publicId', userPublicId),
+        )
+        .unique();
+      if (!user)
+        return fail('NOT_FOUND', 'Development login target is missing');
+      principalId = user.principalId;
+      userId = user._id;
+      automationTarget = user.publicId;
+    }
+
+    const handoffCodeExpiresAt = args.now + HANDOFF_CODE_TTL_MILLISECONDS;
+    await ctx.db.patch(transaction._id, {
+      status: 'provider_completed',
+      verifiedProvider: 'development',
+      verifiedPrincipalId: principalId,
+      verifiedUserId: userId,
+      providerAuthenticatedAt: args.authenticatedAt,
+      handoffCodeHash,
+      handoffCodeExpiresAt,
+      providerCompletedAt: args.now,
+      developmentGrantHash: grantHash,
+      cleanupAt:
+        Math.max(transaction.expiresAt, handoffCodeExpiresAt) +
+        DAY_MILLISECONDS,
+    });
+    await recordSecurityEvent(ctx, {
+      environmentId: environment._id,
+      userId,
+      type: 'development_automation_used',
+      automationCapability: args.target.capability,
+      automationTarget,
+      grantIdHash,
+      correlationId: reference,
+      occurredAt: args.now,
     });
     return {
       kind: 'ok' as const,

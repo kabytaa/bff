@@ -376,6 +376,126 @@ export const completeProvider = internalMutation({
   },
 });
 
+export const completeDevelopmentProvider = internalMutation({
+  args: {
+    environmentKey: v.string(),
+    reference: v.string(),
+    userPublicId: v.string(),
+    grantHash: v.string(),
+    grantIdHash: v.string(),
+    authenticatedAt: v.number(),
+    handoffCodeHash: v.string(),
+    now: v.number(),
+  },
+  returns: providerCompletionResultValidator,
+  handler: async (ctx, args) => {
+    const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+    const reference = publicIdentifierSchema.parse(args.reference);
+    const userPublicId = publicIdentifierSchema.parse(args.userPublicId);
+    const grantHash = sha256HashSchema.parse(args.grantHash);
+    const grantIdHash = sha256HashSchema.parse(args.grantIdHash);
+    const handoffCodeHash = sha256HashSchema.parse(args.handoffCodeHash);
+    const environment = requireConfiguredEnvironment(
+      await findEnvironment(ctx, environmentKey),
+    );
+    if (!environment.customerAuth.developmentAutomationEnabled) {
+      return fail('FORBIDDEN', 'Development automation is not enabled');
+    }
+    const transaction = await findTransaction(ctx, environment, reference);
+    if (
+      !transaction ||
+      transaction.purpose !== 'ownership_transfer' ||
+      transaction.status !== 'pending_provider' ||
+      transaction.expiresAt <= args.now ||
+      transaction.transferBinding === undefined
+    ) {
+      return fail('CONFLICT', 'Ownership confirmation cannot be completed');
+    }
+    if (
+      args.authenticatedAt > Math.floor(args.now / 1_000) + 60 ||
+      args.authenticatedAt <
+        Math.floor(args.now / 1_000) - OWNERSHIP_TRANSFER_PROOF_TTL_SECONDS
+    ) {
+      return fail('UNAUTHENTICATED', 'Fresh authentication is required');
+    }
+    if (
+      await ctx.db
+        .query('loginTransactions')
+        .withIndex('by_development_grant_hash', (query) =>
+          query.eq('developmentGrantHash', grantHash),
+        )
+        .unique()
+    ) {
+      return fail('CONFLICT', 'Development grant was already used');
+    }
+    const session = await ctx.db.get(transaction.transferBinding.sessionId);
+    if (
+      !session ||
+      session.environmentId !== environment._id ||
+      !activeSession(session, args.now)
+    ) {
+      return fail('UNAUTHENTICATED', 'Customer session is unavailable');
+    }
+    const ownerUser = await ctx.db.get(session.userId);
+    if (
+      !ownerUser ||
+      ownerUser.environmentId !== environment._id ||
+      ownerUser.publicId !== userPublicId
+    ) {
+      return fail('UNAUTHENTICATED', 'Authentication must match the Owner');
+    }
+    const existingCode = await ctx.db
+      .query('loginTransactions')
+      .withIndex('by_environment_code_hash', (query) =>
+        query
+          .eq('environmentId', environment._id)
+          .eq('handoffCodeHash', handoffCodeHash),
+      )
+      .unique();
+    if (existingCode) {
+      return { kind: 'collision' as const, field: 'handoffCodeHash' as const };
+    }
+
+    const handoffCodeExpiresAt = args.now + HANDOFF_CODE_TTL_MILLISECONDS;
+    await ctx.db.patch(transaction._id, {
+      status: 'provider_completed',
+      verifiedProvider: 'development',
+      verifiedPrincipalId: ownerUser.principalId,
+      verifiedUserId: ownerUser._id,
+      providerAuthenticatedAt: args.authenticatedAt,
+      handoffCodeHash,
+      handoffCodeExpiresAt,
+      providerCompletedAt: args.now,
+      developmentGrantHash: grantHash,
+      cleanupAt:
+        Math.max(transaction.expiresAt, handoffCodeExpiresAt) +
+        DAY_MILLISECONDS,
+    });
+    await recordSecurityEvent(ctx, {
+      environmentId: environment._id,
+      userId: ownerUser._id,
+      accountId: transaction.transferBinding.accountId,
+      sessionId: session._id,
+      type: 'development_automation_used',
+      automationCapability: 'ownership_transfer',
+      automationTarget: ownerUser.publicId,
+      grantIdHash,
+      correlationId: reference,
+      occurredAt: args.now,
+    });
+    return {
+      kind: 'ok' as const,
+      callbackUrl: transaction.callbackUrl,
+      webOrigin:
+        transaction.webOrigin ??
+        fail('CONFIGURATION_ERROR', 'Transfer origin is missing'),
+      returnPath: transaction.returnPath,
+      state: transaction.state,
+      handoffCodeExpiresAt,
+    };
+  },
+});
+
 export const exchangeProof = internalMutation({
   args: {
     environmentKey: v.string(),

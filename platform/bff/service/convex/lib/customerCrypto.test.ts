@@ -8,11 +8,18 @@ import {
 import { convexTest } from 'convex-test';
 import { describe, expect, it, vi } from 'vitest';
 
-import { CUSTOMER_GOOGLE_CLIENT_ID } from '@bff/static-config';
+import {
+  CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER,
+  CUSTOMER_DEVELOPMENT_AUTOMATION_SUBJECT,
+  CUSTOMER_GOOGLE_CLIENT_ID,
+} from '@bff/static-config';
 import {
   createCustomerContextClaims,
+  CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT,
   CUSTOMER_SIGNING_ENVIRONMENT,
+  customerDevelopmentAutomationRouteEnabled,
   customerEnvironmentAudience,
+  parseCustomerDevelopmentAutomationConfiguration,
   parseCustomerSigningConfiguration,
   pkceS256Challenge,
   randomOpaqueSecret,
@@ -20,6 +27,7 @@ import {
   sha256Base64Url,
   signCustomerContextToken,
   verifyCustomerContextToken,
+  verifyCustomerDevelopmentGrant,
   verifyGoogleIdentityToken,
   type CustomerSigningConfiguration,
 } from './customerCrypto';
@@ -104,6 +112,51 @@ async function googleFixture() {
       .sign(privateKey);
 
   return { keySet, mint, now };
+}
+
+async function customerDevelopmentFixture() {
+  const { privateKey, publicKey } = await generateKeyPair('ES256', {
+    extractable: true,
+  });
+  const kid = 'customer-development-key-1';
+  const publicJwk: JWK = {
+    ...(await exportJWK(publicKey)),
+    alg: 'ES256',
+    kid,
+    use: 'sig',
+  };
+  const audience =
+    'https://example.convex.site/v1/auth/transactions/development';
+  const configuration = parseCustomerDevelopmentAutomationConfiguration({
+    audience,
+    publicJwks: JSON.stringify({ keys: [publicJwk] }),
+  });
+  if (!configuration) throw new Error('Fixture configuration is missing');
+  const now = 2_000_000_000;
+  const mint = async ({
+    tokenAudience = audience,
+    expiresAt = now + 120,
+  }: {
+    tokenAudience?: string;
+    expiresAt?: number;
+  } = {}) =>
+    await new SignJWT({
+      version: 1,
+      lane: 'development',
+      environmentKey: 'example-development',
+      transactionReference: 'login_abcdefghijklmnop',
+      capability: 'login_as',
+      userId: 'user_abcdefghijklmnop',
+    })
+      .setProtectedHeader({ alg: 'ES256', kid, typ: 'JWT' })
+      .setIssuer(CUSTOMER_DEVELOPMENT_AUTOMATION_ISSUER)
+      .setAudience(tokenAudience)
+      .setSubject(CUSTOMER_DEVELOPMENT_AUTOMATION_SUBJECT)
+      .setIssuedAt(now)
+      .setExpirationTime(expiresAt)
+      .setJti('grant_abcdefghijklmnop')
+      .sign(privateKey);
+  return { configuration, mint, now, publicJwk };
 }
 
 describe('customer cryptography', () => {
@@ -200,6 +253,61 @@ describe('customer cryptography', () => {
         currentDate: new Date(now * 1000),
       }),
     ).rejects.toThrow(/invalid/);
+  });
+
+  it('enables customer development automation only with an exact complete verifier', async () => {
+    const fixture = await customerDevelopmentFixture();
+    expect(
+      customerDevelopmentAutomationRouteEnabled({
+        [CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.audience]:
+          fixture.configuration.audience,
+        [CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.publicJwks]:
+          JSON.stringify({ keys: [fixture.publicJwk] }),
+      }),
+    ).toBe(true);
+    expect(customerDevelopmentAutomationRouteEnabled({})).toBe(false);
+    expect(
+      customerDevelopmentAutomationRouteEnabled({
+        [CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.audience]: 'disabled',
+        [CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.publicJwks]: 'disabled',
+      }),
+    ).toBe(false);
+    expect(() =>
+      customerDevelopmentAutomationRouteEnabled({
+        [CUSTOMER_DEVELOPMENT_AUTOMATION_ENVIRONMENT.audience]:
+          fixture.configuration.audience,
+      }),
+    ).toThrow(/fully configured or disabled/);
+  });
+
+  it('verifies a two-minute deployment-bound customer development grant', async () => {
+    const { configuration, mint, now } = await customerDevelopmentFixture();
+    await expect(
+      verifyCustomerDevelopmentGrant({
+        token: await mint(),
+        configuration,
+        currentDate: new Date(now * 1_000),
+      }),
+    ).resolves.toMatchObject({
+      capability: 'login_as',
+      environmentKey: 'example-development',
+      transactionReference: 'login_abcdefghijklmnop',
+      userId: 'user_abcdefghijklmnop',
+    });
+    await expect(
+      verifyCustomerDevelopmentGrant({
+        token: await mint({ tokenAudience: 'https://wrong.example/grant' }),
+        configuration,
+        currentDate: new Date(now * 1_000),
+      }),
+    ).rejects.toThrow();
+    await expect(
+      verifyCustomerDevelopmentGrant({
+        token: await mint({ expiresAt: now + 121 }),
+        configuration,
+        currentDate: new Date(now * 1_000),
+      }),
+    ).rejects.toThrow(/lifetime/);
   });
 
   it('signs and verifies one environment/account context for at most ten minutes', async () => {
