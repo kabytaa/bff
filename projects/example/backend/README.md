@@ -13,8 +13,9 @@ deployment:
   different HTTP origin from the canonical issuer.
 - `BFF_CUSTOMER_API_BASE_URL`: the exact BFF customer API origin.
 - `BFF_CUSTOMER_WEB_ORIGINS_JSON`: the JSON array of exact allowed web origins.
-- `BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL`: this deployment's exact Convex site
-  origin, which owns the host-only session cookie.
+- `BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL`: the Business-owned public adapter
+  origin. The retained example uses its narrow Cloudflare session gateway,
+  which forwards the fixed auth routes to this Convex deployment.
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`: an application-relative destination.
 - `EXAMPLE_BUILD_VERSION`: the full release SHA returned by `/v1/health` in
   production; development falls back to `development` when it is absent.

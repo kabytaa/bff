@@ -45,10 +45,12 @@ export async function buildProductionSurfaces(
   await runNxTarget('bff-customer-auth:assert-production-bundle', {
     VITE_BFF_SITE_URL: config.bffConvexSiteUrl,
   });
+  await runNxTarget('example-session-gateway:build', {});
   await runNxTarget('example-web:build', {
     VITE_BFF_AUTH_DIAGNOSTICS: 'false',
     VITE_BFF_CUSTOMER_API_URL: config.bffConvexSiteUrl,
     VITE_BFF_CUSTOMER_ENVIRONMENT_KEY: config.customerEnvironmentKey,
+    VITE_BFF_SESSION_ADAPTER_URL: config.exampleSessionAdapterUrl,
     VITE_CONVEX_SITE_URL: config.exampleConvexSiteUrl,
     VITE_CONVEX_URL: config.exampleConvexUrl,
   });

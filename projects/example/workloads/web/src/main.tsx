@@ -19,14 +19,14 @@ try {
   const configuration = readExampleWebConfiguration();
   const diagnostics = configuration.authDiagnosticsEnabled
     ? createExampleAuthDiagnostics({
-        adapterOrigin: configuration.convexSiteUrl,
+        adapterOrigin: configuration.sessionAdapterUrl,
         environmentKey: configuration.environmentKey,
       })
     : undefined;
   const authClient = createBffAuthBrowserClient({
     bffBaseUrl: configuration.bffBaseUrl,
     environmentKey: configuration.environmentKey,
-    sessionAdapterBaseUrl: configuration.convexSiteUrl,
+    sessionAdapterBaseUrl: configuration.sessionAdapterUrl,
     ...(diagnostics === undefined ? {} : { fetch: diagnostics.fetch }),
   });
   const convexClient = new ConvexReactClient(configuration.convexUrl);

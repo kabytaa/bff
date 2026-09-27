@@ -1,5 +1,7 @@
 const PRODUCTION_BACKOFFICE_ORIGIN = 'https://ops.tofler.tech';
 const PRODUCTION_CUSTOMER_AUTH_ORIGIN = 'https://auth.tofler.app';
+const PRODUCTION_EXAMPLE_SESSION_ADAPTER_ORIGIN =
+  'https://api.example.tofler.app';
 const PRODUCTION_EXAMPLE_WEB_ORIGIN = 'https://example.tofler.app';
 const PRODUCTION_EXAMPLE_ENVIRONMENT_KEY = 'example-production';
 const FULL_COMMIT_SHA = /^[0-9a-f]{40}$/;
@@ -20,6 +22,7 @@ export interface ProductionConfig {
   customerEnvironmentKey: string;
   exampleConvexSiteUrl: string;
   exampleConvexUrl: string;
+  exampleSessionAdapterUrl: string;
   exampleWebUrl: string;
 }
 
@@ -129,6 +132,11 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
     'EXAMPLE_WEB_URL',
     PRODUCTION_EXAMPLE_WEB_ORIGIN,
   );
+  const exampleSessionAdapterUrl = exactOrigin(
+    environment,
+    'EXAMPLE_SESSION_ADAPTER_URL',
+    PRODUCTION_EXAMPLE_SESSION_ADAPTER_ORIGIN,
+  );
   const customerEnvironmentKey = required(
     environment,
     'BFF_CUSTOMER_ENVIRONMENT_KEY',
@@ -184,6 +192,7 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
     customerEnvironmentKey,
     exampleConvexSiteUrl,
     exampleConvexUrl,
+    exampleSessionAdapterUrl,
     exampleWebUrl,
   };
 }

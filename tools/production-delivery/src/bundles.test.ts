@@ -16,6 +16,7 @@ const config: ProductionConfig = {
   customerEnvironmentKey: 'example-production',
   exampleConvexSiteUrl: 'https://kind-fox-456.convex.site',
   exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+  exampleSessionAdapterUrl: 'https://api.example.tofler.app',
   exampleWebUrl: 'https://example.tofler.app',
 };
 
@@ -37,6 +38,7 @@ describe('production bundle assertions', () => {
           config.customerEnvironmentKey,
           config.exampleConvexSiteUrl,
           config.exampleConvexUrl,
+          config.exampleSessionAdapterUrl,
         ].join(' '),
         config,
       ),
@@ -57,6 +59,7 @@ describe('production bundle assertions', () => {
           config.customerEnvironmentKey,
           config.exampleConvexSiteUrl,
           config.exampleConvexUrl,
+          config.exampleSessionAdapterUrl,
           'https://other-fox-789.convex.cloud',
         ].join(' '),
         config,

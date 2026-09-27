@@ -24,3 +24,8 @@ artifacts, starts two real login transactions concurrently and verifies the
 hosted native/HTTP/BFF context, two tabs with different accounts, actual token
 expiry and renewal, and central logout in Chromium and Playwright WebKit. It
 does not replace the later real Safari acceptance check.
+
+The deployed development example now uses the same-site
+`api.example-dev.tofler.app` gateway for only the cookie-backed session routes.
+The generated Convex site still serves `/v1/context` directly, so the hosted
+suite proves the gateway is not a general API proxy.

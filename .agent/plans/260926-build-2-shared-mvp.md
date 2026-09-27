@@ -48,16 +48,16 @@ Build one end-to-end implementation: BFF is the authority; a portable server SDK
 
 ## Scope and Ownership
 
-| Build 2 implements | Deliberately outside this plan |
-| --- | --- |
-| Google customer sign-in; dev-only dummy signup and existing-user login-as | Apple/GitHub, email-based identity merging, recovery/linking |
-| Principal/identity/environment-user/session records | Central SSO cookie, native multi-user session chooser |
-| BFF-owned accounts, memberships, Owner/Admin/Member roles | Product data schemas beyond the minimal reference caller |
-| Account policy, default provisioning, invitations, ownership transfer | Structural personal/team account kinds or child profiles |
+| Build 2 implements                                                           | Deliberately outside this plan                                                 |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Google customer sign-in; dev-only dummy signup and existing-user login-as    | Apple/GitHub, email-based identity merging, recovery/linking                   |
+| Principal/identity/environment-user/session records                          | Central SSO cookie, native multi-user session chooser                          |
+| BFF-owned accounts, memberships, Owner/Admin/Member roles                    | Product data schemas beyond the minimal reference caller                       |
+| Account policy, default provisioning, invitations, ownership transfer        | Structural personal/team account kinds or child profiles                       |
 | One tab-local current-context JWT; server cookie adapter; Convex integration | A second Business-signed JWT, Business session tables, Cloudflare-managed auth |
-| Current active-account authorization and shared numeric limits | Plans/subscriptions, custom product entitlements, seat classes, usage balances |
-| Read-only operator visibility and validated operations | Paid downgrade/restriction machinery, customer-support conversations |
-| Layered tests and a working production example | A visible example account-management playground |
+| Current active-account authorization and shared numeric limits               | Plans/subscriptions, custom product entitlements, seat classes, usage balances |
+| Read-only operator visibility and validated operations                       | Paid downgrade/restriction machinery, customer-support conversations           |
+| Layered tests and a working production example                               | A visible example account-management playground                                |
 
 Build 4 retains the accepted commercial policy: reject an incompatible voluntary downgrade; restrict an account when an unavoidable subscription change makes it invalid, preserving members and data and leaving Owner/Admin remediation. Do not implement those states or guards until the paid caller exists. Build 5 owns two-way email support. Deferred ideas remain in their existing registry.
 
@@ -112,24 +112,24 @@ Operational ownership is explicit:
 
 All paths in this subsection that do not exist are proposed, not discovered APIs. Follow the existing Nx project-file conventions; create configuration, package exports, tests and a useful README with each new project, not a boilerplate directory tree.
 
-| Target | Change |
-| --- | --- |
-| `platform/bff/libs/contracts/src/{auth,accounts,accountPolicy}.ts` | Versioned public schemas, discriminated contexts, error codes, limits and operation DTOs |
-| `platform/bff/libs/sdk/typescript/` (`bff-sdk-typescript`, package `@tofler/bff-auth`) | One technology SDK: `src/core/`, `src/browser/`, `src/react/`, `src/server/`, `src/adapters/convex/`; hard subpath exports and independent tests |
-| `platform/bff/service/convex/{customerAuth,sessions,accounts,memberships,invitations,ownershipTransfers,customerOperations,customerBackoffice,authCleanup}.ts` | Internal transactional model and bounded operator queries/operations |
-| `platform/bff/service/convex/lib/{customerCrypto,customerPolicy,customerHttp,customerAuthorization}.ts` | Provider/JWT verification, pure policies, HTTP envelopes and customer guards |
-| `platform/bff/service/convex/{schema,http,crons,convex.config}.ts` | Add schema as callers land; routes, retention cron, rate-limiter registration |
-| `platform/bff/customer-auth/` (`bff-customer-auth`) | Static React/Vite GIS surface, distinct development automation entry, hosting manifests, headers, bundle assertions |
-| `projects/example/workloads/web/` (`example-web`) | Minimal React example, SDK-only auth integration and environment-specific static hosting |
-| `projects/example/backend/convex/` (`example-backend`) | Separate `schema.ts`, `auth.config.ts`, `http.ts`, `currentContext.ts`, generated files and backend tests |
-| `projects/example/backend/convex.json` | Independent functions root; invoke its CLI from `projects/example/backend`, never root accidentally |
-| `platform/bff/customer-auth-e2e/` (`bff-customer-auth-e2e`) | Local fixture-browser and uncached hosted-development Playwright suites |
-| `tools/bff-customer-auth/` (`bff-customer-auth-tools`) | Customer-only dev signer, protected grant creation and fixture orchestration |
-| Existing `tools/bff-operator/`, `platform/bff/backoffice/` | Policy/provision/revoke commands and read-only customer state |
-| Existing `tools/production-delivery/`, `.github/workflows/ci.yml` | Multiple backend/asset targets, negative production probes and smoke coverage |
-| `.agents/skills/configure-business/SKILL.md` | Scenario-driven configuration guide using the implemented CLI; create using `skill-creator` during implementation |
-| `docs/architecture/adr/0004-business-customer-auth-and-accounts.md`, `docs/operations/build-2-customer-auth.md` | Accepted contract, setup, key lifecycle, failure handling and release evidence |
-| Root package/workspace/TypeScript/Nx files | Discover `projects/**`, expose public SDK paths, add all new test/build targets and environment-sensitive cache inputs |
+| Target                                                                                                                                                         | Change                                                                                                                                           |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `platform/bff/libs/contracts/src/{auth,accounts,accountPolicy}.ts`                                                                                             | Versioned public schemas, discriminated contexts, error codes, limits and operation DTOs                                                         |
+| `platform/bff/libs/sdk/typescript/` (`bff-sdk-typescript`, package `@tofler/bff-auth`)                                                                         | One technology SDK: `src/core/`, `src/browser/`, `src/react/`, `src/server/`, `src/adapters/convex/`; hard subpath exports and independent tests |
+| `platform/bff/service/convex/{customerAuth,sessions,accounts,memberships,invitations,ownershipTransfers,customerOperations,customerBackoffice,authCleanup}.ts` | Internal transactional model and bounded operator queries/operations                                                                             |
+| `platform/bff/service/convex/lib/{customerCrypto,customerPolicy,customerHttp,customerAuthorization}.ts`                                                        | Provider/JWT verification, pure policies, HTTP envelopes and customer guards                                                                     |
+| `platform/bff/service/convex/{schema,http,crons,convex.config}.ts`                                                                                             | Add schema as callers land; routes, retention cron, rate-limiter registration                                                                    |
+| `platform/bff/customer-auth/` (`bff-customer-auth`)                                                                                                            | Static React/Vite GIS surface, distinct development automation entry, hosting manifests, headers, bundle assertions                              |
+| `projects/example/workloads/web/` (`example-web`)                                                                                                              | Minimal React example, SDK-only auth integration and environment-specific static hosting                                                         |
+| `projects/example/backend/convex/` (`example-backend`)                                                                                                         | Separate `schema.ts`, `auth.config.ts`, `http.ts`, `currentContext.ts`, generated files and backend tests                                        |
+| `projects/example/backend/convex.json`                                                                                                                         | Independent functions root; invoke its CLI from `projects/example/backend`, never root accidentally                                              |
+| `platform/bff/customer-auth-e2e/` (`bff-customer-auth-e2e`)                                                                                                    | Local fixture-browser and uncached hosted-development Playwright suites                                                                          |
+| `tools/bff-customer-auth/` (`bff-customer-auth-tools`)                                                                                                         | Customer-only dev signer, protected grant creation and fixture orchestration                                                                     |
+| Existing `tools/bff-operator/`, `platform/bff/backoffice/`                                                                                                     | Policy/provision/revoke commands and read-only customer state                                                                                    |
+| Existing `tools/production-delivery/`, `.github/workflows/ci.yml`                                                                                              | Multiple backend/asset targets, negative production probes and smoke coverage                                                                    |
+| `.agents/skills/configure-business/SKILL.md`                                                                                                                   | Scenario-driven configuration guide using the implemented CLI; create using `skill-creator` during implementation                                |
+| `docs/architecture/adr/0004-business-customer-auth-and-accounts.md`, `docs/operations/build-2-customer-auth.md`                                                | Accepted contract, setup, key lifecycle, failure handling and release evidence                                                                   |
+| Root package/workspace/TypeScript/Nx files                                                                                                                     | Discover `projects/**`, expose public SDK paths, add all new test/build targets and environment-sensitive cache inputs                           |
 
 ## Codebase Context and Patterns
 
@@ -146,16 +146,23 @@ All paths in this subsection that do not exist are proposed, not discovered APIs
 
 ### 1. Deployment and cookie topology
 
-| Surface | Development | Production |
-| --- | --- | --- |
-| Shared customer sign-in UI | `https://auth-dev.tofler.app` | `https://auth.tofler.app` |
-| Reference Business UI | `https://example-dev.tofler.app` | `https://example.tofler.app` |
-| Business session adapter | Separate example Convex generated HTTP deployment | Separate example production Convex generated HTTP deployment |
-| BFF authority | Existing development BFF | Existing production BFF |
+| Surface                         | Development                               | Production                              |
+| ------------------------------- | ----------------------------------------- | --------------------------------------- |
+| Shared customer sign-in UI      | `https://auth-dev.tofler.app`             | `https://auth.tofler.app`               |
+| Reference Business UI           | `https://example-dev.tofler.app`          | `https://example.tofler.app`            |
+| Public Business session adapter | `https://api.example-dev.tofler.app`      | `https://api.example.tofler.app`        |
+| Session-adapter implementation  | Separate example Convex HTTP deployment   | Separate example Convex HTTP deployment |
+| BFF authority                   | Existing development BFF                  | Existing production BFF                 |
 
-Start with the free generated example `*.convex.site` host. Set a host-only `__Host-tofler-session` cookie with `Secure; HttpOnly; Path=/; SameSite=None`; no `Domain` attribute. UI calls the adapter with `credentials: 'include'`, exact-origin CORS, `Vary: Origin` and non-cacheable responses. CORS never overrides browser third-party-cookie restrictions.
+The initial implementation used the free generated example `*.convex.site` host. The adapter sets a host-only `__Host-tofler-session` cookie with `Secure; HttpOnly; Path=/; SameSite=None`; no `Domain` attribute. UI calls the public adapter origin with `credentials: 'include'`, exact-origin CORS, `Vary: Origin` and non-cacheable responses. CORS never overrides browser third-party-cookie restrictions.
 
-Complete the adapter and full flow before treating actual Safari results as an acceptance gate. If required, attach `api.example-dev.tofler.app` / `api.example.tofler.app` to the example Convex HTTP deployment, update approved callback/origin configuration, and use the same SDK contract with the now same-site cookie. Obtain approval for any paid plan/resource action. No Cloudflare cookie processing, reverse proxy or Worker auth gateway is added.
+The completed flow passed hosted Chromium and Playwright WebKit, but real
+iPhone Safari returned from login without sending a usable cross-site cookie.
+Andrew approved a narrow fixed-upstream Worker at
+`api.example-dev.tofler.app` / `api.example.tofler.app`. It forwards only the
+SDK's exact `/_tofler/auth/*` routes and passes cookies opaquely; Convex/the
+server SDK still owns all auth logic, while product and native Convex traffic
+remain direct. A later paid Convex custom domain changes only the adapter URL.
 
 The generated native Convex `*.convex.cloud` WebSocket client continues using the short bearer token; it does not need the session cookie or an HTTP custom-domain replacement. Local tests must exercise genuinely different sites, not claim two localhost ports reproduce Safari's cross-site behavior.
 
@@ -165,33 +172,33 @@ Business-wide controls are per **Business environment**, so development changes 
 
 Every registered Business environment also has explicit transport URLs:
 
-| Field | Example | Meaning/validation |
-| --- | --- | --- |
-| `webOrigins` | `["https://example.tofler.app"]` | Non-empty bounded set of exact HTTPS frontend origins allowed to initiate login and make credentialed calls; no paths, wildcards, opaque origins or trailing-origin variants |
-| `sessionAdapterBaseUrl` | `https://example-backend.convex.site` | One canonical HTTPS origin where the server SDK runs and owns the host-only session cookie; no path, query or fragment |
-| `defaultPostLoginPath` | `/` | Validated same-application relative path used when a login does not request another permitted relative destination |
+| Field                   | Example                               | Meaning/validation                                                                                                                                                           |
+| ----------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `webOrigins`            | `["https://example.tofler.app"]`      | Non-empty bounded set of exact HTTPS frontend origins allowed to initiate login and make credentialed calls; no paths, wildcards, opaque origins or trailing-origin variants |
+| `sessionAdapterBaseUrl` | `https://api.example.tofler.app`      | One canonical HTTPS public origin for the server SDK routes and host-only session cookie; no path, query or fragment                                                       |
+| `defaultPostLoginPath`  | `/`                                   | Validated same-application relative path used when a login does not request another permitted relative destination                                                           |
 
 The SDK fixes its callback path to `/_tofler/auth/callback`; BFF derives and stores/checks the exact callback as `new URL('/_tofler/auth/callback', sessionAdapterBaseUrl)`. It is not a fourth independently editable URL. A login transaction records one initiating member of `webOrigins`, the exact derived callback and a validated relative return path. The callback redirects only to that recorded web origin plus relative path. BFF never infers the Business from `Origin`, `Referer` or callback host; the public environment key selects the registered record and every supplied URL must match it exactly.
 
-The auth-page URL is deployment-owned (`https://auth-dev.tofler.app` or `https://auth.tofler.app`), not Business configuration. Browser code separately needs `sessionAdapterBaseUrl` to call the SDK routes, but its value is public and must match the registered environment. Changing the adapter origin—for example, to the accepted Safari custom-domain fallback—changes this one setting, regenerates the exact callback and requires a new login because host-only cookies do not migrate.
+The auth-page URL is deployment-owned (`https://auth-dev.tofler.app` or `https://auth.tofler.app`), not Business configuration. Browser code separately needs `sessionAdapterBaseUrl` to call the SDK routes, but its value is public and must match the registered environment. Changing the adapter origin—for example, to the accepted same-site gateway—changes this one setting, regenerates the exact callback and requires a new login because host-only cookies do not migrate.
 
-| Field | Default | Meaning/validation |
-| --- | --- | --- |
-| `createAccountOnFirstSignIn` | `true` | Materialize one default account once for a new local user; no permanent “personal” kind |
-| `userAccountCreationEnabled` | `false` | User may explicitly create accounts subject to both caps |
-| `maxAccountMembershipsPerUser` | `1` | Positive integer; counts owned and joined memberships |
-| `maxOwnedAccountsPerUser` | `1` | Positive integer, no greater than the total-membership cap |
-| `ownershipTransferEnabled` | `false` | Permit the protected transfer operation, not an unguarded role edit |
-| `sessionIdleSeconds` | `604800` | 900–2592000 seconds; never exceed the absolute lifetime |
-| `sessionAbsoluteSeconds` | `2592000` | 3600–15552000 seconds |
+| Field                          | Default   | Meaning/validation                                                                      |
+| ------------------------------ | --------- | --------------------------------------------------------------------------------------- |
+| `createAccountOnFirstSignIn`   | `true`    | Materialize one default account once for a new local user; no permanent “personal” kind |
+| `userAccountCreationEnabled`   | `false`   | User may explicitly create accounts subject to both caps                                |
+| `maxAccountMembershipsPerUser` | `1`       | Positive integer; counts owned and joined memberships                                   |
+| `maxOwnedAccountsPerUser`      | `1`       | Positive integer, no greater than the total-membership cap                              |
+| `ownershipTransferEnabled`     | `false`   | Permit the protected transfer operation, not an unguarded role edit                     |
+| `sessionIdleSeconds`           | `604800`  | 900–2592000 seconds; never exceed the absolute lifetime                                 |
+| `sessionAbsoluteSeconds`       | `2592000` | 3600–15552000 seconds                                                                   |
 
 Account defaults, overridable by an explicit authorized account override in Build 2:
 
-| Field | Default | Meaning |
-| --- | --- | --- |
-| `seatLimit` | `1` | Active memberships, including Owner, plus reserved invitation seats |
-| `adminRoleEnabled` | `false` | Enables the limited fixed Admin role |
-| `memberInvitationsEnabled` | `false` | Allows authorized members to issue member invitations |
+| Field                      | Default | Meaning                                                             |
+| -------------------------- | ------- | ------------------------------------------------------------------- |
+| `seatLimit`                | `1`     | Active memberships, including Owner, plus reserved invitation seats |
+| `adminRoleEnabled`         | `false` | Enables the limited fixed Admin role                                |
+| `memberInvitationsEnabled` | `false` | Allows authorized members to issue member invitations               |
 
 Use `seatLimit` consistently; the brainstorm's illustrative ERD field `memberLimit` is not a second setting. Effective values expose `business_default` or `account_override` provenance. No plan-derived branch or subscription table exists yet.
 
@@ -239,16 +246,16 @@ Set `Cache-Control: no-store` and `Referrer-Policy: no-referrer` on auth, callba
 
 Proposed versioned routes are new contracts, not existing endpoints:
 
-| Boundary | Operations | Credential and enforcement |
-| --- | --- | --- |
-| BFF `/v1/auth/transactions`, transaction completion | Start/read challenge; Google completion; conditional dev completion | Public environment registration plus transaction binding; fixed auth-origin CORS for browser completion; body/size limits and rate limiting |
-| BFF `/v1/auth/exchange` | Consume one-minute handoff | Server SDK submits code + PKCE verifier + exact binding; no credentialed browser CORS |
-| BFF `/v1/auth/session/context`, `/v1/auth/session/logout` | Bootstrap/issue/renew or revoke | Opaque handle in redacted server-to-server body/header, never query parameters; no browser cookie accepted |
-| BFF `/v1/me`, `/v1/accounts/*` | Safe current user/account views and explicit account/member/invite operations | Verified BFF token plus authoritative checks for mutations; explicit method/operation routing, no generic function-name proxy |
-| BFF `/v1/auth/transfer/*` | Start/consume action-bound confirmation | Current account/session/Owner checks and provider proof; server SDK handles private exchange material |
-| Business `/_tofler/auth/login`, `callback` | Top-level login navigation and server callback | Transaction state/PKCE, not ordinary cross-site JSON CORS |
-| Business `/_tofler/auth/context`, `logout`, `transfer/*` | Cookie-backed token bootstrap/renewal and action initiation | Exact registered UI Origin, credentials, JSON and required non-simple `X-Tofler-CSRF` header; preflight validated explicitly |
-| Business product endpoints / native Convex functions | Actual product operations | Account-scoped bearer JWT and server guard, never a browser-supplied user/account ID alone |
+| Boundary                                                  | Operations                                                                    | Credential and enforcement                                                                                                                  |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| BFF `/v1/auth/transactions`, transaction completion       | Start/read challenge; Google completion; conditional dev completion           | Public environment registration plus transaction binding; fixed auth-origin CORS for browser completion; body/size limits and rate limiting |
+| BFF `/v1/auth/exchange`                                   | Consume one-minute handoff                                                    | Server SDK submits code + PKCE verifier + exact binding; no credentialed browser CORS                                                       |
+| BFF `/v1/auth/session/context`, `/v1/auth/session/logout` | Bootstrap/issue/renew or revoke                                               | Opaque handle in redacted server-to-server body/header, never query parameters; no browser cookie accepted                                  |
+| BFF `/v1/me`, `/v1/accounts/*`                            | Safe current user/account views and explicit account/member/invite operations | Verified BFF token plus authoritative checks for mutations; explicit method/operation routing, no generic function-name proxy               |
+| BFF `/v1/auth/transfer/*`                                 | Start/consume action-bound confirmation                                       | Current account/session/Owner checks and provider proof; server SDK handles private exchange material                                       |
+| Business `/_tofler/auth/login`, `callback`                | Top-level login navigation and server callback                                | Transaction state/PKCE, not ordinary cross-site JSON CORS                                                                                   |
+| Business `/_tofler/auth/context`, `logout`, `transfer/*`  | Cookie-backed token bootstrap/renewal and action initiation                   | Exact registered UI Origin, credentials, JSON and required non-simple `X-Tofler-CSRF` header; preflight validated explicitly                |
+| Business product endpoints / native Convex functions      | Actual product operations                                                     | Account-scoped bearer JWT and server guard, never a browser-supplied user/account ID alone                                                  |
 
 For cookie-backed JSON operations, reject missing, `null` or unexpected Origin and simple-form submissions. The custom CSRF header is a preflight requirement, not a secret; its safety depends on exact origin validation and no reflected/wildcard credentialed CORS. Login navigation/callback uses the separate transaction defense. CORS is not authentication and does not stop a non-browser attacker who already possesses a handle.
 
@@ -258,19 +265,19 @@ SDK request validation bounds bodies, enum values, identifiers, return destinati
 
 Keep identities normalized; do not denormalize provider details into every token or session renewal. New tables below have actual login/account/operator/test callers. The source's earlier five/six-table illustrations were not a final schema.
 
-| Table | Purpose and essential indexes/invariants |
-| --- | --- |
-| Existing `businessEnvironments` | Optional versioned customer auth/policy configuration, registered UI origin/callback, automation enablement; existing `by_key` remains |
-| `authPrincipals` | Private technical identity; no public enumeration or product-facing ID |
-| `authIdentities` | Provider + normalized issuer + subject → principal; composite identity index; transactionally unique; dev namespace distinct from Google |
-| `businessUsers` | Environment + principal → public local user/profile; indexes by pair, public ID and environment; first-signup provisioning marker; authoritative membership/ownership counters if used for bounded capacity checks |
-| `loginTransactions` | Purpose, environment/callback/state/challenge/nonce hashes, verified principal, code hash/expiry/consumption, optional dev grant replay hash; indexes by public transaction reference, code hash, replay hash and cleanup deadline |
-| `businessSessions` | Hashed handle → environment/user, public session ID, creation/absolute/idle/last-seen/revocation, bounded coarse evidence; indexes by handle hash, public ID, environment/user and cleanup deadline |
-| `accounts` | Environment/public ID, optional display name, sole owner reference, shared-limit overrides and occupancy counters; indexes by public ID and environment |
-| `memberships` | Environment/account/user, public ID and fixed role; unique account/user pair; indexes by user and account; owner role agrees with account owner |
-| `accountInvitations` | Environment/account, token hash, intended verified email, inviter, Member role, pending/accepted/revoked/expired state, expiry; indexes by token hash, account/recipient and expiration |
-| `ownershipTransferProofs` | Hashed proof, session/account/current Owner/target, provider-confirmation evidence, expiry, consumed operation result; indexes by hash and cleanup deadline |
-| `securityEvents` | Bounded typed event, environment, safe actor/subject IDs, reason/correlation ID, coarse evidence and retention deadline; indexes by environment/time, account/time and retention |
+| Table                           | Purpose and essential indexes/invariants                                                                                                                                                                                           |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Existing `businessEnvironments` | Optional versioned customer auth/policy configuration, registered UI origin/callback, automation enablement; existing `by_key` remains                                                                                             |
+| `authPrincipals`                | Private technical identity; no public enumeration or product-facing ID                                                                                                                                                             |
+| `authIdentities`                | Provider + normalized issuer + subject → principal; composite identity index; transactionally unique; dev namespace distinct from Google                                                                                           |
+| `businessUsers`                 | Environment + principal → public local user/profile; indexes by pair, public ID and environment; first-signup provisioning marker; authoritative membership/ownership counters if used for bounded capacity checks                 |
+| `loginTransactions`             | Purpose, environment/callback/state/challenge/nonce hashes, verified principal, code hash/expiry/consumption, optional dev grant replay hash; indexes by public transaction reference, code hash, replay hash and cleanup deadline |
+| `businessSessions`              | Hashed handle → environment/user, public session ID, creation/absolute/idle/last-seen/revocation, bounded coarse evidence; indexes by handle hash, public ID, environment/user and cleanup deadline                                |
+| `accounts`                      | Environment/public ID, optional display name, sole owner reference, shared-limit overrides and occupancy counters; indexes by public ID and environment                                                                            |
+| `memberships`                   | Environment/account/user, public ID and fixed role; unique account/user pair; indexes by user and account; owner role agrees with account owner                                                                                    |
+| `accountInvitations`            | Environment/account, token hash, intended verified email, inviter, Member role, pending/accepted/revoked/expired state, expiry; indexes by token hash, account/recipient and expiration                                            |
+| `ownershipTransferProofs`       | Hashed proof, session/account/current Owner/target, provider-confirmation evidence, expiry, consumed operation result; indexes by hash and cleanup deadline                                                                        |
+| `securityEvents`                | Bounded typed event, environment, safe actor/subject IDs, reason/correlation ID, coarse evidence and retention deadline; indexes by environment/time, account/time and retention                                                   |
 
 Application-enforced uniqueness uses indexed get-or-create inside one Convex mutation; `.unique()` alone does not enforce inserts. Generate cryptographic randomness/hashes and verify/sign tokens in actions/HTTP handlers using Web Crypto/JOSE. Internal mutations receive hashes and validated normalized data, not raw Google tokens, session handles or handoff secrets that could leak through function logging.
 
@@ -547,7 +554,7 @@ Each task below is independently reviewable. New commands/targets are explicitly
 ### Task 23: UPDATE production deployment and acceptance evidence
 
 - **Target**: Intended production BFF/auth/example release, acceptance evidence, plan/source lifecycle and `STATUS.md`.
-- **Implement**: Under the existing reviewed release workflow, deploy the prepared commit and run expanded `pnpm production:smoke`. Andrew performs the real Google/Safari lifecycle below and verifies corresponding operator records. If actual Safari fails on generated-domain cookies, apply the agreed approved custom-domain fallback, revalidate all targets/cookies and repeat the complete gate.
+- **Implement**: Under the existing reviewed release workflow, deploy the prepared commit and run expanded `pnpm production:smoke`. Andrew performs the real Google/Safari lifecycle below and verifies corresponding operator records. The observed generated-domain Safari failure uses the approved fixed session gateway; revalidate all targets/cookies and repeat the complete gate after the origin change.
 - **Pattern**: Existing production plan/runbook and repository completion rule; no “dev complete” substitution.
 - **Dependencies/Imports**: Tasks 1–22; actual Google client configuration, production deploy/hosting resources and Andrew's final browser participation.
 - **Gotchas**: Production never uses the dummy provider to fake acceptance. A domain switch creates a new host-only cookie and requires a new login; do not assume old cookies migrate. Production is not complete while Safari is failing or awaiting human evidence.
@@ -636,7 +643,7 @@ The hosted target and deployment/smoke targets are uncached and require explicit
 - [ ] Customer policy/lifecycle operations have validated CLI paths; backoffice is read-only, paginated and safe; guided configuration explains interacting defaults.
 - [ ] Coarse evidence/retention is bounded; no raw credentials/permanent raw IPs, DDoS log flood, billing tables, restriction state machine or support implementation is introduced.
 - [ ] All local gates, complete hosted-development flow and production deploy/smoke pass without regressing operator auth.
-- [ ] Real production Safari lifecycle and backoffice confirmation pass, using the approved custom-domain fallback if necessary. Only then mark Build 2 complete.
+- [ ] Real production Safari lifecycle and backoffice confirmation pass through the approved same-site adapter gateway. Only then mark Build 2 complete.
 
 ## Risks, Prerequisites and Open Questions
 
@@ -646,13 +653,17 @@ The hosted target and deployment/smoke targets are uncached and require explicit
 2. Provision the separate example Convex deployment pair, auth/example hosting targets, public URLs and independently scoped deploy keys. Record non-secret target identifiers in the proper configuration; never invent existing slugs.
 3. Provision separate BFF signing keys and dev customer automation verification configuration. Exercise key rollover and production explicit-disabled behavior before release.
 4. Select Node.js 24 for execution. No current-shell test result was claimed during planning.
-5. Arrange Andrew's final Google/Safari review. A paid custom-domain fallback needs cost approval when actually required, not a preemptive purchase.
+5. Arrange Andrew's final Google/Safari review after the same-site gateway is deployed; a later paid direct Convex custom domain remains a separate cost decision.
 
 ### Principal risks and mitigations
 
 - **Custom authentication surface**: small explicit protocol, pinned verification, no generic proxies, negative tests and reviewed release. Existing operator auth is not repurposed.
 - **Google confirmation assurance**: section 8 states exactly what the provider can prove. This plan cannot promise fresh password/MFA; requiring that stronger guarantee would reopen only the transfer mechanism.
-- **Third-party cookies**: full implementation proceeds now; actual Safari failure triggers the accepted custom-domain route. Do not let anticipated failure stall unrelated work or pretend a passing localhost test resolves it.
+- **Third-party cookies**: real Safari failure was observed after the full
+  implementation. The accepted same-site gateway forwards only fixed session
+  routes to Convex; repeat the full hosted and real-Safari lifecycle after the
+  domain/configuration change. A direct paid Convex custom domain remains a
+  future simplification.
 - **Snapshot permissions**: up to ten minutes of old ordinary access is accepted; high-risk BFF mutations read current state. Keys, sessions and claims cannot cross lanes/environments.
 - **Concurrent state**: stable cookies solve handle rotation only. Transactional capacity/ownership checks, single-use exchanges/proofs and browser response-generation guards address the other independent races.
 - **Configuration/data tightening**: policy edits cannot silently remove users or invent a paid restriction flow. Validate existing state and concurrent modifications, report an actionable conflict and retain prior effective configuration on failure.
@@ -671,9 +682,10 @@ No further product-mode decision is needed to start the listed implementation se
 
 ## Document History
 
-| Date | Status | Change |
-| --- | --- | --- |
-| 2026-09-26 | Draft — Awaiting review | Created from the settled Build 2 discussion and explicit planning request; pinned repository/provider evidence, single-token protocol, account operations, layered tests and production completion. No implementation or provider mutations performed. |
-| 2026-09-26 | Draft — Awaiting review | Added explicit Business web/session-adapter/default-return URL registration with a derived fixed callback, and made SDK organization technology-first: one TypeScript package with the current Convex adapter and clear future sibling-language boundaries. |
-| 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls. |
-| 2026-09-27 | Accepted — Implementation active | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate. |
+| Date       | Status                               | Change                                                                                                                                                                                                                                                                                  |
+| ---------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-26 | Draft — Awaiting review              | Created from the settled Build 2 discussion and explicit planning request; pinned repository/provider evidence, single-token protocol, account operations, layered tests and production completion. No implementation or provider mutations performed.                                  |
+| 2026-09-26 | Draft — Awaiting review              | Added explicit Business web/session-adapter/default-return URL registration with a derived fixed callback, and made SDK organization technology-first: one TypeScript package with the current Convex adapter and clear future sibling-language boundaries.                             |
+| 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls.                                                                                        |
+| 2026-09-27 | Accepted — Implementation active     | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate.                                            |
+| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the generated Convex origin did not receive the cross-site session cookie. Andrew approved a narrow Cloudflare gateway on the Business API subdomain; it forwards only SDK session routes and leaves authentication logic in Convex/the shared server SDK. |

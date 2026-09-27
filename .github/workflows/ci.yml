@@ -46,6 +46,7 @@ jobs:
       CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}
       CUSTOMER_AUTH_URL: ${{ vars.CUSTOMER_AUTH_URL }}
       EXAMPLE_CONVEX_SITE_URL: ${{ vars.EXAMPLE_CONVEX_SITE_URL }}
+      EXAMPLE_SESSION_ADAPTER_URL: ${{ vars.EXAMPLE_SESSION_ADAPTER_URL }}
       EXAMPLE_WEB_URL: ${{ vars.EXAMPLE_WEB_URL }}
       EXPECTED_CONVEX_URL: ${{ vars.CONVEX_URL }}
       EXPECTED_EXAMPLE_CONVEX_URL: ${{ vars.EXAMPLE_CONVEX_URL }}
@@ -84,7 +85,7 @@ jobs:
           pnpm exec convex env set BFF_CUSTOMER_JWKS_URL "$CONVEX_SITE_URL/v1/auth/jwks"
           pnpm exec convex env set BFF_CUSTOMER_API_BASE_URL "$CONVEX_SITE_URL"
           pnpm exec convex env set BFF_CUSTOMER_WEB_ORIGINS_JSON "[\"$EXAMPLE_WEB_URL\"]"
-          pnpm exec convex env set BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL "$EXAMPLE_CONVEX_SITE_URL"
+          pnpm exec convex env set BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL "$EXAMPLE_SESSION_ADAPTER_URL"
           pnpm exec convex env set BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH "/"
       - name: Deploy and stamp the separate example backend
         working-directory: projects/example/backend
@@ -93,6 +94,14 @@ jobs:
         run: |
           pnpm exec convex deploy --message "$GITHUB_SHA"
           pnpm exec convex env set EXAMPLE_BUILD_VERSION "$GITHUB_SHA"
+      - name: Deploy the production example session gateway
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config projects/example/session-gateway/wrangler.production.jsonc
+          --var "UPSTREAM_ORIGIN:$EXAMPLE_CONVEX_SITE_URL"
+          --var "BUILD_VERSION:$GITHUB_SHA"
       - name: Deploy the production backoffice
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

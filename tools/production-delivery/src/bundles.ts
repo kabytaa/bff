@@ -81,6 +81,7 @@ export function assertExampleBundleContent(
       config.customerEnvironmentKey,
       config.exampleConvexSiteUrl,
       config.exampleConvexUrl,
+      config.exampleSessionAdapterUrl,
     ],
     'Example',
   );
@@ -90,6 +91,7 @@ export function assertExampleBundleContent(
       'example-development',
       'auth-dev.tofler.app',
       'example-dev.tofler.app',
+      'api.example-dev.tofler.app',
       '__BFF_CUSTOMER_DEVELOPMENT_GRANT__',
     ],
     'Example',

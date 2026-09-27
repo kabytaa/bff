@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "business-factory-example-session-gateway-dev",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "api.example-dev.tofler.app",
+      "custom_domain": true,
+    },
+  ],
+  "vars": {
+    "BUILD_VERSION": "development",
+    "UPSTREAM_ORIGIN": "https://quirky-stoat-199.convex.site",
+  },
+}

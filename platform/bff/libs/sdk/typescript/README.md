@@ -43,14 +43,17 @@ const auth = createConvexBffAuthHttpAction({
   environmentKey: 'cards-production',
   transport: {
     webOrigins: ['https://cards.example'],
-    sessionAdapterBaseUrl: 'https://cards-backend.convex.site',
+    sessionAdapterBaseUrl: 'https://api.cards.example',
     defaultPostLoginPath: '/',
   },
 });
 ```
 
-The generated Convex domain remains the first supported deployment topology.
-A later custom domain changes registered transport URLs, not this SDK API.
+The adapter may be mounted directly on a generated Convex domain, a Convex
+custom domain or behind a fixed same-site gateway. A gateway must remain opaque:
+it forwards only these exact routes to one configured backend and never owns
+cookie/session logic. Changing topology changes registered URLs, not this SDK
+API.
 
 ## Browser and React bindings
 
@@ -64,7 +67,7 @@ import { createBffAuthBrowserClient } from '@tofler/bff-auth/browser';
 
 const auth = createBffAuthBrowserClient({
   environmentKey: 'cards-production',
-  sessionAdapterBaseUrl: 'https://cards-backend.convex.site',
+  sessionAdapterBaseUrl: 'https://api.cards.example',
   bffBaseUrl: 'https://bff.example',
 });
 ```

@@ -17,6 +17,12 @@
       "options": {
         "command": "vite build --config platform/bff/backoffice/vite.config.ts"
       },
+      "inputs": [
+        "production",
+        "^production",
+        { "env": "VITE_CONVEX_SITE_URL" },
+        { "env": "VITE_CONVEX_URL" }
+      ],
       "outputs": ["{workspaceRoot}/dist/platform/bff/backoffice"]
     },
     "build-development-auth": {

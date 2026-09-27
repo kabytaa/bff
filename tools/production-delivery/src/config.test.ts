@@ -14,6 +14,7 @@ const production = {
   CONVEX_SITE_URL: 'https://calm-otter-123.convex.site',
   CUSTOMER_AUTH_URL: 'https://auth.tofler.app',
   EXAMPLE_CONVEX_SITE_URL: 'https://kind-fox-456.convex.site',
+  EXAMPLE_SESSION_ADAPTER_URL: 'https://api.example.tofler.app',
   EXAMPLE_WEB_URL: 'https://example.tofler.app',
   EXPECTED_CONVEX_URL: 'https://calm-otter-123.convex.cloud',
   EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
@@ -31,6 +32,7 @@ describe('production configuration', () => {
       customerEnvironmentKey: 'example-production',
       exampleConvexSiteUrl: 'https://kind-fox-456.convex.site',
       exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+      exampleSessionAdapterUrl: 'https://api.example.tofler.app',
       exampleWebUrl: 'https://example.tofler.app',
       injectedBffConvexUrl: 'https://calm-otter-123.convex.cloud',
     });
@@ -46,6 +48,7 @@ describe('production configuration', () => {
     ['CONVEX_SITE_URL'],
     ['EXPECTED_CONVEX_URL'],
     ['EXAMPLE_CONVEX_SITE_URL'],
+    ['EXAMPLE_SESSION_ADAPTER_URL'],
     ['EXPECTED_EXAMPLE_CONVEX_URL'],
     ['BFF_CUSTOMER_ENVIRONMENT_KEY'],
     ['GITHUB_SHA'],
@@ -60,6 +63,7 @@ describe('production configuration', () => {
     ['BACKOFFICE_URL', 'https://ops-dev.tofler.tech'],
     ['CUSTOMER_AUTH_URL', 'https://auth-dev.tofler.app'],
     ['EXAMPLE_WEB_URL', 'https://example-dev.tofler.app'],
+    ['EXAMPLE_SESSION_ADAPTER_URL', 'https://api.example-dev.tofler.app'],
     ['BFF_CUSTOMER_ENVIRONMENT_KEY', 'example-development'],
   ])('rejects a development %s target', (name, value) => {
     expect(() => readSmokeConfig({ ...production, [name]: value })).toThrow(

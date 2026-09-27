@@ -13,6 +13,7 @@ token or login implementation. Configure these public build values:
 
 - `VITE_BFF_CUSTOMER_API_URL`
 - `VITE_BFF_CUSTOMER_ENVIRONMENT_KEY`
+- `VITE_BFF_SESSION_ADAPTER_URL`
 - `VITE_CONVEX_URL`
 - `VITE_CONVEX_SITE_URL`
 - `VITE_BFF_AUTH_DIAGNOSTICS` (`true` only for the development example)
@@ -28,7 +29,10 @@ Run `pnpm exec nx run example-web:test`, `example-web:typecheck` and
 published as the no-index `business-factory-example-dev` Worker at
 `https://example-dev.tofler.app`; its public build values point to the separate
 example Convex development deployment and the existing BFF development lane.
-The generated `*.convex.site` origin—not Cloudflare—owns the session cookie.
+The narrow session gateway at `https://api.example-dev.tofler.app` forwards
+only `/_tofler/auth/*` to Convex, so its Business-owned host receives the
+opaque cookie without moving authentication logic into Cloudflare. Native
+Convex and protected `/v1/*` calls remain direct.
 
 Build with the four reviewed `VITE_*` values above, verify the output, then use
 the repository configuration explicitly:

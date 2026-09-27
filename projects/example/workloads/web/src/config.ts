@@ -6,6 +6,7 @@ export interface ExampleWebConfiguration {
   readonly convexSiteUrl: string;
   readonly convexUrl: string;
   readonly environmentKey: string;
+  readonly sessionAdapterUrl: string;
 }
 
 function required(name: string): string {
@@ -26,5 +27,8 @@ export function readExampleWebConfiguration(): ExampleWebConfiguration {
     convexSiteUrl: normalizeHttpsOrigin(required('VITE_CONVEX_SITE_URL')),
     convexUrl: normalizeHttpsOrigin(required('VITE_CONVEX_URL')),
     environmentKey,
+    sessionAdapterUrl: normalizeHttpsOrigin(
+      required('VITE_BFF_SESSION_ADAPTER_URL'),
+    ),
   };
 }

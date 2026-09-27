@@ -49,7 +49,7 @@ describe('production workflow credential boundaries', () => {
     const exampleDeploy = step(
       workflow,
       'Deploy and stamp the separate example backend',
-      'Deploy the production backoffice',
+      'Deploy the production example session gateway',
     );
 
     for (const section of [bffDeploy, bffStamp]) {
@@ -62,20 +62,24 @@ describe('production workflow credential boundaries', () => {
     }
   });
 
-  it('scopes the Cloudflare token to static publication only', async () => {
+  it('scopes the Cloudflare token to gateway and static publication only', async () => {
     const workflow = await readFile(workflowPath, 'utf8');
     const staticRelease = workflow.slice(
-      workflow.indexOf('      - name: Deploy the production backoffice'),
+      workflow.indexOf(
+        '      - name: Deploy the production example session gateway',
+      ),
       workflow.indexOf('      - name: Smoke-check the production release'),
     );
 
     expect(staticRelease.match(/secrets\.CLOUDFLARE_API_TOKEN/gu)).toHaveLength(
-      3,
+      4,
     );
     expect(
       workflow.slice(
         0,
-        workflow.indexOf('      - name: Deploy the production backoffice'),
+        workflow.indexOf(
+          '      - name: Deploy the production example session gateway',
+        ),
       ),
     ).not.toContain('secrets.CLOUDFLARE_API_TOKEN');
   });

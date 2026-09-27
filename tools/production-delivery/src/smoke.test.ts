@@ -12,6 +12,7 @@ const config: SmokeConfig = {
   customerEnvironmentKey: 'example-production',
   exampleConvexSiteUrl: 'https://kind-fox-456.convex.site',
   exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+  exampleSessionAdapterUrl: 'https://api.example.tofler.app',
   exampleWebUrl: 'https://example.tofler.app',
 };
 
@@ -84,6 +85,19 @@ function routes(): Map<string, () => Response> {
       () => new Response('unauthenticated', { status: 401 }),
     ],
     [
+      `${config.exampleSessionAdapterUrl}/_tofler/auth/context`,
+      () => new Response('unauthenticated', { status: 401 }),
+    ],
+    [
+      `${config.exampleSessionAdapterUrl}/_tofler/session-gateway/health`,
+      () =>
+        Response.json({
+          status: 'ok',
+          service: 'business-factory-example-session-gateway',
+          version: config.commitSha,
+        }),
+    ],
+    [
       `${config.backofficeUrl}/build-metadata.json`,
       () => metadata('business-factory-backoffice'),
     ],
@@ -123,7 +137,7 @@ function routes(): Map<string, () => Response> {
       `${config.exampleWebUrl}/`,
       () =>
         page(
-          'https://*.convex.cloud https://*.convex.site',
+          'https://*.tofler.app https://*.convex.cloud https://*.convex.site',
           '/assets/example.js',
         ),
     ],
@@ -136,6 +150,7 @@ function routes(): Map<string, () => Response> {
             config.customerEnvironmentKey,
             config.exampleConvexSiteUrl,
             config.exampleConvexUrl,
+            config.exampleSessionAdapterUrl,
           ].join(' '),
         ),
     ],
@@ -174,6 +189,16 @@ describe('production smoke', () => {
         headers: { origin: config.exampleWebUrl },
       }),
     );
+    expect(fetcher).toHaveBeenCalledWith(
+      `${config.exampleSessionAdapterUrl}/_tofler/auth/context`,
+      expect.objectContaining({
+        method: 'POST',
+        headers: expect.objectContaining({
+          origin: config.exampleWebUrl,
+          'x-tofler-csrf': '1',
+        }),
+      }),
+    );
   });
 
   it.each([
@@ -206,6 +231,21 @@ describe('production smoke', () => {
       'unprotected example API',
       `${config.exampleConvexSiteUrl}/v1/context`,
       () => Response.json({ accountId: 'leaked' }),
+    ],
+    [
+      'unprotected session gateway',
+      `${config.exampleSessionAdapterUrl}/_tofler/auth/context`,
+      () => Response.json({ token: 'leaked' }),
+    ],
+    [
+      'stale session gateway',
+      `${config.exampleSessionAdapterUrl}/_tofler/session-gateway/health`,
+      () =>
+        Response.json({
+          status: 'ok',
+          service: 'business-factory-example-session-gateway',
+          version: 'old-version',
+        }),
     ],
     [
       'stale example asset metadata',

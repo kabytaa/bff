@@ -221,6 +221,36 @@ export async function checkProductionOnce(
     401,
     { headers: { origin: config.exampleWebUrl } },
   );
+  await assertExpectedStatus(
+    fetcher,
+    new URL('/_tofler/auth/context', config.exampleSessionAdapterUrl).href,
+    401,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        origin: config.exampleWebUrl,
+        'x-tofler-csrf': '1',
+      },
+      body: '{}',
+    },
+  );
+  const gatewayHealthResponse = await successfulResponse(
+    fetcher,
+    new URL('/_tofler/session-gateway/health', config.exampleSessionAdapterUrl)
+      .href,
+  );
+  const gatewayHealth = (await gatewayHealthResponse.json()) as Record<
+    string,
+    unknown
+  >;
+  if (
+    gatewayHealth.status !== 'ok' ||
+    gatewayHealth.service !== 'business-factory-example-session-gateway' ||
+    gatewayHealth.version !== config.commitSha
+  ) {
+    throw new Error('Example session gateway health does not match release.');
+  }
 
   await assertStaticSurface(
     fetcher,
@@ -243,7 +273,7 @@ export async function checkProductionOnce(
     config.exampleWebUrl,
     'business-factory-example',
     config.commitSha,
-    ['https://*.convex.cloud', 'https://*.convex.site'],
+    ['https://*.tofler.app', 'https://*.convex.cloud', 'https://*.convex.site'],
     (content) => assertExampleBundleContent(content, config),
   );
 }

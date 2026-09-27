@@ -54,7 +54,15 @@ Each environment registers:
 
 The SDK callback is always `/_tofler/auth/callback` on the adapter origin and is derived rather than separately editable. BFF never infers environment identity from `Origin`, `Referer` or callback host. Cookie-backed JSON routes require exact Origin, credentialed CORS and the non-simple `X-Tofler-CSRF` header.
 
-The initial adapter uses the generated `*.convex.site` host. An observed real Safari incompatibility triggers the accepted paid custom-domain fallback without changing SDK APIs or moving cookie logic into Cloudflare.
+The initial generated `*.convex.site` adapter worked in hosted Chromium and
+Playwright WebKit, but real iPhone Safari returned from login without sending a
+usable cross-site cookie. The retained example therefore exposes the same
+adapter through a narrow Cloudflare Worker on `api.<business-domain>`. The
+Worker forwards only the fixed `/_tofler/auth/*` routes to one configured
+Convex origin and passes request/response headers unchanged; it does not parse,
+validate, issue or revoke cookies or tokens. Product `/v1/*` and native Convex
+traffic remain direct. This makes the cookie same-site while preserving the SDK
+and allowing a later direct Convex custom domain by configuration alone.
 
 ### Accounts and policy
 
@@ -79,10 +87,17 @@ The BFF and retained example use separate Convex projects/deploy keys, working d
 - `ops.tofler.tech` — operator backoffice;
 - `auth.tofler.app` — shared customer sign-in;
 - `example.tofler.app` — retained Business UI;
+- `api.example.tofler.app` — opaque session-route gateway;
 - one BFF Convex deployment; and
 - one independent example Convex deployment.
 
-Production delivery preflights every target and bundle before mutation, deploys/stamps BFF first, configures and deploys/stamps the example second, then publishes all three static surfaces. Automated smoke checks both backend SHAs, public-only JWKS, dummy-route absence, unauthenticated product denial, asset SHAs, security headers and exact embedded targets. Real Google/Safari acceptance remains the final completion gate.
+Production delivery preflights every target and bundle before mutation,
+deploys/stamps BFF first, configures and deploys/stamps the example second,
+publishes the fixed-upstream gateway, then publishes all three static surfaces.
+Automated smoke checks both backend SHAs, public-only JWKS, dummy-route absence,
+unauthenticated gateway/product denial, asset SHAs, security headers and exact
+embedded targets. Real Google/Safari acceptance remains the final completion
+gate.
 
 ## Consequences
 
@@ -99,7 +114,8 @@ Production delivery preflights every target and bundle before mutation, deploys/
 
 - BFF token issuance is required approximately once per ten minutes of active use.
 - A revoked stateless token has a bounded remaining validity window.
-- Generated-domain third-party cookies require actual Safari evidence and may require a paid custom domain.
+- The gateway adds one network hop and places Cloudflare in the encrypted
+  credential transport path, although it owns no session logic.
 - The authentication protocol is security-sensitive custom infrastructure and therefore requires layered scenario, browser, hosted and production evidence.
 - Environment/account policy is intentionally richer than a single login toggle, though the guided configuration skill hides most field-level complexity.
 
@@ -111,7 +127,10 @@ Production delivery preflights every target and bundle before mutation, deploys/
 - Rotating the durable handle on every ten-minute renewal: avoidable cross-tab races and lost-response failure modes.
 - Email-based identity merging: email equality does not prove control of an existing identity.
 - Business-owned account/session databases: duplicates shared invariants and defeats the reusable platform boundary.
-- Cloudflare-managed cookie/auth logic: couples the protocol to hosting and makes non-Cloudflare products harder.
+- Cloudflare-managed cookie/auth logic: couples the protocol to hosting and
+  makes non-Cloudflare products harder. The accepted example gateway is only an
+  opaque transport adapter; non-Cloudflare products can mount the same Fetch
+  server SDK directly or use an equivalent fixed proxy.
 - Speculative empty SDKs for every future language: false support claims and maintenance drift.
 
 ## Verification
