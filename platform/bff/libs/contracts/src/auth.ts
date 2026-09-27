@@ -11,6 +11,8 @@ import {
 export const CUSTOMER_CONTEXT_VERSION = 1 as const;
 export const CUSTOMER_AUTH_CONFIGURATION_VERSION = 1 as const;
 export const CUSTOMER_AUTH_CALLBACK_PATH = '/_tofler/auth/callback' as const;
+export const CUSTOMER_AUTH_CSRF_HEADER = 'X-Tofler-CSRF' as const;
+export const CUSTOMER_AUTH_CSRF_HEADER_VALUE = '1' as const;
 
 export const customerIdentityProviderSchema = z.enum(['google']);
 export type CustomerIdentityProvider = z.infer<

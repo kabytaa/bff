@@ -8,3 +8,4 @@ export {
 export * from './accountPolicy';
 export * from './accounts';
 export * from './auth';
+export * from './session';

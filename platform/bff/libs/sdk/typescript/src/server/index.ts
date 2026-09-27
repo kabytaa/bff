@@ -1,5 +1,7 @@
 import {
   businessTransportConfigSchema,
+  CUSTOMER_AUTH_CSRF_HEADER,
+  CUSTOMER_AUTH_CSRF_HEADER_VALUE,
   deriveCustomerAuthCallbackUrl,
   publicIdentifierSchema,
   relativeApplicationPathSchema,
@@ -7,8 +9,8 @@ import {
 } from '../core';
 
 export const BFF_SESSION_COOKIE_NAME = '__Host-tofler-session' as const;
-export const BFF_CSRF_HEADER = 'X-Tofler-CSRF' as const;
-export const BFF_CSRF_HEADER_VALUE = '1' as const;
+export const BFF_CSRF_HEADER = CUSTOMER_AUTH_CSRF_HEADER;
+export const BFF_CSRF_HEADER_VALUE = CUSTOMER_AUTH_CSRF_HEADER_VALUE;
 
 const ATTEMPT_COOKIE_PREFIX = '__Host-tofler-attempt-' as const;
 const MAX_ATTEMPT_COOKIES = 8;

@@ -569,7 +569,10 @@ export async function issueContextHandler(ctx: ActionCtx, request: Request) {
       );
     }
     if (result.kind === 'selection_required') {
-      return jsonResponse({ status: 'account_selection_required', ...result });
+      return jsonResponse({
+        status: 'account_selection_required',
+        customer: result.customer,
+      });
     }
 
     const signing = readCustomerSigningConfiguration();
@@ -581,6 +584,9 @@ export async function issueContextHandler(ctx: ActionCtx, request: Request) {
           : 'authenticated',
       token,
       expiresAt: result.issuance.expiresAt,
+      ...(result.issuance.contextType === 'account'
+        ? { accountId: result.issuance.accountPublicId }
+        : {}),
       customer: result.customer,
     });
   } catch (error) {

@@ -51,3 +51,43 @@ const auth = createConvexBffAuthHttpAction({
 
 The generated Convex domain remains the first supported deployment topology.
 A later custom domain changes registered transport URLs, not this SDK API.
+
+## Browser and React bindings
+
+Create one browser client per Business environment. It calls the same-origin
+session adapter with credentials and the registered BFF API with the short
+bearer token. The token and active account remain in tab memory; optional local
+storage contains only the last account ID and is always revalidated.
+
+```ts
+import { createBffAuthBrowserClient } from '@tofler/bff-auth/browser';
+
+const auth = createBffAuthBrowserClient({
+  environmentKey: 'cards-production',
+  sessionAdapterBaseUrl: 'https://cards-backend.convex.site',
+  bffBaseUrl: 'https://bff.example',
+});
+```
+
+React applications place the client in `BffAuthProvider`, inspect the
+discriminated session state through `useBffAuth`, and may use the minimal
+accessible controls. Placement and styling remain application-owned.
+
+```tsx
+import {
+  BffAccountSelector,
+  BffAuthProvider,
+  BffSignInButton,
+  BffSignOutButton,
+} from '@tofler/bff-auth/react';
+
+<BffAuthProvider client={auth}>
+  <BffSignInButton>Continue with Google</BffSignInButton>
+  <BffAccountSelector />
+  <BffSignOutButton />
+</BffAuthProvider>;
+```
+
+The browser and React entries never import the server entry. New tabs obtain
+their own context JWT; logout is broadcast across tabs, while account switches
+remain tab-local.
