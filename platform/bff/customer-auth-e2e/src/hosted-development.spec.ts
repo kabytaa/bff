@@ -40,6 +40,19 @@ async function waitForProtectedEvidence(page: Page) {
   await expect(page.locator('.error-banner')).toHaveCount(0);
 }
 
+async function selectInitialAccountWhenRequired(page: Page) {
+  await expect(
+    page.getByRole('heading', {
+      name: /^(Choose an account|Verified Business context)$/u,
+    }),
+  ).toBeVisible();
+  const chooser = page.getByRole('heading', { name: 'Choose an account' });
+  if (await chooser.isVisible()) {
+    await page.getByLabel('Account').selectOption({ index: 1 });
+  }
+  await waitForProtectedEvidence(page);
+}
+
 async function startLogin(context: BrowserContext) {
   const page = await context.newPage();
   await page.goto(HOSTED_EXAMPLE_URL);
@@ -102,7 +115,7 @@ async function finishDevelopmentLogin(
 
   const cleanPage = await context.newPage();
   await cleanPage.goto(HOSTED_EXAMPLE_URL);
-  await waitForProtectedEvidence(cleanPage);
+  await selectInitialAccountWhenRequired(cleanPage);
   return cleanPage;
 }
 
@@ -200,7 +213,7 @@ test('proves the complete hosted development customer session lifecycle', async 
       options.map((option) => (option as HTMLOptionElement).value),
     );
   const secondAccountId = accountOptions.find(
-    (accountId) => accountId !== firstAccountId,
+    (accountId) => accountId.length > 0 && accountId !== firstAccountId,
   );
   if (!secondAccountId) throw new Error('Second fixture account is missing');
   await secondPage.getByLabel('Account').selectOption(secondAccountId);
