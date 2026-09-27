@@ -94,7 +94,7 @@ describe('parseCommand', () => {
       },
     });
     expect(buildConvexInvocation(preview).args[2]).toBe(
-      'businessEnvironments:previewCustomerAuth',
+      'customerOperations:previewCustomerConfiguration',
     );
 
     const configure = parseCommand([
@@ -105,16 +105,71 @@ describe('parseCommand', () => {
       'sample-development',
       '--expected-revision',
       '3',
+      '--expected-account-policy-revision',
+      '7',
+      '--preflight-id',
+      'preflight_0123456789abc',
       '--configuration-json',
       customerAuthConfiguration,
     ]);
     expect(configure).toMatchObject({
       name: 'configure-customer-auth',
-      args: { expectedRevision: 3 },
+      args: {
+        expectedRevision: 3,
+        expectedAccountPolicyStateRevision: 7,
+        preflightId: 'preflight_0123456789abc',
+      },
     });
     expect(buildConvexInvocation(configure).args[2]).toBe(
       'businessEnvironments:configureCustomerAuth',
     );
+  });
+
+  it('validates the guided one-workspace and create-or-join scenarios', () => {
+    const oneWorkspace = parseCommand([
+      'preview-customer-auth',
+      '--deployment',
+      'local',
+      '--key',
+      'sample-development',
+      '--configuration-json',
+      customerAuthConfiguration,
+    ]);
+    const createOrJoinConfiguration = JSON.stringify({
+      ...JSON.parse(customerAuthConfiguration),
+      accountPolicy: {
+        ...JSON.parse(customerAuthConfiguration).accountPolicy,
+        createAccountOnFirstSignIn: false,
+        userAccountCreationEnabled: true,
+      },
+    });
+    const createOrJoin = parseCommand([
+      'preview-customer-auth',
+      '--deployment',
+      'local',
+      '--key',
+      'sample-development',
+      '--configuration-json',
+      createOrJoinConfiguration,
+    ]);
+
+    expect(oneWorkspace).toMatchObject({
+      args: {
+        configuration: {
+          accountPolicy: { createAccountOnFirstSignIn: true },
+        },
+      },
+    });
+    expect(createOrJoin).toMatchObject({
+      args: {
+        configuration: {
+          accountPolicy: {
+            createAccountOnFirstSignIn: false,
+            userAccountCreationEnabled: true,
+          },
+        },
+      },
+    });
   });
 
   it('rejects invalid customer config and revisions before Convex', () => {
@@ -170,13 +225,157 @@ describe('parseCommand', () => {
   });
 
   it.each(['prod', 'production', 'team:project:prod'])(
-    'refuses the production deployment reference %s',
+    'requires exact confirmation for production writes to %s',
     (deployment) => {
       expect(() =>
-        parseCommand(['list', '--deployment', deployment, '--confirm-cloud']),
-      ).toThrow(/reviewed production delivery workflow/);
+        parseCommand([
+          'create',
+          '--deployment',
+          deployment,
+          '--confirm-cloud',
+          '--key',
+          'sample-production',
+          '--business-name',
+          'Sample',
+          '--environment-name',
+          'Production',
+        ]),
+      ).toThrow(/--confirm-production/);
+      expect(
+        parseCommand([
+          'create',
+          '--deployment',
+          deployment,
+          '--confirm-cloud',
+          '--confirm-production',
+          deployment,
+          '--key',
+          'sample-production',
+          '--business-name',
+          'Sample',
+          '--environment-name',
+          'Production',
+        ]),
+      ).toMatchObject({ deployment, confirmProduction: deployment });
     },
   );
+
+  it('permits confirmed production reads without write confirmation', () => {
+    expect(
+      parseCommand([
+        'list-customer-users',
+        '--deployment',
+        'prod',
+        '--confirm-cloud',
+        '--key',
+        'sample-production',
+      ]),
+    ).toMatchObject({ name: 'list-customer-users', deployment: 'prod' });
+  });
+
+  it('never permits development fixture provisioning in production', () => {
+    expect(() =>
+      parseCommand([
+        'provision-development-account',
+        '--deployment',
+        'prod',
+        '--confirm-cloud',
+        '--confirm-production',
+        'prod',
+        '--key',
+        'sample-production',
+        '--user-id',
+        'user_0123456789abcdef',
+      ]),
+    ).toThrow(/cannot target production/);
+  });
+
+  it('builds bounded customer view invocations', () => {
+    const command = parseCommand([
+      'list-customer-security-events',
+      '--deployment',
+      'local',
+      '--key',
+      'sample-development',
+      '--limit',
+      '12',
+      '--cursor',
+      'next-page',
+    ]);
+    expect(command).toMatchObject({
+      args: {
+        environmentKey: 'sample-development',
+        paginationOpts: { cursor: 'next-page', numItems: 12 },
+      },
+    });
+    expect(buildConvexInvocation(command).args[2]).toBe(
+      'customerOperations:listSecurityEvents',
+    );
+  });
+
+  it('builds explicit lifecycle mutations and keeps dev fixtures distinct', () => {
+    const managed = buildConvexInvocation(
+      parseCommand([
+        'provision-managed-account',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--user-id',
+        'user_0123456789abcdef',
+      ]),
+    );
+    expect(managed.args[2]).toBe('customerOperations:provisionManagedAccount');
+    expect(JSON.parse(managed.args[3] ?? '{}')).toMatchObject({
+      environmentKey: 'sample-development',
+      userPublicId: 'user_0123456789abcdef',
+    });
+
+    const fixture = buildConvexInvocation(
+      parseCommand([
+        'provision-development-account',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--user-id',
+        'user_0123456789abcdef',
+      ]),
+    );
+    expect(fixture.args[2]).toBe(
+      'customerOperations:provisionDevelopmentFixtureAccount',
+    );
+  });
+
+  it('validates account policy and session identifiers before invocation', () => {
+    const policy = buildConvexInvocation(
+      parseCommand([
+        'set-account-policy',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--account-id',
+        'account_0123456789abcdef',
+        '--policy-overrides-json',
+        '{"seatLimit":4,"memberInvitationsEnabled":true}',
+      ]),
+    );
+    expect(policy.args[2]).toBe('customerOperations:updateAccountPolicy');
+
+    const revoke = buildConvexInvocation(
+      parseCommand([
+        'revoke-customer-session',
+        '--deployment',
+        'local',
+        '--key',
+        'sample-development',
+        '--session-id',
+        'session_0123456789abcdef',
+      ]),
+    );
+    expect(revoke.args[2]).toBe('customerOperations:revokeSession');
+  });
 
   it('normalizes surrounding deployment whitespace', () => {
     expect(parseCommand(['list', '--deployment', ' local '])).toMatchObject({

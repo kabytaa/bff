@@ -171,10 +171,22 @@ describe('customer identity and first-sign-in bootstrap', () => {
     );
     expect(first).toMatchObject({ kind: 'ok', customer: { accounts: [] } });
 
+    const nextConfiguration = configuration({
+      createAccountOnFirstSignIn: true,
+    });
+    const preflight = await t.action(
+      internal.customerOperations.previewCustomerConfiguration,
+      {
+        key: 'managed-development',
+        configuration: nextConfiguration,
+      },
+    );
     await t.mutation(internal.businessEnvironments.configureCustomerAuth, {
       key: 'managed-development',
-      expectedRevision: 1,
-      configuration: configuration({ createAccountOnFirstSignIn: true }),
+      expectedRevision: preflight.currentRevision,
+      expectedAccountPolicyStateRevision: preflight.accountPolicyStateRevision,
+      preflightId: preflight.preflightId,
+      configuration: nextConfiguration,
     });
     const repeated = await t.mutation(
       internal.customerAuth.bootstrapCustomer,

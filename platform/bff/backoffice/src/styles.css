@@ -149,6 +149,73 @@ h1 {
   align-items: center;
 }
 
+.environment-button {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.environment-button:hover,
+.environment-button.selected {
+  border-color: #62a99d;
+  box-shadow: 0 0.5rem 2rem rgba(23, 111, 98, 0.13);
+}
+
+.customer-grid {
+  grid-template-columns: minmax(0, 2fr) minmax(15rem, 1fr);
+}
+
+.customer-records {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.customer-records h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.detail-list {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.7fr) minmax(0, 1.3fr);
+  gap: 0.4rem 0.8rem;
+  margin: 0;
+}
+
+.detail-list dt {
+  color: #63727d;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.detail-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.compact-counts {
+  grid-template-columns: 1fr auto;
+}
+
+.record-row {
+  display: grid;
+  gap: 0.2rem;
+  border-top: 1px solid #e4ece9;
+  padding: 0.75rem 0;
+  font-size: 0.82rem;
+}
+
+.record-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.record-row code {
+  overflow-wrap: anywhere;
+}
+
 .key {
   display: inline-block;
   border-radius: 0.4rem;
@@ -224,6 +291,12 @@ h1 {
   .environment-card {
     grid-template-columns: 1fr;
     gap: 0.45rem;
+  }
+
+  .customer-grid,
+  .customer-records,
+  .detail-list {
+    grid-template-columns: 1fr;
   }
 
   .timestamp {

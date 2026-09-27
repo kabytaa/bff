@@ -25,6 +25,21 @@ export default defineSchema({
     accountPolicyStateRevision: v.optional(v.number()),
     updatedAt: v.number(),
   }).index('by_key', ['key']),
+  customerConfigurationPreflights: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    publicId: v.string(),
+    configuration: storedCustomerAuthConfigurationValidator,
+    expectedConfigurationRevision: v.number(),
+    expectedAccountPolicyStateRevision: v.number(),
+    compatible: v.boolean(),
+    conflicts: v.array(v.string()),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+    consumedAt: v.optional(v.number()),
+    cleanupAt: v.number(),
+  })
+    .index('by_environment_public_id', ['environmentId', 'publicId'])
+    .index('by_cleanup_at', ['cleanupAt']),
   authPrincipals: defineTable({
     createdAt: v.number(),
   }),
@@ -244,6 +259,7 @@ export default defineSchema({
       v.literal('customer_logout'),
       v.literal('ownership_transferred'),
       v.literal('development_automation_used'),
+      v.literal('customer_session_revoked'),
     ),
     automationCapability: v.optional(
       v.union(

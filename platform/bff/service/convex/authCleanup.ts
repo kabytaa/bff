@@ -18,8 +18,12 @@ export const expirePendingInvitations = internalMutation({
       .take(CLEANUP_BATCH_SIZE);
     for (const invitation of expired) {
       const account = await ctx.db.get(invitation.accountId);
+      const environment = await ctx.db.get(invitation.environmentId);
       if (!account || account.pendingInvitationCount < 1) {
         return fail('CONFIGURATION_ERROR', 'Invitation counters are invalid');
+      }
+      if (!environment) {
+        return fail('CONFIGURATION_ERROR', 'Invitation environment is invalid');
       }
       await ctx.db.patch(invitation._id, {
         state: 'expired',
@@ -28,6 +32,10 @@ export const expirePendingInvitations = internalMutation({
       await ctx.db.patch(account._id, {
         pendingInvitationCount: account.pendingInvitationCount - 1,
         updatedAt: now,
+      });
+      await ctx.db.patch(environment._id, {
+        accountPolicyStateRevision:
+          (environment.accountPolicyStateRevision ?? 0) + 1,
       });
     }
     return { expired: expired.length };
@@ -40,6 +48,7 @@ export const deleteExpiredProtocolState = internalMutation({
   handler: async (ctx, args) => {
     const now = args.now ?? Date.now();
     const tables = [
+      'customerConfigurationPreflights',
       'loginTransactions',
       'ownershipTransferProofs',
       'businessSessions',

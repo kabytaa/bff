@@ -36,12 +36,57 @@ export function App({
   signInControl: ReactNode;
   siteUrl: string;
 }) {
+  const [selectedEnvironmentKey, setSelectedEnvironmentKey] = useState<
+    string | undefined
+  >();
   const { health, error: healthError } = useHealth(siteUrl);
   const operator = useQuery(api.backoffice.currentOperator, {});
   const overview = useQuery(
     api.backoffice.overview,
     operator?.authenticated && operator.authorized ? {} : 'skip',
   );
+  const effectiveEnvironmentKey =
+    selectedEnvironmentKey ?? overview?.businessEnvironments[0]?.key;
+  const customerQueryArgs =
+    operator?.authenticated &&
+    operator.authorized &&
+    effectiveEnvironmentKey !== undefined
+      ? {
+          environmentKey: effectiveEnvironmentKey,
+          paginationOpts: { cursor: null, numItems: 25 },
+        }
+      : ('skip' as const);
+  const customerUsers = useQuery(
+    api.customerBackoffice.users,
+    customerQueryArgs,
+  );
+  const customerAccounts = useQuery(
+    api.customerBackoffice.accounts,
+    customerQueryArgs,
+  );
+  const customerMemberships = useQuery(
+    api.customerBackoffice.memberships,
+    customerQueryArgs,
+  );
+  const customerSessions = useQuery(
+    api.customerBackoffice.sessions,
+    customerQueryArgs,
+  );
+  const customerSecurityEvents = useQuery(
+    api.customerBackoffice.securityEvents,
+    customerQueryArgs,
+  );
+
+  useEffect(() => {
+    if (
+      selectedEnvironmentKey !== undefined &&
+      overview?.businessEnvironments.some(
+        (environment) => environment.key === selectedEnvironmentKey,
+      ) === false
+    ) {
+      setSelectedEnvironmentKey(overview.businessEnvironments[0]?.key);
+    }
+  }, [overview, selectedEnvironmentKey]);
 
   let model: DashboardModel;
   if (healthError) {
@@ -64,8 +109,34 @@ export function App({
       state: 'ready',
       health,
       environments: overview.businessEnvironments,
+      ...(effectiveEnvironmentKey === undefined
+        ? {}
+        : { selectedEnvironmentKey: effectiveEnvironmentKey }),
+      ...(effectiveEnvironmentKey === undefined
+        ? {}
+        : {
+            customerDetail: {
+              loading:
+                customerUsers === undefined ||
+                customerAccounts === undefined ||
+                customerMemberships === undefined ||
+                customerSessions === undefined ||
+                customerSecurityEvents === undefined,
+              users: customerUsers?.page ?? [],
+              accounts: customerAccounts?.page ?? [],
+              memberships: customerMemberships?.page ?? [],
+              sessions: customerSessions?.page ?? [],
+              securityEvents: customerSecurityEvents?.page ?? [],
+            },
+          }),
     };
   }
 
-  return <Dashboard model={model} signInControl={signInControl} />;
+  return (
+    <Dashboard
+      model={model}
+      signInControl={signInControl}
+      onSelectEnvironment={setSelectedEnvironmentKey}
+    />
+  );
 }

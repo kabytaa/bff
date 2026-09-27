@@ -7,7 +7,8 @@ export type SecurityEventType =
   | 'customer_login_succeeded'
   | 'customer_logout'
   | 'ownership_transferred'
-  | 'development_automation_used';
+  | 'development_automation_used'
+  | 'customer_session_revoked';
 
 export async function recordSecurityEvent(
   ctx: MutationCtx,

@@ -14,6 +14,8 @@ import type * as backoffice from "../backoffice.js";
 import type * as businessEnvironments from "../businessEnvironments.js";
 import type * as crons from "../crons.js";
 import type * as customerAuth from "../customerAuth.js";
+import type * as customerBackoffice from "../customerBackoffice.js";
+import type * as customerOperations from "../customerOperations.js";
 import type * as http from "../http.js";
 import type * as invitations from "../invitations.js";
 import type * as lib_authorization from "../lib/authorization.js";
@@ -44,6 +46,8 @@ declare const fullApi: ApiFromModules<{
   businessEnvironments: typeof businessEnvironments;
   crons: typeof crons;
   customerAuth: typeof customerAuth;
+  customerBackoffice: typeof customerBackoffice;
+  customerOperations: typeof customerOperations;
   http: typeof http;
   invitations: typeof invitations;
   "lib/authorization": typeof lib_authorization;

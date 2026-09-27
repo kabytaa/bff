@@ -1,4 +1,9 @@
-import type { HealthResponse } from '@bff/contracts';
+import type {
+  AccountPolicyOverrides,
+  AccountPolicyValues,
+  CustomerAuthConfiguration,
+  HealthResponse,
+} from '@bff/contracts';
 import type { ReactNode } from 'react';
 
 export interface BusinessEnvironmentView {
@@ -7,7 +12,65 @@ export interface BusinessEnvironmentView {
   key: string;
   businessName: string;
   environmentName: string;
+  customerAuth?: CustomerAuthConfiguration;
+  customerAuthConfigurationRevision?: number;
+  accountPolicyStateRevision?: number;
   updatedAt: number;
+}
+
+export interface CustomerUserView {
+  id: string;
+  verifiedEmail: string;
+  displayName: string;
+  activeMembershipCount: number;
+  ownedAccountCount: number;
+}
+
+type PolicySource = 'business_default' | 'account_override';
+
+export interface CustomerAccountView {
+  id: string;
+  displayName?: string;
+  ownerUserId: string;
+  policyOverrides?: AccountPolicyOverrides;
+  effectivePolicy: AccountPolicyValues;
+  policySources: Record<keyof AccountPolicyValues, PolicySource>;
+  activeMemberCount: number;
+  reservedInvitationCount: number;
+}
+
+export interface CustomerMembershipView {
+  id: string;
+  accountId: string;
+  userId: string;
+  role: 'owner' | 'admin' | 'member';
+}
+
+export interface CustomerSessionView {
+  id: string;
+  userId: string;
+  provider: 'google' | 'development';
+  lastSeenAt: number;
+  absoluteExpiresAt: number;
+  revokedAt?: number;
+}
+
+export interface CustomerSecurityEventView {
+  type: string;
+  userId?: string;
+  accountId?: string;
+  sessionId?: string;
+  correlationId: string;
+  occurredAt: number;
+}
+
+export interface CustomerEnvironmentDetail {
+  loading: boolean;
+  users: CustomerUserView[];
+  accounts: CustomerAccountView[];
+  memberships: CustomerMembershipView[];
+  sessions: CustomerSessionView[];
+  securityEvents: CustomerSecurityEventView[];
 }
 
 export type DashboardModel =
@@ -25,11 +88,14 @@ export type DashboardModel =
       state: 'ready';
       health: HealthResponse;
       environments: BusinessEnvironmentView[];
+      selectedEnvironmentKey?: string;
+      customerDetail?: CustomerEnvironmentDetail;
     };
 
 export interface DashboardProps {
   model: DashboardModel;
   signInControl?: ReactNode;
+  onSelectEnvironment?: (key: string) => void;
 }
 
 function Header({ health }: { health?: HealthResponse }) {
@@ -71,7 +137,11 @@ function formatTimestamp(value: number): string {
   }).format(new Date(value));
 }
 
-export function Dashboard({ model, signInControl }: DashboardProps) {
+export function Dashboard({
+  model,
+  signInControl,
+  onSelectEnvironment,
+}: DashboardProps) {
   if (model.state === 'configuration-error') {
     return (
       <StateCard title="Configuration required">
@@ -163,7 +233,17 @@ export function Dashboard({ model, signInControl }: DashboardProps) {
           aria-label="Business environments"
         >
           {model.environments.map((environment) => (
-            <article className="card environment-card" key={environment.id}>
+            <button
+              type="button"
+              className={`card environment-card environment-button${
+                model.selectedEnvironmentKey === environment.key
+                  ? ' selected'
+                  : ''
+              }`}
+              key={environment.id}
+              aria-pressed={model.selectedEnvironmentKey === environment.key}
+              onClick={() => onSelectEnvironment?.(environment.key)}
+            >
               <div>
                 <strong>{environment.businessName}</strong>
                 <p className="subtle">{environment.environmentName}</p>
@@ -175,10 +255,202 @@ export function Dashboard({ model, signInControl }: DashboardProps) {
                 <span>Created {formatTimestamp(environment.createdAt)}</span>
                 <span>Updated {formatTimestamp(environment.updatedAt)}</span>
               </div>
-            </article>
+            </button>
           ))}
         </section>
       )}
+
+      {model.selectedEnvironmentKey ? (
+        <CustomerEnvironmentSection
+          environment={model.environments.find(
+            (item) => item.key === model.selectedEnvironmentKey,
+          )}
+          detail={model.customerDetail}
+        />
+      ) : null}
     </main>
+  );
+}
+
+function CustomerEnvironmentSection({
+  environment,
+  detail,
+}: {
+  environment?: BusinessEnvironmentView;
+  detail?: CustomerEnvironmentDetail;
+}) {
+  if (!environment) return null;
+  return (
+    <section aria-label="Customer access">
+      <div className="section-heading">
+        <div>
+          <p className="eyebrow">Customer access</p>
+          <h2>{environment.key}</h2>
+        </div>
+        <span className="subtle">Read only</span>
+      </div>
+      <div className="grid customer-grid">
+        <article className="card">
+          <p className="metric-label">Registration</p>
+          {environment.customerAuth ? (
+            <dl className="detail-list">
+              <dt>Web origins</dt>
+              <dd>
+                {environment.customerAuth.transport.webOrigins.join(', ')}
+              </dd>
+              <dt>Session adapter</dt>
+              <dd>
+                {environment.customerAuth.transport.sessionAdapterBaseUrl}
+              </dd>
+              <dt>Default destination</dt>
+              <dd>{environment.customerAuth.transport.defaultPostLoginPath}</dd>
+              <dt>Configuration revision</dt>
+              <dd>{environment.customerAuthConfigurationRevision ?? 0}</dd>
+              <dt>Account-state revision</dt>
+              <dd>{environment.accountPolicyStateRevision ?? 0}</dd>
+            </dl>
+          ) : (
+            <p className="subtle">Customer authentication is not configured.</p>
+          )}
+        </article>
+        <article className="card">
+          <p className="metric-label">Current page</p>
+          {detail?.loading ? (
+            <p className="subtle">Loading customer state…</p>
+          ) : (
+            <dl className="detail-list compact-counts">
+              <dt>Users</dt>
+              <dd>{detail?.users.length ?? 0}</dd>
+              <dt>Accounts</dt>
+              <dd>{detail?.accounts.length ?? 0}</dd>
+              <dt>Memberships</dt>
+              <dd>{detail?.memberships.length ?? 0}</dd>
+              <dt>Sessions</dt>
+              <dd>{detail?.sessions.length ?? 0}</dd>
+              <dt>Security events</dt>
+              <dd>{detail?.securityEvents.length ?? 0}</dd>
+            </dl>
+          )}
+        </article>
+      </div>
+      {!detail?.loading && detail ? (
+        <div className="grid customer-records">
+          <CustomerUsers users={detail.users} />
+          <CustomerAccounts accounts={detail.accounts} />
+          <CustomerMemberships memberships={detail.memberships} />
+          <CustomerSessions sessions={detail.sessions} />
+          <CustomerSecurityEvents events={detail.securityEvents} />
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function EmptyValue() {
+  return <p className="subtle">No records on this page.</p>;
+}
+
+function CustomerUsers({ users }: { users: CustomerUserView[] }) {
+  return (
+    <article className="card">
+      <h3>Users</h3>
+      {users.length === 0 ? <EmptyValue /> : null}
+      {users.map((user) => (
+        <div className="record-row" key={user.id}>
+          <strong>{user.displayName}</strong>
+          <span>{user.verifiedEmail}</span>
+          <code>{user.id}</code>
+          <span>
+            {user.activeMembershipCount} memberships · {user.ownedAccountCount}{' '}
+            owned
+          </span>
+        </div>
+      ))}
+    </article>
+  );
+}
+
+function CustomerMemberships({
+  memberships,
+}: {
+  memberships: CustomerMembershipView[];
+}) {
+  return (
+    <article className="card">
+      <h3>Memberships</h3>
+      {memberships.length === 0 ? <EmptyValue /> : null}
+      {memberships.map((membership) => (
+        <div className="record-row" key={membership.id}>
+          <strong>{membership.role}</strong>
+          <span>User {membership.userId}</span>
+          <span>Account {membership.accountId}</span>
+          <code>{membership.id}</code>
+        </div>
+      ))}
+    </article>
+  );
+}
+
+function CustomerAccounts({ accounts }: { accounts: CustomerAccountView[] }) {
+  return (
+    <article className="card">
+      <h3>Accounts and effective policy</h3>
+      {accounts.length === 0 ? <EmptyValue /> : null}
+      {accounts.map((account) => (
+        <div className="record-row" key={account.id}>
+          <strong>{account.displayName ?? account.id}</strong>
+          <span>Owner {account.ownerUserId}</span>
+          <span>
+            Seats {account.activeMemberCount}/
+            {account.effectivePolicy.seatLimit} (
+            {account.policySources.seatLimit})
+          </span>
+          <span>
+            Admin {String(account.effectivePolicy.adminRoleEnabled)} · invites{' '}
+            {String(account.effectivePolicy.memberInvitationsEnabled)}
+          </span>
+        </div>
+      ))}
+    </article>
+  );
+}
+
+function CustomerSessions({ sessions }: { sessions: CustomerSessionView[] }) {
+  return (
+    <article className="card">
+      <h3>Sessions</h3>
+      {sessions.length === 0 ? <EmptyValue /> : null}
+      {sessions.map((session) => (
+        <div className="record-row" key={session.id}>
+          <strong>{session.provider}</strong>
+          <code>{session.id}</code>
+          <span>User {session.userId}</span>
+          <span>{session.revokedAt ? 'Revoked' : 'Active'}</span>
+        </div>
+      ))}
+    </article>
+  );
+}
+
+function CustomerSecurityEvents({
+  events,
+}: {
+  events: CustomerSecurityEventView[];
+}) {
+  return (
+    <article className="card">
+      <h3>Security evidence</h3>
+      {events.length === 0 ? <EmptyValue /> : null}
+      {events.map((event) => (
+        <div
+          className="record-row"
+          key={`${event.correlationId}:${event.occurredAt}`}
+        >
+          <strong>{event.type}</strong>
+          <span>{formatTimestamp(event.occurredAt)}</span>
+          <code>{event.correlationId}</code>
+        </div>
+      ))}
+    </article>
   );
 }

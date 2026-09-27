@@ -250,6 +250,10 @@ export const create = internalMutation({
       pendingInvitationCount: account.pendingInvitationCount + 1,
       updatedAt: args.now,
     });
+    await ctx.db.patch(context.environment._id, {
+      accountPolicyStateRevision:
+        (context.environment.accountPolicyStateRevision ?? 0) + 1,
+    });
     const invitation = await ctx.db.get(invitationId);
     account = {
       ...account,
@@ -344,6 +348,10 @@ export const accept = internalMutation({
       await ctx.db.patch(account._id, {
         pendingInvitationCount: account.pendingInvitationCount - 1,
         updatedAt: args.now,
+      });
+      await ctx.db.patch(environment._id, {
+        accountPolicyStateRevision:
+          (environment.accountPolicyStateRevision ?? 0) + 1,
       });
       return { kind: 'expired' as const };
     }
@@ -515,6 +523,10 @@ export const revoke = internalMutation({
     await ctx.db.patch(context.account._id, {
       pendingInvitationCount: context.account.pendingInvitationCount - 1,
       updatedAt: args.now,
+    });
+    await ctx.db.patch(context.environment._id, {
+      accountPolicyStateRevision:
+        (context.environment.accountPolicyStateRevision ?? 0) + 1,
     });
     return toInvitationView({ ...invitation, state }, context.account);
   },

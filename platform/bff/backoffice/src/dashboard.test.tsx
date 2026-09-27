@@ -32,8 +32,8 @@ describe('Dashboard', () => {
       screen.getByRole('heading', { name: 'Business Factory' }),
     ).toBeInTheDocument();
     expect(screen.getByText('sample-development')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /create/i })).toBeNull();
-    expect(screen.queryByRole('button', { name: /delete/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /^create$/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /^delete$/i })).toBeNull();
   });
 
   it('shows the verified email without revealing an allowlist', () => {
@@ -71,6 +71,72 @@ describe('Dashboard', () => {
     expect(
       screen.getByText('No Business environments yet.'),
     ).toBeInTheDocument();
+  });
+
+  it('shows safe paginated customer state and policy provenance read only', () => {
+    render(
+      <Dashboard
+        model={{
+          state: 'ready',
+          health: {
+            status: 'ok',
+            service: 'business-factory-bff',
+            version: 'development',
+          },
+          selectedEnvironmentKey: 'sample-development',
+          environments: [
+            {
+              id: 'one',
+              createdAt: 1,
+              key: 'sample-development',
+              businessName: 'Sample',
+              environmentName: 'Development',
+              updatedAt: 1,
+            },
+          ],
+          customerDetail: {
+            loading: false,
+            users: [
+              {
+                id: 'user_0123456789abcdef',
+                verifiedEmail: 'customer@example.invalid',
+                displayName: 'Customer',
+                activeMembershipCount: 1,
+                ownedAccountCount: 1,
+              },
+            ],
+            accounts: [
+              {
+                id: 'account_0123456789abcdef',
+                ownerUserId: 'user_0123456789abcdef',
+                effectivePolicy: {
+                  seatLimit: 2,
+                  adminRoleEnabled: false,
+                  memberInvitationsEnabled: true,
+                },
+                policySources: {
+                  seatLimit: 'account_override',
+                  adminRoleEnabled: 'business_default',
+                  memberInvitationsEnabled: 'account_override',
+                },
+                activeMemberCount: 1,
+                reservedInvitationCount: 0,
+              },
+            ],
+            memberships: [],
+            sessions: [],
+            securityEvents: [],
+          },
+        }}
+      />,
+    );
+
+    expect(screen.getByText('customer@example.invalid')).toBeInTheDocument();
+    expect(screen.getByText(/Seats 1\/2/)).toHaveTextContent(
+      'account_override',
+    );
+    expect(screen.queryByRole('button', { name: /revoke/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /configure/i })).toBeNull();
   });
 
   it.each<{ expected: string; model: DashboardModel }>([

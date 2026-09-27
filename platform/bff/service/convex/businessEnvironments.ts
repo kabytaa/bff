@@ -48,6 +48,20 @@ function parseCustomerAuthConfiguration(
   }
 }
 
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => canonicalJson(item)).join(',')}]`;
+  }
+  if (value !== null && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
 export const create = internalMutation({
   args: {
     key: v.string(),
@@ -195,6 +209,8 @@ export const configureCustomerAuth = internalMutation({
   args: {
     key: v.string(),
     expectedRevision: v.number(),
+    expectedAccountPolicyStateRevision: v.optional(v.number()),
+    preflightId: v.optional(v.string()),
     configuration: customerAuthConfigurationValidator,
   },
   returns: businessEnvironmentViewValidator,
@@ -214,10 +230,60 @@ export const configureCustomerAuth = internalMutation({
     }
 
     const customerAuth = parseCustomerAuthConfiguration(args.configuration);
+    const accountPolicyStateRevision = existing.accountPolicyStateRevision ?? 0;
+    const bootstrapConfiguration =
+      existing.customerAuth === undefined &&
+      currentRevision === 0 &&
+      accountPolicyStateRevision === 0 &&
+      args.preflightId === undefined &&
+      args.expectedAccountPolicyStateRevision === undefined;
+    if (!bootstrapConfiguration) {
+      if (
+        args.preflightId === undefined ||
+        args.expectedAccountPolicyStateRevision === undefined
+      ) {
+        return fail(
+          'VALIDATION_ERROR',
+          'A current customer configuration preflight is required',
+        );
+      }
+      if (
+        args.expectedAccountPolicyStateRevision !== accountPolicyStateRevision
+      ) {
+        return fail(
+          'CONFLICT',
+          'Customer account state changed; preview the configuration again',
+        );
+      }
+      const preflight = await ctx.db
+        .query('customerConfigurationPreflights')
+        .withIndex('by_environment_public_id', (query) =>
+          query
+            .eq('environmentId', existing._id)
+            .eq('publicId', args.preflightId ?? ''),
+        )
+        .unique();
+      if (
+        !preflight ||
+        preflight.consumedAt !== undefined ||
+        preflight.expiresAt <= Date.now() ||
+        !preflight.compatible ||
+        preflight.expectedConfigurationRevision !== currentRevision ||
+        preflight.expectedAccountPolicyStateRevision !==
+          accountPolicyStateRevision ||
+        canonicalJson(preflight.configuration) !== canonicalJson(customerAuth)
+      ) {
+        return fail(
+          'CONFLICT',
+          'Customer configuration preflight is stale or incompatible',
+        );
+      }
+      await ctx.db.patch(preflight._id, { consumedAt: Date.now() });
+    }
     await ctx.db.patch(existing._id, {
       customerAuth,
       customerAuthConfigurationRevision: currentRevision + 1,
-      accountPolicyStateRevision: existing.accountPolicyStateRevision ?? 0,
+      accountPolicyStateRevision,
       updatedAt: Math.max(Date.now(), existing.updatedAt + 1),
     });
     const updated = await ctx.db.get(existing._id);

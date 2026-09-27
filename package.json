@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "nx run-many -t build --all",
-    "bff:environment": "tsx tools/bff-operator/src/main.ts",
+    "bff:environment": "tsx --tsconfig tsconfig.base.json tools/bff-operator/src/main.ts",
     "boundaries:check": "node tools/verify-boundary-policy.mjs",
     "check": "pnpm format:check && pnpm lint && pnpm boundaries:check && pnpm typecheck && pnpm test && pnpm test:integration && pnpm build && pnpm bundle:assert && pnpm secrets:scan && pnpm test:e2e",
     "convex:check": "nx run bff-service:typecheck",
