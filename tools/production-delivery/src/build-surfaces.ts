@@ -46,6 +46,7 @@ export async function buildProductionSurfaces(
     VITE_BFF_SITE_URL: config.bffConvexSiteUrl,
   });
   await runNxTarget('example-web:build', {
+    VITE_BFF_AUTH_DIAGNOSTICS: 'false',
     VITE_BFF_CUSTOMER_API_URL: config.bffConvexSiteUrl,
     VITE_BFF_CUSTOMER_ENVIRONMENT_KEY: config.customerEnvironmentKey,
     VITE_CONVEX_SITE_URL: config.exampleConvexSiteUrl,

@@ -6,6 +6,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { ExampleApp } from './app';
+import { createExampleAuthDiagnostics } from './authDiagnostics';
 import { readExampleWebConfiguration } from './config';
 import { ExampleDashboard } from './dashboard';
 import './styles.css';
@@ -16,10 +17,17 @@ const root = createRoot(rootElement);
 
 try {
   const configuration = readExampleWebConfiguration();
+  const diagnostics = configuration.authDiagnosticsEnabled
+    ? createExampleAuthDiagnostics({
+        adapterOrigin: configuration.convexSiteUrl,
+        environmentKey: configuration.environmentKey,
+      })
+    : undefined;
   const authClient = createBffAuthBrowserClient({
     bffBaseUrl: configuration.bffBaseUrl,
     environmentKey: configuration.environmentKey,
     sessionAdapterBaseUrl: configuration.convexSiteUrl,
+    ...(diagnostics === undefined ? {} : { fetch: diagnostics.fetch }),
   });
   const convexClient = new ConvexReactClient(configuration.convexUrl);
 
@@ -31,6 +39,7 @@ try {
             bffBaseUrl={configuration.bffBaseUrl}
             convexSiteUrl={configuration.convexSiteUrl}
             environmentKey={configuration.environmentKey}
+            diagnostics={diagnostics}
           />
         </BffConvexProvider>
       </BffAuthProvider>

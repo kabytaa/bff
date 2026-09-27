@@ -11,14 +11,29 @@ import {
 } from '@tofler/bff-auth/react';
 import { useQuery } from 'convex/react';
 import type { FunctionReference } from 'convex/server';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { z } from 'zod';
 
 import {
+  ExampleAuthDiagnosticsPanel,
   ExampleDashboard,
   type ContextEvidence,
   type ExampleDashboardModel,
 } from './dashboard';
+import type { ExampleAuthDiagnostics } from './authDiagnostics';
+
+function DevelopmentDiagnostics({
+  diagnostics,
+}: {
+  readonly diagnostics: ExampleAuthDiagnostics;
+}) {
+  const snapshot = useSyncExternalStore(
+    diagnostics.subscribe,
+    diagnostics.getSnapshot,
+    diagnostics.getSnapshot,
+  );
+  return <ExampleAuthDiagnosticsPanel snapshot={snapshot} />;
+}
 
 const evidenceSchema = z
   .object({
@@ -67,10 +82,12 @@ export function ExampleApp({
   bffBaseUrl,
   convexSiteUrl,
   environmentKey,
+  diagnostics,
 }: {
   readonly bffBaseUrl: string;
   readonly convexSiteUrl: string;
   readonly environmentKey: string;
+  readonly diagnostics?: ExampleAuthDiagnostics;
 }) {
   const { client, snapshot, state } = useBffAuth();
   const nativeContext = useQuery(
@@ -209,7 +226,13 @@ export function ExampleApp({
   );
   const actionControl =
     state.status === 'signed_out' ? (
-      <BffSignInButton className="button" returnPath="/">
+      <BffSignInButton
+        className="button"
+        returnPath="/"
+        {...(diagnostics === undefined
+          ? {}
+          : { onClick: () => diagnostics.markLoginStarted() })}
+      >
         Sign in with Google
       </BffSignInButton>
     ) : state.status === 'recoverable_error' ? (
@@ -219,10 +242,15 @@ export function ExampleApp({
     );
 
   return (
-    <ExampleDashboard
-      model={model}
-      accountControl={<BffAccountSelector className="account-selector" />}
-      actionControl={actionControl}
-    />
+    <>
+      <ExampleDashboard
+        model={model}
+        accountControl={<BffAccountSelector className="account-selector" />}
+        actionControl={actionControl}
+      />
+      {diagnostics ? (
+        <DevelopmentDiagnostics diagnostics={diagnostics} />
+      ) : null}
+    </>
   );
 }

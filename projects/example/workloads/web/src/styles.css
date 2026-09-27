@@ -198,6 +198,74 @@ dd {
   background: #ffeaed;
 }
 
+.diagnostics-panel {
+  width: min(100% - 2rem, 70rem);
+  margin: 1rem auto 3rem;
+  border: 1px solid #ccd4e5;
+  border-left-width: 0.35rem;
+  border-radius: 1rem;
+  padding: 1.1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 0.5rem 2rem rgba(43, 62, 97, 0.05);
+}
+
+.diagnostics-success {
+  border-left-color: #218358;
+}
+
+.diagnostics-error {
+  border-left-color: #b43a49;
+}
+
+.diagnostics-neutral {
+  border-left-color: #5269c7;
+}
+
+.diagnostics-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.diagnostics-status {
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  color: #39445b;
+  background: #edf0f7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+
+.diagnostics-details {
+  display: grid;
+  gap: 0.55rem;
+  margin-bottom: 0.8rem;
+}
+
+.diagnostics-details div {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.5rem;
+}
+
+.diagnostics-details dt {
+  color: #737d90;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.diagnostics-details dd {
+  margin-bottom: 0;
+}
+
+.diagnostics-note {
+  margin-bottom: 0;
+  color: #737d90;
+  font-size: 0.78rem;
+}
+
 @media (max-width: 760px) {
   .masthead,
   .controls {
@@ -207,5 +275,18 @@ dd {
   .identity-grid,
   .evidence-grid {
     grid-template-columns: 1fr;
+  }
+
+  .diagnostics-heading,
+  .diagnostics-details div {
+    grid-template-columns: 1fr;
+  }
+
+  .diagnostics-heading {
+    display: grid;
+  }
+
+  .diagnostics-status {
+    justify-self: start;
   }
 }

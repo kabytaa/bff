@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import type { AuthDiagnosticSnapshot } from './authDiagnostics';
+
 export interface ContextEvidence {
   readonly accountId: string;
   readonly role: 'owner' | 'admin' | 'member';
@@ -203,5 +205,57 @@ export function ExampleDashboard({
         <EvidenceCard title="Shared BFF /v1/me" evidence={model.bffContext} />
       </section>
     </main>
+  );
+}
+
+export function ExampleAuthDiagnosticsPanel({
+  snapshot,
+}: {
+  readonly snapshot: AuthDiagnosticSnapshot;
+}) {
+  const statusClass =
+    snapshot.status === 'healthy'
+      ? 'diagnostics-success'
+      : snapshot.status === 'session_cookie_unavailable' ||
+          snapshot.status === 'cross_origin_or_network_error' ||
+          snapshot.status === 'adapter_error'
+        ? 'diagnostics-error'
+        : 'diagnostics-neutral';
+  return (
+    <aside
+      className={`diagnostics-panel ${statusClass}`}
+      aria-label="Authentication diagnostics"
+    >
+      <div className="diagnostics-heading">
+        <div>
+          <p className="label">Development authentication diagnostics</p>
+          <h2>{snapshot.title}</h2>
+        </div>
+        <span className="diagnostics-status">{snapshot.status}</span>
+      </div>
+      <p>{snapshot.message}</p>
+      <dl className="diagnostics-details">
+        <div>
+          <dt>Adapter</dt>
+          <dd>{snapshot.adapterOrigin}</dd>
+        </div>
+        <div>
+          <dt>HTTP response</dt>
+          <dd>{snapshot.httpStatus ?? 'No response'}</dd>
+        </div>
+        <div>
+          <dt>Last check</dt>
+          <dd>
+            {snapshot.checkedAt
+              ? new Date(snapshot.checkedAt).toLocaleTimeString()
+              : 'Not checked yet'}
+          </dd>
+        </div>
+      </dl>
+      <p className="diagnostics-note">
+        Safe status only. Cookie, token, authorization code and personal data
+        values are never displayed.
+      </p>
+    </aside>
   );
 }

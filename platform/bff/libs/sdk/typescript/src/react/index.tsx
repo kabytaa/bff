@@ -5,6 +5,7 @@ import {
   useId,
   useMemo,
   useSyncExternalStore,
+  type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type PropsWithChildren,
   type ReactNode,
@@ -57,20 +58,22 @@ export function useBffAuth(): BffAuthReactValue {
   return value;
 }
 
-export interface BffSignInButtonProps {
+export interface BffSignInButtonProps extends Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> {
   readonly returnPath?: string;
-  readonly className?: string;
-  readonly children?: ReactNode;
 }
 
 export function BffSignInButton({
   returnPath,
   className,
   children = 'Sign in',
+  ...props
 }: BffSignInButtonProps) {
   const { client } = useBffAuth();
   return (
-    <a className={className} href={client.getSignInUrl(returnPath)}>
+    <a {...props} className={className} href={client.getSignInUrl(returnPath)}>
       {children}
     </a>
   );

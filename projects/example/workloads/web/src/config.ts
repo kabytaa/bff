@@ -1,6 +1,7 @@
 import { normalizeHttpsOrigin } from '@tofler/bff-auth/core';
 
 export interface ExampleWebConfiguration {
+  readonly authDiagnosticsEnabled: boolean;
   readonly bffBaseUrl: string;
   readonly convexSiteUrl: string;
   readonly convexUrl: string;
@@ -19,6 +20,8 @@ export function readExampleWebConfiguration(): ExampleWebConfiguration {
     throw new Error('VITE_BFF_CUSTOMER_ENVIRONMENT_KEY must be kebab-case');
   }
   return {
+    authDiagnosticsEnabled:
+      import.meta.env.VITE_BFF_AUTH_DIAGNOSTICS === 'true',
     bffBaseUrl: normalizeHttpsOrigin(required('VITE_BFF_CUSTOMER_API_URL')),
     convexSiteUrl: normalizeHttpsOrigin(required('VITE_CONVEX_SITE_URL')),
     convexUrl: normalizeHttpsOrigin(required('VITE_CONVEX_URL')),

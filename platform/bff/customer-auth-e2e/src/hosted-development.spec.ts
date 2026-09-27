@@ -38,6 +38,9 @@ async function waitForProtectedEvidence(page: Page) {
     await expect(card).toContainText(/account_/u);
   }
   await expect(page.locator('.error-banner')).toHaveCount(0);
+  await expect(
+    page.getByRole('complementary', { name: 'Authentication diagnostics' }),
+  ).toContainText('Session cookie working');
 }
 
 async function selectInitialAccountWhenRequired(page: Page) {
@@ -59,6 +62,9 @@ async function startLogin(context: BrowserContext) {
   await expect(
     page.getByRole('heading', { name: 'One session, one verified context' }),
   ).toBeVisible();
+  await expect(
+    page.getByRole('complementary', { name: 'Authentication diagnostics' }),
+  ).toContainText('No active session');
   await page.getByRole('link', { name: 'Sign in with Google' }).click();
   await page.waitForURL(`${HOSTED_CUSTOMER_AUTH_URL}/**`);
   const location = new URL(page.url());

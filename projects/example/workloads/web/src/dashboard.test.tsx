@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { ExampleDashboard } from './dashboard';
+import { ExampleAuthDiagnosticsPanel, ExampleDashboard } from './dashboard';
 
 describe('ExampleDashboard', () => {
   it('renders an intentional signed-out reference state', () => {
@@ -63,5 +63,27 @@ describe('ExampleDashboard', () => {
 
     expect(markup).toContain('Account setup is required');
     expect(markup).not.toContain('Protected verification paths');
+  });
+
+  it('shows safe development diagnostics without credential values', () => {
+    const markup = renderToStaticMarkup(
+      <ExampleAuthDiagnosticsPanel
+        snapshot={{
+          adapterOrigin: 'https://example.convex.site',
+          checkedAt: '2026-09-27T12:00:00.000Z',
+          generation: 2,
+          httpStatus: 401,
+          message: 'The adapter received no usable session.',
+          status: 'session_cookie_unavailable',
+          title: 'Session cookie unavailable',
+        }}
+      />,
+    );
+
+    expect(markup).toContain('Development authentication diagnostics');
+    expect(markup).toContain('Session cookie unavailable');
+    expect(markup).toContain('HTTP response');
+    expect(markup).toContain('401');
+    expect(markup).toContain('Cookie, token, authorization code');
   });
 });

@@ -15,6 +15,13 @@ token or login implementation. Configure these public build values:
 - `VITE_BFF_CUSTOMER_ENVIRONMENT_KEY`
 - `VITE_CONVEX_URL`
 - `VITE_CONVEX_SITE_URL`
+- `VITE_BFF_AUTH_DIAGNOSTICS` (`true` only for the development example)
+
+The development-only diagnostics panel classifies the session-adapter request
+as healthy, signed out, missing its post-login cookie, browser-hidden
+CORS/network failure or an unexpected HTTP error. It displays only public
+origins and status metadata; it never reads or displays the HttpOnly cookie,
+JWT, handoff code or personal data.
 
 Run `pnpm exec nx run example-web:test`, `example-web:typecheck` and
 `example-web:build` from the repository root. The development artifact is
