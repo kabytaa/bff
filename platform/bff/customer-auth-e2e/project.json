@@ -12,6 +12,13 @@
         "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config platform/bff/customer-auth-e2e/playwright.config.ts"
       }
     },
+    "e2e-hosted-development": {
+      "cache": false,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config platform/bff/customer-auth-e2e/playwright.hosted-development.config.ts"
+      }
+    },
     "lint": {
       "executor": "nx:run-commands",
       "options": {

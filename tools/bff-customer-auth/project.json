@@ -5,6 +5,12 @@
   "projectType": "application",
   "tags": ["scope:bff", "type:tool"],
   "targets": {
+    "generate-customer-signing-key": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx --tsconfig tsconfig.base.json tools/bff-customer-auth/src/generateCustomerSigningKey.ts"
+      }
+    },
     "generate-development-auth-key": {
       "executor": "nx:run-commands",
       "options": {
