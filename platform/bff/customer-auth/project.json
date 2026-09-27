@@ -14,6 +14,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
+      "inputs": ["production", "^production", { "env": "VITE_BFF_SITE_URL" }],
       "options": {
         "command": "vite build --config platform/bff/customer-auth/vite.config.ts"
       },
@@ -21,6 +22,7 @@
     },
     "build-development": {
       "executor": "nx:run-commands",
+      "inputs": ["production", "^production", { "env": "VITE_BFF_SITE_URL" }],
       "options": {
         "command": "vite build --config platform/bff/customer-auth/vite.development.config.ts"
       },

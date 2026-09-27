@@ -291,7 +291,9 @@ describe('createBffAuthBrowserClient', () => {
     await auth.bootstrap();
 
     await expect(auth.createAccount('My account')).resolves.toEqual(created);
-    expect(harness.calls[1]?.url).toBe(`${bffOrigin}/v1/accounts`);
+    expect(harness.calls[1]?.url).toBe(
+      `${bffOrigin}/v1/accounts?environment=example-development`,
+    );
     expect(
       new Headers(harness.calls[1]?.init?.headers).get('authorization'),
     ).toBe('Bearer onboarding-token');

@@ -402,7 +402,9 @@ export function createBffAuthBrowserClient(
     }
     let response: Response;
     try {
-      response = await fetchImplementation(new URL(path, bffOrigin), {
+      const url = new URL(path, bffOrigin);
+      url.searchParams.set('environment', options.environmentKey);
+      response = await fetchImplementation(url, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,

@@ -89,12 +89,14 @@ export function ExampleApp({
       const token = await client.getAccessToken(false);
       if (!token) throw new Error('The account credential is unavailable');
       const headers = { authorization: `Bearer ${token}` };
+      const bffMeUrl = new URL('/v1/me', bffBaseUrl);
+      bffMeUrl.searchParams.set('environment', environmentKey);
       const [httpBody, bffBody] = await Promise.all([
         fetch(new URL('/v1/context', convexSiteUrl), {
           headers,
           signal: controller.signal,
         }).then(readJson),
-        fetch(new URL('/v1/me', bffBaseUrl), {
+        fetch(bffMeUrl, {
           headers: {
             ...headers,
             'x-tofler-environment': environmentKey,

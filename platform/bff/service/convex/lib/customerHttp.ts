@@ -1142,7 +1142,11 @@ export async function customerApiOptionsHandler(
 ) {
   let cors: HeadersInit = {};
   try {
-    const environmentKey = request.headers.get('x-tofler-environment');
+    // Browsers do not send custom-header values on the preflight itself. The
+    // public environment key therefore travels in the preflight URL, while
+    // the real request must still present the signed token and matching
+    // x-tofler-environment header.
+    const environmentKey = new URL(request.url).searchParams.get('environment');
     if (!environmentKey || environmentKey.length > 64) {
       throw new HttpInputError(
         400,

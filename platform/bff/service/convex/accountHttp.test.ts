@@ -180,13 +180,15 @@ describe('versioned account and transfer HTTP operations', () => {
       configuration: configuration(),
     });
 
-    const preflight = await t.fetch('/v1/accounts', {
-      method: 'OPTIONS',
-      headers: {
-        origin: 'https://example.tofler.app',
-        'x-tofler-environment': 'example-development',
+    const preflight = await t.fetch(
+      '/v1/accounts?environment=example-development',
+      {
+        method: 'OPTIONS',
+        headers: {
+          origin: 'https://example.tofler.app',
+        },
       },
-    });
+    );
     expect(preflight.status).toBe(204);
     expect(preflight.headers.get('access-control-allow-origin')).toBe(
       'https://example.tofler.app',
@@ -194,17 +196,24 @@ describe('versioned account and transfer HTTP operations', () => {
     expect(preflight.headers.get('access-control-allow-headers')).toContain(
       'Authorization',
     );
-    const rejectedPreflight = await t.fetch('/v1/accounts', {
-      method: 'OPTIONS',
-      headers: {
-        origin: 'https://attacker.invalid',
-        'x-tofler-environment': 'example-development',
+    const rejectedPreflight = await t.fetch(
+      '/v1/accounts?environment=example-development',
+      {
+        method: 'OPTIONS',
+        headers: {
+          origin: 'https://attacker.invalid',
+        },
       },
-    });
+    );
     expect(rejectedPreflight.status).toBe(403);
     expect(rejectedPreflight.headers.get('access-control-allow-origin')).toBe(
       null,
     );
+    const missingEnvironmentPreflight = await t.fetch('/v1/accounts', {
+      method: 'OPTIONS',
+      headers: { origin: 'https://example.tofler.app' },
+    });
+    expect(missingEnvironmentPreflight.status).toBe(400);
 
     const signing = await installSigningConfiguration();
     const invalidToken = await t.fetch('/v1/me', {

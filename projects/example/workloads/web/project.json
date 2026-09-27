@@ -8,6 +8,14 @@
     "build": {
       "executor": "nx:run-commands",
       "dependsOn": ["^build"],
+      "inputs": [
+        "production",
+        "^production",
+        { "env": "VITE_BFF_CUSTOMER_API_URL" },
+        { "env": "VITE_BFF_CUSTOMER_ENVIRONMENT_KEY" },
+        { "env": "VITE_CONVEX_URL" },
+        { "env": "VITE_CONVEX_SITE_URL" }
+      ],
       "options": {
         "command": "vite build --config projects/example/workloads/web/vite.config.ts"
       },
