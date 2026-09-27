@@ -25,7 +25,7 @@ export const accountPolicyValuesValidator = v.object({
   memberInvitationsEnabled: v.boolean(),
 });
 
-export const customerAuthConfigurationValidator = v.object({
+const customerAuthConfigurationV1Validator = v.object({
   version: v.literal(1),
   enabledProviders: v.array(v.literal('google')),
   developmentAutomationEnabled: v.boolean(),
@@ -39,10 +39,41 @@ export const customerAuthConfigurationValidator = v.object({
   accountDefaults: accountPolicyValuesValidator,
 });
 
-export const storedCustomerAuthConfigurationValidator = v.object({
+export const customerAuthConfigurationValidator = v.object({
+  version: v.literal(2),
+  definitionRevision: v.number(),
+  definitionFingerprint: v.string(),
+  presentation: v.object({
+    productName: v.string(),
+    theme: v.union(v.literal('light'), v.literal('dark'), v.literal('system')),
+    accentColor: v.string(),
+  }),
+  enabledProviders: v.array(v.literal('google')),
+  developmentAutomationEnabled: v.boolean(),
+  transport: v.object({
+    webOrigins: v.array(v.string()),
+    sessionAdapterBaseUrl: v.string(),
+    defaultPostLoginPath: v.string(),
+  }),
+  sessionPolicy: sessionPolicyValidator,
+  accountPolicy: businessAccountPolicyValidator,
+  accountDefaults: accountPolicyValuesValidator,
+});
+
+const storedCustomerAuthConfigurationV1Validator = v.object({
+  ...customerAuthConfigurationV1Validator.fields,
+  callbackUrl: v.string(),
+});
+
+const storedCustomerAuthConfigurationV2Validator = v.object({
   ...customerAuthConfigurationValidator.fields,
   callbackUrl: v.string(),
 });
+
+export const storedCustomerAuthConfigurationValidator = v.union(
+  storedCustomerAuthConfigurationV1Validator,
+  storedCustomerAuthConfigurationV2Validator,
+);
 
 export function validateCustomerAuthConfiguration(
   input: CustomerAuthConfiguration,

@@ -105,15 +105,15 @@ export const HELP = `Usage:
   pnpm bff:environment -- inspect --deployment <local|reference> --key <key> [--confirm-cloud]
   pnpm bff:environment -- list --deployment <local|reference> [--confirm-cloud]
   pnpm bff:environment -- update --deployment <local|reference> --key <key> [--business-name <name>] [--environment-name <name>] [--confirm-cloud]
-  pnpm bff:environment -- preview-customer-auth --deployment <local|reference> --key <key> --configuration-json <json> [--confirm-cloud]
-  pnpm bff:environment -- configure-customer-auth --deployment <local|reference> --key <key> --expected-revision <revision> --expected-account-policy-revision <revision> --preflight-id <id> --configuration-json <json> [--confirm-cloud]
+  pnpm bff:environment -- preview-customer-auth --deployment <local|reference> --key <key> (--configuration-json <json> | --defaults-module <path> --environment-json <json>) [--confirm-cloud]
+  pnpm bff:environment -- configure-customer-auth --deployment <local|reference> --key <key> --expected-revision <revision> --expected-account-policy-revision <revision> --preflight-id <id> (--configuration-json <json> | --defaults-module <path> --environment-json <json>) [--confirm-cloud]
   pnpm bff:environment -- list-customer-<users|accounts|memberships|sessions|security-events> --deployment <local|reference> --key <key> [--limit <1-50>] [--cursor <cursor>] [--confirm-cloud]
   pnpm bff:environment -- provision-managed-account --deployment <local|reference> --key <key> --user-id <id> [--display-name <name>] [--confirm-cloud]
   pnpm bff:environment -- provision-development-account --deployment <local|reference> --key <key> --user-id <id> [--display-name <name>] [--confirm-cloud]
   pnpm bff:environment -- set-account-policy --deployment <local|reference> --key <key> --account-id <id> --policy-overrides-json <json> [--confirm-cloud]
   pnpm bff:environment -- revoke-customer-session --deployment <local|reference> --key <key> --session-id <id> [--confirm-cloud]
 
-Customer auth must be previewed before apply. Configuration JSON contains public registration and policy values, never credentials.
+Customer auth must be previewed before apply. Code-owned defaults plus environment JSON are composed into the same validated effective snapshot. Neither form contains credentials.
 Cloud targets are refused unless --confirm-cloud is present. Production writes additionally require --confirm-production with the exact deployment reference.`;
 
 const commandNames = [

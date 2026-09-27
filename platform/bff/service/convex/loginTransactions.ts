@@ -4,6 +4,7 @@ import { v } from 'convex/values';
 import {
   HANDOFF_CODE_TTL_SECONDS,
   LOGIN_TRANSACTION_TTL_SECONDS,
+  customerAuthIntentSchema,
   publicIdentifierSchema,
   relativeApplicationPathSchema,
 } from '@bff/contracts';
@@ -55,6 +56,18 @@ const transactionChallengeValidator = v.object({
   reference: v.string(),
   environmentKey: v.string(),
   purpose: v.union(v.literal('login'), v.literal('ownership_transfer')),
+  intent: v.union(
+    v.literal('login'),
+    v.literal('signup'),
+    v.literal('continue'),
+  ),
+  presentation: v.object({
+    productName: v.string(),
+    theme: v.union(v.literal('light'), v.literal('dark'), v.literal('system')),
+    accentColor: v.string(),
+  }),
+  environmentName: v.string(),
+  returnUrl: v.string(),
   enabledProviders: v.array(v.literal('google')),
   providerNonce: v.string(),
   callbackUrl: v.string(),
@@ -76,6 +89,9 @@ const completionResultValidator = v.union(
     callbackUrl: v.string(),
     webOrigin: v.string(),
     returnPath: v.string(),
+    intent: v.optional(
+      v.union(v.literal('login'), v.literal('signup'), v.literal('continue')),
+    ),
     state: v.string(),
     handoffCodeExpiresAt: v.number(),
   }),
@@ -145,6 +161,9 @@ export const startLogin = internalMutation({
     callbackUrl: v.string(),
     webOrigin: v.string(),
     returnPath: v.string(),
+    intent: v.optional(
+      v.union(v.literal('login'), v.literal('signup'), v.literal('continue')),
+    ),
     now: v.number(),
   },
   returns: startResultValidator,
@@ -158,6 +177,7 @@ export const startLogin = internalMutation({
     const providerNonce = browserBindingSchema.parse(args.providerNonce);
     const pkceChallenge = pkceChallengeSchema.parse(args.pkceChallenge);
     const returnPath = relativeApplicationPathSchema.parse(args.returnPath);
+    const intent = customerAuthIntentSchema.parse(args.intent ?? 'continue');
     if (args.callbackUrl !== environment.customerAuth.callbackUrl) {
       return fail(
         'VALIDATION_ERROR',
@@ -178,6 +198,7 @@ export const startLogin = internalMutation({
       environmentId: environment._id,
       publicReference: reference,
       purpose: 'login',
+      intent,
       status: 'pending_provider',
       callbackUrl: environment.customerAuth.callbackUrl,
       webOrigin: args.webOrigin,
@@ -219,6 +240,21 @@ export const readChallenge = internalQuery({
       reference,
       environmentKey,
       purpose: transaction.purpose,
+      intent: transaction.intent ?? 'continue',
+      presentation:
+        environment.customerAuth.version === 2
+          ? environment.customerAuth.presentation
+          : {
+              productName: environment.businessName,
+              theme: 'system' as const,
+              accentColor: '#314EC6',
+            },
+      environmentName: environment.environmentName,
+      returnUrl: new URL(
+        transaction.returnPath,
+        transaction.webOrigin ??
+          environment.customerAuth.transport.webOrigins[0],
+      ).href,
       enabledProviders: environment.customerAuth.enabledProviders,
       providerNonce: transaction.providerNonce,
       callbackUrl: transaction.callbackUrl,

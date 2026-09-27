@@ -84,17 +84,32 @@ accessible controls. Placement and styling remain application-owned.
 ```tsx
 import {
   BffAccountSelector,
+  BffAuthLink,
   BffAuthProvider,
-  BffSignInButton,
+  BffRequireAuth,
   BffSignOutButton,
 } from '@tofler/bff-auth/react';
 
 <BffAuthProvider client={auth}>
-  <BffSignInButton>Continue with Google</BffSignInButton>
+  <BffAuthLink intent="login">Log in</BffAuthLink>
+  <BffAuthLink intent="signup">Sign up</BffAuthLink>
+  <BffRequireAuth loadingFallback={<p>Checking session…</p>}>
+    <ProtectedApplication />
+  </BffRequireAuth>
   <BffAccountSelector />
   <BffSignOutButton />
 </BffAuthProvider>;
 ```
+
+`BffRequireAuth` waits for bootstrap before redirecting, preserves the full
+same-app return path and marks the browser history entry so cancel/back does
+not create a redirect loop. The intent controls central-page wording only;
+provider selection and credential handling stay on the shared Tofler page.
+
+Business defaults live in reviewed code, for example
+`projects/example/customer-auth.defaults.ts`. They are composed at operator
+preview/apply time with deployment URLs and stored as the effective BFF
+snapshot. The SDK does not load that file at runtime.
 
 The browser and React entries never import the server entry. New tabs obtain
 their own context JWT; logout is broadcast across tabs, while account switches

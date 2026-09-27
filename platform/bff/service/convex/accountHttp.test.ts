@@ -28,6 +28,13 @@ const verifier = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
 function configuration(): CustomerAuthConfiguration {
   return {
     version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+    definitionRevision: 1,
+    definitionFingerprint: 'fnv1a64:0000000000000000',
+    presentation: {
+      productName: 'Example',
+      theme: 'system',
+      accentColor: '#314EC6',
+    },
     enabledProviders: ['google'],
     developmentAutomationEnabled: true,
     transport: {

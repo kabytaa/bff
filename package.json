@@ -25,7 +25,7 @@
     "development-auth:build": "nx run bff-backoffice:build-development-auth",
     "secrets:scan": "secretlint \"**/*\"",
     "test": "nx run-many -t test --all",
-    "test:e2e": "nx run-many -t e2e --projects=bff-backoffice-e2e,bff-customer-auth-e2e",
+    "test:e2e": "nx run-many -t e2e --projects=bff-backoffice-e2e,bff-customer-auth-e2e --parallel=1",
     "test:e2e:development-auth": "nx run bff-backoffice-e2e:e2e-hosted-development",
     "test:integration": "nx run bff-service:test-integration",
     "typecheck": "nx run-many -t typecheck --all",

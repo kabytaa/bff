@@ -17,6 +17,14 @@ const location = {
 const challenge: CustomerAuthTransactionChallenge = {
   ...location,
   purpose: 'login',
+  intent: 'login',
+  presentation: {
+    productName: 'Example',
+    theme: 'system',
+    accentColor: '#314EC6',
+  },
+  environmentName: 'Development',
+  returnUrl: 'https://example.tofler.app/',
   enabledProviders: ['google'],
   providerNonce: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
   callbackUrl: 'https://api.example.tofler.app/_tofler/auth/callback',

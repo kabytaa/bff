@@ -31,6 +31,13 @@ function configuration({
 } = {}): CustomerAuthConfiguration {
   return {
     version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+    definitionRevision: 1,
+    definitionFingerprint: 'fnv1a64:0000000000000000',
+    presentation: {
+      productName: 'Example',
+      theme: 'system',
+      accentColor: '#314EC6',
+    },
     enabledProviders: ['google'],
     developmentAutomationEnabled: true,
     transport: {

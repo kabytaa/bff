@@ -1,5 +1,5 @@
 import { CUSTOMER_GOOGLE_CLIENT_ID } from '@bff/static-config';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { CustomerAuthTransactionChallenge } from '@bff/contracts';
 
 import {
@@ -125,17 +125,37 @@ export function CustomerAuthApp({
   const transfer =
     (state.kind === 'ready' || state.kind === 'submitting') &&
     state.challenge.purpose === 'ownership_transfer';
+  const challenge =
+    state.kind === 'ready' || state.kind === 'submitting'
+      ? state.challenge
+      : undefined;
+  const heading = transfer
+    ? 'Confirm account ownership'
+    : challenge?.intent === 'login'
+      ? `Log in to ${challenge.presentation.productName}`
+      : challenge?.intent === 'signup'
+        ? `Create your ${challenge.presentation.productName} account`
+        : `Continue to ${challenge?.presentation.productName ?? 'your app'}`;
+  const presentationStyle = challenge
+    ? ({ '--auth-accent': challenge.presentation.accentColor } as CSSProperties)
+    : undefined;
 
   return (
-    <main className="auth-shell">
+    <main
+      className="auth-shell"
+      data-theme={challenge?.presentation.theme ?? 'system'}
+      style={presentationStyle}
+    >
       <section className="auth-card" aria-labelledby="auth-title">
         <div className="brand-mark" aria-hidden="true">
-          T
+          {challenge?.presentation.productName.slice(0, 1).toUpperCase() ?? 'T'}
         </div>
-        <p className="eyebrow">TOFLER SECURE ACCESS</p>
-        <h1 id="auth-title">
-          {transfer ? 'Confirm account ownership' : 'Continue to your app'}
-        </h1>
+        <p className="eyebrow">
+          {challenge
+            ? `${challenge.presentation.productName} · ${challenge.environmentName}`
+            : 'TOFLER SECURE ACCESS'}
+        </p>
+        <h1 id="auth-title">{heading}</h1>
         <p className="description">
           {transfer
             ? 'Sign in again to confirm this ownership transfer. The transfer is not complete until you return to the app and approve it.'
@@ -175,6 +195,23 @@ export function CustomerAuthApp({
           Tofler uses this page only to complete the request that brought you
           here. It never sends your Google credential to the Business app.
         </p>
+        {challenge && (
+          <>
+            <a
+              className="back-link"
+              href={challenge.returnUrl}
+              onClick={(event) => {
+                if (window.history.length > 1) {
+                  event.preventDefault();
+                  window.history.back();
+                }
+              }}
+            >
+              Back to {challenge.presentation.productName}
+            </a>
+            <p className="secured-by">Secured by Tofler</p>
+          </>
+        )}
       </section>
     </main>
   );

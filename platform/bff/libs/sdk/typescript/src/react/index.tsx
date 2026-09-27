@@ -4,6 +4,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useSyncExternalStore,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
@@ -14,6 +15,7 @@ import {
 
 import type { AuthSessionSnapshot, BffAuthBrowserClient } from '../browser';
 import type { AuthSessionState } from '../core';
+import type { CustomerAuthIntent } from '../core';
 
 export interface BffAuthReactValue {
   readonly client: BffAuthBrowserClient;
@@ -65,18 +67,99 @@ export interface BffSignInButtonProps extends Omit<
   readonly returnPath?: string;
 }
 
+export interface BffAuthLinkProps extends Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> {
+  readonly returnPath?: string;
+  readonly intent?: CustomerAuthIntent;
+}
+
+export function BffAuthLink({
+  returnPath,
+  intent = 'continue',
+  className,
+  children = intent === 'signup'
+    ? 'Sign up'
+    : intent === 'login'
+      ? 'Log in'
+      : 'Continue',
+  ...props
+}: BffAuthLinkProps) {
+  const { client } = useBffAuth();
+  return (
+    <a
+      {...props}
+      className={className}
+      href={client.getSignInUrl({ returnPath, intent })}
+    >
+      {children}
+    </a>
+  );
+}
+
 export function BffSignInButton({
   returnPath,
   className,
   children = 'Sign in',
   ...props
 }: BffSignInButtonProps) {
-  const { client } = useBffAuth();
   return (
-    <a {...props} className={className} href={client.getSignInUrl(returnPath)}>
+    <BffAuthLink
+      {...props}
+      className={className}
+      returnPath={returnPath}
+      intent="login"
+    >
       {children}
-    </a>
+    </BffAuthLink>
   );
+}
+
+const AUTH_REDIRECT_HISTORY_KEY = '__toflerAuthRedirect';
+
+export interface BffRequireAuthProps extends PropsWithChildren {
+  readonly returnPath?: string;
+  readonly loadingFallback?: ReactNode;
+  readonly signedOutFallback?: ReactNode;
+  readonly navigate?: (url: string) => void;
+}
+
+export function BffRequireAuth({
+  returnPath,
+  loadingFallback = null,
+  signedOutFallback = null,
+  navigate = (url) => window.location.assign(url),
+  children,
+}: BffRequireAuthProps) {
+  const { client, state } = useBffAuth();
+  const redirectStarted = useRef(false);
+  const destination =
+    returnPath ??
+    (typeof window === 'undefined'
+      ? '/'
+      : `${window.location.pathname}${window.location.search}${window.location.hash}`);
+
+  useEffect(() => {
+    if (state.status !== 'signed_out' || redirectStarted.current) return;
+    const historyState = (window.history.state ?? {}) as Record<
+      string,
+      unknown
+    >;
+    if (historyState[AUTH_REDIRECT_HISTORY_KEY] === destination) return;
+    redirectStarted.current = true;
+    window.history.replaceState(
+      { ...historyState, [AUTH_REDIRECT_HISTORY_KEY]: destination },
+      '',
+    );
+    navigate(
+      client.getSignInUrl({ returnPath: destination, intent: 'continue' }),
+    );
+  }, [client, destination, navigate, state.status]);
+
+  if (state.status === 'loading') return <>{loadingFallback}</>;
+  if (state.status === 'signed_out') return <>{signedOutFallback}</>;
+  return <>{children}</>;
 }
 
 export type BffSignOutButtonProps = Omit<

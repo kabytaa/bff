@@ -11,6 +11,10 @@ export default defineConfig({
         workspaceRoot,
         'platform/bff/libs/contracts/src/index.ts',
       ),
+      '@tofler/bff-auth/core': resolve(
+        workspaceRoot,
+        'platform/bff/libs/sdk/typescript/src/core/index.ts',
+      ),
     },
   },
   test: {

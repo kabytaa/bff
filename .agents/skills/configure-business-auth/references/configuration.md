@@ -4,42 +4,70 @@ Use this reference when generating or explaining Business customer-auth settings
 
 ## Shape
 
+Business code defines deployment-invariant defaults:
+
+```ts
+export default defineCustomerAuthDefaults({
+  definitionRevision: 1,
+  enabledProviders: ['google'],
+  presentation: {
+    productName: 'Example',
+    theme: 'system',
+    accentColor: '#314EC6',
+  },
+  defaultPostLoginPath: '/',
+  sessionPolicy: { idleSeconds: 604800, absoluteSeconds: 2592000 },
+  accountPolicy: {
+    createAccountOnFirstSignIn: true,
+    userAccountCreationEnabled: false,
+    maxAccountMembershipsPerUser: 1,
+    maxOwnedAccountsPerUser: 1,
+    ownershipTransferEnabled: false,
+  },
+  accountDefaults: {
+    seatLimit: 1,
+    adminRoleEnabled: false,
+    memberInvitationsEnabled: false,
+  },
+});
+```
+
+Each deployment supplies only environment-specific registration:
+
 ```json
 {
-  "version": 1,
-  "enabledProviders": ["google"],
   "developmentAutomationEnabled": false,
-  "transport": {
-    "webOrigins": ["https://example.tofler.app"],
-    "sessionAdapterBaseUrl": "https://api.example.tofler.app",
-    "defaultPostLoginPath": "/"
-  },
-  "sessionPolicy": {
-    "idleSeconds": 604800,
-    "absoluteSeconds": 2592000
-  },
-  "accountPolicy": {
-    "createAccountOnFirstSignIn": true,
-    "userAccountCreationEnabled": false,
-    "maxAccountMembershipsPerUser": 1,
-    "maxOwnedAccountsPerUser": 1,
-    "ownershipTransferEnabled": false
-  },
-  "accountDefaults": {
-    "seatLimit": 1,
-    "adminRoleEnabled": false,
-    "memberInvitationsEnabled": false
-  }
+  "webOrigins": ["https://example.tofler.app"],
+  "sessionAdapterBaseUrl": "https://api.example.tofler.app"
 }
 ```
+
+The CLI composes these into the version-2 effective snapshot that BFF stores and enforces. Legacy version-1 snapshots remain readable only during migration.
+
+## Migrating populated environments
+
+Before migrating a version-1 environment, inspect its effective configuration
+and populated customer/account state, then preview the exact code-owned
+defaults plus lane registration. Do not assume matching URLs make the policies
+compatible.
+
+A conflict is evidence that current state or intentional test behavior differs
+from the reviewed Business definition. Do not bypass preflight, delete fixture
+data, leave version 1 as the permanent answer or weaken production-like
+defaults merely to make migration pass. Resolve whether the Business defaults
+should genuinely change or whether the divergent fixtures belong to a separate
+test Business definition/environment, then generate a fresh preview. Legacy
+version-1 reads exist only to keep the service operational during that explicit
+decision and migration.
 
 ## Transport rules
 
 - `webOrigins` contains exact canonical HTTPS UI origins. No wildcard, path, query, fragment, credentials, or trailing slash.
 - `sessionAdapterBaseUrl` is one exact canonical HTTPS origin for the Business server SDK. The SDK derives `/_tofler/auth/callback`; the callback is not another setting.
-- `defaultPostLoginPath` is a same-app relative path beginning with one `/`. Reject protocol-relative and external destinations.
+- `defaultPostLoginPath` is code-owned and is a same-app relative path beginning with one `/`. Reject protocol-relative and external destinations.
 - Development and production are separate registered environments with separate origins.
 - The shared auth origin and public Google client ID are platform configuration, not Business settings.
+- Presentation is intentionally bounded: product name, theme and accent only. Never accept arbitrary CSS/HTML or an unvalidated remote logo URL.
 
 ## Limits and defaults
 

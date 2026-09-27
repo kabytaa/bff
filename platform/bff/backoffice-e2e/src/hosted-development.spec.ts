@@ -29,7 +29,7 @@ test('loads the real protected development overview', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Business environments' }),
   ).toBeVisible();
-  await expect(page.getByText('Read only')).toBeVisible();
+  await expect(page.getByText('Read only').first()).toBeVisible();
   await expect(page.getByText('Access not enabled')).toHaveCount(0);
   await expect(page.getByText('Operator sign-in')).toHaveCount(0);
 });

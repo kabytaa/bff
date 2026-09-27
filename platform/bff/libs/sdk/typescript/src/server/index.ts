@@ -2,6 +2,7 @@ import {
   businessTransportConfigSchema,
   CUSTOMER_AUTH_CSRF_HEADER,
   CUSTOMER_AUTH_CSRF_HEADER_VALUE,
+  customerAuthIntentSchema,
   deriveCustomerAuthCallbackUrl,
   publicIdentifierSchema,
   relativeApplicationPathSchema,
@@ -419,6 +420,9 @@ export function createBffAuthServer(
     const returnPath = relativeApplicationPathSchema.parse(
       url.searchParams.get('returnPath') ?? transport.defaultPostLoginPath,
     );
+    const intent = customerAuthIntentSchema.parse(
+      url.searchParams.get('intent') ?? 'continue',
+    );
     if (!webOrigin || !transport.webOrigins.includes(webOrigin)) {
       return publicError(400, 'INVALID_INPUT', 'Web origin is not registered.');
     }
@@ -443,6 +447,7 @@ export function createBffAuthServer(
         callbackUrl,
         webOrigin,
         returnPath,
+        intent,
       },
     );
     if (response.status !== 201) {

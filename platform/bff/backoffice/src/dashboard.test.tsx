@@ -103,6 +103,8 @@ describe('Dashboard', () => {
                 displayName: 'Customer',
                 activeMembershipCount: 1,
                 ownedAccountCount: 1,
+                createdAt: 1,
+                updatedAt: 1,
               },
             ],
             accounts: [

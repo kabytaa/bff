@@ -18,8 +18,8 @@ export interface GoogleIdentityApi {
     options: {
       readonly shape: 'pill';
       readonly size: 'large';
-      readonly text: 'continue_with';
-      readonly theme: 'outline';
+      readonly text: 'continue_with' | 'signin_with' | 'signup_with';
+      readonly theme: 'outline' | 'filled_black';
       readonly width: number;
     },
   ): void;
@@ -97,8 +97,16 @@ export function renderGoogleIdentityButton(input: {
   input.api.renderButton(input.element, {
     shape: 'pill',
     size: 'large',
-    text: 'continue_with',
-    theme: 'outline',
+    text:
+      input.challenge.intent === 'login'
+        ? 'signin_with'
+        : input.challenge.intent === 'signup'
+          ? 'signup_with'
+          : 'continue_with',
+    theme:
+      input.challenge.presentation.theme === 'dark'
+        ? 'filled_black'
+        : 'outline',
     width: 280,
   });
 }

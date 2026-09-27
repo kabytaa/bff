@@ -52,3 +52,7 @@ Convex deployment, with no development markers. That command also writes the
 exact release SHA metadata required by production smoke. See
 `docs/operations/build-2-customer-auth.md`; do not publish the production
 manifest from the development output.
+The deployment-invariant customer-auth behavior is defined in
+`projects/example/customer-auth.defaults.ts`. The operator CLI composes that
+reviewed module with each lane's public web/API URLs and applies the effective
+snapshot to BFF. The web app never imports the defaults at runtime.

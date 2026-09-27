@@ -11,6 +11,7 @@ import {
   parseCommand,
   type ConvexInvocation,
 } from './cli';
+import { resolveCustomerAuthConfigurationArgs } from './customerAuthConfiguration';
 
 const execFileAsync = promisify(execFile);
 
@@ -38,7 +39,7 @@ export async function run(
 ): Promise<number> {
   let command;
   try {
-    command = parseCommand(argv);
+    command = parseCommand(await resolveCustomerAuthConfigurationArgs(argv));
   } catch (error) {
     if (error instanceof CliError) {
       const output = error.message === HELP ? console.info : console.error;

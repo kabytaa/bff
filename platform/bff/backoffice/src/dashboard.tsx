@@ -2,6 +2,7 @@ import type {
   AccountPolicyOverrides,
   AccountPolicyValues,
   CustomerAuthConfiguration,
+  LegacyCustomerAuthConfiguration,
   HealthResponse,
 } from '@bff/contracts';
 import type { ReactNode } from 'react';
@@ -12,7 +13,7 @@ export interface BusinessEnvironmentView {
   key: string;
   businessName: string;
   environmentName: string;
-  customerAuth?: CustomerAuthConfiguration;
+  customerAuth?: CustomerAuthConfiguration | LegacyCustomerAuthConfiguration;
   customerAuthConfigurationRevision?: number;
   accountPolicyStateRevision?: number;
   updatedAt: number;
@@ -24,6 +25,8 @@ export interface CustomerUserView {
   displayName: string;
   activeMembershipCount: number;
   ownedAccountCount: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 type PolicySource = 'business_default' | 'account_override';
@@ -43,14 +46,21 @@ export interface CustomerMembershipView {
   id: string;
   accountId: string;
   userId: string;
+  userDisplayName: string;
+  userVerifiedEmail: string;
+  accountDisplayName?: string;
   role: 'owner' | 'admin' | 'member';
 }
 
 export interface CustomerSessionView {
   id: string;
   userId: string;
+  userDisplayName: string;
+  userVerifiedEmail: string;
   provider: 'google' | 'development';
+  createdAt: number;
   lastSeenAt: number;
+  idleExpiresAt: number;
   absoluteExpiresAt: number;
   revokedAt?: number;
 }
@@ -71,7 +81,20 @@ export interface CustomerEnvironmentDetail {
   memberships: CustomerMembershipView[];
   sessions: CustomerSessionView[];
   securityEvents: CustomerSecurityEventView[];
+  userLookup?: string;
+  submittedUserLookup?: string;
+  matchedUsers?: CustomerUserView[];
+  onUserLookupChange?: (value: string) => void;
+  onUserLookupSubmit?: () => void;
+  pages?: Record<
+    'users' | 'accounts' | 'memberships' | 'sessions' | 'securityEvents',
+    { hasMore: boolean; loading: boolean; loadMore: () => void }
+  >;
 }
+
+type PageControl = NonNullable<
+  CustomerEnvironmentDetail['pages']
+>[keyof NonNullable<CustomerEnvironmentDetail['pages']>];
 
 export type DashboardModel =
   | { state: 'checking'; health?: HealthResponse }
@@ -306,6 +329,53 @@ function CustomerEnvironmentSection({
               <dd>{environment.customerAuth.transport.defaultPostLoginPath}</dd>
               <dt>Configuration revision</dt>
               <dd>{environment.customerAuthConfigurationRevision ?? 0}</dd>
+              <dt>Definition revision</dt>
+              <dd>
+                {environment.customerAuth.version === 2
+                  ? environment.customerAuth.definitionRevision
+                  : 'Legacy v1'}
+              </dd>
+              <dt>Definition fingerprint</dt>
+              <dd>
+                {environment.customerAuth.version === 2
+                  ? environment.customerAuth.definitionFingerprint
+                  : 'Not recorded'}
+              </dd>
+              <dt>Providers</dt>
+              <dd>{environment.customerAuth.enabledProviders.join(', ')}</dd>
+              {environment.customerAuth.version === 2 ? (
+                <>
+                  <dt>Sign-in presentation</dt>
+                  <dd>
+                    <span
+                      aria-label={`${environment.customerAuth.presentation.accentColor} accent preview`}
+                      style={{
+                        display: 'inline-block',
+                        width: '0.9rem',
+                        height: '0.9rem',
+                        marginRight: '0.4rem',
+                        borderRadius: '999px',
+                        background:
+                          environment.customerAuth.presentation.accentColor,
+                      }}
+                    />
+                    {environment.customerAuth.presentation.productName} ·{' '}
+                    {environment.customerAuth.presentation.theme} ·{' '}
+                    {environment.customerAuth.presentation.accentColor}
+                  </dd>
+                </>
+              ) : null}
+              <dt>Session policy</dt>
+              <dd>
+                {environment.customerAuth.sessionPolicy.idleSeconds}s idle ·{' '}
+                {environment.customerAuth.sessionPolicy.absoluteSeconds}s max
+              </dd>
+              <dt>Account policy</dt>
+              <dd>{JSON.stringify(environment.customerAuth.accountPolicy)}</dd>
+              <dt>Account defaults</dt>
+              <dd>
+                {JSON.stringify(environment.customerAuth.accountDefaults)}
+              </dd>
               <dt>Account-state revision</dt>
               <dd>{environment.accountPolicyStateRevision ?? 0}</dd>
             </dl>
@@ -335,14 +405,71 @@ function CustomerEnvironmentSection({
       </div>
       {!detail?.loading && detail ? (
         <div className="grid customer-records">
-          <CustomerUsers users={detail.users} />
-          <CustomerAccounts accounts={detail.accounts} />
-          <CustomerMemberships memberships={detail.memberships} />
-          <CustomerSessions sessions={detail.sessions} />
-          <CustomerSecurityEvents events={detail.securityEvents} />
+          <CustomerUserLookup detail={detail} />
+          <CustomerUsers users={detail.users} page={detail.pages?.users} />
+          <CustomerAccounts
+            accounts={detail.accounts}
+            page={detail.pages?.accounts}
+          />
+          <CustomerMemberships
+            memberships={detail.memberships}
+            page={detail.pages?.memberships}
+          />
+          <CustomerSessions
+            sessions={detail.sessions}
+            page={detail.pages?.sessions}
+          />
+          <CustomerSecurityEvents
+            events={detail.securityEvents}
+            page={detail.pages?.securityEvents}
+          />
         </div>
       ) : null}
     </section>
+  );
+}
+
+function LoadMore({ page }: { page?: PageControl }) {
+  if (!page?.hasMore && !page?.loading) return null;
+  return (
+    <button type="button" disabled={page.loading} onClick={page.loadMore}>
+      {page.loading ? 'Loading…' : 'Load more'}
+    </button>
+  );
+}
+
+function CustomerUserLookup({ detail }: { detail: CustomerEnvironmentDetail }) {
+  return (
+    <article className="card">
+      <h3>Exact user lookup</h3>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          detail.onUserLookupSubmit?.();
+        }}
+      >
+        <label>
+          <span>Email or public user ID</span>
+          <input
+            value={detail.userLookup ?? ''}
+            onChange={(event) =>
+              detail.onUserLookupChange?.(event.target.value)
+            }
+          />
+        </label>
+        <button type="submit">Find user</button>
+      </form>
+      {detail.submittedUserLookup && detail.matchedUsers?.length === 0 ? (
+        <p className="subtle">No exact match.</p>
+      ) : null}
+      {detail.matchedUsers?.map((user) => (
+        <div className="record-row" key={user.id}>
+          <strong>{user.displayName}</strong>
+          <span>{user.verifiedEmail}</span>
+          <code>{user.id}</code>
+        </div>
+      ))}
+    </article>
   );
 }
 
@@ -350,7 +477,13 @@ function EmptyValue() {
   return <p className="subtle">No records on this page.</p>;
 }
 
-function CustomerUsers({ users }: { users: CustomerUserView[] }) {
+function CustomerUsers({
+  users,
+  page,
+}: {
+  users: CustomerUserView[];
+  page?: PageControl;
+}) {
   return (
     <article className="card">
       <h3>Users</h3>
@@ -364,16 +497,20 @@ function CustomerUsers({ users }: { users: CustomerUserView[] }) {
             {user.activeMembershipCount} memberships · {user.ownedAccountCount}{' '}
             owned
           </span>
+          <span>Created {formatTimestamp(user.createdAt)}</span>
         </div>
       ))}
+      <LoadMore page={page} />
     </article>
   );
 }
 
 function CustomerMemberships({
   memberships,
+  page,
 }: {
   memberships: CustomerMembershipView[];
+  page?: PageControl;
 }) {
   return (
     <article className="card">
@@ -382,16 +519,27 @@ function CustomerMemberships({
       {memberships.map((membership) => (
         <div className="record-row" key={membership.id}>
           <strong>{membership.role}</strong>
-          <span>User {membership.userId}</span>
-          <span>Account {membership.accountId}</span>
+          <span>
+            {membership.userDisplayName} · {membership.userVerifiedEmail}
+          </span>
+          <span>
+            Account {membership.accountDisplayName ?? membership.accountId}
+          </span>
           <code>{membership.id}</code>
         </div>
       ))}
+      <LoadMore page={page} />
     </article>
   );
 }
 
-function CustomerAccounts({ accounts }: { accounts: CustomerAccountView[] }) {
+function CustomerAccounts({
+  accounts,
+  page,
+}: {
+  accounts: CustomerAccountView[];
+  page?: PageControl;
+}) {
   return (
     <article className="card">
       <h3>Accounts and effective policy</h3>
@@ -411,11 +559,18 @@ function CustomerAccounts({ accounts }: { accounts: CustomerAccountView[] }) {
           </span>
         </div>
       ))}
+      <LoadMore page={page} />
     </article>
   );
 }
 
-function CustomerSessions({ sessions }: { sessions: CustomerSessionView[] }) {
+function CustomerSessions({
+  sessions,
+  page,
+}: {
+  sessions: CustomerSessionView[];
+  page?: PageControl;
+}) {
   return (
     <article className="card">
       <h3>Sessions</h3>
@@ -424,18 +579,31 @@ function CustomerSessions({ sessions }: { sessions: CustomerSessionView[] }) {
         <div className="record-row" key={session.id}>
           <strong>{session.provider}</strong>
           <code>{session.id}</code>
-          <span>User {session.userId}</span>
+          <span>
+            {session.userDisplayName} · {session.userVerifiedEmail}
+          </span>
           <span>{session.revokedAt ? 'Revoked' : 'Active'}</span>
+          <span>
+            Created {formatTimestamp(session.createdAt)} · seen{' '}
+            {formatTimestamp(session.lastSeenAt)}
+          </span>
+          <span>
+            Idle expiry {formatTimestamp(session.idleExpiresAt)} · max{' '}
+            {formatTimestamp(session.absoluteExpiresAt)}
+          </span>
         </div>
       ))}
+      <LoadMore page={page} />
     </article>
   );
 }
 
 function CustomerSecurityEvents({
   events,
+  page,
 }: {
   events: CustomerSecurityEventView[];
+  page?: PageControl;
 }) {
   return (
     <article className="card">
@@ -451,6 +619,7 @@ function CustomerSecurityEvents({
           <code>{event.correlationId}</code>
         </div>
       ))}
+      <LoadMore page={page} />
     </article>
   );
 }

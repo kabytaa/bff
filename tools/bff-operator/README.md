@@ -11,6 +11,6 @@ Use `--help` for the complete tested syntax. Common groups are:
 
 All cloud operations require `--confirm-cloud`. A command that writes to a production reference also requires `--confirm-production <exact-deployment-reference>`. Those flags authorize only the named invocation; they do not deploy code or bypass backend validation.
 
-Customer-auth apply is deliberately two-stage. Preview validates every existing user and account and returns a short-lived single-use preflight. Apply must use the exact same JSON, current configuration revision, current account-policy-state revision and preflight ID. Any concurrent account change makes it stale and requires a new preview.
+Customer-auth apply is deliberately two-stage. Prefer `--defaults-module <business-defaults.ts>` plus `--environment-json <json>`: the CLI composes reviewed code-owned behavior with deployment URLs into the exact versioned effective snapshot. `--configuration-json` remains available for compatibility. Preview validates every existing user and account and returns a short-lived single-use preflight. Apply must use the same source inputs, current configuration revision, current account-policy-state revision and preflight ID. Any source or concurrent account change makes it stale and requires a new preview.
 
 For product-guided configuration, use [the repository skill](../../.agents/skills/configure-business-auth/SKILL.md). It explains URL semantics, interacting account defaults and safe scenario choices before invoking this CLI.

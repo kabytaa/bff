@@ -10,6 +10,7 @@ import {
   type AccountSummary,
   type AuthSessionState,
   type CustomerAuthErrorCode,
+  type CustomerAuthIntent,
   type CustomerSessionContextResponse,
 } from '../core';
 
@@ -60,7 +61,14 @@ export interface BffAuthBrowserClient {
   acceptInvitation(invitationToken: string): Promise<AccountSummary>;
   getAccessToken(forceRefreshToken?: boolean): Promise<string | null>;
   logout(): Promise<void>;
-  getSignInUrl(returnPath?: string): string;
+  getSignInUrl(
+    options?:
+      | string
+      | {
+          readonly returnPath?: string;
+          readonly intent?: CustomerAuthIntent;
+        },
+  ): string;
   dispose(): void;
 }
 
@@ -542,12 +550,19 @@ export function createBffAuthBrowserClient(
         throw error;
       }
     },
-    getSignInUrl: (returnPath = '/') => {
+    getSignInUrl: (options = '/') => {
       requireActive();
+      const returnPath =
+        typeof options === 'string' ? options : (options.returnPath ?? '/');
+      const intent =
+        typeof options === 'string'
+          ? 'continue'
+          : (options.intent ?? 'continue');
       const path = relativeApplicationPathSchema.parse(returnPath);
       const url = new URL('/_tofler/auth/login', adapterOrigin);
       url.searchParams.set('webOrigin', webOrigin);
       url.searchParams.set('returnPath', path);
+      url.searchParams.set('intent', intent);
       return url.href;
     },
     dispose: () => {

@@ -9,7 +9,7 @@ import {
 } from './accountPolicy';
 
 export const CUSTOMER_CONTEXT_VERSION = 1 as const;
-export const CUSTOMER_AUTH_CONFIGURATION_VERSION = 1 as const;
+export const CUSTOMER_AUTH_CONFIGURATION_VERSION = 2 as const;
 export const CUSTOMER_AUTH_CALLBACK_PATH = '/_tofler/auth/callback' as const;
 export const CUSTOMER_AUTH_CSRF_HEADER = 'X-Tofler-CSRF' as const;
 export const CUSTOMER_AUTH_CSRF_HEADER_VALUE = '1' as const;
@@ -89,9 +89,90 @@ export type BusinessTransportConfig = z.infer<
   typeof businessTransportConfigSchema
 >;
 
+export const customerAuthThemeSchema = z.enum(['light', 'dark', 'system']);
+export type CustomerAuthTheme = z.infer<typeof customerAuthThemeSchema>;
+
+export const customerAuthPresentationSchema = z
+  .object({
+    productName: z.string().trim().min(1).max(80),
+    theme: customerAuthThemeSchema,
+    accentColor: z
+      .string()
+      .regex(/^#[0-9A-F]{6}$/u, 'Expected an uppercase #RRGGBB color'),
+  })
+  .strict();
+export type CustomerAuthPresentation = z.infer<
+  typeof customerAuthPresentationSchema
+>;
+
+export const customerAuthDefaultsSchema = z
+  .object({
+    definitionRevision: z.number().int().positive(),
+    enabledProviders: z
+      .array(customerIdentityProviderSchema)
+      .min(1)
+      .max(1)
+      .refine((providers) => new Set(providers).size === providers.length, {
+        message: 'enabledProviders must not contain duplicates',
+      }),
+    presentation: customerAuthPresentationSchema,
+    defaultPostLoginPath: relativeApplicationPathSchema,
+    sessionPolicy: sessionPolicySchema,
+    accountPolicy: businessAccountPolicySchema,
+    accountDefaults: accountPolicyValuesSchema,
+  })
+  .strict();
+export type CustomerAuthDefaults = z.infer<typeof customerAuthDefaultsSchema>;
+
+export const businessEnvironmentAuthConfigSchema = z
+  .object({
+    webOrigins: z.array(httpsOriginSchema).min(1).max(8),
+    sessionAdapterBaseUrl: httpsOriginSchema,
+    developmentAutomationEnabled: z.boolean(),
+  })
+  .strict();
+export type BusinessEnvironmentAuthConfig = z.infer<
+  typeof businessEnvironmentAuthConfigSchema
+>;
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map((entry) => canonicalJson(entry)).join(',')}]`;
+  }
+  if (value !== null && typeof value === 'object') {
+    return `{${Object.entries(value)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, entry]) => `${JSON.stringify(key)}:${canonicalJson(entry)}`)
+      .join(',')}}`;
+  }
+  return JSON.stringify(value);
+}
+
+/** A drift-detection fingerprint, not a cryptographic security primitive. */
+export function fingerprintCustomerAuthDefaults(
+  defaults: CustomerAuthDefaults,
+): string {
+  const source = canonicalJson(customerAuthDefaultsSchema.parse(defaults));
+  let hash = 0xcbf29ce484222325n;
+  for (const character of new TextEncoder().encode(source)) {
+    hash ^= BigInt(character);
+    hash = BigInt.asUintN(64, hash * 0x100000001b3n);
+  }
+  return `fnv1a64:${hash.toString(16).padStart(16, '0')}`;
+}
+
+export function defineCustomerAuthDefaults(
+  defaults: CustomerAuthDefaults,
+): CustomerAuthDefaults {
+  return customerAuthDefaultsSchema.parse(defaults);
+}
+
 export const customerAuthConfigurationSchema = z
   .object({
     version: z.literal(CUSTOMER_AUTH_CONFIGURATION_VERSION),
+    definitionRevision: z.number().int().positive(),
+    definitionFingerprint: z.string().regex(/^fnv1a64:[0-9a-f]{16}$/u),
+    presentation: customerAuthPresentationSchema,
     enabledProviders: z
       .array(customerIdentityProviderSchema)
       .min(1)
@@ -110,6 +191,45 @@ export const customerAuthConfigurationSchema = z
 export type CustomerAuthConfiguration = z.infer<
   typeof customerAuthConfigurationSchema
 >;
+
+export const legacyCustomerAuthConfigurationSchema = z
+  .object({
+    version: z.literal(1),
+    enabledProviders: z.array(customerIdentityProviderSchema).min(1).max(1),
+    developmentAutomationEnabled: z.boolean(),
+    transport: businessTransportConfigSchema,
+    sessionPolicy: sessionPolicySchema,
+    accountPolicy: businessAccountPolicySchema,
+    accountDefaults: accountPolicyValuesSchema,
+  })
+  .strict();
+export type LegacyCustomerAuthConfiguration = z.infer<
+  typeof legacyCustomerAuthConfigurationSchema
+>;
+
+export function composeCustomerAuthConfiguration(
+  rawDefaults: CustomerAuthDefaults,
+  rawEnvironment: BusinessEnvironmentAuthConfig,
+): CustomerAuthConfiguration {
+  const defaults = customerAuthDefaultsSchema.parse(rawDefaults);
+  const environment = businessEnvironmentAuthConfigSchema.parse(rawEnvironment);
+  return customerAuthConfigurationSchema.parse({
+    version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+    definitionRevision: defaults.definitionRevision,
+    definitionFingerprint: fingerprintCustomerAuthDefaults(defaults),
+    presentation: defaults.presentation,
+    enabledProviders: defaults.enabledProviders,
+    developmentAutomationEnabled: environment.developmentAutomationEnabled,
+    transport: {
+      webOrigins: environment.webOrigins,
+      sessionAdapterBaseUrl: environment.sessionAdapterBaseUrl,
+      defaultPostLoginPath: defaults.defaultPostLoginPath,
+    },
+    sessionPolicy: defaults.sessionPolicy,
+    accountPolicy: defaults.accountPolicy,
+    accountDefaults: defaults.accountDefaults,
+  });
+}
 
 export function deriveCustomerAuthCallbackUrl(
   sessionAdapterBaseUrl: string,
@@ -223,6 +343,9 @@ export type CustomerAuthTransactionPurpose = z.infer<
   typeof customerAuthTransactionPurposeSchema
 >;
 
+export const customerAuthIntentSchema = z.enum(['login', 'signup', 'continue']);
+export type CustomerAuthIntent = z.infer<typeof customerAuthIntentSchema>;
+
 export const customerAuthTransactionChallengeSchema = z
   .object({
     reference: publicIdentifierSchema,
@@ -232,6 +355,15 @@ export const customerAuthTransactionChallengeSchema = z
       .max(64)
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     purpose: customerAuthTransactionPurposeSchema,
+    intent: customerAuthIntentSchema,
+    presentation: customerAuthPresentationSchema,
+    environmentName: z.string().trim().min(1).max(80),
+    returnUrl: z
+      .string()
+      .url()
+      .refine((value) => new URL(value).protocol === 'https:', {
+        message: 'Expected a secure return URL',
+      }),
     enabledProviders: z.array(customerIdentityProviderSchema).min(1).max(1),
     providerNonce: z
       .string()

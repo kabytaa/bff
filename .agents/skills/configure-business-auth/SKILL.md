@@ -14,12 +14,13 @@ Before proposing configuration, read [references/configuration.md](references/co
 Ask one short question at a time. Reuse answers already supplied; do not make the user repeat them. Resolve these areas:
 
 1. Target Business environment and deployment lane.
-2. Exact customer web origins, session-adapter base URL, and relative destination after login.
+2. Exact customer web origins and session-adapter base URL for the target lane.
 3. Whether the development-only automation provider is enabled. Never enable it outside development.
 4. What happens on first sign-in and whether ordinary users may create more accounts.
 5. Maximum total memberships and owned accounts per user.
 6. Default seats, Admin role, invitations, and ownership transfer.
 7. Idle and absolute session lifetimes.
+8. Business-aware sign-in presentation: product name, light/dark/system theme and one uppercase `#RRGGBB` accent color.
 
 Recommend the documented defaults unless the product behavior requires otherwise. Explain interacting choices: an automatically created account consumes one total membership and one owned-account slot; joining another account therefore needs a total-membership cap above one.
 
@@ -27,7 +28,9 @@ Do not invent personal/team account kinds. Accounts are stable billing/collabora
 
 ## Produce and preview
 
-Build strict version-1 JSON with no credentials. Show the complete JSON and a plain-language summary before any apply operation.
+Prefer a reviewed Business defaults module using `defineCustomerAuthDefaults`. It owns provider choice, presentation, default destination and behavior/policy settings. Compose it with environment JSON containing only `webOrigins`, `sessionAdapterBaseUrl` and `developmentAutomationEnabled`. The result is strict version-2 effective JSON stored by BFF, including the defaults revision and deterministic fingerprint. Existing explicit `--configuration-json` remains available for migration and automation compatibility.
+
+Show the complete effective JSON and a plain-language summary before any apply operation. A code change does not alter runtime behavior until that exact snapshot is previewed and applied.
 
 Run the validated CLI preview against the selected deployment:
 
@@ -35,7 +38,8 @@ Run the validated CLI preview against the selected deployment:
 pnpm bff:environment -- preview-customer-auth \
   --deployment <deployment> \
   --key <environment-key> \
-  --configuration-json '<exact-json>' \
+  --defaults-module <business-defaults.ts> \
+  --environment-json '<environment-json>' \
   [--confirm-cloud] \
   [--confirm-production <exact-production-reference>]
 ```
@@ -53,7 +57,8 @@ pnpm bff:environment -- configure-customer-auth \
   --expected-revision <configuration-revision> \
   --expected-account-policy-revision <account-policy-revision> \
   --preflight-id <preflight-id> \
-  --configuration-json '<same-exact-json>' \
+  --defaults-module <same-business-defaults.ts> \
+  --environment-json '<same-environment-json>' \
   [--confirm-cloud] \
   [--confirm-production <exact-production-reference>]
 ```

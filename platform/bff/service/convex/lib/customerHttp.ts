@@ -7,6 +7,7 @@ import {
   createAccountRequestSchema,
   createInvitationRequestSchema,
   customerAuthErrorCodeSchema,
+  customerAuthIntentSchema,
   removeMembershipRequestSchema,
   revokeInvitationRequestSchema,
   updateAccountPolicyRequestSchema,
@@ -350,6 +351,9 @@ export async function startLoginHandler(ctx: ActionCtx, request: Request) {
     const callbackUrl = requiredString(body, 'callbackUrl');
     const webOrigin = requiredString(body, 'webOrigin');
     const returnPath = requiredString(body, 'returnPath');
+    const intent = customerAuthIntentSchema.parse(
+      typeof body.intent === 'string' ? body.intent : 'continue',
+    );
     const signing = readCustomerSigningConfiguration();
 
     for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -366,6 +370,7 @@ export async function startLoginHandler(ctx: ActionCtx, request: Request) {
           callbackUrl,
           webOrigin,
           returnPath,
+          intent,
           now: Date.now(),
         },
       );

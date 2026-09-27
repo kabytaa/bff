@@ -14,6 +14,7 @@ export default defineConfig({
   workers: 2,
   reporter: [['list']],
   use: {
+    actionTimeout: 15_000,
     baseURL: HOSTED_EXAMPLE_URL,
     screenshot: 'off',
     trace: 'off',

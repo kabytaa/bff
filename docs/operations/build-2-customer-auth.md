@@ -30,6 +30,96 @@ cookie, renewal, CORS/CSRF and logout behavior. `/v1/*` and native Convex
 traffic do not use the gateway. A future direct Convex custom domain replaces
 the gateway URL without changing the SDK contract.
 
+## Development release order
+
+Development is a two-backend, four-Worker release. Run it under the Node major
+declared in the root `package.json`; do not let a shell's older default Node
+select Wrangler. Confirm the selected Convex deployments and the Worker names
+in their checked-in manifests before any mutation. The expected development
+targets are:
+
+| Surface             | Development target                                                            |
+| ------------------- | ----------------------------------------------------------------------------- |
+| BFF Convex          | `compassionate-buffalo-689`                                                   |
+| Example Convex      | `quirky-stoat-199`                                                            |
+| Operator backoffice | `business-factory-backoffice-dev` / `ops-dev.tofler.tech`                     |
+| Customer sign-in    | `business-factory-customer-auth-dev` / `auth-dev.tofler.app`                  |
+| Retained example    | `business-factory-example-dev` / `example-dev.tofler.app`                     |
+| Session gateway     | `business-factory-example-session-gateway-dev` / `api.example-dev.tofler.app` |
+
+After the exact source passes `pnpm check` and `git diff --check`, push the
+additive BFF schema/functions before the Example consumer:
+
+```bash
+pnpm exec convex dev --once --typecheck enable
+(cd projects/example/backend && pnpm exec convex dev --once --typecheck enable)
+```
+
+Inspect the existing `example-development` environment, then use the
+`configure-business-auth` skill's preview/apply flow with
+`projects/example/customer-auth.defaults.ts` and only these lane-owned values:
+
+```json
+{
+  "webOrigins": ["https://example-dev.tofler.app"],
+  "sessionAdapterBaseUrl": "https://api.example-dev.tofler.app",
+  "developmentAutomationEnabled": true
+}
+```
+
+Any preflight conflict is a stop condition for the configuration apply, not
+for publishing backward-compatible additive code. Do not bypass the preflight,
+delete fixture data or silently change code-owned policy to make it pass.
+
+Build the changed development surfaces with explicit public development URLs:
+
+```bash
+VITE_CONVEX_URL=https://compassionate-buffalo-689.convex.cloud \
+VITE_CONVEX_SITE_URL=https://compassionate-buffalo-689.convex.site \
+  pnpm exec nx run bff-backoffice:build-development-auth
+
+VITE_BFF_SITE_URL=https://compassionate-buffalo-689.convex.site \
+  pnpm exec nx run bff-customer-auth:build-development
+
+VITE_BFF_CUSTOMER_API_URL=https://compassionate-buffalo-689.convex.site \
+VITE_BFF_CUSTOMER_ENVIRONMENT_KEY=example-development \
+VITE_BFF_SESSION_ADAPTER_URL=https://api.example-dev.tofler.app \
+VITE_CONVEX_URL=https://quirky-stoat-199.convex.cloud \
+VITE_CONVEX_SITE_URL=https://quirky-stoat-199.convex.site \
+VITE_BFF_AUTH_DIAGNOSTICS=true \
+  pnpm exec nx run example-web:build
+```
+
+Dry-run every checked-in development manifest before publishing it:
+
+```bash
+for config in \
+  platform/bff/backoffice/wrangler.jsonc \
+  platform/bff/customer-auth/wrangler.jsonc \
+  projects/example/session-gateway/wrangler.jsonc \
+  projects/example/workloads/web/wrangler.jsonc; do
+  pnpm exec wrangler deploy --dry-run --config "$config"
+done
+```
+
+With development deployment approval, repeat that loop without `--dry-run`.
+Stamp `BFF_BUILD_VERSION` on the explicit BFF development deployment after the
+push. Use the reviewed commit SHA for a clean tree; for an intentionally
+uncommitted development rehearsal, use an unmistakable development label and
+never advertise the previous commit as the deployed source.
+
+Verify both Convex health endpoints, gateway health, all three static origins
+and the expected anonymous auth denial. Then run both protected hosted gates:
+
+```bash
+pnpm test:e2e:development-auth
+pnpm exec nx run bff-customer-auth-e2e:e2e-hosted-development
+```
+
+The customer lifecycle gate deliberately takes more than ten minutes to prove
+real token renewal. Playwright WebKit remains a contract gate, not a substitute
+for final real-device Safari acceptance.
+
 ## GitHub production environment
 
 The existing `production` environment remains `main`-only and serialized. Add these public variables before the first Build 2 production run:

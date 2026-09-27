@@ -561,6 +561,14 @@ Each task below is independently reviewable. New commands/targets are explicitly
 - **Gotchas**: Production never uses the dummy provider to fake acceptance. A domain switch creates a new host-only cookie and requires a new login; do not assume old cookies migrate. Production is not complete while Safari is failing or awaiting human evidence.
 - **Validate**: Passing CI/deploy/smoke SHA; real login, context, reload, >10-minute renewal, second tab, logout and read-only backoffice evidence; existing production operator flow still passes. Then mark retained plan Completed/date, source Accepted/handoff, ADR accepted as reviewed, and update the concise live status.
 
+### Task 24: ADD code-owned Business defaults and Business-aware login UX
+
+- **Target**: customer-auth contracts/configuration persistence, TypeScript SDK core/browser/React exports, shared auth site, Example Business defaults, operator CLI/configuration skill and read-only backoffice.
+- **Implement**: A versioned code-owned defaults definition composed with deployment-owned URLs/automation into the effective BFF snapshot; deterministic definition revision/fingerprint; additive legacy-v1 reads; intent-aware `BffAuthLink` and guarded `BffRequireAuth`; one-click navigation to a Business-aware central provider chooser; validated product name/system-light-dark/accent presentation; read-only effective policy/presentation/revision views, exact user lookup, human-readable relations and load-more pagination.
+- **Boundaries**: Defaults are an apply-time template, never runtime Business code or a second source of truth. BFF stores and enforces the effective snapshot. Login/signup intent changes copy only. No arbitrary CSS, HTML, remote logo, dashboard write forms or speculative language SDK is added.
+- **Migration**: Deploy additive schema/read support first, then preview/apply the composed v2 snapshot separately in development and production using the existing conflict-safe workflow. Existing v1 rows remain usable until explicitly migrated.
+- **Validate**: Focused contracts/SDK/auth/backoffice/operator/service tests, full repository gate, development configuration apply and hosted flow, then repeat Task 23 production release/smoke and real Safari evidence.
+
 ## Testing Strategy
 
 ### Unit decision tables
@@ -692,3 +700,4 @@ No further product-mode decision is needed to start the listed implementation se
 | 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the generated Convex origin did not receive the cross-site session cookie. Andrew approved a narrow Cloudflare gateway on the Business API subdomain; it forwards only SDK session routes and leaves authentication logic in Convex/the shared server SDK. |
 | 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the same-site development gateway works. Independent production, architecture and example-simplicity reviews tightened the example deploy-key guard, production CORS/gateway smoke and SDK-owned route/CORS integration before production release.         |
 | 2026-09-27 | Accepted — Final acceptance pending  | Commit `03e1b95` passed production run `36302130303`; the exact approved `example-production` policy is stored at revision 1 and the live login-entry probe passed. Only Andrew's real Safari lifecycle and matching backoffice confirmation remain.                                    |
+| 2026-09-27 | Accepted — Implementation active     | Before final acceptance, Andrew approved Task 24: code-owned Business defaults composed into a BFF-stored effective snapshot, one-click intent-aware central login, validated Business presentation settings and an expanded read-only operator essentials view. Existing v1 configuration stays readable during the explicit v2 migration. |

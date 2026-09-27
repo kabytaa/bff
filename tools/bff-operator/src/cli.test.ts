@@ -9,7 +9,14 @@ import {
 import { run } from './main';
 
 const customerAuthConfiguration = JSON.stringify({
-  version: 1,
+  version: 2,
+  definitionRevision: 1,
+  definitionFingerprint: 'fnv1a64:0000000000000000',
+  presentation: {
+    productName: 'Example',
+    theme: 'system',
+    accentColor: '#314EC6',
+  },
   enabledProviders: ['google'],
   developmentAutomationEnabled: false,
   transport: {
@@ -90,7 +97,7 @@ describe('parseCommand', () => {
       name: 'preview-customer-auth',
       args: {
         key: 'sample-development',
-        configuration: { version: 1, enabledProviders: ['google'] },
+        configuration: { version: 2, enabledProviders: ['google'] },
       },
     });
     expect(buildConvexInvocation(preview).args[2]).toBe(

@@ -4,11 +4,14 @@ import {
   CUSTOMER_AUTH_CONFIGURATION_VERSION,
   accountContextClaimsSchema,
   businessTransportConfigSchema,
+  composeCustomerAuthConfiguration,
   customerAuthCallbackUrl,
   customerAuthConfigurationSchema,
   customerContextClaimsSchema,
   customerContextAudience,
   deriveCustomerAuthCallbackUrl,
+  defineCustomerAuthDefaults,
+  fingerprintCustomerAuthDefaults,
   onboardingContextClaimsSchema,
   relativeApplicationPathSchema,
 } from './auth';
@@ -33,6 +36,13 @@ const baseClaims = {
 describe('customer authentication contracts', () => {
   const configuration = {
     version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+    definitionRevision: 1,
+    definitionFingerprint: 'fnv1a64:0000000000000000',
+    presentation: {
+      productName: 'Example',
+      theme: 'system',
+      accentColor: '#314EC6',
+    },
     enabledProviders: ['google'],
     developmentAutomationEnabled: false,
     transport: {
@@ -136,6 +146,38 @@ describe('customer authentication contracts', () => {
     expect(customerAuthCallbackUrl(parsed)).toBe(
       'https://api.cards.example.com/_tofler/auth/callback',
     );
+  });
+
+  it('composes code-owned defaults with environment-owned transport deterministically', () => {
+    const defaults = defineCustomerAuthDefaults({
+      definitionRevision: 3,
+      enabledProviders: ['google'],
+      presentation: {
+        productName: 'Cards',
+        theme: 'system',
+        accentColor: '#314EC6',
+      },
+      defaultPostLoginPath: '/cards',
+      sessionPolicy: DEFAULT_SESSION_POLICY,
+      accountPolicy: DEFAULT_BUSINESS_ACCOUNT_POLICY,
+      accountDefaults: DEFAULT_ACCOUNT_POLICY,
+    });
+    const first = composeCustomerAuthConfiguration(defaults, {
+      webOrigins: ['https://cards.example.com'],
+      sessionAdapterBaseUrl: 'https://api.cards.example.com',
+      developmentAutomationEnabled: false,
+    });
+    const second = composeCustomerAuthConfiguration(defaults, {
+      webOrigins: ['https://cards.example.com'],
+      sessionAdapterBaseUrl: 'https://api.cards.example.com',
+      developmentAutomationEnabled: false,
+    });
+
+    expect(first.definitionFingerprint).toBe(
+      fingerprintCustomerAuthDefaults(defaults),
+    );
+    expect(second).toEqual(first);
+    expect(first.transport.defaultPostLoginPath).toBe('/cards');
   });
 
   it('derives the exact environment-scoped context audience', () => {

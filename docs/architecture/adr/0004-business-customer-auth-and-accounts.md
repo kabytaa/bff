@@ -54,6 +54,23 @@ Each environment registers:
 
 The SDK callback is always `/_tofler/auth/callback` on the adapter origin and is derived rather than separately editable. BFF never infers environment identity from `Origin`, `Referer` or callback host. Cookie-backed JSON routes require exact Origin, credentialed CORS and the non-simple `X-Tofler-CSRF` header.
 
+Deployment-invariant Business behavior is defined in code with
+`defineCustomerAuthDefaults`: enabled providers, bounded sign-in presentation,
+default post-login path, session/account policy and account defaults. A
+deployment contributes only its exact web origins, adapter origin and whether
+development automation is enabled. The operator CLI composes both inputs,
+records the definition revision and deterministic source fingerprint, and
+previews/applies one effective versioned snapshot. BFF stores and enforces that
+snapshot; it never imports or executes Business code at request time. Legacy
+version-1 snapshots stay readable during the additive migration.
+
+The central sign-in transaction also carries a presentation-only intent
+(`login`, `signup` or `continue`) plus validated product name,
+light/dark/system theme and accent color. Login and signup have identical
+identity behavior. Businesses may render explicit login/signup links or use
+`BffRequireAuth` for protected pages; provider selection always happens on the
+Business-aware Tofler page, not in Business UI copy.
+
 The initial generated `*.convex.site` adapter worked in hosted Chromium and
 Playwright WebKit, but real iPhone Safari returned from login without sending a
 usable cross-site cookie. The retained example therefore exposes the same
@@ -117,6 +134,7 @@ gate.
 - Stable cookie handles avoid cross-tab rotation races while retaining central revocation.
 - Tab-local account tokens support different accounts in different tabs.
 - BFF account invariants and high-risk operations stay authoritative and reusable.
+- Code review captures behavior-changing Business defaults while BFF retains one inspectable effective runtime snapshot and revision history.
 - Technology-first SDK boundaries allow later runtimes without treating Convex as the protocol.
 - Separate deployments and keys prevent an example release from accidentally targeting BFF data.
 

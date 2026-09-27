@@ -57,6 +57,9 @@ export default defineSchema({
     environmentId: v.id('businessEnvironments'),
     publicReference: v.string(),
     purpose: v.union(v.literal('login'), v.literal('ownership_transfer')),
+    intent: v.optional(
+      v.union(v.literal('login'), v.literal('signup'), v.literal('continue')),
+    ),
     status: v.union(
       v.literal('pending_provider'),
       v.literal('provider_completed'),
@@ -131,6 +134,7 @@ export default defineSchema({
     updatedAt: v.number(),
   })
     .index('by_environment_principal', ['environmentId', 'principalId'])
+    .index('by_environment_verified_email', ['environmentId', 'verifiedEmail'])
     .index('by_environment_public_id', ['environmentId', 'publicId'])
     .index('by_environment', ['environmentId']),
   accounts: defineTable({

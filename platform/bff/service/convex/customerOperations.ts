@@ -106,6 +106,9 @@ export const operatorMembershipViewValidator = v.object({
   id: v.string(),
   accountId: v.string(),
   userId: v.string(),
+  userDisplayName: v.string(),
+  userVerifiedEmail: v.string(),
+  accountDisplayName: v.optional(v.string()),
   role: accountRoleValidator,
   createdAt: v.number(),
   updatedAt: v.number(),
@@ -114,6 +117,8 @@ export const operatorMembershipViewValidator = v.object({
 export const operatorSessionViewValidator = v.object({
   id: v.string(),
   userId: v.string(),
+  userDisplayName: v.string(),
+  userVerifiedEmail: v.string(),
   provider: v.union(v.literal('google'), v.literal('development')),
   createdAt: v.number(),
   lastSeenAt: v.number(),
@@ -487,6 +492,8 @@ export const revokeSession = internalMutation({
     return {
       id: session.publicId,
       userId: user.publicId,
+      userDisplayName: user.displayName,
+      userVerifiedEmail: user.verifiedEmail,
       provider: session.provider,
       createdAt: session.createdAt,
       lastSeenAt: session.lastSeenAt,
@@ -800,7 +807,12 @@ export async function paginateCustomerMemberships(
     views.push({
       id: membership.publicId,
       accountId: account.publicId,
+      ...(account.displayName === undefined
+        ? {}
+        : { accountDisplayName: account.displayName }),
       userId: user.publicId,
+      userDisplayName: user.displayName,
+      userVerifiedEmail: user.verifiedEmail,
       role: membership.role,
       createdAt: membership.createdAt,
       updatedAt: membership.updatedAt,
@@ -830,6 +842,8 @@ export async function paginateCustomerSessions(
     views.push({
       id: session.publicId,
       userId: user.publicId,
+      userDisplayName: user.displayName,
+      userVerifiedEmail: user.verifiedEmail,
       provider: session.provider,
       createdAt: session.createdAt,
       lastSeenAt: session.lastSeenAt,

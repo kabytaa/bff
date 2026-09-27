@@ -1,6 +1,6 @@
 import { parseHealthResponse, type HealthResponse } from '@bff/contracts';
 import { api } from '@bff/service-api';
-import { useQuery } from 'convex/react';
+import { usePaginatedQuery, useQuery } from 'convex/react';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { Dashboard, type DashboardModel } from './dashboard';
@@ -39,6 +39,8 @@ export function App({
   const [selectedEnvironmentKey, setSelectedEnvironmentKey] = useState<
     string | undefined
   >();
+  const [userLookup, setUserLookup] = useState('');
+  const [submittedUserLookup, setSubmittedUserLookup] = useState('');
   const { health, error: healthError } = useHealth(siteUrl);
   const operator = useQuery(api.backoffice.currentOperator, {});
   const overview = useQuery(
@@ -51,30 +53,41 @@ export function App({
     operator?.authenticated &&
     operator.authorized &&
     effectiveEnvironmentKey !== undefined
-      ? {
-          environmentKey: effectiveEnvironmentKey,
-          paginationOpts: { cursor: null, numItems: 25 },
-        }
+      ? { environmentKey: effectiveEnvironmentKey }
       : ('skip' as const);
-  const customerUsers = useQuery(
+  const customerUsers = usePaginatedQuery(
     api.customerBackoffice.users,
     customerQueryArgs,
+    { initialNumItems: 25 },
   );
-  const customerAccounts = useQuery(
+  const customerAccounts = usePaginatedQuery(
     api.customerBackoffice.accounts,
     customerQueryArgs,
+    { initialNumItems: 25 },
   );
-  const customerMemberships = useQuery(
+  const customerMemberships = usePaginatedQuery(
     api.customerBackoffice.memberships,
     customerQueryArgs,
+    { initialNumItems: 25 },
   );
-  const customerSessions = useQuery(
+  const customerSessions = usePaginatedQuery(
     api.customerBackoffice.sessions,
     customerQueryArgs,
+    { initialNumItems: 25 },
   );
-  const customerSecurityEvents = useQuery(
+  const customerSecurityEvents = usePaginatedQuery(
     api.customerBackoffice.securityEvents,
     customerQueryArgs,
+    { initialNumItems: 25 },
+  );
+  const matchedCustomerUser = useQuery(
+    api.customerBackoffice.userLookup,
+    customerQueryArgs === 'skip' || submittedUserLookup === ''
+      ? 'skip'
+      : {
+          environmentKey: customerQueryArgs.environmentKey,
+          exact: submittedUserLookup,
+        },
   );
 
   useEffect(() => {
@@ -117,16 +130,31 @@ export function App({
         : {
             customerDetail: {
               loading:
-                customerUsers === undefined ||
-                customerAccounts === undefined ||
-                customerMemberships === undefined ||
-                customerSessions === undefined ||
-                customerSecurityEvents === undefined,
-              users: customerUsers?.page ?? [],
-              accounts: customerAccounts?.page ?? [],
-              memberships: customerMemberships?.page ?? [],
-              sessions: customerSessions?.page ?? [],
-              securityEvents: customerSecurityEvents?.page ?? [],
+                customerUsers.status === 'LoadingFirstPage' ||
+                customerAccounts.status === 'LoadingFirstPage' ||
+                customerMemberships.status === 'LoadingFirstPage' ||
+                customerSessions.status === 'LoadingFirstPage' ||
+                customerSecurityEvents.status === 'LoadingFirstPage',
+              users: customerUsers.results,
+              accounts: customerAccounts.results,
+              memberships: customerMemberships.results,
+              sessions: customerSessions.results,
+              securityEvents: customerSecurityEvents.results,
+              userLookup,
+              submittedUserLookup,
+              ...(matchedCustomerUser === undefined
+                ? {}
+                : { matchedUsers: matchedCustomerUser }),
+              onUserLookupChange: setUserLookup,
+              onUserLookupSubmit: () =>
+                setSubmittedUserLookup(userLookup.trim()),
+              pages: {
+                users: paginationControl(customerUsers),
+                accounts: paginationControl(customerAccounts),
+                memberships: paginationControl(customerMemberships),
+                sessions: paginationControl(customerSessions),
+                securityEvents: paginationControl(customerSecurityEvents),
+              },
             },
           }),
     };
@@ -139,4 +167,15 @@ export function App({
       onSelectEnvironment={setSelectedEnvironmentKey}
     />
   );
+}
+
+function paginationControl(result: {
+  readonly status: string;
+  readonly loadMore: (numItems: number) => void;
+}) {
+  return {
+    hasMore: result.status === 'CanLoadMore',
+    loading: result.status === 'LoadingMore',
+    loadMore: () => result.loadMore(25),
+  };
 }

@@ -1,4 +1,5 @@
 :root {
+  --auth-accent: #314ec6;
   color: #18211b;
   background: #f0f4ee;
   font-family:
@@ -28,7 +29,7 @@ button {
   border-radius: 999px;
   padding: 0.75rem 1.25rem;
   color: #fff;
-  background: #1d5b3b;
+  background: var(--auth-accent);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -63,9 +64,60 @@ button {
   place-items: center;
   border-radius: 0.9rem;
   color: #fff;
-  background: #1d5b3b;
+  background: var(--auth-accent);
   font-size: 1.4rem;
   font-weight: 800;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--auth-accent);
+  font-weight: 700;
+}
+
+.secured-by {
+  margin: 1rem 0 0;
+  color: #738078;
+  font-size: 0.72rem;
+}
+
+.auth-shell[data-theme='dark'] {
+  color: #f7f8fa;
+  background: #12151b;
+}
+
+.auth-shell[data-theme='dark'] .auth-card {
+  border-color: rgb(255 255 255 / 14%);
+  background: rgb(28 32 40 / 96%);
+}
+
+.auth-shell[data-theme='dark'] .description,
+.auth-shell[data-theme='dark'] .status,
+.auth-shell[data-theme='dark'] .privacy-note,
+.auth-shell[data-theme='dark'] .secured-by,
+.auth-shell[data-theme='dark'] .eyebrow {
+  color: #c0c6d2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .auth-shell[data-theme='system'] {
+    color: #f7f8fa;
+    background: #12151b;
+  }
+
+  .auth-shell[data-theme='system'] .auth-card {
+    border-color: rgb(255 255 255 / 14%);
+    background: rgb(28 32 40 / 96%);
+  }
+
+  .auth-shell[data-theme='system'] .description,
+  .auth-shell[data-theme='system'] .status,
+  .auth-shell[data-theme='system'] .privacy-note,
+  .auth-shell[data-theme='system'] .secured-by,
+  .auth-shell[data-theme='system'] .eyebrow {
+    color: #c0c6d2;
+  }
 }
 
 .eyebrow {

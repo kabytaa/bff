@@ -26,7 +26,7 @@
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint projects/example/workloads/web --max-warnings 0"
+        "command": "eslint projects/example/workloads/web projects/example/customer-auth.defaults.ts --max-warnings 0"
       }
     },
     "serve": {

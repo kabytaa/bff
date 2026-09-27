@@ -425,6 +425,12 @@ describe('createBffAuthBrowserClient', () => {
     expect(url.pathname).toBe('/_tofler/auth/login');
     expect(url.searchParams.get('webOrigin')).toBe(webOrigin);
     expect(url.searchParams.get('returnPath')).toBe('/cards?day=today');
+    expect(url.searchParams.get('intent')).toBe('continue');
+    const signupUrl = new URL(
+      auth.getSignInUrl({ returnPath: '/welcome', intent: 'signup' }),
+    );
+    expect(signupUrl.searchParams.get('intent')).toBe('signup');
+    expect(signupUrl.searchParams.get('returnPath')).toBe('/welcome');
     expect(() => auth.getSignInUrl('//attacker.invalid')).toThrow();
     auth.dispose();
   });

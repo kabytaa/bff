@@ -65,7 +65,7 @@ async function startLogin(context: BrowserContext) {
   await expect(
     page.getByRole('complementary', { name: 'Authentication diagnostics' }),
   ).toContainText('No active session');
-  await page.getByRole('link', { name: 'Sign in with Google' }).click();
+  await page.getByRole('link', { name: 'Log in' }).click();
   await page.waitForURL(`${HOSTED_CUSTOMER_AUTH_URL}/**`);
   const location = new URL(page.url());
   const reference = location.searchParams.get('transaction');

@@ -5,7 +5,7 @@ import {
 import { api } from '@example/backend-api';
 import {
   BffAccountSelector,
-  BffSignInButton,
+  BffAuthLink,
   BffSignOutButton,
   useBffAuth,
 } from '@tofler/bff-auth/react';
@@ -210,15 +210,16 @@ export function ExampleApp({
   );
   const actionControl =
     state.status === 'signed_out' ? (
-      <BffSignInButton
+      <BffAuthLink
         className="button"
         returnPath="/"
+        intent="login"
         {...(diagnostics === undefined
           ? {}
           : { onClick: () => diagnostics.markLoginStarted() })}
       >
-        Sign in with Google
-      </BffSignInButton>
+        Log in
+      </BffAuthLink>
     ) : state.status === 'recoverable_error' ? (
       retry
     ) : state.status === 'loading' ? null : (

@@ -23,6 +23,13 @@ const operatorIdentity = {
 
 const configuration: CustomerAuthConfiguration = {
   version: CUSTOMER_AUTH_CONFIGURATION_VERSION,
+  definitionRevision: 1,
+  definitionFingerprint: 'fnv1a64:0000000000000000',
+  presentation: {
+    productName: 'Example',
+    theme: 'system',
+    accentColor: '#314EC6',
+  },
   enabledProviders: ['google'],
   developmentAutomationEnabled: true,
   transport: {
@@ -260,6 +267,21 @@ describe('customer operator lifecycle', () => {
         absoluteExpiresAt: 200_000,
         cleanupAt: 300_000,
       });
+      const secondPrincipalId = await ctx.db.insert('authPrincipals', {
+        createdAt: 1_001,
+      });
+      await ctx.db.insert('businessUsers', {
+        environmentId: environment._id,
+        principalId: secondPrincipalId,
+        publicId: 'user_customeroperations02',
+        verifiedEmail: 'customer@example.invalid',
+        displayName: 'Second customer',
+        firstSignInProvisioningCompletedAt: 1_001,
+        activeMembershipCount: 0,
+        ownedAccountCount: 0,
+        createdAt: 1_001,
+        updatedAt: 1_001,
+      });
     });
 
     const operator = t.withIdentity(operatorIdentity);
@@ -271,6 +293,17 @@ describe('customer operator lifecycle', () => {
       environmentKey: 'example-development',
       paginationOpts: { cursor: null, numItems: 10 },
     });
+    const emailMatches = await operator.query(
+      api.customerBackoffice.userLookup,
+      {
+        environmentKey: 'example-development',
+        exact: 'CUSTOMER@EXAMPLE.INVALID',
+      },
+    );
+    const idMatches = await operator.query(api.customerBackoffice.userLookup, {
+      environmentKey: 'example-development',
+      exact: 'user_customeroperations01',
+    });
     expect(users.page[0]).toMatchObject({
       id: 'user_customeroperations01',
       verifiedEmail: 'customer@example.invalid',
@@ -278,8 +311,13 @@ describe('customer operator lifecycle', () => {
     expect(sessions.page[0]).toMatchObject({
       id: 'session_customeroperations',
       userId: 'user_customeroperations01',
+      userDisplayName: 'Customer Example',
     });
     expect(sessions.page[0]).not.toHaveProperty('handleHash');
+    expect(emailMatches).toHaveLength(2);
+    expect(idMatches.map((user) => user.id)).toEqual([
+      'user_customeroperations01',
+    ]);
 
     const customer = t.withIdentity({
       issuer: 'https://auth-dev.tofler.app',

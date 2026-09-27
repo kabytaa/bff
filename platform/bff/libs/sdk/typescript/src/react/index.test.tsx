@@ -6,6 +6,7 @@ import { createAuthSessionStore, type BffAuthBrowserClient } from '../browser';
 import type { AuthSessionState } from '../core';
 import {
   BffAccountSelector,
+  BffAuthLink,
   BffAuthProvider,
   BffSignInButton,
   BffSignOutButton,
@@ -76,10 +77,15 @@ function fakeClient(initialState: AuthSessionState): BffAuthBrowserClient {
     ),
     getAccessToken: vi.fn(async () => null),
     logout: vi.fn(async () => undefined),
-    getSignInUrl: vi.fn(
-      (returnPath = '/') =>
-        `https://adapter.example/_tofler/auth/login?returnPath=${encodeURIComponent(returnPath)}`,
-    ),
+    getSignInUrl: vi.fn((options = '/') => {
+      const returnPath =
+        typeof options === 'string' ? options : (options.returnPath ?? '/');
+      const intent =
+        typeof options === 'string'
+          ? 'continue'
+          : (options.intent ?? 'continue');
+      return `https://adapter.example/_tofler/auth/login?returnPath=${encodeURIComponent(returnPath)}&intent=${intent}`;
+    }),
     dispose: vi.fn(),
   };
 }
@@ -118,6 +124,9 @@ describe('BffAuthProvider', () => {
         autoBootstrap={false}
       >
         <BffSignInButton returnPath="/cards">Continue</BffSignInButton>
+        <BffAuthLink returnPath="/join" intent="signup">
+          Create account
+        </BffAuthLink>
         <BffAccountSelector label="Workspace" />
         <BffSignOutButton />
       </BffAuthProvider>,
@@ -127,6 +136,7 @@ describe('BffAuthProvider', () => {
       'href="https://adapter.example/_tofler/auth/login',
     );
     expect(markup).toContain('returnPath=%2Fcards');
+    expect(markup).toContain('returnPath=%2Fjoin&amp;intent=signup');
     expect(markup).toContain('<span>Workspace</span>');
     expect(markup).toContain('First workspace');
     expect(markup).toContain('Second workspace');
