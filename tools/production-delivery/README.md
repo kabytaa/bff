@@ -9,6 +9,7 @@ separate from interactive development.
 
 ```bash
 pnpm production:build
+pnpm production:verify-example-target
 pnpm production:smoke
 pnpm nx run production-delivery:test
 ```
@@ -27,6 +28,12 @@ asset metadata and the exact targets embedded in every published JavaScript
 bundle. It never uses a Google token, session cookie or provider deployment
 credential.
 
+`production:verify-example-target` runs only as the command hook of an example
+Convex `deploy --dry-run`. Convex injects the deployment URL selected by
+`EXAMPLE_CONVEX_DEPLOY_KEY`; the command rejects it unless it exactly matches
+`EXPECTED_EXAMPLE_CONVEX_URL`. CI performs this no-upload guard before any
+example environment write.
+
 ## Public inputs
 
 | Name                           | Used by      | Purpose                                                             |
@@ -40,8 +47,8 @@ credential.
 | `EXPECTED_CONVEX_URL`          | build, smoke | BFF production client origin                                        |
 | `BFF_DEPLOY_CONVEX_URL`        | build        | Convex-injected BFF client origin; must equal `EXPECTED_CONVEX_URL` |
 | `EXAMPLE_CONVEX_SITE_URL`      | build, smoke | Separate example production HTTP-action origin                      |
-| `EXAMPLE_SESSION_ADAPTER_URL`  | build, smoke | Fixed `https://api.example.tofler.app` session gateway              |
 | `EXPECTED_EXAMPLE_CONVEX_URL`  | build, smoke | Matching separate example production client origin                  |
+| `EXAMPLE_DEPLOY_CONVEX_URL`    | target guard | Convex-injected example URL; must equal the expected example origin |
 | `GITHUB_SHA`                   | build, smoke | Full 40-character commit expected everywhere                        |
 
 Deployment secrets stay in the GitHub `production` environment and are not

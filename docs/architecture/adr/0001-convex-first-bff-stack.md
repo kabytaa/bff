@@ -10,6 +10,8 @@
 
 > **Support detail superseded 2026-09-26:** The one-message/one-response, no-email support shape recorded below is historical. The canonical [TableCards MVP specification](../../products/tablecards-mvp.md) and [MVP delivery plan](../../factory/mvp-delivery-plan.md) now require a separate Build 5 two-way support conversation with outbound email and correlated inbound replies. BFF/Convex ownership remains accepted; the eventual email/helpdesk bridge still requires its focused design.
 
+> **Customer-session transport clarified 2026-09-27:** [ADR 0004](0004-business-customer-auth-and-accounts.md) adds a narrow Cloudflare gateway for fixed Business session routes after real Safari rejected the generated-domain cookie. Cloudflare still owns no authentication or account logic; Convex and the shared server SDK remain authoritative.
+
 ## Context
 
 BFF needs a reusable backend, public SDK and central backoffice for many small Businesses. The founder's scarce resource is operating time, so the MVP should minimize infrastructure and deployment work without coupling every product to the same technology.

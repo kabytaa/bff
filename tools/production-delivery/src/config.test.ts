@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   ProductionConfigError,
   readBuildConfig,
+  readExampleDeploymentTargetConfig,
   readSmokeConfig,
 } from './config';
 
@@ -91,6 +92,24 @@ describe('production configuration', () => {
         BFF_DEPLOY_CONVEX_URL: 'https://other-otter-789.convex.cloud',
       }),
     ).toThrow(/does not match EXPECTED_CONVEX_URL/u);
+  });
+
+  it('binds the example deploy key target before any environment writes', () => {
+    expect(
+      readExampleDeploymentTargetConfig({
+        EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
+        EXAMPLE_DEPLOY_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
+      }),
+    ).toEqual({
+      exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+      injectedExampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+    });
+    expect(() =>
+      readExampleDeploymentTargetConfig({
+        EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
+        EXAMPLE_DEPLOY_CONVEX_URL: 'https://wrong-otter-789.convex.cloud',
+      }),
+    ).toThrow(/does not match EXPECTED_EXAMPLE_CONVEX_URL/u);
   });
 
   it.each([

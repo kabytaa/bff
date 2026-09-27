@@ -2,7 +2,9 @@
 
 Updated: 2026-09-27.
 
-Status: production tooling prepared; production deployment and real Google/Safari acceptance remain pending.
+Status: production tooling prepared and the same-site development gateway has
+passed real iPhone Safari; production deployment and real Google/Safari
+acceptance remain pending.
 
 This runbook implements [ADR 0004](../architecture/adr/0004-business-customer-auth-and-accounts.md) and extends the release controls in [ADR 0003](../architecture/adr/0003-production-delivery.md). Never place deploy keys, private JWKs, Google credentials, session handles or JWTs in git, chat, command output or browser artifacts.
 
@@ -116,7 +118,18 @@ git diff --check
 pnpm exec nx run production-delivery:test
 ```
 
-Supply the public production variables plus `GITHUB_SHA` and set `BFF_DEPLOY_CONVEX_URL` to the same value as `CONVEX_URL`. Then run `pnpm production:build`. It builds and audits all three static surfaces and writes a non-secret `build-metadata.json` containing the exact SHA to each output directory.
+Supply the public production variables plus `GITHUB_SHA`, then map the GitHub
+variable names to the process-level target guards before running
+`pnpm production:build`:
+
+```bash
+export EXPECTED_CONVEX_URL="$CONVEX_URL"
+export EXPECTED_EXAMPLE_CONVEX_URL="$EXAMPLE_CONVEX_URL"
+export BFF_DEPLOY_CONVEX_URL="$CONVEX_URL"
+```
+
+The build audits all three static surfaces and writes a non-secret
+`build-metadata.json` containing the exact SHA to each output directory.
 
 With each scoped deploy key supplied only to its matching command, rehearse both backends:
 
@@ -145,11 +158,13 @@ After the normal `pnpm check` validation job, the production job:
 
 1. preflights every URL, separate deployment pair, static build and production bundle before mutation;
 2. deploys the BFF and stamps `BFF_BUILD_VERSION` with `GITHUB_SHA`;
-3. configures only the example deployment's public trust/transport values using its own working directory and deploy key;
-4. deploys the example backend and stamps `EXAMPLE_BUILD_VERSION` with the same SHA;
-5. deploys the gateway with the exact example HTTP origin as its fixed upstream;
-6. publishes backoffice, customer-auth and example assets built from that SHA; and
-7. runs the expanded anonymous production smoke.
+3. uses a no-upload Convex deploy hook to verify the example deploy key resolves
+   to `EXPECTED_EXAMPLE_CONVEX_URL` before any example environment write;
+4. configures only that verified example deployment's public trust/transport values using its own working directory and deploy key;
+5. deploys the example backend and stamps `EXAMPLE_BUILD_VERSION` with the same SHA;
+6. deploys the gateway with the exact example HTTP origin as its fixed upstream;
+7. publishes backoffice, customer-auth and example assets built from that SHA; and
+8. runs the expanded anonymous production smoke.
 
 BFF/JWKS publication precedes example trust. No example command runs from the repository-root BFF Convex configuration, and no BFF command receives the example deploy key.
 
@@ -163,6 +178,8 @@ BFF/JWKS publication precedes example trust. No example command runs from the re
 - example `/v1/health` reports the exact same SHA;
 - unauthenticated example `/v1/context` returns `401`;
 - unauthenticated gateway `/_tofler/auth/context` returns `401` through Convex;
+- direct and gateway preflights return the exact approved CORS contract, the
+  gateway denial is credentialed and gateway `/v1/context` remains `404`;
 - gateway health reports the exact release SHA;
 - all three static surfaces return the expected CSP, no-store, anti-frame, nosniff and no-index headers;
 - every `build-metadata.json` matches the exact SHA/surface; and

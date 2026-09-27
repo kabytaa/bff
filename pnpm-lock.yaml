@@ -352,7 +352,11 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
 
-  projects/example/session-gateway: {}
+  projects/example/session-gateway:
+    dependencies:
+      '@tofler/bff-auth':
+        specifier: workspace:*
+        version: link:../../../platform/bff/libs/sdk/typescript
 
   projects/example/workloads/web:
     dependencies:

@@ -162,12 +162,30 @@ async function assertExpectedStatus(
   url: string,
   expectedStatus: number,
   init?: RequestInit,
-): Promise<void> {
+): Promise<Response> {
   const result = await request(fetcher, url, init);
   if (result.status !== expectedStatus) {
     throw new Error(
       `${new URL(url).hostname} returned HTTP ${result.status}; expected ${expectedStatus}.`,
     );
+  }
+  return result;
+}
+
+function assertCorsHeaders(
+  response: Response,
+  origin: string,
+  credentials: boolean,
+): void {
+  if (response.headers.get('access-control-allow-origin') !== origin) {
+    throw new Error('Access-Control-Allow-Origin does not match the example.');
+  }
+  assertIncludes(response.headers.get('vary'), 'Origin', 'Vary');
+  if (
+    credentials &&
+    response.headers.get('access-control-allow-credentials') !== 'true'
+  ) {
+    throw new Error('Credentialed CORS is not enabled.');
   }
 }
 
@@ -215,13 +233,26 @@ export async function checkProductionOnce(
   ) {
     throw new Error('Example backend health does not match the release.');
   }
-  await assertExpectedStatus(
+  const exampleDenial = await assertExpectedStatus(
     fetcher,
     new URL('/v1/context', config.exampleConvexSiteUrl).href,
     401,
     { headers: { origin: config.exampleWebUrl } },
   );
-  await assertExpectedStatus(
+  assertCorsHeaders(exampleDenial, config.exampleWebUrl, false);
+  const examplePreflight = await assertExpectedStatus(
+    fetcher,
+    new URL('/v1/context', config.exampleConvexSiteUrl).href,
+    204,
+    { method: 'OPTIONS', headers: { origin: config.exampleWebUrl } },
+  );
+  assertCorsHeaders(examplePreflight, config.exampleWebUrl, false);
+  assertIncludes(
+    examplePreflight.headers.get('access-control-allow-headers'),
+    'Authorization',
+    'Access-Control-Allow-Headers',
+  );
+  const gatewayDenial = await assertExpectedStatus(
     fetcher,
     new URL('/_tofler/auth/context', config.exampleSessionAdapterUrl).href,
     401,
@@ -234,6 +265,31 @@ export async function checkProductionOnce(
       },
       body: '{}',
     },
+  );
+  assertCorsHeaders(gatewayDenial, config.exampleWebUrl, true);
+  const gatewayPreflight = await assertExpectedStatus(
+    fetcher,
+    new URL('/_tofler/auth/context', config.exampleSessionAdapterUrl).href,
+    204,
+    {
+      method: 'OPTIONS',
+      headers: {
+        origin: config.exampleWebUrl,
+        'access-control-request-method': 'POST',
+        'access-control-request-headers': 'content-type, x-tofler-csrf',
+      },
+    },
+  );
+  assertCorsHeaders(gatewayPreflight, config.exampleWebUrl, true);
+  assertIncludes(
+    gatewayPreflight.headers.get('access-control-allow-headers'),
+    'X-Tofler-CSRF',
+    'Access-Control-Allow-Headers',
+  );
+  await assertExpectedStatus(
+    fetcher,
+    new URL('/v1/context', config.exampleSessionAdapterUrl).href,
+    404,
   );
   const gatewayHealthResponse = await successfulResponse(
     fetcher,

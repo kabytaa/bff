@@ -1,7 +1,7 @@
 import {
   currentCustomerViewSchema,
   customerContextClaimsSchema,
-} from '@bff/contracts';
+} from '@tofler/bff-auth/core';
 import { api } from '@example/backend-api';
 import {
   BffAccountSelector,
@@ -10,7 +10,6 @@ import {
   useBffAuth,
 } from '@tofler/bff-auth/react';
 import { useQuery } from 'convex/react';
-import type { FunctionReference } from 'convex/server';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { z } from 'zod';
 
@@ -56,21 +55,6 @@ interface RemoteEvidence {
   readonly http?: ContextEvidence;
 }
 
-interface NativeContextResult extends ContextEvidence {
-  readonly membershipId: string;
-  readonly permissions: string[];
-  readonly sessionId: string;
-}
-
-const currentContextQuery = api['currentContext']?.[
-  'currentContext'
-] as FunctionReference<
-  'query',
-  'public',
-  Record<string, never>,
-  NativeContextResult
->;
-
 async function readJson(response: Response): Promise<unknown> {
   const body: unknown = await response.json();
   if (!response.ok)
@@ -91,7 +75,7 @@ export function ExampleApp({
 }) {
   const { client, snapshot, state } = useBffAuth();
   const nativeContext = useQuery(
-    currentContextQuery,
+    api.currentContext.currentContext,
     state.status === 'authenticated' ? {} : 'skip',
   );
   const [remote, setRemote] = useState<RemoteEvidence>({});

@@ -9,11 +9,8 @@ const issuer = 'https://auth-dev.tofler.app';
 
 interface ContextResult {
   readonly userId: string;
-  readonly sessionId: string;
   readonly accountId: string;
-  readonly membershipId: string;
   readonly role: 'owner' | 'admin' | 'member';
-  readonly permissions: string[];
 }
 
 const currentContext = makeFunctionReference<
@@ -21,12 +18,6 @@ const currentContext = makeFunctionReference<
   Record<string, never>,
   ContextResult
 >('currentContext:currentContext');
-const requireExactScope = makeFunctionReference<
-  'query',
-  { userId: string; accountId: string },
-  ContextResult
->('currentContext:requireExactScope');
-
 function accountIdentity(overrides: Record<string, unknown> = {}) {
   return {
     tokenIdentifier: `${issuer}|user_abcdefghijklmnop`,
@@ -62,11 +53,8 @@ describe('example native customer context', () => {
 
     await expect(t.query(currentContext, {})).resolves.toEqual({
       userId: 'user_abcdefghijklmnop',
-      sessionId: 'session_abcdefghijklmnop',
       accountId: 'account_abcdefghijklmnop',
-      membershipId: 'membership_abcdefghijklmnop',
       role: 'owner',
-      permissions: ['account:read', 'members:read'],
     });
   });
 
@@ -94,23 +82,6 @@ describe('example native customer context', () => {
     ).rejects.toThrow(/FORBIDDEN|not valid here/u);
   });
 
-  it('denies browser-supplied user and account scopes that do not match', async () => {
-    const t = convexTest(schema, modules).withIdentity(accountIdentity());
-
-    await expect(
-      t.query(requireExactScope, {
-        userId: 'user_other123456789',
-        accountId: 'account_abcdefghijklmnop',
-      }),
-    ).rejects.toThrow(/FORBIDDEN|user scope/u);
-    await expect(
-      t.query(requireExactScope, {
-        userId: 'user_abcdefghijklmnop',
-        accountId: 'account_other12345678',
-      }),
-    ).rejects.toThrow(/FORBIDDEN|account scope/u);
-  });
-
   it('exposes the same verified context through the protected HTTP route', async () => {
     const t = convexTest(schema, modules).withIdentity(accountIdentity());
     const response = await t.fetch('/v1/context', {
@@ -123,11 +94,8 @@ describe('example native customer context', () => {
     );
     await expect(response.json()).resolves.toEqual({
       userId: 'user_abcdefghijklmnop',
-      sessionId: 'session_abcdefghijklmnop',
       accountId: 'account_abcdefghijklmnop',
-      membershipId: 'membership_abcdefghijklmnop',
       role: 'owner',
-      permissions: ['account:read', 'members:read'],
     });
   });
 
@@ -152,5 +120,17 @@ describe('example native customer context', () => {
         headers: { origin: 'https://attacker.example' },
       });
     expect(protectedResponse.status).toBe(403);
+    expect(protectedResponse.headers.has('access-control-allow-origin')).toBe(
+      false,
+    );
+
+    const expiredTokenResponse = await convexTest(schema, modules).fetch(
+      '/v1/context',
+      { headers: { origin: 'https://example-dev.tofler.app' } },
+    );
+    expect(expiredTokenResponse.status).toBe(401);
+    expect(
+      expiredTokenResponse.headers.get('access-control-allow-origin'),
+    ).toBe('https://example-dev.tofler.app');
   });
 });

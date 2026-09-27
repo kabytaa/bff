@@ -1,4 +1,9 @@
-import type { Auth, AuthConfig, UserIdentity } from 'convex/server';
+import type {
+  Auth,
+  AuthConfig,
+  RoutableMethod,
+  UserIdentity,
+} from 'convex/server';
 import { ConvexError } from 'convex/values';
 import { z } from 'zod';
 
@@ -13,7 +18,10 @@ import {
   type AccountRole,
 } from '../../core';
 
-export { createConvexBffAuthHttpAction } from './http';
+export {
+  createConvexBffAuthHttpAction,
+  mountConvexBffAuthRoutes,
+} from './http';
 
 const environmentKeySchema = z
   .string()
@@ -97,6 +105,11 @@ export interface BffConvexGuardOptions {
 export interface BffConvexAccountGuardOptions extends BffConvexGuardOptions {
   readonly accountId?: string;
   readonly permission?: AccountPermission;
+}
+
+export interface BffConvexHttpActionOptions extends BffConvexAccountGuardOptions {
+  readonly webOrigins: readonly string[];
+  readonly allowedMethods?: readonly Exclude<RoutableMethod, 'OPTIONS'>[];
 }
 
 export interface BffConvexOnboardingContext {
@@ -300,22 +313,84 @@ function isBffAuthError(
   );
 }
 
+function appendVary(headers: Headers, value: string): void {
+  const existing = headers.get('vary');
+  const values = new Set(
+    (existing ?? '')
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean),
+  );
+  values.add(value);
+  headers.set('vary', [...values].join(', '));
+}
+
+function corsResponse(response: Response, origin: string): Response {
+  const headers = new Headers(response.headers);
+  headers.set('access-control-allow-origin', origin);
+  headers.set('cache-control', 'no-store');
+  headers.set('referrer-policy', 'no-referrer');
+  headers.set('x-content-type-options', 'nosniff');
+  appendVary(headers, 'Origin');
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export function withBffAccountHttpAction<Context extends BffConvexAuthContext>(
-  options: BffConvexAccountGuardOptions,
+  options: BffConvexHttpActionOptions,
   handler: (
     ctx: Context,
     request: Request,
     auth: BffConvexAccountContext,
   ) => Promise<Response> | Response,
 ) {
+  const webOrigins = new Set(options.webOrigins.map(normalizeHttpsOrigin));
+  if (webOrigins.size === 0) {
+    throw new Error('At least one web origin is required');
+  }
+  const allowedMethods = options.allowedMethods ?? ['GET'];
+  if (
+    allowedMethods.length === 0 ||
+    new Set(allowedMethods).size !== allowedMethods.length
+  ) {
+    throw new Error('At least one unique HTTP method is required');
+  }
   return async (ctx: Context, request: Request): Promise<Response> => {
+    const origin = request.headers.get('origin');
+    if (!origin || !webOrigins.has(origin)) {
+      return Response.json(
+        { error: { code: 'FORBIDDEN', message: 'Origin is not allowed' } },
+        { status: 403 },
+      );
+    }
+    if (request.method === 'OPTIONS') {
+      return corsResponse(
+        new Response(null, {
+          status: 204,
+          headers: {
+            'access-control-allow-headers': 'Authorization',
+            'access-control-allow-methods': [...allowedMethods, 'OPTIONS'].join(
+              ', ',
+            ),
+            'access-control-max-age': '600',
+          },
+        }),
+        origin,
+      );
+    }
     try {
       const auth = await requireBffConvexAccountContext(ctx, options);
-      return await handler(ctx, request, auth);
+      return corsResponse(await handler(ctx, request, auth), origin);
     } catch (error) {
       if (!isBffAuthError(error)) throw error;
       const status = error.data.code === 'UNAUTHENTICATED' ? 401 : 403;
-      return Response.json({ error: error.data }, { status });
+      return corsResponse(
+        Response.json({ error: error.data }, { status }),
+        origin,
+      );
     }
   };
 }

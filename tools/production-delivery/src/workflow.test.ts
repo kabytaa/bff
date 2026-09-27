@@ -39,6 +39,11 @@ describe('production workflow credential boundaries', () => {
     const bffStamp = step(
       workflow,
       'Stamp the deployed BFF version',
+      'Verify the separate example production target',
+    );
+    const exampleTarget = step(
+      workflow,
+      'Verify the separate example production target',
       'Configure the separate example production deployment',
     );
     const exampleConfigure = step(
@@ -56,10 +61,15 @@ describe('production workflow credential boundaries', () => {
       expect(section).toContain('secrets.CONVEX_DEPLOY_KEY');
       expect(section).not.toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
     }
-    for (const section of [exampleConfigure, exampleDeploy]) {
+    for (const section of [exampleTarget, exampleConfigure, exampleDeploy]) {
       expect(section).toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
       expect(section).not.toContain('secrets.CONVEX_DEPLOY_KEY }}');
     }
+    expect(exampleTarget).toContain('convex deploy --dry-run');
+    expect(exampleTarget).toContain(
+      '--cmd-url-env-var-name EXAMPLE_DEPLOY_CONVEX_URL',
+    );
+    expect(exampleTarget).not.toContain('convex env set');
   });
 
   it('scopes the Cloudflare token to gateway and static publication only', async () => {

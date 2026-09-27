@@ -64,6 +64,12 @@ validate, issue or revoke cookies or tokens. Product `/v1/*` and native Convex
 traffic remain direct. This makes the cookie same-site while preserving the SDK
 and allowing a later direct Convex custom domain by configuration alone.
 
+“Opaque” describes the gateway application contract, not cryptographic
+invisibility: Cloudflare terminates TLS and is part of the credential transport
+trust path. The generated Convex upstream remains public by design because the
+gateway is not an authorization or WAF boundary; the SDK at the origin still
+enforces transaction binding, Origin/CSRF, session and token validity.
+
 ### Accounts and policy
 
 There is no permanent accountless product mode. A successfully authenticated user without membership is `onboarding_required` until an account is created or joined.
@@ -76,7 +82,11 @@ Build 2 implements active accounts, invitations and protected ownership transfer
 
 ### SDK structure
 
-The first implementation is one `@tofler/bff-auth` TypeScript SDK with hard `core`, `browser`, `react`, `server` and `adapters/convex` entrypoints. Browser imports cannot pull server cookies, crypto, secrets or BFF generated code.
+The first implementation is one `@tofler/bff-auth` TypeScript SDK with hard
+public `core`, `routes`, `browser`, `react`, `server`, `convex/client` and
+`convex/server` exports. The Convex exports are backed by the internal
+`src/adapters/convex/` implementation. Browser imports cannot pull server
+cookies, crypto, secrets or BFF generated code.
 
 The server core uses Fetch `Request`/`Response` and Web Crypto. Convex is the first thin runtime adapter. A later Node.js framework adapter belongs in the same TypeScript family. Swift, Kotlin/Android, Go and Rust become sibling technology SDKs implementing the same versioned wire contracts and platform-appropriate secure storage; their folders are not scaffolded until a real caller exists.
 
@@ -139,4 +149,5 @@ gate.
 - Convex scenarios cover concurrent bootstrap, sessions, accounts, invitations, transfer, authorization, retention and denial cases.
 - Local HTTPS browser tests cover callbacks, cookies, reload, renewal, independent tabs, logout and wrong origins.
 - Hosted development passed the full real ten-minute lifecycle in Chromium and WebKit against separate live BFF/example deployments, while the existing operator hosted smoke remained green.
+- Real iPhone Safari passed that development lifecycle after the adapter moved to the same-site gateway.
 - Production completion additionally requires the expanded release smoke and Andrew's real Google/Safari lifecycle with backoffice evidence.

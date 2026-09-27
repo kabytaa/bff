@@ -3,14 +3,27 @@
 This Cloudflare Worker is a deliberately narrow transport adapter for the
 retained example's cookie-backed authentication routes. The browser uses
 `api.example-dev.tofler.app` (or `api.example.tofler.app` in production), while
-the Worker forwards only the fixed `/_tofler/auth/*` route set to one configured
-Convex `*.convex.site` origin.
+the Worker forwards only the fixed SDK route manifest to one configured Convex
+`*.convex.site` origin:
 
-The gateway contains no authentication or session policy. It does not decode,
-validate, rewrite or log the opaque session cookie. Convex and
+- `GET /_tofler/auth/login`
+- `GET /_tofler/auth/callback`
+- `POST|OPTIONS /_tofler/auth/context`
+- `POST|OPTIONS /_tofler/auth/logout`
+- `POST|OPTIONS /_tofler/auth/transfer/start`
+
+The gateway contains no authentication or session policy. Its application code
+treats credentials as opaque bytes: it does not decode, validate, rewrite or
+log the session cookie. Cloudflare terminates TLS and is therefore in the
+credential transport trust path; “opaque” does not mean Cloudflare is
+cryptographically unable to observe traffic. Convex and
 `@tofler/bff-auth/server` remain responsible for login, callback exchange,
 cookies, CSRF/CORS, renewal and logout. Product `/v1/*` and native Convex calls
 continue directly to Convex; this Worker is not a general API proxy.
+The generated Convex upstream remains publicly reachable, which is safe here
+because the gateway is neither an authorization boundary nor a WAF: the SDK at
+the origin still validates transaction binding, exact Origin, CSRF, session and
+token state.
 The only non-session route is the no-store deployment marker at
 `/_tofler/session-gateway/health`.
 

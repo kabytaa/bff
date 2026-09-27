@@ -75,6 +75,14 @@ jobs:
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
         run: pnpm exec convex env set BFF_BUILD_VERSION "$GITHUB_SHA"
+      - name: Verify the separate example production target
+        working-directory: projects/example/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.EXAMPLE_CONVEX_DEPLOY_KEY }}
+        run: >-
+          pnpm exec convex deploy --dry-run
+          --cmd "pnpm --dir ../../.. production:verify-example-target"
+          --cmd-url-env-var-name EXAMPLE_DEPLOY_CONVEX_URL
       - name: Configure the separate example production deployment
         working-directory: projects/example/backend
         env:

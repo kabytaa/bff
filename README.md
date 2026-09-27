@@ -10,6 +10,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 - [ADR 0001 — Convex-first BFF stack](docs/architecture/adr/0001-convex-first-bff-stack.md)
 - [ADR 0002 — Business environments and operator authentication](docs/architecture/adr/0002-business-environments-and-operator-auth.md)
 - [ADR 0003 — Production delivery](docs/architecture/adr/0003-production-delivery.md)
+- [ADR 0004 — Business customer authentication and accounts](docs/architecture/adr/0004-business-customer-auth-and-accounts.md)
 - [MVP delivery plan — Codex and manual work](docs/factory/mvp-delivery-plan.md)
 - [TableCards MVP product specification](docs/products/tablecards-mvp.md)
 - [Provider accounts, access and secrets](docs/operations/provider-accounts-and-secrets.md)
@@ -17,6 +18,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 - [Build 1 hosted verification](docs/operations/build-1-hosted-verification.md)
 - [Development authenticated dashboard smoke](docs/operations/development-authenticated-smoke.md)
 - [Production delivery](docs/operations/production-delivery.md)
+- [Build 2 customer authentication](docs/operations/build-2-customer-auth.md)
 - [Research source map and reconciliation](docs/research/source-map.md)
 - [First Business Project brainstorm](.agent/brainstorms/260921-first-business-project.md)
 
@@ -26,4 +28,4 @@ The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server 
 
 Deployment-invariant, non-secret BFF identifiers live in the internal `bff-static-config` library. Credentials and values that actually vary by deployment remain external configuration.
 
-Build 1 is complete in development and production. See [the current handoff](STATUS.md) for the exact state and active enhancement.
+Build 1 is complete in development and production. Build 2 customer authentication and accounts are in production acceptance. See [the current handoff](STATUS.md) for the exact state and active work.

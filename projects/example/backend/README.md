@@ -22,10 +22,12 @@ deployment:
 
 Run `pnpm exec nx run example-backend:test-integration` for the authorization
 scenarios and `pnpm exec nx run example-backend:typecheck` for its generated
-consumer boundary. The backend mounts the shared session adapter at
-`/_tofler/auth/*`, exposes one protected `/v1/context` reference endpoint and
-one anonymous no-store `/v1/health` endpoint, and stores no Business session
-table. It does not use the BFF service's generated API.
+consumer boundary. The backend mounts the complete shared session adapter with
+one `mountConvexBffAuthRoutes` call, exposes one SDK-guarded `/v1/context`
+reference endpoint and one anonymous no-store `/v1/health` endpoint, and stores
+no Business session table. The protected HTTP wrapper owns exact-origin
+preflight and error CORS. The Business does not copy cookie, route-table or
+auth-error logic and does not use the BFF service's generated API.
 
 Run every Convex CLI command for this backend from
 `projects/example/backend`. Its `convex.json`, generated API, project and deploy

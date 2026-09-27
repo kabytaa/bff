@@ -18,6 +18,7 @@ export {
   customerContextClaimsSchema,
   customerSessionContextResponseSchema,
   customerSessionLogoutResponseSchema,
+  currentCustomerViewSchema,
   deriveCustomerAuthCallbackUrl,
   normalizeHttpsOrigin,
   onboardingContextClaimsSchema,
@@ -34,6 +35,7 @@ export {
   type CustomerContextClaims,
   type CustomerSessionContextResponse,
   type CustomerSessionLogoutResponse,
+  type CurrentCustomerView,
   type OnboardingContextClaims,
 } from '@bff/contracts';
 

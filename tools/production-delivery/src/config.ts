@@ -30,6 +30,11 @@ export interface BuildConfig extends ProductionConfig {
   injectedBffConvexUrl: string;
 }
 
+export interface ExampleDeploymentTargetConfig {
+  exampleConvexUrl: string;
+  injectedExampleConvexUrl: string;
+}
+
 export type SmokeConfig = ProductionConfig;
 
 function required(environment: NodeJS.ProcessEnv, name: string): string {
@@ -218,4 +223,25 @@ export function readSmokeConfig(
   environment: NodeJS.ProcessEnv = process.env,
 ): SmokeConfig {
   return commonConfig(environment);
+}
+
+export function readExampleDeploymentTargetConfig(
+  environment: NodeJS.ProcessEnv = process.env,
+): ExampleDeploymentTargetConfig {
+  const exampleConvexUrl = httpsOrigin(
+    environment,
+    'EXPECTED_EXAMPLE_CONVEX_URL',
+    '.convex.cloud',
+  );
+  const injectedExampleConvexUrl = httpsOrigin(
+    environment,
+    'EXAMPLE_DEPLOY_CONVEX_URL',
+    '.convex.cloud',
+  );
+  if (injectedExampleConvexUrl !== exampleConvexUrl) {
+    throw new ProductionConfigError(
+      'EXAMPLE_DEPLOY_CONVEX_URL does not match EXPECTED_EXAMPLE_CONVEX_URL.',
+    );
+  }
+  return { exampleConvexUrl, injectedExampleConvexUrl };
 }

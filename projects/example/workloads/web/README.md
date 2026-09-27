@@ -34,7 +34,7 @@ only `/_tofler/auth/*` to Convex, so its Business-owned host receives the
 opaque cookie without moving authentication logic into Cloudflare. Native
 Convex and protected `/v1/*` calls remain direct.
 
-Build with the four reviewed `VITE_*` values above, verify the output, then use
+Build with the six reviewed `VITE_*` values above, verify the output, then use
 the repository configuration explicitly:
 
 ```sh

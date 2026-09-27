@@ -1,3 +1,5 @@
+import { CUSTOMER_SESSION_ADAPTER_ROUTES } from '@tofler/bff-auth/routes';
+
 interface SessionGatewayEnvironment {
   readonly BUILD_VERSION?: string;
   readonly UPSTREAM_ORIGIN?: string;
@@ -8,13 +10,12 @@ type GatewayFetch = (
   init?: RequestInit,
 ) => Promise<Response>;
 
-const SESSION_ROUTES = new Map<string, ReadonlySet<string>>([
-  ['/_tofler/auth/login', new Set(['GET'])],
-  ['/_tofler/auth/callback', new Set(['GET'])],
-  ['/_tofler/auth/context', new Set(['OPTIONS', 'POST'])],
-  ['/_tofler/auth/logout', new Set(['OPTIONS', 'POST'])],
-  ['/_tofler/auth/transfer/start', new Set(['OPTIONS', 'POST'])],
-]);
+const SESSION_ROUTES = new Map<string, Set<string>>();
+for (const route of CUSTOMER_SESSION_ADAPTER_ROUTES) {
+  const methods = SESSION_ROUTES.get(route.path) ?? new Set<string>();
+  methods.add(route.method);
+  SESSION_ROUTES.set(route.path, methods);
+}
 
 function gatewayError(status: number, message: string): Response {
   return Response.json(
@@ -83,7 +84,7 @@ export async function handleSessionGatewayRequest(
   }
   if (!methods.has(request.method)) {
     const response = gatewayError(405, 'Method not allowed.');
-    response.headers.set('allow', [...methods].join(', '));
+    response.headers.set('allow', [...methods].sort().join(', '));
     return response;
   }
 

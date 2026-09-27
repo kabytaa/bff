@@ -1,6 +1,6 @@
 # Future Architecture Ideas
 
-Updated: 2026-09-26.
+Updated: 2026-09-27.
 
 ## Purpose
 
@@ -55,7 +55,7 @@ When a real caller or requirement triggers an entry:
 
 ## Custom-domain edge protection and operational monitoring
 
-**Status:** Deferred idea; the current MVP uses the generated Convex domain, bounded application-level rate limiting and no DDoS-specific telemetry or alerting.
+**Status:** Deferred operational-hardening idea. The current MVP uses a narrow Cloudflare gateway only for same-site customer-session routes, keeps product/native Convex traffic direct to the generated origin, uses bounded application-level rate limiting and adds no DDoS-specific telemetry or alerting. The gateway is not currently a WAF or origin-authentication boundary.
 
 **Source:** [Build 2 Shared MVP brainstorm](../../.agent/brainstorms/260926-build-2-shared-mvp.md)
 

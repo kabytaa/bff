@@ -226,22 +226,68 @@ describe('Convex account guards', () => {
 
   it('returns bounded HTTP auth failures and a typed successful context', async () => {
     const handler = withBffAccountHttpAction(
-      { issuer, environmentKey },
+      {
+        issuer,
+        environmentKey,
+        webOrigins: ['https://business.example'],
+        allowedMethods: ['GET'],
+      },
       async (_ctx, _request, auth) =>
         Response.json({ accountId: auth.accountId }),
     );
-    const request = new Request('https://backend.example/protected');
+    const request = new Request('https://backend.example/protected', {
+      headers: { origin: 'https://business.example' },
+    });
 
     const unauthorized = await handler(authContext(null), request);
     expect(unauthorized.status).toBe(401);
+    expect(unauthorized.headers.get('access-control-allow-origin')).toBe(
+      'https://business.example',
+    );
     expect(await unauthorized.json()).toMatchObject({
       error: { code: 'UNAUTHENTICATED' },
     });
 
+    const forbidden = await handler(
+      authContext(identity({ environmentKey: 'other-development' })),
+      request,
+    );
+    expect(forbidden.status).toBe(403);
+    expect(forbidden.headers.get('access-control-allow-origin')).toBe(
+      'https://business.example',
+    );
+
     const allowed = await handler(authContext(identity()), request);
     expect(allowed.status).toBe(200);
+    expect(allowed.headers.get('access-control-allow-origin')).toBe(
+      'https://business.example',
+    );
     expect(await allowed.json()).toEqual({
       accountId: 'account_abcdefghijklmnop',
     });
+
+    const preflight = await handler(
+      authContext(null),
+      new Request('https://backend.example/protected', {
+        method: 'OPTIONS',
+        headers: { origin: 'https://business.example' },
+      }),
+    );
+    expect(preflight.status).toBe(204);
+    expect(preflight.headers.get('access-control-allow-origin')).toBe(
+      'https://business.example',
+    );
+    expect(preflight.headers.get('access-control-allow-headers')).toBe(
+      'Authorization',
+    );
+
+    const deniedOrigin = await handler(
+      authContext(identity()),
+      new Request('https://backend.example/protected', {
+        headers: { origin: 'https://attacker.example' },
+      }),
+    );
+    expect(deniedOrigin.status).toBe(403);
+    expect(deniedOrigin.headers.has('access-control-allow-origin')).toBe(false);
   });
 });

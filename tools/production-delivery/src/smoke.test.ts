@@ -57,7 +57,20 @@ function exampleHealthy(version = config.commitSha): Response {
   });
 }
 
-function routes(): Map<string, () => Response> {
+type RouteResponder = (
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) => Response;
+
+function corsHeaders(credentials = false): HeadersInit {
+  return {
+    'access-control-allow-origin': config.exampleWebUrl,
+    ...(credentials ? { 'access-control-allow-credentials': 'true' } : {}),
+    vary: 'Origin',
+  };
+}
+
+function routes(): Map<string, RouteResponder> {
   return new Map([
     [`${config.bffConvexSiteUrl}/v1/health`, () => healthy()],
     [
@@ -82,11 +95,41 @@ function routes(): Map<string, () => Response> {
     [`${config.exampleConvexSiteUrl}/v1/health`, () => exampleHealthy()],
     [
       `${config.exampleConvexSiteUrl}/v1/context`,
-      () => new Response('unauthenticated', { status: 401 }),
+      (_input: RequestInfo | URL, init?: RequestInit) =>
+        init?.method === 'OPTIONS'
+          ? new Response(null, {
+              status: 204,
+              headers: {
+                ...corsHeaders(),
+                'access-control-allow-headers': 'Authorization',
+                'access-control-allow-methods': 'GET, OPTIONS',
+              },
+            })
+          : new Response('unauthenticated', {
+              status: 401,
+              headers: corsHeaders(),
+            }),
     ],
     [
       `${config.exampleSessionAdapterUrl}/_tofler/auth/context`,
-      () => new Response('unauthenticated', { status: 401 }),
+      (_input: RequestInfo | URL, init?: RequestInit) =>
+        init?.method === 'OPTIONS'
+          ? new Response(null, {
+              status: 204,
+              headers: {
+                ...corsHeaders(true),
+                'access-control-allow-headers': 'Content-Type, X-Tofler-CSRF',
+                'access-control-allow-methods': 'POST, OPTIONS',
+              },
+            })
+          : new Response('unauthenticated', {
+              status: 401,
+              headers: corsHeaders(true),
+            }),
+    ],
+    [
+      `${config.exampleSessionAdapterUrl}/v1/context`,
+      () => new Response('not found', { status: 404 }),
     ],
     [
       `${config.exampleSessionAdapterUrl}/_tofler/session-gateway/health`,
@@ -158,10 +201,10 @@ function routes(): Map<string, () => Response> {
 }
 
 function createFetcher(
-  overrides: ReadonlyMap<string, () => Response> = new Map(),
+  overrides: ReadonlyMap<string, RouteResponder> = new Map(),
 ): ReturnType<typeof vi.fn<Fetcher>> {
   const available = new Map([...routes(), ...overrides]);
-  return vi.fn<Fetcher>(async (input) => {
+  return vi.fn<Fetcher>(async (input, init) => {
     const url =
       typeof input === 'string'
         ? input
@@ -170,7 +213,7 @@ function createFetcher(
           : input.url;
     const route = available.get(new URL(url).href);
     if (!route) return new Response('missing test route', { status: 500 });
-    return route();
+    return route(input, init);
   });
 }
 
@@ -198,6 +241,14 @@ describe('production smoke', () => {
           'x-tofler-csrf': '1',
         }),
       }),
+    );
+    expect(fetcher).toHaveBeenCalledWith(
+      `${config.exampleSessionAdapterUrl}/_tofler/auth/context`,
+      expect.objectContaining({ method: 'OPTIONS' }),
+    );
+    expect(fetcher).toHaveBeenCalledWith(
+      `${config.exampleSessionAdapterUrl}/v1/context`,
+      expect.anything(),
     );
   });
 

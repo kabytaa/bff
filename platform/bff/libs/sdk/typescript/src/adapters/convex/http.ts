@@ -1,6 +1,11 @@
-import { httpActionGeneric, type PublicHttpAction } from 'convex/server';
+import {
+  httpActionGeneric,
+  type HttpRouter,
+  type PublicHttpAction,
+} from 'convex/server';
 
 import { createBffAuthServer, type BffAuthServerOptions } from '../../server';
+import { CUSTOMER_SESSION_ADAPTER_ROUTES } from '../../routes';
 
 /**
  * Creates one stateless Convex HTTP action for the Business-owned session
@@ -17,4 +22,19 @@ export function createConvexBffAuthHttpAction(
   return httpActionGeneric(async (_ctx, request) => {
     return await server.handle(request);
   });
+}
+
+/**
+ * Mounts the complete, fixed Business session-adapter surface on a Convex
+ * router. Products should call this once instead of copying the protocol's
+ * route table into their own `convex/http.ts`.
+ */
+export function mountConvexBffAuthRoutes(
+  router: HttpRouter,
+  options: BffAuthServerOptions,
+): void {
+  const handler = createConvexBffAuthHttpAction(options);
+  for (const route of CUSTOMER_SESSION_ADAPTER_ROUTES) {
+    router.route({ ...route, handler });
+  }
 }
