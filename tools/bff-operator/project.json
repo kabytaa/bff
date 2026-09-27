@@ -7,8 +7,9 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "options": {
-        "command": "tsc -p tools/bff-operator/tsconfig.build.json"
+        "command": "tsc -b tools/bff-operator/tsconfig.build.json"
       },
       "outputs": ["{workspaceRoot}/dist/tools/bff-operator"]
     },

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "business-factory-customer-auth",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "auth.tofler.app",
+      "custom_domain": true,
+    },
+  ],
+  "assets": {
+    "directory": "../../../dist/platform/bff/customer-auth",
+    "not_found_handling": "single-page-application",
+  },
+}

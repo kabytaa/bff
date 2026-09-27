@@ -27,7 +27,7 @@
     "test:e2e:development-auth": "nx run bff-backoffice-e2e:e2e-hosted-development",
     "test:integration": "nx run bff-service:test-integration",
     "typecheck": "nx run-many -t typecheck --all",
-    "bundle:assert": "nx run bff-backoffice:assert-production-bundle"
+    "bundle:assert": "nx run-many -t assert-production-bundle --all"
   },
   "dependencies": {
     "convex": "1.46.0",

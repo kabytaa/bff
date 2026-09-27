@@ -55,6 +55,7 @@ const transactionChallengeValidator = v.object({
   purpose: v.union(v.literal('login'), v.literal('ownership_transfer')),
   enabledProviders: v.array(v.literal('google')),
   providerNonce: v.string(),
+  callbackUrl: v.string(),
   expiresAt: v.number(),
 });
 
@@ -202,6 +203,7 @@ export const readChallenge = internalQuery({
       purpose: transaction.purpose,
       enabledProviders: environment.customerAuth.enabledProviders,
       providerNonce: transaction.providerNonce,
+      callbackUrl: transaction.callbackUrl,
       expiresAt: transaction.expiresAt,
     };
   },

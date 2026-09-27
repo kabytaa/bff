@@ -214,3 +214,83 @@ export const customerAuthErrorResponseSchema = z
 export type CustomerAuthErrorResponse = z.infer<
   typeof customerAuthErrorResponseSchema
 >;
+
+export const customerAuthTransactionPurposeSchema = z.enum([
+  'login',
+  'ownership_transfer',
+]);
+export type CustomerAuthTransactionPurpose = z.infer<
+  typeof customerAuthTransactionPurposeSchema
+>;
+
+export const customerAuthTransactionChallengeSchema = z
+  .object({
+    reference: publicIdentifierSchema,
+    environmentKey: z
+      .string()
+      .min(3)
+      .max(64)
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    purpose: customerAuthTransactionPurposeSchema,
+    enabledProviders: z.array(customerIdentityProviderSchema).min(1).max(1),
+    providerNonce: z
+      .string()
+      .min(32)
+      .max(128)
+      .regex(/^[A-Za-z0-9_-]+$/),
+    callbackUrl: z
+      .string()
+      .url()
+      .refine((value) => {
+        const url = new URL(value);
+        return (
+          url.protocol === 'https:' &&
+          url.username === '' &&
+          url.password === '' &&
+          url.pathname === CUSTOMER_AUTH_CALLBACK_PATH &&
+          url.search === '' &&
+          url.hash === ''
+        );
+      }, 'Expected the fixed secure customer callback URL'),
+    expiresAt: z.number().int().positive(),
+  })
+  .strict();
+
+export type CustomerAuthTransactionChallenge = z.infer<
+  typeof customerAuthTransactionChallengeSchema
+>;
+
+export const completeGoogleCustomerAuthRequestSchema = z
+  .object({
+    environmentKey: z.string().min(3).max(64),
+    reference: publicIdentifierSchema,
+    credential: z
+      .string()
+      .min(1)
+      .max(16 * 1024),
+  })
+  .strict();
+
+export type CompleteGoogleCustomerAuthRequest = z.infer<
+  typeof completeGoogleCustomerAuthRequestSchema
+>;
+
+export const completeCustomerAuthResponseSchema = z
+  .object({
+    redirectUrl: z
+      .string()
+      .url()
+      .refine((value) => {
+        const url = new URL(value);
+        return (
+          url.protocol === 'https:' &&
+          url.username === '' &&
+          url.password === ''
+        );
+      }, 'Expected a secure redirect URL'),
+  })
+  .strict();
+
+export type CompleteCustomerAuthResponse = z.infer<
+  typeof completeCustomerAuthResponseSchema
+>;
