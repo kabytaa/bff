@@ -1,6 +1,6 @@
 # Business Factory source map and reconciliation
 
-Updated: 2026-09-21.
+Updated: 2026-09-27.
 
 This file records the source material recovered from the machine and Google Drive, and how it should influence current decisions. It prevents an older proposal or product-specific report from silently becoming an adopted BFF decision.
 
@@ -12,6 +12,14 @@ This file records the source material recovered from the machine and Google Driv
 4. [Provider accounts, access and secrets](../operations/provider-accounts-and-secrets.md) — manual setup and credential handoff.
 
 When these documents disagree with an older reference, the current architecture and accepted ADRs govern implementation.
+
+## Current TableCards market research
+
+[TableCards market research — 2026-09-27](260927-tablecards-market-research.md)
+
+Status: current desk-research evidence for the requested follow-up product brainstorm, not accepted product scope.
+
+It records direct competitor and pricing comparisons, public customer workflow evidence, US print-format and quantity findings, AI-generation economics, acquisition channels and experimental budget boundaries. Its conclusions and open questions must be evaluated in the product brainstorm before changing the canonical TableCards specification.
 
 ## Google Drive BFF folder
 
