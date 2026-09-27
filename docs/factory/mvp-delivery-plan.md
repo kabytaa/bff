@@ -46,15 +46,15 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 
 ## Grouped launch tasks
 
-| # | Work group | Owner | Main dependency |
-| --- | --- | --- | --- |
-| Build 1 | Foundation: workspace, Convex BFF, contracts and test harness | Codex | None |
-| Build 2 | Shared identity: Google auth, accounts and SDK | Codex | Build 1; production OAuth later needs provider access |
-| Build 3 | TableCards core: list/CSV, designs, preview and verified PDF | Codex | Build 1 and the accepted product specification |
-| Build 4 | Paid/team flow: Paddle subscriptions, entitlements, membership and minimal operations | Codex | Builds 1–3; hosted checks need Paddle access |
-| Build 5 | Customer support: case conversation, email replies and operator workflow | Codex | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
-| Build 6 | Deploy, run happy-path regression and prepare launch | Codex | Builds 1–5 and relevant provider access |
-| Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance | Andrew | Activated only when Codex cannot complete the action |
+| #              | Work group                                                                            | Owner  | Main dependency                                                         |
+| -------------- | ------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| Build 1        | Foundation: workspace, Convex BFF, contracts and test harness                         | Codex  | None                                                                    |
+| Build 2        | Shared identity: Google auth, accounts and SDK                                        | Codex  | Build 1; production OAuth later needs provider access                   |
+| Build 3        | TableCards core: list/CSV, designs, preview and verified PDF                          | Codex  | Build 1 and the accepted product specification                          |
+| Build 4        | Paid/team flow: Paddle subscriptions, entitlements, membership and minimal operations | Codex  | Builds 1–3; hosted checks need Paddle access                            |
+| Build 5        | Customer support: case conversation, email replies and operator workflow              | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
+| Build 6        | Deploy, run happy-path regression and prepare launch                                  | Codex  | Builds 1–5 and relevant provider access                                 |
+| Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance     | Andrew | Activated only when Codex cannot complete the action                    |
 
 ### Build 1 — Foundation
 
@@ -65,6 +65,8 @@ Create the Nx workspace, ownership boundaries, minimal Convex BFF service and op
 The required local gate is done when the repository runs without provider accounts, the public health and internal Business-environment paths work, auth denial/allow tests pass, the dashboard browser test passes and validation commands are documented. Hosted development verification follows only after Andrew authorizes one Convex development deployment, Cloudflare site and public Google web client. Build 1 is complete only when the reviewed `main` commit passes GitHub validation, automatically deploys the separate production Convex backend and `ops.tofler.tech` dashboard, passes production smoke and Andrew confirms one real production Google sign-in. No speculative tables, TableCards code or placeholder SDK modules belong in Build 1.
 
 ### Build 2 — Shared identity, accounts and SDK
+
+**Status: Completed 2026-09-27.** The reviewed shared identity/account implementation is live in development and production; automated validation/deployment/smoke and Andrew's complete real Safari lifecycle plus backoffice confirmation passed.
 
 Choose the current supported Business-user authentication mechanism and enable Google as the only production MVP provider. Keep provider-qualified technical identities private to BFF auth and create a distinct local user row in each Business environment the person accesses. Implement the accepted configurable account/membership boundary, fixed Owner/Admin/Member roles, invitations, provider-neutral ownership transfer/reauthentication and thin typed SDK paths, with a stable centrally revocable Business session, short-lived environment/account-bound JWTs and the retained minimal example Business. Verify signup/onboarding policies, authorization, renewal, independent tab account selection, concurrent/replayed login denials, cross-environment isolation and the development-only automated identity path. Do not add paid-plan/subscription tables, product-entitlement evaluation or restricted-account guards before Build 4 has their first real caller.
 

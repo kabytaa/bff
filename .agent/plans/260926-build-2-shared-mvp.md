@@ -1,13 +1,13 @@
 # Feature: Build 2 — Shared Business Authentication and Accounts
 
-> **Status**: Accepted 2026-09-26 — implementation authorized
+> **Status**: Completed 2026-09-27
 > **Created**: 2026-09-26
 > **Last updated**: 2026-09-27
 > **Repository baseline**: `f2e7e6498bf628d97b74696942f512bb36a322d1`
 > **Source brainstorm**: [Build 2 Shared MVP](../brainstorms/260926-build-2-shared-mvp.md)
 > **Planning handoff**: Andrew requested `plan-feature` after the discussion and Astra reconciliation, reviewed the resulting URL/SDK refinements and authorized implementation on 2026-09-26.
 >
-> Implementation is authorized. Production deployment still follows the repository's reviewed release controls. Recheck the baseline, provider documentation and resource configuration before each affected phase.
+> Implementation, production deployment, automated smoke and Andrew's real Safari lifecycle/backoffice acceptance are complete. Later changes follow the repository's normal reviewed release controls.
 
 ## Repository Context Snapshot
 
@@ -639,7 +639,7 @@ The hosted target and deployment/smoke targets are uncached and require explicit
 
 ## Acceptance Criteria
 
-- [ ] A real Google customer signs into the production example through the shared customer-auth origin; the operator audience remains separate.
+- [x] A real Google customer signs into the production example through the shared customer-auth origin; the operator audience remains separate.
 - [x] One BFF-owned stable session handle and one BFF-signed short context JWT implement the flow; no second token tier, central browser cookie or Business session database.
 - [x] All four creation-policy combinations, caps, default overrides, roles, invitation reservations and protected transfer have positive/negative/concurrency evidence.
 - [x] No-account users can complete permitted onboarding but cannot call normal product functions. Environment/account/user isolation is enforced server-side.
@@ -652,7 +652,7 @@ The hosted target and deployment/smoke targets are uncached and require explicit
 - [x] Customer policy/lifecycle operations have validated CLI paths; backoffice is read-only, paginated and safe; guided configuration explains interacting defaults.
 - [x] Coarse evidence/retention is bounded; no raw credentials/permanent raw IPs, DDoS log flood, billing tables, restriction state machine or support implementation is introduced.
 - [x] All local gates, complete hosted-development flow and production deploy/smoke pass without regressing operator auth.
-- [ ] Real production Safari lifecycle and backoffice confirmation pass through the approved same-site adapter gateway. Only then mark Build 2 complete.
+- [x] Real production Safari lifecycle and backoffice confirmation pass through the approved same-site adapter gateway. Andrew confirmed the complete flow on 2026-09-27.
 
 ## Risks, Prerequisites and Open Questions
 
@@ -691,13 +691,14 @@ No further product-mode decision is needed to start the listed implementation se
 
 ## Document History
 
-| Date       | Status                               | Change                                                                                                                                                                                                                                                                                  |
-| ---------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-26 | Draft — Awaiting review              | Created from the settled Build 2 discussion and explicit planning request; pinned repository/provider evidence, single-token protocol, account operations, layered tests and production completion. No implementation or provider mutations performed.                                  |
-| 2026-09-26 | Draft — Awaiting review              | Added explicit Business web/session-adapter/default-return URL registration with a derived fixed callback, and made SDK organization technology-first: one TypeScript package with the current Convex adapter and clear future sibling-language boundaries.                             |
-| 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls.                                                                                        |
-| 2026-09-27 | Accepted — Implementation active     | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate.                                            |
-| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the generated Convex origin did not receive the cross-site session cookie. Andrew approved a narrow Cloudflare gateway on the Business API subdomain; it forwards only SDK session routes and leaves authentication logic in Convex/the shared server SDK. |
-| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the same-site development gateway works. Independent production, architecture and example-simplicity reviews tightened the example deploy-key guard, production CORS/gateway smoke and SDK-owned route/CORS integration before production release.         |
-| 2026-09-27 | Accepted — Final acceptance pending  | Commit `03e1b95` passed production run `36302130303`; the exact approved `example-production` policy is stored at revision 1 and the live login-entry probe passed. Only Andrew's real Safari lifecycle and matching backoffice confirmation remain.                                    |
+| Date       | Status                               | Change                                                                                                                                                                                                                                                                                                                                      |
+| ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-26 | Draft — Awaiting review              | Created from the settled Build 2 discussion and explicit planning request; pinned repository/provider evidence, single-token protocol, account operations, layered tests and production completion. No implementation or provider mutations performed.                                                                                      |
+| 2026-09-26 | Draft — Awaiting review              | Added explicit Business web/session-adapter/default-return URL registration with a derived fixed callback, and made SDK organization technology-first: one TypeScript package with the current Convex adapter and clear future sibling-language boundaries.                                                                                 |
+| 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls.                                                                                                                                            |
+| 2026-09-27 | Accepted — Implementation active     | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate.                                                                                                |
+| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the generated Convex origin did not receive the cross-site session cookie. Andrew approved a narrow Cloudflare gateway on the Business API subdomain; it forwards only SDK session routes and leaves authentication logic in Convex/the shared server SDK.                                                     |
+| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the same-site development gateway works. Independent production, architecture and example-simplicity reviews tightened the example deploy-key guard, production CORS/gateway smoke and SDK-owned route/CORS integration before production release.                                                             |
+| 2026-09-27 | Accepted — Final acceptance pending  | Commit `03e1b95` passed production run `36302130303`; the exact approved `example-production` policy is stored at revision 1 and the live login-entry probe passed. Only Andrew's real Safari lifecycle and matching backoffice confirmation remain.                                                                                        |
 | 2026-09-27 | Accepted — Implementation active     | Before final acceptance, Andrew approved Task 24: code-owned Business defaults composed into a BFF-stored effective snapshot, one-click intent-aware central login, validated Business presentation settings and an expanded read-only operator essentials view. Existing v1 configuration stays readable during the explicit v2 migration. |
+| 2026-09-27 | Completed                            | Commit `a632fb7` passed production run `36332042055`, the exact version-2 Example snapshot was applied and the post-migration smoke passed. Andrew then confirmed the real production Safari login, protected access, reload, post-expiry renewal, second-tab, logout and backoffice state all work.                                        |
