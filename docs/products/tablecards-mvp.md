@@ -1,6 +1,6 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-09-24.
+Updated: 2026-09-27.
 
 This is the canonical product-scope document for the first Business Factory product. The [MVP delivery plan](../factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
 
@@ -108,7 +108,13 @@ Support may expose bounded account, subscription and payment-status context so A
 
 Future AI support automation may classify or draft responses, but autonomous actions and resolution are not part of this MVP.
 
-Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. The support slice must select a concrete outbound/inbound email or helpdesk mechanism; no specific vendor is preselected. PostHog and Sentry remain optional until a concrete workflow requires them.
+Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. A dedicated later MVP slice must make these capabilities operational before launch rather than leaving them as post-launch polish. The support slice selects a concrete outbound/inbound email or helpdesk mechanism; the operational-visibility slice selects the smallest analytics and error-monitoring arrangement after defining exact events, privacy limits, actionable alerts and operator questions. No vendor is preselected.
+
+Canonical analytics should answer a bounded launch funnel: where a visitor came from, whether they signed up, reached first successful preview/export, started checkout, became paid and later needed support. High-volume UI clicks are collected only when they answer a named product question. Analytics must not contain guest names/lists, card contents, credentials, payment details or unnecessary customer profile data.
+
+Monitoring covers public/product/BFF health, unexpected application errors, PDF-generation failures and failed or delayed payment/support delivery. Events include environment, deployed version and safe correlation evidence; expected authentication denials and rate limits are excluded from error alerts. Sampling, redaction, retention and spend limits are required, and alerts exist only for conditions an operator can act on.
+
+The launch backoffice must be usable, not merely a database viewer. Andrew needs an environment-aware overview; safe global customer/account/project/payment/support search; joined customer/account views for memberships, sessions, subscription/entitlements, projects/exports, support and audit history; queues for unresolved support and failed delivery/webhook/job work; and basic acquisition/conversion trends. It needs clear mobile/desktop navigation, filters, pagination and error/empty/loading states. It is not a general analytics product, configuration editor or unrestricted administrative console; repeatable configuration stays in the validated CLI, and sensitive actions require separately designed authorization, confirmation and audit controls.
 
 ## Test policy
 
@@ -125,7 +131,7 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 - domain-based team joining and per-seat billing
 - Apple login and other identity providers
 - marketing campaign automation
-- marketing/transactional email outside the required support and invitation workflows, PostHog, Sentry and AI support automation
+- marketing/transactional email outside the required support and invitation workflows, advanced analytics/reporting, AI support automation and monitoring/security hardening beyond the bounded launch operations slice
 - print fulfillment and shipping
 
 ## Remaining decisions

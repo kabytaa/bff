@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-09-26.
+Updated: 2026-09-27.
 
 This is the current delivery view for the first Business Factory product. The [TableCards MVP product specification](../products/tablecards-mvp.md) is the canonical product scope. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack.
 
@@ -42,7 +42,8 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 2. Codex builds provider-neutral auth/accounts and the deterministic TableCards core. Production OAuth becomes actionable when exact domains and callback URLs exist.
 3. Codex adds subscriptions, plan entitlements, Studio membership and the minimal operator view. Paddle fixtures keep regression independent of live charges.
 4. Codex adds the separate customer-support conversation slice with outbound and inbound email replies.
-5. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
+5. Codex adds focused product/business analytics, actionable monitoring and the usable operator backoffice needed to run the MVP.
+6. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
 
 ## Grouped launch tasks
 
@@ -53,7 +54,8 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 | Build 3        | TableCards core: list/CSV, designs, preview and verified PDF                          | Codex  | Build 1 and the accepted product specification                          |
 | Build 4        | Paid/team flow: Paddle subscriptions, entitlements, membership and minimal operations | Codex  | Builds 1–3; hosted checks need Paddle access                            |
 | Build 5        | Customer support: case conversation, email replies and operator workflow              | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
-| Build 6        | Deploy, run happy-path regression and prepare launch                                  | Codex  | Builds 1–5 and relevant provider access                                 |
+| Build 6        | Operational visibility: analytics, monitoring and usable backoffice                    | Codex  | Builds 3–5                                                              |
+| Build 7        | Deploy, run happy-path regression and prepare launch                                  | Codex  | Builds 1–6 and relevant provider access                                 |
 | Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance     | Andrew | Activated only when Codex cannot complete the action                    |
 
 ### Build 1 — Foundation
@@ -90,9 +92,28 @@ Add the required support capability as its own implementation slice rather than 
 
 Select the concrete BFF-owned email bridge or helpdesk integration only after its focused design discussion. Finance-related cases may show bounded account/subscription/payment-status context, but support messages never authorize refunds, billing changes or credential disclosure. Done means the signed-in and public paths work, outbound delivery and inbound reply correlation are verified, spoofed/cross-environment replies are denied and the complete conversation is visible to the appropriate user and operator.
 
-### Build 6 — Deployment and launch preparation
+### Build 6 — Analytics, monitoring and usable backoffice
 
-Configure environments, secrets, Cloudflare deployment, domains, CI, basic health/error monitoring, rollback and recovery notes. Run the focused browser regression:
+Add the minimum operational visibility required to understand and run TableCards. Define a small, versioned set of canonical business events covering acquisition, signup, activation, PDF export, checkout, subscription state and support outcomes. Preserve UTM/referrer attribution from anonymous visit through user/account/payment where available. Add only product events that answer an explicit launch question; do not build generic clickstream collection or a replacement for a dedicated analytics provider. Never send guest-list/card contents, credentials, payment details or other unnecessary personal data in analytics payloads.
+
+Add privacy-bounded health and error monitoring for the public product, BFF, PDF generation, Paddle webhooks and support-email delivery. Monitoring must include deployed version/environment context, correlation IDs, credential/PII redaction, sampling, retention and spend limits. Expected authentication denials and rate limits are not errors. Alerts must be actionable and intentionally few: production or health-check failure, sustained unexpected error rate, and failed/stalled payment or support delivery that requires operator attention. Choose the smallest suitable provider arrangement during this build; PostHog, Sentry or alternatives are options, not preselected requirements.
+
+Turn the existing read-oriented backoffice into a usable daily operator surface. It should provide:
+
+- an environment-aware overview of deployed version/health, unresolved failures, open support cases, recent signups, activations, paid accounts and successful exports;
+- global search by safe customer email, public user/account/project ID, payment reference or support case, with direct links to a joined customer/account view;
+- customer and account detail showing membership/role, session state, plan/subscription/entitlements, recent projects/exports, support history and a chronological audit/activity timeline;
+- focused queues for support, failed or delayed webhooks/email/jobs and accounts needing billing remediation, with status, age, owner and correlation evidence;
+- basic acquisition and conversion views for visit → signup → activation → checkout → paid account, plus export and support-volume trends;
+- mobile/desktop navigation, filters, pagination, empty/loading/error states and safe copyable identifiers so Andrew can actually diagnose a report from a phone or desktop.
+
+Keep repeatable configuration, provisioning and bulk lifecycle work in the validated operator CLI. The backoffice may perform only actions that need direct human judgment and are implemented with authorization, confirmation, idempotency and audit evidence—for this MVP, primarily support handling and explicitly designed remediation/retry actions. It must not expose raw tokens, identity-provider subjects, payment credentials or ad-hoc database editing, and it must not add refund, entitlement override or ownership controls without their own secured workflow.
+
+Done means the analytics funnel reconciles against canonical BFF/payment facts for a deterministic fixture; monitoring proves one sampled/redacted error and one actionable delivery/webhook failure without alerting on expected denials; and Andrew can use the deployed backoffice to find a customer, understand their account/access/payment/support state, trace a reported problem and identify whether the system needs attention.
+
+### Build 7 — Deployment and launch preparation
+
+Configure environments, secrets, Cloudflare deployment, domains and CI; connect the selected analytics/monitoring production configuration; and verify rollback and recovery notes. Run the focused browser regression:
 
 1. Sign in.
 2. Create a representative guest list.
@@ -102,6 +123,8 @@ Configure environments, secrets, Cloudflare deployment, domains, CI, basic healt
 6. Exercise Studio membership when that slice is implemented.
 7. Start a support conversation.
 8. Review and respond in the backoffice, then verify the emailed response and one customer reply returns to the same case.
+9. Confirm the run's acquisition, signup, activation, checkout/payment, export and support events appear once with the expected safe context.
+10. Confirm production health/version, operational queues and alert delivery are healthy, with no unresolved synthetic or real failure hidden from the backoffice.
 
 Run provider-specific sandbox/live smoke checks separately. Done when automated validation passes, the production flow is reachable and Andrew has a concise final acceptance checklist.
 
@@ -117,7 +140,7 @@ Create or confirm the seller account, finish business/identity/payout verificati
 
 Confirm the existing Convex login can create a separate Business Factory project, choose or buy the product domain, and provide Cloudflare/DNS access. After Codex provides exact callback URLs, create/select the Google Cloud project, configure consent/branding and create the web OAuth client.
 
-Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow.
+Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow; Build 6 will select the minimum analytics/monitoring arrangement only after its events, privacy boundaries, alert thresholds and operating questions are defined.
 
 ### Physical and live launch checks
 
@@ -133,6 +156,9 @@ The launch gate is satisfied when:
 - The deterministic PDF checks and focused happy-path regression pass.
 - A user can begin a support conversation, receive Andrew's reply by email and reply into the same case.
 - A monitored public support contact works for users who cannot sign in, without treating email possession as authority for sensitive account or payment actions.
+- Focused acquisition/activation/payment events produce a trustworthy basic funnel without collecting guest-list contents or credentials.
+- Production health, unexpected errors and failed payment/support delivery are observable through bounded, actionable monitoring.
+- The backoffice lets Andrew find a customer or account, understand access/payment/support state, trace a reported problem and see whether an operational queue needs attention.
 - Andrew verifies physical print scale, completes the live flow and deliberately sends real prospects to it.
 
 Post-launch validation review, advanced integrations, platform hardening, a reusable factory skill and a technically different second-project proof are intentionally parked. They are not blockers for shipping the first product.

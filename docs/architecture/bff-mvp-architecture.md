@@ -942,9 +942,9 @@ For every Business environment, beginning with only the fields its active slice 
 - important business events
 - basic funnels
 
-The MVP backoffice does not need polished UX.
+The MVP backoffice does not need decorative polish, but it must be usable for real daily operations on phone and desktop. It needs coherent navigation, safe search, joined customer/account context, focused work queues, basic funnel/health visibility and clear empty/loading/error states rather than a collection of raw tables.
 
-Its purpose is to make the whole factory visible.
+Its purpose is to make the whole factory understandable and actionable without becoming a general analytics product or unrestricted database editor. Repeatable configuration stays in validated automation; direct controls are added only for human-judgment workflows with explicit authorization, confirmation, idempotency and audit evidence.
 
 ---
 

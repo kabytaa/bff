@@ -53,9 +53,9 @@ When a real caller or requirement triggers an entry:
 
 **Open when triggered:** Select provider capabilities from then-current official documentation; define meter schema, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation and operator workflows.
 
-## Custom-domain edge protection and operational monitoring
+## Custom-domain edge protection and security monitoring
 
-**Status:** Deferred operational-hardening idea. The current MVP uses a narrow Cloudflare gateway only for same-site customer-session routes, keeps product/native Convex traffic direct to the generated origin, uses bounded application-level rate limiting and adds no DDoS-specific telemetry or alerting. The gateway is not currently a WAF or origin-authentication boundary.
+**Status:** Deferred operational-hardening idea beyond the accepted basic MVP analytics/monitoring slice. The current MVP uses a narrow Cloudflare gateway only for same-site customer-session routes, keeps product/native Convex traffic direct to the generated origin and uses bounded application-level rate limiting. Build 6 now owns privacy-bounded product/business analytics, ordinary health/error monitoring and actionable delivery/webhook alerts; this entry retains only the stronger custom-domain, WAF, DDoS and origin-bypass questions. The gateway is not currently a WAF or origin-authentication boundary.
 
 **Source:** [Build 2 Shared MVP brainstorm](../../.agent/brainstorms/260926-build-2-shared-mvp.md)
 
@@ -63,11 +63,11 @@ When a real caller or requirement triggers an entry:
 
 **Idea:**
 
-- Reassess a layered boundary using then-current official provider capabilities: Cloudflare edge DDoS/WAF/rate limiting before origin work, precise Convex application limits keyed to Business semantics and sampled error monitoring such as Sentry.
+- Reassess a layered boundary using then-current official provider capabilities: Cloudflare edge DDoS/WAF/rate limiting before origin work, precise Convex application limits keyed to Business semantics and security-specific aggregation/alerts layered onto the bounded monitoring selected in Build 6.
 - Do not assume that attaching a Convex custom domain automatically puts Cloudflare security in the request path. Verify the supported DNS/proxy topology, TLS behavior and Convex custom-domain contract at that time.
 - If traffic is intentionally routed through an edge proxy, prevent attackers from bypassing it through the generated Convex origin when the platform provides a supported restriction or origin-authentication mechanism.
 - Keep expected authentication denials and rate-limit rejections out of per-request durable audit and error-monitoring streams. Aggregate or sample noisy evidence, redact credentials and personal data, set volume/spend limits and alert only on actionable thresholds.
 - Preserve individual immutable audits for meaningful authenticated lifecycle and high-risk account actions; edge/security analytics must not replace the application audit trail.
 - Validate the design with bounded, provider-compliant load and failure tests rather than intentionally exposing production to an attack.
 
-**Open when triggered:** Confirm whether Convex custom domains can be safely proxied through Cloudflare; determine origin-bypass prevention; select edge and application rate-limit keys/thresholds; define Sentry sampling, retention, privacy and spend caps; define actionable alert thresholds and incident evidence.
+**Open when triggered:** Confirm whether Convex custom domains can be safely proxied through Cloudflare; determine origin-bypass prevention; select edge and application rate-limit keys/thresholds; reassess the baseline provider's security-event sampling, privacy, retention and spend caps; define security-specific alert thresholds and incident evidence.
