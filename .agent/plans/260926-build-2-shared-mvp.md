@@ -122,7 +122,7 @@ All paths in this subsection that do not exist are proposed, not discovered APIs
 | `platform/bff/customer-auth/` (`bff-customer-auth`)                                                                                                            | Static React/Vite GIS surface, distinct development automation entry, hosting manifests, headers, bundle assertions                              |
 | `projects/example/workloads/web/` (`example-web`)                                                                                                              | Minimal React example, SDK-only auth integration and environment-specific static hosting                                                         |
 | `projects/example/backend/convex/` (`example-backend`)                                                                                                         | Separate `schema.ts`, `auth.config.ts`, `http.ts`, `currentContext.ts`, generated files and backend tests                                        |
-| `projects/example/session-gateway/` (`example-session-gateway`)                                                                                                | Fixed-route, fixed-upstream Cloudflare transport adapter for the Business-owned session cookie                                                    |
+| `projects/example/session-gateway/` (`example-session-gateway`)                                                                                                | Fixed-route, fixed-upstream Cloudflare transport adapter for the Business-owned session cookie                                                   |
 | `projects/example/backend/convex.json`                                                                                                                         | Independent functions root; invoke its CLI from `projects/example/backend`, never root accidentally                                              |
 | `platform/bff/customer-auth-e2e/` (`bff-customer-auth-e2e`)                                                                                                    | Local fixture-browser and uncached hosted-development Playwright suites                                                                          |
 | `tools/bff-customer-auth/` (`bff-customer-auth-tools`)                                                                                                         | Customer-only dev signer, protected grant creation and fixture orchestration                                                                     |
@@ -147,13 +147,13 @@ All paths in this subsection that do not exist are proposed, not discovered APIs
 
 ### 1. Deployment and cookie topology
 
-| Surface                         | Development                               | Production                              |
-| ------------------------------- | ----------------------------------------- | --------------------------------------- |
-| Shared customer sign-in UI      | `https://auth-dev.tofler.app`             | `https://auth.tofler.app`               |
-| Reference Business UI           | `https://example-dev.tofler.app`          | `https://example.tofler.app`            |
-| Public Business session adapter | `https://api.example-dev.tofler.app`      | `https://api.example.tofler.app`        |
-| Session-adapter implementation  | Separate example Convex HTTP deployment   | Separate example Convex HTTP deployment |
-| BFF authority                   | Existing development BFF                  | Existing production BFF                 |
+| Surface                         | Development                             | Production                              |
+| ------------------------------- | --------------------------------------- | --------------------------------------- |
+| Shared customer sign-in UI      | `https://auth-dev.tofler.app`           | `https://auth.tofler.app`               |
+| Reference Business UI           | `https://example-dev.tofler.app`        | `https://example.tofler.app`            |
+| Public Business session adapter | `https://api.example-dev.tofler.app`    | `https://api.example.tofler.app`        |
+| Session-adapter implementation  | Separate example Convex HTTP deployment | Separate example Convex HTTP deployment |
+| BFF authority                   | Existing development BFF                | Existing production BFF                 |
 
 The initial implementation used the free generated example `*.convex.site` host. The adapter sets a host-only `__Host-tofler-session` cookie with `Secure; HttpOnly; Path=/; SameSite=None`; no `Domain` attribute. UI calls the public adapter origin with `credentials: 'include'`, exact-origin CORS, `Vary: Origin` and non-cacheable responses. CORS never overrides browser third-party-cookie restrictions.
 
@@ -173,11 +173,11 @@ Business-wide controls are per **Business environment**, so development changes 
 
 Every registered Business environment also has explicit transport URLs:
 
-| Field                   | Example                               | Meaning/validation                                                                                                                                                           |
-| ----------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `webOrigins`            | `["https://example.tofler.app"]`      | Non-empty bounded set of exact HTTPS frontend origins allowed to initiate login and make credentialed calls; no paths, wildcards, opaque origins or trailing-origin variants |
-| `sessionAdapterBaseUrl` | `https://api.example.tofler.app`      | One canonical HTTPS public origin for the server SDK routes and host-only session cookie; no path, query or fragment                                                       |
-| `defaultPostLoginPath`  | `/`                                   | Validated same-application relative path used when a login does not request another permitted relative destination                                                           |
+| Field                   | Example                          | Meaning/validation                                                                                                                                                           |
+| ----------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `webOrigins`            | `["https://example.tofler.app"]` | Non-empty bounded set of exact HTTPS frontend origins allowed to initiate login and make credentialed calls; no paths, wildcards, opaque origins or trailing-origin variants |
+| `sessionAdapterBaseUrl` | `https://api.example.tofler.app` | One canonical HTTPS public origin for the server SDK routes and host-only session cookie; no path, query or fragment                                                         |
+| `defaultPostLoginPath`  | `/`                              | Validated same-application relative path used when a login does not request another permitted relative destination                                                           |
 
 The SDK fixes its callback path to `/_tofler/auth/callback`; BFF derives and stores/checks the exact callback as `new URL('/_tofler/auth/callback', sessionAdapterBaseUrl)`. It is not a fourth independently editable URL. A login transaction records one initiating member of `webOrigins`, the exact derived callback and a validated relative return path. The callback redirects only to that recorded web origin plus relative path. BFF never infers the Business from `Origin`, `Referer` or callback host; the public environment key selects the registered record and every supplied URL must match it exactly.
 
@@ -632,18 +632,18 @@ The hosted target and deployment/smoke targets are uncached and require explicit
 ## Acceptance Criteria
 
 - [ ] A real Google customer signs into the production example through the shared customer-auth origin; the operator audience remains separate.
-- [ ] One BFF-owned stable session handle and one BFF-signed short context JWT implement the flow; no second token tier, central browser cookie or Business session database.
-- [ ] All four creation-policy combinations, caps, default overrides, roles, invitation reservations and protected transfer have positive/negative/concurrency evidence.
-- [ ] No-account users can complete permitted onboarding but cannot call normal product functions. Environment/account/user isolation is enforced server-side.
-- [ ] The same token works through the separate example's native Convex guard/HTTP guard and a permitted BFF endpoint; caller-supplied account IDs cannot override its context.
-- [ ] SDK consumers do not handle Google tokens, session handles, PKCE or callback codes. Browser exports contain no server/private implementation.
-- [ ] Business registration validates exact web origins, one canonical adapter base URL and a relative default destination; callback URL is deterministically derived from the fixed SDK path rather than configured twice.
-- [ ] The implemented SDK is explicitly the TypeScript SDK with a Convex adapter. Folder/package boundaries permit later Node.js glue or sibling Swift/Kotlin/Go/Rust SDKs without claiming those unimplemented runtimes are supported.
-- [ ] Two tabs can use different accounts with no refresh-cookie race or stale-context UI leak; logout stops issuance and the documented token-expiry window is tested honestly.
-- [ ] Dev tooling supports deterministic signup and exact existing-user login-as; production ships no usable dummy route/trust/browser entry.
-- [ ] Customer policy/lifecycle operations have validated CLI paths; backoffice is read-only, paginated and safe; guided configuration explains interacting defaults.
-- [ ] Coarse evidence/retention is bounded; no raw credentials/permanent raw IPs, DDoS log flood, billing tables, restriction state machine or support implementation is introduced.
-- [ ] All local gates, complete hosted-development flow and production deploy/smoke pass without regressing operator auth.
+- [x] One BFF-owned stable session handle and one BFF-signed short context JWT implement the flow; no second token tier, central browser cookie or Business session database.
+- [x] All four creation-policy combinations, caps, default overrides, roles, invitation reservations and protected transfer have positive/negative/concurrency evidence.
+- [x] No-account users can complete permitted onboarding but cannot call normal product functions. Environment/account/user isolation is enforced server-side.
+- [x] The same token works through the separate example's native Convex guard/HTTP guard and a permitted BFF endpoint; caller-supplied account IDs cannot override its context.
+- [x] SDK consumers do not handle Google tokens, session handles, PKCE or callback codes. Browser exports contain no server/private implementation.
+- [x] Business registration validates exact web origins, one canonical adapter base URL and a relative default destination; callback URL is deterministically derived from the fixed SDK path rather than configured twice.
+- [x] The implemented SDK is explicitly the TypeScript SDK with a Convex adapter. Folder/package boundaries permit later Node.js glue or sibling Swift/Kotlin/Go/Rust SDKs without claiming those unimplemented runtimes are supported.
+- [x] Two tabs can use different accounts with no refresh-cookie race or stale-context UI leak; logout stops issuance and the documented token-expiry window is tested honestly.
+- [x] Dev tooling supports deterministic signup and exact existing-user login-as; production ships no usable dummy route/trust/browser entry.
+- [x] Customer policy/lifecycle operations have validated CLI paths; backoffice is read-only, paginated and safe; guided configuration explains interacting defaults.
+- [x] Coarse evidence/retention is bounded; no raw credentials/permanent raw IPs, DDoS log flood, billing tables, restriction state machine or support implementation is introduced.
+- [x] All local gates, complete hosted-development flow and production deploy/smoke pass without regressing operator auth.
 - [ ] Real production Safari lifecycle and backoffice confirmation pass through the approved same-site adapter gateway. Only then mark Build 2 complete.
 
 ## Risks, Prerequisites and Open Questions
@@ -690,4 +690,5 @@ No further product-mode decision is needed to start the listed implementation se
 | 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls.                                                                                        |
 | 2026-09-27 | Accepted — Implementation active     | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate.                                            |
 | 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the generated Convex origin did not receive the cross-site session cookie. Andrew approved a narrow Cloudflare gateway on the Business API subdomain; it forwards only SDK session routes and leaves authentication logic in Convex/the shared server SDK. |
-| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the same-site development gateway works. Independent production, architecture and example-simplicity reviews tightened the example deploy-key guard, production CORS/gateway smoke and SDK-owned route/CORS integration before production release. |
+| 2026-09-27 | Accepted — Implementation active     | Real iPhone Safari confirmed the same-site development gateway works. Independent production, architecture and example-simplicity reviews tightened the example deploy-key guard, production CORS/gateway smoke and SDK-owned route/CORS integration before production release.         |
+| 2026-09-27 | Accepted — Final acceptance pending  | Commit `03e1b95` passed production run `36302130303`; the exact approved `example-production` policy is stored at revision 1 and the live login-entry probe passed. Only Andrew's real Safari lifecycle and matching backoffice confirmation remain.                                    |
