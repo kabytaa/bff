@@ -12,5 +12,3 @@ export function createConvexAuthTokenFetcher(
       await fetchToken(forceRefreshToken),
   };
 }
-
-export { createConvexBffAuthHttpAction } from './http';

@@ -36,7 +36,7 @@ transport configuration registered in BFF. Secrets and signing keys are not
 Business SDK configuration.
 
 ```ts
-import { createConvexBffAuthHttpAction } from '@tofler/bff-auth/convex';
+import { createConvexBffAuthHttpAction } from '@tofler/bff-auth/convex/server';
 
 const auth = createConvexBffAuthHttpAction({
   bffBaseUrl: 'https://bff.example',
@@ -91,3 +91,58 @@ import {
 The browser and React entries never import the server entry. New tabs obtain
 their own context JWT; logout is broadcast across tabs, while account switches
 remain tab-local.
+
+## Convex native authentication
+
+Nest `BffConvexProvider` inside `BffAuthProvider`. It supplies the current
+in-memory JWT to `ConvexProviderWithAuth`, honors Convex's forced refresh
+requests, and remounts the auth boundary when the user or tab-local account
+context changes. Routine renewal of the same context does not create a polling
+loop or reset it.
+
+```tsx
+import { BffConvexProvider } from '@tofler/bff-auth/convex/client';
+
+<BffAuthProvider client={auth}>
+  <BffConvexProvider client={convex}>{children}</BffConvexProvider>
+</BffAuthProvider>;
+```
+
+Each Business Convex deployment configures the exact BFF issuer, its own
+environment audience and the public BFF JWKS endpoint:
+
+```ts
+// convex/auth.config.ts
+import { createBffConvexAuthConfig } from '@tofler/bff-auth/convex/server';
+
+export default createBffConvexAuthConfig({
+  issuer: 'https://auth.example',
+  environmentKey: 'cards-production',
+  jwksUrl: 'https://bff-backend.example/v1/auth/jwks',
+});
+```
+
+Convex verifies the JWT before functions receive an identity. Product
+functions then use the account guard to validate BFF-specific claims and get a
+typed account context. Browser-supplied user or account IDs must still be
+matched with `requireBffConvexUserScope` or
+`requireBffConvexAccountScope` before scoped data access.
+
+```ts
+export const currentContext = query({
+  args: {},
+  returns: contextValidator,
+  handler: withBffAccountQuery(
+    { issuer: 'https://bff.example', environmentKey: 'cards-production' },
+    async (_ctx: QueryCtx, _args: Record<string, never>, auth) => ({
+      userId: auth.userId,
+      accountId: auth.accountId,
+      role: auth.role,
+    }),
+  ),
+});
+```
+
+Import `convex/client` only from React code and `convex/server` only from
+Convex functions or auth configuration so React and server concerns remain in
+separate bundles.

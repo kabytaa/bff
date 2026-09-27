@@ -126,6 +126,17 @@ export function customerAuthCallbackUrl(
   );
 }
 
+export function customerContextAudience(
+  issuer: string,
+  environmentKey: string,
+): string {
+  const normalizedIssuer = normalizeHttpsOrigin(issuer);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(environmentKey)) {
+    throw new Error('Environment key is invalid');
+  }
+  return `${normalizedIssuer}/environments/${environmentKey}`;
+}
+
 const baseContextClaimsShape = {
   iss: z.string().url(),
   aud: z.string().min(1).max(512),

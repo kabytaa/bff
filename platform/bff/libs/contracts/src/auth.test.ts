@@ -7,6 +7,7 @@ import {
   customerAuthCallbackUrl,
   customerAuthConfigurationSchema,
   customerContextClaimsSchema,
+  customerContextAudience,
   deriveCustomerAuthCallbackUrl,
   onboardingContextClaimsSchema,
   relativeApplicationPathSchema,
@@ -135,6 +136,18 @@ describe('customer authentication contracts', () => {
     expect(customerAuthCallbackUrl(parsed)).toBe(
       'https://api.cards.example.com/_tofler/auth/callback',
     );
+  });
+
+  it('derives the exact environment-scoped context audience', () => {
+    expect(
+      customerContextAudience(
+        'https://bff-dev.tofler.tech',
+        'example-development',
+      ),
+    ).toBe('https://bff-dev.tofler.tech/environments/example-development');
+    expect(() =>
+      customerContextAudience('https://bff-dev.tofler.tech', 'Example Dev'),
+    ).toThrow('Environment key is invalid');
   });
 
   it('rejects missing, duplicate, and unsupported providers', () => {

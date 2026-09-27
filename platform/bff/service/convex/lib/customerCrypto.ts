@@ -13,6 +13,7 @@ import { z } from 'zod';
 import {
   CONTEXT_TOKEN_TTL_SECONDS,
   CUSTOMER_CONTEXT_VERSION,
+  customerContextAudience,
   customerContextClaimsSchema,
   normalizeHttpsOrigin,
   publicIdentifierSchema,
@@ -255,11 +256,7 @@ export function customerEnvironmentAudience(
   issuer: string,
   environmentKey: string,
 ): string {
-  const normalizedIssuer = normalizeHttpsOrigin(issuer);
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(environmentKey)) {
-    throw new Error('Environment key is invalid');
-  }
-  return `${normalizedIssuer}/environments/${environmentKey}`;
+  return customerContextAudience(issuer, environmentKey);
 }
 
 function optionalHttpsPicture(value: unknown): string | undefined {
