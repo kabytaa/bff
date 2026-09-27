@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer session contract</title>
+  </head>
+  <body>
+    <main>
+      <h1>Customer session contract</h1>
+      <p data-testid="state">loading</p>
+      <p data-testid="account">none</p>
+      <p data-testid="token">none</p>
+      <a data-testid="sign-in" href="#">Sign in</a>
+      <label>
+        Account
+        <select data-testid="account-select"></select>
+      </label>
+      <button data-testid="refresh" type="button">Renew token</button>
+      <button data-testid="sign-out" type="button">Sign out</button>
+    </main>
+    <script type="module" src="./harness.ts"></script>
+  </body>
+</html>
