@@ -8,11 +8,14 @@ only public JWKS values are exposed by BFF or configured for verification.
 
 ```sh
 pnpm exec nx run bff-customer-auth-tools:generate-customer-signing-key
+pnpm exec nx run bff-customer-auth-tools:generate-production-customer-signing-key
 pnpm exec nx run bff-customer-auth-tools:generate-development-auth-key
 pnpm exec nx run bff-customer-auth-tools:test
 ```
 
-Key generation is idempotent and never rotates an existing valid pair. A real
+The first context command owns the development lane; the production command
+writes a different ignored pair whose filenames include `production`. Key
+generation is idempotent and never rotates an existing valid pair. A real
 rotation must be an explicit deployment operation so already-issued tokens and
 consumer JWKS configuration can be handled deliberately.
 

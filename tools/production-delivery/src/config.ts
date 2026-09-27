@@ -1,4 +1,7 @@
 const PRODUCTION_BACKOFFICE_ORIGIN = 'https://ops.tofler.tech';
+const PRODUCTION_CUSTOMER_AUTH_ORIGIN = 'https://auth.tofler.app';
+const PRODUCTION_EXAMPLE_WEB_ORIGIN = 'https://example.tofler.app';
+const PRODUCTION_EXAMPLE_ENVIRONMENT_KEY = 'example-production';
 const FULL_COMMIT_SHA = /^[0-9a-f]{40}$/;
 
 export class ProductionConfigError extends Error {
@@ -8,20 +11,23 @@ export class ProductionConfigError extends Error {
   }
 }
 
-export interface BuildConfig {
+export interface ProductionConfig {
   backofficeUrl: string;
+  bffConvexSiteUrl: string;
+  bffConvexUrl: string;
   commitSha: string;
-  convexSiteUrl: string;
-  expectedConvexUrl: string;
-  viteConvexUrl: string;
+  customerAuthUrl: string;
+  customerEnvironmentKey: string;
+  exampleConvexSiteUrl: string;
+  exampleConvexUrl: string;
+  exampleWebUrl: string;
 }
 
-export interface SmokeConfig {
-  backofficeUrl: string;
-  commitSha: string;
-  convexSiteUrl: string;
-  expectedConvexUrl: string;
+export interface BuildConfig extends ProductionConfig {
+  injectedBffConvexUrl: string;
 }
+
+export type SmokeConfig = ProductionConfig;
 
 function required(environment: NodeJS.ProcessEnv, name: string): string {
   const value = environment[name]?.trim();
@@ -64,6 +70,18 @@ function httpsOrigin(
   return url.origin;
 }
 
+function exactOrigin(
+  environment: NodeJS.ProcessEnv,
+  name: string,
+  expected: string,
+): string {
+  const value = httpsOrigin(environment, name);
+  if (value !== expected) {
+    throw new ProductionConfigError(`${name} must be ${expected}.`);
+  }
+  return value;
+}
+
 function commitSha(environment: NodeJS.ProcessEnv): string {
   const value = required(environment, 'GITHUB_SHA').toLowerCase();
   if (!FULL_COMMIT_SHA.test(value)) {
@@ -74,43 +92,99 @@ function commitSha(environment: NodeJS.ProcessEnv): string {
   return value;
 }
 
-function commonConfig(environment: NodeJS.ProcessEnv): SmokeConfig {
-  const backofficeUrl = httpsOrigin(environment, 'BACKOFFICE_URL');
-  if (backofficeUrl !== PRODUCTION_BACKOFFICE_ORIGIN) {
-    throw new ProductionConfigError(
-      `BACKOFFICE_URL must be ${PRODUCTION_BACKOFFICE_ORIGIN}.`,
-    );
-  }
-
-  const convexSiteUrl = httpsOrigin(
-    environment,
-    'CONVEX_SITE_URL',
-    '.convex.site',
-  );
-  const expectedConvexUrl = httpsOrigin(
-    environment,
-    'EXPECTED_CONVEX_URL',
-    '.convex.cloud',
-  );
-  const siteDeployment = new URL(convexSiteUrl).hostname.replace(
-    /\.convex\.site$/,
+function assertDeploymentPair(
+  clientUrl: string,
+  siteUrl: string,
+  label: string,
+): string {
+  const siteDeployment = new URL(siteUrl).hostname.replace(
+    /\.convex\.site$/u,
     '',
   );
-  const clientDeployment = new URL(expectedConvexUrl).hostname.replace(
-    /\.convex\.cloud$/,
+  const clientDeployment = new URL(clientUrl).hostname.replace(
+    /\.convex\.cloud$/u,
     '',
   );
   if (siteDeployment !== clientDeployment) {
     throw new ProductionConfigError(
-      'CONVEX_SITE_URL and EXPECTED_CONVEX_URL must identify the same deployment.',
+      `${label} Convex site and client URLs must identify the same deployment.`,
+    );
+  }
+  return clientDeployment;
+}
+
+function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
+  const backofficeUrl = exactOrigin(
+    environment,
+    'BACKOFFICE_URL',
+    PRODUCTION_BACKOFFICE_ORIGIN,
+  );
+  const customerAuthUrl = exactOrigin(
+    environment,
+    'CUSTOMER_AUTH_URL',
+    PRODUCTION_CUSTOMER_AUTH_ORIGIN,
+  );
+  const exampleWebUrl = exactOrigin(
+    environment,
+    'EXAMPLE_WEB_URL',
+    PRODUCTION_EXAMPLE_WEB_ORIGIN,
+  );
+  const customerEnvironmentKey = required(
+    environment,
+    'BFF_CUSTOMER_ENVIRONMENT_KEY',
+  );
+  if (customerEnvironmentKey !== PRODUCTION_EXAMPLE_ENVIRONMENT_KEY) {
+    throw new ProductionConfigError(
+      `BFF_CUSTOMER_ENVIRONMENT_KEY must be ${PRODUCTION_EXAMPLE_ENVIRONMENT_KEY}.`,
+    );
+  }
+
+  const bffConvexSiteUrl = httpsOrigin(
+    environment,
+    'CONVEX_SITE_URL',
+    '.convex.site',
+  );
+  const bffConvexUrl = httpsOrigin(
+    environment,
+    'EXPECTED_CONVEX_URL',
+    '.convex.cloud',
+  );
+  const exampleConvexSiteUrl = httpsOrigin(
+    environment,
+    'EXAMPLE_CONVEX_SITE_URL',
+    '.convex.site',
+  );
+  const exampleConvexUrl = httpsOrigin(
+    environment,
+    'EXPECTED_EXAMPLE_CONVEX_URL',
+    '.convex.cloud',
+  );
+  const bffDeployment = assertDeploymentPair(
+    bffConvexUrl,
+    bffConvexSiteUrl,
+    'BFF',
+  );
+  const exampleDeployment = assertDeploymentPair(
+    exampleConvexUrl,
+    exampleConvexSiteUrl,
+    'Example',
+  );
+  if (bffDeployment === exampleDeployment) {
+    throw new ProductionConfigError(
+      'BFF and Example must use separate Convex deployments.',
     );
   }
 
   return {
     backofficeUrl,
+    bffConvexSiteUrl,
+    bffConvexUrl,
     commitSha: commitSha(environment),
-    convexSiteUrl,
-    expectedConvexUrl,
+    customerAuthUrl,
+    customerEnvironmentKey,
+    exampleConvexSiteUrl,
+    exampleConvexUrl,
+    exampleWebUrl,
   };
 }
 
@@ -118,29 +192,17 @@ export function readBuildConfig(
   environment: NodeJS.ProcessEnv = process.env,
 ): BuildConfig {
   const common = commonConfig(environment);
-  const viteConvexUrl = httpsOrigin(
+  const injectedBffConvexUrl = httpsOrigin(
     environment,
-    'VITE_CONVEX_URL',
+    'BFF_DEPLOY_CONVEX_URL',
     '.convex.cloud',
   );
-  const viteConvexSiteUrl = httpsOrigin(
-    environment,
-    'VITE_CONVEX_SITE_URL',
-    '.convex.site',
-  );
-
-  if (viteConvexUrl !== common.expectedConvexUrl) {
+  if (injectedBffConvexUrl !== common.bffConvexUrl) {
     throw new ProductionConfigError(
-      'VITE_CONVEX_URL does not match EXPECTED_CONVEX_URL.',
+      'BFF_DEPLOY_CONVEX_URL does not match EXPECTED_CONVEX_URL.',
     );
   }
-  if (viteConvexSiteUrl !== common.convexSiteUrl) {
-    throw new ProductionConfigError(
-      'VITE_CONVEX_SITE_URL does not match CONVEX_SITE_URL.',
-    );
-  }
-
-  return { ...common, viteConvexUrl };
+  return { ...common, injectedBffConvexUrl };
 }
 
 export function readSmokeConfig(

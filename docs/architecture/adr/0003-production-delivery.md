@@ -7,6 +7,10 @@
 - **Scope:** Business Factory production CI/CD, release verification and completion semantics
 - **Source:** [Production Delivery brainstorm](../../../.agent/brainstorms/260926-production-delivery.md)
 
+Build 2 extends this release boundary through [ADR
+0004](0004-business-customer-auth-and-accounts.md); the original decision below
+remains the accepted foundation and historical Build 1 contract.
+
 ## Context
 
 Build 1 is fully validated locally and in its hosted development lane, but the original workflow only runs checks. Manual provider commands would leave ambiguity about whether `main`, the Convex backend and the Cloudflare dashboard represent the same release.

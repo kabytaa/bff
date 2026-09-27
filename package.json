@@ -17,7 +17,7 @@
     "format": "prettier --write --ignore-unknown \"{platform,projects,tools}/**/*.{ts,tsx,css,html,json}\" \"*.{json,mjs,yaml,yml}\" \".github/**/*.yml\"",
     "format:check": "prettier --check --ignore-unknown \"{platform,projects,tools}/**/*.{ts,tsx,css,html,json}\" \"*.{json,mjs,yaml,yml}\" \".github/**/*.yml\"",
     "lint": "nx run-many -t lint --all && eslint eslint.config.mjs tools/*.mjs --max-warnings 0",
-    "production:build": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/build-dashboard.ts",
+    "production:build": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/build-surfaces.ts",
     "production:smoke": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/smoke.ts",
     "development-auth:keygen": "nx run bff-backoffice-e2e:generate-development-auth-key",
     "customer-development-auth:keygen": "nx run bff-customer-auth-tools:generate-development-auth-key",

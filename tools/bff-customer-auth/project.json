@@ -11,6 +11,12 @@
         "command": "tsx --tsconfig tsconfig.base.json tools/bff-customer-auth/src/generateCustomerSigningKey.ts"
       }
     },
+    "generate-production-customer-signing-key": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsx --tsconfig tsconfig.base.json tools/bff-customer-auth/src/generateCustomerSigningKey.ts production"
+      }
+    },
     "generate-development-auth-key": {
       "executor": "nx:run-commands",
       "options": {

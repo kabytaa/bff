@@ -27,3 +27,10 @@ pnpm exec nx run bff-customer-auth:assert-production-bundle
 including a protected `index.development-auth.html` entry used only by browser
 automation with an in-memory two-minute grant. The entry and all automation
 markers are forbidden by the production bundle audit.
+
+Production is published from `dist/platform/bff/customer-auth` through
+`wrangler.production.jsonc` as Worker `business-factory-customer-auth` at
+`https://auth.tofler.app`. Do not run that manifest against a development
+artifact. The repository-level `pnpm production:build` command rebuilds this
+surface with the exact production BFF origin, rejects development-provider
+markers and writes the release SHA metadata consumed by production smoke.

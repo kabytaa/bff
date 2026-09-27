@@ -6,6 +6,12 @@ Status: completed and production-verified 2026-09-26.
 
 This runbook implements [ADR 0003](../architecture/adr/0003-production-delivery.md). Never record a deploy key, API token or Google ID token here, in chat or in git.
 
+This document retains the Build 1 single-BFF/backoffice release history. Build
+2 extends—not replaces—these controls with a separate example deployment,
+customer-auth and example surfaces, customer signing keys and broader smoke.
+Use the [Build 2 customer authentication delivery
+runbook](build-2-customer-auth.md) for the current multi-surface release.
+
 ## Fixed targets
 
 | Surface | Development | Production |

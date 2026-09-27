@@ -1,11 +1,20 @@
-import { generateCustomerSigningKey } from './customerSigningKey';
+import {
+  customerSigningKeyPaths,
+  generateCustomerSigningKey,
+} from './customerSigningKey';
 
 try {
-  const result = await generateCustomerSigningKey();
+  const lane = process.argv[2] ?? 'development';
+  if (lane !== 'development' && lane !== 'production') {
+    throw new Error('Signing key lane must be development or production.');
+  }
+  const result = await generateCustomerSigningKey(
+    customerSigningKeyPaths(process.cwd(), lane),
+  );
   console.info(
     result.created
-      ? 'Customer context signing key pair created.'
-      : 'Customer context signing key pair is already valid.',
+      ? `${lane} customer context signing key pair created.`
+      : `${lane} customer context signing key pair is already valid.`,
   );
 } catch (error) {
   console.error(

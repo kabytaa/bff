@@ -5,19 +5,40 @@ import { checkProductionOnce, runProductionSmoke } from './smoke';
 
 const config: SmokeConfig = {
   backofficeUrl: 'https://ops.tofler.tech',
+  bffConvexSiteUrl: 'https://calm-otter-123.convex.site',
+  bffConvexUrl: 'https://calm-otter-123.convex.cloud',
   commitSha: '0123456789abcdef0123456789abcdef01234567',
-  convexSiteUrl: 'https://calm-otter-123.convex.site',
-  expectedConvexUrl: 'https://calm-otter-123.convex.cloud',
+  customerAuthUrl: 'https://auth.tofler.app',
+  customerEnvironmentKey: 'example-production',
+  exampleConvexSiteUrl: 'https://kind-fox-456.convex.site',
+  exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+  exampleWebUrl: 'https://example.tofler.app',
 };
 
-const securityHeaders = {
+const baseHeaders = {
   'cache-control': 'no-store',
-  'content-security-policy':
-    "default-src 'self'; connect-src 'self' https://*.convex.cloud https://*.convex.site; frame-ancestors 'none'",
   'x-content-type-options': 'nosniff',
   'x-frame-options': 'DENY',
   'x-robots-tag': 'noindex, nofollow',
 };
+
+function staticHeaders(connectSources: string): HeadersInit {
+  return {
+    ...baseHeaders,
+    'content-security-policy': `default-src 'self'; connect-src 'self' ${connectSources}; frame-ancestors 'none'`,
+  };
+}
+
+function page(connectSources: string, asset: string): Response {
+  return new Response(
+    `<!doctype html><script type="module" src="${asset}"></script>`,
+    { headers: staticHeaders(connectSources) },
+  );
+}
+
+function metadata(surface: string, commitSha = config.commitSha): Response {
+  return Response.json({ commitSha, surface }, { headers: baseHeaders });
+}
 
 function healthy(version = config.commitSha): Response {
   return Response.json({
@@ -27,61 +48,185 @@ function healthy(version = config.commitSha): Response {
   });
 }
 
-function dashboard(headers = securityHeaders): Response {
-  return new Response(
-    '<!doctype html><script type="module" src="/assets/index-123.js"></script>',
-    { headers },
-  );
+function exampleHealthy(version = config.commitSha): Response {
+  return Response.json({
+    status: 'ok',
+    service: 'business-factory-example',
+    version,
+  });
 }
 
-function bundle(convexUrl = config.expectedConvexUrl): Response {
-  return new Response(`const convexUrl=${JSON.stringify(convexUrl)};`);
+function routes(): Map<string, () => Response> {
+  return new Map([
+    [`${config.bffConvexSiteUrl}/v1/health`, () => healthy()],
+    [
+      `${config.bffConvexSiteUrl}/v1/auth/jwks`,
+      () =>
+        Response.json({
+          keys: [
+            {
+              kty: 'EC',
+              crv: 'P-256',
+              kid: 'customer-production-key',
+              x: 'public-x',
+              y: 'public-y',
+            },
+          ],
+        }),
+    ],
+    [
+      `${config.bffConvexSiteUrl}/v1/auth/transactions/development`,
+      () => new Response('not found', { status: 404 }),
+    ],
+    [`${config.exampleConvexSiteUrl}/v1/health`, () => exampleHealthy()],
+    [
+      `${config.exampleConvexSiteUrl}/v1/context`,
+      () => new Response('unauthenticated', { status: 401 }),
+    ],
+    [
+      `${config.backofficeUrl}/build-metadata.json`,
+      () => metadata('business-factory-backoffice'),
+    ],
+    [
+      `${config.backofficeUrl}/`,
+      () =>
+        page(
+          'https://*.convex.cloud https://*.convex.site',
+          '/assets/backoffice.js',
+        ),
+    ],
+    [
+      `${config.backofficeUrl}/assets/backoffice.js`,
+      () => new Response(`${config.bffConvexUrl} ${config.bffConvexSiteUrl}`),
+    ],
+    [
+      `${config.customerAuthUrl}/build-metadata.json`,
+      () => metadata('business-factory-customer-auth'),
+    ],
+    [
+      `${config.customerAuthUrl}/`,
+      () =>
+        page(
+          'https://accounts.google.com https://*.convex.site',
+          '/assets/customer-auth.js',
+        ),
+    ],
+    [
+      `${config.customerAuthUrl}/assets/customer-auth.js`,
+      () => new Response(config.bffConvexSiteUrl),
+    ],
+    [
+      `${config.exampleWebUrl}/build-metadata.json`,
+      () => metadata('business-factory-example'),
+    ],
+    [
+      `${config.exampleWebUrl}/`,
+      () =>
+        page(
+          'https://*.convex.cloud https://*.convex.site',
+          '/assets/example.js',
+        ),
+    ],
+    [
+      `${config.exampleWebUrl}/assets/example.js`,
+      () =>
+        new Response(
+          [
+            config.bffConvexSiteUrl,
+            config.customerEnvironmentKey,
+            config.exampleConvexSiteUrl,
+            config.exampleConvexUrl,
+          ].join(' '),
+        ),
+    ],
+  ]);
+}
+
+function createFetcher(
+  overrides: ReadonlyMap<string, () => Response> = new Map(),
+): ReturnType<typeof vi.fn<Fetcher>> {
+  const available = new Map([...routes(), ...overrides]);
+  return vi.fn<Fetcher>(async (input) => {
+    const url =
+      typeof input === 'string'
+        ? input
+        : input instanceof URL
+          ? input.href
+          : input.url;
+    const route = available.get(new URL(url).href);
+    if (!route) return new Response('missing test route', { status: 500 });
+    return route();
+  });
 }
 
 describe('production smoke', () => {
-  it('proves health version, dashboard headers and bundle target', async () => {
-    const fetcher = vi
-      .fn<Fetcher>()
-      .mockResolvedValueOnce(healthy())
-      .mockResolvedValueOnce(dashboard())
-      .mockResolvedValueOnce(bundle());
+  it('proves both backends, public JWKS, negative auth and all asset SHAs', async () => {
+    const fetcher = createFetcher();
 
     await expect(checkProductionOnce(config, fetcher)).resolves.toBeUndefined();
-    expect(fetcher).toHaveBeenNthCalledWith(
-      1,
-      'https://calm-otter-123.convex.site/v1/health',
-      expect.any(Object),
+    expect(fetcher).toHaveBeenCalledWith(
+      `${config.bffConvexSiteUrl}/v1/auth/transactions/development`,
+      expect.objectContaining({ method: 'POST' }),
     );
-    expect(fetcher).toHaveBeenNthCalledWith(
-      3,
-      'https://ops.tofler.tech/assets/index-123.js',
-      expect.any(Object),
+    expect(fetcher).toHaveBeenCalledWith(
+      `${config.exampleConvexSiteUrl}/v1/context`,
+      expect.objectContaining({
+        headers: { origin: config.exampleWebUrl },
+      }),
     );
   });
 
-  it('ignores the Convex client URL-validation example in the bundle', async () => {
-    const asset = new Response(
-      [
-        `const convexUrl=${JSON.stringify(config.expectedConvexUrl)};`,
-        "const validationExample='https://happy-otter-123.convex.cloud';",
-      ].join(''),
-    );
-    const fetcher = vi
-      .fn<Fetcher>()
-      .mockResolvedValueOnce(healthy())
-      .mockResolvedValueOnce(dashboard())
-      .mockResolvedValueOnce(asset);
-
-    await expect(checkProductionOnce(config, fetcher)).resolves.toBeUndefined();
+  it.each([
+    [
+      'wrong BFF health version',
+      `${config.bffConvexSiteUrl}/v1/health`,
+      () => healthy('old-version'),
+    ],
+    [
+      'private signing key in JWKS',
+      `${config.bffConvexSiteUrl}/v1/auth/jwks`,
+      () =>
+        Response.json({
+          keys: [
+            {
+              kty: 'EC',
+              crv: 'P-256',
+              kid: 'bad',
+              d: 'private',
+            },
+          ],
+        }),
+    ],
+    [
+      'enabled production dummy route',
+      `${config.bffConvexSiteUrl}/v1/auth/transactions/development`,
+      () => new Response('enabled', { status: 400 }),
+    ],
+    [
+      'unprotected example API',
+      `${config.exampleConvexSiteUrl}/v1/context`,
+      () => Response.json({ accountId: 'leaked' }),
+    ],
+    [
+      'stale example asset metadata',
+      `${config.exampleWebUrl}/build-metadata.json`,
+      () => metadata('business-factory-example', 'old-version'),
+    ],
+  ])('rejects %s', async (_name, url, responder) => {
+    const fetcher = createFetcher(new Map([[url, responder]]));
+    await expect(checkProductionOnce(config, fetcher)).rejects.toThrow();
   });
 
   it('retries a propagating deployment and then succeeds', async () => {
-    const fetcher = vi
-      .fn<Fetcher>()
-      .mockResolvedValueOnce(new Response('pending', { status: 503 }))
-      .mockResolvedValueOnce(healthy())
-      .mockResolvedValueOnce(dashboard())
-      .mockResolvedValueOnce(bundle());
+    const healthyFetcher = createFetcher();
+    let first = true;
+    const fetcher = vi.fn<Fetcher>(async (input, init) => {
+      if (first) {
+        first = false;
+        return new Response('pending', { status: 503 });
+      }
+      return await healthyFetcher(input, init);
+    });
     const sleeper = vi.fn(async () => undefined);
 
     await expect(
@@ -95,30 +240,6 @@ describe('production smoke', () => {
     expect(sleeper).toHaveBeenCalledOnce();
   });
 
-  it.each([
-    ['wrong health version', healthy('old-version'), dashboard(), bundle()],
-    [
-      'missing security header',
-      healthy(),
-      dashboard({ ...securityHeaders, 'x-frame-options': '' }),
-      bundle(),
-    ],
-    [
-      'wrong Convex bundle target',
-      healthy(),
-      dashboard(),
-      bundle('https://other-otter-456.convex.cloud'),
-    ],
-  ])('rejects %s', async (_name, health, page, asset) => {
-    const fetcher = vi
-      .fn<Fetcher>()
-      .mockResolvedValueOnce(health as Response)
-      .mockResolvedValueOnce(page as Response)
-      .mockResolvedValueOnce(asset as Response);
-
-    await expect(checkProductionOnce(config, fetcher)).rejects.toThrow();
-  });
-
   it('fails after bounded retry exhaustion', async () => {
     const fetcher = vi.fn<Fetcher>().mockRejectedValue(new Error('offline'));
     const sleeper = vi.fn(async () => undefined);
@@ -130,7 +251,7 @@ describe('production smoke', () => {
         fetcher,
         sleeper,
       }),
-    ).rejects.toThrow(/failed after 2 attempts/);
+    ).rejects.toThrow(/failed after 2 attempts/u);
     expect(fetcher).toHaveBeenCalledTimes(2);
     expect(sleeper).toHaveBeenCalledOnce();
   });

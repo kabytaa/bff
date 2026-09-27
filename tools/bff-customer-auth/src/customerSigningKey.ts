@@ -4,8 +4,16 @@ import { dirname, resolve } from 'node:path';
 
 import { exportJWK, generateKeyPair, type JWK } from 'jose';
 
-const PRIVATE_KEY_FILE = '.convex/customer-context-signing-private.jwk';
-const PUBLIC_JWKS_FILE = '.convex/customer-context-signing-jwks.json';
+const DEVELOPMENT_PRIVATE_KEY_FILE =
+  '.convex/customer-context-signing-private.jwk';
+const DEVELOPMENT_PUBLIC_JWKS_FILE =
+  '.convex/customer-context-signing-jwks.json';
+const PRODUCTION_PRIVATE_KEY_FILE =
+  '.convex/customer-context-signing-production-private.jwk';
+const PRODUCTION_PUBLIC_JWKS_FILE =
+  '.convex/customer-context-signing-production-jwks.json';
+
+export type CustomerSigningLane = 'development' | 'production';
 
 export interface CustomerSigningKeyPaths {
   readonly privateKey: string;
@@ -35,10 +43,19 @@ interface CustomerPublicJwk extends JWK {
 
 export function customerSigningKeyPaths(
   workspaceRoot = process.cwd(),
+  lane: CustomerSigningLane = 'development',
 ): CustomerSigningKeyPaths {
+  const privateKey =
+    lane === 'production'
+      ? PRODUCTION_PRIVATE_KEY_FILE
+      : DEVELOPMENT_PRIVATE_KEY_FILE;
+  const publicJwks =
+    lane === 'production'
+      ? PRODUCTION_PUBLIC_JWKS_FILE
+      : DEVELOPMENT_PUBLIC_JWKS_FILE;
   return {
-    privateKey: resolve(workspaceRoot, PRIVATE_KEY_FILE),
-    publicJwks: resolve(workspaceRoot, PUBLIC_JWKS_FILE),
+    privateKey: resolve(workspaceRoot, privateKey),
+    publicJwks: resolve(workspaceRoot, publicJwks),
   };
 }
 

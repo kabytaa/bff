@@ -2,7 +2,7 @@
 
 > **Status**: Accepted 2026-09-26 — implementation authorized
 > **Created**: 2026-09-26
-> **Last updated**: 2026-09-26
+> **Last updated**: 2026-09-27
 > **Repository baseline**: `f2e7e6498bf628d97b74696942f512bb36a322d1`
 > **Source brainstorm**: [Build 2 Shared MVP](../brainstorms/260926-build-2-shared-mvp.md)
 > **Planning handoff**: Andrew requested `plan-feature` after the discussion and Astra reconciliation, reviewed the resulting URL/SDK refinements and authorized implementation on 2026-09-26.
@@ -676,3 +676,4 @@ No further product-mode decision is needed to start the listed implementation se
 | 2026-09-26 | Draft — Awaiting review | Created from the settled Build 2 discussion and explicit planning request; pinned repository/provider evidence, single-token protocol, account operations, layered tests and production completion. No implementation or provider mutations performed. |
 | 2026-09-26 | Draft — Awaiting review | Added explicit Business web/session-adapter/default-return URL registration with a derived fixed callback, and made SDK organization technology-first: one TypeScript package with the current Convex adapter and clear future sibling-language boundaries. |
 | 2026-09-26 | Accepted — Implementation authorized | Andrew approved the plan, requested commit/push and authorized implementation with hosted-development validation; production delivery remains subject to the existing reviewed release controls. |
+| 2026-09-27 | Accepted — Implementation active | Tasks 1–22 are implemented and validated through hosted development plus a no-mutation multi-surface production rehearsal. Task 23 remains the actual production configuration/deploy/smoke and Andrew's real Google/Safari acceptance gate. |

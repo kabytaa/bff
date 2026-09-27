@@ -9,29 +9,45 @@ import {
 const commitSha = '0123456789abcdef0123456789abcdef01234567';
 const production = {
   BACKOFFICE_URL: 'https://ops.tofler.tech',
+  BFF_CUSTOMER_ENVIRONMENT_KEY: 'example-production',
+  BFF_DEPLOY_CONVEX_URL: 'https://calm-otter-123.convex.cloud',
   CONVEX_SITE_URL: 'https://calm-otter-123.convex.site',
+  CUSTOMER_AUTH_URL: 'https://auth.tofler.app',
+  EXAMPLE_CONVEX_SITE_URL: 'https://kind-fox-456.convex.site',
+  EXAMPLE_WEB_URL: 'https://example.tofler.app',
   EXPECTED_CONVEX_URL: 'https://calm-otter-123.convex.cloud',
+  EXPECTED_EXAMPLE_CONVEX_URL: 'https://kind-fox-456.convex.cloud',
   GITHUB_SHA: commitSha,
-  VITE_CONVEX_SITE_URL: 'https://calm-otter-123.convex.site',
-  VITE_CONVEX_URL: 'https://calm-otter-123.convex.cloud',
 } satisfies NodeJS.ProcessEnv;
 
 describe('production configuration', () => {
-  it('parses and normalizes the approved production targets', () => {
+  it('parses separate approved BFF, example and asset targets', () => {
     expect(readBuildConfig(production)).toEqual({
       backofficeUrl: 'https://ops.tofler.tech',
+      bffConvexSiteUrl: 'https://calm-otter-123.convex.site',
+      bffConvexUrl: 'https://calm-otter-123.convex.cloud',
       commitSha,
-      convexSiteUrl: 'https://calm-otter-123.convex.site',
-      expectedConvexUrl: 'https://calm-otter-123.convex.cloud',
-      viteConvexUrl: 'https://calm-otter-123.convex.cloud',
+      customerAuthUrl: 'https://auth.tofler.app',
+      customerEnvironmentKey: 'example-production',
+      exampleConvexSiteUrl: 'https://kind-fox-456.convex.site',
+      exampleConvexUrl: 'https://kind-fox-456.convex.cloud',
+      exampleWebUrl: 'https://example.tofler.app',
+      injectedBffConvexUrl: 'https://calm-otter-123.convex.cloud',
     });
-    expect(readSmokeConfig(production)).not.toHaveProperty('viteConvexUrl');
+    expect(readSmokeConfig(production)).not.toHaveProperty(
+      'injectedBffConvexUrl',
+    );
   });
 
   it.each([
     ['BACKOFFICE_URL'],
+    ['CUSTOMER_AUTH_URL'],
+    ['EXAMPLE_WEB_URL'],
     ['CONVEX_SITE_URL'],
     ['EXPECTED_CONVEX_URL'],
+    ['EXAMPLE_CONVEX_SITE_URL'],
+    ['EXPECTED_EXAMPLE_CONVEX_URL'],
+    ['BFF_CUSTOMER_ENVIRONMENT_KEY'],
     ['GITHUB_SHA'],
   ])('rejects missing %s without dumping the environment', (name) => {
     const environment = { ...production, [name]: undefined };
@@ -40,35 +56,37 @@ describe('production configuration', () => {
     );
   });
 
-  it('rejects the development dashboard target', () => {
-    expect(() =>
-      readSmokeConfig({
-        ...production,
-        BACKOFFICE_URL: 'https://ops-dev.tofler.tech',
-      }),
-    ).toThrow(/must be https:\/\/ops\.tofler\.tech/);
+  it.each([
+    ['BACKOFFICE_URL', 'https://ops-dev.tofler.tech'],
+    ['CUSTOMER_AUTH_URL', 'https://auth-dev.tofler.app'],
+    ['EXAMPLE_WEB_URL', 'https://example-dev.tofler.app'],
+    ['BFF_CUSTOMER_ENVIRONMENT_KEY', 'example-development'],
+  ])('rejects a development %s target', (name, value) => {
+    expect(() => readSmokeConfig({ ...production, [name]: value })).toThrow(
+      ProductionConfigError,
+    );
   });
 
-  it('rejects mismatched Convex client and site targets', () => {
+  it('rejects mismatched or shared Convex deployment targets', () => {
     expect(() =>
       readBuildConfig({
         ...production,
-        EXPECTED_CONVEX_URL: 'https://other-otter-456.convex.cloud',
-        VITE_CONVEX_URL: 'https://other-otter-456.convex.cloud',
+        EXAMPLE_CONVEX_SITE_URL: 'https://other-fox-789.convex.site',
       }),
-    ).toThrow(/must identify the same deployment/);
+    ).toThrow(/Example Convex site and client URLs/u);
     expect(() =>
       readBuildConfig({
         ...production,
-        VITE_CONVEX_URL: 'https://other-otter-456.convex.cloud',
+        EXAMPLE_CONVEX_SITE_URL: production.CONVEX_SITE_URL,
+        EXPECTED_EXAMPLE_CONVEX_URL: production.EXPECTED_CONVEX_URL,
       }),
-    ).toThrow(/does not match EXPECTED_CONVEX_URL/);
+    ).toThrow(/separate Convex deployments/u);
     expect(() =>
       readBuildConfig({
         ...production,
-        VITE_CONVEX_SITE_URL: 'https://other-otter-456.convex.site',
+        BFF_DEPLOY_CONVEX_URL: 'https://other-otter-789.convex.cloud',
       }),
-    ).toThrow(/does not match CONVEX_SITE_URL/);
+    ).toThrow(/does not match EXPECTED_CONVEX_URL/u);
   });
 
   it.each([

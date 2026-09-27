@@ -16,10 +16,27 @@ deployment:
 - `BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL`: this deployment's exact Convex site
   origin, which owns the host-only session cookie.
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`: an application-relative destination.
+- `EXAMPLE_BUILD_VERSION`: the full release SHA returned by `/v1/health` in
+  production; development falls back to `development` when it is absent.
 
 Run `pnpm exec nx run example-backend:test-integration` for the authorization
 scenarios and `pnpm exec nx run example-backend:typecheck` for its generated
 consumer boundary. The backend mounts the shared session adapter at
 `/_tofler/auth/*`, exposes one protected `/v1/context` reference endpoint and
-stores no Business session table. It does not use the BFF service's generated
-API.
+one anonymous no-store `/v1/health` endpoint, and stores no Business session
+table. It does not use the BFF service's generated API.
+
+Run every Convex CLI command for this backend from
+`projects/example/backend`. Its `convex.json`, generated API, project and deploy
+key are deliberately separate from the repository-root BFF deployment. For a
+development push:
+
+```sh
+cd projects/example/backend
+pnpm exec convex dev --once --typecheck enable
+```
+
+Production uses a distinct example deployment and scoped
+`EXAMPLE_CONVEX_DEPLOY_KEY`; the root `CONVEX_DEPLOY_KEY` must never be passed to
+this working directory. See `docs/operations/build-2-customer-auth.md` for the
+ordered release and environment configuration.

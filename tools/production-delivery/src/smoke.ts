@@ -1,13 +1,15 @@
 import { parseHealthResponse } from '@bff/contracts';
 
+import {
+  assertBackofficeBundleContent,
+  assertCustomerAuthBundleContent,
+  assertExampleBundleContent,
+} from './bundles';
 import { readSmokeConfig, type SmokeConfig } from './config';
 
 const DEFAULT_ATTEMPTS = 30;
 const DEFAULT_DELAY_MS = 10_000;
 const REQUEST_TIMEOUT_MS = 10_000;
-// ConvexReactClient includes this URL only in its invalid-URL error message.
-// It is dependency text, not a configured deployment target.
-const CONVEX_CLIENT_EXAMPLE_URL = 'https://happy-otter-123.convex.cloud';
 
 type Fetcher = typeof fetch;
 type Sleeper = (milliseconds: number) => Promise<void>;
@@ -29,20 +31,33 @@ function assertIncludes(
   }
 }
 
-async function response(fetcher: Fetcher, url: string): Promise<Response> {
-  const result = await fetcher(url, {
+async function request(
+  fetcher: Fetcher,
+  url: string,
+  init: RequestInit = {},
+): Promise<Response> {
+  return await fetcher(url, {
+    ...init,
     redirect: 'follow',
     signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
+}
+
+async function successfulResponse(
+  fetcher: Fetcher,
+  url: string,
+  init?: RequestInit,
+): Promise<Response> {
+  const result = await request(fetcher, url, init);
   if (!result.ok) {
     throw new Error(`${new URL(url).hostname} returned HTTP ${result.status}.`);
   }
   return result;
 }
 
-function dashboardAsset(html: string, baseUrl: string): string {
+function javascriptAsset(html: string, baseUrl: string): string {
   const matches = html.matchAll(
-    /<script\b[^>]*\bsrc=["']([^"']+\.js(?:\?[^"']*)?)["'][^>]*>/gi,
+    /<script\b[^>]*\bsrc=["']([^"']+\.js(?:\?[^"']*)?)["'][^>]*>/giu,
   );
   for (const match of matches) {
     const source = match[1];
@@ -50,26 +65,109 @@ function dashboardAsset(html: string, baseUrl: string): string {
     const url = new URL(source, baseUrl);
     if (url.origin === new URL(baseUrl).origin) return url.href;
   }
-  throw new Error(
-    'Dashboard HTML does not reference a same-origin JavaScript asset.',
-  );
+  throw new Error('HTML does not reference a same-origin JavaScript asset.');
 }
 
-function assertConvexTarget(bundle: string, expectedUrl: string): void {
-  if (!bundle.includes(expectedUrl)) {
-    throw new Error(
-      'Dashboard bundle does not contain the production Convex URL.',
+function assertStaticHeaders(
+  response: Response,
+  cspMarkers: readonly string[],
+): void {
+  assertIncludes(
+    response.headers.get('cache-control'),
+    'no-store',
+    'Cache-Control',
+  );
+  assertIncludes(
+    response.headers.get('x-content-type-options'),
+    'nosniff',
+    'X-Content-Type-Options',
+  );
+  assertIncludes(
+    response.headers.get('x-frame-options'),
+    'deny',
+    'X-Frame-Options',
+  );
+  assertIncludes(
+    response.headers.get('x-robots-tag'),
+    'noindex',
+    'X-Robots-Tag',
+  );
+  assertIncludes(
+    response.headers.get('content-security-policy'),
+    "frame-ancestors 'none'",
+    'Content-Security-Policy',
+  );
+  for (const marker of cspMarkers) {
+    assertIncludes(
+      response.headers.get('content-security-policy'),
+      marker,
+      'Content-Security-Policy',
     );
   }
+}
 
-  const referencedUrls = new Set(
-    bundle.match(/https:\/\/[a-z0-9-]+\.convex\.cloud/gi) ?? [],
+async function assertStaticSurface(
+  fetcher: Fetcher,
+  baseUrl: string,
+  surface: string,
+  commitSha: string,
+  cspMarkers: readonly string[],
+  assertBundle: (content: string) => void,
+): Promise<void> {
+  const metadataResponse = await successfulResponse(
+    fetcher,
+    new URL('/build-metadata.json', baseUrl).href,
   );
-  const unexpected = [...referencedUrls].filter(
-    (url) => url !== expectedUrl && url !== CONVEX_CLIENT_EXAMPLE_URL,
+  const metadata = (await metadataResponse.json()) as Record<string, unknown>;
+  if (metadata.commitSha !== commitSha || metadata.surface !== surface) {
+    throw new Error(`${surface} build metadata does not match the release.`);
+  }
+
+  const pageResponse = await successfulResponse(fetcher, baseUrl);
+  assertStaticHeaders(pageResponse, cspMarkers);
+  const html = await pageResponse.text();
+  const assetResponse = await successfulResponse(
+    fetcher,
+    javascriptAsset(html, baseUrl),
   );
-  if (unexpected.length > 0) {
-    throw new Error('Dashboard bundle contains an unexpected Convex URL.');
+  assertBundle(await assetResponse.text());
+}
+
+function assertPublicJwks(value: unknown): void {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    !('keys' in value) ||
+    !Array.isArray(value.keys) ||
+    value.keys.length === 0
+  ) {
+    throw new Error('BFF JWKS has no public signing keys.');
+  }
+  for (const key of value.keys) {
+    if (
+      typeof key !== 'object' ||
+      key === null ||
+      key.kty !== 'EC' ||
+      key.crv !== 'P-256' ||
+      typeof key.kid !== 'string' ||
+      'd' in key
+    ) {
+      throw new Error('BFF JWKS contains an invalid or private key.');
+    }
+  }
+}
+
+async function assertExpectedStatus(
+  fetcher: Fetcher,
+  url: string,
+  expectedStatus: number,
+  init?: RequestInit,
+): Promise<void> {
+  const result = await request(fetcher, url, init);
+  if (result.status !== expectedStatus) {
+    throw new Error(
+      `${new URL(url).hostname} returned HTTP ${result.status}; expected ${expectedStatus}.`,
+    );
   }
 }
 
@@ -77,8 +175,8 @@ export async function checkProductionOnce(
   config: SmokeConfig,
   fetcher: Fetcher = fetch,
 ): Promise<void> {
-  const healthUrl = new URL('/v1/health', config.convexSiteUrl).href;
-  const healthResponse = await response(fetcher, healthUrl);
+  const bffHealthUrl = new URL('/v1/health', config.bffConvexSiteUrl).href;
+  const healthResponse = await successfulResponse(fetcher, bffHealthUrl);
   const health = parseHealthResponse(await healthResponse.json());
   if (health.version !== config.commitSha) {
     throw new Error(
@@ -86,47 +184,68 @@ export async function checkProductionOnce(
     );
   }
 
-  const dashboardResponse = await response(fetcher, config.backofficeUrl);
-  assertIncludes(
-    dashboardResponse.headers.get('cache-control'),
-    'no-store',
-    'Cache-Control',
+  const jwksResponse = await successfulResponse(
+    fetcher,
+    new URL('/v1/auth/jwks', config.bffConvexSiteUrl).href,
   );
-  assertIncludes(
-    dashboardResponse.headers.get('x-content-type-options'),
-    'nosniff',
-    'X-Content-Type-Options',
-  );
-  assertIncludes(
-    dashboardResponse.headers.get('x-frame-options'),
-    'deny',
-    'X-Frame-Options',
-  );
-  assertIncludes(
-    dashboardResponse.headers.get('x-robots-tag'),
-    'noindex',
-    'X-Robots-Tag',
-  );
-  assertIncludes(
-    dashboardResponse.headers.get('content-security-policy'),
-    "frame-ancestors 'none'",
-    'Content-Security-Policy',
-  );
-  assertIncludes(
-    dashboardResponse.headers.get('content-security-policy'),
-    'https://*.convex.cloud',
-    'Content-Security-Policy',
-  );
-  assertIncludes(
-    dashboardResponse.headers.get('content-security-policy'),
-    'https://*.convex.site',
-    'Content-Security-Policy',
+  assertPublicJwks(await jwksResponse.json());
+  await assertExpectedStatus(
+    fetcher,
+    new URL('/v1/auth/transactions/development', config.bffConvexSiteUrl).href,
+    404,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    },
   );
 
-  const html = await dashboardResponse.text();
-  const assetUrl = dashboardAsset(html, config.backofficeUrl);
-  const assetResponse = await response(fetcher, assetUrl);
-  assertConvexTarget(await assetResponse.text(), config.expectedConvexUrl);
+  const exampleHealthResponse = await successfulResponse(
+    fetcher,
+    new URL('/v1/health', config.exampleConvexSiteUrl).href,
+  );
+  const exampleHealth = (await exampleHealthResponse.json()) as Record<
+    string,
+    unknown
+  >;
+  if (
+    exampleHealth.status !== 'ok' ||
+    exampleHealth.service !== 'business-factory-example' ||
+    exampleHealth.version !== config.commitSha
+  ) {
+    throw new Error('Example backend health does not match the release.');
+  }
+  await assertExpectedStatus(
+    fetcher,
+    new URL('/v1/context', config.exampleConvexSiteUrl).href,
+    401,
+    { headers: { origin: config.exampleWebUrl } },
+  );
+
+  await assertStaticSurface(
+    fetcher,
+    config.backofficeUrl,
+    'business-factory-backoffice',
+    config.commitSha,
+    ['https://*.convex.cloud', 'https://*.convex.site'],
+    (content) => assertBackofficeBundleContent(content, config),
+  );
+  await assertStaticSurface(
+    fetcher,
+    config.customerAuthUrl,
+    'business-factory-customer-auth',
+    config.commitSha,
+    ['https://accounts.google.com', 'https://*.convex.site'],
+    (content) => assertCustomerAuthBundleContent(content, config),
+  );
+  await assertStaticSurface(
+    fetcher,
+    config.exampleWebUrl,
+    'business-factory-example',
+    config.commitSha,
+    ['https://*.convex.cloud', 'https://*.convex.site'],
+    (content) => assertExampleBundleContent(content, config),
+  );
 }
 
 export async function runProductionSmoke(
@@ -151,7 +270,7 @@ export async function runProductionSmoke(
       console.info(`Production smoke attempt ${attempt}/${attempts}.`);
       await checkProductionOnce(config, fetcher);
       console.info(
-        `Production smoke passed for ${config.commitSha} at ${config.backofficeUrl}.`,
+        `Production smoke passed for ${config.commitSha} across every Build 2 surface.`,
       );
       return;
     } catch (error) {

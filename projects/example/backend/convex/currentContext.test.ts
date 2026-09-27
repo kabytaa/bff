@@ -45,6 +45,18 @@ function accountIdentity(overrides: Record<string, unknown> = {}) {
 }
 
 describe('example native customer context', () => {
+  it('exposes a public, non-cacheable build health contract', async () => {
+    const response = await convexTest(schema, modules).fetch('/v1/health');
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    await expect(response.json()).resolves.toEqual({
+      status: 'ok',
+      service: 'business-factory-example',
+      version: 'development',
+    });
+  });
+
   it('returns only the verified account context', async () => {
     const t = convexTest(schema, modules).withIdentity(accountIdentity());
 

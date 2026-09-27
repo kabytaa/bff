@@ -33,5 +33,11 @@ pnpm exec wrangler deploy \
   --config projects/example/workloads/web/wrangler.jsonc
 ```
 
-Production hosting is deliberately separate and is added only by the
-multi-surface production-delivery slice.
+Production uses the separate `wrangler.production.jsonc` manifest, Worker
+`business-factory-example` and `https://example.tofler.app`. It must be built by
+the repository-level `pnpm production:build` command so the bundle contains the
+exact production BFF origin, `example-production` key and separate example
+Convex deployment, with no development markers. That command also writes the
+exact release SHA metadata required by production smoke. See
+`docs/operations/build-2-customer-auth.md`; do not publish the production
+manifest from the development output.

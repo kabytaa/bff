@@ -5,10 +5,35 @@ import {
   withBffAccountHttpAction,
 } from '@tofler/bff-auth/convex/server';
 import { httpAction } from './_generated/server';
-import { exampleCustomerAuth, exampleCustomerSession } from './environment';
+import {
+  exampleCustomerAuth,
+  exampleCustomerSession,
+  exampleServiceVersion,
+} from './environment';
 
 const http = httpRouter();
 const sessionAdapter = createConvexBffAuthHttpAction(exampleCustomerSession);
+
+http.route({
+  path: '/v1/health',
+  method: 'GET',
+  handler: httpAction(async () =>
+    Response.json(
+      {
+        status: 'ok',
+        service: 'business-factory-example',
+        version: exampleServiceVersion(),
+      },
+      {
+        headers: {
+          'access-control-allow-origin': '*',
+          'cache-control': 'no-store',
+          'x-content-type-options': 'nosniff',
+        },
+      },
+    ),
+  ),
+});
 
 for (const route of [
   { path: '/_tofler/auth/login', method: 'GET' },

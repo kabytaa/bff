@@ -34,18 +34,21 @@ jobs:
     timeout-minutes: 20
     environment:
       name: production
-      url: ${{ vars.BACKOFFICE_URL }}
+      url: ${{ vars.EXAMPLE_WEB_URL }}
     concurrency:
       group: production
       cancel-in-progress: false
     env:
       BACKOFFICE_URL: ${{ vars.BACKOFFICE_URL }}
+      BFF_CUSTOMER_ENVIRONMENT_KEY: ${{ vars.BFF_CUSTOMER_ENVIRONMENT_KEY }}
+      BFF_DEPLOY_CONVEX_URL: ${{ vars.CONVEX_URL }}
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
       CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}
+      CUSTOMER_AUTH_URL: ${{ vars.CUSTOMER_AUTH_URL }}
+      EXAMPLE_CONVEX_SITE_URL: ${{ vars.EXAMPLE_CONVEX_SITE_URL }}
+      EXAMPLE_WEB_URL: ${{ vars.EXAMPLE_WEB_URL }}
       EXPECTED_CONVEX_URL: ${{ vars.CONVEX_URL }}
-      VITE_CONVEX_SITE_URL: ${{ vars.CONVEX_SITE_URL }}
+      EXPECTED_EXAMPLE_CONVEX_URL: ${{ vars.EXAMPLE_CONVEX_URL }}
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -57,17 +60,56 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Deploy Convex and build the production dashboard
+      - name: Preflight every production build and target
+        run: pnpm production:build
+      - name: Deploy the BFF and rebuild the reviewed assets
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
         run: >-
           pnpm exec convex deploy
           --cmd "pnpm production:build"
-          --cmd-url-env-var-name VITE_CONVEX_URL
+          --cmd-url-env-var-name BFF_DEPLOY_CONVEX_URL
           --message "$GITHUB_SHA"
-      - name: Stamp the deployed backend version
+      - name: Stamp the deployed BFF version
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
         run: pnpm exec convex env set BFF_BUILD_VERSION "$GITHUB_SHA"
-      - name: Deploy the production dashboard
+      - name: Configure the separate example production deployment
+        working-directory: projects/example/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.EXAMPLE_CONVEX_DEPLOY_KEY }}
+        run: |
+          pnpm exec convex env set BFF_CUSTOMER_AUTH_ISSUER "$CUSTOMER_AUTH_URL"
+          pnpm exec convex env set BFF_CUSTOMER_ENVIRONMENT_KEY "$BFF_CUSTOMER_ENVIRONMENT_KEY"
+          pnpm exec convex env set BFF_CUSTOMER_JWKS_URL "$CONVEX_SITE_URL/v1/auth/jwks"
+          pnpm exec convex env set BFF_CUSTOMER_API_BASE_URL "$CONVEX_SITE_URL"
+          pnpm exec convex env set BFF_CUSTOMER_WEB_ORIGINS_JSON "[\"$EXAMPLE_WEB_URL\"]"
+          pnpm exec convex env set BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL "$EXAMPLE_CONVEX_SITE_URL"
+          pnpm exec convex env set BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH "/"
+      - name: Deploy and stamp the separate example backend
+        working-directory: projects/example/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.EXAMPLE_CONVEX_DEPLOY_KEY }}
+        run: |
+          pnpm exec convex deploy --message "$GITHUB_SHA"
+          pnpm exec convex env set EXAMPLE_BUILD_VERSION "$GITHUB_SHA"
+      - name: Deploy the production backoffice
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: >-
           pnpm exec wrangler deploy
           --config platform/bff/backoffice/wrangler.production.jsonc
+      - name: Deploy the production customer auth surface
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config platform/bff/customer-auth/wrangler.production.jsonc
+      - name: Deploy the production example
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config projects/example/workloads/web/wrangler.production.jsonc
       - name: Smoke-check the production release
         run: pnpm production:smoke

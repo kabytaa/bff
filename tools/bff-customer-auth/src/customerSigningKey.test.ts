@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {
+  customerSigningKeyPaths,
   generateCustomerSigningKey,
   type CustomerSigningKeyPaths,
 } from './customerSigningKey';
@@ -29,6 +30,15 @@ afterEach(async () => {
 });
 
 describe('customer context signing key', () => {
+  it('keeps development and production key paths separate', () => {
+    const development = customerSigningKeyPaths('/workspace', 'development');
+    const production = customerSigningKeyPaths('/workspace', 'production');
+
+    expect(development).not.toEqual(production);
+    expect(production.privateKey).toContain('production-private.jwk');
+    expect(production.publicJwks).toContain('production-jwks.json');
+  });
+
   it('creates one matching ES256 pair with a protected private file', async () => {
     const output = await paths();
     expect(await generateCustomerSigningKey(output)).toEqual({ created: true });

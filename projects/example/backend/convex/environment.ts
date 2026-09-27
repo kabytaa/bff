@@ -22,6 +22,10 @@ function requiredStringArrayEnvironment(name: string): string[] {
   return parsed;
 }
 
+export function exampleServiceVersion(): string {
+  return process.env.EXAMPLE_BUILD_VERSION?.trim() || 'development';
+}
+
 export const exampleCustomerAuth = {
   issuer: requiredEnvironment('BFF_CUSTOMER_AUTH_ISSUER'),
   environmentKey: requiredEnvironment('BFF_CUSTOMER_ENVIRONMENT_KEY'),
