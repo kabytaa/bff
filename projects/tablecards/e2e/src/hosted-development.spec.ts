@@ -154,6 +154,28 @@ async function preparePublicDraft(page: Page) {
   await expect(page.getByText(/4 cards · 2 PDF pages/u)).toBeVisible();
 }
 
+async function expectNoHorizontalPageOverflow(page: Page) {
+  const overflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth -
+      document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(1);
+}
+
+async function expectInsideViewport(page: Page, selector: string) {
+  const bounds = await page.locator(selector).evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return {
+      left: rect.left,
+      right: rect.right,
+      viewportWidth: document.documentElement.clientWidth,
+    };
+  });
+  expect(bounds.left).toBeGreaterThanOrEqual(-1);
+  expect(bounds.right).toBeLessThanOrEqual(bounds.viewportWidth + 1);
+}
+
 test('published landscape print-test PDF has six-card page geometry', async ({
   request,
 }) => {
@@ -189,7 +211,13 @@ test('mobile creator is step focused and has no horizontal page overflow', async
   await expect(
     page.getByRole('heading', { name: 'Build your first sheet' }),
   ).toHaveCount(0);
-  await page.getByRole('link', { name: /Create free/u }).click();
+  // Wait for the initial session probe to finish so its provider remount cannot
+  // replace the landing route while WebKit is following the creator link.
+  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await Promise.all([
+    page.waitForURL(`${TABLECARDS_WEB_URL}/create`),
+    page.getByRole('link', { name: /Create free/u }).click(),
+  ]);
   await expect(page.getByRole('button', { name: 'Guests' })).toBeVisible();
   await page
     .getByLabel(/Paste one name per line/u)
@@ -200,14 +228,32 @@ test('mobile creator is step focused and has no horizontal page overflow', async
     'aria-current',
     'step',
   );
+  await expect(
+    page.getByRole('group', { name: 'Print layout to test' }),
+  ).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+  await expectInsideViewport(page, '[data-creator-step="2"]');
+  await expectInsideViewport(page, '.print-layout-options');
+  await page.getByLabel(/Landscape — 6 cards/u).check();
+  await expect(page.getByLabel(/Landscape — 6 cards/u)).toBeChecked();
   await page.getByRole('button', { name: 'Review and export' }).click();
   await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
-  const overflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth -
-      document.documentElement.clientWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(1);
+  await expectNoHorizontalPageOverflow(page);
+});
+
+test('desktop creator keeps the design and print controls aligned', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await preparePublicDraft(page);
+  await expect(
+    page.getByRole('group', { name: 'Print layout to test' }),
+  ).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+  await expectInsideViewport(page, '[data-creator-step="2"]');
+  await expectInsideViewport(page, '.print-layout-options');
+  await page.getByLabel(/Landscape — 6 cards/u).check();
+  await expect(page.getByLabel(/Landscape — 6 cards/u)).toBeChecked();
 });
 
 test('public preview survives sign-in and produces a real PDF', async ({

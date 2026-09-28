@@ -93,9 +93,10 @@ pnpm test:e2e:tablecards-hosted
 
 The Playwright flow uses short-lived development grants, the real session
 gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
-deterministic AI batch. Five scenario-sized journeys run in both Chromium and
-WebKit, including a two-person Studio invitation and role promotion. It
-downloads and parses the PDF in both browser engines.
+deterministic AI batch. Six scenario-sized journeys run in both Chromium and
+WebKit, including mobile and desktop creator containment plus a two-person
+Studio invitation and role promotion. It downloads and parses the PDF in both
+browser engines.
 The local development signing key is intentionally absent from CI, so the
 hosted suite is a separate development acceptance gate rather than part of the
 self-contained root `pnpm check` command.
@@ -155,11 +156,12 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   green and the six uncached hosted Chromium/WebKit journeys pass, including
   authenticated offer selection and AI reserve/commit behavior.
 - The routed application correction is deployed at web Worker version
-  `602f2764-365f-430c-8ad9-d4fda07ea445`. The public landing loads a dedicated
+  `2bfb1bd7-0902-4e5a-966e-863ae0dcdfe6`. The public landing loads a dedicated
   lightweight catalog chunk and does not eagerly load the spreadsheet/PDF
-  editor or team route. The complete Node 24 repository gate and all 10 hosted
-  Chromium/WebKit journeys pass; the mobile journey also passes at 320 CSS
-  pixels without horizontal overflow.
+  editor or team route. The creator's full print-layout controls remain
+  available and contained on mobile; only the design carousel scrolls. The
+  hosted suite now asserts the Design step and print controls at 320 CSS pixels
+  and at 1,280 desktop pixels; all 12 hosted Chromium/WebKit journeys pass.
 - Direct health probes for TableCards HTTP and the session gateway return `200`;
   an unauthenticated shared product-access probe returns the intended `401`.
 

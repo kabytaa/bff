@@ -16,10 +16,12 @@ these grants and Build 3 has no production TableCards deployment. For the same
 reason, this hosted suite is deliberately separate from the self-contained
 `pnpm check` CI gate; CI never receives the development signing key.
 
-The hosted suite runs five scenario-sized journeys in both Chromium and WebKit:
+The hosted suite runs six scenario-sized journeys in both Chromium and WebKit:
 the public print-test PDF, compact mobile creator and lazy landing boundary,
-anonymous draft through sign-in and stored PDF, professional project/preset/AI
-workflow, and Studio invitation acceptance plus role promotion. The Studio
-scenario provisions its explicit five-seat/Admin/invitation policy through the
-validated operator CLI; choosing the Studio mock offer never changes security
-policy.
+desktop creator alignment, anonymous draft through sign-in and stored PDF,
+professional project/preset/AI workflow, and Studio invitation acceptance plus
+role promotion. The creator checks keep the whole page within both 320-pixel
+and desktop viewports while allowing only the mobile design carousel to scroll
+horizontally. The Studio scenario provisions its explicit
+five-seat/Admin/invitation policy through the validated operator CLI; choosing
+the Studio mock offer never changes security policy.

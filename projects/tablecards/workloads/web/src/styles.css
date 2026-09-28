@@ -486,11 +486,13 @@ footer > a:hover {
   grid-template-columns: minmax(23rem, 0.85fr) minmax(29rem, 1.15fr);
   align-items: start;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 .creator-controls {
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
 
 .step-card,
@@ -505,6 +507,8 @@ footer > a:hover {
 
 .step-card {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
   padding: 1.35rem;
 }
 
@@ -629,6 +633,8 @@ textarea {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.7rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .design-option {
@@ -698,6 +704,10 @@ textarea {
 .print-layout-options {
   display: grid;
   gap: 0.55rem;
+  width: 100%;
+  min-width: 0;
+  min-inline-size: 0;
+  max-width: 100%;
   margin: 1rem 0 0;
   border: 1px solid #ded3c7;
   border-radius: 0.8rem;
@@ -714,7 +724,8 @@ textarea {
 
 .print-layout-options label {
   display: grid;
-  grid-template-columns: 1rem 1fr;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  min-width: 0;
   align-items: start;
   gap: 0.65rem;
   border: 1px solid #e2d8cc;
@@ -732,6 +743,7 @@ textarea {
 .print-layout-options span {
   display: grid;
   gap: 0.16rem;
+  min-width: 0;
 }
 
 .print-layout-options small,
@@ -743,14 +755,17 @@ textarea {
 
 .print-layout-options p {
   margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
 }
 
 .print-test-download {
   justify-self: start;
+  max-width: 100%;
   padding: 0;
   font-size: 0.72rem;
   font-weight: 800;
   text-decoration: underline;
+  overflow-wrap: anywhere;
 }
 
 .action-card {
@@ -1818,6 +1833,8 @@ footer p {
   .creator-step-navigation {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    min-width: 0;
+    max-width: 100%;
     padding: 0.25rem;
     border: 1px solid var(--line);
     border-radius: 0.8rem;
@@ -1852,13 +1869,16 @@ footer p {
 
   .design-grid {
     display: flex;
+    width: 100%;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
     scroll-snap-type: x mandatory;
     padding-bottom: 0.5rem;
   }
 
   .design-option {
-    min-width: min(72vw, 17rem);
+    flex: 0 0 min(72vw, 17rem);
+    min-width: 0;
     scroll-snap-align: start;
   }
 
