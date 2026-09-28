@@ -1,5 +1,5 @@
 import { OFFER_CATALOG, type OfferId } from '@tablecards/core/catalog';
-import { BffAuthLink } from '@tofler/bff-auth/react';
+import { BffAuthLink, useBffAuth } from '@tofler/bff-auth/react';
 import { Link } from 'react-router-dom';
 
 const offerFeatures: Record<OfferId, readonly string[]> = {
@@ -19,7 +19,15 @@ const offerFeatures: Record<OfferId, readonly string[]> = {
   ],
 };
 
+const offerActions: Record<OfferId, string> = {
+  free: 'Create free PDF',
+  event_pass: 'Finish one event',
+  planner_pro: 'Start Planner Pro',
+  studio: 'Start Studio',
+};
+
 export function Component() {
+  const { state } = useBffAuth();
   return (
     <main className="landing-page">
       <section className="hero" aria-labelledby="landing-title">
@@ -110,9 +118,26 @@ export function Component() {
                     <li key={feature}>{feature}</li>
                   ))}
                 </ul>
-                <Link className="secondary-button" to="/create">
-                  {offerId === 'free' ? 'Start free' : 'Try the workflow'}
-                </Link>
+                {offerId === 'free' ? (
+                  <Link className="secondary-button" to="/create">
+                    {offerActions[offerId]}
+                  </Link>
+                ) : state.status === 'authenticated' ? (
+                  <Link
+                    className="secondary-button"
+                    to={`/settings?offer=${offerId}`}
+                  >
+                    {offerActions[offerId]}
+                  </Link>
+                ) : (
+                  <BffAuthLink
+                    className="secondary-button"
+                    intent="continue"
+                    returnPath={`/settings?offer=${offerId}`}
+                  >
+                    {offerActions[offerId]}
+                  </BffAuthLink>
+                )}
               </article>
             );
           })}

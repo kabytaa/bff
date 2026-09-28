@@ -1486,6 +1486,25 @@ footer p {
   gap: 1rem;
 }
 
+.creator-auth-navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.creator-auth-navigation a {
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.creator-auth-navigation a.active,
+.creator-auth-navigation a:hover {
+  color: var(--ink);
+  background: var(--sage-wash);
+}
+
 .application-shell {
   min-height: 100vh;
   background: var(--mist);
@@ -1717,6 +1736,23 @@ footer p {
   align-items: center;
 }
 
+.ai-choice {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.65rem;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.ai-choice[aria-pressed='true'] {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 2px var(--sage-wash);
+}
+
 .preset-preview {
   padding: 1rem;
 }
@@ -1732,6 +1768,14 @@ footer p {
 }
 
 .preset-chooser {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.project-creative-tools {
+  display: grid;
+  gap: 0.9rem;
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--line);
@@ -1847,6 +1891,14 @@ footer p {
   .creator-route-header .brand > span:last-child,
   .creator-route-header .header-actions .text-button {
     display: inline-flex;
+  }
+
+  .creator-auth-navigation {
+    display: none;
+  }
+
+  .creator-route:has(.mobile-navigation) {
+    padding-bottom: 4.6rem;
   }
 
   .creator-route .creator-section {

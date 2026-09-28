@@ -230,6 +230,21 @@ export const saveAuthorized = internalMutation({
       if (!asset || asset.source !== args.design.kind) {
         fail('NOT_FOUND', 'The selected background artwork was not found');
       }
+      if (asset.projectId !== undefined) {
+        const requestedProject = args.projectId
+          ? await ctx.db
+              .query('projects')
+              .withIndex('by_account_public_id', (queryBuilder) =>
+                queryBuilder
+                  .eq('accountId', args.accountId)
+                  .eq('publicId', args.projectId as string),
+              )
+              .unique()
+          : null;
+        if (!requestedProject || requestedProject._id !== asset.projectId) {
+          fail('FORBIDDEN', 'This artwork belongs to a different event');
+        }
+      }
     }
     if (
       args.design.nameStyle !== undefined &&

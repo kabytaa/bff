@@ -3,10 +3,17 @@ import {
   BffAuthLink,
   useBffAuth,
 } from '@tofler/bff-auth/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import { Creator } from '../app';
 import { useTableCardsApplication } from '../application-context';
+
+const authenticatedNavigation = [
+  { to: '/projects', label: 'Projects' },
+  { to: '/create', label: 'Create' },
+  { to: '/designs', label: 'Designs' },
+  { to: '/settings', label: 'Account' },
+] as const;
 
 export function Component() {
   const { state } = useBffAuth();
@@ -36,9 +43,16 @@ export function Component() {
         <div className="header-actions">
           {state.status === 'authenticated' ? (
             <>
-              <Link className="text-button" to="/projects">
-                Projects
-              </Link>
+              <nav
+                className="creator-auth-navigation"
+                aria-label="Application navigation"
+              >
+                {authenticatedNavigation.map((item) => (
+                  <NavLink key={item.to} to={item.to}>
+                    {item.label}
+                  </NavLink>
+                ))}
+              </nav>
               <BffAccountSelector
                 className="account-select"
                 label={<span className="sr-only">Account</span>}
@@ -63,6 +77,15 @@ export function Component() {
           }
         />
       </main>
+      {state.status === 'authenticated' ? (
+        <nav className="mobile-navigation" aria-label="Application navigation">
+          {authenticatedNavigation.map((item) => (
+            <NavLink key={item.to} to={item.to}>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+      ) : null}
     </div>
   );
 }

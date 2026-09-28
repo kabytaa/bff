@@ -21,12 +21,16 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'hosted-development-chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'desktop-chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 900 },
+      },
     },
     {
-      name: 'hosted-development-webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'mobile-webkit',
+      testMatch: /user-stories\.spec\.ts/u,
+      use: { ...devices['iPhone 13'] },
     },
   ],
 });

@@ -252,6 +252,72 @@ describe('TableCards projects', () => {
     ).resolves.toMatchObject({ design: { nameStyle } });
   });
 
+  it('keeps event-scoped artwork bound to the project that owns it', async () => {
+    const t = convexTest(schema, modules);
+    const first = await t.mutation(
+      saveAuthorized,
+      saveArgs({ maximumActiveProjects: 2 }),
+    );
+    const second = await t.mutation(
+      saveAuthorized,
+      saveArgs({ title: 'Second event', maximumActiveProjects: 2 }),
+    );
+    const assetPublicId = 'asset_eventscoped123456';
+    await t.run(async (ctx) => {
+      const project = await ctx.db
+        .query('projects')
+        .withIndex('by_account_public_id', (query) =>
+          query
+            .eq('accountId', 'account_abcdefghijklmnop')
+            .eq('publicId', first.publicId),
+        )
+        .unique();
+      if (!project) throw new Error('Fixture project was not found');
+      const storageId = await ctx.storage.store(
+        new Blob([new Uint8Array([1, 2, 3])], { type: 'image/png' }),
+      );
+      await ctx.db.insert('designAssets', {
+        publicId: assetPublicId,
+        accountId: 'account_abcdefghijklmnop',
+        projectId: project._id,
+        createdByUserId: 'user_abcdefghijklmnop',
+        source: 'uploaded',
+        storageId,
+        mimeType: 'image/png',
+        width: 1050,
+        height: 600,
+        createdAt: Date.now(),
+      });
+    });
+
+    await expect(
+      t.mutation(
+        saveAuthorized,
+        saveArgs({
+          projectId: second.publicId,
+          title: 'Second event',
+          maximumActiveProjects: 2,
+          allowUploadedDesigns: true,
+          design: { kind: 'uploaded', reference: assetPublicId },
+        }),
+      ),
+    ).rejects.toThrow(/FORBIDDEN|different event/u);
+    await expect(
+      t.mutation(
+        saveAuthorized,
+        saveArgs({
+          projectId: first.publicId,
+          maximumActiveProjects: 2,
+          allowUploadedDesigns: true,
+          design: { kind: 'uploaded', reference: assetPublicId },
+        }),
+      ),
+    ).resolves.toMatchObject({
+      publicId: first.publicId,
+      designKind: 'uploaded',
+    });
+  });
+
   it('denies missing and wrong-environment identities', async () => {
     const t = convexTest(schema, modules);
     await expect(t.query(list, {})).rejects.toThrow(

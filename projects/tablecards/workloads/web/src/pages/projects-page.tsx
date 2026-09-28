@@ -1,5 +1,5 @@
 import { useBffAuth } from '@tofler/bff-auth/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import type { CurrentProductAccess, ProjectSummary } from '../backend';
@@ -19,34 +19,43 @@ export function Component() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const filterRef = useRef(filter);
+  const loadSequence = useRef(0);
+  filterRef.current = filter;
 
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [nextProjects, nextAccess] = await Promise.all([
-        backend.listProjects(filter),
-        backend.getCurrentAccess(),
-      ]);
-      setProjects(nextProjects);
-      setAccess(nextAccess);
-    } catch (caught) {
-      setError(errorMessage(caught));
-    } finally {
-      setLoading(false);
-    }
-  }, [backend, filter]);
+  const load = useCallback(
+    async (requestedFilter: 'active' | 'archived') => {
+      const sequence = ++loadSequence.current;
+      setLoading(true);
+      setError(null);
+      try {
+        const [nextProjects, nextAccess] = await Promise.all([
+          backend.listProjects(requestedFilter),
+          backend.getCurrentAccess(),
+        ]);
+        if (sequence !== loadSequence.current) return;
+        setProjects(nextProjects);
+        setAccess(nextAccess);
+      } catch (caught) {
+        if (sequence !== loadSequence.current) return;
+        setError(errorMessage(caught));
+      } finally {
+        if (sequence === loadSequence.current) setLoading(false);
+      }
+    },
+    [backend],
+  );
 
   useEffect(() => {
-    void load();
-  }, [load, snapshot.generation]);
+    void load(filter);
+  }, [filter, load, snapshot.generation]);
 
   const run = async (projectId: string, action: () => Promise<void>) => {
     setBusyId(projectId);
     setError(null);
     try {
       await action();
-      await load();
+      await load(filterRef.current);
     } catch (caught) {
       setError(errorMessage(caught));
     } finally {

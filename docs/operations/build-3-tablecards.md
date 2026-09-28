@@ -34,9 +34,12 @@ The BFF environment is composed from
 `projects/tablecards/customer-auth.defaults.ts` plus deployment URLs. The code
 owns product presentation and stable auth/account behavior; the operator
 configuration owns origins, callback transport and development automation.
-Development currently applies definition/configuration revision 2 with a
+Development currently applies definition/configuration revision 4 with a
 two-membership user cap: one automatically created private workspace plus one
-invited Studio workspace. The ownership cap remains one.
+invited Studio workspace. The owned-account cap is also two so an invited
+Studio member who already owns their private workspace can receive ownership of
+the shared workspace. User-created additional workspaces remain disabled, and
+the shared BFF still enforces both caps.
 
 ## Development providers
 
@@ -96,10 +99,13 @@ pnpm test:e2e:tablecards-hosted
 
 The Playwright flow uses short-lived development grants, the real session
 gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
-deterministic AI batch. Six scenario-sized journeys run in both Chromium and
-WebKit, including mobile and desktop creator containment plus a two-person
-Studio invitation and role promotion. It downloads and parses the PDF in both
-browser engines.
+deterministic AI batch. The executable registry maps every accepted PRD story,
+US-01 through US-20, to five cohesive product journeys. Those journeys run in
+desktop Chromium and mobile WebKit and include all four offer promises,
+projects, artwork, AI units, navigation, two-account isolation, invitations,
+roles, removal and ownership transfer. Focused desktop regressions retain the
+public print PDF and 320-pixel geometry checks. The complete hosted command runs
+19 cases: 13 desktop and 6 mobile.
 The local development signing key is intentionally absent from CI, so the
 hosted suite is a separate development acceptance gate rather than part of the
 self-contained root `pnpm check` command.
@@ -184,6 +190,14 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   including Studio invitation, acceptance and role promotion.
 - Direct health probes for TableCards HTTP and the session gateway return `200`;
   an unauthenticated shared product-access probe returns the intended `401`.
+- The complete user-story acceptance pass deployed shared BFF development
+  `compassionate-buffalo-689`, TableCards Convex `scrupulous-hawk-991` and web
+  Worker version `62a72afb-2f99-4ca1-9448-4ab319a4b5d0`. All US-01–US-20
+  registry entries pass through the hosted product in desktop Chromium and
+  mobile WebKit. The tests exercise `$0`, no-charge `$5` Event Pass, no-charge
+  `$9/month` Planner Pro and no-charge `$19/month` Studio projections; Studio
+  then uses the real shared BFF invitation, role, removal and provider-neutral
+  ownership-transfer APIs. Production and Paddle remain unchanged.
 
 ## Safety and known limits
 

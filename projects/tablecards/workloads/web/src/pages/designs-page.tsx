@@ -153,6 +153,7 @@ export function Component() {
       setNotice('Artwork validated. You can now save it as a reusable preset.');
     } catch (error) {
       setNotice(message(error));
+      await load().catch(() => undefined);
     } finally {
       setBusy(false);
     }
@@ -165,6 +166,11 @@ export function Component() {
         prompt,
         idempotencyKey: crypto.randomUUID(),
       });
+      if (batch.status !== 'ready' || !batch.assets?.length) {
+        throw new Error(
+          batch.errorMessage ?? 'The image provider did not finish the batch.',
+        );
+      }
       await load();
       const first = batch.assets?.[0];
       if (first) setAssetId(first.id);
@@ -234,7 +240,7 @@ export function Component() {
 
       <section className="page-section">
         <h2>Custom artwork</h2>
-        {access?.artworkUploadEnabled ? (
+        {access?.artworkUploadEnabled && access.offerKey !== 'event_pass' ? (
           <div className="creative-tools-grid">
             <label className="file-button full-width">
               Upload a 7:4 PNG or JPEG
@@ -272,7 +278,9 @@ export function Component() {
           </div>
         ) : (
           <p className="entitlement-callout">
-            Custom artwork is available with Event Pass, Planner Pro and Studio.
+            {access?.offerKey === 'event_pass'
+              ? 'Event Pass artwork belongs to its saved event. Open that project to upload and use artwork.'
+              : 'Custom artwork is available with Event Pass, Planner Pro and Studio.'}
           </p>
         )}
         <div className="asset-grid">
@@ -339,16 +347,19 @@ export function Component() {
             </button>
           </form>
         )}
-        <div className="preset-grid">
-          {presets.map((preset) => (
-            <PresetCard
-              key={preset.id}
-              preset={preset}
-              backend={backend}
-              reload={load}
-            />
-          ))}
-        </div>
+        {access?.reusablePresetsEnabled ? (
+          <div className="preset-grid">
+            {presets.map((preset) => (
+              <PresetCard
+                key={preset.id}
+                preset={preset}
+                backend={backend}
+                reload={load}
+                onNotice={setNotice}
+              />
+            ))}
+          </div>
+        ) : null}
       </section>
     </section>
   );
@@ -358,10 +369,12 @@ function PresetCard({
   preset,
   backend,
   reload,
+  onNotice,
 }: {
   readonly preset: DesignPreset;
   readonly backend: ReturnType<typeof useTableCardsBackend>;
   readonly reload: () => Promise<void>;
+  readonly onNotice: (message: string) => void;
 }) {
   const [editing, setEditing] = useState<PresetStyle>({
     displayName: preset.displayName,
@@ -405,9 +418,13 @@ function PresetCard({
         <div className="inline-actions">
           <button
             type="button"
-            onClick={() =>
-              void backend.updatePreset(preset.id, editing).then(reload)
-            }
+            onClick={() => {
+              void backend
+                .updatePreset(preset.id, editing)
+                .then(reload)
+                .then(() => onNotice('Preset changes saved.'))
+                .catch((error: unknown) => onNotice(message(error)));
+            }}
           >
             Save changes
           </button>
@@ -415,7 +432,11 @@ function PresetCard({
             type="button"
             onClick={() => {
               if (window.confirm(`Delete “${preset.displayName}”?`))
-                void backend.deletePreset(preset.id).then(reload);
+                void backend
+                  .deletePreset(preset.id)
+                  .then(reload)
+                  .then(() => onNotice('Preset deleted.'))
+                  .catch((error: unknown) => onNotice(message(error)));
             }}
           >
             Delete

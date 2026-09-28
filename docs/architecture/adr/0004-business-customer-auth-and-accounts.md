@@ -95,7 +95,12 @@ Business-environment policy controls automatic first-account creation, user acco
 
 Accounts have no shared structural “personal” or “team” kind. Plans may later change seats and product entitlements without replacing the account ID. Membership role, account-wide entitlement and future member seat entitlement remain separate concepts.
 
-Build 2 implements active accounts, invitations and protected ownership transfer. Build 4 introduces actual plans/subscriptions, restrictions and downgrade enforcement with the first paid caller. It does not add unused billing state now.
+Build 2 implements active accounts, invitations and protected ownership
+transfer. A completed transfer preserves exactly one Owner and changes the
+former Owner to Admin when that account enables the Admin role, otherwise to
+Member. Build 4 introduces actual plans/subscriptions, restrictions and
+downgrade enforcement with the first paid caller. It does not add unused
+billing state now.
 
 ### SDK structure
 

@@ -107,6 +107,26 @@ export function Component() {
     }
   };
 
+  const copyInvitationLink = async () => {
+    if (!invitationLink) return;
+    setNotice(null);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error('Clipboard access is unavailable');
+      }
+      await navigator.clipboard.writeText(invitationLink);
+      setNotice('Invitation link copied.');
+    } catch {
+      const input =
+        document.querySelector<HTMLInputElement>('#invitation-link');
+      input?.focus();
+      input?.select();
+      setNotice(
+        'Automatic copying is unavailable. The invitation link is selected so you can copy it manually.',
+      );
+    }
+  };
+
   const canManage = (member: AccountMemberView) => {
     if (
       member.membership.id === ownMembershipId ||
@@ -168,12 +188,7 @@ export function Component() {
             <div className="copy-link">
               <label htmlFor="invitation-link">One-time invitation link</label>
               <input id="invitation-link" readOnly value={invitationLink} />
-              <button
-                type="button"
-                onClick={() =>
-                  void navigator.clipboard.writeText(invitationLink)
-                }
-              >
+              <button type="button" onClick={() => void copyInvitationLink()}>
                 Copy link
               </button>
             </div>

@@ -118,6 +118,15 @@ export const finalize = action({
             'Uploaded artwork requires a paid offer',
           );
         }
+        if (
+          !featureEnabled(access, 'reusable_presets') &&
+          args.projectId === undefined
+        ) {
+          fail(
+            'INVALID_INPUT',
+            'Open a saved event before uploading event-only artwork',
+          );
+        }
         const blob = await ctx.storage.get(args.storageId);
         if (!blob || blob.size === 0 || blob.size > MAX_UPLOAD_BYTES) {
           fail('INVALID_INPUT', 'Artwork is missing or too large');

@@ -216,7 +216,7 @@ test('mobile creator is step focused and has no horizontal page overflow', async
   await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
   await Promise.all([
     page.waitForURL(`${TABLECARDS_WEB_URL}/create`),
-    page.getByRole('link', { name: /Create free/u }).click(),
+    page.getByRole('link', { name: 'Create free — up to 25 cards' }).click(),
   ]);
   await expect(page.getByRole('button', { name: 'Guests' })).toBeVisible();
   await expect(page.getByText('TableCards', { exact: true })).toBeVisible();
@@ -396,7 +396,9 @@ test('professional project, preset and AI workflows use authenticated access', a
   await expect(
     authenticated.getByRole('heading', { name: 'Account and usage' }),
   ).toBeVisible();
-  const planner = authenticated.getByRole('button', { name: 'Planner Pro' });
+  const planner = authenticated.getByRole('button', {
+    name: /^Activate Planner Pro\b/u,
+  });
   await planner.click();
   await expect(planner).toHaveClass(/\bactive\b/u);
   await expect(planner).toBeEnabled();
@@ -455,7 +457,9 @@ test('Studio owner can invite a recipient and promote the joined member', async 
   await enableStudioAccountPolicy(accountId);
   await owner.reload();
   await owner.goto('/settings');
-  const studio = owner.getByRole('button', { name: 'Studio' });
+  const studio = owner.getByRole('button', {
+    name: /^Activate Studio\b/u,
+  });
   await studio.click();
   await expect(studio).toHaveClass(/\bactive\b/u);
   await expect(studio).toBeEnabled();

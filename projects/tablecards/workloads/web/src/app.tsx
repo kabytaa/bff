@@ -28,6 +28,7 @@ import { Link, useBlocker } from 'react-router-dom';
 import {
   createTableCardsBackend,
   type CurrentProductAccess,
+  type DesignAsset,
   type DesignPreset,
   type SavedProject,
 } from './backend';
@@ -400,11 +401,19 @@ export function Creator({
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
   const [accessLoadFailed, setAccessLoadFailed] = useState(false);
   const [presets, setPresets] = useState<readonly DesignPreset[]>([]);
+  const [assets, setAssets] = useState<readonly DesignAsset[]>([]);
+  const [generatedChoices, setGeneratedChoices] = useState<
+    readonly { readonly id: string; readonly url: string }[]
+  >([]);
+  const [aiPrompt, setAiPrompt] = useState(
+    'Elegant watercolor botanicals on warm white paper',
+  );
   const [activeProjectCount, setActiveProjectCount] = useState<number | null>(
     null,
   );
   const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
   const [dirty, setDirty] = useState(false);
+  const [projectUnavailable, setProjectUnavailable] = useState(false);
   const blocker = useBlocker(() => dirty && !allowNavigation.current);
 
   useEffect(() => {
@@ -434,6 +443,7 @@ export function Creator({
     setDesignId(draft.designId);
     setLayoutId(draft.layoutId);
     setGuests(draft.guests);
+    setActiveStep(3);
     setDirty(true);
     setNotice({
       kind: 'info',
@@ -450,6 +460,8 @@ export function Creator({
       setAccess(null);
       setAccessLoadFailed(false);
       setPresets([]);
+      setAssets([]);
+      setGeneratedChoices([]);
       setActiveProjectCount(null);
       wasAuthenticated.current = false;
     }
@@ -489,6 +501,14 @@ export function Creator({
         if (!cancelled) setPresets([]);
       });
     void backend
+      .listAssets()
+      .then((nextAssets) => {
+        if (!cancelled) setAssets(nextAssets);
+      })
+      .catch(() => {
+        if (!cancelled) setAssets([]);
+      });
+    void backend
       .listProjects('active')
       .then((nextProjects) => {
         if (!cancelled) setActiveProjectCount(nextProjects.length);
@@ -507,10 +527,28 @@ export function Creator({
     void backend
       .getProject(initialProjectId)
       .then((loaded) => {
-        if (cancelled || !loaded?.guests) return;
+        if (cancelled) return;
+        if (!loaded?.guests) {
+          setProjectUnavailable(true);
+          setNotice({
+            kind: 'error',
+            message: 'The saved project was not found in this account.',
+          });
+          return;
+        }
+        setProjectUnavailable(false);
         setSavedProject(loaded);
         setTitle(loaded.title);
         setGuests(loaded.guests);
+        setPastedText(
+          loaded.guests
+            .map((guest) =>
+              [guest.name, guest.table, guest.marker]
+                .filter((value) => value !== undefined)
+                .join('\t'),
+            )
+            .join('\n'),
+        );
         setDirty(false);
         if (
           loaded.designKind === 'predefined' &&
@@ -538,12 +576,26 @@ export function Creator({
               'The saved project could not be loaded.',
             ),
           });
+          setProjectUnavailable(true);
         }
       });
     return () => {
       cancelled = true;
     };
   }, [backend, initialProjectId, snapshot.generation, state.status]);
+
+  useEffect(() => {
+    if (!savedProject || savedProject.designKind === 'predefined') return;
+    const asset = assets.find(
+      (candidate) => candidate.id === savedProject.designId,
+    );
+    if (!asset?.url) return;
+    setCustomDesign((current) =>
+      current?.reference === savedProject.designId
+        ? { ...current, artworkUrl: asset.url ?? undefined }
+        : current,
+    );
+  }, [assets, savedProject]);
 
   const useImportResult = (result: ReturnType<typeof normalizePastedText>) => {
     setIssues(result.issues);
@@ -660,7 +712,8 @@ export function Creator({
     premiumAccessPending ||
     premiumAccessUnverified ||
     premiumDesignUnavailable ||
-    activeProjectLimitReached;
+    activeProjectLimitReached ||
+    projectUnavailable;
 
   const save = async (navigateAfterSave = true) => {
     if (guests.length === 0) {
@@ -783,6 +836,85 @@ export function Creator({
     }
   };
 
+  const uploadProjectArtwork = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file || !initialProjectId) return;
+    setBusy('Uploading artwork');
+    setNotice(null);
+    try {
+      const uploaded = await backend.uploadArtwork(file, initialProjectId);
+      const nextAssets = await backend.listAssets();
+      setAssets(nextAssets);
+      const asset = nextAssets.find(
+        (candidate) => candidate.id === uploaded.publicId,
+      );
+      setCustomDesign({
+        kind: 'uploaded',
+        reference: uploaded.publicId,
+        label: file.name,
+        ...(asset?.url ? { artworkUrl: asset.url } : {}),
+      });
+      setDirty(true);
+      setNotice({
+        kind: 'success',
+        message: 'Artwork validated and applied to this event.',
+      });
+    } catch (error) {
+      setNotice({
+        kind: 'error',
+        message: safeProductMessage(
+          error,
+          'The artwork could not be uploaded.',
+        ),
+      });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const generateProjectBackgrounds = async () => {
+    if (!initialProjectId) return;
+    setBusy('Generating four backgrounds');
+    setNotice(null);
+    try {
+      const batch = await backend.generateAi({
+        prompt: aiPrompt,
+        idempotencyKey: crypto.randomUUID(),
+        projectId: initialProjectId,
+      });
+      if (batch.status !== 'ready' || !batch.assets?.length) {
+        throw new Error(
+          batch.errorMessage ?? 'The image provider did not finish the batch.',
+        );
+      }
+      setGeneratedChoices(batch.assets);
+      const [nextAccess, nextAssets] = await Promise.all([
+        backend.getCurrentAccess(),
+        backend.listAssets(),
+      ]);
+      setAccess(nextAccess);
+      setAssets(nextAssets);
+      setNotice({
+        kind: 'success',
+        message:
+          'Four background choices are ready. Choose one for this event.',
+      });
+    } catch (error) {
+      const nextAccess = await backend.getCurrentAccess().catch(() => null);
+      if (nextAccess) setAccess(nextAccess);
+      setNotice({
+        kind: 'error',
+        message: safeProductMessage(
+          error,
+          'The background choices could not be generated.',
+        ),
+      });
+    } finally {
+      setBusy(null);
+    }
+  };
+
   return (
     <section
       className="creator-section"
@@ -839,7 +971,10 @@ export function Creator({
               id="guest-list"
               value={pastedText}
               placeholder={GUEST_LIST_PLACEHOLDER}
-              onChange={(event) => setPastedText(event.target.value)}
+              onChange={(event) => {
+                setPastedText(event.target.value);
+                setDirty(true);
+              }}
               rows={8}
             />
             <div className="inline-actions wrap">
@@ -868,6 +1003,7 @@ export function Creator({
                 onApply={(mapping) => {
                   useImportResult(applyGuestMapping(fileTable, mapping));
                   setFileTable(null);
+                  setActiveStep(2);
                 }}
               />
             ) : null}
@@ -948,7 +1084,7 @@ export function Creator({
                     remaining
                   </span>
                 </div>
-                {presets.length > 0 ? (
+                {access?.reusablePresetsEnabled && presets.length > 0 ? (
                   <div className="preset-choice-row">
                     {presets.map((preset) => (
                       <button
@@ -990,13 +1126,101 @@ export function Creator({
                       </button>
                     ))}
                   </div>
-                ) : (
+                ) : access?.reusablePresetsEnabled ? (
                   <p className="muted">No reusable presets yet.</p>
-                )}
-                <Link className="text-button" to="/designs">
-                  Manage uploads, AI backgrounds and presets
-                </Link>
+                ) : null}
+                {access?.reusablePresetsEnabled ? (
+                  <Link className="text-button" to="/designs">
+                    Manage uploads, AI backgrounds and presets
+                  </Link>
+                ) : null}
               </div>
+            ) : null}
+            {state.status === 'authenticated' && access ? (
+              <section
+                className="project-creative-tools"
+                aria-labelledby="project-background-title"
+              >
+                <div className="step-heading">
+                  <h4 id="project-background-title">This event's background</h4>
+                  <span>
+                    {access.aiBackgroundBatchesRemaining ?? 0} AI batches
+                    remaining
+                  </span>
+                </div>
+                {!initialProjectId ? (
+                  <p className="muted">
+                    Save the project first, then reopen it to add event artwork
+                    or generate four background choices.
+                  </p>
+                ) : (
+                  <div className="creative-tools-grid">
+                    {access.artworkUploadEnabled ? (
+                      <label className="file-button full-width">
+                        Upload artwork for this event
+                        <input
+                          type="file"
+                          accept="image/png,image/jpeg"
+                          onChange={(event) => void uploadProjectArtwork(event)}
+                        />
+                      </label>
+                    ) : null}
+                    <div>
+                      <label htmlFor="project-ai-prompt">
+                        AI background description
+                      </label>
+                      <textarea
+                        id="project-ai-prompt"
+                        rows={3}
+                        maxLength={400}
+                        value={aiPrompt}
+                        onChange={(event) => setAiPrompt(event.target.value)}
+                      />
+                      <button
+                        className="secondary-button"
+                        type="button"
+                        disabled={
+                          busy !== null ||
+                          (access.aiBackgroundBatchesRemaining ?? 0) < 1
+                        }
+                        onClick={() => void generateProjectBackgrounds()}
+                      >
+                        Generate four choices
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {generatedChoices.length > 0 ? (
+                  <div
+                    className="asset-grid"
+                    aria-label="AI background choices"
+                  >
+                    {generatedChoices.map((choice, index) => (
+                      <button
+                        type="button"
+                        key={choice.id}
+                        className="ai-choice"
+                        aria-pressed={customDesign?.reference === choice.id}
+                        onClick={() => {
+                          setCustomDesign({
+                            kind: 'ai',
+                            reference: choice.id,
+                            label: `AI choice ${index + 1}`,
+                            artworkUrl: choice.url,
+                          });
+                          setDirty(true);
+                        }}
+                      >
+                        <span
+                          className="asset-preview"
+                          style={{ backgroundImage: `url(${choice.url})` }}
+                        />
+                        Use AI choice {index + 1}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+              </section>
             ) : null}
             {developmentControlsEnabled ? (
               <fieldset className="print-layout-options">

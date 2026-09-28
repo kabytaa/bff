@@ -265,6 +265,15 @@ export const generate = action({
       if (!unitGrant || unitGrant.allowance < 1) {
         fail('ENTITLEMENT_REQUIRED', 'No AI background batches are available');
       }
+      const reusableAssetsEnabled = access.featureFlags.some(
+        (feature) => feature.key === 'reusable_presets' && feature.enabled,
+      );
+      if (!reusableAssetsEnabled && args.projectId === undefined) {
+        fail(
+          'INVALID_INPUT',
+          'Open a saved event before generating event-only backgrounds',
+        );
+      }
       const started = await ctx.runMutation(startReference, {
         accountId: auth.accountId,
         userId: auth.userId,
