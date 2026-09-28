@@ -8,11 +8,13 @@ provider. It never uses Google, OpenAI or a payment provider.
 Run after all development surfaces are deployed:
 
 ```bash
-pnpm exec nx run tablecards-e2e:e2e-hosted-development
+pnpm test:e2e:tablecards-hosted
 ```
 
 The local development signing key remains outside Git. Production cannot trust
-these grants and Build 3 has no production TableCards deployment.
+these grants and Build 3 has no production TableCards deployment. For the same
+reason, this hosted suite is deliberately separate from the self-contained
+`pnpm check` CI gate; CI never receives the development signing key.
 
 The hosted suite runs five scenario-sized journeys in both Chromium and WebKit:
 the public print-test PDF, compact mobile creator and lazy landing boundary,

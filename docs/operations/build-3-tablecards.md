@@ -88,7 +88,7 @@ pnpm exec nx run tablecards-core:test
 pnpm exec nx run tablecards-backend:test-integration
 pnpm exec nx run tablecards-web:test
 pnpm exec nx run tablecards-session-gateway:test
-pnpm exec nx run tablecards-e2e:e2e-hosted-development
+pnpm test:e2e:tablecards-hosted
 ```
 
 The Playwright flow uses short-lived development grants, the real session
@@ -96,6 +96,10 @@ gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
 deterministic AI batch. Five scenario-sized journeys run in both Chromium and
 WebKit, including a two-person Studio invitation and role promotion. It
 downloads and parses the PDF in both browser engines.
+The local development signing key is intentionally absent from CI, so the
+hosted suite is a separate development acceptance gate rather than part of the
+self-contained root `pnpm check` command.
+
 Real iPhone Safari and a physical 100%-scale ruler check remain useful extra
 evidence, not a reason to hide an automated failure.
 
