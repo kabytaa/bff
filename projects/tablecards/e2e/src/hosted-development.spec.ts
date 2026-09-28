@@ -219,10 +219,18 @@ test('mobile creator is step focused and has no horizontal page overflow', async
     page.getByRole('link', { name: /Create free/u }).click(),
   ]);
   await expect(page.getByRole('button', { name: 'Guests' })).toBeVisible();
+  await expect(page.getByText('TableCards', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Preview names' }),
+  ).not.toBeVisible();
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
+    /Alexandria Catherine Montgomery-Sinclair/u,
+  );
   await page
     .getByLabel(/Paste one name per line/u)
     .fill('Ada Lovelace\nGrace Hopper');
-  await page.getByRole('button', { name: 'Preview names' }).click();
   await page.getByRole('button', { name: 'Continue to design' }).click();
   await expect(page.getByRole('button', { name: 'Design' })).toHaveAttribute(
     'aria-current',
@@ -245,7 +253,23 @@ test('desktop creator keeps the design and print controls aligned', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await preparePublicDraft(page);
+  await page.goto('/create');
+  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  const exampleAction = page.getByRole('button', {
+    name: 'Try an example list',
+  });
+  const guestList = page.getByLabel(/Paste one name per line/u);
+  await expect(exampleAction).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Preview names' }),
+  ).toBeVisible();
+  const positions = await Promise.all([
+    exampleAction.evaluate((element) => element.getBoundingClientRect().bottom),
+    guestList.evaluate((element) => element.getBoundingClientRect().top),
+  ]);
+  expect(positions[0]).toBeLessThanOrEqual(positions[1]);
+  await guestList.fill('Ada Lovelace\nGrace Hopper');
+  await page.getByRole('button', { name: 'Preview names' }).click();
   await expect(
     page.getByRole('group', { name: 'Print layout to test' }),
   ).toBeVisible();

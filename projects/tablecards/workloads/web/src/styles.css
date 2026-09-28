@@ -548,6 +548,7 @@ footer > a:hover {
 }
 
 .step-card > label,
+.guest-list-heading label,
 .mapping-grid label,
 .tool-content > label {
   display: grid;
@@ -556,6 +557,25 @@ footer > a:hover {
   color: #665a53;
   font-size: 0.72rem;
   font-weight: 750;
+}
+
+.guest-list-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.guest-list-heading label {
+  margin: 0;
+}
+
+.guest-list-heading .text-button {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-underline-offset: 0.16rem;
 }
 
 textarea,
@@ -1342,6 +1362,10 @@ footer p {
     order: 1;
   }
 
+  .desktop-preview-action {
+    display: none;
+  }
+
   .mapping-grid,
   .design-grid,
   .how-grid,
@@ -1399,6 +1423,12 @@ footer p {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.2rem;
+  }
+
+  .guest-list-heading {
+    align-items: flex-start;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
   }
 
   .print-callout {
@@ -1792,6 +1822,20 @@ footer p {
   .creator-route-header {
     min-height: 4rem;
     padding: 0 0.75rem;
+  }
+
+  .creator-route-header .brand > span:last-child,
+  .creator-route-header .header-actions .text-button {
+    display: inline-flex;
+  }
+
+  .creator-route .creator-section {
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .creator-route .section-intro {
+    margin-bottom: 1.5rem;
   }
 
   .mobile-navigation {

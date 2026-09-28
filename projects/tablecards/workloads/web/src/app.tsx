@@ -39,10 +39,12 @@ import {
   type ParsedGuestTable,
 } from './imports';
 
-const SAMPLE_GUESTS = `Ada Lovelace
-Lin Manuel
-Grace Hopper
-James Baldwin`;
+const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
+María Fernanda de la Cruz Hernández
+Jean-Baptiste Alexandre de Villeneuve
+Christopher Bartholomew Worthington III
+Anaïs Dubois
+Björn Hansen`;
 
 const GUEST_LIST_PLACEHOLDER = `Paste one name per line, for example:
 Olivia Bennett
@@ -549,6 +551,20 @@ export function Creator({
     useImportResult(normalizePastedText(pastedText));
   };
 
+  const continueFromGuestList = () => {
+    if (pastedText.includes('\t')) {
+      previewPastedText();
+      return;
+    }
+    if (pastedText.trim().length === 0 && guests.length > 0) {
+      setActiveStep(2);
+      return;
+    }
+    const result = normalizePastedText(pastedText);
+    useImportResult(result);
+    if (result.ok) setActiveStep(2);
+  };
+
   const loadSampleGuests = () => {
     setPastedText(SAMPLE_GUESTS);
     setFileTable(null);
@@ -730,9 +746,18 @@ export function Creator({
               <h3>Add your guest list</h3>
               <span>up to 500 rows</span>
             </div>
-            <label htmlFor="guest-list">
-              Paste one name per line, or copy columns from a spreadsheet
-            </label>
+            <div className="guest-list-heading">
+              <label htmlFor="guest-list">
+                Paste one name per line, or copy columns from a spreadsheet
+              </label>
+              <button
+                className="text-button"
+                type="button"
+                onClick={loadSampleGuests}
+              >
+                Try an example list
+              </button>
+            </div>
             <textarea
               id="guest-list"
               value={pastedText}
@@ -742,20 +767,13 @@ export function Creator({
             />
             <div className="inline-actions wrap">
               <button
-                className="button"
+                className="button desktop-preview-action"
                 type="button"
                 onClick={previewPastedText}
               >
                 {pastedText.includes('\t')
                   ? 'Review spreadsheet columns'
                   : 'Preview names'}
-              </button>
-              <button
-                className="text-button"
-                type="button"
-                onClick={loadSampleGuests}
-              >
-                Try an example list
               </button>
               <label className="file-button">
                 Upload CSV or XLSX
@@ -788,10 +806,12 @@ export function Creator({
             <button
               className="mobile-step-next button"
               type="button"
-              disabled={guests.length === 0}
-              onClick={() => setActiveStep(2)}
+              disabled={pastedText.trim().length === 0 && guests.length === 0}
+              onClick={continueFromGuestList}
             >
-              Continue to design
+              {pastedText.includes('\t')
+                ? 'Review spreadsheet columns'
+                : 'Continue to design'}
             </button>
           </div>
           <div

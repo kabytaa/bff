@@ -182,10 +182,15 @@ The creator remains usable before authentication.
 #### Step 1 — Guests
 
 - Paste lines or a spreadsheet grid, or upload CSV/XLSX.
+- Offer a visible example-list action above the input; its sample must include
+  both ordinary and realistically long names so wrapping can be evaluated.
 - Map name, optional table and optional marker columns when necessary.
 - Preserve order, spelling and duplicate rows.
 - Show bounded actionable row/import errors.
 - Continue only after at least one valid guest exists.
+- On mobile, one primary action validates a plain list and advances to Design;
+  do not require a separate Preview action when the sheet preview is hidden.
+  Tabular input still pauses for explicit column mapping.
 
 #### Step 2 — Design
 

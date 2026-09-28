@@ -156,12 +156,17 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   green and the six uncached hosted Chromium/WebKit journeys pass, including
   authenticated offer selection and AI reserve/commit behavior.
 - The routed application correction is deployed at web Worker version
-  `2bfb1bd7-0902-4e5a-966e-863ae0dcdfe6`. The public landing loads a dedicated
+  `009a28c8-6ec3-4ab1-b79d-1330e8b78f3a`. The public landing loads a dedicated
   lightweight catalog chunk and does not eagerly load the spreadsheet/PDF
   editor or team route. The creator's full print-layout controls remain
   available and contained on mobile; only the design carousel scrolls. The
   hosted suite now asserts the Design step and print controls at 320 CSS pixels
   and at 1,280 desktop pixels; all 12 hosted Chromium/WebKit journeys pass.
+- The follow-up creator review keeps desktop Preview names beside its visible
+  sheet, while mobile validates and advances through one Continue to design
+  action. The example-list link sits above the input and exercises several long
+  names. Mobile retains the TableCards identity and Log in action in a more
+  compact creator header and intro.
 - Direct health probes for TableCards HTTP and the session gateway return `200`;
   an unauthenticated shared product-access probe returns the intended `401`.
 
