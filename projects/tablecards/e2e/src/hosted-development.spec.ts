@@ -302,6 +302,19 @@ test('public preview survives sign-in and produces a real PDF', async ({
   await expect(
     authenticated.getByText(/Your guest list was restored/u),
   ).toBeVisible();
+  await authenticated.getByRole('button', { name: /Rosewater Frame/u }).click();
+  await expect(
+    authenticated
+      .getByText('Rosewater Frame is a Premium design.', { exact: true })
+      .first(),
+  ).toBeVisible();
+  await expect(
+    authenticated.getByRole('button', { name: 'Save project' }),
+  ).toBeDisabled();
+  await expect(
+    authenticated.getByRole('button', { name: 'Create print-ready PDF' }),
+  ).toBeDisabled();
+  await authenticated.getByRole('button', { name: /Minimal Ivory/u }).click();
   await authenticated
     .getByRole('button', { name: 'Create print-ready PDF' })
     .click();
@@ -315,6 +328,47 @@ test('public preview survives sign-in and produces a real PDF', async ({
   expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
   const pdf = await PDFDocument.load(bytes);
   expect(pdf.getPageCount()).toBe(2);
+  await authenticated.goto('/create');
+  await expect(
+    authenticated.getByText(/allows 1 active project/u),
+  ).toBeVisible();
+  await context.close();
+});
+
+test('free mobile creator explains premium design access before save', async ({
+  browser,
+  browserName,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 320, height: 780 },
+  });
+  const page = await context.newPage();
+  await page.goto('/create');
+  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await page
+    .getByLabel(/Paste one name per line/u)
+    .fill('Alexandria Catherine Montgomery-Sinclair');
+  await page.getByRole('button', { name: 'Continue to design' }).click();
+  await page.getByRole('button', { name: /Rosewater Frame/u }).click();
+  await page.getByRole('button', { name: 'Review and export' }).click();
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
+  const authenticated = await completeDevelopmentLogin(
+    page,
+    new URL(page.url()),
+    `tablecards-mobile-access-${browserName}-${Date.now()}`,
+  );
+  await authenticated.getByRole('button', { name: 'Review' }).click();
+  await expect(
+    authenticated.getByText(/Rosewater Frame requires a paid plan/u),
+  ).toBeVisible();
+  await expect(
+    authenticated.getByRole('button', { name: 'Save project' }),
+  ).toBeDisabled();
+  await expect(
+    authenticated.getByRole('button', { name: 'Create print-ready PDF' }),
+  ).toBeDisabled();
+  await expectNoHorizontalPageOverflow(authenticated);
   await context.close();
 });
 

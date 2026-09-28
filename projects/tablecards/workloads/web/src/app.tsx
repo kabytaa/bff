@@ -38,6 +38,7 @@ import {
   parsePastedGrid,
   type ParsedGuestTable,
 } from './imports';
+import { safeProductMessage } from './product-error';
 
 const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
 María Fernanda de la Cruz Hernández
@@ -54,12 +55,6 @@ Zoë Martin`;
 interface Notice {
   readonly kind: 'error' | 'success' | 'info';
   readonly message: string;
-}
-
-function safeMessage(error: unknown, fallback: string) {
-  return error instanceof Error && error.message.length <= 240
-    ? error.message
-    : fallback;
 }
 
 function ImportMapping({
@@ -403,7 +398,11 @@ export function Creator({
   const [savedProject, setSavedProject] = useState<SavedProject | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
+  const [accessLoadFailed, setAccessLoadFailed] = useState(false);
   const [presets, setPresets] = useState<readonly DesignPreset[]>([]);
+  const [activeProjectCount, setActiveProjectCount] = useState<number | null>(
+    null,
+  );
   const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
   const [dirty, setDirty] = useState(false);
   const blocker = useBlocker(() => dirty && !allowNavigation.current);
@@ -448,6 +447,10 @@ export function Creator({
       draftStore.clear();
       setSavedProject(null);
       setDownloadUrl(null);
+      setAccess(null);
+      setAccessLoadFailed(false);
+      setPresets([]);
+      setActiveProjectCount(null);
       wasAuthenticated.current = false;
     }
   }, [draftStore, state.status]);
@@ -455,10 +458,22 @@ export function Creator({
   useEffect(() => {
     if (state.status !== 'authenticated') return;
     let cancelled = false;
-    void Promise.all([backend.getCurrentAccess(), backend.listPresets()])
-      .then(([nextAccess, nextPresets]) => {
+    setAccess(null);
+    setAccessLoadFailed(false);
+    setActiveProjectCount(null);
+    void backend
+      .getCurrentAccess()
+      .then((nextAccess) => {
         if (cancelled) return;
         setAccess(nextAccess);
+      })
+      .catch(() => {
+        if (!cancelled) setAccessLoadFailed(true);
+      });
+    void backend
+      .listPresets()
+      .then((nextPresets) => {
+        if (cancelled) return;
         setPresets(nextPresets);
         setCustomDesign((current) => {
           if (!current || current.artworkUrl) return current;
@@ -472,6 +487,14 @@ export function Creator({
       })
       .catch(() => {
         if (!cancelled) setPresets([]);
+      });
+    void backend
+      .listProjects('active')
+      .then((nextProjects) => {
+        if (!cancelled) setActiveProjectCount(nextProjects.length);
+      })
+      .catch(() => {
+        if (!cancelled) setActiveProjectCount(null);
       });
     return () => {
       cancelled = true;
@@ -510,7 +533,7 @@ export function Creator({
         if (!cancelled) {
           setNotice({
             kind: 'error',
-            message: safeMessage(
+            message: safeProductMessage(
               error,
               'The saved project could not be loaded.',
             ),
@@ -582,7 +605,10 @@ export function Creator({
     } catch (error) {
       setNotice({
         kind: 'error',
-        message: safeMessage(error, 'The spreadsheet could not be read.'),
+        message: safeProductMessage(
+          error,
+          'The spreadsheet could not be read.',
+        ),
       });
     } finally {
       setBusy(null);
@@ -609,11 +635,62 @@ export function Creator({
     return false;
   };
 
+  const selectedDesign = DESIGN_CATALOG[designId];
+  const selectedPremiumDesign =
+    customDesign === null && selectedDesign.tier === 'premium';
+  const premiumAccessPending =
+    selectedPremiumDesign &&
+    state.status === 'authenticated' &&
+    access === null &&
+    !accessLoadFailed;
+  const premiumAccessUnverified =
+    selectedPremiumDesign &&
+    state.status === 'authenticated' &&
+    access === null &&
+    accessLoadFailed;
+  const premiumDesignUnavailable =
+    selectedPremiumDesign && access?.premiumDesignsEnabled === false;
+  const activeProjectLimitReached =
+    initialProjectId === undefined &&
+    savedProject === null &&
+    activeProjectCount !== null &&
+    access?.maxActiveProjects !== undefined &&
+    activeProjectCount >= access.maxActiveProjects;
+  const saveUnavailable =
+    premiumAccessPending ||
+    premiumAccessUnverified ||
+    premiumDesignUnavailable ||
+    activeProjectLimitReached;
+
   const save = async (navigateAfterSave = true) => {
     if (guests.length === 0) {
       setNotice({
         kind: 'error',
         message: 'Add at least one guest before saving.',
+      });
+      return null;
+    }
+    if (premiumAccessPending || premiumAccessUnverified) {
+      setNotice({
+        kind: 'info',
+        message: premiumAccessPending
+          ? 'Checking whether this Premium design is included in your plan.'
+          : 'Your plan could not be checked. Refresh this page before saving this Premium design.',
+      });
+      return null;
+    }
+    if (premiumDesignUnavailable) {
+      setNotice({
+        kind: 'info',
+        message: `${selectedDesign.name} is a Premium design. Choose an included design or change your plan before saving.`,
+      });
+      return null;
+    }
+    if (activeProjectLimitReached) {
+      const projectLimit = access?.maxActiveProjects ?? 0;
+      setNotice({
+        kind: 'info',
+        message: `Your ${access?.offerName ?? 'current'} plan allows ${projectLimit} active ${projectLimit === 1 ? 'project' : 'projects'}. Open or archive an existing project before creating another.`,
       });
       return null;
     }
@@ -650,7 +727,7 @@ export function Creator({
     } catch (error) {
       setNotice({
         kind: 'error',
-        message: safeMessage(error, 'The project could not be saved.'),
+        message: safeProductMessage(error, 'The project could not be saved.'),
       });
       return null;
     } finally {
@@ -685,7 +762,7 @@ export function Creator({
     } catch (error) {
       setNotice({
         kind: 'error',
-        message: safeMessage(error, 'The PDF could not be prepared.'),
+        message: safeProductMessage(error, 'The PDF could not be prepared.'),
       });
     } finally {
       setBusy(null);
@@ -699,7 +776,7 @@ export function Creator({
     } catch (error) {
       setNotice({
         kind: 'error',
-        message: safeMessage(error, 'The account could not be created.'),
+        message: safeProductMessage(error, 'The account could not be created.'),
       });
     } finally {
       setBusy(null);
@@ -842,6 +919,26 @@ export function Creator({
                 setDirty(true);
               }}
             />
+            {selectedPremiumDesign && access?.premiumDesignsEnabled !== true ? (
+              <p className="notice info design-access-note" role="status">
+                <strong>{selectedDesign.name} is a Premium design.</strong>{' '}
+                {premiumAccessPending ? (
+                  <>Checking whether it is included in your plan…</>
+                ) : premiumAccessUnverified ? (
+                  <>
+                    We could not check your plan. Refresh this page before
+                    saving.
+                  </>
+                ) : premiumDesignUnavailable ? (
+                  <>
+                    Choose one of the three included designs, or{' '}
+                    <Link to="/settings">view your plan</Link> before saving.
+                  </>
+                ) : (
+                  <>Sign in with a paid plan to save or export this design.</>
+                )}
+              </p>
+            ) : null}
             {state.status === 'authenticated' ? (
               <div className="preset-chooser">
                 <div className="step-heading">
@@ -977,11 +1074,42 @@ export function Creator({
               <span>PDF only — you print it</span>
             </div>
             <AuthGate onCreateAccount={createAccount} />
+            {activeProjectLimitReached ? (
+              <p className="notice info save-access-note" role="status">
+                Your {access?.offerName ?? 'current'} plan allows{' '}
+                {access?.maxActiveProjects ?? 0} active{' '}
+                {access?.maxActiveProjects === 1 ? 'project' : 'projects'}.{' '}
+                <Link to="/projects">Open or archive an existing project</Link>{' '}
+                before creating another.
+              </p>
+            ) : null}
+            {premiumDesignUnavailable ? (
+              <p className="notice info save-access-note" role="status">
+                {selectedDesign.name} requires a paid plan.{' '}
+                <button
+                  className="inline-link-button"
+                  type="button"
+                  onClick={() => setActiveStep(2)}
+                >
+                  Choose an included design
+                </button>{' '}
+                or <Link to="/settings">view your plan</Link>.
+              </p>
+            ) : null}
+            {premiumAccessPending || premiumAccessUnverified ? (
+              <p className="notice info save-access-note" role="status">
+                {premiumAccessPending
+                  ? 'Checking whether this Premium design is included in your plan…'
+                  : 'Your plan could not be checked. Refresh this page before saving or exporting this Premium design.'}
+              </p>
+            ) : null}
             <div className="inline-actions wrap">
               <button
                 className="secondary-button"
                 type="button"
-                disabled={busy !== null || guests.length === 0}
+                disabled={
+                  busy !== null || guests.length === 0 || saveUnavailable
+                }
                 onClick={() => void save(true)}
               >
                 Save project
@@ -989,7 +1117,9 @@ export function Creator({
               <button
                 className="button"
                 type="button"
-                disabled={busy !== null || guests.length === 0}
+                disabled={
+                  busy !== null || guests.length === 0 || saveUnavailable
+                }
                 onClick={() => void exportPdf()}
               >
                 Create print-ready PDF

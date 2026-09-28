@@ -62,7 +62,10 @@ pnpm exec convex dev --once --typecheck enable
 ```
 
 Build the web app with its seven public development values shown in
-`projects/tablecards/workloads/web/.env.example`, then deploy:
+`projects/tablecards/workloads/web/.env.example`, replacing both deployment
+placeholders with the exact BFF and TableCards development URLs listed above.
+Do not substitute an unprovisioned vanity hostname for the BFF customer API;
+team/account browser calls use this value directly. Then deploy:
 
 ```bash
 pnpm exec wrangler deploy \
@@ -167,6 +170,18 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   action. The example-list link sits above the input and exercises several long
   names. Mobile retains the TableCards identity and Log in action in a more
   compact creator header and intro.
+- A real-phone generic failed-save report was traced to valid Free-plan
+  enforcement being hidden by the client. Web Worker
+  `6c8bfa3f-a425-47bc-b2c6-60980534963d` now keeps premium designs available
+  for preview but explains and disables unavailable Save/Export actions, does
+  the same when active-project capacity is exhausted and safely presents only
+  approved structured product errors. Focused Chromium and WebKit journeys
+  prove the Free premium/design-switch/export flow, the one-project limit and
+  the same entitlement guidance at 320 CSS pixels without overflow.
+- The same acceptance run caught an invalid, unprovisioned BFF API hostname in
+  the web deployment example. The example now requires the exact BFF Convex
+  site URL; the corrected Worker passes all 14 Chromium/WebKit journeys,
+  including Studio invitation, acceptance and role promotion.
 - Direct health probes for TableCards HTTP and the session gateway return `200`;
   an unauthenticated shared product-access probe returns the intended `401`.
 

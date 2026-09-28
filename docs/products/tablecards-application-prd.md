@@ -196,6 +196,9 @@ The creator remains usable before authentication.
 
 - Choose a predefined design.
 - Mark premium choices clearly without hiding them.
+- Let every visitor preview premium designs, but when an authenticated account
+  lacks the entitlement, explain that requirement beside the selection and
+  point to an included design or the account plan before Save/Export.
 - When entitled, choose an existing reusable preset, upload artwork or request
   four AI choices.
 - Show AI availability and remaining batches before generation.
@@ -208,6 +211,10 @@ The creator remains usable before authentication.
 - Open the complete sheet preview on demand on mobile; desktop may keep a
   synchronized side-by-side preview.
 - Save and export require authentication and an active account.
+- Before Save/Export, show known plan blockers such as a premium-design denial
+  or exhausted active-project capacity and disable the impossible action. If
+  authoritative validation still rejects a request, present the approved
+  product reason rather than a generic failure or raw backend envelope.
 - Preserve the bounded anonymous draft through sign-in and return to the same
   step.
 - After the first save, replace the history entry with the saved-project route
@@ -469,7 +476,8 @@ setup, not one test per button or a Cartesian product.
    designs, usage and team never cross or render stale state.
 6. **Mobile workflow:** iPhone-size WebKit proves compact navigation, creator
    steps, horizontal design choice, on-demand preview and sticky primary action
-   without desktop-section stacking.
+   without desktop-section stacking; Free premium-selection denial remains
+   visible, actionable and free of horizontal overflow.
 7. **Production boundary:** production bundle/routes contain no development
    offer or deterministic provider entry, and signed-out/private routes fail
    safely.
@@ -528,3 +536,4 @@ than mixing operator controls into TableCards customer settings.
 | ---------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-09-28 | Proposed — pending Andrew's review    | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                               |
 | 2026-09-28 | Accepted — implemented in development | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged. |
+| 2026-09-28 | Accepted — corrected in development   | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                     |
