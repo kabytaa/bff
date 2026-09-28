@@ -46,7 +46,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-async function readBoundedJson(request: Request) {
+export async function readBoundedJson(request: Request) {
   if (!request.headers.get('content-type')?.startsWith('application/json')) {
     throw new HttpInputError(
       415,
@@ -131,7 +131,7 @@ function optionalString(
   return value;
 }
 
-function parseInput<T>(schema: ZodType<T>, input: unknown): T {
+export function parseInput<T>(schema: ZodType<T>, input: unknown): T {
   const parsed = schema.safeParse(input);
   if (!parsed.success) {
     throw new HttpInputError(400, 'INVALID_INPUT', 'Request input is invalid.');
@@ -148,7 +148,7 @@ function responseHeaders(extra: HeadersInit = {}): Headers {
   return headers;
 }
 
-function jsonResponse(
+export function jsonResponse(
   body: unknown,
   status = 200,
   extraHeaders: HeadersInit = {},
@@ -183,7 +183,7 @@ function errorData(error: unknown): Record<string, unknown> | undefined {
   return error.data;
 }
 
-function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
+export function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
   if (error instanceof HttpInputError) {
     return publicError(error.code, error.message, error.status, extraHeaders);
   }
@@ -212,7 +212,9 @@ function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
         ? 401
         : code === 'FORBIDDEN'
           ? 403
-          : code === 'CONFLICT' || code === 'CAPACITY_CONFLICT'
+          : code === 'CONFLICT' ||
+              code === 'CAPACITY_CONFLICT' ||
+              code === 'UNIT_EXHAUSTED'
             ? 409
             : code === 'RATE_LIMITED'
               ? 429
@@ -305,7 +307,7 @@ async function customerApiOriginHeaders(
   };
 }
 
-async function withAuthenticatedCustomerRequest(
+export async function withAuthenticatedCustomerRequest(
   ctx: ActionCtx,
   request: Request,
   handler: (
@@ -331,7 +333,9 @@ async function withAuthenticatedCustomerRequest(
   }
 }
 
-function accountContext(claims: CustomerContextClaims): AccountContextClaims {
+export function accountContext(
+  claims: CustomerContextClaims,
+): AccountContextClaims {
   if (claims.contextType !== 'account') {
     throw new HttpInputError(
       403,

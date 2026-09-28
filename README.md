@@ -6,6 +6,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 
 - [Current handoff and next moves](STATUS.md)
 - [MVP architecture](docs/architecture/bff-mvp-architecture.md)
+- [Shared BFF data model and table purposes](docs/architecture/shared-bff-data-model.md)
 - [Future architecture ideas (non-authoritative)](docs/architecture/future-ideas.md)
 - [ADR 0001 — Convex-first BFF stack](docs/architecture/adr/0001-convex-first-bff-stack.md)
 - [ADR 0002 — Business environments and operator authentication](docs/architecture/adr/0002-business-environments-and-operator-auth.md)

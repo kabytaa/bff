@@ -9,6 +9,14 @@ import {
   type BusinessTransportConfig,
 } from '../core';
 
+export {
+  BffProductAccessError,
+  createBffProductAccessClient,
+  type BffProductAccessClient,
+  type BffProductAccessClientOptions,
+  type BffProductAccessRequestContext,
+} from './productAccess';
+
 export const BFF_SESSION_COOKIE_NAME = '__Host-tofler-session' as const;
 export const BFF_CSRF_HEADER = CUSTOMER_AUTH_CSRF_HEADER;
 export const BFF_CSRF_HEADER_VALUE = CUSTOMER_AUTH_CSRF_HEADER_VALUE;

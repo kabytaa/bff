@@ -16,6 +16,7 @@ import type * as crons from "../crons.js";
 import type * as customerAuth from "../customerAuth.js";
 import type * as customerBackoffice from "../customerBackoffice.js";
 import type * as customerOperations from "../customerOperations.js";
+import type * as developmentProductAccess from "../developmentProductAccess.js";
 import type * as http from "../http.js";
 import type * as invitations from "../invitations.js";
 import type * as lib_authorization from "../lib/authorization.js";
@@ -25,13 +26,16 @@ import type * as lib_customerConfiguration from "../lib/customerConfiguration.js
 import type * as lib_customerCrypto from "../lib/customerCrypto.js";
 import type * as lib_customerHttp from "../lib/customerHttp.js";
 import type * as lib_errors from "../lib/errors.js";
+import type * as lib_productAccessHttp from "../lib/productAccessHttp.js";
 import type * as lib_serviceMetadata from "../lib/serviceMetadata.js";
 import type * as loginTransactions from "../loginTransactions.js";
 import type * as memberships from "../memberships.js";
 import type * as ownershipTransfers from "../ownershipTransfers.js";
+import type * as productAccess from "../productAccess.js";
 import type * as rateLimits from "../rateLimits.js";
 import type * as securityEvents from "../securityEvents.js";
 import type * as sessions from "../sessions.js";
+import type * as unitLedger from "../unitLedger.js";
 
 import type {
   ApiFromModules,
@@ -48,6 +52,7 @@ declare const fullApi: ApiFromModules<{
   customerAuth: typeof customerAuth;
   customerBackoffice: typeof customerBackoffice;
   customerOperations: typeof customerOperations;
+  developmentProductAccess: typeof developmentProductAccess;
   http: typeof http;
   invitations: typeof invitations;
   "lib/authorization": typeof lib_authorization;
@@ -57,13 +62,16 @@ declare const fullApi: ApiFromModules<{
   "lib/customerCrypto": typeof lib_customerCrypto;
   "lib/customerHttp": typeof lib_customerHttp;
   "lib/errors": typeof lib_errors;
+  "lib/productAccessHttp": typeof lib_productAccessHttp;
   "lib/serviceMetadata": typeof lib_serviceMetadata;
   loginTransactions: typeof loginTransactions;
   memberships: typeof memberships;
   ownershipTransfers: typeof ownershipTransfers;
+  productAccess: typeof productAccess;
   rateLimits: typeof rateLimits;
   securityEvents: typeof securityEvents;
   sessions: typeof sessions;
+  unitLedger: typeof unitLedger;
 }>;
 
 /**

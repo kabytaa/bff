@@ -31,6 +31,15 @@ import {
   updateAccountPolicyHandler,
 } from './lib/customerHttp';
 import { customerDevelopmentAutomationRouteEnabled } from './lib/customerCrypto';
+import { developmentProductAccessRouteEnabled } from './developmentProductAccess';
+import {
+  commitUnitsHandler,
+  currentProductAccessHandler,
+  currentUnitBalanceHandler,
+  releaseUnitsHandler,
+  reserveUnitsHandler,
+  setDevelopmentProductAccessHandler,
+} from './lib/productAccessHttp';
 
 const http = httpRouter();
 
@@ -122,6 +131,44 @@ http.route({
 });
 
 http.route({
+  path: '/v1/product-access',
+  method: 'GET',
+  handler: httpAction(currentProductAccessHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units',
+  method: 'GET',
+  handler: httpAction(currentUnitBalanceHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/reserve',
+  method: 'POST',
+  handler: httpAction(reserveUnitsHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/commit',
+  method: 'POST',
+  handler: httpAction(commitUnitsHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/release',
+  method: 'POST',
+  handler: httpAction(releaseUnitsHandler),
+});
+
+if (developmentProductAccessRouteEnabled()) {
+  http.route({
+    path: '/v1/product-access/development',
+    method: 'POST',
+    handler: httpAction(setDevelopmentProductAccessHandler),
+  });
+}
+
+http.route({
   path: '/v1/accounts',
   method: 'POST',
   handler: httpAction(createAccountHandler),
@@ -179,9 +226,22 @@ for (const path of [
   '/v1/accounts/invitations',
   '/v1/accounts/invitations/accept',
   '/v1/accounts/invitations/revoke',
+  '/v1/product-access',
+  '/v1/product-access/units',
+  '/v1/product-access/units/reserve',
+  '/v1/product-access/units/commit',
+  '/v1/product-access/units/release',
 ] as const) {
   http.route({
     path,
+    method: 'OPTIONS',
+    handler: httpAction(customerApiOptionsHandler),
+  });
+}
+
+if (developmentProductAccessRouteEnabled()) {
+  http.route({
+    path: '/v1/product-access/development',
     method: 'OPTIONS',
     handler: httpAction(customerApiOptionsHandler),
   });

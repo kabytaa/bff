@@ -1,0 +1,36 @@
+{
+  "name": "tablecards-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/tablecards/e2e/src",
+  "projectType": "application",
+  "tags": ["scope:business", "type:e2e"],
+  "implicitDependencies": ["tablecards-web", "tablecards-backend"],
+  "targets": {
+    "e2e": {
+      "cache": false,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config projects/tablecards/e2e/playwright.config.ts"
+      }
+    },
+    "e2e-hosted-development": {
+      "cache": false,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "PLAYWRIGHT_HTML_OPEN=never playwright test --config projects/tablecards/e2e/playwright.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint projects/tablecards/e2e --max-warnings 0"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/tablecards/e2e/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

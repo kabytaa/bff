@@ -1,6 +1,6 @@
 # Future Architecture Ideas
 
-Updated: 2026-09-27.
+Updated: 2026-09-28.
 
 ## Purpose
 
@@ -36,7 +36,7 @@ When a real caller or requirement triggers an entry:
 
 ## Usage-based billing and account credits
 
-**Status:** Deferred idea; no meter, balance or usage-ledger tables belong in the current authentication/account slice.
+**Status:** Partially adopted by Build 3 for non-financial product units. BFF now has account-owned access grants, aggregate unit buckets and idempotent reserve/commit/release reservations for AI batches. Purchasable credit balances, automatic top-up, postpaid metering and a financial transaction ledger remain deferred.
 
 **Source:** [Build 2 Shared MVP brainstorm](../../.agent/brainstorms/260926-build-2-shared-mvp.md)
 
@@ -50,8 +50,12 @@ When a real caller or requirement triggers an entry:
 - Keep balances, spending limits and usage counters authoritative in BFF. Do not place mutable balances in ten-minute JWTs.
 - Prefer prepaid credit packs for the first real caller to limit unpaid invoices and runaway provider cost. Re-evaluate postpaid metering only when a concrete Business needs it.
 - Preserve optional user, membership and seat attribution for audit/reporting while the account remains the payer.
+- Treat a unit bucket's scope as an allocation rather than assuming every balance is calendar-period based. Candidate allocations include a subscription billing period, lifetime welcome grant, purchased event and persistent prepaid-credit pool; reassess whether the implemented `periodKey` should become `allocationKey` when a real non-period caller triggers this work.
+- For optional automatic top-up, keep an explicit account policy with threshold, top-up amount, spend caps and failure behavior. Trigger an idempotent payment attempt when available credit crosses the threshold, but add credits only after verified provider confirmation and notify the customer after every charge.
+- Record every purchased credit, committed debit, refund, expiry and operator adjustment in an immutable financial transaction ledger. The existing aggregate bucket may remain the transactional balance projection, but it must not be the only evidence for money-backed credits.
+- Keep provider payment records and BFF product-operation reservations separate: a billing provider can prove that money moved, while BFF must still prevent concurrent Business operations from overspending the product balance.
 
-**Open when triggered:** Select provider capabilities from then-current official documentation; define meter schema, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation and operator workflows.
+**Open when triggered:** Select provider or Convex component capabilities from then-current official documentation; decide whether `periodKey` becomes `allocationKey`; define meter and immutable transaction schemas, auto-top-up thresholds and spend caps, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation, customer notifications and operator workflows. Do not add financial tables until a real money-backed caller exists.
 
 ## Custom-domain edge protection and security monitoring
 

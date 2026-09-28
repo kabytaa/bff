@@ -151,6 +151,76 @@ export default defineSchema({
     .index('by_environment_public_id', ['environmentId', 'publicId'])
     .index('by_environment_owner', ['environmentId', 'ownerUserId'])
     .index('by_environment', ['environmentId']),
+  accountAccessGrants: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    offerKey: v.string(),
+    offerRevision: v.number(),
+    source: v.union(v.literal('development_mock'), v.literal('provider')),
+    featureFlags: v.array(v.object({ key: v.string(), enabled: v.boolean() })),
+    numericLimits: v.array(v.object({ key: v.string(), value: v.number() })),
+    unitGrants: v.array(
+      v.object({
+        unitType: v.string(),
+        periodKey: v.string(),
+        allowance: v.number(),
+        renewal: v.optional(
+          v.object({
+            cadence: v.literal('monthly'),
+            anchorAt: v.number(),
+          }),
+        ),
+      }),
+    ),
+    updatedByUserId: v.id('businessUsers'),
+    effectiveAt: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index('by_environment_account', ['environmentId', 'accountId']),
+  accountUnitBuckets: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    unitType: v.string(),
+    periodKey: v.string(),
+    allowance: v.number(),
+    reserved: v.number(),
+    consumed: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_environment_account_unit_period', [
+      'environmentId',
+      'accountId',
+      'unitType',
+      'periodKey',
+    ])
+    .index('by_environment_account', ['environmentId', 'accountId']),
+  accountUnitReservations: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    userId: v.id('businessUsers'),
+    publicId: v.string(),
+    idempotencyKey: v.string(),
+    unitType: v.string(),
+    periodKey: v.string(),
+    amount: v.number(),
+    state: v.union(
+      v.literal('reserved'),
+      v.literal('committed'),
+      v.literal('released'),
+      v.literal('expired'),
+    ),
+    expiresAt: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_environment_account_idempotency', [
+      'environmentId',
+      'accountId',
+      'idempotencyKey',
+    ])
+    .index('by_environment_public_id', ['environmentId', 'publicId'])
+    .index('by_state_expires_at', ['state', 'expiresAt']),
   memberships: defineTable({
     environmentId: v.id('businessEnvironments'),
     accountId: v.id('accounts'),

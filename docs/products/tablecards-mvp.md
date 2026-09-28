@@ -1,8 +1,8 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-09-27.
+Updated: 2026-09-28.
 
-This is the canonical product-scope document for the first Business Factory product. The [MVP delivery plan](../factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
+This is the canonical product-scope document for the first Business Factory product. The proposed [TableCards application PRD](tablecards-application-prd.md) defines the detailed pages, navigation, responsive behavior and user stories for review. The [MVP delivery plan](../factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
 
 The dated [TableCards market-research report](../research/260927-tablecards-market-research.md) records competitor, customer-problem, pricing, format, AI-cost and acquisition evidence. The accepted [TableCards product and launch brainstorm](../../.agent/brainstorms/260927-tablecards-product-and-launch.md) records how that evidence changed the launch scope.
 
@@ -34,6 +34,19 @@ Initial acquisition uses direct planner/stationer and print-shop discovery, obse
 7. The user can start a support conversation for feedback, a question or a problem, receive operator replies by email and reply by email or from the product.
 
 TableCards is not the system of record for an agency's guest list. A corrected or partial CSV follows the same generation workflow; there is no separate “correction printing” feature.
+
+## Product surfaces
+
+TableCards must feel like a working application rather than one landing page containing every marketing and product section. The MVP has these distinct customer surfaces:
+
+- `/` is a concise public landing page with the core promise, a representative example, pricing summary, essential FAQ and clear create/sign-in actions.
+- `/create` starts a new project. On phones it is a focused guest-list → design → review/export workflow with compact design selection, persistent progress/action controls and the complete sheet preview opened on demand. Desktop may use a wider workspace without forcing that density onto mobile.
+- `/projects` is the authenticated project home for creating, opening, duplicating, archiving and understanding active-project limits.
+- `/projects/:projectId` edits and exports one saved project without returning through the marketing page.
+- `/settings` exposes the selected account's offer, relevant capability/usage state and upgrade or billing entry when implemented.
+- `/settings/team` exposes Studio member and invitation management, fixed roles and ownership transfer to authorized users. Invitation links have a dedicated acceptance path that survives authentication.
+
+Saved presets, uploaded artwork, AI generation/remaining batches, project limits and Studio team controls must have discoverable product workflows when the current offer advertises them. A pricing claim cannot rely only on a backend contract or hidden development fixture: either expose and browser-test the capability or remove the claim before launch. Business-wide policy/configuration remains in the validated operator CLI, while the backoffice remains an operator evidence and remediation surface rather than a customer settings substitute.
 
 ## Print contract
 
@@ -100,13 +113,14 @@ Event Pass completes one event containing up to 500 cards, including premium des
 
 After a professional subscription ends, projects remain readable and exportable for 30 days, then inaccessible for another 60 days and are deleted after advance warnings. The subscription belongs to the account/workspace rather than directly to an individual identity. Do not add annual offers, per-seat charges, extra team tiers or email-domain joining in version one.
 
-Build 3 uses only a deterministic test/development mock to exercise Free/Event Pass/subscription gates and the account-owned typed AI-unit balance. The balance supports idempotent reserve, commit and release and never lives in the short-lived JWT. Build 3 has no live charge or production self-service checkout. Paddle is the leading Build 4 provider, but products, checkout, verified webhooks and subscription lifecycle begin only after written confirmation of Israeli onboarding/payouts and sub-`$10` one-time/recurring terms.
+Build 3 uses only a deterministic test/development mock to exercise Free/Event Pass/subscription gates and the account-owned typed AI-unit balance. The balance supports idempotent reserve, commit and release and never lives in the short-lived JWT. Build 3 has no live charge or production self-service checkout. Its monthly mock intentionally simulates a successful renewal every cycle. Paddle is the leading Build 4 provider, but products, checkout, verified webhooks and subscription lifecycle begin only after written confirmation of Israeli onboarding/payouts and sub-`$10` one-time/recurring terms. Real monthly allowances advance only from verified provider subscription/paid-through state; a missing, failed or expired payment never creates the next allowance.
 
 ## Teams
 
 - A Studio workspace supports up to five members at one fixed price.
 - Membership uses explicit invitations; automatic email-domain joining is out of scope.
 - Owner, Admin and Member are the only planned roles.
+- Authorized Studio users can view members and pending invitations, create or revoke invitations, change permitted roles and remove permitted members from the product. The Owner can start the protected ownership-transfer flow for an existing active member. The UI must reflect the already enforced Owner/Admin/Member boundaries rather than inventing broader permissions.
 - The exact invitation-delivery UX remains to be chosen. Do not introduce a transactional-email provider until that workflow actually requires one.
 
 ## Support, feedback and operations
