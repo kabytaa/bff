@@ -13,6 +13,12 @@ const exportStatus = v.union(
   v.literal('ready'),
   v.literal('failed'),
 );
+const nameStyle = v.object({
+  color: v.string(),
+  position: v.union(v.literal('top'), v.literal('center'), v.literal('bottom')),
+  font: v.union(v.literal('sans'), v.literal('serif')),
+  size: v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
+});
 
 export const create = internalMutation({
   args: {
@@ -104,6 +110,7 @@ export const load = internalMutation({
       v.literal('ai'),
     ),
     designReference: v.string(),
+    nameStyle: v.optional(nameStyle),
     layoutId: v.union(v.literal('portrait_4'), v.literal('landscape_6')),
     guests: v.array(
       v.object({
@@ -167,6 +174,9 @@ export const load = internalMutation({
       title: project.title,
       designKind: project.designKind,
       designReference: project.designReference,
+      ...(project.nameStyle === undefined
+        ? {}
+        : { nameStyle: project.nameStyle }),
       layoutId: exportJob.layoutId ?? 'portrait_4',
       guests: contents.guests,
       ...(backgroundStorageId === undefined
@@ -256,6 +266,57 @@ export const get = query({
       if (!exportJob) return null;
       const project = await ctx.db.get(exportJob.projectId);
       if (!project || project.accountId !== auth.accountId) return null;
+      return {
+        publicId: exportJob.publicId,
+        projectId: project.publicId,
+        status: exportJob.status,
+        ...(exportJob.pageCount === undefined
+          ? {}
+          : { pageCount: exportJob.pageCount }),
+        ...(exportJob.errorCode === undefined
+          ? {}
+          : { errorCode: exportJob.errorCode }),
+        downloadUrl: exportJob.storageId
+          ? await ctx.storage.getUrl(exportJob.storageId)
+          : null,
+      };
+    },
+  ),
+});
+
+export const latestForProject = query({
+  args: { projectId: v.string() },
+  returns: v.union(
+    v.null(),
+    v.object({
+      publicId: v.string(),
+      projectId: v.string(),
+      status: exportStatus,
+      pageCount: v.optional(v.number()),
+      errorCode: v.optional(v.string()),
+      downloadUrl: v.union(v.null(), v.string()),
+    }),
+  ),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (ctx, args: { projectId: string }, auth) => {
+      const project = await ctx.db
+        .query('projects')
+        .withIndex('by_account_public_id', (queryBuilder) =>
+          queryBuilder
+            .eq('accountId', auth.accountId)
+            .eq('publicId', args.projectId),
+        )
+        .unique();
+      if (!project) return null;
+      const exportJob = await ctx.db
+        .query('projectExports')
+        .withIndex('by_project_created_at', (queryBuilder) =>
+          queryBuilder.eq('projectId', project._id),
+        )
+        .order('desc')
+        .first();
+      if (!exportJob || exportJob.accountId !== auth.accountId) return null;
       return {
         publicId: exportJob.publicId,
         projectId: project.publicId,

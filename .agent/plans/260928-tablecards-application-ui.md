@@ -1,6 +1,6 @@
 # Feature: TableCards Application UI
 
-> **Status**: Approved — Execution requested
+> **Status**: Completed — development scope
 > **Created**: 2026-09-28
 > **Last updated**: 2026-09-28
 > **Repository baseline**: `beb4440`
@@ -607,30 +607,30 @@ pnpm --package=node@24 dlx sh -c 'pnpm check'
 
 ## Acceptance Criteria
 
-- [ ] Landing is concise and separate from the creator/application routes.
-- [ ] `/create` works before auth and preserves a bounded draft through sign-in.
-- [ ] Mobile creator uses three focused steps, compact design selection,
-  on-demand complete preview and sticky contextual action.
-- [ ] Signed-in shell exposes Projects/Create/Designs/Account with safe account
-  switching and no stale cross-account data.
-- [ ] Projects can be opened, duplicated, archived and restored with server-side
-  offer limits and safe wrong-account behavior.
-- [ ] Planner/Studio reusable preset workflows are visible and enforced; Event
-  Pass artwork is not falsely reusable.
-- [ ] Account shows accurate offer source, project/card limits, live AI balance
-  and seat usage without internal identifiers.
-- [ ] Studio roster/invitation/role/removal/transfer and recipient acceptance are
-  usable, permission-aware and browser-tested through shared APIs.
-- [ ] Pricing claims map to discoverable routes and authoritative enforcement.
-- [ ] Public landing initial chunk does not eagerly include editor imports,
-  spreadsheet/PDF generation or team-management code.
-- [ ] Development-only controls are absent from a production-mode build.
-- [ ] Authorization and account isolation rules are verified.
-- [ ] Relevant failure, capacity, replay and stale-state cases are covered.
-- [ ] Full repository validation and hosted development checks pass.
-- [ ] BFF, TableCards backend and web development deploy in dependency order;
-  production remains unchanged.
-- [ ] Documentation, PRD, plan and status reflect the delivered state.
+- [x] Landing is concise and separate from the creator/application routes.
+- [x] `/create` works before auth and preserves a bounded draft through sign-in.
+- [x] Mobile creator uses three focused steps, compact design selection,
+      on-demand complete preview and sticky contextual action.
+- [x] Signed-in shell exposes Projects/Create/Designs/Account with safe account
+      switching and no stale cross-account data.
+- [x] Projects can be opened, duplicated, archived and restored with server-side
+      offer limits and safe wrong-account behavior.
+- [x] Planner/Studio reusable preset workflows are visible and enforced; Event
+      Pass artwork is not falsely reusable.
+- [x] Account shows accurate offer source, project/card limits, live AI balance
+      and seat usage without internal identifiers.
+- [x] Studio roster/invitation/role/removal/transfer and recipient acceptance are
+      usable, permission-aware and browser-tested through shared APIs.
+- [x] Pricing claims map to discoverable routes and authoritative enforcement.
+- [x] Public landing initial chunk does not eagerly include editor imports,
+      spreadsheet/PDF generation or team-management code.
+- [x] Development-only controls are absent from a production-mode build.
+- [x] Authorization and account isolation rules are verified.
+- [x] Relevant failure, capacity, replay and stale-state cases are covered.
+- [x] Full repository validation and hosted development checks pass.
+- [x] BFF, TableCards backend and web development deploy in dependency order;
+      production remains unchanged.
+- [x] Documentation, PRD, plan and status reflect the delivered state.
 
 ## Risks and Mitigations
 
@@ -669,8 +669,17 @@ the review vehicle for both the preserved Build 3 baseline and this follow-up;
 the implementation should be added as later commits rather than rewriting the
 baseline commit.
 
+Development acceptance completed on 2026-09-28. BFF development and TableCards
+Convex were deployed before the routed web application. The final web Worker is
+`602f2764-365f-430c-8ad9-d4fda07ea445`; all public/private deep links return the
+SPA, all three service health probes return `200`, the complete Node 24
+`pnpm check` gate passes, and all 10 hosted Chromium/WebKit journeys pass. The
+mobile journey also passes at the required 320 CSS-pixel width. Production was
+not deployed or modified.
+
 ## Document History
 
-| Date       | Status                        | Change                                                                                              |
-| ---------- | ----------------------------- | --------------------------------------------------------------------------------------------------- |
-| 2026-09-28 | Approved — Execution requested | Initial implementation-ready plan created from the accepted PRD and repository baseline `beb4440`. |
+| Date       | Status                         | Change                                                                                                                                                                |
+| ---------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-28 | Approved — Execution requested | Initial implementation-ready plan created from the accepted PRD and repository baseline `beb4440`.                                                                    |
+| 2026-09-28 | Completed — development scope  | Implemented every phase, deployed development in dependency order and passed the full repository plus 10-journey hosted browser gates. Production remained unchanged. |

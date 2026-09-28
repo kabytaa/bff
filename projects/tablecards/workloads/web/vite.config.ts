@@ -11,6 +11,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@tablecards/core/catalog': resolve(
+        workspaceRoot,
+        'projects/tablecards/libs/core/src/catalog.ts',
+      ),
       '@bff/contracts': resolve(
         workspaceRoot,
         'platform/bff/libs/contracts/src/index.ts',

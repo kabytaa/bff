@@ -24,6 +24,13 @@ export const membershipViewValidator = v.object({
   updatedAt: v.number(),
 });
 
+export const accountMemberViewValidator = v.object({
+  membership: membershipViewValidator,
+  displayName: v.string(),
+  verifiedEmail: v.string(),
+  pictureUrl: v.optional(v.string()),
+});
+
 export async function findMembershipByPublicId(
   ctx: QueryCtx | MutationCtx,
   environmentId: Id<'businessEnvironments'>,
@@ -149,7 +156,7 @@ export const listForAccount = internalQuery({
     actorUserPublicId: v.string(),
     paginationOpts: paginationOptsValidator,
   },
-  returns: paginationResultValidator(membershipViewValidator),
+  returns: paginationResultValidator(accountMemberViewValidator),
   handler: async (ctx, args) => {
     const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
     const accountPublicId = publicIdentifierSchema.parse(args.accountPublicId);
@@ -179,7 +186,14 @@ export const listForAccount = internalQuery({
       if (!user || user.environmentId !== context.environment._id) {
         return fail('CONFIGURATION_ERROR', 'Membership user is invalid');
       }
-      views.push(toMembershipView(membership, context.account, user));
+      views.push({
+        membership: toMembershipView(membership, context.account, user),
+        displayName: user.displayName,
+        verifiedEmail: user.verifiedEmail,
+        ...(user.pictureUrl === undefined
+          ? {}
+          : { pictureUrl: user.pictureUrl }),
+      });
     }
     return { ...page, page: views };
   },

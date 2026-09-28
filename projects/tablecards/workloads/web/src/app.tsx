@@ -1,7 +1,6 @@
 import {
   DESIGN_CATALOG,
   DESIGN_IDS,
-  OFFER_CATALOG,
   PRINT_LAYOUTS,
   createRenderManifest,
   normalizePastedText,
@@ -11,15 +10,10 @@ import {
   type GuestColumnMapping,
   type GuestImportIssue,
   type GuestRow,
-  type OfferId,
+  type NameStyle,
   type PrintLayoutId,
 } from '@tablecards/core';
-import {
-  BffAccountSelector,
-  BffAuthLink,
-  BffSignOutButton,
-  useBffAuth,
-} from '@tofler/bff-auth/react';
+import { BffAccountSelector, useBffAuth } from '@tofler/bff-auth/react';
 import { useConvex } from 'convex/react';
 import {
   type ChangeEvent,
@@ -29,12 +23,12 @@ import {
   useRef,
   useState,
 } from 'react';
+import { Link, useBlocker } from 'react-router-dom';
 
 import {
   createTableCardsBackend,
-  type AiAsset,
   type CurrentProductAccess,
-  type ProjectSummary,
+  type DesignPreset,
   type SavedProject,
 } from './backend';
 import { createTableCardsDraftStore } from './draft';
@@ -64,109 +58,6 @@ function safeMessage(error: unknown, fallback: string) {
   return error instanceof Error && error.message.length <= 240
     ? error.message
     : fallback;
-}
-
-function scrollToCreator() {
-  document.getElementById('creator')?.scrollIntoView({ behavior: 'smooth' });
-}
-
-function Header() {
-  const { state } = useBffAuth();
-  return (
-    <header className="site-header">
-      <a className="brand" href="#top" aria-label="TableCards home">
-        <span className="brand-mark" aria-hidden="true">
-          TC
-        </span>
-        <span>TableCards</span>
-      </a>
-      <nav aria-label="Primary navigation">
-        <a href="#how-it-works">How it works</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <div className="header-actions">
-        {state.status === 'authenticated' ? (
-          <>
-            <BffAccountSelector
-              className="account-select"
-              label={<span className="sr-only">Account</span>}
-            />
-            <BffSignOutButton className="text-button">
-              Sign out
-            </BffSignOutButton>
-          </>
-        ) : state.status === 'signed_out' ? (
-          <BffAuthLink
-            className="text-button"
-            intent="login"
-            returnPath="/create"
-          >
-            Log in
-          </BffAuthLink>
-        ) : null}
-        <button
-          className="button button-small"
-          type="button"
-          onClick={scrollToCreator}
-        >
-          Make place cards
-        </button>
-      </div>
-    </header>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-copy">
-        <p className="eyebrow">Your guest list, ready for the table</p>
-        <h1 id="hero-title">
-          Place cards that print <em>right</em> the first time.
-        </h1>
-        <p className="hero-lead">
-          Paste a list or upload your spreadsheet. Preview every folded card,
-          then download a precise US Letter PDF you can print anywhere.
-        </p>
-        <div className="hero-actions">
-          <button className="button" type="button" onClick={scrollToCreator}>
-            Create free — up to 25 cards
-          </button>
-          <span>No card details. No watermark.</span>
-        </div>
-        <dl className="trust-row">
-          <div>
-            <dt>4</dt>
-            <dd>folded cards per sheet</dd>
-          </div>
-          <div>
-            <dt>3.5 × 2 in</dt>
-            <dd>finished card size</dd>
-          </div>
-          <div>
-            <dt>100%</dt>
-            <dd>actual-size print guide</dd>
-          </div>
-        </dl>
-      </div>
-      <div className="hero-art" aria-label="Example folded place cards">
-        <div className="linen" />
-        <div className="place-card place-card-back">
-          <span>Table 12</span>
-          <strong>Lin Manuel</strong>
-        </div>
-        <div className="place-card place-card-front">
-          <span>Table 12 · Vegan</span>
-          <strong>Ada Lovelace</strong>
-          <i aria-hidden="true">✦</i>
-        </div>
-        <p className="hero-note">
-          Designed for folding, cutting and clear names
-        </p>
-      </div>
-    </section>
-  );
 }
 
 function ImportMapping({
@@ -346,10 +237,14 @@ function SheetPreview({
   guests,
   designId,
   layoutId,
+  backgroundImageHref,
+  nameStyle,
 }: {
   readonly guests: readonly GuestRow[];
   readonly designId: DesignId;
   readonly layoutId: PrintLayoutId;
+  readonly backgroundImageHref?: string;
+  readonly nameStyle?: NameStyle;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
   const preview = useMemo(() => {
@@ -359,6 +254,7 @@ function SheetPreview({
         guests,
         designId,
         layoutId,
+        ...(nameStyle === undefined ? {} : { nameStyle }),
       });
       return {
         manifest,
@@ -366,14 +262,16 @@ function SheetPreview({
           manifest,
           Math.min(pageIndex, manifest.pages.length - 1),
           {
-            backgroundImageHref: DESIGN_CATALOG[designId].artwork.publicPath,
+            backgroundImageHref:
+              backgroundImageHref ??
+              DESIGN_CATALOG[designId].artwork.publicPath,
           },
         ),
       };
     } catch {
       return null;
     }
-  }, [designId, guests, layoutId, pageIndex]);
+  }, [backgroundImageHref, designId, guests, layoutId, nameStyle, pageIndex]);
   const totalPages = preview?.manifest.pages.length ?? 0;
   useEffect(() => {
     setPageIndex((current) => Math.min(current, Math.max(totalPages - 1, 0)));
@@ -465,10 +363,14 @@ function AuthGate({
   return null;
 }
 
-function Creator({
+export function Creator({
   developmentControlsEnabled,
+  initialProjectId,
+  onProjectSaved,
 }: {
   readonly developmentControlsEnabled: boolean;
+  readonly initialProjectId?: string;
+  readonly onProjectSaved?: (project: SavedProject) => void;
 }) {
   const { client, snapshot, state } = useBffAuth();
   const convex = useConvex();
@@ -479,6 +381,7 @@ function Creator({
   const draftStore = useMemo(() => createTableCardsDraftStore(), []);
   const restored = useRef(false);
   const wasAuthenticated = useRef(false);
+  const allowNavigation = useRef(false);
   const [pastedText, setPastedText] = useState('');
   const [guests, setGuests] = useState<readonly GuestRow[]>([]);
   const [issues, setIssues] = useState<readonly GuestImportIssue[]>([]);
@@ -490,17 +393,36 @@ function Creator({
     readonly kind: 'uploaded' | 'ai';
     readonly reference: string;
     readonly label: string;
+    readonly artworkUrl?: string;
+    readonly nameStyle?: NameStyle;
   } | null>(null);
   const [notice, setNotice] = useState<Notice | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [savedProject, setSavedProject] = useState<SavedProject | null>(null);
-  const [projects, setProjects] = useState<readonly ProjectSummary[]>([]);
-  const [access, setAccess] = useState<CurrentProductAccess | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [aiPrompt, setAiPrompt] = useState(
-    'Soft watercolor wildflowers on warm ivory, subtle and elegant',
-  );
-  const [aiAssets, setAiAssets] = useState<readonly AiAsset[]>([]);
+  const [access, setAccess] = useState<CurrentProductAccess | null>(null);
+  const [presets, setPresets] = useState<readonly DesignPreset[]>([]);
+  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+  const [dirty, setDirty] = useState(false);
+  const blocker = useBlocker(() => dirty && !allowNavigation.current);
+
+  useEffect(() => {
+    if (blocker.state !== 'blocked') return;
+    if (window.confirm('Discard the unsaved changes to this project?')) {
+      blocker.proceed();
+    } else {
+      blocker.reset();
+    }
+  }, [blocker]);
+
+  useEffect(() => {
+    const warn = (event: BeforeUnloadEvent) => {
+      if (!dirty || allowNavigation.current) return;
+      event.preventDefault();
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
 
   useEffect(() => {
     if (restored.current) return;
@@ -511,6 +433,7 @@ function Creator({
     setDesignId(draft.designId);
     setLayoutId(draft.layoutId);
     setGuests(draft.guests);
+    setDirty(true);
     setNotice({
       kind: 'info',
       message: 'Your guest list was restored after sign-in.',
@@ -522,10 +445,7 @@ function Creator({
     if (wasAuthenticated.current && state.status === 'signed_out') {
       draftStore.clear();
       setSavedProject(null);
-      setAccess(null);
-      setProjects([]);
       setDownloadUrl(null);
-      setAiAssets([]);
       wasAuthenticated.current = false;
     }
   }, [draftStore, state.status]);
@@ -533,32 +453,78 @@ function Creator({
   useEffect(() => {
     if (state.status !== 'authenticated') return;
     let cancelled = false;
-    void Promise.all([backend.getCurrentAccess(), backend.listProjects()])
-      .then(([nextAccess, nextProjects]) => {
-        if (!cancelled) {
-          setAccess(nextAccess);
-          setProjects(nextProjects);
-        }
+    void Promise.all([backend.getCurrentAccess(), backend.listPresets()])
+      .then(([nextAccess, nextPresets]) => {
+        if (cancelled) return;
+        setAccess(nextAccess);
+        setPresets(nextPresets);
+        setCustomDesign((current) => {
+          if (!current || current.artworkUrl) return current;
+          const preset = nextPresets.find(
+            (candidate) => candidate.assetId === current.reference,
+          );
+          return preset?.artworkUrl
+            ? { ...current, artworkUrl: preset.artworkUrl }
+            : current;
+        });
       })
-      .catch((error: unknown) => {
-        if (!cancelled)
-          setNotice({
-            kind: 'error',
-            message: safeMessage(
-              error,
-              'Your saved projects could not be loaded.',
-            ),
-          });
+      .catch(() => {
+        if (!cancelled) setPresets([]);
       });
     return () => {
       cancelled = true;
     };
   }, [backend, snapshot.generation, state.status]);
 
+  useEffect(() => {
+    if (state.status !== 'authenticated' || !initialProjectId) return;
+    let cancelled = false;
+    void backend
+      .getProject(initialProjectId)
+      .then((loaded) => {
+        if (cancelled || !loaded?.guests) return;
+        setSavedProject(loaded);
+        setTitle(loaded.title);
+        setGuests(loaded.guests);
+        setDirty(false);
+        if (
+          loaded.designKind === 'predefined' &&
+          loaded.designId in DESIGN_CATALOG
+        ) {
+          setDesignId(loaded.designId as DesignId);
+          setCustomDesign(null);
+        } else if (loaded.designKind !== 'predefined') {
+          setCustomDesign({
+            kind: loaded.designKind,
+            reference: loaded.designId,
+            label: 'Saved custom background',
+            ...(loaded.nameStyle === undefined
+              ? {}
+              : { nameStyle: loaded.nameStyle }),
+          });
+        }
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          setNotice({
+            kind: 'error',
+            message: safeMessage(
+              error,
+              'The saved project could not be loaded.',
+            ),
+          });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [backend, initialProjectId, snapshot.generation, state.status]);
+
   const useImportResult = (result: ReturnType<typeof normalizePastedText>) => {
     setIssues(result.issues);
     if (result.ok) {
       setGuests(result.guests);
+      setDirty(true);
       setNotice({
         kind: 'success',
         message: `${result.guests.length} guest${result.guests.length === 1 ? '' : 's'} ready to preview.`,
@@ -610,6 +576,7 @@ function Creator({
   const preserveAndSignIn = () => {
     if (guests.length > 0)
       draftStore.write({ title, designId, layoutId, guests });
+    allowNavigation.current = true;
     window.location.assign(
       client.getSignInUrl({ returnPath: '/create', intent: 'continue' }),
     );
@@ -626,7 +593,7 @@ function Creator({
     return false;
   };
 
-  const save = async () => {
+  const save = async (navigateAfterSave = true) => {
     if (guests.length === 0) {
       setNotice({
         kind: 'error',
@@ -637,21 +604,32 @@ function Creator({
     if (!requireAccount()) return null;
     setBusy('Saving project');
     try {
-      const project = await backend.saveProject({
+      const saved = await backend.saveProject({
         ...(savedProject === null ? {} : { projectId: savedProject.id }),
         title: title.trim() || 'Untitled event',
         guests,
-        design:
-          customDesign ??
-          ({ kind: 'predefined', reference: designId } as const),
+        design: customDesign
+          ? {
+              kind: customDesign.kind,
+              reference: customDesign.reference,
+              ...(customDesign.nameStyle === undefined
+                ? {}
+                : { nameStyle: customDesign.nameStyle }),
+            }
+          : ({ kind: 'predefined', reference: designId } as const),
       });
+      const project = { ...saved, guests };
       setSavedProject(project);
+      setDirty(false);
       draftStore.clear();
-      setProjects(await backend.listProjects());
       setNotice({
         kind: 'success',
         message: 'Project saved securely to your account.',
       });
+      if (navigateAfterSave) {
+        allowNavigation.current = true;
+        onProjectSaved?.(project);
+      }
       return project;
     } catch (error) {
       setNotice({
@@ -665,7 +643,7 @@ function Creator({
   };
 
   const exportPdf = async () => {
-    const project = savedProject ?? (await save());
+    const project = savedProject ?? (await save(false));
     if (!project) return;
     setBusy('Preparing print-ready PDF');
     setDownloadUrl(null);
@@ -712,96 +690,12 @@ function Creator({
     }
   };
 
-  const switchOffer = async (offerKey: OfferId) => {
-    if (!requireAccount()) return;
-    setBusy('Applying development offer');
-    try {
-      setAccess(await backend.selectDevelopmentOffer(offerKey));
-      setNotice({
-        kind: 'success',
-        message: `${OFFER_CATALOG[offerKey].name} is active for this development account.`,
-      });
-    } catch (error) {
-      setNotice({
-        kind: 'error',
-        message: safeMessage(
-          error,
-          'The development offer could not be applied.',
-        ),
-      });
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const generateAi = async () => {
-    if (!requireAccount()) return;
-    if (aiPrompt.trim().length < 8) {
-      setNotice({
-        kind: 'error',
-        message: 'Describe the visual style in at least eight characters.',
-      });
-      return;
-    }
-    setBusy('Generating four background choices');
-    try {
-      const batch = await backend.generateAi({
-        prompt: aiPrompt.trim(),
-        idempotencyKey: crypto.randomUUID(),
-        ...(savedProject === null ? {} : { projectId: savedProject.id }),
-      });
-      setAiAssets(batch.assets ?? []);
-      setNotice({
-        kind: 'success',
-        message:
-          batch.assets?.length === 4
-            ? 'Four background choices are ready.'
-            : 'Generation started. The choices will appear when ready.',
-      });
-    } catch (error) {
-      setNotice({
-        kind: 'error',
-        message: safeMessage(
-          error,
-          'AI backgrounds are temporarily unavailable. Your unit was returned.',
-        ),
-      });
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const uploadArtwork = async (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    event.target.value = '';
-    if (!file || !requireAccount()) return;
-    setBusy('Checking artwork');
-    try {
-      const uploaded = await backend.uploadArtwork(file, savedProject?.id);
-      setCustomDesign({
-        kind: 'uploaded',
-        reference: uploaded.publicId,
-        label: file.name,
-      });
-      setNotice({
-        kind: 'success',
-        message: 'Artwork uploaded and validated. Save the project to use it.',
-      });
-    } catch (error) {
-      setNotice({
-        kind: 'error',
-        message: safeMessage(error, 'The artwork could not be used.'),
-      });
-    } finally {
-      setBusy(null);
-    }
-  };
-
   return (
     <section
       className="creator-section"
       id="creator"
       aria-labelledby="creator-title"
+      data-active-step={activeStep}
     >
       <div className="section-intro">
         <p className="eyebrow">Try it before you sign in</p>
@@ -813,7 +707,24 @@ function Creator({
       </div>
       <div className="creator-layout">
         <div className="creator-controls">
-          <div className="step-card">
+          <nav className="creator-step-navigation" aria-label="Creator steps">
+            {([1, 2, 3] as const).map((step) => (
+              <button
+                key={step}
+                type="button"
+                className={activeStep === step ? 'active' : ''}
+                aria-current={activeStep === step ? 'step' : undefined}
+                onClick={() => setActiveStep(step)}
+              >
+                {step === 1 ? 'Guests' : step === 2 ? 'Design' : 'Review'}
+              </button>
+            ))}
+          </nav>
+          <div
+            className="step-card"
+            data-creator-step="1"
+            data-active={activeStep === 1}
+          >
             <span className="step-number">1</span>
             <div className="step-heading">
               <h3>Add your guest list</h3>
@@ -874,8 +785,20 @@ function Creator({
                 ))}
               </ul>
             ) : null}
+            <button
+              className="mobile-step-next button"
+              type="button"
+              disabled={guests.length === 0}
+              onClick={() => setActiveStep(2)}
+            >
+              Continue to design
+            </button>
           </div>
-          <div className="step-card">
+          <div
+            className="step-card"
+            data-creator-step="2"
+            data-active={activeStep === 2}
+          >
             <span className="step-number">2</span>
             <div className="step-heading">
               <h3>Choose the look</h3>
@@ -886,15 +809,78 @@ function Creator({
               id="project-title"
               value={title}
               maxLength={120}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setDirty(true);
+              }}
             />
             <DesignPicker
               selected={designId}
               onSelect={(nextDesignId) => {
                 setDesignId(nextDesignId);
                 setCustomDesign(null);
+                setDirty(true);
               }}
             />
+            {state.status === 'authenticated' ? (
+              <div className="preset-chooser">
+                <div className="step-heading">
+                  <h4>Reusable presets</h4>
+                  <span>
+                    {access?.aiBackgroundBatchesRemaining ?? 0} AI batches
+                    remaining
+                  </span>
+                </div>
+                {presets.length > 0 ? (
+                  <div className="preset-choice-row">
+                    {presets.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        className={
+                          customDesign?.reference === preset.assetId
+                            ? 'active'
+                            : ''
+                        }
+                        onClick={() => {
+                          setCustomDesign({
+                            kind: preset.assetSource,
+                            reference: preset.assetId,
+                            label: preset.displayName,
+                            ...(preset.artworkUrl
+                              ? { artworkUrl: preset.artworkUrl }
+                              : {}),
+                            nameStyle: {
+                              color: preset.nameColor,
+                              position: preset.namePosition,
+                              font: preset.nameFont,
+                              size: preset.nameSize,
+                            },
+                          });
+                          setDirty(true);
+                        }}
+                      >
+                        <span
+                          style={
+                            preset.artworkUrl
+                              ? {
+                                  backgroundImage: `url(${preset.artworkUrl})`,
+                                }
+                              : undefined
+                          }
+                        />
+                        {preset.displayName}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="muted">No reusable presets yet.</p>
+                )}
+                <Link className="text-button" to="/designs">
+                  Manage uploads, AI backgrounds and presets
+                </Link>
+              </div>
+            ) : null}
             {developmentControlsEnabled ? (
               <fieldset className="print-layout-options">
                 <legend>Print layout to test</legend>
@@ -908,7 +894,10 @@ function Creator({
                           name="print-layout"
                           value={option.id}
                           checked={layoutId === option.id}
-                          onChange={() => setLayoutId(option.id)}
+                          onChange={() => {
+                            setLayoutId(option.id);
+                            setDirty(true);
+                          }}
                         />
                         <span>
                           <strong>{option.name}</strong>
@@ -938,13 +927,30 @@ function Creator({
                   ? 'AI background'
                   : 'uploaded artwork'}
                 : <strong>{customDesign.label}</strong>{' '}
-                <button type="button" onClick={() => setCustomDesign(null)}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomDesign(null);
+                    setDirty(true);
+                  }}
+                >
                   Use predefined design instead
                 </button>
               </p>
             ) : null}
+            <button
+              className="mobile-step-next button"
+              type="button"
+              onClick={() => setActiveStep(3)}
+            >
+              Review and export
+            </button>
           </div>
-          <div className="step-card action-card">
+          <div
+            className="step-card action-card"
+            data-creator-step="3"
+            data-active={activeStep === 3}
+          >
             <span className="step-number">3</span>
             <div className="step-heading">
               <h3>Save and export</h3>
@@ -956,7 +962,7 @@ function Creator({
                 className="secondary-button"
                 type="button"
                 disabled={busy !== null || guests.length === 0}
-                onClick={() => void save()}
+                onClick={() => void save(true)}
               >
                 Save project
               </button>
@@ -994,141 +1000,18 @@ function Creator({
               </p>
             ) : null}
           </div>
-          {state.status === 'authenticated' ? (
-            <details className="account-tools">
-              <summary>Saved projects and creative tools</summary>
-              <div className="tool-content">
-                <p className="tool-label">Current offer</p>
-                <strong>
-                  {access
-                    ? (OFFER_CATALOG[access.offerKey]?.name ?? access.offerKey)
-                    : 'Loading…'}
-                </strong>
-                {projects.length > 0 ? (
-                  <ul className="project-list">
-                    {projects.map((project) => (
-                      <li key={project.id}>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            void backend
-                              .getProject(project.id)
-                              .then((loaded) => {
-                                if (loaded?.guests) {
-                                  setSavedProject(loaded);
-                                  setTitle(loaded.title);
-                                  setGuests(loaded.guests);
-                                  if (
-                                    loaded.designKind === 'predefined' &&
-                                    loaded.designId in DESIGN_CATALOG
-                                  ) {
-                                    setDesignId(loaded.designId as DesignId);
-                                    setCustomDesign(null);
-                                  } else if (
-                                    loaded.designKind !== 'predefined'
-                                  ) {
-                                    setCustomDesign({
-                                      kind: loaded.designKind,
-                                      reference: loaded.designId,
-                                      label: 'Saved custom background',
-                                    });
-                                  }
-                                }
-                              })
-                          }
-                        >
-                          {project.title}
-                          <span>{project.guestCount} cards</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="muted">No saved events yet.</p>
-                )}
-                <hr />
-                <label className="file-button full-width">
-                  Upload your own artwork
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg"
-                    onChange={(event) => void uploadArtwork(event)}
-                  />
-                </label>
-                <label htmlFor="ai-prompt">AI background style</label>
-                <textarea
-                  id="ai-prompt"
-                  value={aiPrompt}
-                  maxLength={500}
-                  rows={3}
-                  onChange={(event) => setAiPrompt(event.target.value)}
-                />
-                <button
-                  className="secondary-button"
-                  type="button"
-                  disabled={busy !== null}
-                  onClick={() => void generateAi()}
-                >
-                  Generate four choices
-                </button>
-                {aiAssets.length > 0 ? (
-                  <div className="ai-grid">
-                    {aiAssets.map((asset) => (
-                      <button
-                        key={asset.id}
-                        type="button"
-                        onClick={() => {
-                          setCustomDesign({
-                            kind: 'ai',
-                            reference: asset.id,
-                            label: 'Generated choice',
-                          });
-                          setNotice({
-                            kind: 'info',
-                            message:
-                              'AI background selected. Save the project to apply it.',
-                          });
-                        }}
-                      >
-                        <img
-                          src={asset.url}
-                          alt="Generated background option"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            </details>
-          ) : null}
-          {developmentControlsEnabled && state.status === 'authenticated' ? (
-            <aside className="development-panel">
-              <p className="eyebrow">Development only</p>
-              <h3>Mock an offer</h3>
-              <p>
-                Exercises the real access contract without charging a payment
-                method.
-              </p>
-              <div className="offer-buttons">
-                {(Object.keys(OFFER_CATALOG) as OfferId[]).map((offerKey) => (
-                  <button
-                    key={offerKey}
-                    className={access?.offerKey === offerKey ? 'active' : ''}
-                    type="button"
-                    onClick={() => void switchOffer(offerKey)}
-                  >
-                    {OFFER_CATALOG[offerKey].name}
-                  </button>
-                ))}
-              </div>
-            </aside>
-          ) : null}
         </div>
         <div className="creator-preview">
           <SheetPreview
             guests={guests}
             designId={designId}
             layoutId={layoutId}
+            {...(customDesign?.artworkUrl
+              ? { backgroundImageHref: customDesign.artworkUrl }
+              : {})}
+            {...(customDesign?.nameStyle === undefined
+              ? {}
+              : { nameStyle: customDesign.nameStyle })}
           />
           <div className="print-callout">
             <strong>Before you print</strong>
@@ -1141,235 +1024,6 @@ function Creator({
         </div>
       </div>
     </section>
-  );
-}
-
-export function PricingSection() {
-  const offers: {
-    readonly id: OfferId;
-    readonly description: string;
-    readonly features: readonly string[];
-    readonly emphasis?: string;
-  }[] = [
-    {
-      id: 'free',
-      description: 'Try a real event from start to finish.',
-      features: [
-        '25 cards per project',
-        '1 active project',
-        '3 clean designs',
-        '1 AI background batch, lifetime',
-      ],
-    },
-    {
-      id: 'event_pass',
-      description: 'For one larger celebration.',
-      emphasis: 'Most popular for one event',
-      features: [
-        'Up to 500 cards',
-        '1 editable event for 90 days',
-        'All designs + artwork upload',
-        '2 AI background batches',
-      ],
-    },
-    {
-      id: 'planner_pro',
-      description: 'For independent planners with repeat events.',
-      features: [
-        '25 active projects',
-        'Up to 500 cards each',
-        'Reusable styles and uploads',
-        '10 AI batches each month',
-      ],
-    },
-    {
-      id: 'studio',
-      description: 'For teams producing events together.',
-      features: [
-        '100 active projects',
-        'Up to 5 team members',
-        'All premium tools',
-        '30 shared AI batches each month',
-      ],
-    },
-  ];
-  return (
-    <section
-      className="pricing-section"
-      id="pricing"
-      aria-labelledby="pricing-title"
-    >
-      <div className="section-intro centered">
-        <p className="eyebrow">Simple pilot pricing</p>
-        <h2 id="pricing-title">Pay for the workflow you need</h2>
-        <p>
-          Every plan creates the same precise downloadable PDF. We do not print
-          or ship physical cards.
-        </p>
-      </div>
-      <div className="pricing-grid">
-        {offers.map(({ id, description, features, emphasis }) => {
-          const offer = OFFER_CATALOG[id];
-          return (
-            <article
-              className={`price-card${emphasis ? ' featured' : ''}`}
-              key={id}
-            >
-              {emphasis ? <p className="price-badge">{emphasis}</p> : null}
-              <h3>{offer.name}</h3>
-              <p>{description}</p>
-              <p className="price">
-                <strong>${offer.priceUsd}</strong>
-                {offer.billing === 'monthly' ? (
-                  <span>/ month</span>
-                ) : offer.billing === 'one_time' ? (
-                  <span>one time</span>
-                ) : (
-                  <span>forever</span>
-                )}
-              </p>
-              <ul>
-                {features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-              <button
-                className={emphasis ? 'button' : 'secondary-button'}
-                type="button"
-                onClick={scrollToCreator}
-              >
-                {id === 'free' ? 'Start free' : 'Try in the creator'}
-              </button>
-            </article>
-          );
-        })}
-      </div>
-      <p className="pricing-note">
-        No annual contract. Cancel subscriptions any time. Professional projects
-        remain available for read/export for 30 days after cancellation.
-      </p>
-    </section>
-  );
-}
-
-function HowItWorks() {
-  return (
-    <section className="how-section" id="how-it-works">
-      <div className="section-intro centered">
-        <p className="eyebrow">No layout wrestling</p>
-        <h2>From spreadsheet to scissors in three steps</h2>
-      </div>
-      <div className="how-grid">
-        <article>
-          <span>01</span>
-          <h3>Bring the list</h3>
-          <p>
-            Paste names, copy a table grid, or upload CSV/XLSX. Map optional
-            table and short marker columns explicitly.
-          </p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Inspect every sheet</h3>
-          <p>
-            Check spelling, duplicates, accents, folds and page count in the
-            complete preview before you save.
-          </p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Print with confidence</h3>
-          <p>
-            Download the deterministic US Letter PDF, verify the scale square,
-            then print locally at Actual Size.
-          </p>
-        </article>
-      </div>
-    </section>
-  );
-}
-
-function Faq() {
-  return (
-    <section className="faq-section" id="faq">
-      <div className="section-intro">
-        <p className="eyebrow">Good to know</p>
-        <h2>Questions before you print</h2>
-      </div>
-      <div className="faq-list">
-        <details open>
-          <summary>Do you mail printed place cards?</summary>
-          <p>
-            No. TableCards creates a downloadable PDF. You print it yourself or
-            send it to a local print shop you choose.
-          </p>
-        </details>
-        <details>
-          <summary>What paper and settings should I use?</summary>
-          <p>
-            The launch format is US Letter with four 3.5 × 2 inch folded cards
-            per sheet. Print at Actual Size / 100%, never “Fit to page,” and
-            measure the scale square first.
-          </p>
-        </details>
-        <details>
-          <summary>Can I try it without creating an account?</summary>
-          <p>
-            Yes. Import, map, design and preview are public. Sign in only when
-            you save, export, upload artwork, generate a background or choose a
-            paid offer.
-          </p>
-        </details>
-        <details>
-          <summary>Will duplicate names be removed?</summary>
-          <p>
-            No. Your order, spelling and duplicate rows are preserved. Invalid
-            or unsupported rows are shown as issues instead of silently changed.
-          </p>
-        </details>
-        <details>
-          <summary>Does AI see my guest list?</summary>
-          <p>
-            No. AI background generation receives only the bounded style
-            description you write. Guest names, tables and event data are never
-            included in its prompt.
-          </p>
-        </details>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer>
-      <a className="brand" href="#top">
-        <span className="brand-mark">TC</span>
-        <span>TableCards</span>
-      </a>
-      <p>A Tofler Business Factory product. Digital PDF only.</p>
-      <a href="#faq">Help</a>
-    </footer>
-  );
-}
-
-export function TableCardsApp({
-  developmentControlsEnabled = false,
-}: {
-  readonly developmentControlsEnabled?: boolean;
-}) {
-  return (
-    <div id="top">
-      <Header />
-      <main>
-        <Hero />
-        <Creator developmentControlsEnabled={developmentControlsEnabled} />
-        <HowItWorks />
-        <PricingSection />
-        <Faq />
-      </main>
-      <Footer />
-    </div>
   );
 }
 

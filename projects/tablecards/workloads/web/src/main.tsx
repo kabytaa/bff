@@ -4,9 +4,11 @@ import { BffAuthProvider } from '@tofler/bff-auth/react';
 import { ConvexReactClient } from 'convex/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 
-import { TableCardsApp } from './app';
+import { TableCardsApplicationProvider } from './application-context';
 import { readTableCardsWebConfiguration } from './config';
+import { tableCardsRouter } from './router';
 import './styles.css';
 
 const rootElement = document.getElementById('root');
@@ -29,11 +31,13 @@ try {
     <StrictMode>
       <BffAuthProvider client={authClient}>
         <BffConvexProvider client={convexClient}>
-          <TableCardsApp
+          <TableCardsApplicationProvider
             developmentControlsEnabled={
               configuration.developmentControlsEnabled
             }
-          />
+          >
+            <RouterProvider router={tableCardsRouter} />
+          </TableCardsApplicationProvider>
         </BffConvexProvider>
       </BffAuthProvider>
     </StrictMode>,

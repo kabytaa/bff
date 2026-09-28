@@ -18,6 +18,13 @@ type ProjectSummary = {
   revision: number;
   createdAt: number;
   updatedAt: number;
+  nameStyle?: ProjectNameStyle;
+};
+type ProjectNameStyle = {
+  color: string;
+  position: 'top' | 'center' | 'bottom';
+  font: 'sans' | 'serif';
+  size: 'small' | 'medium' | 'large';
 };
 type SaveArgs = {
   accountId: string;
@@ -28,11 +35,13 @@ type SaveArgs = {
   design: {
     kind: 'predefined' | 'uploaded' | 'ai';
     reference: string;
+    nameStyle?: ProjectNameStyle;
   };
   maximumActiveProjects: number;
   maximumCards: number;
   allowUploadedDesigns: boolean;
   allowAiDesigns: boolean;
+  allowPremiumDesigns: boolean;
 };
 
 const saveAuthorized = makeFunctionReference<
@@ -42,7 +51,7 @@ const saveAuthorized = makeFunctionReference<
 >('projects:saveAuthorized');
 const list = makeFunctionReference<
   'query',
-  Record<string, never>,
+  { state?: 'active' | 'archived' },
   ProjectSummary[]
 >('projects:list');
 const get = makeFunctionReference<
@@ -50,6 +59,35 @@ const get = makeFunctionReference<
   { projectId: string },
   (ProjectSummary & { guests: Guest[] }) | null
 >('projects:get');
+const archive = makeFunctionReference<'mutation', { projectId: string }, null>(
+  'projects:archive',
+);
+const restoreAuthorized = makeFunctionReference<
+  'mutation',
+  {
+    accountId: string;
+    projectId: string;
+    maximumActiveProjects: number;
+    maximumCards: number;
+    allowPremiumDesigns: boolean;
+    allowUploadedDesigns: boolean;
+    allowAiDesigns: boolean;
+  },
+  ProjectSummary
+>('projects:restoreAuthorized');
+const loadForDuplicate = makeFunctionReference<
+  'query',
+  { accountId: string; projectId: string },
+  {
+    title: string;
+    guests: Guest[];
+    design: {
+      kind: 'predefined' | 'uploaded' | 'ai';
+      reference: string;
+      nameStyle?: ProjectNameStyle;
+    };
+  } | null
+>('projects:loadForDuplicate');
 
 function accountIdentity(accountId = 'account_abcdefghijklmnop') {
   return {
@@ -82,6 +120,7 @@ function saveArgs(overrides: Partial<SaveArgs> = {}): SaveArgs {
     maximumCards: 25,
     allowUploadedDesigns: false,
     allowAiDesigns: false,
+    allowPremiumDesigns: false,
     ...overrides,
   };
 }
@@ -138,6 +177,79 @@ describe('TableCards projects', () => {
         }),
       ),
     ).rejects.toThrow(/ENTITLEMENT_REQUIRED|paid offer/u);
+    await expect(
+      t.mutation(
+        saveAuthorized,
+        saveArgs({
+          accountId: 'account_fourthaccount12',
+          design: { kind: 'predefined', reference: 'rosewater-frame' },
+        }),
+      ),
+    ).rejects.toThrow(/ENTITLEMENT_REQUIRED|paid offer/u);
+  });
+
+  it('archives, lists, restores and loads a scoped duplication source', async () => {
+    const t = convexTest(schema, modules);
+    const saved = await t.mutation(saveAuthorized, saveArgs());
+    const account = t.withIdentity(accountIdentity());
+
+    await account.mutation(archive, { projectId: saved.publicId });
+    await expect(account.query(list, {})).resolves.toEqual([]);
+    await expect(
+      account.query(list, { state: 'archived' }),
+    ).resolves.toMatchObject([{ publicId: saved.publicId, state: 'archived' }]);
+    await expect(
+      t.query(loadForDuplicate, {
+        accountId: 'account_otheraccount1234',
+        projectId: saved.publicId,
+      }),
+    ).resolves.toBeNull();
+    const duplicationSource = await t.query(loadForDuplicate, {
+      accountId: 'account_abcdefghijklmnop',
+      projectId: saved.publicId,
+    });
+    expect(duplicationSource?.title).toBe('Dinner');
+    expect(duplicationSource?.guests).toHaveLength(3);
+    expect(duplicationSource?.guests[0]).toMatchObject({ name: 'José' });
+
+    await expect(
+      t.mutation(restoreAuthorized, {
+        accountId: 'account_abcdefghijklmnop',
+        projectId: saved.publicId,
+        maximumActiveProjects: 1,
+        maximumCards: 25,
+        allowPremiumDesigns: false,
+        allowUploadedDesigns: false,
+        allowAiDesigns: false,
+      }),
+    ).resolves.toMatchObject({ publicId: saved.publicId, state: 'active' });
+  });
+
+  it('snapshots constrained preset typography with the project and duplication source', async () => {
+    const t = convexTest(schema, modules);
+    const nameStyle: ProjectNameStyle = {
+      color: '#224466',
+      position: 'bottom',
+      font: 'serif',
+      size: 'large',
+    };
+    const saved = await t.mutation(
+      saveAuthorized,
+      saveArgs({
+        design: {
+          kind: 'predefined',
+          reference: 'minimal-ivory',
+          nameStyle,
+        },
+      }),
+    );
+    expect(saved.nameStyle).toEqual(nameStyle);
+    await expect(
+      t.query(loadForDuplicate, {
+        accountId: 'account_abcdefghijklmnop',
+        projectId: saved.publicId,
+      }),
+    ).resolves.toMatchObject({ design: { nameStyle } });
   });
 
   it('denies missing and wrong-environment identities', async () => {

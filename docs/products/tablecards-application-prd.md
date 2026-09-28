@@ -2,7 +2,7 @@
 
 Created: 2026-09-28
 Updated: 2026-09-28
-Status: Proposed — pending Andrew's review
+Status: Accepted — implemented in development
 
 This document defines the customer-facing TableCards application experience:
 its pages, navigation, responsive behavior, user stories and the visible
@@ -12,12 +12,14 @@ remain [`mvp-delivery-plan.md`](../factory/mvp-delivery-plan.md).
 
 ## Repository baseline
 
-The proposal is based on the uncommitted Build 3 review tree based on
-`f6344be`. That implementation has one React route containing the landing,
-creator, project tools, pricing and FAQ. Development BFF and TableCards
-backends are deployed and the primary Chromium/WebKit journeys pass.
+The PRD was proposed from the Build 3 review tree based on `f6344be` and
+accepted for implementation on 2026-09-28. The implementation branch is based
+on the preserved Build 3 checkpoint `beb4440`; its routed application,
+TableCards backend additions and shared BFF account-management additions are
+deployed to development and exercised in Chromium and WebKit. Production is
+unchanged.
 
-Already implemented:
+Build 3 baseline capabilities:
 
 - public pasted-line/grid, CSV and XLSX import;
 - complete card/sheet preview and deterministic PDF export;
@@ -28,15 +30,21 @@ Already implemented:
 - shared BFF authentication, account selection, members, invitations, roles
   and protected ownership transfer APIs.
 
-Not yet implemented as a usable product surface:
+Delivered by this PRD in development:
 
-- multi-page routing and an application shell;
-- a project dashboard, saved-project editor route and project duplication UI;
-- reusable-design-preset operations and UI, plus the promised constrained
-  font/size fields that the current preset schema does not yet store;
-- account plan/limit/unit views outside the current inline developer tools;
-- member, invitation, role, removal and ownership-transfer UI;
-- browser acceptance for those account-management workflows;
+- lazy multi-page routing with separate public and authenticated shells;
+- focused mobile creator steps and desktop creator workspace;
+- active/archived project dashboard plus open, duplicate, archive and restore;
+- reusable presets with constrained font, size, color and position persisted
+  in project snapshots and rendered in deterministic PDFs;
+- account offer, limit, live AI-unit and seat usage presentation;
+- member roster, invitation, role/removal and protected ownership-transfer UI;
+- token-safe recipient invitation inspection and acceptance;
+- scenario-sized hosted coverage for public export, professional project/design
+  work, Studio invitation/role work and the compact mobile workflow.
+
+Still owned by later delivery stages:
+
 - live checkout, verified subscription lifecycle, support and production
   operational visibility, which remain later delivery stages.
 
@@ -499,20 +507,19 @@ than mixing operator controls into TableCards customer settings.
 - No dead Billing or Support pages before their owning builds exist.
 - No live Paddle work as part of the Build 3 UI correction.
 
-## Review questions
+## Resolved product decisions
 
-The proposal makes recommendations rather than leaving basic navigation open.
-Andrew's review should confirm or revise only these material choices before an
-implementation plan:
-
-1. Is Projects/Create/Designs/Account the right four-item mobile navigation?
-2. Should every Studio Member see the roster, or only Owner/Admin?
-3. Is a copyable invitation link sufficient for the first team UI, with email
-   invitation delivery deferred until explicitly selected?
-4. Should archived projects be restorable, or permanently read-only?
+- Mobile navigation is Projects, Create, Designs and Account.
+- Every Studio member may see the roster; mutation controls remain
+  permission-aware and server-authorized.
+- The first team workflow returns a one-time copyable invitation link. Email
+  delivery remains part of the later support/communications slice.
+- Archived projects are restorable and do not count toward active-project
+  limits while archived.
 
 ## Document history
 
-| Date       | Status                             | Change                                                                                                               |
-| ---------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-28 | Proposed — pending Andrew's review | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun. |
+| Date       | Status                                | Change                                                                                                                                                                             |
+| ---------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-28 | Proposed — pending Andrew's review    | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                               |
+| 2026-09-28 | Accepted — implemented in development | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged. |

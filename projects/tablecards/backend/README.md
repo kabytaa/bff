@@ -21,6 +21,14 @@ deployment and enables deterministic commerce/image fixtures. Production must
 omit it. `OPENAI_API_KEY` is optional and is never required for development or
 CI.
 
+The backend owns active/archived project lifecycle, duplicate/restore, latest
+export projection, uploaded/generated assets and reusable design presets.
+Preset name styling is constrained to approved font family, size, color and
+position values. The selected style is copied into each project snapshot so a
+later preset edit cannot silently change an existing PDF; preview and export
+both render that same snapshot. Every query/mutation derives account scope from
+the verified BFF context, and current offer limits are rechecked server-side.
+
 Run Convex commands from this directory so they cannot target the BFF or the
 retained Example deployment:
 

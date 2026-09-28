@@ -16,8 +16,8 @@ call.
   It owns product projects, guest rows, artwork, PDF jobs and AI batches.
 - BFF owns identities/accounts plus the provider-independent effective-offer
   projection and typed-unit ledger.
-- `projects/tablecards/workloads/web` is the public creator and authenticated
-  product UI.
+- `projects/tablecards/workloads/web` is the routed public creator and
+  authenticated Projects, Designs, Account and Team application.
 - `projects/tablecards/session-gateway` forwards only the fixed SDK auth routes;
   it never proxies product data.
 
@@ -34,6 +34,9 @@ The BFF environment is composed from
 `projects/tablecards/customer-auth.defaults.ts` plus deployment URLs. The code
 owns product presentation and stable auth/account behavior; the operator
 configuration owns origins, callback transport and development automation.
+Development currently applies definition/configuration revision 2 with a
+two-membership user cap: one automatically created private workspace plus one
+invited Studio workspace. The ownership cap remains one.
 
 ## Development providers
 
@@ -88,9 +91,11 @@ pnpm exec nx run tablecards-session-gateway:test
 pnpm exec nx run tablecards-e2e:e2e-hosted-development
 ```
 
-The Playwright flow uses a short-lived development grant, the real session
+The Playwright flow uses short-lived development grants, the real session
 gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
-deterministic AI batch. It downloads and parses the PDF in Chromium and WebKit.
+deterministic AI batch. Five scenario-sized journeys run in both Chromium and
+WebKit, including a two-person Studio invitation and role promotion. It
+downloads and parses the PDF in both browser engines.
 Real iPhone Safari and a physical 100%-scale ruler check remain useful extra
 evidence, not a reason to hide an automated failure.
 
@@ -145,6 +150,12 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
 - After that coordinated deployment, the complete `pnpm check` gate remains
   green and the six uncached hosted Chromium/WebKit journeys pass, including
   authenticated offer selection and AI reserve/commit behavior.
+- The routed application correction is deployed at web Worker version
+  `602f2764-365f-430c-8ad9-d4fda07ea445`. The public landing loads a dedicated
+  lightweight catalog chunk and does not eagerly load the spreadsheet/PDF
+  editor or team route. The complete Node 24 repository gate and all 10 hosted
+  Chromium/WebKit journeys pass; the mobile journey also passes at 320 CSS
+  pixels without horizontal overflow.
 - Direct health probes for TableCards HTTP and the session gateway return `200`;
   an unauthenticated shared product-access probe returns the intended `401`.
 
@@ -160,10 +171,10 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   is covered and unsupported glyphs fail preflight instead of silently clipping.
   Bundled broad-script font coverage remains an explicit follow-up before a
   multilingual production claim.
-- The browser bundle is currently large because CSV/XLSX and print code share
-  the initial chunk. This is a performance optimization opportunity, not an
-  authorization or correctness dependency.
-- The focused hosted browser suite proves the primary Free and Event Pass
-  journeys. The broader negative upload/provider/offer matrix is covered only
-  partly by core and Convex tests and remains before this plan can be marked
-  completed.
+- CSV/XLSX and print code remain a large editor chunk, but route-level loading
+  keeps that chunk off the landing page. Further editor-internal splitting is a
+  performance optimization, not an authorization or correctness dependency.
+- The focused hosted browser suite proves the primary public/Free,
+  professional and Studio workflows. Exhaustive permission, account-isolation,
+  capacity, replay and unit-accounting decisions remain in faster BFF/Convex
+  integration tests rather than a browser Cartesian product.

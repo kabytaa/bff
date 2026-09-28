@@ -9,6 +9,77 @@ import { TABLECARDS_AUTH_URL, TABLECARDS_WEB_URL } from '../playwright.config';
 const execFileAsync = promisify(execFile);
 const bffSiteUrl = 'https://compassionate-buffalo-689.convex.site';
 const environmentKey = 'tablecards-development';
+const bffDeployment = 'compassionate-buffalo-689';
+
+async function runOperator<T>(args: readonly string[]): Promise<T> {
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      'node_modules/tsx/dist/cli.mjs',
+      '--tsconfig',
+      'tsconfig.base.json',
+      'tools/bff-operator/src/main.ts',
+      ...args,
+    ],
+    { cwd: process.cwd(), maxBuffer: 1024 * 1024 },
+  );
+  const jsonStart = stdout.indexOf('{');
+  if (jsonStart < 0) throw new Error('The operator response was not JSON.');
+  return JSON.parse(stdout.slice(jsonStart)) as T;
+}
+
+async function findOwnerAccountId(verifiedEmail: string): Promise<string> {
+  let cursor: string | undefined;
+  for (let pageNumber = 0; pageNumber < 20; pageNumber += 1) {
+    const response = await runOperator<{
+      isDone: boolean;
+      continueCursor: string;
+      page: readonly {
+        accountId: string;
+        role: string;
+        userVerifiedEmail: string;
+      }[];
+    }>([
+      'list-customer-memberships',
+      '--deployment',
+      bffDeployment,
+      '--key',
+      environmentKey,
+      '--limit',
+      '50',
+      ...(cursor === undefined ? [] : ['--cursor', cursor]),
+      '--confirm-cloud',
+    ]);
+    const membership = response.page.find(
+      (candidate) =>
+        candidate.role === 'owner' &&
+        candidate.userVerifiedEmail === verifiedEmail,
+    );
+    if (membership) return membership.accountId;
+    if (response.isDone) break;
+    cursor = response.continueCursor;
+  }
+  throw new Error('The new development owner account was not found.');
+}
+
+async function enableStudioAccountPolicy(accountId: string): Promise<void> {
+  await runOperator([
+    'set-account-policy',
+    '--deployment',
+    bffDeployment,
+    '--key',
+    environmentKey,
+    '--account-id',
+    accountId,
+    '--policy-overrides-json',
+    JSON.stringify({
+      seatLimit: 5,
+      adminRoleEnabled: true,
+      memberInvitationsEnabled: true,
+    }),
+    '--confirm-cloud',
+  ]);
+}
 
 async function mintSignupGrant(
   transactionReference: string,
@@ -98,6 +169,47 @@ test('published landscape print-test PDF has six-card page geometry', async ({
   ]);
 });
 
+test('mobile creator is step focused and has no horizontal page overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/');
+  await expect(
+    page.getByRole('heading', { name: /Place cards that print/u }),
+  ).toBeVisible();
+  const landingResources = await page.evaluate(() =>
+    performance
+      .getEntriesByType('resource')
+      .map((entry) => entry.name)
+      .filter((name) => name.includes('/assets/')),
+  );
+  expect(landingResources).not.toEqual(
+    expect.arrayContaining([expect.stringMatching(/\/assets\/(?:app|src)-/u)]),
+  );
+  await expect(
+    page.getByRole('heading', { name: 'Build your first sheet' }),
+  ).toHaveCount(0);
+  await page.getByRole('link', { name: /Create free/u }).click();
+  await expect(page.getByRole('button', { name: 'Guests' })).toBeVisible();
+  await page
+    .getByLabel(/Paste one name per line/u)
+    .fill('Ada Lovelace\nGrace Hopper');
+  await page.getByRole('button', { name: 'Preview names' }).click();
+  await page.getByRole('button', { name: 'Continue to design' }).click();
+  await expect(page.getByRole('button', { name: 'Design' })).toHaveAttribute(
+    'aria-current',
+    'step',
+  );
+  await page.getByRole('button', { name: 'Review and export' }).click();
+  await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+  const overflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth -
+      document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(1);
+});
+
 test('public preview survives sign-in and produces a real PDF', async ({
   browser,
   browserName,
@@ -114,7 +226,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
     `tablecards-${browserName}-${Date.now()}`,
   );
   await expect(
-    authenticated.getByRole('button', { name: 'Sign out' }),
+    authenticated.getByRole('link', { name: 'Projects' }),
   ).toBeVisible();
   await expect(authenticated.getByText('4 cards · 2 PDF pages')).toBeVisible();
   await expect(
@@ -136,7 +248,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
   await context.close();
 });
 
-test('development offer and four-choice AI flow use authenticated access', async ({
+test('professional project, preset and AI workflows use authenticated access', async ({
   browser,
   browserName,
 }) => {
@@ -152,20 +264,114 @@ test('development offer and four-choice AI flow use authenticated access', async
     `tablecards-ai-${browserName}-${Date.now()}`,
   );
   await expect(
-    authenticated.getByRole('button', { name: 'Sign out' }),
+    authenticated.getByRole('link', { name: 'Projects' }),
   ).toBeVisible();
   await authenticated.getByRole('button', { name: 'Save project' }).click();
+  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
+  await authenticated.goto('/settings');
   await expect(
-    authenticated.getByText('Project saved securely to your account.'),
+    authenticated.getByRole('heading', { name: 'Account and usage' }),
   ).toBeVisible();
-  await authenticated.getByText('Saved projects and creative tools').click();
-  await authenticated.getByRole('button', { name: 'Event Pass' }).click();
-  await expect(authenticated.getByText(/Event Pass is active/u)).toBeVisible();
+  const planner = authenticated.getByRole('button', { name: 'Planner Pro' });
+  await planner.click();
+  await expect(planner).toHaveClass(/\bactive\b/u);
+  await expect(planner).toBeEnabled();
+  await authenticated.goto('/designs');
   await authenticated
-    .getByRole('button', { name: 'Generate four choices' })
+    .getByRole('button', { name: /Generate four choices/u })
     .click();
   await expect(
-    authenticated.getByRole('img', { name: 'Generated background option' }),
-  ).toHaveCount(4, { timeout: 90_000 });
+    authenticated.getByText('4 background choices are ready.'),
+  ).toBeVisible({ timeout: 90_000 });
+  await authenticated
+    .getByRole('button', { name: 'Use for preset' })
+    .first()
+    .click();
+  await authenticated
+    .getByRole('button', { name: 'Save reusable preset' })
+    .click();
+  await expect(authenticated.getByText('Reusable preset saved.')).toBeVisible();
+
+  await authenticated.goto('/projects');
+  await authenticated.getByRole('button', { name: 'Duplicate' }).click();
+  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
+  authenticated.once('dialog', (dialog) => void dialog.accept());
+  await authenticated
+    .getByRole('button', { name: 'Archive', exact: true })
+    .click();
+  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects`);
+  await authenticated.getByRole('button', { name: 'Archived' }).click();
+  await expect(authenticated.getByText('My event copy')).toBeVisible();
+  await authenticated.getByRole('button', { name: 'Restore' }).click();
+  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
   await context.close();
+});
+
+test('Studio owner can invite a recipient and promote the joined member', async ({
+  browser,
+  browserName,
+}) => {
+  const suffix = `${browserName}-${Date.now()}`;
+  const ownerPersona = `tablecards-studio-owner-${suffix}`;
+  const ownerEmail = `${ownerPersona}@example.invalid`;
+  const recipientPersona = `tablecards-studio-member-${suffix}`;
+  const recipientEmail = `${recipientPersona}@example.invalid`;
+  const ownerContext = await browser.newContext();
+  const owner = await ownerContext.newPage();
+
+  await preparePublicDraft(owner);
+  await owner.getByRole('button', { name: 'Save project' }).click();
+  await owner.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
+  await completeDevelopmentLogin(owner, new URL(owner.url()), ownerPersona);
+  await expect(owner.getByRole('link', { name: 'Projects' })).toBeVisible();
+  await owner.getByRole('button', { name: 'Save project' }).click();
+  await owner.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
+
+  const accountId = await findOwnerAccountId(ownerEmail);
+  await enableStudioAccountPolicy(accountId);
+  await owner.reload();
+  await owner.goto('/settings');
+  const studio = owner.getByRole('button', { name: 'Studio' });
+  await studio.click();
+  await expect(studio).toHaveClass(/\bactive\b/u);
+  await expect(studio).toBeEnabled();
+  await owner.goto('/settings/team');
+  await expect(owner.getByRole('heading', { name: 'Team' })).toBeVisible();
+  await owner.getByLabel('Verified email').fill(recipientEmail);
+  await owner.getByRole('button', { name: 'Create invitation' }).click();
+  const invitationLink = await owner
+    .getByLabel('One-time invitation link')
+    .inputValue();
+  expect(invitationLink).toMatch(
+    /^https:\/\/tablecards-dev\.tofler\.app\/invite\//u,
+  );
+
+  const recipientContext = await browser.newContext();
+  const recipient = await recipientContext.newPage();
+  await recipient.goto(invitationLink);
+  await expect(
+    recipient.getByRole('heading', {
+      name: /^(?:Join |Review your invitation$)/u,
+    }),
+  ).toBeVisible();
+  await recipient.getByRole('link', { name: 'Sign in to accept' }).click();
+  await recipient.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
+  await completeDevelopmentLogin(
+    recipient,
+    new URL(recipient.url()),
+    recipientPersona,
+  );
+  await recipient.getByRole('button', { name: 'Accept invitation' }).click();
+  await recipient.waitForURL(`${TABLECARDS_WEB_URL}/projects`);
+
+  await owner.reload();
+  await expect(owner.getByText(recipientEmail)).toBeVisible();
+  await owner.getByRole('button', { name: 'Make admin' }).click();
+  await expect(owner.getByText('Member role updated.')).toBeVisible();
+  await expect(
+    owner.getByText(recipientEmail).locator('..').locator('..'),
+  ).toContainText('admin');
+
+  await recipientContext.close();
+  await ownerContext.close();
 });

@@ -20,6 +20,8 @@ import {
   customerAuthOptionsHandler,
   exchangeLoginHandler,
   issueContextHandler,
+  inspectInvitationHandler,
+  listAccountInvitationsHandler,
   listAccountMembersHandler,
   logoutHandler,
   readLoginChallengeHandler,
@@ -205,6 +207,18 @@ http.route({
 });
 
 http.route({
+  path: '/v1/accounts/invitations',
+  method: 'GET',
+  handler: httpAction(listAccountInvitationsHandler),
+});
+
+http.route({
+  path: '/v1/accounts/invitations/inspect',
+  method: 'POST',
+  handler: httpAction(inspectInvitationHandler),
+});
+
+http.route({
   path: '/v1/accounts/invitations/accept',
   method: 'POST',
   handler: httpAction(acceptInvitationHandler),
@@ -224,6 +238,7 @@ for (const path of [
   '/v1/accounts/members/remove',
   '/v1/accounts/policy',
   '/v1/accounts/invitations',
+  '/v1/accounts/invitations/inspect',
   '/v1/accounts/invitations/accept',
   '/v1/accounts/invitations/revoke',
   '/v1/product-access',

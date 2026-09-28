@@ -11,6 +11,7 @@
 import type * as ai from '../ai.js';
 import type * as aiState from '../aiState.js';
 import type * as assets from '../assets.js';
+import type * as designPresets from '../designPresets.js';
 import type * as environment from '../environment.js';
 import type * as exportState from '../exportState.js';
 import type * as exports from '../exports.js';
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   ai: typeof ai;
   aiState: typeof aiState;
   assets: typeof assets;
+  designPresets: typeof designPresets;
   environment: typeof environment;
   exportState: typeof exportState;
   exports: typeof exports;

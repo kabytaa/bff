@@ -10,6 +10,15 @@ export interface ProjectSummary {
   readonly designId: string;
   readonly designKind: 'predefined' | 'uploaded' | 'ai';
   readonly updatedAt: number;
+  readonly state: 'active' | 'archived';
+  readonly nameStyle?: ProjectNameStyle;
+}
+
+export interface ProjectNameStyle {
+  readonly color: string;
+  readonly position: 'top' | 'center' | 'bottom';
+  readonly font: 'sans' | 'serif';
+  readonly size: 'small' | 'medium' | 'large';
 }
 
 export interface SavedProject extends ProjectSummary {
@@ -19,10 +28,16 @@ export interface SavedProject extends ProjectSummary {
 export interface CurrentProductAccess {
   readonly offerKey: OfferId;
   readonly offerName?: string;
+  readonly source?: 'default' | 'development_mock' | 'provider';
   readonly maxCardsPerProject?: number;
   readonly maxActiveProjects?: number;
   readonly artworkUploadEnabled?: boolean;
+  readonly premiumDesignsEnabled?: boolean;
+  readonly reusablePresetsEnabled?: boolean;
+  readonly teamAccessEnabled?: boolean;
+  readonly collaborationSeats?: number;
   readonly aiBackgroundBatchesRemaining?: number;
+  readonly aiAllocationLabel?: 'lifetime' | 'event' | 'current_billing_cycle';
 }
 
 interface BackendProjectSummary {
@@ -32,6 +47,8 @@ interface BackendProjectSummary {
   readonly designReference: string;
   readonly designKind: 'predefined' | 'uploaded' | 'ai';
   readonly updatedAt: number;
+  readonly state: 'active' | 'archived';
+  readonly nameStyle?: ProjectNameStyle;
   readonly guests?: readonly GuestRow[];
 }
 
@@ -41,7 +58,13 @@ interface BackendOfferView {
   readonly maximumCardsPerProject: number;
   readonly maximumActiveProjects: number;
   readonly customArtwork: boolean;
-  readonly aiAllowance: number;
+  readonly premiumDesigns: boolean;
+  readonly reusablePresets: boolean;
+  readonly teamAccess: boolean;
+  readonly collaborationSeats: number;
+  readonly aiBatchesRemaining: number;
+  readonly aiAllocationLabel: 'lifetime' | 'event' | 'current_billing_cycle';
+  readonly source: 'default' | 'development_mock' | 'provider';
 }
 
 export interface ExportStatus {
@@ -63,9 +86,38 @@ export interface AiBatch {
   readonly errorMessage?: string;
 }
 
+export interface DesignAsset {
+  readonly id: string;
+  readonly source: 'uploaded' | 'ai';
+  readonly url: string | null;
+  readonly reusable: boolean;
+  readonly createdAt: number;
+}
+
+export interface DesignPreset {
+  readonly id: string;
+  readonly assetId: string;
+  readonly assetSource: 'uploaded' | 'ai';
+  readonly artworkUrl: string | null;
+  readonly displayName: string;
+  readonly nameColor: string;
+  readonly namePosition: 'top' | 'center' | 'bottom';
+  readonly nameFont: 'sans' | 'serif';
+  readonly nameSize: 'small' | 'medium' | 'large';
+  readonly updatedAt: number;
+}
+
+export interface PresetStyle {
+  readonly displayName: string;
+  readonly nameColor: string;
+  readonly namePosition: 'top' | 'center' | 'bottom';
+  readonly nameFont: 'sans' | 'serif';
+  readonly nameSize: 'small' | 'medium' | 'large';
+}
+
 const listProjectsRef = makeFunctionReference<
   'query',
-  Record<string, never>,
+  { state?: 'active' | 'archived' },
   readonly BackendProjectSummary[]
 >('projects:list');
 const getProjectRef = makeFunctionReference<
@@ -73,6 +125,21 @@ const getProjectRef = makeFunctionReference<
   { projectId: string },
   BackendProjectSummary | null
 >('projects:get');
+const archiveProjectRef = makeFunctionReference<
+  'mutation',
+  { projectId: string },
+  null
+>('projects:archive');
+const duplicateProjectRef = makeFunctionReference<
+  'action',
+  { accessToken: string; projectId: string },
+  BackendProjectSummary
+>('productAccess:duplicateProject');
+const restoreProjectRef = makeFunctionReference<
+  'action',
+  { accessToken: string; projectId: string },
+  BackendProjectSummary
+>('productAccess:restoreProject');
 const saveProjectRef = makeFunctionReference<
   'action',
   {
@@ -83,6 +150,7 @@ const saveProjectRef = makeFunctionReference<
     design: {
       kind: 'predefined' | 'uploaded' | 'ai';
       reference: string;
+      nameStyle?: ProjectNameStyle;
     };
   },
   BackendProjectSummary
@@ -112,6 +180,16 @@ const getExportRef = makeFunctionReference<
     errorCode?: string;
   } | null
 >('exportState:get');
+const latestExportRef = makeFunctionReference<
+  'query',
+  { projectId: string },
+  {
+    publicId: string;
+    status: 'queued' | 'generating' | 'ready' | 'failed';
+    downloadUrl: string | null;
+    errorCode?: string;
+  } | null
+>('exportState:latestForProject');
 const generateAiRef = makeFunctionReference<
   'action',
   {
@@ -142,6 +220,64 @@ const finalizeAssetRef = makeFunctionReference<
   { accessToken: string; storageId: string; projectId?: string },
   { publicId: string }
 >('assets:finalize');
+const listAssetsRef = makeFunctionReference<
+  'query',
+  Record<string, never>,
+  readonly {
+    publicId: string;
+    source: 'uploaded' | 'ai';
+    reusable: boolean;
+    url: string | null;
+    createdAt: number;
+  }[]
+>('assets:list');
+const listPresetsRef = makeFunctionReference<
+  'query',
+  Record<string, never>,
+  readonly {
+    publicId: string;
+    assetPublicId: string;
+    assetSource: 'uploaded' | 'ai';
+    artworkUrl: string | null;
+    displayName: string;
+    nameColor: string;
+    namePosition: 'top' | 'center' | 'bottom';
+    nameFont: 'sans' | 'serif';
+    nameSize: 'small' | 'medium' | 'large';
+    updatedAt: number;
+  }[]
+>('designPresets:list');
+const createPresetRef = makeFunctionReference<
+  'action',
+  {
+    accessToken: string;
+    assetPublicId: string;
+    displayName: string;
+    nameColor: string;
+    namePosition: 'top' | 'center' | 'bottom';
+    nameFont: 'sans' | 'serif';
+    nameSize: 'small' | 'medium' | 'large';
+  },
+  string
+>('productAccess:createPreset');
+const updatePresetRef = makeFunctionReference<
+  'action',
+  {
+    accessToken: string;
+    presetId: string;
+    displayName: string;
+    nameColor: string;
+    namePosition: 'top' | 'center' | 'bottom';
+    nameFont: 'sans' | 'serif';
+    nameSize: 'small' | 'medium' | 'large';
+  },
+  null
+>('productAccess:updatePreset');
+const deletePresetRef = makeFunctionReference<
+  'action',
+  { accessToken: string; presetId: string },
+  null
+>('productAccess:deletePreset');
 
 function projectView(project: BackendProjectSummary): SavedProject {
   return {
@@ -151,6 +287,10 @@ function projectView(project: BackendProjectSummary): SavedProject {
     designId: project.designReference,
     designKind: project.designKind,
     updatedAt: project.updatedAt,
+    state: project.state,
+    ...(project.nameStyle === undefined
+      ? {}
+      : { nameStyle: project.nameStyle }),
     ...(project.guests === undefined ? {} : { guests: project.guests }),
   };
 }
@@ -159,10 +299,16 @@ function accessView(access: BackendOfferView): CurrentProductAccess {
   return {
     offerKey: access.id,
     offerName: access.name,
+    source: access.source,
     maxCardsPerProject: access.maximumCardsPerProject,
     maxActiveProjects: access.maximumActiveProjects,
     artworkUploadEnabled: access.customArtwork,
-    aiBackgroundBatchesRemaining: access.aiAllowance,
+    premiumDesignsEnabled: access.premiumDesigns,
+    reusablePresetsEnabled: access.reusablePresets,
+    teamAccessEnabled: access.teamAccess,
+    collaborationSeats: access.collaborationSeats,
+    aiBackgroundBatchesRemaining: access.aiBatchesRemaining,
+    aiAllocationLabel: access.aiAllocationLabel,
   };
 }
 
@@ -173,7 +319,9 @@ async function requireToken(auth: BffAuthBrowserClient) {
 }
 
 export interface TableCardsBackend {
-  listProjects(): Promise<readonly ProjectSummary[]>;
+  listProjects(
+    state?: 'active' | 'archived',
+  ): Promise<readonly ProjectSummary[]>;
   getProject(projectId: string): Promise<SavedProject | null>;
   getCurrentAccess(): Promise<CurrentProductAccess>;
   saveProject(input: {
@@ -183,6 +331,7 @@ export interface TableCardsBackend {
     readonly design: {
       readonly kind: 'predefined' | 'uploaded' | 'ai';
       readonly reference: string;
+      readonly nameStyle?: ProjectNameStyle;
     };
   }): Promise<SavedProject>;
   selectDevelopmentOffer(offerKey: OfferId): Promise<CurrentProductAccess>;
@@ -191,6 +340,10 @@ export interface TableCardsBackend {
     layoutId: PrintLayoutId,
   ): Promise<{ readonly exportId: string }>;
   getExport(exportId: string): Promise<ExportStatus | null>;
+  getLatestExport(projectId: string): Promise<ExportStatus | null>;
+  archiveProject(projectId: string): Promise<void>;
+  duplicateProject(projectId: string): Promise<SavedProject>;
+  restoreProject(projectId: string): Promise<SavedProject>;
   generateAi(input: {
     readonly prompt: string;
     readonly idempotencyKey: string;
@@ -200,6 +353,11 @@ export interface TableCardsBackend {
     file: File,
     projectId?: string,
   ): Promise<{ readonly publicId: string }>;
+  listAssets(): Promise<readonly DesignAsset[]>;
+  listPresets(): Promise<readonly DesignPreset[]>;
+  createPreset(assetId: string, style: PresetStyle): Promise<string>;
+  updatePreset(presetId: string, style: PresetStyle): Promise<void>;
+  deletePreset(presetId: string): Promise<void>;
 }
 
 export function createTableCardsBackend(
@@ -207,8 +365,8 @@ export function createTableCardsBackend(
   auth: BffAuthBrowserClient,
 ): TableCardsBackend {
   return {
-    async listProjects() {
-      return (await convex.query(listProjectsRef, {})).map(projectView);
+    async listProjects(state = 'active') {
+      return (await convex.query(listProjectsRef, { state })).map(projectView);
     },
     async getProject(projectId) {
       const project = await convex.query(getProjectRef, { projectId });
@@ -262,6 +420,39 @@ export function createTableCardsBackend(
           ? {}
           : { errorMessage: result.errorCode }),
       };
+    },
+    async getLatestExport(projectId) {
+      const result = await convex.query(latestExportRef, { projectId });
+      if (result === null) return null;
+      return {
+        exportId: result.publicId,
+        status: result.status === 'generating' ? 'rendering' : result.status,
+        ...(result.downloadUrl === null
+          ? {}
+          : { storageUrl: result.downloadUrl }),
+        ...(result.errorCode === undefined
+          ? {}
+          : { errorMessage: result.errorCode }),
+      };
+    },
+    async archiveProject(projectId) {
+      await convex.mutation(archiveProjectRef, { projectId });
+    },
+    async duplicateProject(projectId) {
+      return projectView(
+        await convex.action(duplicateProjectRef, {
+          accessToken: await requireToken(auth),
+          projectId,
+        }),
+      );
+    },
+    async restoreProject(projectId) {
+      return projectView(
+        await convex.action(restoreProjectRef, {
+          accessToken: await requireToken(auth),
+          projectId,
+        }),
+      );
     },
     async generateAi(input) {
       const started = await convex.action(generateAiRef, {
@@ -326,6 +517,49 @@ export function createTableCardsBackend(
         accessToken,
         storageId: body.storageId,
         ...(projectId === undefined ? {} : { projectId }),
+      });
+    },
+    async listAssets() {
+      return (await convex.query(listAssetsRef, {})).map((asset) => ({
+        id: asset.publicId,
+        source: asset.source,
+        url: asset.url,
+        reusable: asset.reusable,
+        createdAt: asset.createdAt,
+      }));
+    },
+    async listPresets() {
+      return (await convex.query(listPresetsRef, {})).map((preset) => ({
+        id: preset.publicId,
+        assetId: preset.assetPublicId,
+        assetSource: preset.assetSource,
+        artworkUrl: preset.artworkUrl,
+        displayName: preset.displayName,
+        nameColor: preset.nameColor,
+        namePosition: preset.namePosition,
+        nameFont: preset.nameFont,
+        nameSize: preset.nameSize,
+        updatedAt: preset.updatedAt,
+      }));
+    },
+    async createPreset(assetId, style) {
+      return await convex.action(createPresetRef, {
+        accessToken: await requireToken(auth),
+        assetPublicId: assetId,
+        ...style,
+      });
+    },
+    async updatePreset(presetId, style) {
+      await convex.action(updatePresetRef, {
+        accessToken: await requireToken(auth),
+        presetId,
+        ...style,
+      });
+    },
+    async deletePreset(presetId) {
+      await convex.action(deletePresetRef, {
+        accessToken: await requireToken(auth),
+        presetId,
       });
     },
   };

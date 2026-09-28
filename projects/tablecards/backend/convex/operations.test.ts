@@ -32,11 +32,21 @@ const saveProject = makeFunctionReference<
     userId: string;
     title: string;
     guests: { name: string }[];
-    design: { kind: 'predefined'; reference: string };
+    design: {
+      kind: 'predefined';
+      reference: string;
+      nameStyle?: {
+        color: string;
+        position: 'top' | 'center' | 'bottom';
+        font: 'sans' | 'serif';
+        size: 'small' | 'medium' | 'large';
+      };
+    };
     maximumActiveProjects: number;
     maximumCards: number;
     allowUploadedDesigns: boolean;
     allowAiDesigns: boolean;
+    allowPremiumDesigns: boolean;
   },
   { publicId: string }
 >('projects:saveAuthorized');
@@ -57,7 +67,16 @@ const createExport = makeFunctionReference<
 const loadExport = makeFunctionReference<
   'mutation',
   { accountId: string; exportId: string },
-  { title: string; guests: { name: string }[] }
+  {
+    title: string;
+    guests: { name: string }[];
+    nameStyle?: {
+      color: string;
+      position: 'top' | 'center' | 'bottom';
+      font: 'sans' | 'serif';
+      size: 'small' | 'medium' | 'large';
+    };
+  }
 >('exportState:load');
 const failExport = makeFunctionReference<
   'mutation',
@@ -108,24 +127,39 @@ const getAi = makeFunctionReference<
 async function seededProject(
   t: ReturnType<typeof convexTest>,
   designReference = 'minimal-ivory',
+  withNameStyle = false,
 ) {
   return await t.mutation(saveProject, {
     accountId,
     userId,
     title: 'Dinner',
     guests: [{ name: 'Ada' }, { name: 'Grace' }],
-    design: { kind: 'predefined', reference: designReference },
+    design: {
+      kind: 'predefined',
+      reference: designReference,
+      ...(withNameStyle
+        ? {
+            nameStyle: {
+              color: '#224466',
+              position: 'top' as const,
+              font: 'serif' as const,
+              size: 'small' as const,
+            },
+          }
+        : {}),
+    },
     maximumActiveProjects: 1,
     maximumCards: 25,
     allowUploadedDesigns: false,
     allowAiDesigns: true,
+    allowPremiumDesigns: designReference === 'rosewater-frame',
   });
 }
 
 describe('TableCards durable operations', () => {
   it('deduplicates exports and keeps their status account scoped', async () => {
     const t = convexTest(schema, modules);
-    const project = await seededProject(t);
+    const project = await seededProject(t, 'minimal-ivory', true);
     const input = {
       accountId,
       userId,
@@ -153,6 +187,12 @@ describe('TableCards durable operations', () => {
     ).resolves.toMatchObject({
       title: 'Dinner',
       guests: [{ name: 'Ada' }, { name: 'Grace' }],
+      nameStyle: {
+        color: '#224466',
+        position: 'top',
+        font: 'serif',
+        size: 'small',
+      },
     });
     await t.mutation(failExport, {
       accountId,

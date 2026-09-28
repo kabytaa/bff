@@ -333,6 +333,31 @@ export async function withAuthenticatedCustomerRequest(
   }
 }
 
+async function withCustomerOriginRequest(
+  ctx: ActionCtx,
+  request: Request,
+  handler: (
+    environmentKey: string,
+    responseHeaders: HeadersInit,
+  ) => Promise<Response>,
+) {
+  let cors: HeadersInit = {};
+  try {
+    const environmentKey = request.headers.get('x-tofler-environment');
+    if (!environmentKey || environmentKey.length > 64) {
+      throw new HttpInputError(
+        400,
+        'INVALID_INPUT',
+        'Business environment is required.',
+      );
+    }
+    cors = await customerApiOriginHeaders(ctx, request, environmentKey);
+    return await handler(environmentKey, cors);
+  } catch (error) {
+    return mapError(error, cors);
+  }
+}
+
 export function accountContext(
   claims: CustomerContextClaims,
 ): AccountContextClaims {
@@ -806,6 +831,69 @@ export async function listAccountMembersHandler(
         },
       });
       return jsonResponse(result, 200, cors);
+    },
+  );
+}
+
+export async function listAccountInvitationsHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return await withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (rawClaims, cors) => {
+      const claims = accountContext(rawClaims);
+      const url = new URL(request.url);
+      const requestedItems = Number(url.searchParams.get('limit') ?? '25');
+      if (!Number.isInteger(requestedItems) || requestedItems < 1) {
+        throw new HttpInputError(400, 'INVALID_INPUT', 'limit is invalid.');
+      }
+      const cursor = url.searchParams.get('cursor');
+      const result = await ctx.runMutation(
+        internal.invitations.listPendingForAccount,
+        {
+          environmentKey: claims.environmentKey,
+          accountPublicId: claims.accountId,
+          actorUserPublicId: claims.sub,
+          paginationOpts: {
+            numItems: Math.min(50, requestedItems),
+            cursor,
+          },
+          now: Date.now(),
+        },
+      );
+      return jsonResponse(result, 200, cors);
+    },
+  );
+}
+
+export async function inspectInvitationHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return await withCustomerOriginRequest(
+    ctx,
+    request,
+    async (environmentKey, cors) => {
+      const input = parseInput(
+        acceptInvitationRequestSchema,
+        await readBoundedJson(request),
+      );
+      const preview = await ctx.runQuery(internal.invitations.inspect, {
+        environmentKey,
+        tokenHash: await sha256Base64Url(input.invitationToken),
+        now: Date.now(),
+      });
+      if (!preview) {
+        return publicError(
+          'INVALID_INPUT',
+          'The invitation is invalid or unavailable.',
+          400,
+          cors,
+        );
+      }
+      return jsonResponse(preview, 200, cors);
     },
   );
 }

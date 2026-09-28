@@ -2,7 +2,7 @@
 
 Updated: 2026-09-28.
 
-This is the canonical product-scope document for the first Business Factory product. The proposed [TableCards application PRD](tablecards-application-prd.md) defines the detailed pages, navigation, responsive behavior and user stories for review. The [MVP delivery plan](../factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
+This is the canonical product-scope document for the first Business Factory product. The accepted [TableCards application PRD](tablecards-application-prd.md) defines the detailed pages, navigation, responsive behavior and user stories now implemented in development. The [MVP delivery plan](../factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
 
 The dated [TableCards market-research report](../research/260927-tablecards-market-research.md) records competitor, customer-problem, pricing, format, AI-cost and acquisition evidence. The accepted [TableCards product and launch brainstorm](../../.agent/brainstorms/260927-tablecards-product-and-launch.md) records how that evidence changed the launch scope.
 

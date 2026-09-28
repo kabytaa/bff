@@ -34,6 +34,27 @@ export const membershipViewSchema = z
 
 export type MembershipView = z.infer<typeof membershipViewSchema>;
 
+export const accountMemberViewSchema = z
+  .object({
+    membership: membershipViewSchema,
+    displayName: z.string().min(1).max(120),
+    verifiedEmail: z.string().email(),
+    pictureUrl: z.string().url().optional(),
+  })
+  .strict();
+
+export type AccountMemberView = z.infer<typeof accountMemberViewSchema>;
+
+export const paginatedAccountMembersSchema = z.object({
+  page: z.array(accountMemberViewSchema),
+  isDone: z.boolean(),
+  continueCursor: z.string(),
+});
+
+export type PaginatedAccountMembers = z.infer<
+  typeof paginatedAccountMembersSchema
+>;
+
 export const accountSummarySchema = z
   .object({
     id: publicIdentifierSchema,
@@ -111,6 +132,61 @@ export const invitationViewSchema = z
     createdAt: z.number().int().nonnegative(),
   })
   .strict();
+
+export type InvitationView = z.infer<typeof invitationViewSchema>;
+
+export const paginatedInvitationsSchema = z.object({
+  page: z.array(invitationViewSchema),
+  isDone: z.boolean(),
+  continueCursor: z.string(),
+});
+
+export type PaginatedInvitations = z.infer<typeof paginatedInvitationsSchema>;
+
+export const invitationPreviewSchema = z
+  .object({
+    accountDisplayName: z.string().min(1).max(120).optional(),
+    state: invitationStateSchema,
+    expiresAt: z.number().int().positive(),
+  })
+  .strict();
+
+export type InvitationPreview = z.infer<typeof invitationPreviewSchema>;
+
+export const createInvitationResponseSchema = z
+  .object({
+    invitation: invitationViewSchema,
+    invitationToken: z.string().min(32).max(256),
+  })
+  .strict();
+
+export type CreateInvitationResponse = z.infer<
+  typeof createInvitationResponseSchema
+>;
+
+export const membershipRemovalResultSchema = z
+  .object({
+    removedMembershipId: publicIdentifierSchema,
+    accountId: publicIdentifierSchema,
+    userId: publicIdentifierSchema,
+    activeMemberCount: z.number().int().nonnegative(),
+  })
+  .strict();
+
+export type MembershipRemovalResult = z.infer<
+  typeof membershipRemovalResultSchema
+>;
+
+export const ownershipTransferStartResponseSchema = z
+  .object({
+    authorizationUrl: z.string().url(),
+    expiresAt: z.number().int().positive(),
+  })
+  .strict();
+
+export type OwnershipTransferStartResponse = z.infer<
+  typeof ownershipTransferStartResponseSchema
+>;
 
 export const selectAccountRequestSchema = z
   .object({ accountId: publicIdentifierSchema })

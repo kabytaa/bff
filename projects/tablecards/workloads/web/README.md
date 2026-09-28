@@ -1,16 +1,24 @@
 # TableCards web
 
-The proposed customer-facing pages, navigation, responsive behavior and user
+The accepted customer-facing pages, navigation, responsive behavior and user
 stories are defined in the repository-level
 [`TableCards Application PRD`](../../../../docs/products/tablecards-application-prd.md).
 Canonical offer and product decisions remain in the
 [`TableCards MVP specification`](../../../../docs/products/tablecards-mvp.md).
 
-This React application is the public TableCards creator and authenticated
-project surface. Import, mapping, design selection and complete sheet preview
-work before authentication. Save, PDF export, artwork upload, AI generation and
-development offer selection call the TableCards Convex backend with the current
-BFF account context.
+This React application has lazy public and signed-in route shells. `/` is the
+concise landing page; `/create` is the public three-step creator; `/projects`
+and `/projects/:projectId` manage saved work; `/designs` manages predefined and
+reusable designs; `/settings` shows plan/usage; `/settings/team` manages Studio
+membership; and `/invite/:invitationToken` completes invitation acceptance.
+Import, mapping, design selection and complete sheet preview work before
+authentication. Save, PDF export, artwork upload, AI generation and development
+offer selection call the TableCards Convex backend with the current BFF account
+context.
+
+The landing page imports the lightweight `@tablecards/core/catalog` entry only.
+Spreadsheet/PDF editor code and team-management route code stay behind lazy
+route boundaries rather than entering the first public page download.
 
 ## Local setup
 
@@ -32,7 +40,8 @@ when a public guest list crosses the sign-in boundary. Guest content is never
 put in a URL, `localStorage`, analytics, or an AI prompt. The backend remains
 authoritative for project/card/design limits and validates every uploaded file.
 
-`VITE_TABLECARDS_DEV_CONTROLS=true` shows the development offer selector. It is
+`VITE_TABLECARDS_DEV_CONTROLS=true` shows the development offer selector only
+on Account. It is
 not an authorization boundary: the backend independently denies mock grants
 unless both the deployment and registered Business environment are explicitly
 development-enabled. Build 3 ships no production TableCards manifest.
@@ -54,6 +63,12 @@ pnpm exec wrangler deploy \
   --config projects/tablecards/workloads/web/wrangler.jsonc \
   --assets dist/projects/tablecards/workloads/web
 ```
+
+The development Business auth definition permits at most two memberships per
+user: the automatically created private workspace plus one invited Studio
+workspace. It still permits owning only one account. Account/security policy is
+configured through the validated operator workflow and is not changed by
+selecting a mock product offer.
 
 The same-site cookie endpoint is the separate fixed-route session gateway at
 `api.tablecards-dev.tofler.app`; product Convex calls do not use that proxy.

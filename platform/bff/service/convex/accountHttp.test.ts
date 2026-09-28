@@ -280,6 +280,37 @@ describe('versioned account and transfer HTTP operations', () => {
     };
     expect(invitation.invitationToken).toMatch(/^[A-Za-z0-9_-]{43}$/u);
 
+    const inspectionResponse = await t.fetch(
+      '/v1/accounts/invitations/inspect',
+      {
+        method: 'POST',
+        headers: authenticatedHeaders(ownerToken),
+        body: JSON.stringify({ invitationToken: invitation.invitationToken }),
+      },
+    );
+    expect(inspectionResponse.status).toBe(200);
+    await expect(inspectionResponse.json()).resolves.toMatchObject({
+      accountDisplayName: 'HTTP Team',
+      state: 'pending',
+    });
+
+    const invitationsResponse = await t.fetch(
+      '/v1/accounts/invitations?limit=10',
+      { headers: authenticatedHeaders(ownerToken) },
+    );
+    expect(invitationsResponse.status).toBe(200);
+    const invitations = (await invitationsResponse.json()) as {
+      page: Array<{ recipientEmail: string }>;
+      isDone: boolean;
+    };
+    expect(invitations).toMatchObject({
+      isDone: true,
+      page: [{ recipientEmail: 'target@example.com' }],
+    });
+    expect(JSON.stringify(invitations)).not.toContain(
+      invitation.invitationToken,
+    );
+
     const targetToken = await onboardingToken(signing, targetUserId, 'target');
     const acceptResponse = await t.fetch('/v1/accounts/invitations/accept', {
       method: 'POST',
@@ -296,14 +327,20 @@ describe('versioned account and transfer HTTP operations', () => {
     });
     expect(membersResponse.status).toBe(200);
     const members = (await membersResponse.json()) as {
-      page: Array<{ role: string }>;
+      page: Array<{
+        membership: { role: string };
+        displayName: string;
+        verifiedEmail: string;
+      }>;
       isDone: boolean;
     };
     expect(members.isDone).toBe(true);
-    expect(members.page.map(({ role }) => role).sort()).toEqual([
-      'member',
-      'owner',
-    ]);
+    expect(
+      members.page.map(({ membership }) => membership.role).sort(),
+    ).toEqual(['member', 'owner']);
+    expect(
+      members.page.map(({ verifiedEmail }) => verifiedEmail).sort(),
+    ).toEqual(['owner@example.com', 'target@example.com']);
 
     const tooSmallPolicy = await t.fetch('/v1/accounts/policy', {
       method: 'POST',

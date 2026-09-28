@@ -55,6 +55,7 @@ export {
   type FillRectangleCommand,
   type FontMetrics,
   type LineCommand,
+  type NameStyle,
   type PathCommand,
   type PrintLayoutDefinition,
   type PrintLayoutId,

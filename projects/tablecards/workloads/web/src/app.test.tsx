@@ -1,19 +1,20 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { PricingSection, StaticNotice } from './app';
+import { OFFER_CATALOG } from '@tablecards/core';
+import { StaticNotice } from './app';
 
 describe('TableCards public product copy', () => {
-  it('renders the accepted pilot offers without implying physical fulfillment', () => {
-    const markup = renderToStaticMarkup(<PricingSection />);
-
-    expect(markup).toContain('Free');
-    expect(markup).toContain('Event Pass');
-    expect(markup).toContain('$5');
-    expect(markup).toContain('$9');
-    expect(markup).toContain('$19');
-    expect(markup).toContain('downloadable PDF');
-    expect(markup).toContain('do not print or ship');
+  it('keeps the accepted pilot offers in the authoritative catalog', () => {
+    expect(Object.values(OFFER_CATALOG).map((offer) => offer.name)).toEqual([
+      'Free',
+      'Event Pass',
+      'Planner Pro',
+      'Studio',
+    ]);
+    expect(OFFER_CATALOG.event_pass.priceUsd).toBe(5);
+    expect(OFFER_CATALOG.planner_pro.priceUsd).toBe(9);
+    expect(OFFER_CATALOG.studio.priceUsd).toBe(19);
   });
 
   it('exposes safe status text as visible UI', () => {

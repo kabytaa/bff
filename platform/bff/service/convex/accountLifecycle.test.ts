@@ -251,10 +251,9 @@ describe('account and invitation lifecycle', () => {
       actorUserPublicId: memberUserId,
       paginationOpts: { numItems: 50, cursor: null },
     });
-    expect(memberPage.page.map(({ role }) => role).sort()).toEqual([
-      'member',
-      'owner',
-    ]);
+    expect(
+      memberPage.page.map(({ membership }) => membership.role).sort(),
+    ).toEqual(['member', 'owner']);
 
     expect(
       await t.mutation(internal.invitations.accept, {

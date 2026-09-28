@@ -145,6 +145,7 @@ export interface TextCommand {
   readonly color: string;
   readonly rotation: 0 | 180;
   readonly role: 'instruction' | 'marker' | 'name' | 'table' | 'title';
+  readonly fontFamily?: 'sans' | 'serif';
 }
 
 export type RenderCommand =
@@ -195,6 +196,14 @@ export interface CreateRenderManifestInput {
   readonly designId: DesignId;
   readonly title?: string;
   readonly layoutId?: PrintLayoutId;
+  readonly nameStyle?: NameStyle;
+}
+
+export interface NameStyle {
+  readonly color: string;
+  readonly position: 'top' | 'center' | 'bottom';
+  readonly font: 'sans' | 'serif';
+  readonly size: 'small' | 'medium' | 'large';
 }
 
 interface FittedGuestText {
@@ -225,6 +234,8 @@ function fitGuest(
   guest: GuestRow,
   guestIndex: number,
   metrics: FontMetrics,
+  nameMetrics: FontMetrics = metrics,
+  nameStyle?: NameStyle,
 ):
   | { readonly ok: true; readonly fitted: FittedGuestText }
   | { readonly ok: false; readonly issues: readonly RenderPreflightIssue[] } {
@@ -235,23 +246,34 @@ function fitGuest(
     ['marker', guest.marker],
   ] as const;
   for (const [field, value] of fields) {
-    if (value !== undefined && !metrics.supportsText(value)) {
+    const fieldMetrics = field === 'name' ? nameMetrics : metrics;
+    if (value !== undefined && !fieldMetrics.supportsText(value)) {
       issues.push({
         code: 'unsupported_font_character',
         guestIndex,
         field,
-        message: `Guest ${guestIndex + 1} ${field} contains a character unavailable in ${metrics.familyName}.`,
+        message: `Guest ${guestIndex + 1} ${field} contains a character unavailable in ${fieldMetrics.familyName}.`,
       });
     }
   }
 
-  const nameSupported = metrics.supportsText(guest.name);
+  const nameSupported = nameMetrics.supportsText(guest.name);
   const tableSupported =
     guest.table === undefined || metrics.supportsText(guest.table);
   const markerSupported =
     guest.marker === undefined || metrics.supportsText(guest.marker);
   const nameSize = nameSupported
-    ? fitText(guest.name, metrics, 220, 26, 8)
+    ? fitText(
+        guest.name,
+        nameMetrics,
+        220,
+        nameStyle?.size === 'small'
+          ? 18
+          : nameStyle?.size === 'medium'
+            ? 22
+            : 26,
+        8,
+      )
     : undefined;
   const tableSize =
     guest.table === undefined || !tableSupported
@@ -299,8 +321,11 @@ function fitGuest(
 export function preflightRender(
   input: CreateRenderManifestInput,
   metrics: FontMetrics = APPROXIMATE_NOTO_SANS_METRICS,
+  nameMetrics: FontMetrics = metrics,
 ): readonly RenderPreflightIssue[] {
   const issues: RenderPreflightIssue[] = [];
+  const selectedNameMetrics =
+    input.nameStyle?.font === 'serif' ? nameMetrics : metrics;
   for (let index = 0; index < input.guests.length; index += 1) {
     const guest = input.guests[index];
     const parsed = guestRowSchema.safeParse(guest);
@@ -313,7 +338,13 @@ export function preflightRender(
       });
       continue;
     }
-    const fitted = fitGuest(parsed.data, index, metrics);
+    const fitted = fitGuest(
+      parsed.data,
+      index,
+      metrics,
+      selectedNameMetrics,
+      input.nameStyle,
+    );
     if (!fitted.ok) {
       issues.push(...fitted.issues);
     }
@@ -329,6 +360,7 @@ function addFace(
   x: number,
   y: number,
   rotation: 0 | 180,
+  nameStyle?: NameStyle,
 ): void {
   commands.push(
     Object.freeze({
@@ -345,16 +377,27 @@ function addFace(
   const direction = rotation === 0 ? 1 : -1;
   const centerY = y + FINISHED_CARD.height / 2;
   const hasDetails = guest.table !== undefined || guest.marker !== undefined;
+  const nameOffset =
+    nameStyle?.position === 'top'
+      ? 38
+      : nameStyle?.position === 'bottom'
+        ? -28
+        : hasDetails
+          ? 10
+          : 0;
+  const detailsDirection =
+    nameStyle?.position === 'bottom' ? -direction : direction;
   commands.push(
     Object.freeze({
       type: 'text',
       text: guest.name,
       centerX: x + FINISHED_CARD.width / 2,
-      centerY: centerY + direction * (hasDetails ? 10 : 0),
+      centerY: centerY + direction * nameOffset,
       fontSize: fitted.nameSize,
-      color: design.palette.text,
+      color: nameStyle?.color ?? design.palette.text,
       rotation,
       role: 'name',
+      fontFamily: nameStyle?.font ?? 'sans',
     }),
   );
   if (guest.table !== undefined && fitted.tableSize !== undefined) {
@@ -363,7 +406,7 @@ function addFace(
         type: 'text',
         text: guest.table,
         centerX: x + FINISHED_CARD.width / 2,
-        centerY: centerY - direction * 20,
+        centerY: centerY - detailsDirection * 20,
         fontSize: fitted.tableSize,
         color: design.palette.secondaryText,
         rotation,
@@ -377,7 +420,8 @@ function addFace(
         type: 'text',
         text: guest.marker,
         centerX: x + FINISHED_CARD.width / 2,
-        centerY: centerY - direction * (guest.table === undefined ? 20 : 34),
+        centerY:
+          centerY - detailsDirection * (guest.table === undefined ? 20 : 34),
         fontSize: fitted.markerSize,
         color: design.palette.accent,
         rotation,
@@ -485,7 +529,9 @@ function createCardsPage(
   guestOffset: number,
   design: DesignDefinition,
   metrics: FontMetrics,
+  nameMetrics: FontMetrics,
   layout: PrintLayoutDefinition,
+  nameStyle?: NameStyle,
 ): RenderPage {
   const commands: RenderCommand[] = [];
   const origin = {
@@ -501,12 +547,18 @@ function createCardsPage(
     const rowFromTop = Math.floor(slot / layout.columns);
     const x = origin.x + column * UNFOLDED_CARD.width;
     const y = origin.y + (layout.rows - 1 - rowFromTop) * UNFOLDED_CARD.height;
-    const fitted = fitGuest(guest, guestOffset + slot, metrics);
+    const fitted = fitGuest(
+      guest,
+      guestOffset + slot,
+      metrics,
+      nameMetrics,
+      nameStyle,
+    );
     if (!fitted.ok) {
       throw new RenderPreflightError(fitted.issues);
     }
 
-    addFace(commands, guest, fitted.fitted, design, x, y, 0);
+    addFace(commands, guest, fitted.fitted, design, x, y, 0, nameStyle);
     addFace(
       commands,
       guest,
@@ -515,6 +567,7 @@ function createCardsPage(
       x,
       y + FINISHED_CARD.height,
       180,
+      nameStyle,
     );
     commands.push(
       Object.freeze({
@@ -551,13 +604,16 @@ function createCardsPage(
 export function createRenderManifest(
   input: CreateRenderManifestInput,
   metrics: FontMetrics = APPROXIMATE_NOTO_SANS_METRICS,
+  nameMetrics: FontMetrics = metrics,
 ): RenderManifest {
-  const issues = preflightRender(input, metrics);
+  const issues = preflightRender(input, metrics, nameMetrics);
   if (issues.length > 0) {
     throw new RenderPreflightError(issues);
   }
   const design = getDesignDefinition(input.designId);
   const layout = PRINT_LAYOUTS[input.layoutId ?? 'portrait_4'];
+  const selectedNameMetrics =
+    input.nameStyle?.font === 'serif' ? nameMetrics : metrics;
   const pages: RenderPage[] = [
     createScaleCheckPage(
       metrics,
@@ -576,7 +632,9 @@ export function createRenderManifest(
         offset,
         design,
         metrics,
+        selectedNameMetrics,
         layout,
+        input.nameStyle,
       ),
     );
   }
@@ -678,7 +736,9 @@ export function renderManifestPageToSvg(
         command.rotation === 0
           ? ''
           : ` transform="rotate(180 ${command.centerX} ${y})"`;
-      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(manifest.fontFamily)}" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
+      const family =
+        command.fontFamily === 'serif' ? 'Georgia, serif' : manifest.fontFamily;
+      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
     })
     .join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${page.width} ${page.height}" role="img" aria-label="TableCards ${page.kind === 'scale_check' ? 'scale check' : `print sheet ${pageIndex}`}">${body}</svg>`;

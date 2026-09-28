@@ -12,6 +12,12 @@ const guest = v.object({
   table: v.optional(v.string()),
   marker: v.optional(v.string()),
 });
+const projectNameStyle = v.object({
+  color: v.string(),
+  position: v.union(v.literal('top'), v.literal('center'), v.literal('bottom')),
+  font: v.union(v.literal('sans'), v.literal('serif')),
+  size: v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
+});
 
 export default defineSchema({
   projects: defineTable({
@@ -22,6 +28,7 @@ export default defineSchema({
     state: projectState,
     designKind,
     designReference: v.string(),
+    nameStyle: v.optional(projectNameStyle),
     guestCount: v.number(),
     revision: v.number(),
     createdAt: v.number(),
@@ -62,9 +69,15 @@ export default defineSchema({
       v.literal('center'),
       v.literal('bottom'),
     ),
+    nameFont: v.optional(v.union(v.literal('sans'), v.literal('serif'))),
+    nameSize: v.optional(
+      v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
+    ),
     createdAt: v.number(),
     updatedAt: v.number(),
-  }).index('by_account_public_id', ['accountId', 'publicId']),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_account_updated_at', ['accountId', 'updatedAt']),
   projectExports: defineTable({
     publicId: v.string(),
     accountId: v.string(),

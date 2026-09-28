@@ -29,6 +29,12 @@ type ExportInput = {
   title: string;
   designKind: 'ai' | 'predefined' | 'uploaded';
   designReference: string;
+  nameStyle?: {
+    color: string;
+    position: 'top' | 'center' | 'bottom';
+    font: 'sans' | 'serif';
+    size: 'small' | 'medium' | 'large';
+  };
   layoutId: PrintLayoutId;
   guests: { name: string; table?: string; marker?: string }[];
   backgroundStorageId?: Id<'_storage'>;
@@ -230,6 +236,9 @@ export const render = internalAction({
           designId,
           title: input.title,
           layoutId: input.layoutId,
+          ...(input.nameStyle === undefined
+            ? {}
+            : { nameStyle: input.nameStyle }),
         },
         backgroundImage === undefined ? {} : { backgroundImage },
       );

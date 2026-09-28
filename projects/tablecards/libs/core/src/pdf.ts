@@ -109,7 +109,7 @@ export function convertLogicalPathToPdfSvgPath(
 
 function drawManifest(
   pdfDocument: PDFDocument,
-  font: PDFFont,
+  fonts: { readonly sans: PDFFont; readonly serif: PDFFont },
   manifest: RenderManifest,
   backgroundImage?: PDFImage,
 ): void {
@@ -178,6 +178,7 @@ function drawManifest(
         continue;
       }
 
+      const font = command.fontFamily === 'serif' ? fonts.serif : fonts.sans;
       const textWidth = font.widthOfTextAtSize(command.text, command.fontSize);
       const textHeight = font.heightAtSize(command.fontSize, {
         descender: false,
@@ -252,9 +253,11 @@ export async function renderTableCardsPdf(
       ? undefined
       : await embedBackgroundImage(pdfDocument, options.backgroundImage);
 
+  const serifFont = await pdfDocument.embedFont(StandardFonts.TimesRoman);
   const manifest = createRenderManifest(
     input,
     createPdfFontMetrics(font, familyName),
+    createPdfFontMetrics(serifFont, 'Times Roman'),
   );
   pdfDocument.setTitle(input.title?.trim() || 'TableCards place cards', {
     showInWindowTitleBar: false,
@@ -266,7 +269,12 @@ export async function renderTableCardsPdf(
   pdfDocument.setCreator('TableCards');
   pdfDocument.setCreationDate(FIXED_PDF_DATE);
   pdfDocument.setModificationDate(FIXED_PDF_DATE);
-  drawManifest(pdfDocument, font, manifest, backgroundImage);
+  drawManifest(
+    pdfDocument,
+    { sans: font, serif: serifFont },
+    manifest,
+    backgroundImage,
+  );
 
   return pdfDocument.save({
     addDefaultPage: false,

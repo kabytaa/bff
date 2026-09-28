@@ -135,6 +135,39 @@ describe('print manifest', () => {
     expect(nameCommands).toHaveLength(4);
   });
 
+  it('applies a constrained reusable-preset style to both printed faces', () => {
+    const manifest = createRenderManifest({
+      guests: [{ name: 'Ada Lovelace', table: '12' }],
+      designId: 'minimal-ivory',
+      nameStyle: {
+        color: '#224466',
+        position: 'top',
+        font: 'serif',
+        size: 'small',
+      },
+    });
+    const names = manifest.pages[1]!.commands.filter(
+      (command): command is TextCommand =>
+        command.type === 'text' && command.role === 'name',
+    );
+    expect(names).toHaveLength(2);
+    expect(names).toEqual([
+      expect.objectContaining({
+        color: '#224466',
+        fontFamily: 'serif',
+        fontSize: 18,
+      }),
+      expect.objectContaining({
+        color: '#224466',
+        fontFamily: 'serif',
+        fontSize: 18,
+      }),
+    ]);
+    expect(renderManifestPageToSvg(manifest, 1)).toContain(
+      'font-family="Georgia, serif"',
+    );
+  });
+
   it('rejects text that cannot fit rather than clipping it', () => {
     const input = {
       guests: [{ name: 'W'.repeat(120) }],
