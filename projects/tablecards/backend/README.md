@@ -14,6 +14,7 @@ Required public deployment values mirror the retained Example Business:
 - `BFF_CUSTOMER_WEB_ORIGINS_JSON`
 - `BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL`
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`
+- `BFF_CHECKOUT_SERVICE_TOKEN` (secret; checkout creation only)
 - `TABLECARDS_BUILD_VERSION`
 
 `TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true` is allowed only in the development

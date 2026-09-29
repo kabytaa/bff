@@ -39,6 +39,7 @@ export default defineConfig({
       BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL:
         'https://tablecards-backend.convex.site',
       BFF_CUSTOMER_WEB_ORIGINS_JSON: '["https://tablecards-dev.tofler.app"]',
+      BFF_CHECKOUT_SERVICE_TOKEN: 'checkout_service_secret_000000000001',
       TABLECARDS_DEVELOPMENT_MOCKS_ENABLED: 'true',
     },
     include: ['projects/tablecards/backend/convex/**/*.test.ts'],

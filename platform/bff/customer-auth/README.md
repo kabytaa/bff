@@ -11,6 +11,12 @@ It never receives a Google client secret, durable Business session handle or
 Business access token. Production uses the reviewed public customer client ID
 from `@bff/static-config`; the operator client and allowlist are not bundled.
 
+The same bundle owns `/checkout`, the provider-neutral customer checkout
+surface. In Build 3 it renders an explicitly no-charge, Business-branded mock
+and completes an expiring single-use BFF attempt. TableCards never embeds a
+dummy payment screen. Build 4 may direct production checkout straight to
+Paddle while retaining this page for development mock selection.
+
 ## Local commands
 
 Set `VITE_BFF_SITE_URL` to the exact HTTPS Convex site origin for the intended

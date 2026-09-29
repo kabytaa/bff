@@ -42,6 +42,13 @@ import {
   reserveUnitsHandler,
   setDevelopmentProductAccessHandler,
 } from './lib/productAccessHttp';
+import {
+  cancelCheckoutHandler,
+  checkoutOptionsHandler,
+  completeCheckoutHandler,
+  createCheckoutHandler,
+  readCheckoutHandler,
+} from './lib/checkoutHttp';
 
 const http = httpRouter();
 
@@ -137,6 +144,43 @@ http.route({
   method: 'GET',
   handler: httpAction(currentProductAccessHandler),
 });
+
+http.route({
+  path: '/v1/checkouts',
+  method: 'POST',
+  handler: httpAction(createCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts',
+  method: 'GET',
+  handler: httpAction(readCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts/complete',
+  method: 'POST',
+  handler: httpAction(completeCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts/cancel',
+  method: 'POST',
+  handler: httpAction(cancelCheckoutHandler),
+});
+
+for (const path of [
+  '/v1/checkouts/complete',
+  '/v1/checkouts/cancel',
+] as const) {
+  http.route({
+    path,
+    method: 'OPTIONS',
+    handler: httpAction(async (_ctx, request) =>
+      checkoutOptionsHandler(request),
+    ),
+  });
+}
 
 http.route({
   path: '/v1/product-access/units',

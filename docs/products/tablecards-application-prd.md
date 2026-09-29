@@ -1,7 +1,7 @@
 # TableCards Application PRD
 
 Created: 2026-09-28
-Updated: 2026-09-28
+Updated: 2026-09-29
 Status: Accepted — implemented in development
 
 This document defines the customer-facing TableCards application experience:
@@ -119,9 +119,11 @@ shipping a promise backed only by a hidden fixture or API.
 | `/support`                 | Public or signed in      | Start/read/reply to the required support conversation                   | Build 5               |
 
 Routes owned by later builds must not appear as dead navigation before their
-workflow exists. Build 3 may show development-offer controls only in an
-explicit development-only area of `/settings`; they do not belong in the
-creator and can never ship in production.
+workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
+no-charge checkout page and returns to `/settings`; TableCards must never show
+a local dummy-payment selector. In Build 4 the same create-checkout contract may
+return the shared mock or Paddle in development and returns Paddle directly in
+production.
 
 ### Public navigation
 
@@ -330,17 +332,17 @@ open until the invitation workflow is reviewed.
 
 ## Offer-to-interface contract
 
-| Capability                 | Free                         | Event Pass                   | Planner Pro                   | Studio                                  | Visible surface           |
-| -------------------------- | ---------------------------- | ---------------------------- | ----------------------------- | --------------------------------------- | ------------------------- |
-| Cards per project          | 25                           | 500                          | 500                           | 500                                     | Creator, Project, Account |
-| Active projects            | 1                            | 1 event                      | 25                            | 100                                     | Projects, Account         |
-| Predefined designs         | Three free                   | All                          | All                           | All                                     | Creator, Designs          |
-| Uploaded artwork           | No                           | Current event                | Yes                           | Yes                                     | Creator, Designs          |
-| Reusable custom presets    | No                           | No                           | Yes                           | Shared                                  | Designs                   |
-| AI background batches      | 1 lifetime                   | 2 per event                  | 10 per verified monthly cycle | 30 shared per verified monthly cycle    | Creator, Designs, Account |
-| Members                    | 1                            | 1                            | 1                             | Up to 5                                 | Account, Team             |
-| Invitations/roles/transfer | No                           | No                           | No                            | Yes, subject to role and account policy | Team, Invitation          |
-| Paid checkout/status       | Upgrade entry when available | One-time purchase in Build 4 | Subscription in Build 4       | Subscription/remediation in Build 4     | Account/Billing           |
+| Capability                 | Free          | Event Pass                                      | Planner Pro                                         | Studio                                                          | Visible surface           |
+| -------------------------- | ------------- | ----------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- | ------------------------- |
+| Cards per project          | 25            | 500                                             | 500                                                 | 500                                                             | Creator, Project, Account |
+| Active projects            | 1             | 1 event                                         | 25                                                  | 100                                                             | Projects, Account         |
+| Predefined designs         | Three free    | All                                             | All                                                 | All                                                             | Creator, Designs          |
+| Uploaded artwork           | No            | Current event                                   | Yes                                                 | Yes                                                             | Creator, Designs          |
+| Reusable custom presets    | No            | No                                              | Yes                                                 | Shared                                                          | Designs                   |
+| AI background batches      | 1 lifetime    | 2 per event                                     | 10 per verified monthly cycle                       | 30 shared per verified monthly cycle                            | Creator, Designs, Account |
+| Members                    | 1             | 1                                               | 1                                                   | Up to 5                                                         | Account, Team             |
+| Invitations/roles/transfer | No            | No                                              | No                                                  | Yes, subject to role and account policy                         | Team, Invitation          |
+| Paid checkout/status       | Upgrade entry | Shared no-charge mock; live purchase in Build 4 | Shared no-charge mock; live subscription in Build 4 | Shared no-charge mock; live subscription/remediation in Build 4 | Account/Billing           |
 
 An entitlement denial should explain the specific limit and offer an available
 next step. It must not silently fail or expose development-offer switching in
@@ -418,13 +420,12 @@ production.
   remains final.
 - Offer gates come from BFF effective product access. Pricing copy and local
   catalog metadata do not authorize a feature.
-- Development-offer controls require both development build configuration and
-  development backend enablement and are absent from production artifacts.
-- The Studio development browser fixture explicitly provisions the five-seat,
-  invitations, Admin-role and ownership-transfer account policy needed by its
-  scenarios. Selecting a mock product offer does not silently rewrite security
-  policy; Build 4 deliberately maps verified plan state to the accepted seat
-  and capability model.
+- Mock checkout requires explicit BFF deployment enablement and always states
+  that it charges nothing. TableCards contains no payment simulation screen.
+- Completing Studio checkout atomically applies its product grant and the
+  accepted five-seat, Admin-enabled, invitation-enabled account policy. Hosted
+  acceptance must reach Team and create an invitation through that customer
+  journey; an operator fixture is not valid evidence.
 - A payment mock renewing over time means “successful renewal simulated.” Real
   paid monthly allocations advance only from verified provider paid-through
   state in Build 4.
@@ -495,8 +496,8 @@ decision tables.
 3. Build Projects and saved Project pages; expose archive/restore and implement
    entitlement-safe duplication.
 4. Build Designs and the missing reusable-preset operations.
-5. Build Account plan/usage presentation and move development-offer controls
-   there for development builds only.
+5. Build Account plan/usage presentation and route paid offer choices through
+   the provider-neutral shared BFF checkout.
 6. Add typed account-management SDK operations, Team and Invitation pages, and
    connect protected ownership transfer.
 7. Add the focused browser scenarios, accessibility checks and remaining
@@ -504,11 +505,13 @@ decision tables.
 8. Deploy development, complete Andrew's real-phone review and reconcile every
    pricing claim against the delivered UI before production planning.
 
-Build 4 then replaces development commerce with checkout, verified webhooks,
-paid-through renewal, subscription status and billing remediation without
-redesigning these pages. Build 5 adds Support to the existing application
-shell. Build 6 expands the separate operator backoffice and monitoring rather
-than mixing operator controls into TableCards customer settings.
+Build 4 keeps the checkout interface but adds Paddle selection, verified
+webhooks, paid-through renewal, subscription status and billing remediation
+without redesigning these pages. Development may select Paddle or mock;
+production returns Paddle directly. Build 5 adds Support to the existing
+application shell. Build 6 expands the separate operator backoffice and
+monitoring rather than mixing operator controls into TableCards customer
+settings.
 
 ## Explicit non-goals
 
@@ -536,4 +539,4 @@ than mixing operator controls into TableCards customer settings.
 | ---------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-09-28 | Proposed — pending Andrew's review    | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                               |
 | 2026-09-28 | Accepted — implemented in development | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged. |
-| 2026-09-28 | Accepted — corrected in development   | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                     |
+| 2026-09-28 | Accepted — corrected in development   | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                               |

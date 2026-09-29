@@ -236,7 +236,7 @@ export function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
   );
 }
 
-function authOriginHeaders(request: Request) {
+export function authOriginHeaders(request: Request) {
   const configuration = readCustomerSigningConfiguration();
   const origin = request.headers.get('origin');
   if (origin !== configuration.issuer) {

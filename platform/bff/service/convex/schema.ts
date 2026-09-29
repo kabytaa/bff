@@ -177,6 +177,62 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }).index('by_environment_account', ['environmentId', 'accountId']),
+  checkoutAttempts: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    accountId: v.id('accounts'),
+    userId: v.id('businessUsers'),
+    publicReference: v.string(),
+    idempotencyKey: v.string(),
+    requestFingerprint: v.string(),
+    status: v.union(
+      v.literal('pending'),
+      v.literal('completed'),
+      v.literal('cancelled'),
+    ),
+    returnUrl: v.string(),
+    offer: v.object({
+      key: v.string(),
+      revision: v.number(),
+      displayName: v.string(),
+      priceUsdCents: v.number(),
+      billing: v.union(v.literal('one_time'), v.literal('monthly')),
+    }),
+    grant: v.object({
+      offerKey: v.string(),
+      offerRevision: v.number(),
+      featureFlags: v.array(
+        v.object({ key: v.string(), enabled: v.boolean() }),
+      ),
+      numericLimits: v.array(v.object({ key: v.string(), value: v.number() })),
+      unitGrants: v.array(
+        v.object({
+          unitType: v.string(),
+          allowance: v.number(),
+          allocation: v.union(
+            v.object({ kind: v.literal('monthly') }),
+            v.object({ kind: v.literal('fixed'), key: v.string() }),
+          ),
+        }),
+      ),
+    }),
+    accountPolicy: v.object({
+      seatLimit: v.number(),
+      adminRoleEnabled: v.boolean(),
+      memberInvitationsEnabled: v.boolean(),
+    }),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+    completedAt: v.optional(v.number()),
+    cancelledAt: v.optional(v.number()),
+    cleanupAt: v.number(),
+  })
+    .index('by_environment_reference', ['environmentId', 'publicReference'])
+    .index('by_environment_account_idempotency', [
+      'environmentId',
+      'accountId',
+      'idempotencyKey',
+    ])
+    .index('by_cleanup_at', ['cleanupAt']),
   accountUnitBuckets: defineTable({
     environmentId: v.id('businessEnvironments'),
     accountId: v.id('accounts'),

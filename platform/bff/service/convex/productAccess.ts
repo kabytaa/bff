@@ -27,7 +27,7 @@ export const productNumericLimitValidator = v.object({
   value: v.number(),
 });
 
-const developmentProductUnitGrantValidator = v.object({
+export const developmentProductUnitGrantValidator = v.object({
   unitType: v.string(),
   allowance: v.number(),
   allocation: v.union(
@@ -252,7 +252,7 @@ export const currentForAccount = internalQuery({
   },
 });
 
-const developmentGrantArgs = {
+export const developmentGrantArgs = {
   ...accountContextArgs,
   offerKey: v.string(),
   offerRevision: v.number(),
@@ -261,6 +261,91 @@ const developmentGrantArgs = {
   unitGrants: v.array(developmentProductUnitGrantValidator),
   now: v.number(),
 } as const;
+
+export async function storeDevelopmentAccess(
+  ctx: MutationCtx,
+  args: {
+    readonly environmentKey: string;
+    readonly userPublicId: string;
+    readonly accountPublicId: string;
+    readonly membershipPublicId: string;
+    readonly offerKey: string;
+    readonly offerRevision: number;
+    readonly featureFlags: readonly { key: string; enabled: boolean }[];
+    readonly numericLimits: readonly { key: string; value: number }[];
+    readonly unitGrants: readonly {
+      readonly unitType: string;
+      readonly allowance: number;
+      readonly allocation:
+        | { readonly kind: 'monthly' }
+        | { readonly kind: 'fixed'; readonly key: string };
+    }[];
+    readonly now: number;
+  },
+) {
+  const context = await resolveAccountContext(ctx, args);
+  const input: DevelopmentProductAccessGrantRequest =
+    developmentProductAccessGrantRequestSchema.parse({
+      offerKey: args.offerKey,
+      offerRevision: args.offerRevision,
+      featureFlags: args.featureFlags,
+      numericLimits: args.numericLimits,
+      unitGrants: args.unitGrants,
+    });
+  const existing = await findAccessGrant(
+    ctx,
+    context.environment._id,
+    context.account._id,
+  );
+  const value = {
+    offerKey: productAccessKeySchema.parse(input.offerKey),
+    offerRevision: input.offerRevision,
+    source: 'development_mock' as const,
+    featureFlags: input.featureFlags,
+    numericLimits: input.numericLimits,
+    unitGrants: input.unitGrants.map((grant) => {
+      const unitType = productAccessKeySchema.parse(grant.unitType);
+      if (grant.allocation.kind === 'monthly') {
+        // Mock checkout simulates a successful renewal every cycle. Build 4
+        // must replace this with verified provider paid-through events.
+        const renewal = { cadence: 'monthly' as const, anchorAt: args.now };
+        return {
+          unitType,
+          periodKey: monthlyPeriodKey(renewal.anchorAt, args.now),
+          allowance: grant.allowance,
+          renewal,
+        };
+      }
+      return {
+        unitType,
+        periodKey: productAccessPeriodKeySchema.parse(grant.allocation.key),
+        allowance: grant.allowance,
+      };
+    }),
+    updatedByUserId: context.user._id,
+    effectiveAt: args.now,
+    updatedAt: args.now,
+  };
+  if (existing) {
+    await ctx.db.patch(existing._id, value);
+  } else {
+    await ctx.db.insert('accountAccessGrants', {
+      environmentId: context.environment._id,
+      accountId: context.account._id,
+      ...value,
+      createdAt: args.now,
+    });
+  }
+  const stored = await findAccessGrant(
+    ctx,
+    context.environment._id,
+    context.account._id,
+  );
+  if (!stored) {
+    return fail('CONFIGURATION_ERROR', 'Product access was not stored');
+  }
+  return projection(context, stored, args.now);
+}
 
 export const setDevelopmentForAccount = internalMutation({
   args: developmentGrantArgs,
@@ -276,68 +361,6 @@ export const setDevelopmentForAccount = internalMutation({
         'Development product access is disabled for this environment',
       );
     }
-    const input: DevelopmentProductAccessGrantRequest =
-      developmentProductAccessGrantRequestSchema.parse({
-        offerKey: args.offerKey,
-        offerRevision: args.offerRevision,
-        featureFlags: args.featureFlags,
-        numericLimits: args.numericLimits,
-        unitGrants: args.unitGrants,
-      });
-    const existing = await findAccessGrant(
-      ctx,
-      context.environment._id,
-      context.account._id,
-    );
-    const value = {
-      offerKey: productAccessKeySchema.parse(input.offerKey),
-      offerRevision: input.offerRevision,
-      source: 'development_mock' as const,
-      featureFlags: input.featureFlags,
-      numericLimits: input.numericLimits,
-      unitGrants: input.unitGrants.map((grant) => {
-        const unitType = productAccessKeySchema.parse(grant.unitType);
-        if (grant.allocation.kind === 'monthly') {
-          // The development mock deliberately simulates a successful renewal
-          // every cycle. Build 4's real payment writer must advance monthly
-          // access only from verified provider paid-through state; this mock
-          // policy must never become the production renewal authority.
-          const renewal = { cadence: 'monthly' as const, anchorAt: args.now };
-          return {
-            unitType,
-            periodKey: monthlyPeriodKey(renewal.anchorAt, args.now),
-            allowance: grant.allowance,
-            renewal,
-          };
-        }
-        return {
-          unitType,
-          periodKey: productAccessPeriodKeySchema.parse(grant.allocation.key),
-          allowance: grant.allowance,
-        };
-      }),
-      updatedByUserId: context.user._id,
-      effectiveAt: args.now,
-      updatedAt: args.now,
-    };
-    if (existing) {
-      await ctx.db.patch(existing._id, value);
-    } else {
-      await ctx.db.insert('accountAccessGrants', {
-        environmentId: context.environment._id,
-        accountId: context.account._id,
-        ...value,
-        createdAt: args.now,
-      });
-    }
-    const stored = await findAccessGrant(
-      ctx,
-      context.environment._id,
-      context.account._id,
-    );
-    if (!stored) {
-      return fail('CONFIGURATION_ERROR', 'Product access was not stored');
-    }
-    return projection(context, stored, args.now);
+    return await storeDevelopmentAccess(ctx, args);
   },
 });

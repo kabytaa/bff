@@ -12,9 +12,10 @@ and `/projects/:projectId` manage saved work; `/designs` manages predefined and
 reusable designs; `/settings` shows plan/usage; `/settings/team` manages Studio
 membership; and `/invite/:invitationToken` completes invitation acceptance.
 Import, mapping, design selection and complete sheet preview work before
-authentication. Save, PDF export, artwork upload, AI generation and development
-offer selection call the TableCards Convex backend with the current BFF account
-context.
+authentication. Save, PDF export, artwork upload and AI generation call the
+TableCards Convex backend with the current BFF account context. Paid pricing
+actions ask the backend for a BFF checkout URL and navigate away; this app does
+not render mock or provider payment UI.
 
 The landing page imports the lightweight `@tablecards/core/catalog` entry only.
 Spreadsheet/PDF editor code and team-management route code stay behind lazy
@@ -40,11 +41,10 @@ when a public guest list crosses the sign-in boundary. Guest content is never
 put in a URL, `localStorage`, analytics, or an AI prompt. The backend remains
 authoritative for project/card/design limits and validates every uploaded file.
 
-`VITE_TABLECARDS_DEV_CONTROLS=true` shows the development offer selector only
-on Account. It is
-not an authorization boundary: the backend independently denies mock grants
-unless both the deployment and registered Business environment are explicitly
-development-enabled. Build 3 ships no production TableCards manifest.
+`VITE_TABLECARDS_DEV_CONTROLS=true` enables development-only product tools such
+as deterministic AI and the print trial. It is not an authorization boundary.
+Mock commerce is owned and separately enabled by BFF; TableCards receives only
+a provider-neutral checkout URL.
 
 Development controls also expose a six-card US Letter landscape print trial.
 The web build generates
@@ -66,9 +66,9 @@ pnpm exec wrangler deploy \
 
 The development Business auth definition permits at most two memberships per
 user: the automatically created private workspace plus one invited Studio
-workspace. It still permits owning only one account. Account/security policy is
-configured through the validated operator workflow and is not changed by
-selecting a mock product offer.
+workspace. It still permits owning only one account. Completing Studio checkout
+atomically applies its five-seat, Admin and invitation policy; ordinary policy
+configuration remains available through the validated operator workflow.
 
 The same-site cookie endpoint is the separate fixed-route session gateway at
 `api.tablecards-dev.tofler.app`; product Convex calls do not use that proxy.

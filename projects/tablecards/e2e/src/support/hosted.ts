@@ -192,27 +192,6 @@ export async function findUserId(email: string): Promise<string> {
   return user.id;
 }
 
-export async function enableStudioAccountPolicy(
-  accountId: string,
-): Promise<void> {
-  await runOperator([
-    'set-account-policy',
-    '--deployment',
-    bffDeployment,
-    '--key',
-    environmentKey,
-    '--account-id',
-    accountId,
-    '--policy-overrides-json',
-    JSON.stringify({
-      seatLimit: 5,
-      adminRoleEnabled: true,
-      memberInvitationsEnabled: true,
-    }),
-    '--confirm-cloud',
-  ]);
-}
-
 export async function expectNoHorizontalPageOverflow(page: Page) {
   const overflow = await page.evaluate(
     () =>
@@ -226,14 +205,24 @@ export async function chooseDevelopmentOffer(
   page: Page,
   offerName: 'Event Pass' | 'Free' | 'Planner Pro' | 'Studio',
 ): Promise<void> {
-  await page.goto('/settings');
-  const action = page.getByRole('button', {
-    name: new RegExp(`^Activate ${offerName}\\b`, 'u'),
-  });
-  await action.click();
-  await expect(
-    page.getByText(new RegExp(`${offerName} activated in development`, 'u')),
-  ).toBeVisible();
+  const offerIds = {
+    'Event Pass': 'event_pass',
+    Free: 'free',
+    'Planner Pro': 'planner_pro',
+    Studio: 'studio',
+  } as const;
+  if (offerName === 'Free') {
+    await page.goto('/settings');
+  } else {
+    await page.goto(`/settings?offer=${offerIds[offerName]}`);
+    await page.waitForURL(/auth-dev\.tofler\.app\/checkout/u);
+    await expect(page.getByRole('heading', { name: offerName })).toBeVisible();
+    await page.getByRole('button', { name: 'Complete test payment' }).click();
+    await page.waitForURL(/\/settings\?checkout=success/u);
+    await expect(
+      page.getByText('Your access was updated successfully.'),
+    ).toBeVisible();
+  }
   await expect(
     page.getByText(offerName, { exact: true }).first(),
   ).toBeVisible();

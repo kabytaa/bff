@@ -8,10 +8,14 @@ import {
   type OfferId,
 } from '@tablecards/core';
 import { withBffAccountAction } from '@tofler/bff-auth/convex/server';
-import { createBffProductAccessClient } from '@tofler/bff-auth/server';
+import {
+  createBffCheckoutClient,
+  createBffProductAccessClient,
+} from '@tofler/bff-auth/server';
 import { action } from './_generated/server';
 import {
   tablecardsCustomerAuth,
+  tablecardsCheckoutServiceToken,
   tablecardsCustomerSession,
   tablecardsDevelopmentMocksEnabled,
 } from './environment';
@@ -20,6 +24,11 @@ import { fail } from './lib/productErrors';
 const client = createBffProductAccessClient({
   bffBaseUrl: tablecardsCustomerSession.bffBaseUrl,
   environmentKey: tablecardsCustomerAuth.environmentKey,
+});
+const checkoutClient = createBffCheckoutClient({
+  bffBaseUrl: tablecardsCustomerSession.bffBaseUrl,
+  environmentKey: tablecardsCustomerAuth.environmentKey,
+  serviceToken: tablecardsCheckoutServiceToken,
 });
 
 const offerId = v.union(
@@ -291,28 +300,53 @@ export const current = action({
   ),
 });
 
-export const selectDevelopmentOffer = action({
-  args: { accessToken: v.string(), offerKey: offerId },
-  returns: offerView,
+export const startCheckout = action({
+  args: {
+    accessToken: v.string(),
+    offerKey: offerId,
+    idempotencyKey: v.string(),
+  },
+  returns: v.object({
+    provider: v.union(v.literal('mock'), v.literal('paddle')),
+    checkoutUrl: v.string(),
+    expiresAt: v.number(),
+  }),
   handler: withBffAccountAction(
     tablecardsCustomerAuth,
-    async (_ctx, args: { accessToken: string; offerKey: OfferId }, auth) => {
-      if (!tablecardsDevelopmentMocksEnabled()) {
-        fail('FORBIDDEN', 'Development commerce is disabled');
-      }
+    async (
+      _ctx,
+      args: {
+        accessToken: string;
+        offerKey: OfferId;
+        idempotencyKey: string;
+      },
+    ) => {
       const offer = getOfferDefinition(args.offerKey);
-      const access = await client.setDevelopmentAccess(
-        { contextToken: args.accessToken },
-        developmentGrant(offer),
-      );
-      if (access.accountId !== auth.accountId) {
-        fail('FORBIDDEN', 'The account context does not match');
+      if (offer.billing === 'free') {
+        fail('INVALID_INPUT', 'Free access does not require checkout');
       }
-      const balance = await client.getUnitBalance(
+      const webOrigin = tablecardsCustomerSession.transport.webOrigins[0];
+      if (!webOrigin) fail('PROVIDER_UNAVAILABLE', 'Web origin is unavailable');
+      return await checkoutClient.createCheckout(
         { contextToken: args.accessToken },
-        { unitType: offer.aiUnitPolicy.unitType },
+        {
+          idempotencyKey: args.idempotencyKey,
+          offer: {
+            key: offer.id,
+            revision: offer.offerRevision,
+            displayName: offer.name,
+            priceUsdCents: Math.round(offer.priceUsd * 100),
+            billing: offer.billing,
+          },
+          grant: developmentGrant(offer),
+          accountPolicy: {
+            seatLimit: offer.collaborationSeats,
+            adminRoleEnabled: offer.featureFlags.team_access,
+            memberInvitationsEnabled: offer.featureFlags.team_access,
+          },
+          returnUrl: new URL('/settings', `${webOrigin}/`).href,
+        },
       );
-      return view(offer, access, balance);
     },
   ),
 });

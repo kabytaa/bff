@@ -3,13 +3,11 @@ import { useBffAuth } from '@tofler/bff-auth/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { useTableCardsApplication } from '../application-context';
 import type { CurrentProductAccess } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
 
 export function Component() {
   const { state, snapshot } = useBffAuth();
-  const { developmentControlsEnabled } = useTableCardsApplication();
   const backend = useTableCardsBackend();
   const [searchParams, setSearchParams] = useSearchParams();
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
@@ -18,7 +16,9 @@ export function Component() {
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const loadSequence = useRef(0);
+  const checkoutStarted = useRef(false);
   const requestedOffer = searchParams.get('offer');
+  const checkoutResult = searchParams.get('checkout');
   const requestedOfferId = (
     requestedOffer && requestedOffer in OFFER_CATALOG ? requestedOffer : null
   ) as OfferId | null;
@@ -50,31 +50,55 @@ export function Component() {
     );
   }, [load, snapshot.generation]);
 
-  const switchOffer = async (offerId: OfferId) => {
+  useEffect(() => {
+    if (checkoutResult === 'success') {
+      if (requestedOfferId && state.status === 'authenticated') {
+        window.sessionStorage.removeItem(
+          `tablecards-checkout:${state.accountId}:${requestedOfferId}`,
+        );
+      }
+      setNotice('Your access was updated successfully.');
+      setSearchParams({}, { replace: true });
+    } else if (checkoutResult === 'cancelled') {
+      if (requestedOfferId && state.status === 'authenticated') {
+        window.sessionStorage.removeItem(
+          `tablecards-checkout:${state.accountId}:${requestedOfferId}`,
+        );
+      }
+      setNotice('Checkout was cancelled. Your access was not changed.');
+      setSearchParams({}, { replace: true });
+    }
+  }, [checkoutResult, requestedOfferId, setSearchParams, state]);
+
+  useEffect(() => {
+    if (
+      checkoutResult ||
+      !requestedOfferId ||
+      requestedOfferId === 'free' ||
+      checkoutStarted.current
+    ) {
+      return;
+    }
+    checkoutStarted.current = true;
     setBusy(true);
     setError(null);
-    setNotice(null);
-    try {
-      const nextAccess = await backend.selectDevelopmentOffer(offerId);
-      const projects = await backend.listProjects('active');
-      ++loadSequence.current;
-      setAccess(nextAccess);
-      setActiveProjects(projects.length);
-      const offer = OFFER_CATALOG[offerId];
-      setNotice(
-        `${offer.name} activated in development. This simulated ${offer.billing === 'monthly' ? 'a monthly subscription' : offer.billing === 'one_time' ? 'a one-time purchase' : 'Free access'}; no payment was charged.`,
-      );
-      setSearchParams({}, { replace: true });
-    } catch (caught) {
-      setError(
-        caught instanceof Error
-          ? caught.message
-          : 'The development offer could not be changed.',
-      );
-    } finally {
-      setBusy(false);
-    }
-  };
+    const storageKey = `tablecards-checkout:${state.status === 'authenticated' ? state.accountId : 'unknown'}:${requestedOfferId}`;
+    const existing = window.sessionStorage.getItem(storageKey);
+    const idempotencyKey = existing ?? crypto.randomUUID();
+    window.sessionStorage.setItem(storageKey, idempotencyKey);
+    void backend
+      .startCheckout(requestedOfferId, idempotencyKey)
+      .then(({ checkoutUrl }) => window.location.assign(checkoutUrl))
+      .catch((caught: unknown) => {
+        checkoutStarted.current = false;
+        setBusy(false);
+        setError(
+          caught instanceof Error
+            ? caught.message
+            : 'Checkout could not be started.',
+        );
+      });
+  }, [backend, checkoutResult, requestedOfferId, state]);
 
   return (
     <section className="app-page" aria-labelledby="account-title">
@@ -147,48 +171,17 @@ export function Component() {
         ) : (
           <p className="muted">Team collaboration is included with Studio.</p>
         )}
+        <Link className="text-link" to="/?section=pricing">
+          View plans
+        </Link>
       </section>
 
-      {developmentControlsEnabled ? (
-        <section className="development-panel page-section">
-          <p className="eyebrow">Development only</p>
-          <h2>Test purchase and subscription access</h2>
+      {busy && requestedOfferId ? (
+        <section className="page-section" aria-live="polite">
           <p>
-            Choose an offer to simulate the provider-confirmed access that Build
-            4 checkout will grant. No payment method is used or charged.
+            Opening secure checkout for{' '}
+            <strong>{OFFER_CATALOG[requestedOfferId].name}</strong>…
           </p>
-          {requestedOfferId ? (
-            <p className="entitlement-callout" role="status">
-              The pricing page selected{' '}
-              <strong>{OFFER_CATALOG[requestedOfferId].name}</strong> at $
-              {OFFER_CATALOG[requestedOfferId].priceUsd}
-              {OFFER_CATALOG[requestedOfferId].billing === 'monthly'
-                ? ' per month'
-                : OFFER_CATALOG[requestedOfferId].billing === 'one_time'
-                  ? ' one time'
-                  : ''}
-              . Activate it below to test the workflow without a charge.
-            </p>
-          ) : null}
-          <div className="offer-buttons">
-            {(Object.keys(OFFER_CATALOG) as OfferId[]).map((offerId) => (
-              <button
-                key={offerId}
-                type="button"
-                disabled={busy || access === null}
-                className={access?.offerKey === offerId ? 'active' : ''}
-                onClick={() => void switchOffer(offerId)}
-              >
-                Activate {OFFER_CATALOG[offerId].name} · $
-                {OFFER_CATALOG[offerId].priceUsd}
-                {OFFER_CATALOG[offerId].billing === 'monthly'
-                  ? '/month'
-                  : OFFER_CATALOG[offerId].billing === 'one_time'
-                    ? ' once'
-                    : ''}
-              </button>
-            ))}
-          </div>
         </section>
       ) : null}
     </section>

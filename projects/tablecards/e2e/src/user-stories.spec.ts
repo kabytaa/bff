@@ -14,9 +14,7 @@ import {
   chooseDevelopmentOffer,
   completeDevelopmentLogin,
   completeDevelopmentTransfer,
-  enableStudioAccountPolicy,
   expectNoHorizontalPageOverflow,
-  findOwnerAccountId,
   findUserId,
   logInFromLanding,
   uniquePersona,
@@ -358,9 +356,6 @@ test.describe('Studio accounts and teams', () => {
     const ownerContext = await browser.newContext();
     const owner = await ownerContext.newPage();
     await logInFromLanding(owner, ownerPersona);
-    const accountId = await findOwnerAccountId(ownerPersona.email);
-    await enableStudioAccountPolicy(accountId);
-    await owner.reload();
     await activateOffer(owner, 'Studio');
     await owner.goto('/settings/team');
     await expect(owner.getByRole('heading', { name: 'Team' })).toBeVisible();

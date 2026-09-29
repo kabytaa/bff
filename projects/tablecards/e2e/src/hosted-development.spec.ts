@@ -9,77 +9,6 @@ import { TABLECARDS_AUTH_URL, TABLECARDS_WEB_URL } from '../playwright.config';
 const execFileAsync = promisify(execFile);
 const bffSiteUrl = 'https://compassionate-buffalo-689.convex.site';
 const environmentKey = 'tablecards-development';
-const bffDeployment = 'compassionate-buffalo-689';
-
-async function runOperator<T>(args: readonly string[]): Promise<T> {
-  const { stdout } = await execFileAsync(
-    process.execPath,
-    [
-      'node_modules/tsx/dist/cli.mjs',
-      '--tsconfig',
-      'tsconfig.base.json',
-      'tools/bff-operator/src/main.ts',
-      ...args,
-    ],
-    { cwd: process.cwd(), maxBuffer: 1024 * 1024 },
-  );
-  const jsonStart = stdout.indexOf('{');
-  if (jsonStart < 0) throw new Error('The operator response was not JSON.');
-  return JSON.parse(stdout.slice(jsonStart)) as T;
-}
-
-async function findOwnerAccountId(verifiedEmail: string): Promise<string> {
-  let cursor: string | undefined;
-  for (let pageNumber = 0; pageNumber < 20; pageNumber += 1) {
-    const response = await runOperator<{
-      isDone: boolean;
-      continueCursor: string;
-      page: readonly {
-        accountId: string;
-        role: string;
-        userVerifiedEmail: string;
-      }[];
-    }>([
-      'list-customer-memberships',
-      '--deployment',
-      bffDeployment,
-      '--key',
-      environmentKey,
-      '--limit',
-      '50',
-      ...(cursor === undefined ? [] : ['--cursor', cursor]),
-      '--confirm-cloud',
-    ]);
-    const membership = response.page.find(
-      (candidate) =>
-        candidate.role === 'owner' &&
-        candidate.userVerifiedEmail === verifiedEmail,
-    );
-    if (membership) return membership.accountId;
-    if (response.isDone) break;
-    cursor = response.continueCursor;
-  }
-  throw new Error('The new development owner account was not found.');
-}
-
-async function enableStudioAccountPolicy(accountId: string): Promise<void> {
-  await runOperator([
-    'set-account-policy',
-    '--deployment',
-    bffDeployment,
-    '--key',
-    environmentKey,
-    '--account-id',
-    accountId,
-    '--policy-overrides-json',
-    JSON.stringify({
-      seatLimit: 5,
-      adminRoleEnabled: true,
-      memberInvitationsEnabled: true,
-    }),
-    '--confirm-cloud',
-  ]);
-}
 
 async function mintSignupGrant(
   transactionReference: string,
@@ -132,6 +61,21 @@ async function completeDevelopmentLogin(
   await loginPage.goto(developmentEntry.href);
   await loginPage.waitForURL(`${TABLECARDS_WEB_URL}/**`);
   return loginPage;
+}
+
+async function completeMockCheckout(
+  page: Page,
+  offerId: 'planner_pro' | 'studio',
+  offerName: 'Planner Pro' | 'Studio',
+) {
+  await page.goto(`/settings?offer=${offerId}`);
+  await page.waitForURL(`${TABLECARDS_AUTH_URL}/checkout?**`);
+  await expect(page.getByRole('heading', { name: offerName })).toBeVisible();
+  await page.getByRole('button', { name: 'Complete test payment' }).click();
+  await page.waitForURL(`${TABLECARDS_WEB_URL}/settings**`);
+  await expect(
+    page.getByText('Your access was updated successfully.'),
+  ).toBeVisible();
 }
 
 async function preparePublicDraft(page: Page) {
@@ -392,16 +336,7 @@ test('professional project, preset and AI workflows use authenticated access', a
   ).toBeVisible();
   await authenticated.getByRole('button', { name: 'Save project' }).click();
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
-  await authenticated.goto('/settings');
-  await expect(
-    authenticated.getByRole('heading', { name: 'Account and usage' }),
-  ).toBeVisible();
-  const planner = authenticated.getByRole('button', {
-    name: /^Activate Planner Pro\b/u,
-  });
-  await planner.click();
-  await expect(planner).toHaveClass(/\bactive\b/u);
-  await expect(planner).toBeEnabled();
+  await completeMockCheckout(authenticated, 'planner_pro', 'Planner Pro');
   await authenticated.goto('/designs');
   await authenticated
     .getByRole('button', { name: /Generate four choices/u })
@@ -439,7 +374,6 @@ test('Studio owner can invite a recipient and promote the joined member', async 
 }) => {
   const suffix = `${browserName}-${Date.now()}`;
   const ownerPersona = `tablecards-studio-owner-${suffix}`;
-  const ownerEmail = `${ownerPersona}@example.invalid`;
   const recipientPersona = `tablecards-studio-member-${suffix}`;
   const recipientEmail = `${recipientPersona}@example.invalid`;
   const ownerContext = await browser.newContext();
@@ -453,16 +387,7 @@ test('Studio owner can invite a recipient and promote the joined member', async 
   await owner.getByRole('button', { name: 'Save project' }).click();
   await owner.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
 
-  const accountId = await findOwnerAccountId(ownerEmail);
-  await enableStudioAccountPolicy(accountId);
-  await owner.reload();
-  await owner.goto('/settings');
-  const studio = owner.getByRole('button', {
-    name: /^Activate Studio\b/u,
-  });
-  await studio.click();
-  await expect(studio).toHaveClass(/\bactive\b/u);
-  await expect(studio).toBeEnabled();
+  await completeMockCheckout(owner, 'studio', 'Studio');
   await owner.goto('/settings/team');
   await expect(owner.getByRole('heading', { name: 'Team' })).toBeVisible();
   await owner.getByLabel('Verified email').fill(recipientEmail);

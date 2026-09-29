@@ -160,11 +160,11 @@ const currentProductAccessRef = makeFunctionReference<
   { accessToken: string },
   BackendOfferView
 >('productAccess:current');
-const selectDevelopmentOfferRef = makeFunctionReference<
+const startCheckoutRef = makeFunctionReference<
   'action',
-  { accessToken: string; offerKey: OfferId },
-  BackendOfferView
->('productAccess:selectDevelopmentOffer');
+  { accessToken: string; offerKey: OfferId; idempotencyKey: string },
+  { provider: 'mock' | 'paddle'; checkoutUrl: string; expiresAt: number }
+>('productAccess:startCheckout');
 const requestExportRef = makeFunctionReference<
   'action',
   { accessToken: string; projectId: string; layoutId: PrintLayoutId },
@@ -334,7 +334,10 @@ export interface TableCardsBackend {
       readonly nameStyle?: ProjectNameStyle;
     };
   }): Promise<SavedProject>;
-  selectDevelopmentOffer(offerKey: OfferId): Promise<CurrentProductAccess>;
+  startCheckout(
+    offerKey: OfferId,
+    idempotencyKey: string,
+  ): Promise<{ readonly checkoutUrl: string }>;
   requestExport(
     projectId: string,
     layoutId: PrintLayoutId,
@@ -392,13 +395,13 @@ export function createTableCardsBackend(
         }),
       );
     },
-    async selectDevelopmentOffer(offerKey) {
-      return accessView(
-        await convex.action(selectDevelopmentOfferRef, {
-          accessToken: await requireToken(auth),
-          offerKey,
-        }),
-      );
+    async startCheckout(offerKey, idempotencyKey) {
+      const result = await convex.action(startCheckoutRef, {
+        accessToken: await requireToken(auth),
+        offerKey,
+        idempotencyKey,
+      });
+      return { checkoutUrl: result.checkoutUrl };
     },
     async requestExport(projectId, layoutId) {
       return await convex.action(requestExportRef, {

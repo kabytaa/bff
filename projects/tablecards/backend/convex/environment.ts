@@ -46,6 +46,10 @@ export const tablecardsCustomerSession = {
   },
 } as const;
 
+export const tablecardsCheckoutServiceToken = requiredEnvironment(
+  'BFF_CHECKOUT_SERVICE_TOKEN',
+);
+
 export function tablecardsDevelopmentMocksEnabled(): boolean {
   return process.env.TABLECARDS_DEVELOPMENT_MOCKS_ENABLED === 'true';
 }

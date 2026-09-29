@@ -43,11 +43,21 @@ the shared BFF still enforces both caps.
 
 ## Development providers
 
-`TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true` and
-`BFF_DEVELOPMENT_PRODUCT_ACCESS_ENABLED=enabled` are required together with the
-Business environment's `developmentAutomationEnabled`. The visible offer
-selector writes the same provider-independent access projection that a future
-verified payment webhook will write. It does not charge anything.
+`TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true`,
+`BFF_DEVELOPMENT_PRODUCT_ACCESS_ENABLED=enabled` and
+`BFF_MOCK_CHECKOUT_ENABLED=enabled` are required in development. Paid pricing
+actions ask BFF for a provider-neutral checkout URL, redirect to the shared
+`auth-dev.tofler.app/checkout` page and return after the explicit no-charge
+completion. TableCards has no local dummy-payment selector. Studio completion
+also applies its five-seat, Admin and invitation policy atomically, so hosted
+tests must not prepare that policy with the operator CLI.
+
+Checkout creation also requires matching secrets in
+`BFF_CHECKOUT_SERVICE_SECRETS_JSON` on BFF and `BFF_CHECKOUT_SERVICE_TOKEN` on
+the TableCards backend. The first is an environment-keyed object. These values
+are credentials: generate and install them directly through the deployment
+environment, never commit or print them, and never expose the service token to
+Vite/browser configuration.
 
 `TABLECARDS_AI_PROVIDER=development` produces a deterministic four-image batch
 and exercises reserve/commit/release against the real BFF unit ledger. The
@@ -201,9 +211,10 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
 
 ## Safety and known limits
 
-- Build 3 has no Paddle tables, checkout, webhook, live charge, production mock
-  route, production TableCards manifest, email/support flow, analytics, or
-  generic monitoring.
+- Build 3 has no Paddle tables, provider webhook, live charge, production
+  TableCards deployment, email/support flow, analytics, or generic monitoring.
+  Its shared BFF checkout is an explicitly no-charge simulation, not payment
+  truth.
 - Generated file URLs are short-lived; database rows store only Convex storage
   IDs.
 - The server renderer accepts caller-supplied Noto Sans bytes, but the current

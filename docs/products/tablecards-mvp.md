@@ -113,7 +113,22 @@ Event Pass completes one event containing up to 500 cards, including premium des
 
 After a professional subscription ends, projects remain readable and exportable for 30 days, then inaccessible for another 60 days and are deleted after advance warnings. The subscription belongs to the account/workspace rather than directly to an individual identity. Do not add annual offers, per-seat charges, extra team tiers or email-domain joining in version one.
 
-Build 3 uses only a deterministic test/development mock to exercise Free/Event Pass/subscription gates and the account-owned typed AI-unit balance. The balance supports idempotent reserve, commit and release and never lives in the short-lived JWT. Build 3 has no live charge or production self-service checkout. Its monthly mock intentionally simulates a successful renewal every cycle. Paddle is the leading Build 4 provider, but products, checkout, verified webhooks and subscription lifecycle begin only after written confirmation of Israeli onboarding/payouts and sub-`$10` one-time/recurring terms. Real monthly allowances advance only from verified provider subscription/paid-through state; a missing, failed or expired payment never creates the next allowance.
+Build 3 uses a deterministic no-charge checkout owned by the shared BFF to
+exercise Event Pass/subscription gates and the account-owned typed AI-unit
+balance. TableCards chooses a code-owned offer, asks BFF to start checkout and
+redirects to the returned URL; it never renders a provider or dummy payment
+screen itself. The shared page applies product access and compatible account
+policy atomically, so Studio immediately exposes its five seats, roles and
+invitations. The same mock is available in development and in the Build 3
+production demo, with an explicit notice that no money is charged. Build 4 may
+let development choose mock or Paddle, while production checkout creation
+returns Paddle directly without changing the TableCards interface. Only
+verified provider events may grant real paid access. The unit balance supports
+idempotent reserve, commit and release and never lives in the short-lived JWT.
+The monthly mock intentionally simulates a successful renewal every cycle;
+real monthly allowances advance only from verified provider
+subscription/paid-through state, and a missing, failed or expired payment never
+creates the next allowance.
 
 ## Teams
 

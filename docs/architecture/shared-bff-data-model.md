@@ -1,6 +1,6 @@
 # Shared BFF Data Model
 
-Updated: 2026-09-28.
+Updated: 2026-09-29.
 
 This document explains the currently implemented shared BFF data model. The
 authoritative schema remains
@@ -139,6 +139,7 @@ recipient joins. Invitations do not themselves authenticate a person.
 ```mermaid
 erDiagram
     ACCOUNTS ||--o| ACCESS_GRANTS : receives
+    ACCOUNTS ||--o{ CHECKOUT_ATTEMPTS : starts
     BUSINESS_USERS ||--o{ ACCESS_GRANTS : updates
     ACCOUNTS ||--o{ UNIT_BUCKETS : owns
     ACCOUNTS ||--o{ UNIT_RESERVATIONS : owns
@@ -149,11 +150,25 @@ erDiagram
 
 The account's current effective product-access projection: an offer key and
 revision, feature flags, numeric limits and unit-allocation policies. In Build
-3 the development commerce mock is its only writer. Monthly mock allocations
+3 the shared no-charge checkout is its customer-facing writer. Monthly mock allocations
 are anchored to activation and BFF resolves the effective billing cycle; fixed
 allocations cover lifetime and event grants. It is not a payment transaction,
 subscription history or registered plan definition. Real billing can later
 derive the same provider-neutral projection from verified provider state.
+
+### `checkoutAttempts`
+
+A short-lived, single-use handoff owned by BFF for one account Owner choosing a
+paid offer. It stores an opaque public reference, idempotency key, registered
+Business return URL, bounded display snapshot, intended product grant and
+compatible account policy. Creation requires both the Owner's short account
+context and the Business backend's environment-specific service credential;
+the browser cannot submit its own grant snapshot. Build 3 mock completion
+applies access and policy in
+one Convex transaction; cancellation and expiry apply neither. This table is
+not payment or subscription truth and stores no card details. Build 4 keeps the
+provider-neutral create-checkout response but may return Paddle directly and
+derive paid access only from verified provider events.
 
 ### `accountUnitBuckets`
 
