@@ -6,6 +6,7 @@ export type BffErrorCode =
   | 'CONFLICT'
   | 'FORBIDDEN'
   | 'NOT_FOUND'
+  | 'UNIT_EXHAUSTED'
   | 'UNAUTHENTICATED'
   | 'VALIDATION_ERROR';
 

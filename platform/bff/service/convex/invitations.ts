@@ -1,10 +1,18 @@
 import { z } from 'zod';
+import {
+  paginationOptsValidator,
+  paginationResultValidator,
+} from 'convex/server';
 import { v } from 'convex/values';
 
 import { MAX_ACCOUNT_SEAT_LIMIT, publicIdentifierSchema } from '@bff/contracts';
 import { accountSummaryValidator, toAccountSummary } from './accounts';
 import type { Doc } from './_generated/dataModel';
-import { internalMutation, type MutationCtx } from './_generated/server';
+import {
+  internalMutation,
+  internalQuery,
+  type MutationCtx,
+} from './_generated/server';
 import { validateBusinessEnvironmentKey } from './lib/businessEnvironment';
 import { fail } from './lib/errors';
 import {
@@ -72,6 +80,17 @@ function toInvitationView(
   };
 }
 
+const invitationPreviewValidator = v.object({
+  accountDisplayName: v.optional(v.string()),
+  state: v.union(
+    v.literal('pending'),
+    v.literal('accepted'),
+    v.literal('revoked'),
+    v.literal('expired'),
+  ),
+  expiresAt: v.number(),
+});
+
 function effectiveInvitationPolicy(
   environment: Doc<'businessEnvironments'> & {
     customerAuth: NonNullable<Doc<'businessEnvironments'>['customerAuth']>;
@@ -123,6 +142,91 @@ async function releaseExpiredReservations(
   });
   return { ...account, pendingInvitationCount, updatedAt: now };
 }
+
+export const inspect = internalQuery({
+  args: {
+    environmentKey: v.string(),
+    tokenHash: v.string(),
+    now: v.number(),
+  },
+  returns: v.union(v.null(), invitationPreviewValidator),
+  handler: async (ctx, args) => {
+    const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+    const tokenHash = sha256HashSchema.parse(args.tokenHash);
+    const environment = await ctx.db
+      .query('businessEnvironments')
+      .withIndex('by_key', (query) => query.eq('key', environmentKey))
+      .unique();
+    if (!environment?.customerAuth) return null;
+    const invitation = await ctx.db
+      .query('accountInvitations')
+      .withIndex('by_environment_token_hash', (query) =>
+        query.eq('environmentId', environment._id).eq('tokenHash', tokenHash),
+      )
+      .unique();
+    if (!invitation) return null;
+    const account = await ctx.db.get(invitation.accountId);
+    if (!account || account.environmentId !== environment._id) return null;
+    return {
+      ...(account.displayName === undefined
+        ? {}
+        : { accountDisplayName: account.displayName }),
+      state:
+        invitation.state === 'pending' && invitation.expiresAt <= args.now
+          ? ('expired' as const)
+          : invitation.state,
+      expiresAt: invitation.expiresAt,
+    };
+  },
+});
+
+export const listPendingForAccount = internalMutation({
+  args: {
+    environmentKey: v.string(),
+    accountPublicId: v.string(),
+    actorUserPublicId: v.string(),
+    paginationOpts: paginationOptsValidator,
+    now: v.number(),
+  },
+  returns: paginationResultValidator(invitationViewValidator),
+  handler: async (ctx, args) => {
+    const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+    const accountPublicId = publicIdentifierSchema.parse(args.accountPublicId);
+    const actorUserPublicId = publicIdentifierSchema.parse(
+      args.actorUserPublicId,
+    );
+    const context = await authoritativeAccountContext(
+      ctx,
+      environmentKey,
+      accountPublicId,
+      actorUserPublicId,
+    );
+    const account = await releaseExpiredReservations(
+      ctx,
+      context.environment,
+      context.account,
+      args.now,
+    );
+    const page = await ctx.db
+      .query('accountInvitations')
+      .withIndex('by_environment_account_state_expires_at', (query) =>
+        query
+          .eq('environmentId', context.environment._id)
+          .eq('accountId', account._id)
+          .eq('state', 'pending'),
+      )
+      .paginate({
+        numItems: Math.max(1, Math.min(50, args.paginationOpts.numItems)),
+        cursor: args.paginationOpts.cursor,
+      });
+    return {
+      ...page,
+      page: page.page.map((invitation) =>
+        toInvitationView(invitation, account),
+      ),
+    };
+  },
+});
 
 export const create = internalMutation({
   args: {

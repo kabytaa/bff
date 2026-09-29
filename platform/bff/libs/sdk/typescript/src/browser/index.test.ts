@@ -304,6 +304,115 @@ describe('createBffAuthBrowserClient', () => {
     auth.dispose();
   });
 
+  it('exposes typed account management while keeping transfer on the cookie adapter', async () => {
+    const harness = fetchHarness();
+    const selected = account(accountOneId);
+    const member = {
+      membership: {
+        id: 'membership_2222222222222222',
+        accountId: accountOneId,
+        userId: 'user_2222222222222222',
+        role: 'member' as const,
+        createdAt: 1,
+        updatedAt: 1,
+      },
+      displayName: 'Member',
+      verifiedEmail: 'member@example.com',
+    };
+    const invitation = {
+      id: 'invitation_1111111111111111',
+      accountId: accountOneId,
+      recipientEmail: 'member@example.com',
+      state: 'pending' as const,
+      expiresAt: 2_000_000,
+      createdAt: 1,
+    };
+    harness.enqueue(
+      json(authenticated(accountOneId, [selected])),
+      json({ page: [member], isDone: true, continueCursor: '' }),
+      json({ page: [invitation], isDone: true, continueCursor: '' }),
+      json({ invitation, invitationToken: 'i'.repeat(43) }, 201),
+      json({ ...member.membership, role: 'admin' }),
+      json({ ...invitation, state: 'revoked' }),
+      json({
+        removedMembershipId: member.membership.id,
+        accountId: accountOneId,
+        userId: member.membership.userId,
+        activeMemberCount: 1,
+      }),
+      json(
+        {
+          authorizationUrl:
+            'https://auth-dev.tofler.app/?transaction=transfer_1234567890123456',
+          expiresAt: 2_000_000,
+        },
+        201,
+      ),
+    );
+    const auth = client(harness.implementation);
+    await auth.bootstrap();
+
+    await expect(auth.listAccountMembers()).resolves.toMatchObject({
+      page: [{ displayName: 'Member' }],
+    });
+    await expect(auth.listAccountInvitations()).resolves.toMatchObject({
+      page: [{ recipientEmail: 'member@example.com' }],
+    });
+    await expect(
+      auth.createInvitation('MEMBER@example.com'),
+    ).resolves.toMatchObject({ invitationToken: 'i'.repeat(43) });
+    await expect(
+      auth.changeMembershipRole(member.membership.id, 'admin'),
+    ).resolves.toMatchObject({ role: 'admin' });
+    await expect(auth.revokeInvitation(invitation.id)).resolves.toMatchObject({
+      state: 'revoked',
+    });
+    await expect(
+      auth.removeMembership(member.membership.id),
+    ).resolves.toMatchObject({ activeMemberCount: 1 });
+    await expect(
+      auth.startOwnershipTransfer(member.membership.id),
+    ).resolves.toMatchObject({
+      authorizationUrl: expect.stringContaining('transaction=transfer_'),
+    });
+
+    expect(harness.calls[1]?.url).toContain('/v1/accounts/members?');
+    expect(harness.calls[2]?.url).toContain('/v1/accounts/invitations?');
+    expect(harness.calls[7]?.url).toBe(
+      `${adapterOrigin}/_tofler/auth/transfer/start`,
+    );
+    expect(
+      new Headers(harness.calls[7]?.init?.headers).get('authorization'),
+    ).toBeNull();
+    expect(harness.calls[7]?.init?.credentials).toBe('include');
+    auth.dispose();
+  });
+
+  it('inspects an invitation without requiring an authenticated session', async () => {
+    const harness = fetchHarness();
+    harness.enqueue(
+      json({
+        accountDisplayName: 'TableCards Studio',
+        state: 'pending',
+        expiresAt: 2_000_000,
+      }),
+    );
+    const auth = client(harness.implementation);
+
+    await expect(auth.inspectInvitation('i'.repeat(43))).resolves.toEqual({
+      accountDisplayName: 'TableCards Studio',
+      state: 'pending',
+      expiresAt: 2_000_000,
+    });
+    expect(
+      new Headers(harness.calls[0]?.init?.headers).get('authorization'),
+    ).toBeNull();
+    expect(harness.calls[0]?.url).toContain(
+      '/v1/accounts/invitations/inspect?environment=',
+    );
+    auth.dispose();
+  });
+
   it('ignores a completed renewal after logout changes the session generation', async () => {
     const harness = fetchHarness();
     const accounts = [account(accountOneId)];

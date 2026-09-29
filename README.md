@@ -6,6 +6,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 
 - [Current handoff and next moves](STATUS.md)
 - [MVP architecture](docs/architecture/bff-mvp-architecture.md)
+- [Shared BFF data model and table purposes](docs/architecture/shared-bff-data-model.md)
 - [Future architecture ideas (non-authoritative)](docs/architecture/future-ideas.md)
 - [ADR 0001 — Convex-first BFF stack](docs/architecture/adr/0001-convex-first-bff-stack.md)
 - [ADR 0002 — Business environments and operator authentication](docs/architecture/adr/0002-business-environments-and-operator-auth.md)
@@ -19,6 +20,8 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 - [Development authenticated dashboard smoke](docs/operations/development-authenticated-smoke.md)
 - [Production delivery](docs/operations/production-delivery.md)
 - [Build 2 customer authentication](docs/operations/build-2-customer-auth.md)
+- [TableCards market research (2026-09-27)](docs/research/260927-tablecards-market-research.md)
+- [Active TableCards product and launch brainstorm](.agent/brainstorms/260927-tablecards-product-and-launch.md)
 - [Research source map and reconciliation](docs/research/source-map.md)
 - [First Business Project brainstorm](.agent/brainstorms/260921-first-business-project.md)
 

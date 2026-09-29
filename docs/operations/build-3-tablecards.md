@@ -1,0 +1,231 @@
+# Build 3 TableCards development operations
+
+Created: 2026-09-27
+Last updated: 2026-09-28
+Status: Development deployment validated
+
+This runbook covers the development-only Build 3 TableCards slice. It does not
+authorize a production TableCards deployment, live payment, or paid image-model
+call.
+
+## Ownership and surfaces
+
+- `projects/tablecards/libs/core` owns imports, catalog, print geometry, SVG
+  preview and deterministic PDF rendering.
+- `projects/tablecards/backend` is the independent TableCards Convex backend.
+  It owns product projects, guest rows, artwork, PDF jobs and AI batches.
+- BFF owns identities/accounts plus the provider-independent effective-offer
+  projection and typed-unit ledger.
+- `projects/tablecards/workloads/web` is the routed public creator and
+  authenticated Projects, Designs, Account and Team application.
+- `projects/tablecards/session-gateway` forwards only the fixed SDK auth routes;
+  it never proxies product data.
+
+Development URLs:
+
+- Web: `https://tablecards-dev.tofler.app`
+- Session adapter: `https://api.tablecards-dev.tofler.app`
+- TableCards Convex: `https://scrupulous-hawk-991.convex.cloud`
+- TableCards HTTP: `https://scrupulous-hawk-991.convex.site`
+- Shared BFF HTTP: `https://compassionate-buffalo-689.convex.site`
+- Business environment: `tablecards-development`
+
+The BFF environment is composed from
+`projects/tablecards/customer-auth.defaults.ts` plus deployment URLs. The code
+owns product presentation and stable auth/account behavior; the operator
+configuration owns origins, callback transport and development automation.
+Development currently applies definition/configuration revision 4 with a
+two-membership user cap: one automatically created private workspace plus one
+invited Studio workspace. The owned-account cap is also two so an invited
+Studio member who already owns their private workspace can receive ownership of
+the shared workspace. User-created additional workspaces remain disabled, and
+the shared BFF still enforces both caps.
+
+## Development providers
+
+`TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true`,
+`BFF_DEVELOPMENT_PRODUCT_ACCESS_ENABLED=enabled` and
+`BFF_MOCK_CHECKOUT_ENABLED=enabled` are required in development. Paid pricing
+actions ask BFF for a provider-neutral checkout URL, redirect to the shared
+`auth-dev.tofler.app/checkout` page and return after the explicit no-charge
+completion. TableCards has no local dummy-payment selector. Studio completion
+also applies its five-seat, Admin and invitation policy atomically, so hosted
+tests must not prepare that policy with the operator CLI.
+
+Checkout creation also requires matching secrets in
+`BFF_CHECKOUT_SERVICE_SECRETS_JSON` on BFF and `BFF_CHECKOUT_SERVICE_TOKEN` on
+the TableCards backend. The first is an environment-keyed object. These values
+are credentials: generate and install them directly through the deployment
+environment, never commit or print them, and never expose the service token to
+Vite/browser configuration.
+
+`TABLECARDS_AI_PROVIDER=development` produces a deterministic four-image batch
+and exercises reserve/commit/release against the real BFF unit ledger. The
+optional `openai` provider is server-only and intentionally unused in Build 3
+acceptance. Guest names, tables and markers are never included in its prompt.
+
+## Deploy development
+
+Push the BFF and TableCards schemas/functions independently:
+
+```bash
+pnpm exec convex dev --once --typecheck enable
+cd projects/tablecards/backend
+pnpm exec convex dev --once --typecheck enable
+```
+
+Build the web app with its seven public development values shown in
+`projects/tablecards/workloads/web/.env.example`, replacing both deployment
+placeholders with the exact BFF and TableCards development URLs listed above.
+Do not substitute an unprovisioned vanity hostname for the BFF customer API;
+team/account browser calls use this value directly. Then deploy:
+
+```bash
+pnpm exec wrangler deploy \
+  --config projects/tablecards/session-gateway/wrangler.jsonc \
+  --var UPSTREAM_ORIGIN:https://scrupulous-hawk-991.convex.site \
+  --var BUILD_VERSION:YOUR_VERSION
+
+pnpm exec nx run tablecards-web:build
+pnpm exec wrangler deploy \
+  --config projects/tablecards/workloads/web/wrangler.jsonc \
+  --assets dist/projects/tablecards/workloads/web
+```
+
+Wrangler currently requires Node 22 or newer. On this host use the available
+Node 24 runner when the default shell still resolves Node 20.
+
+## Validation
+
+Run focused gates, then hosted development acceptance:
+
+```bash
+pnpm exec nx run tablecards-core:test
+pnpm exec nx run tablecards-backend:test-integration
+pnpm exec nx run tablecards-web:test
+pnpm exec nx run tablecards-session-gateway:test
+pnpm test:e2e:tablecards-hosted
+```
+
+The Playwright flow uses short-lived development grants, the real session
+gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
+deterministic AI batch. The executable registry maps every accepted PRD story,
+US-01 through US-20, to five cohesive product journeys. Those journeys run in
+desktop Chromium and mobile WebKit and include all four offer promises,
+projects, artwork, AI units, navigation, two-account isolation, invitations,
+roles, removal and ownership transfer. Focused desktop regressions retain the
+public print PDF and 320-pixel geometry checks. The complete hosted command runs
+19 cases: 13 desktop and 6 mobile.
+The local development signing key is intentionally absent from CI, so the
+hosted suite is a separate development acceptance gate rather than part of the
+self-contained root `pnpm check` command.
+
+Real iPhone Safari and a physical 100%-scale ruler check remain useful extra
+evidence, not a reason to hide an automated failure.
+
+### Six-card landscape print trial
+
+The development UI exposes `landscape_6` beside the canonical four-card
+portrait layout. It places six unchanged 3.5 × 4 inch unfolded cards on US
+Letter landscape with 0.25 inch outer margins. This is a development print
+trial, not an accepted replacement for the canonical four-card layout.
+
+A ready-to-print sample is public at
+`https://tablecards-dev.tofler.app/six-card-landscape-print-test.pdf`. Print it
+in landscape at **Actual Size / 100%** with every fit, shrink and scale option
+disabled. Confirm the one-inch calibration square on page one, then verify that
+all outer cut lines are visible and at least 0.25 inch from the paper edge on
+page two. Record the printer/model and result before promoting this layout.
+
+Predefined design thumbnails, browser sheet previews and PDF output consume the
+same exact versioned 1050 × 600 JPEG artwork. Active `v2` assets use a true
+white paper field to minimize home-printer ink while preserving the colored
+corner artwork; immutable `v1` is retained but no longer selected. The
+code-owned catalog pins each
+asset's public path and SHA-256; the backend fetches only that registered path
+and verifies the bytes before export. Uploaded and generated full-face artwork
+uses the same 7:4 renderer contract. There is no vector-motif fallback.
+
+### 2026-09-28 acceptance evidence
+
+- The complete Node 24 repository lint, typecheck, test, integration-test and
+  build targets pass after the raster-design replacement. Bundle-boundary and
+  secret scans also pass.
+- The complete Node 24 `pnpm check` gate passes after the review changes. The
+  focused TableCards hosted suite passes six uncached cases: the public
+  landscape file's two 792 × 612 point pages, public draft through real
+  authentication, stored PDF download/parsing and the authenticated four-choice
+  AI/unit flow in Chromium and WebKit.
+- The final TableCards backend push completed successfully against development
+  deployment `scrupulous-hawk-991` after the AI reservation ordering fix.
+- The TableCards session gateway remains Cloudflare Worker version
+  `2870c83e-36b3-4cfa-aafc-efdbe559cd46`; the reviewed web Worker is version
+  `d612f60b-b966-4e85-9a70-6b10734e0c7a`.
+- The final ink-friendly `v2` raster-artwork deployment passes all six uncached
+  Chromium/WebKit journeys, including authenticated stored export; all six
+  public JPEG responses match their catalog SHA-256 and content type, and the
+  one-year immutable cache policy is active.
+- The unit-allocation correction was deployed in dependency order to BFF
+  `compassionate-buffalo-689` and TableCards `scrupulous-hawk-991`. Business
+  reservations now omit allocation keys; BFF resolves anniversary-monthly or
+  fixed allocations and lazily creates the effective bucket. Integration tests
+  prove automatic rollover without offer reselection and preserve the prior
+  bucket's committed history.
+- After that coordinated deployment, the complete `pnpm check` gate remains
+  green and the six uncached hosted Chromium/WebKit journeys pass, including
+  authenticated offer selection and AI reserve/commit behavior.
+- The routed application correction is deployed at web Worker version
+  `009a28c8-6ec3-4ab1-b79d-1330e8b78f3a`. The public landing loads a dedicated
+  lightweight catalog chunk and does not eagerly load the spreadsheet/PDF
+  editor or team route. The creator's full print-layout controls remain
+  available and contained on mobile; only the design carousel scrolls. The
+  hosted suite now asserts the Design step and print controls at 320 CSS pixels
+  and at 1,280 desktop pixels; all 12 hosted Chromium/WebKit journeys pass.
+- The follow-up creator review keeps desktop Preview names beside its visible
+  sheet, while mobile validates and advances through one Continue to design
+  action. The example-list link sits above the input and exercises several long
+  names. Mobile retains the TableCards identity and Log in action in a more
+  compact creator header and intro.
+- A real-phone generic failed-save report was traced to valid Free-plan
+  enforcement being hidden by the client. Web Worker
+  `6c8bfa3f-a425-47bc-b2c6-60980534963d` now keeps premium designs available
+  for preview but explains and disables unavailable Save/Export actions, does
+  the same when active-project capacity is exhausted and safely presents only
+  approved structured product errors. Focused Chromium and WebKit journeys
+  prove the Free premium/design-switch/export flow, the one-project limit and
+  the same entitlement guidance at 320 CSS pixels without overflow.
+- The same acceptance run caught an invalid, unprovisioned BFF API hostname in
+  the web deployment example. The example now requires the exact BFF Convex
+  site URL; the corrected Worker passes all 14 Chromium/WebKit journeys,
+  including Studio invitation, acceptance and role promotion.
+- Direct health probes for TableCards HTTP and the session gateway return `200`;
+  an unauthenticated shared product-access probe returns the intended `401`.
+- The complete user-story acceptance pass deployed shared BFF development
+  `compassionate-buffalo-689`, TableCards Convex `scrupulous-hawk-991` and web
+  Worker version `62a72afb-2f99-4ca1-9448-4ab319a4b5d0`. All US-01–US-20
+  registry entries pass through the hosted product in desktop Chromium and
+  mobile WebKit. The tests exercise `$0`, no-charge `$5` Event Pass, no-charge
+  `$9/month` Planner Pro and no-charge `$19/month` Studio projections; Studio
+  then uses the real shared BFF invitation, role, removal and provider-neutral
+  ownership-transfer APIs. Production and Paddle remain unchanged.
+
+## Safety and known limits
+
+- Build 3 has no Paddle tables, provider webhook, live charge, production
+  TableCards deployment, email/support flow, analytics, or generic monitoring.
+  Its shared BFF checkout is an explicitly no-charge simulation, not payment
+  truth.
+- Generated file URLs are short-lived; database rows store only Convex storage
+  IDs.
+- The server renderer accepts caller-supplied Noto Sans bytes, but the current
+  hosted job uses deterministic built-in Helvetica. Common Western Latin text
+  is covered and unsupported glyphs fail preflight instead of silently clipping.
+  Bundled broad-script font coverage remains an explicit follow-up before a
+  multilingual production claim.
+- CSV/XLSX and print code remain a large editor chunk, but route-level loading
+  keeps that chunk off the landing page. Further editor-internal splitting is a
+  performance optimization, not an authorization or correctness dependency.
+- The focused hosted browser suite proves the primary public/Free,
+  professional and Studio workflows. Exhaustive permission, account-isolation,
+  capacity, replay and unit-accounting decisions remain in faster BFF/Convex
+  integration tests rather than a browser Cartesian product.

@@ -12,19 +12,19 @@ Do not add Codex implementation work, discussion topics, reviews, choices or app
 
 ## Product and scope
 
-The working first product is **TableCards**: an authenticated user pastes names or uploads a CSV, previews a fixed folded-card layout and downloads a correctly sized printable PDF. The first buyer hypothesis is an independent event planner or small planning studio. Demand and all prices are unvalidated hypotheses, not research findings.
+The working first product is **TableCards**: a visitor pastes or uploads a guest list, previews a fixed folded-card layout and, after authentication, saves or downloads a correctly sized printable PDF. Occasional hosts use a one-time Event Pass; the repeat-buyer hypothesis is an independent event planner or small planning studio. Demand and all prices remain unvalidated hypotheses.
 
 The smallest launch scope is:
 
-- Pasted or CSV names and optional table numbers, preserving spelling, order and duplicates.
+- Pasted lines/grids, CSV or XLSX with required names, optional table numbers and one optional short marker, preserving spelling, order and duplicates.
 - One 3.5 × 2 inch folded tent-card format, four per US Letter sheet, with three free predefined designs and a premium library.
 - Preview of every card before export.
 - PDF export with cut/fold marks and a scale-check sheet.
 - Explicit handling of long names and unsupported characters.
-- Free, Personal Pro and Studio plans; paid plans add premium/custom reusable designs and Studio adds a shared workspace for up to 20 members.
-- Required Google login through a provider-neutral identity model, an email-capable in-product support conversation, operator handling and a public contact path.
+- Free 25, a `$5` Event Pass, `$9/month` Planner Pro and `$19/month` five-member Studio; no annual offer in the MVP. Paid offers add larger projects, premium/custom designs, bounded optional AI batches and reusable/team workflow.
+- Public import/preview followed by required Google login for save, export, AI generation or payment, plus an email-capable in-product support conversation, operator handling and a public contact path.
 
-Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts, seating planning, guest-list management, meal/caterer workflows, print fulfillment, per-seat billing, domain joining, Apple login, generic marketing automation, advanced reporting, AI support automation or a second product.
+Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts, seating planning, direct Google Sheets integration, general guest-list management, structured meal/caterer workflows, print fulfillment, annual or per-seat billing, domain joining, Apple login, generic marketing automation, advanced reporting, AI support automation or a second product.
 
 ## Delivery rules
 
@@ -40,23 +40,23 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 
 1. Codex starts Build 1. In parallel, Andrew can begin Paddle onboarding.
 2. Codex builds provider-neutral auth/accounts and the deterministic TableCards core. Production OAuth becomes actionable when exact domains and callback URLs exist.
-3. Codex adds subscriptions, plan entitlements, Studio membership and the minimal operator view. Paddle fixtures keep regression independent of live charges.
+3. Codex adds the one-time Event Pass, subscriptions, plan entitlements, Studio membership and the minimal operator view. Paddle fixtures keep regression independent of live charges.
 4. Codex adds the separate customer-support conversation slice with outbound and inbound email replies.
 5. Codex adds focused product/business analytics, actionable monitoring and the usable operator backoffice needed to run the MVP.
 6. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
 
 ## Grouped launch tasks
 
-| #              | Work group                                                                            | Owner  | Main dependency                                                         |
-| -------------- | ------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
-| Build 1        | Foundation: workspace, Convex BFF, contracts and test harness                         | Codex  | None                                                                    |
-| Build 2        | Shared identity: Google auth, accounts and SDK                                        | Codex  | Build 1; production OAuth later needs provider access                   |
-| Build 3        | TableCards core: list/CSV, designs, preview and verified PDF                          | Codex  | Build 1 and the accepted product specification                          |
-| Build 4        | Paid/team flow: Paddle subscriptions, entitlements, membership and minimal operations | Codex  | Builds 1–3; hosted checks need Paddle access                            |
-| Build 5        | Customer support: case conversation, email replies and operator workflow              | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
-| Build 6        | Operational visibility: analytics, monitoring and usable backoffice                    | Codex  | Builds 3–5                                                              |
-| Build 7        | Deploy, run happy-path regression and prepare launch                                  | Codex  | Builds 1–6 and relevant provider access                                 |
-| Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance     | Andrew | Activated only when Codex cannot complete the action                    |
+| #              | Work group                                                                        | Owner  | Main dependency                                                         |
+| -------------- | --------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| Build 1        | Foundation: workspace, Convex BFF, contracts and test harness                     | Codex  | None                                                                    |
+| Build 2        | Shared identity: Google auth, accounts and SDK                                    | Codex  | Build 1; production OAuth later needs provider access                   |
+| Build 3        | TableCards core: import, designs/AI, preview, verified PDF and payment mock       | Codex  | Builds 1–2 and the accepted product specification                       |
+| Build 4        | Paid/team flow: Paddle Event Pass/subscriptions, entitlements and membership      | Codex  | Builds 1–3; hosted checks need confirmed Paddle access/terms            |
+| Build 5        | Customer support: case conversation, email replies and operator workflow          | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
+| Build 6        | Operational visibility: analytics, monitoring and usable backoffice               | Codex  | Builds 3–5                                                              |
+| Build 7        | Deploy, run happy-path regression and prepare launch                              | Codex  | Builds 1–6 and relevant provider access                                 |
+| Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance | Andrew | Activated only when Codex cannot complete the action                    |
 
 ### Build 1 — Foundation
 
@@ -76,15 +76,19 @@ Development readiness requires the hosted example to create or reuse an authenti
 
 ### Build 3 — TableCards core
 
-Implement pasted/CSV guest data, predefined designs, paid custom background presets, preview, the fixed print layout and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks and a scale-check page.
+Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks and a scale-check page. Require authentication for save/export/AI/payment, not for import and preview.
+
+Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through a deterministic test/development payment mock. It must drive the same application-facing entitlement contract later used by real billing, support repeatable positive and denial tests without a live charge and give production visitors no self-grant path. Do not add Paddle checkout, provider products, webhooks or subscription lifecycle in this build.
+
+After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
 
 The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. One physical sheet must still be printed at 100% and measured before the output is called verified.
 
 ### Build 4 — Paid/team flow and operations
 
-Implement Paddle subscriptions for Personal Pro and Studio, server-side plan entitlements, verified idempotent webhooks and minimal purchase/acquisition events. Configure the shared account machinery for Studio invitations and its 20-seat limit, add shared design presets and add only the operator views needed for projects, users, subscriptions, entitlements and memberships.
+After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, replace the Build 3 payment mock with a Paddle Event Pass plus Planner Pro and Studio subscriptions, server-side entitlements, verified idempotent webhooks and minimal purchase/acquisition events while preserving the application-facing contract. Configure the shared account machinery for Studio invitations and its five-seat limit, add shared design presets and add only the operator views needed for projects, users, purchases, subscriptions, entitlements and memberships. Do not add annual billing. The Build 3 development mock intentionally treats every monthly cycle as successfully renewed; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
 
-Signed payment fixtures must let the full happy path run without a live charge. A requested downgrade is rejected until the account satisfies the target plan's limits. An unavoidable expiration or payment failure preserves users, memberships and data, restricts ordinary product access and keeps Owner/Admin remediation access so they can restore payment or reduce usage; it never removes members automatically. Done means Free cannot use paid design capabilities, verified subscriptions produce the correct entitlements, cancellation/status changes are handled, seat and role rules are enforced and webhook replays are harmless.
+Signed payment fixtures must let the full happy path run without a live charge and must prove that a missing, failed or expired renewal does not create the next allowance. A requested downgrade is rejected until the account satisfies the target plan's limits. An unavoidable expiration or payment failure preserves users, memberships and data, restricts ordinary product access and keeps Owner/Admin remediation access so they can restore payment or reduce usage; it never removes members automatically. Done means Free cannot export over 25 cards or use paid design capabilities, Event Pass grants exactly one 90-day event, verified subscriptions produce the correct project/AI/team entitlements, cancellation/status changes and the accepted 30-day access plus 60-day deletion-warning lifecycle are handled, seat and role rules are enforced and webhook replays are harmless.
 
 ### Build 5 — Customer support conversation
 
@@ -119,12 +123,13 @@ Configure environments, secrets, Cloudflare deployment, domains and CI; connect 
 2. Create a representative guest list.
 3. Preview all cards.
 4. Download the permitted Free PDF.
-5. Complete fixture or sandbox subscription and use a paid design capability.
-6. Exercise Studio membership when that slice is implemented.
-7. Start a support conversation.
-8. Review and respond in the backoffice, then verify the emailed response and one customer reply returns to the same case.
-9. Confirm the run's acquisition, signup, activation, checkout/payment, export and support events appear once with the expected safe context.
-10. Confirm production health/version, operational queues and alert delivery are healthy, with no unresolved synthetic or real failure hidden from the backoffice.
+5. Complete fixture or sandbox Event Pass and use a paid design or AI capability.
+6. Complete a fixture or sandbox subscription and verify its project/AI allowance.
+7. Exercise Studio membership when that slice is implemented.
+8. Start a support conversation.
+9. Review and respond in the backoffice, then verify the emailed response and one customer reply returns to the same case.
+10. Confirm the run's acquisition, signup, activation, checkout/payment, export and support events appear once with the expected safe context.
+11. Confirm production health/version, operational queues and alert delivery are healthy, with no unresolved synthetic or real failure hidden from the backoffice.
 
 Run provider-specific sandbox/live smoke checks separately. Done when automated validation passes, the production flow is reachable and Andrew has a concise final acceptance checklist.
 
@@ -134,13 +139,13 @@ These are candidates for Andrew's short Nirvana list only when they become actio
 
 ### Paddle onboarding
 
-Create or confirm the seller account, finish business/identity/payout verification and enable sandbox access. Submit the real product/domain and required policy pages for production review when the site exists. Configure the accepted monthly and annual subscription offers only after the implementation identifies the exact required Paddle resources.
+Create or confirm the seller account, finish business/identity/payout verification and enable sandbox access. Obtain written confirmation of Israeli payouts and the one-time/recurring microtransaction schedule, including discount and payout treatment. Submit the real product/domain and required policy pages for production review when the site exists. Configure the Event Pass and accepted monthly subscriptions only after implementation identifies the exact required Paddle resources; do not configure annual offers.
 
 ### Accounts, domain and OAuth
 
 Confirm the existing Convex login can create a separate Business Factory project, choose or buy the product domain, and provide Cloudflare/DNS access. After Codex provides exact callback URLs, create/select the Google Cloud project, configure consent/branding and create the web OAuth client.
 
-Do not pre-create Apple, PostHog, Resend or Sentry accounts. TableCards needs no AI, scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow; Build 6 will select the minimum analytics/monitoring arrangement only after its events, privacy boundaries, alert thresholds and operating questions are defined.
+Do not pre-create Apple, PostHog, Resend or Sentry accounts. Build 3 will benchmark and select the minimum cost-efficient image-generation provider/model for the accepted four-choice batch; TableCards needs no scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow; Build 6 will select the minimum analytics/monitoring arrangement only after its events, privacy boundaries, alert thresholds and operating questions are defined.
 
 ### Physical and live launch checks
 
@@ -152,7 +157,7 @@ The launch gate is satisfied when:
 
 - TableCards is deployed with the fixed, honestly described output contract.
 - Google login and project/account isolation work in production.
-- Subscription webhooks and server-side entitlements protect paid designs and collaboration.
+- Event Pass/subscription webhooks and server-side entitlements protect paid sizes, designs, AI allowances and collaboration.
 - The deterministic PDF checks and focused happy-path regression pass.
 - A user can begin a support conversation, receive Andrew's reply by email and reply into the same case.
 - A monitored public support contact works for users who cannot sign in, without treating email possession as authority for sensitive account or payment actions.

@@ -10,6 +10,12 @@ crons.hourly(
   internal.authCleanup.expirePendingInvitations,
   {},
 );
+crons.interval(
+  'expire product unit reservations',
+  { minutes: 5 },
+  internal.unitLedger.expireReservations,
+  {},
+);
 crons.daily(
   'delete expired customer auth protocol state',
   { hourUTC: 3, minuteUTC: 23 },

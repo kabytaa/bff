@@ -31,7 +31,11 @@ export default tseslint.config(
       '@nx/enforce-module-boundaries': [
         'error',
         {
-          allow: ['@bff/service-api', '@example/backend-api'],
+          allow: [
+            '@bff/service-api',
+            '@example/backend-api',
+            '@tablecards/backend-api',
+          ],
           depConstraints: [
             {
               sourceTag: 'scope:public',

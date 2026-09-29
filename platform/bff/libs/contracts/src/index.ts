@@ -9,4 +9,6 @@ export * from './accountPolicy';
 export * from './accounts';
 export * from './auth';
 export * from './customerDevelopmentAuth';
+export * from './checkout';
+export * from './productAccess';
 export * from './session';

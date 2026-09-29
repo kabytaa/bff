@@ -1,0 +1,34 @@
+{
+  "name": "tablecards-core",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/tablecards/libs/core/src",
+  "projectType": "library",
+  "tags": ["scope:business", "type:library"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/tablecards/libs/core/tsconfig.lib.json"
+      },
+      "outputs": ["{workspaceRoot}/dist/projects/tablecards/libs/core"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint projects/tablecards/libs/core --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config projects/tablecards/libs/core/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/tablecards/libs/core/tsconfig.json --noEmit"
+      }
+    }
+  }
+}
