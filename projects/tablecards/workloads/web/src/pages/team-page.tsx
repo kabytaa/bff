@@ -4,9 +4,13 @@ import { type FormEvent, useCallback, useEffect, useState } from 'react';
 
 import type { CurrentProductAccess } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
+import { safeProductMessage } from '../product-error';
 
 function safeMessage(error: unknown) {
-  return error instanceof Error ? error.message : 'The team action failed.';
+  return safeProductMessage(
+    error,
+    'The team action could not be completed. Please try again.',
+  );
 }
 
 export function Component() {
@@ -18,6 +22,8 @@ export function Component() {
   const [recipientEmail, setRecipientEmail] = useState('');
   const [invitationLink, setInvitationLink] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [noticeKind, setNoticeKind] = useState<'info' | 'error'>('info');
+  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const account =
     state.status === 'authenticated'
@@ -29,38 +35,51 @@ export function Component() {
   const ownMembershipId = account?.membership.id;
   const canInvite =
     ownRole !== 'member' && account?.policy.values.memberInvitationsEnabled;
+  const seatsFull =
+    members.length + invitations.length >=
+    (account?.policy.values.seatLimit ?? 1);
 
   const load = useCallback(async () => {
-    const nextAccess = await backend.getCurrentAccess();
-    setAccess(nextAccess);
-    if (!nextAccess.teamAccessEnabled) {
-      setMembers([]);
-      setInvitations([]);
-      return;
+    setLoading(true);
+    try {
+      const nextAccess = await backend.getCurrentAccess();
+      setAccess(nextAccess);
+      if (!nextAccess.teamAccessEnabled) {
+        setMembers([]);
+        setInvitations([]);
+        return;
+      }
+      const [memberPage, invitationPage] = await Promise.all([
+        client.listAccountMembers({ limit: 50 }),
+        ownRole === 'member'
+          ? Promise.resolve({ page: [] as InvitationView[] })
+          : client.listAccountInvitations({ limit: 50 }),
+      ]);
+      setMembers(memberPage.page);
+      setInvitations(invitationPage.page);
+    } finally {
+      setLoading(false);
     }
-    const [memberPage, invitationPage] = await Promise.all([
-      client.listAccountMembers({ limit: 50 }),
-      ownRole === 'member'
-        ? Promise.resolve({ page: [] as InvitationView[] })
-        : client.listAccountInvitations({ limit: 50 }),
-    ]);
-    setMembers(memberPage.page);
-    setInvitations(invitationPage.page);
   }, [backend, client, ownRole]);
 
   useEffect(() => {
-    void load().catch((error: unknown) => setNotice(safeMessage(error)));
+    void load().catch((error: unknown) => {
+      setNotice(safeMessage(error));
+      setNoticeKind('error');
+    });
   }, [load, snapshot.generation]);
 
   const mutate = async (action: () => Promise<unknown>, success: string) => {
     setBusy(true);
     setNotice(null);
+    setNoticeKind('info');
     try {
       await action();
       await load();
       setNotice(success);
     } catch (error) {
       setNotice(safeMessage(error));
+      setNoticeKind('error');
     } finally {
       setBusy(false);
     }
@@ -70,6 +89,7 @@ export function Component() {
     event.preventDefault();
     setBusy(true);
     setNotice(null);
+    setNoticeKind('info');
     try {
       const created = await client.createInvitation(recipientEmail);
       setInvitationLink(
@@ -82,6 +102,7 @@ export function Component() {
       );
     } catch (error) {
       setNotice(safeMessage(error));
+      setNoticeKind('error');
     } finally {
       setBusy(false);
     }
@@ -90,8 +111,12 @@ export function Component() {
   const reissue = async (invitation: InvitationView) => {
     setBusy(true);
     setNotice(null);
+    setNoticeKind('info');
+    let revoked = false;
     try {
       await client.revokeInvitation(invitation.id);
+      revoked = true;
+      setInvitationLink(null);
       const created = await client.createInvitation(invitation.recipientEmail);
       setInvitationLink(
         `${window.location.origin}/invite/${encodeURIComponent(created.invitationToken)}`,
@@ -101,7 +126,11 @@ export function Component() {
         'Invitation reissued. Copy the new link now; the previous link no longer works.',
       );
     } catch (error) {
-      setNotice(safeMessage(error));
+      setNotice(
+        `${revoked ? 'The previous link was revoked, but no replacement was created. Create a new invitation to retry. ' : ''}${safeMessage(error)}`,
+      );
+      setNoticeKind('error');
+      await load().catch(() => undefined);
     } finally {
       setBusy(false);
     }
@@ -110,6 +139,7 @@ export function Component() {
   const copyInvitationLink = async () => {
     if (!invitationLink) return;
     setNotice(null);
+    setNoticeKind('info');
     try {
       if (!navigator.clipboard?.writeText) {
         throw new Error('Clipboard access is unavailable');
@@ -150,10 +180,30 @@ export function Component() {
         </div>
       </header>
       {notice ? (
-        <p className="notice info" role="status">
+        <p
+          className={`notice ${noticeKind}`}
+          role={noticeKind === 'error' ? 'alert' : 'status'}
+        >
           {notice}
+          {noticeKind === 'error' ? (
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={busy || loading}
+              onClick={() =>
+                void load().catch((caught: unknown) => {
+                  setNotice(safeMessage(caught));
+                  setNoticeKind('error');
+                })
+              }
+            >
+              Retry team
+            </button>
+          ) : null}
         </p>
       ) : null}
+      {loading ? <p role="status">Loading team and invitations…</p> : null}
+      {busy ? <p role="status">Updating your team…</p> : null}
 
       {access && !access.teamAccessEnabled ? (
         <section className="page-section entitlement-callout">
@@ -180,15 +230,29 @@ export function Component() {
               value={recipientEmail}
               onChange={(event) => setRecipientEmail(event.target.value)}
             />
-            <button className="button" type="submit" disabled={busy}>
+            <button
+              className="button"
+              type="submit"
+              disabled={busy || loading || seatsFull}
+            >
               Create invitation
             </button>
           </form>
+          {seatsFull ? (
+            <p className="entitlement-callout">
+              All seats are used or reserved. Revoke an invitation or remove an
+              ordinary member before inviting someone else.
+            </p>
+          ) : null}
           {invitationLink ? (
             <div className="copy-link">
               <label htmlFor="invitation-link">One-time invitation link</label>
               <input id="invitation-link" readOnly value={invitationLink} />
-              <button type="button" onClick={() => void copyInvitationLink()}>
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={() => void copyInvitationLink()}
+              >
                 Copy link
               </button>
             </div>
@@ -211,6 +275,7 @@ export function Component() {
                   <div className="inline-actions">
                     {ownRole === 'owner' ? (
                       <button
+                        className="secondary-button"
                         type="button"
                         disabled={busy}
                         onClick={() =>
@@ -232,6 +297,7 @@ export function Component() {
                       </button>
                     ) : null}
                     <button
+                      className="secondary-button"
                       type="button"
                       disabled={busy}
                       onClick={() => {
@@ -250,22 +316,34 @@ export function Component() {
                     </button>
                     {ownRole === 'owner' ? (
                       <button
+                        className="secondary-button"
                         type="button"
                         disabled={busy}
                         onClick={() => {
                           if (
                             window.confirm(
-                              `Transfer ownership to ${member.displayName}? This requires a fresh sign-in.`,
+                              `Transfer ownership to ${member.displayName}? Completing the fresh sign-in immediately transfers ownership. You will become an Admin and lose Owner-only controls. This cannot be undone by you.`,
                             )
-                          )
+                          ) {
+                            setBusy(true);
+                            setNoticeKind('info');
+                            setNotice(
+                              'Opening fresh sign-in. Completing it will transfer ownership immediately.',
+                            );
                             void client
-                              .startOwnershipTransfer(member.membership.id)
+                              .startOwnershipTransfer(
+                                member.membership.id,
+                                '/settings/team',
+                              )
                               .then(({ authorizationUrl }) =>
                                 window.location.assign(authorizationUrl),
                               )
-                              .catch((error: unknown) =>
-                                setNotice(safeMessage(error)),
-                              );
+                              .catch((error: unknown) => {
+                                setNotice(safeMessage(error));
+                                setNoticeKind('error');
+                                setBusy(false);
+                              });
+                          }
                         }}
                       >
                         Transfer ownership
@@ -297,6 +375,7 @@ export function Component() {
                   </div>
                   <span className="role-badge">pending</span>
                   <button
+                    className="secondary-button"
                     type="button"
                     disabled={busy}
                     onClick={() =>
@@ -309,6 +388,7 @@ export function Component() {
                     Revoke
                   </button>
                   <button
+                    className="secondary-button"
                     type="button"
                     disabled={busy}
                     onClick={() => void reissue(invitation)}

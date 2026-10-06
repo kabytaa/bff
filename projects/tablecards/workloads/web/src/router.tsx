@@ -2,6 +2,7 @@ import { createBrowserRouter, Link } from 'react-router-dom';
 
 import { ApplicationShell } from './layouts/application-shell';
 import { PublicShell } from './layouts/public-shell';
+import { PolicyPage } from './pages/policy-page';
 
 function RouteError() {
   return (
@@ -22,6 +23,9 @@ export const tableCardsRouter = createBrowserRouter([
     errorElement: <RouteError />,
     children: [
       { index: true, lazy: () => import('./pages/landing-page') },
+      { path: 'privacy', element: <PolicyPage kind="privacy" /> },
+      { path: 'terms', element: <PolicyPage kind="terms" /> },
+      { path: 'contact', element: <PolicyPage kind="contact" /> },
       {
         path: 'invite/:invitationToken',
         lazy: () => import('./pages/invitation-page'),

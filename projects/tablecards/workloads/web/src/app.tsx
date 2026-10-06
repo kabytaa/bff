@@ -4,6 +4,7 @@ import {
   PRINT_LAYOUTS,
   createRenderManifest,
   normalizePastedText,
+  preflightRender,
   renderDesignFaceToSvg,
   renderManifestPageToSvg,
   type DesignId,
@@ -13,8 +14,7 @@ import {
   type NameStyle,
   type PrintLayoutId,
 } from '@tablecards/core';
-import { BffAccountSelector, useBffAuth } from '@tofler/bff-auth/react';
-import { useConvex } from 'convex/react';
+import { useBffAuth } from '@tofler/bff-auth/react';
 import {
   type ChangeEvent,
   type ReactNode,
@@ -26,7 +26,6 @@ import {
 import { Link, useBlocker } from 'react-router-dom';
 
 import {
-  createTableCardsBackend,
   type CurrentProductAccess,
   type DesignAsset,
   type DesignPreset,
@@ -40,6 +39,9 @@ import {
   type ParsedGuestTable,
 } from './imports';
 import { safeProductMessage } from './product-error';
+import { ACCOUNT_CHANGE_EVENT, WorkspaceSelector } from './auth-navigation';
+import { PreviewDialog } from './preview-dialog';
+import { useTableCardsBackend } from './use-tablecards-backend';
 
 const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
 María Fernanda de la Cruz Hernández
@@ -56,6 +58,21 @@ Zoë Martin`;
 interface Notice {
   readonly kind: 'error' | 'success' | 'info';
   readonly message: string;
+}
+
+export function guestRowsToText(guests: readonly GuestRow[]) {
+  if (
+    !guests.some(
+      (guest) => guest.table !== undefined || guest.marker !== undefined,
+    )
+  )
+    return guests.map((guest) => guest.name).join('\n');
+  return [
+    'Name\tTable\tMarker',
+    ...guests.map((guest) =>
+      [guest.name, guest.table ?? '', guest.marker ?? ''].join('\t'),
+    ),
+  ].join('\n');
 }
 
 function ImportMapping({
@@ -212,6 +229,7 @@ function DesignPicker({
           >
             <span
               className="design-swatch"
+              aria-hidden="true"
               dangerouslySetInnerHTML={{
                 __html: renderDesignFaceToSvg(designId, {
                   backgroundImageHref: design.artwork.publicPath,
@@ -231,20 +249,32 @@ function DesignPicker({
   );
 }
 
-function SheetPreview({
+export function SheetPreview({
   guests,
   designId,
   layoutId,
   backgroundImageHref,
   nameStyle,
+  showSummary = true,
 }: {
   readonly guests: readonly GuestRow[];
   readonly designId: DesignId;
   readonly layoutId: PrintLayoutId;
   readonly backgroundImageHref?: string;
   readonly nameStyle?: NameStyle;
+  readonly showSummary?: boolean;
 }) {
   const [pageIndex, setPageIndex] = useState(0);
+  const fitIssues = useMemo(
+    () =>
+      preflightRender({
+        guests,
+        designId,
+        layoutId,
+        ...(nameStyle ? { nameStyle } : {}),
+      }),
+    [guests, designId, layoutId, nameStyle],
+  );
   const preview = useMemo(() => {
     if (guests.length === 0) return null;
     try {
@@ -276,13 +306,29 @@ function SheetPreview({
   }, [totalPages]);
 
   if (!preview) {
+    if (fitIssues.length > 0)
+      return (
+        <div className="empty-preview">
+          <h3>These cards need an adjustment</h3>
+          <ul className="issue-list" aria-label="Print fit issues">
+            {fitIssues.slice(0, 8).map((issue, index) => (
+              <li key={index}>
+                {issue.message} Shorten this field or choose a smaller name
+                size.
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
     return (
       <div className="empty-preview">
         <span aria-hidden="true">✦</span>
         <h3>Your print preview appears here</h3>
-        <p>
-          Add at least one valid guest to see every sheet before signing in.
-        </p>
+        {showSummary ? (
+          <p>
+            Add at least one valid guest to see every sheet before signing in.
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -324,28 +370,39 @@ function SheetPreview({
   );
 }
 
-function AuthGate({
-  onCreateAccount,
-}: {
-  readonly onCreateAccount: () => Promise<void>;
-}) {
-  const { state } = useBffAuth();
+function AuthGate() {
+  const { client, state } = useBffAuth();
   if (state.status === 'loading')
     return <p className="auth-note">Checking your session…</p>;
   if (state.status === 'recoverable_error') {
-    return <p className="notice error">{state.message}</p>;
+    return (
+      <div className="notice error" role="alert">
+        <p>We could not check your session. Your draft is still in this tab.</p>
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={() => void client.bootstrap()}
+        >
+          Retry session
+        </button>
+      </div>
+    );
   }
   if (state.status === 'onboarding_required') {
     return (
       <div className="auth-note">
-        <strong>One quick setup step</strong>
-        <p>Create your TableCards account before saving this project.</p>
+        <strong>Your workspace is not available yet</strong>
+        <p>
+          TableCards creates your private workspace during sign-in. Retry setup,
+          or open a valid invitation from your Studio owner. Creating extra
+          workspaces is not enabled.
+        </p>
         <button
           className="button button-small"
           type="button"
-          onClick={() => void onCreateAccount()}
+          onClick={() => void client.bootstrap()}
         >
-          Create my account
+          Retry workspace setup
         </button>
       </div>
     );
@@ -354,7 +411,7 @@ function AuthGate({
     return (
       <div className="auth-note">
         <strong>Choose where to save this event</strong>
-        <BffAccountSelector className="account-select wide" label="Account" />
+        <WorkspaceSelector className="account-select wide" label="Account" />
       </div>
     );
   }
@@ -365,22 +422,37 @@ export function Creator({
   developmentControlsEnabled,
   initialProjectId,
   onProjectSaved,
+  onDraftStateChange,
+  initialStep = 1,
 }: {
   readonly developmentControlsEnabled: boolean;
   readonly initialProjectId?: string;
+  readonly initialStep?: 1 | 2 | 3;
   readonly onProjectSaved?: (project: SavedProject) => void;
+  readonly onDraftStateChange?: (state: {
+    dirty: boolean;
+    unavailable: boolean;
+    loading: boolean;
+  }) => void;
 }) {
   const { client, snapshot, state } = useBffAuth();
-  const convex = useConvex();
-  const backend = useMemo(
-    () => createTableCardsBackend(convex, client),
-    [client, convex],
+  const backend = useTableCardsBackend();
+  const draftAccount =
+    state.status === 'authenticated' ? state.accountId : 'visitor';
+  const draftStore = useMemo(
+    () =>
+      createTableCardsDraftStore(
+        undefined,
+        Date.now,
+        `tablecards:protected-draft:v1:${draftAccount}:${initialProjectId ?? 'new'}`,
+      ),
+    [draftAccount, initialProjectId],
   );
-  const draftStore = useMemo(() => createTableCardsDraftStore(), []);
   const restored = useRef(false);
   const wasAuthenticated = useRef(false);
   const allowNavigation = useRef(false);
   const [pastedText, setPastedText] = useState('');
+  const [validatedText, setValidatedText] = useState('');
   const [guests, setGuests] = useState<readonly GuestRow[]>([]);
   const [issues, setIssues] = useState<readonly GuestImportIssue[]>([]);
   const [fileTable, setFileTable] = useState<ParsedGuestTable | null>(null);
@@ -411,19 +483,101 @@ export function Creator({
   const [activeProjectCount, setActiveProjectCount] = useState<number | null>(
     null,
   );
-  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(1);
+  const [activeStep, setActiveStep] = useState<1 | 2 | 3>(initialStep);
   const [dirty, setDirty] = useState(false);
   const [projectUnavailable, setProjectUnavailable] = useState(false);
+  const [projectLoading, setProjectLoading] = useState(
+    Boolean(initialProjectId),
+  );
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const loadedProject = useRef<string | null>(null);
+  const fetchedLatestExport = useRef(false);
+  const aiAttempt = useRef<{ prompt: string; key: string } | null>(null);
+  const [aiRecovery, setAiRecovery] = useState(false);
+  const [aiRecoveryLoading, setAiRecoveryLoading] = useState(
+    Boolean(initialProjectId),
+  );
+  const editorRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!initialProjectId || state.status !== 'authenticated') return;
+    let cancelled = false;
+    let checked = false;
+    setAiRecoveryLoading(true);
+    void backend
+      .getPendingAiBatch(initialProjectId)
+      .then((pending) => {
+        checked = true;
+        if (cancelled || !pending) return;
+        aiAttempt.current = {
+          prompt: pending.prompt,
+          key: pending.idempotencyKey,
+        };
+        setAiPrompt(pending.prompt);
+        setAiRecovery(true);
+        setNotice({
+          kind: 'info',
+          message:
+            'An unfinished background batch was recovered. Retry this same batch to retrieve its choices without starting another.',
+        });
+      })
+      .catch(() => {
+        if (!cancelled)
+          setNotice({
+            kind: 'error',
+            message:
+              'Unfinished background batches could not be checked. Reload before starting a new batch.',
+          });
+      })
+      .finally(() => {
+        if (!cancelled && checked) setAiRecoveryLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [backend, initialProjectId, state.status]);
+  useEffect(() => {
+    const heading = editorRef.current?.querySelector<HTMLElement>(
+      `[data-creator-step="${activeStep}"] h3`,
+    );
+    heading?.focus({ preventScroll: true });
+  }, [activeStep]);
   const blocker = useBlocker(() => dirty && !allowNavigation.current);
 
   useEffect(() => {
     if (blocker.state !== 'blocked') return;
     if (window.confirm('Discard the unsaved changes to this project?')) {
+      draftStore.clear();
       blocker.proceed();
     } else {
       blocker.reset();
     }
-  }, [blocker]);
+  }, [blocker, draftStore]);
+
+  useEffect(() => {
+    const beforeSwitch = (event: Event) => {
+      if (
+        !dirty ||
+        window.confirm('Discard unsaved changes before switching workspaces?')
+      ) {
+        draftStore.clear();
+        return;
+      }
+      event.preventDefault();
+    };
+    window.addEventListener(ACCOUNT_CHANGE_EVENT, beforeSwitch);
+    return () => window.removeEventListener(ACCOUNT_CHANGE_EVENT, beforeSwitch);
+  }, [dirty, draftStore]);
+
+  useEffect(() => {
+    onDraftStateChange?.({
+      dirty,
+      unavailable: projectUnavailable,
+      loading: projectLoading,
+    });
+  }, [dirty, onDraftStateChange, projectLoading, projectUnavailable]);
+  useEffect(() => {
+    if (dirty) setDownloadUrl(null);
+  }, [dirty, pastedText, title, designId, customDesign, layoutId]);
 
   useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
@@ -437,19 +591,89 @@ export function Creator({
   useEffect(() => {
     if (restored.current) return;
     restored.current = true;
-    const draft = draftStore.read();
+    if (initialProjectId) return;
+    const visitorStore = createTableCardsDraftStore(
+      undefined,
+      Date.now,
+      'tablecards:protected-draft:v1:visitor:new',
+    );
+    const visitorDraft =
+      draftAccount !== 'visitor' ? visitorStore.read() : null;
+    const draft =
+      draftStore.read() ?? visitorDraft ?? createTableCardsDraftStore().read();
     if (!draft) return;
     setTitle(draft.title);
     setDesignId(draft.designId);
     setLayoutId(draft.layoutId);
     setGuests(draft.guests);
-    setActiveStep(3);
+    setPastedText(draft.pastedText ?? guestRowsToText(draft.guests));
+    setValidatedText(draft.validatedText ?? guestRowsToText(draft.guests));
+    setCustomDesign(draft.customDesign ?? null);
+    setActiveStep(draft.activeStep ?? 3);
+    if (
+      draft.pastedText?.includes('\t') &&
+      draft.pastedText !== draft.validatedText
+    ) {
+      setFileTable(parsePastedGrid(draft.pastedText));
+      setActiveStep(1);
+    }
     setDirty(true);
     setNotice({
       kind: 'info',
-      message: 'Your guest list was restored after sign-in.',
+      message:
+        visitorDraft && draft === visitorDraft
+          ? 'Your guest list was restored after sign-in.'
+          : 'Your draft was restored in this tab.',
     });
-  }, [draftStore]);
+    if (draftAccount !== 'visitor') visitorStore.clear();
+    createTableCardsDraftStore().clear();
+  }, [draftAccount, draftStore, initialProjectId]);
+
+  useEffect(() => {
+    if (!dirty || projectLoading || projectUnavailable) return;
+    try {
+      draftStore.write({
+        title,
+        designId,
+        layoutId,
+        guests,
+        pastedText,
+        validatedText,
+        activeStep,
+        ...(customDesign
+          ? {
+              customDesign: {
+                kind: customDesign.kind,
+                reference: customDesign.reference,
+                label: customDesign.label,
+                ...(customDesign.nameStyle
+                  ? { nameStyle: customDesign.nameStyle }
+                  : {}),
+              },
+            }
+          : {}),
+      });
+    } catch {
+      setNotice({
+        kind: 'info',
+        message:
+          'This browser could not retain your draft on reload. Keep this tab open and save before leaving.',
+      });
+    }
+  }, [
+    activeStep,
+    customDesign,
+    designId,
+    dirty,
+    draftStore,
+    guests,
+    layoutId,
+    pastedText,
+    projectLoading,
+    projectUnavailable,
+    title,
+    validatedText,
+  ]);
 
   useEffect(() => {
     if (state.status === 'authenticated') wasAuthenticated.current = true;
@@ -463,6 +687,11 @@ export function Creator({
       setAssets([]);
       setGeneratedChoices([]);
       setActiveProjectCount(null);
+      setGuests([]);
+      setPastedText('');
+      setValidatedText('');
+      setCustomDesign(null);
+      setDirty(false);
       wasAuthenticated.current = false;
     }
   }, [draftStore, state.status]);
@@ -523,7 +752,12 @@ export function Creator({
 
   useEffect(() => {
     if (state.status !== 'authenticated' || !initialProjectId) return;
+    if (loadedProject.current === initialProjectId) return;
     let cancelled = false;
+    setProjectLoading(true);
+    setProjectUnavailable(false);
+    setDownloadUrl(null);
+    fetchedLatestExport.current = false;
     void backend
       .getProject(initialProjectId)
       .then((loaded) => {
@@ -537,19 +771,34 @@ export function Creator({
           return;
         }
         setProjectUnavailable(false);
+        loadedProject.current = initialProjectId;
         setSavedProject(loaded);
-        setTitle(loaded.title);
-        setGuests(loaded.guests);
-        setPastedText(
-          loaded.guests
-            .map((guest) =>
-              [guest.name, guest.table, guest.marker]
-                .filter((value) => value !== undefined)
-                .join('\t'),
-            )
-            .join('\n'),
-        );
-        setDirty(false);
+        const draft = draftStore.read();
+        setTitle(draft?.title ?? loaded.title);
+        setGuests(draft?.guests ?? loaded.guests);
+        const text = draft?.pastedText ?? guestRowsToText(loaded.guests);
+        setPastedText(text);
+        setValidatedText(draft?.validatedText ?? text);
+        setDirty(Boolean(draft));
+        if (draft) {
+          setDesignId(draft.designId);
+          setLayoutId(draft.layoutId);
+          setCustomDesign(draft.customDesign ?? null);
+          setActiveStep(draft.activeStep ?? 1);
+          if (
+            draft.pastedText?.includes('\t') &&
+            draft.pastedText !== draft.validatedText
+          ) {
+            setFileTable(parsePastedGrid(draft.pastedText));
+            setActiveStep(1);
+          }
+          setNotice({
+            kind: 'info',
+            message:
+              'Your unsaved edits were restored. Save them before exporting.',
+          });
+          return;
+        }
         if (
           loaded.designKind === 'predefined' &&
           loaded.designId in DESIGN_CATALOG
@@ -578,11 +827,43 @@ export function Creator({
           });
           setProjectUnavailable(true);
         }
+      })
+      .finally(() => {
+        if (!cancelled) setProjectLoading(false);
       });
     return () => {
       cancelled = true;
     };
-  }, [backend, initialProjectId, snapshot.generation, state.status]);
+  }, [
+    backend,
+    draftStore,
+    initialProjectId,
+    snapshot.generation,
+    state.status,
+  ]);
+
+  useEffect(() => {
+    if (
+      !initialProjectId ||
+      projectLoading ||
+      projectUnavailable ||
+      dirty ||
+      fetchedLatestExport.current
+    )
+      return;
+    fetchedLatestExport.current = true;
+    let cancelled = false;
+    void backend
+      .getLatestExport(initialProjectId)
+      .then((latest) => {
+        if (!cancelled && latest?.status === 'ready' && latest.storageUrl)
+          setDownloadUrl(latest.storageUrl);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [backend, dirty, initialProjectId, projectLoading, projectUnavailable]);
 
   useEffect(() => {
     if (!savedProject || savedProject.designKind === 'predefined') return;
@@ -607,6 +888,8 @@ export function Creator({
         message: `${result.guests.length} guest${result.guests.length === 1 ? '' : 's'} ready to preview.`,
       });
     } else {
+      setGuests([]);
+      setValidatedText('');
       setNotice({
         kind: 'error',
         message: 'Fix the highlighted guest-list issues before continuing.',
@@ -624,6 +907,7 @@ export function Creator({
       return;
     }
     useImportResult(normalizePastedText(pastedText));
+    setValidatedText(pastedText);
   };
 
   const continueFromGuestList = () => {
@@ -631,19 +915,19 @@ export function Creator({
       previewPastedText();
       return;
     }
-    if (pastedText.trim().length === 0 && guests.length > 0) {
-      setActiveStep(2);
-      return;
-    }
     const result = normalizePastedText(pastedText);
     useImportResult(result);
-    if (result.ok) setActiveStep(2);
+    if (result.ok) {
+      setValidatedText(pastedText);
+      setActiveStep(2);
+    }
   };
 
   const loadSampleGuests = () => {
     setPastedText(SAMPLE_GUESTS);
     setFileTable(null);
     useImportResult(normalizePastedText(SAMPLE_GUESTS));
+    setValidatedText(SAMPLE_GUESTS);
   };
 
   const handleFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -652,7 +936,16 @@ export function Creator({
     if (!file) return;
     setBusy('Reading spreadsheet');
     try {
-      setFileTable(await parseGuestFile(file));
+      const table = await parseGuestFile(file);
+      setFileTable(table);
+      setPastedText(
+        table.rows
+          .map((row) => row.map((cell) => String(cell ?? '')).join('\t'))
+          .join('\n'),
+      );
+      setDirty(true);
+      setGuests([]);
+      setValidatedText('');
       setNotice(null);
     } catch (error) {
       setNotice({
@@ -668,11 +961,44 @@ export function Creator({
   };
 
   const preserveAndSignIn = () => {
-    if (guests.length > 0)
-      draftStore.write({ title, designId, layoutId, guests });
+    try {
+      draftStore.write({
+        title,
+        designId,
+        layoutId,
+        guests,
+        pastedText,
+        validatedText,
+        activeStep,
+        ...(customDesign
+          ? {
+              customDesign: {
+                kind: customDesign.kind,
+                reference: customDesign.reference,
+                label: customDesign.label,
+                ...(customDesign.nameStyle
+                  ? { nameStyle: customDesign.nameStyle }
+                  : {}),
+              },
+            }
+          : {}),
+      });
+    } catch {
+      setNotice({
+        kind: 'error',
+        message:
+          'Your draft could not be retained for sign-in. Save a copy of the guest list, then try again.',
+      });
+      return;
+    }
     allowNavigation.current = true;
     window.location.assign(
-      client.getSignInUrl({ returnPath: '/create', intent: 'continue' }),
+      client.getSignInUrl({
+        returnPath: initialProjectId
+          ? `/projects/${initialProjectId}`
+          : '/create',
+        intent: 'continue',
+      }),
     );
   };
 
@@ -713,16 +1039,82 @@ export function Creator({
     premiumAccessUnverified ||
     premiumDesignUnavailable ||
     activeProjectLimitReached ||
-    projectUnavailable;
+    projectUnavailable ||
+    projectLoading;
+
+  const currentInput = useMemo(
+    () =>
+      pastedText === validatedText
+        ? guests
+        : pastedText.includes('\t')
+          ? []
+          : (() => {
+              const parsed = normalizePastedText(pastedText);
+              return parsed.ok ? parsed.guests : [];
+            })(),
+    [guests, pastedText, validatedText],
+  );
+  const fitIssues = useMemo(
+    () =>
+      preflightRender({
+        guests: currentInput,
+        designId,
+        layoutId,
+        ...(customDesign?.nameStyle
+          ? { nameStyle: customDesign.nameStyle }
+          : {}),
+      }),
+    [currentInput, customDesign?.nameStyle, designId, layoutId],
+  );
+  const resolveCurrentGuests = () => {
+    if (fileTable) {
+      setActiveStep(1);
+      setNotice({
+        kind: 'error',
+        message: 'Confirm the spreadsheet columns before saving or exporting.',
+      });
+      return null;
+    }
+    if (pastedText === validatedText && guests.length > 0) return guests;
+    if (pastedText.includes('\t')) {
+      previewPastedText();
+      setActiveStep(1);
+      return null;
+    }
+    const result = normalizePastedText(pastedText);
+    useImportResult(result);
+    if (!result.ok) {
+      setActiveStep(1);
+      return null;
+    }
+    setValidatedText(pastedText);
+    return result.guests;
+  };
 
   const save = async (navigateAfterSave = true) => {
-    if (guests.length === 0) {
+    const currentGuests = resolveCurrentGuests();
+    if (!currentGuests) return null;
+    if (currentGuests.length === 0) {
       setNotice({
         kind: 'error',
         message: 'Add at least one guest before saving.',
       });
       return null;
     }
+    const currentFitIssues = preflightRender({
+      guests: currentGuests,
+      designId,
+      layoutId,
+      ...(customDesign?.nameStyle ? { nameStyle: customDesign.nameStyle } : {}),
+    });
+    if (currentFitIssues.length) {
+      setNotice({
+        kind: 'error',
+        message: `${currentFitIssues[0]?.message ?? 'A field does not fit.'} Shorten it or choose a smaller name size.`,
+      });
+      return null;
+    }
+    if (projectLoading || projectUnavailable) return null;
     if (premiumAccessPending || premiumAccessUnverified) {
       setNotice({
         kind: 'info',
@@ -753,7 +1145,7 @@ export function Creator({
       const saved = await backend.saveProject({
         ...(savedProject === null ? {} : { projectId: savedProject.id }),
         title: title.trim() || 'Untitled event',
-        guests,
+        guests: currentGuests,
         design: customDesign
           ? {
               kind: customDesign.kind,
@@ -764,8 +1156,9 @@ export function Creator({
             }
           : ({ kind: 'predefined', reference: designId } as const),
       });
-      const project = { ...saved, guests };
+      const project = { ...saved, guests: currentGuests };
       setSavedProject(project);
+      setDownloadUrl(null);
       setDirty(false);
       draftStore.clear();
       setNotice({
@@ -789,7 +1182,8 @@ export function Creator({
   };
 
   const exportPdf = async () => {
-    const project = savedProject ?? (await save(false));
+    // Always validate and persist the current editor before requesting its PDF.
+    const project = await save(false);
     if (!project) return;
     setBusy('Preparing print-ready PDF');
     setDownloadUrl(null);
@@ -803,6 +1197,10 @@ export function Creator({
             kind: 'success',
             message: 'Your PDF is ready. Print it at Actual Size / 100%.',
           });
+          if (!initialProjectId) {
+            allowNavigation.current = true;
+            onProjectSaved?.(project);
+          }
           return;
         }
         if (exportState?.status === 'failed')
@@ -816,20 +1214,6 @@ export function Creator({
       setNotice({
         kind: 'error',
         message: safeProductMessage(error, 'The PDF could not be prepared.'),
-      });
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const createAccount = async () => {
-    setBusy('Creating account');
-    try {
-      await client.createAccount('My TableCards account');
-    } catch (error) {
-      setNotice({
-        kind: 'error',
-        message: safeProductMessage(error, 'The account could not be created.'),
       });
     } finally {
       setBusy(null);
@@ -875,20 +1259,39 @@ export function Creator({
 
   const generateProjectBackgrounds = async () => {
     if (!initialProjectId) return;
+    if (
+      !aiAttempt.current ||
+      (!aiRecovery && aiAttempt.current.prompt !== aiPrompt)
+    )
+      aiAttempt.current = { prompt: aiPrompt, key: crypto.randomUUID() };
+    const attempt = aiAttempt.current;
     setBusy('Generating four backgrounds');
     setNotice(null);
     try {
       const batch = await backend.generateAi({
-        prompt: aiPrompt,
-        idempotencyKey: crypto.randomUUID(),
+        prompt: attempt.prompt,
+        idempotencyKey: attempt.key,
         projectId: initialProjectId,
       });
       if (batch.status !== 'ready' || !batch.assets?.length) {
+        if (batch.status !== 'failed') {
+          setAiRecovery(true);
+          setNotice({
+            kind: 'info',
+            message:
+              'This batch is still completing. Retry this same batch to recover its choices; do not start another.',
+          });
+          return;
+        }
+        aiAttempt.current = null;
+        setAiRecovery(false);
         throw new Error(
           batch.errorMessage ?? 'The image provider did not finish the batch.',
         );
       }
       setGeneratedChoices(batch.assets);
+      aiAttempt.current = null;
+      setAiRecovery(false);
       const [nextAccess, nextAssets] = await Promise.all([
         backend.getCurrentAccess(),
         backend.listAssets(),
@@ -901,6 +1304,7 @@ export function Creator({
           'Four background choices are ready. Choose one for this event.',
       });
     } catch (error) {
+      setAiRecovery(aiAttempt.current !== null);
       const nextAccess = await backend.getCurrentAccess().catch(() => null);
       if (nextAccess) setAccess(nextAccess);
       setNotice({
@@ -915,8 +1319,16 @@ export function Creator({
     }
   };
 
+  useEffect(() => {
+    const signIn = () => preserveAndSignIn();
+    window.addEventListener('tablecards:creator-sign-in', signIn);
+    return () =>
+      window.removeEventListener('tablecards:creator-sign-in', signIn);
+  });
+
   return (
     <section
+      ref={editorRef}
       className="creator-section"
       id="creator"
       aria-labelledby="creator-title"
@@ -929,9 +1341,69 @@ export function Creator({
           Guest-list content stays in this tab until you choose to save or
           export.
         </p>
+        <p className="save-state" role="status">
+          {projectLoading
+            ? 'Loading saved project…'
+            : projectUnavailable
+              ? 'Project unavailable in this workspace'
+              : dirty
+                ? 'Unsaved changes — save or export to keep this version'
+                : savedProject
+                  ? 'Saved to this workspace'
+                  : 'Not saved yet'}
+        </p>
+        <button
+          className="secondary-button complete-preview-action"
+          type="button"
+          disabled={currentInput.length === 0 || Boolean(fileTable)}
+          onClick={() => setPreviewOpen(true)}
+        >
+          Open complete preview
+        </button>
+        {currentInput.length > 0 && fitIssues.length === 0 ? (
+          <p className="preview-count">
+            <strong>{currentInput.length}</strong> cards ·{' '}
+            <strong>
+              {1 +
+                Math.ceil(
+                  currentInput.length / PRINT_LAYOUTS[layoutId].cardsPerSheet,
+                )}
+            </strong>{' '}
+            PDF pages including scale check
+          </p>
+        ) : null}
       </div>
+      {busy ? (
+        <p className="busy creator-feedback" role="status">
+          <span />
+          {busy}…
+        </p>
+      ) : null}
+      {notice ? (
+        <p
+          className={`notice ${notice.kind} creator-feedback`}
+          role={notice.kind === 'error' ? 'alert' : 'status'}
+        >
+          {notice.message}
+        </p>
+      ) : null}
+      {fitIssues.length ? (
+        <p className="notice error creator-feedback" role="alert">
+          {fitIssues[0]?.message} Shorten this field or choose a smaller name
+          size before saving or exporting.
+        </p>
+      ) : null}
+      {projectUnavailable ? (
+        <p className="notice info">
+          <Link to="/projects">Return to Projects</Link> to open a project in
+          this workspace.
+        </p>
+      ) : null}
       <div className="creator-layout">
-        <div className="creator-controls">
+        <div
+          className="creator-controls"
+          inert={projectLoading || projectUnavailable || busy !== null}
+        >
           <nav className="creator-step-navigation" aria-label="Creator steps">
             {([1, 2, 3] as const).map((step) => (
               <button
@@ -952,7 +1424,7 @@ export function Creator({
           >
             <span className="step-number">1</span>
             <div className="step-heading">
-              <h3>Add your guest list</h3>
+              <h3 tabIndex={-1}>Add your guest list</h3>
               <span>up to 500 rows</span>
             </div>
             <div className="guest-list-heading">
@@ -973,6 +1445,8 @@ export function Creator({
               placeholder={GUEST_LIST_PLACEHOLDER}
               onChange={(event) => {
                 setPastedText(event.target.value);
+                setFileTable(null);
+                setIssues([]);
                 setDirty(true);
               }}
               rows={8}
@@ -1001,14 +1475,24 @@ export function Creator({
                 table={fileTable}
                 onCancel={() => setFileTable(null)}
                 onApply={(mapping) => {
-                  useImportResult(applyGuestMapping(fileTable, mapping));
-                  setFileTable(null);
-                  setActiveStep(2);
+                  const result = applyGuestMapping(fileTable, mapping);
+                  useImportResult(result);
+                  if (result.ok) {
+                    const text = guestRowsToText(result.guests);
+                    setPastedText(text);
+                    setValidatedText(text);
+                    setFileTable(null);
+                    setActiveStep(2);
+                  }
                 }}
               />
             ) : null}
             {issues.length > 0 ? (
-              <ul className="issue-list" aria-label="Import issues">
+              <ul
+                className="issue-list"
+                aria-label="Import issues"
+                role="alert"
+              >
                 {issues.slice(0, 8).map((issue, index) => (
                   <li key={`${issue.code}-${issue.row ?? 0}-${index}`}>
                     {issue.message}
@@ -1034,7 +1518,7 @@ export function Creator({
           >
             <span className="step-number">2</span>
             <div className="step-heading">
-              <h3>Choose the look</h3>
+              <h3 tabIndex={-1}>Choose the look</h3>
               <span>three designs are free</span>
             </div>
             <label htmlFor="project-title">Event name</label>
@@ -1174,6 +1658,7 @@ export function Creator({
                         rows={3}
                         maxLength={400}
                         value={aiPrompt}
+                        disabled={aiRecovery || aiRecoveryLoading}
                         onChange={(event) => setAiPrompt(event.target.value)}
                       />
                       <button
@@ -1181,15 +1666,25 @@ export function Creator({
                         type="button"
                         disabled={
                           busy !== null ||
-                          (access.aiBackgroundBatchesRemaining ?? 0) < 1
+                          aiRecoveryLoading ||
+                          (!aiRecovery &&
+                            (access.aiBackgroundBatchesRemaining ?? 0) < 1)
                         }
                         onClick={() => void generateProjectBackgrounds()}
                       >
-                        Generate four choices
+                        {aiRecovery
+                          ? 'Retry this background batch'
+                          : 'Generate four choices'}
                       </button>
                     </div>
                   </div>
                 )}
+                {initialProjectId && access.artworkUploadEnabled ? (
+                  <p className="muted">
+                    Static PNG (8-bit or lower) or JPEG, unrotated 7:4. Minimum
+                    1050 × 600; maximum 2 megapixels and 10 MiB.
+                  </p>
+                ) : null}
                 {generatedChoices.length > 0 ? (
                   <div
                     className="asset-grid"
@@ -1279,6 +1774,99 @@ export function Creator({
                 </button>
               </p>
             ) : null}
+            {customDesign && access?.artworkUploadEnabled ? (
+              <fieldset className="name-style-fields">
+                <legend>Name styling for this event</legend>
+                <label>
+                  Font
+                  <select
+                    value={customDesign.nameStyle?.font ?? 'sans'}
+                    onChange={(event) => {
+                      setCustomDesign({
+                        ...customDesign,
+                        nameStyle: {
+                          color: '#243026',
+                          position: 'center',
+                          size: 'medium',
+                          ...customDesign.nameStyle,
+                          font: event.target.value as NameStyle['font'],
+                        },
+                      });
+                      setDirty(true);
+                    }}
+                  >
+                    <option value="sans">Clean sans</option>
+                    <option value="serif">Classic serif</option>
+                  </select>
+                </label>
+                <label>
+                  Size
+                  <select
+                    value={customDesign.nameStyle?.size ?? 'medium'}
+                    onChange={(event) => {
+                      setCustomDesign({
+                        ...customDesign,
+                        nameStyle: {
+                          color: '#243026',
+                          position: 'center',
+                          font: 'sans',
+                          ...customDesign.nameStyle,
+                          size: event.target.value as NameStyle['size'],
+                        },
+                      });
+                      setDirty(true);
+                    }}
+                  >
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </label>
+                <label>
+                  Position
+                  <select
+                    value={customDesign.nameStyle?.position ?? 'center'}
+                    onChange={(event) => {
+                      setCustomDesign({
+                        ...customDesign,
+                        nameStyle: {
+                          color: '#243026',
+                          size: 'medium',
+                          font: 'sans',
+                          ...customDesign.nameStyle,
+                          position: event.target.value as NameStyle['position'],
+                        },
+                      });
+                      setDirty(true);
+                    }}
+                  >
+                    <option value="top">Top</option>
+                    <option value="center">Center</option>
+                    <option value="bottom">Bottom</option>
+                  </select>
+                </label>
+                <label>
+                  Color
+                  <input
+                    type="color"
+                    value={customDesign.nameStyle?.color ?? '#243026'}
+                    onChange={(event) => {
+                      setCustomDesign({
+                        ...customDesign,
+                        nameStyle: {
+                          position: 'center',
+                          size: 'medium',
+                          font: 'sans',
+                          ...customDesign.nameStyle,
+                          color: event.target.value,
+                        },
+                      });
+                      setDirty(true);
+                    }}
+                  />
+                </label>
+              </fieldset>
+            ) : null}
             <button
               className="mobile-step-next button"
               type="button"
@@ -1294,10 +1882,10 @@ export function Creator({
           >
             <span className="step-number">3</span>
             <div className="step-heading">
-              <h3>Save and export</h3>
+              <h3 tabIndex={-1}>Save and export</h3>
               <span>PDF only — you print it</span>
             </div>
-            <AuthGate onCreateAccount={createAccount} />
+            <AuthGate />
             {activeProjectLimitReached ? (
               <p className="notice info save-access-note" role="status">
                 Your {access?.offerName ?? 'current'} plan allows{' '}
@@ -1332,7 +1920,10 @@ export function Creator({
                 className="secondary-button"
                 type="button"
                 disabled={
-                  busy !== null || guests.length === 0 || saveUnavailable
+                  busy !== null ||
+                  pastedText.trim().length === 0 ||
+                  saveUnavailable ||
+                  fitIssues.length > 0
                 }
                 onClick={() => void save(true)}
               >
@@ -1342,13 +1933,16 @@ export function Creator({
                 className="button"
                 type="button"
                 disabled={
-                  busy !== null || guests.length === 0 || saveUnavailable
+                  busy !== null ||
+                  pastedText.trim().length === 0 ||
+                  saveUnavailable ||
+                  fitIssues.length > 0
                 }
                 onClick={() => void exportPdf()}
               >
                 Create print-ready PDF
               </button>
-              {downloadUrl ? (
+              {downloadUrl && !dirty ? (
                 <a
                   className="button success-button"
                   href={downloadUrl}
@@ -1359,25 +1953,12 @@ export function Creator({
                 </a>
               ) : null}
             </div>
-            {busy ? (
-              <p className="busy" role="status">
-                <span />
-                {busy}…
-              </p>
-            ) : null}
-            {notice ? (
-              <p
-                className={`notice ${notice.kind}`}
-                role={notice.kind === 'error' ? 'alert' : 'status'}
-              >
-                {notice.message}
-              </p>
-            ) : null}
           </div>
         </div>
         <div className="creator-preview">
           <SheetPreview
-            guests={guests}
+            showSummary={false}
+            guests={currentInput}
             designId={designId}
             layoutId={layoutId}
             {...(customDesign?.artworkUrl
@@ -1397,6 +1978,22 @@ export function Creator({
           </div>
         </div>
       </div>
+      {previewOpen ? (
+        <PreviewDialog onClose={() => setPreviewOpen(false)}>
+          <SheetPreview
+            showSummary={false}
+            guests={currentInput}
+            designId={designId}
+            layoutId={layoutId}
+            {...(customDesign?.artworkUrl
+              ? { backgroundImageHref: customDesign.artworkUrl }
+              : {})}
+            {...(customDesign?.nameStyle
+              ? { nameStyle: customDesign.nameStyle }
+              : {})}
+          />
+        </PreviewDialog>
+      ) : null}
     </section>
   );
 }

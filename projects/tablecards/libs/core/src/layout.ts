@@ -737,7 +737,9 @@ export function renderManifestPageToSvg(
           ? ''
           : ` transform="rotate(180 ${command.centerX} ${y})"`;
       const family =
-        command.fontFamily === 'serif' ? 'Georgia, serif' : manifest.fontFamily;
+        command.fontFamily === 'serif'
+          ? 'Noto Serif, serif'
+          : manifest.fontFamily;
       return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
     })
     .join('');

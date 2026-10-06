@@ -2,6 +2,7 @@ import type { InvitationPreview } from '@tofler/bff-auth/core';
 import { BffAuthLink, useBffAuth } from '@tofler/bff-auth/react';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { safeProductMessage } from '../product-error';
 
 export function Component() {
   const { invitationToken } = useParams();
@@ -10,19 +11,31 @@ export function Component() {
   const [preview, setPreview] = useState<InvitationPreview | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
+    let cancelled = false;
+    setError(null);
+    setPreview(null);
     if (!invitationToken) {
       setError('This invitation link is incomplete.');
       return;
     }
     void client
       .inspectInvitation(invitationToken)
-      .then(setPreview)
-      .catch(() =>
-        setError('This invitation is invalid, expired or no longer available.'),
-      );
-  }, [client, invitationToken]);
+      .then((next) => {
+        if (!cancelled) setPreview(next);
+      })
+      .catch(() => {
+        if (!cancelled)
+          setError(
+            'This invitation is invalid, expired or no longer available. Ask the owner for a new link, or retry if your connection was interrupted.',
+          );
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [attempt, client, invitationToken]);
 
   const accept = async () => {
     if (!invitationToken) return;
@@ -33,9 +46,7 @@ export function Component() {
       navigate('/projects', { replace: true });
     } catch (caught) {
       setError(
-        caught instanceof Error
-          ? caught.message
-          : 'The invitation could not be accepted.',
+        safeProductMessage(caught, 'The invitation could not be accepted.'),
       );
     } finally {
       setBusy(false);
@@ -43,7 +54,7 @@ export function Component() {
   };
 
   return (
-    <main className="invitation-page">
+    <main className="invitation-page" id="public-content" tabIndex={-1}>
       <section className="invitation-card">
         <p className="eyebrow">TableCards invitation</p>
         <h1>
@@ -60,9 +71,29 @@ export function Component() {
         {error ? (
           <p className="notice error" role="alert">
             {error}
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={busy}
+              onClick={() => setAttempt((current) => current + 1)}
+            >
+              Retry invitation
+            </button>
           </p>
         ) : null}
         {!preview && !error ? <p>Checking the invitation…</p> : null}
+        {state.status === 'recoverable_error' ? (
+          <div className="notice error" role="alert">
+            <p>Your session could not be checked. Retry it before accepting.</p>
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => void client.bootstrap()}
+            >
+              Retry session
+            </button>
+          </div>
+        ) : null}
         {preview?.state === 'pending' && state.status === 'signed_out' ? (
           <BffAuthLink
             className="button"

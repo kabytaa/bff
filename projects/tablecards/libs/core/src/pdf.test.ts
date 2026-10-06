@@ -1,4 +1,6 @@
 import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { deflateSync } from 'node:zlib';
 
 import { PDFDocument } from 'pdf-lib';
@@ -16,6 +18,7 @@ import {
   getFaceBackgroundPlacement,
   renderTableCardsPdf,
 } from './pdf';
+import { TABLECARDS_FONTS } from './fonts';
 
 const TEST_JPEG = Uint8Array.from(
   Buffer.from(
@@ -68,6 +71,94 @@ function createSolidPng(width: number, height: number): Uint8Array {
 }
 
 describe('deterministic PDF renderer', () => {
+  it('renders the paid 500-card ceiling with embedded fonts within private-file response bounds', async () => {
+    const fontBytes = new Uint8Array(
+      await readFile(
+        resolve(
+          'projects/tablecards/workloads/web/public',
+          `.${TABLECARDS_FONTS.sans.publicPath}`,
+        ),
+      ),
+    );
+    const serifFontBytes = new Uint8Array(
+      await readFile(
+        resolve(
+          'projects/tablecards/workloads/web/public',
+          `.${TABLECARDS_FONTS.serif.publicPath}`,
+        ),
+      ),
+    );
+    const bytes = await renderTableCardsPdf(
+      {
+        guests: Array.from({ length: 500 }, (_, index) => ({
+          name: `Łukasz Dvořák ${index + 1}`,
+          table: String((index % 50) + 1),
+        })),
+        designId: 'garden-sage',
+      },
+      { fontBytes, serifFontBytes, fontFamilyName: 'Noto Sans' },
+    );
+    expect((await PDFDocument.load(bytes)).getPageCount()).toBe(126);
+    expect(bytes.byteLength).toBeLessThan(19 * 1024 * 1024);
+  });
+  it.each(['sans', 'serif'] as const)(
+    'embeds verified Noto %s with broader Latin and combining accents',
+    async (font) => {
+      const fontBytes = new Uint8Array(
+        await readFile(
+          resolve(
+            'projects/tablecards/workloads/web/public',
+            `.${TABLECARDS_FONTS.sans.publicPath}`,
+          ),
+        ),
+      );
+      const serifFontBytes = new Uint8Array(
+        await readFile(
+          resolve(
+            'projects/tablecards/workloads/web/public',
+            `.${TABLECARDS_FONTS.serif.publicPath}`,
+          ),
+        ),
+      );
+      expect(createHash('sha256').update(fontBytes).digest('hex')).toBe(
+        TABLECARDS_FONTS.sans.sha256,
+      );
+      expect(createHash('sha256').update(serifFontBytes).digest('hex')).toBe(
+        TABLECARDS_FONTS.serif.sha256,
+      );
+      const input = {
+        guests: [
+          { name: 'Łukasz Dvořák' },
+          { name: 'Ștefan İpek' },
+          { name: 'Jose\u0301 Garci\u0301a' },
+        ],
+        designId: 'garden-sage' as const,
+        nameStyle: {
+          font,
+          position: 'center' as const,
+          color: '#233022',
+          size: 'medium' as const,
+        },
+      };
+      const options = {
+        fontBytes,
+        serifFontBytes,
+        fontFamilyName: 'Noto Sans',
+      };
+      const bytes = await renderTableCardsPdf(input, options);
+      expect(await renderTableCardsPdf(input, options)).toEqual(bytes);
+      expect((await PDFDocument.load(bytes)).getPageCount()).toBe(2);
+      expect(Buffer.from(bytes).toString('latin1')).toContain(
+        font === 'sans' ? '/NotoSans' : '/NotoSerif',
+      );
+      await expect(
+        renderTableCardsPdf(
+          { ...input, guests: [{ name: 'Guest 😀' }] },
+          options,
+        ),
+      ).rejects.toThrow();
+    },
+  );
   it('converts lower-left render paths for pdf-lib SVG drawing', () => {
     expect(
       convertLogicalPathToPdfSvgPath(

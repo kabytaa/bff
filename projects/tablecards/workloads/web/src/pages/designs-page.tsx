@@ -1,10 +1,15 @@
-import { DESIGN_CATALOG, DESIGN_IDS } from '@tablecards/core';
+import {
+  DESIGN_CATALOG,
+  DESIGN_IDS,
+  renderDesignFaceToSvg,
+} from '@tablecards/core';
 import { useBffAuth } from '@tofler/bff-auth/react';
 import {
   type ChangeEvent,
   type FormEvent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -15,6 +20,7 @@ import type {
   PresetStyle,
 } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
+import { safeProductMessage } from '../product-error';
 
 const defaultStyle: PresetStyle = {
   displayName: 'My reusable design',
@@ -25,7 +31,10 @@ const defaultStyle: PresetStyle = {
 };
 
 function message(error: unknown) {
-  return error instanceof Error ? error.message : 'The design action failed.';
+  return safeProductMessage(
+    error,
+    'The design action could not be completed. Please try again.',
+  );
 }
 
 function StyleFields({
@@ -120,25 +129,55 @@ export function Component() {
     'Elegant watercolor botanicals on warm white paper',
   );
   const [notice, setNotice] = useState<string | null>(null);
+  const [noticeKind, setNoticeKind] = useState<'success' | 'error' | 'info'>(
+    'info',
+  );
+  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const aiAttempt = useRef<{ prompt: string; key: string } | null>(null);
+  const [aiRecovery, setAiRecovery] = useState(false);
+  const notify = (
+    text: string,
+    kind: 'success' | 'error' | 'info' = 'success',
+  ) => {
+    setNotice(text);
+    setNoticeKind(kind);
+  };
 
   const load = useCallback(async () => {
-    const [nextAccess, nextAssets, nextPresets] = await Promise.all([
-      backend.getCurrentAccess(),
-      backend.listAssets(),
-      backend.listPresets(),
-    ]);
-    setAccess(nextAccess);
-    setAssets(nextAssets);
-    setPresets(nextPresets);
-    setAssetId(
-      (current) =>
-        current || nextAssets.find((asset) => asset.reusable)?.id || '',
-    );
+    setLoading(true);
+    try {
+      const [nextAccess, nextAssets, nextPresets, pending] = await Promise.all([
+        backend.getCurrentAccess(),
+        backend.listAssets(),
+        backend.listPresets(),
+        backend.getPendingAiBatch(),
+      ]);
+      setAccess(nextAccess);
+      setAssets(nextAssets);
+      setPresets(nextPresets);
+      if (pending) {
+        aiAttempt.current = {
+          prompt: pending.prompt,
+          key: pending.idempotencyKey,
+        };
+        setPrompt(pending.prompt);
+        setAiRecovery(true);
+      }
+      setAssetId(
+        (current) =>
+          current || nextAssets.find((asset) => asset.reusable)?.id || '',
+      );
+    } finally {
+      setLoading(false);
+    }
   }, [backend]);
 
   useEffect(() => {
-    void load().catch((error: unknown) => setNotice(message(error)));
+    void load().catch((error: unknown) => {
+      setNotice(message(error));
+      setNoticeKind('error');
+    });
   }, [load, snapshot.generation]);
 
   const upload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,9 +189,9 @@ export function Component() {
       const asset = await backend.uploadArtwork(file);
       setAssetId(asset.publicId);
       await load();
-      setNotice('Artwork validated. You can now save it as a reusable preset.');
+      notify('Artwork validated. You can now save it as a reusable preset.');
     } catch (error) {
-      setNotice(message(error));
+      notify(message(error), 'error');
       await load().catch(() => undefined);
     } finally {
       setBusy(false);
@@ -160,23 +199,43 @@ export function Component() {
   };
 
   const generate = async () => {
+    if (
+      !aiAttempt.current ||
+      (!aiRecovery && aiAttempt.current.prompt !== prompt)
+    )
+      aiAttempt.current = { prompt, key: crypto.randomUUID() };
+    const attempt = aiAttempt.current;
     setBusy(true);
     try {
       const batch = await backend.generateAi({
-        prompt,
-        idempotencyKey: crypto.randomUUID(),
+        prompt: attempt.prompt,
+        idempotencyKey: attempt.key,
       });
       if (batch.status !== 'ready' || !batch.assets?.length) {
+        if (batch.status !== 'failed') {
+          setAiRecovery(true);
+          notify(
+            'This batch is still completing. Retry this same batch to recover its choices.',
+            'info',
+          );
+          return;
+        }
+        aiAttempt.current = null;
+        setAiRecovery(false);
         throw new Error(
           batch.errorMessage ?? 'The image provider did not finish the batch.',
         );
       }
       await load();
+      aiAttempt.current = null;
+      setAiRecovery(false);
       const first = batch.assets?.[0];
       if (first) setAssetId(first.id);
-      setNotice(`${batch.assets?.length ?? 0} background choices are ready.`);
+      notify(`${batch.assets?.length ?? 0} background choices are ready.`);
     } catch (error) {
-      setNotice(message(error));
+      setAiRecovery(aiAttempt.current !== null);
+      notify(message(error), 'error');
+      await load().catch(() => undefined);
     } finally {
       setBusy(false);
     }
@@ -189,9 +248,9 @@ export function Component() {
     try {
       await backend.createPreset(assetId, style);
       await load();
-      setNotice('Reusable preset saved.');
+      notify('Reusable preset saved.');
     } catch (error) {
-      setNotice(message(error));
+      notify(message(error), 'error');
     } finally {
       setBusy(false);
     }
@@ -210,10 +269,28 @@ export function Component() {
         </div>
       </header>
       {notice ? (
-        <p className="notice info" role="status">
+        <p
+          className={`notice ${noticeKind}`}
+          role={noticeKind === 'error' ? 'alert' : 'status'}
+        >
           {notice}
+          {noticeKind === 'error' ? (
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={busy || loading}
+              onClick={() =>
+                void load().catch((caught: unknown) =>
+                  notify(message(caught), 'error'),
+                )
+              }
+            >
+              Retry library
+            </button>
+          ) : null}
         </p>
       ) : null}
+      {loading ? <p role="status">Loading your design library…</p> : null}
 
       <section className="page-section">
         <h2>Predefined designs</h2>
@@ -224,9 +301,15 @@ export function Component() {
               design.tier === 'premium' && !access?.premiumDesignsEnabled;
             return (
               <article className="design-library-card" key={id}>
-                <div className={`design-swatch design-${id}`}>
-                  <strong>Ada Lovelace</strong>
-                </div>
+                <div
+                  className="design-swatch"
+                  aria-label={`${design.name} artwork preview`}
+                  dangerouslySetInnerHTML={{
+                    __html: renderDesignFaceToSvg(id, {
+                      backgroundImageHref: design.artwork.publicPath,
+                    }),
+                  }}
+                />
                 <h3>{design.name}</h3>
                 <p>
                   {design.tier === 'premium' ? 'Premium' : 'Included'}
@@ -258,31 +341,48 @@ export function Component() {
                 <textarea
                   id="design-ai-prompt"
                   rows={3}
-                  maxLength={500}
+                  maxLength={400}
                   value={prompt}
+                  disabled={busy || loading || aiRecovery}
                   onChange={(event) => setPrompt(event.target.value)}
                 />
                 <button
                   className="secondary-button"
                   type="button"
                   disabled={
-                    busy || (access.aiBackgroundBatchesRemaining ?? 0) < 1
+                    busy ||
+                    loading ||
+                    (!aiRecovery &&
+                      (access.aiBackgroundBatchesRemaining ?? 0) < 1)
                   }
                   onClick={() => void generate()}
                 >
-                  Generate four choices · {access.aiBackgroundBatchesRemaining}{' '}
-                  remaining
+                  {aiRecovery
+                    ? 'Retry this background batch'
+                    : `Generate four choices · ${access.aiBackgroundBatchesRemaining} remaining`}
                 </button>
               </div>
             ) : null}
           </div>
-        ) : (
+        ) : access ? (
           <p className="entitlement-callout">
             {access?.offerKey === 'event_pass'
               ? 'Event Pass artwork belongs to its saved event. Open that project to upload and use artwork.'
               : 'Custom artwork is available with Event Pass, Planner Pro and Studio.'}
           </p>
-        )}
+        ) : null}
+        {access?.artworkUploadEnabled && access.offerKey !== 'event_pass' ? (
+          <p className="muted">
+            Static PNG (8-bit or lower) or JPEG, unrotated 7:4. Minimum 1050 ×
+            600; maximum 2 megapixels and 10 MiB.
+          </p>
+        ) : null}
+        {!loading && access?.artworkUploadEnabled && assets.length === 0 ? (
+          <p className="muted">
+            No artwork yet. Upload an image or generate a background batch to
+            begin.
+          </p>
+        ) : null}
         <div className="asset-grid">
           {assets.map((asset) => (
             <article key={asset.id}>
@@ -298,7 +398,12 @@ export function Component() {
                 {asset.source === 'ai' ? 'AI background' : 'Uploaded artwork'}
               </p>
               {asset.reusable ? (
-                <button type="button" onClick={() => setAssetId(asset.id)}>
+                <button
+                  className="secondary-button"
+                  type="button"
+                  aria-pressed={assetId === asset.id}
+                  onClick={() => setAssetId(asset.id)}
+                >
                   Use for preset
                 </button>
               ) : (
@@ -311,11 +416,11 @@ export function Component() {
 
       <section className="page-section">
         <h2>Reusable presets</h2>
-        {!access?.reusablePresetsEnabled ? (
+        {access && !access.reusablePresetsEnabled ? (
           <p className="entitlement-callout">
             Reusable presets are included with Planner Pro and Studio.
           </p>
-        ) : (
+        ) : access?.reusablePresetsEnabled ? (
           <form
             className="preset-form"
             onSubmit={(event) => void createPreset(event)}
@@ -346,7 +451,13 @@ export function Component() {
               Save reusable preset
             </button>
           </form>
-        )}
+        ) : null}
+        {!loading && access?.reusablePresetsEnabled && presets.length === 0 ? (
+          <p className="muted">
+            No reusable presets yet. Choose validated artwork and save a preset
+            above.
+          </p>
+        ) : null}
         {access?.reusablePresetsEnabled ? (
           <div className="preset-grid">
             {presets.map((preset) => (
@@ -355,7 +466,7 @@ export function Component() {
                 preset={preset}
                 backend={backend}
                 reload={load}
-                onNotice={setNotice}
+                onNotice={notify}
               />
             ))}
           </div>
@@ -374,7 +485,10 @@ function PresetCard({
   readonly preset: DesignPreset;
   readonly backend: ReturnType<typeof useTableCardsBackend>;
   readonly reload: () => Promise<void>;
-  readonly onNotice: (message: string) => void;
+  readonly onNotice: (
+    message: string,
+    kind?: 'success' | 'error' | 'info',
+  ) => void;
 }) {
   const [editing, setEditing] = useState<PresetStyle>({
     displayName: preset.displayName,
@@ -383,6 +497,7 @@ function PresetCard({
     nameFont: preset.nameFont,
     nameSize: preset.nameSize,
   });
+  const [busy, setBusy] = useState(false);
   return (
     <article className="preset-card">
       <div
@@ -394,8 +509,8 @@ function PresetCard({
           color: editing.nameColor,
           fontFamily:
             editing.nameFont === 'serif'
-              ? 'Georgia, serif'
-              : 'Inter, sans-serif',
+              ? '"Noto Serif", Georgia, serif'
+              : '"Noto Sans", sans-serif',
           fontSize:
             editing.nameSize === 'small'
               ? '1rem'
@@ -417,26 +532,35 @@ function PresetCard({
         <StyleFields style={editing} onChange={setEditing} />
         <div className="inline-actions">
           <button
+            className="secondary-button"
             type="button"
+            disabled={busy}
             onClick={() => {
+              setBusy(true);
               void backend
                 .updatePreset(preset.id, editing)
                 .then(reload)
                 .then(() => onNotice('Preset changes saved.'))
-                .catch((error: unknown) => onNotice(message(error)));
+                .catch((error: unknown) => onNotice(message(error), 'error'))
+                .finally(() => setBusy(false));
             }}
           >
             Save changes
           </button>
           <button
+            className="secondary-button"
             type="button"
+            disabled={busy}
             onClick={() => {
-              if (window.confirm(`Delete “${preset.displayName}”?`))
+              if (window.confirm(`Delete “${preset.displayName}”?`)) {
+                setBusy(true);
                 void backend
                   .deletePreset(preset.id)
                   .then(reload)
                   .then(() => onNotice('Preset deleted.'))
-                  .catch((error: unknown) => onNotice(message(error)));
+                  .catch((error: unknown) => onNotice(message(error), 'error'))
+                  .finally(() => setBusy(false));
+              }
             }}
           >
             Delete

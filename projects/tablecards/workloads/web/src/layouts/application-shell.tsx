@@ -1,11 +1,11 @@
 import {
-  BffAccountSelector,
   BffAuthLink,
   BffSignOutButton,
   useBffAuth,
 } from '@tofler/bff-auth/react';
-import { useEffect, useRef } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { WorkspaceSelector } from '../auth-navigation';
+import { RouteFocus } from '../route-focus';
 
 const primaryNavigation = [
   { to: '/projects', label: 'Projects' },
@@ -16,6 +16,7 @@ const primaryNavigation = [
 
 function SetupRequired() {
   const { client, state } = useBffAuth();
+  const location = useLocation();
   if (state.status === 'loading') {
     return <p className="route-state">Checking your TableCards session…</p>;
   }
@@ -23,26 +24,46 @@ function SetupRequired() {
     return (
       <section className="route-state">
         <h1>Sign in to open your workspace</h1>
-        <BffAuthLink className="button" intent="login">
+        <BffAuthLink
+          className="button"
+          intent="login"
+          returnPath={`${location.pathname}${location.search}${location.hash}`}
+        >
           Log in with Google
         </BffAuthLink>
       </section>
     );
   }
   if (state.status === 'recoverable_error') {
-    return <p className="route-state notice error">{state.message}</p>;
+    return (
+      <section className="route-state">
+        <p className="notice error" role="alert">
+          We could not check your session. Try again to reopen this workspace.
+        </p>
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={() => void client.bootstrap()}
+        >
+          Retry session
+        </button>
+      </section>
+    );
   }
   if (state.status === 'onboarding_required') {
     return (
       <section className="route-state">
-        <h1>Create your TableCards account</h1>
-        <p>Your first workspace keeps projects and PDFs together.</p>
+        <h1>Recover your TableCards workspace</h1>
+        <p>
+          Your private workspace is created during sign-in. Retry setup, or open
+          your Studio invitation. Creating extra workspaces is not enabled.
+        </p>
         <button
           className="button"
           type="button"
-          onClick={() => void client.createAccount('My TableCards account')}
+          onClick={() => void client.bootstrap()}
         >
-          Create my account
+          Retry workspace setup
         </button>
       </section>
     );
@@ -50,7 +71,7 @@ function SetupRequired() {
   return (
     <section className="route-state">
       <h1>Choose a workspace</h1>
-      <BffAccountSelector className="account-select wide" label="Account" />
+      <WorkspaceSelector className="account-select wide" label="Account" />
     </section>
   );
 }
@@ -58,17 +79,6 @@ function SetupRequired() {
 export function ApplicationShell() {
   const { state } = useBffAuth();
   const location = useLocation();
-  const navigate = useNavigate();
-  const accountId = state.status === 'authenticated' ? state.accountId : null;
-  const previousAccountId = useRef(accountId);
-
-  useEffect(() => {
-    const previous = previousAccountId.current;
-    previousAccountId.current = accountId;
-    if (previous !== null && accountId !== null && previous !== accountId) {
-      navigate('/projects', { replace: true });
-    }
-  }, [accountId, navigate]);
 
   if (state.status !== 'authenticated') return <SetupRequired />;
   const account = state.customer.accounts.find(
@@ -80,6 +90,10 @@ export function ApplicationShell() {
 
   return (
     <div className="application-shell">
+      <RouteFocus />
+      <a className="skip-link" href="#application-content">
+        Skip to content
+      </a>
       <aside className="application-sidebar">
         <NavLink className="brand" to="/projects">
           <span className="brand-mark" aria-hidden="true">
@@ -95,7 +109,12 @@ export function ApplicationShell() {
           ))}
         </nav>
         <div className="sidebar-account">
-          <strong>{account?.displayName ?? 'Selected account'}</strong>
+          <strong>
+            {account?.displayName ??
+              (account?.membership.role === 'owner'
+                ? 'My workspace'
+                : 'Shared workspace')}
+          </strong>
           <span>{account?.membership.role ?? 'member'}</span>
           <BffSignOutButton className="text-button">Sign out</BffSignOutButton>
         </div>
@@ -106,12 +125,19 @@ export function ApplicationShell() {
             <p className="eyebrow">{account?.displayName}</p>
             <strong>{pageTitle}</strong>
           </div>
-          <BffAccountSelector
+          <WorkspaceSelector
             className="account-select"
             label={<span className="sr-only">Account</span>}
           />
+          <BffSignOutButton className="text-button mobile-sign-out">
+            Sign out
+          </BffSignOutButton>
         </header>
-        <main className="application-content">
+        <main
+          className="application-content"
+          id="application-content"
+          tabIndex={-1}
+        >
           <Outlet />
         </main>
       </div>

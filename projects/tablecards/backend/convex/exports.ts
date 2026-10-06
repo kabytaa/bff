@@ -7,6 +7,7 @@ import { v } from 'convex/values';
 
 import {
   PRINT_LAYOUTS,
+  TABLECARDS_FONTS,
   getDesignDefinition,
   getOfferDefinition,
   renderTableCardsPdf,
@@ -75,11 +76,11 @@ const failReference = makeFunctionReference<
   { accountId: string; exportId: string; errorCode: string },
   null
 >('exportState:failExport');
-const renderReference = makeFunctionReference<
-  'action',
-  { accountId: string; exportId: string },
-  null
->('exports:render');
+const cleanupUnattachedReference = makeFunctionReference<
+  'mutation',
+  { accountId: string; exportId: string; storageId: Id<'_storage'> },
+  ExportStatus
+>('exportState:cleanupUnattached');
 
 const client = createBffProductAccessClient({
   bffBaseUrl: tablecardsCustomerSession.bffBaseUrl,
@@ -87,6 +88,32 @@ const client = createBffProductAccessClient({
 });
 
 const MAX_PREDEFINED_ARTWORK_BYTES = 1_000_000;
+
+async function loadFont(
+  definition: (typeof TABLECARDS_FONTS)['sans' | 'serif'],
+): Promise<Uint8Array> {
+  const webOrigin = tablecardsCustomerSession.transport.webOrigins[0];
+  if (!webOrigin)
+    fail('PROVIDER_UNAVAILABLE', 'The TableCards web origin is unavailable');
+  const response = await fetch(
+    new URL(definition.publicPath, `${webOrigin}/`),
+    { redirect: 'error' },
+  );
+  if (!response.ok)
+    fail('PROVIDER_UNAVAILABLE', 'The print font is unavailable');
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  if (
+    bytes.length === 0 ||
+    bytes.length > 1_000_000 ||
+    createHash('sha256').update(bytes).digest('hex') !== definition.sha256
+  ) {
+    fail(
+      'PROVIDER_UNAVAILABLE',
+      'The print font does not match the approved distribution',
+    );
+  }
+  return bytes;
+}
 
 async function loadPredefinedArtwork(designId: DesignId): Promise<{
   bytes: Uint8Array;
@@ -193,12 +220,6 @@ export const request = action({
         allowAiDesigns: featureEnabled(access, 'ai_backgrounds'),
         layoutId: args.layoutId,
       });
-      if (created.created) {
-        await ctx.scheduler.runAfter(0, renderReference, {
-          accountId: auth.accountId,
-          exportId: created.publicId,
-        });
-      }
       return { exportId: created.publicId, status: created.status };
     },
   ),
@@ -230,6 +251,10 @@ export const render = internalAction({
         input.designKind === 'predefined'
           ? getDesignDefinition(input.designReference).id
           : ('minimal-ivory' as const);
+      const [fontBytes, serifFontBytes] = await Promise.all([
+        loadFont(TABLECARDS_FONTS.sans),
+        loadFont(TABLECARDS_FONTS.serif),
+      ]);
       const pdf = await renderTableCardsPdf(
         {
           guests: input.guests,
@@ -240,7 +265,12 @@ export const render = internalAction({
             ? {}
             : { nameStyle: input.nameStyle }),
         },
-        backgroundImage === undefined ? {} : { backgroundImage },
+        {
+          fontBytes,
+          serifFontBytes,
+          fontFamilyName: 'Noto Sans',
+          ...(backgroundImage === undefined ? {} : { backgroundImage }),
+        },
       );
       storedPdf = await ctx.storage.store(
         new Blob([Uint8Array.from(pdf).buffer], {
@@ -257,7 +287,18 @@ export const render = internalAction({
       });
       return null;
     } catch (error) {
-      if (storedPdf) await ctx.storage.delete(storedPdf);
+      if (storedPdf) {
+        try {
+          const status = await ctx.runMutation(cleanupUnattachedReference, {
+            ...args,
+            storageId: storedPdf,
+          });
+          if (status === 'ready') return null;
+        } catch {
+          // Preserve bytes when attachment/cleanup cannot be confirmed. A lost
+          // completion response must not destroy an already attached PDF.
+        }
+      }
       await ctx.runMutation(failReference, {
         ...args,
         errorCode: 'EXPORT_FAILED',

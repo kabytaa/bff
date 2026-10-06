@@ -7,6 +7,7 @@ const SAFE_PRODUCT_ERROR_CODES = new Set([
   'LIMIT_EXCEEDED',
   'NOT_FOUND',
   'PROVIDER_UNAVAILABLE',
+  'AI_COMPLETION_PENDING',
 ]);
 
 interface ProductErrorData {
@@ -49,7 +50,9 @@ export function safeProductMessage(error: unknown, fallback: string) {
       message.length > 0 &&
       message.length <= 240 &&
       !/^\[CONVEX\b/u.test(message) &&
-      !/Uncaught ConvexError|Server Error/u.test(message)
+      !/Uncaught ConvexError|Server Error|Request ID:|\bat (?:async )?\w.*\(|\.tsx?:\d|https?:\/\//u.test(
+        message,
+      )
     ) {
       return message;
     }

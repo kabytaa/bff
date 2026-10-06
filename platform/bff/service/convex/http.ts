@@ -26,6 +26,7 @@ import {
   logoutHandler,
   readLoginChallengeHandler,
   removeMembershipHandler,
+  renameAccountHandler,
   revokeInvitationHandler,
   startLoginHandler,
   startOwnershipTransferHandler,
@@ -227,6 +228,12 @@ http.route({
 });
 
 http.route({
+  path: '/v1/accounts/name',
+  method: 'POST',
+  handler: httpAction(renameAccountHandler),
+});
+
+http.route({
   path: '/v1/accounts/members/role',
   method: 'POST',
   handler: httpAction(changeMembershipRoleHandler),
@@ -278,6 +285,7 @@ for (const path of [
   '/v1/me',
   '/v1/accounts',
   '/v1/accounts/members',
+  '/v1/accounts/name',
   '/v1/accounts/members/role',
   '/v1/accounts/members/remove',
   '/v1/accounts/policy',

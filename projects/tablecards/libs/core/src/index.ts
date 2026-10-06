@@ -75,3 +75,4 @@ export {
   type FaceBackgroundPlacement,
   type RenderTableCardsPdfOptions,
 } from './pdf';
+export { TABLECARDS_FONTS } from './fonts';

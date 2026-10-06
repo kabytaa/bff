@@ -183,6 +183,35 @@ describe('createAuthSessionStore', () => {
 });
 
 describe('createBffAuthBrowserClient', () => {
+  it('renames the selected workspace and refreshes the authoritative account list', async () => {
+    const harness = fetchHarness();
+    harness.enqueue(json(authenticated(accountOneId, [account(accountOneId)])));
+    const auth = client(harness.implementation);
+    await auth.bootstrap();
+    const renamed = { ...account(accountOneId), displayName: 'Wedding Studio' };
+    harness.enqueue(
+      json(renamed),
+      json(authenticated(accountOneId, [renamed])),
+    );
+    await expect(
+      auth.renameAccount({
+        accountId: accountOneId,
+        displayName: '  Wedding Studio  ',
+      }),
+    ).resolves.toMatchObject({ displayName: 'Wedding Studio' });
+    expect(harness.calls[1]?.url).toBe(
+      `${bffOrigin}/v1/accounts/name?environment=${environmentKey}`,
+    );
+    expect(JSON.parse(String(harness.calls[1]?.init?.body))).toEqual({
+      accountId: accountOneId,
+      displayName: 'Wedding Studio',
+    });
+    expect(auth.getSnapshot().state).toMatchObject({
+      status: 'authenticated',
+      customer: { accounts: [{ displayName: 'Wedding Studio' }] },
+    });
+    auth.dispose();
+  });
   it('bootstraps onboarding, one-account and multi-account states without storing tokens', async () => {
     const cases = [
       onboarding(),

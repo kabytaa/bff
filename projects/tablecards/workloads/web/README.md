@@ -17,6 +17,11 @@ TableCards Convex backend with the current BFF account context. Paid pricing
 actions ask the backend for a BFF checkout URL and navigate away; this app does
 not render mock or provider payment UI.
 
+Uploads and private artwork/PDF bytes use authenticated TableCards HTTP routes;
+the browser adapter manages disposable blob URLs. See the canonical
+[Architecture](../../docs/architecture.md) and coordinated deployment procedure
+in [Operations](../../docs/operations.md).
+
 The landing page imports the lightweight `@tablecards/core/catalog` entry only.
 Spreadsheet/PDF editor code and team-management route code stay behind lazy
 route boundaries rather than entering the first public page download.

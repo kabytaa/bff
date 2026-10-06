@@ -1,6 +1,7 @@
 import { OFFER_CATALOG, type OfferId } from '@tablecards/core/catalog';
 import { BffAuthLink, useBffAuth } from '@tofler/bff-auth/react';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const offerFeatures: Record<OfferId, readonly string[]> = {
   free: ['25 cards', '1 active project', '3 designs', '1 AI batch'],
@@ -28,8 +29,16 @@ const offerActions: Record<OfferId, string> = {
 
 export function Component() {
   const { state } = useBffAuth();
+  const location = useLocation();
+  useEffect(() => {
+    const section =
+      location.hash.slice(1) ||
+      new URLSearchParams(location.search).get('section');
+    if (section && ['pricing', 'how-it-works', 'faq'].includes(section))
+      document.getElementById(section)?.scrollIntoView({ block: 'start' });
+  }, [location.hash, location.search]);
   return (
-    <main className="landing-page">
+    <main className="landing-page" id="public-content" tabIndex={-1}>
       <section className="hero" aria-labelledby="landing-title">
         <div className="hero-copy">
           <p className="eyebrow">Your guest list, ready for the table</p>
@@ -44,13 +53,19 @@ export function Component() {
             <Link className="button" to="/create">
               Create free — up to 25 cards
             </Link>
-            <BffAuthLink
-              className="secondary-button"
-              intent="login"
-              returnPath="/projects"
-            >
-              Log in
-            </BffAuthLink>
+            {state.status === 'authenticated' ? (
+              <Link className="secondary-button" to="/projects">
+                Open Projects
+              </Link>
+            ) : (
+              <BffAuthLink
+                className="secondary-button"
+                intent="login"
+                returnPath="/projects"
+              >
+                Log in
+              </BffAuthLink>
+            )}
           </div>
           <p className="muted">Digital PDF only. No printing or shipping.</p>
         </div>
@@ -170,13 +185,6 @@ export function Component() {
           </details>
         </div>
       </section>
-      <footer>
-        <Link className="brand" to="/">
-          <span className="brand-mark">TC</span>
-          <span>TableCards</span>
-        </Link>
-        <p>A Tofler Business Factory product. Digital PDF only.</p>
-      </footer>
     </main>
   );
 }

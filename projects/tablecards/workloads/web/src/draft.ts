@@ -4,6 +4,7 @@ import {
   guestRowSchema,
   type DesignId,
   type GuestRow,
+  type NameStyle,
   type PrintLayoutId,
 } from '@tablecards/core';
 import { z } from 'zod';
@@ -25,7 +26,33 @@ const tableCardsDraftSchema = z
     layoutId: z
       .string()
       .refine((value) => PRINT_LAYOUT_IDS.includes(value as PrintLayoutId)),
-    guests: z.array(guestRowSchema).min(1).max(500),
+    guests: z.array(guestRowSchema).max(500),
+    pastedText: z
+      .string()
+      .max(160 * 1024)
+      .optional(),
+    validatedText: z
+      .string()
+      .max(160 * 1024)
+      .optional(),
+    activeStep: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
+    customDesign: z
+      .object({
+        kind: z.enum(['uploaded', 'ai']),
+        reference: z.string().min(1).max(128),
+        label: z.string().max(120),
+        nameStyle: z
+          .object({
+            color: z.string().regex(/^#[0-9a-f]{6}$/iu),
+            position: z.enum(['top', 'center', 'bottom']),
+            font: z.enum(['sans', 'serif']),
+            size: z.enum(['small', 'medium', 'large']),
+          })
+          .strict()
+          .optional(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 
@@ -36,17 +63,21 @@ export interface TableCardsDraft {
   readonly designId: DesignId;
   readonly layoutId: PrintLayoutId;
   readonly guests: readonly GuestRow[];
+  readonly pastedText?: string;
+  readonly validatedText?: string;
+  readonly activeStep?: 1 | 2 | 3;
+  readonly customDesign?: {
+    readonly kind: 'uploaded' | 'ai';
+    readonly reference: string;
+    readonly label: string;
+    readonly nameStyle?: NameStyle;
+  };
 }
 
 export interface DraftStore {
   clear(): void;
   read(): TableCardsDraft | null;
-  write(input: {
-    readonly title: string;
-    readonly designId: DesignId;
-    readonly layoutId: PrintLayoutId;
-    readonly guests: readonly GuestRow[];
-  }): TableCardsDraft;
+  write(input: Omit<TableCardsDraft, 'version' | 'savedAt'>): TableCardsDraft;
 }
 
 export function createTableCardsDraftStore(

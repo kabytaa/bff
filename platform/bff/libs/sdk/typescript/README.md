@@ -126,6 +126,12 @@ The browser and React entries never import the server entry. New tabs obtain
 their own context JWT; logout is broadcast across tabs, while account switches
 remain tab-local.
 
+`auth.renameAccount({ accountId, displayName })` renames the currently selected
+workspace and refreshes its authoritative account summary. The shared BFF
+requires live Owner membership in that account, rejects a different selected
+account/environment and trims/limits names to 120 characters. This is a customer
+workspace action, not a Business/operator configuration method.
+
 ## Convex native authentication
 
 Nest `BffConvexProvider` inside `BffAuthProvider`. It supplies the current

@@ -29,7 +29,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-webkit',
-      testMatch: /user-stories\.spec\.ts/u,
+      testMatch: /(?:user-stories|remediation)\.spec\.ts/u,
       use: { ...devices['iPhone 13'] },
     },
   ],

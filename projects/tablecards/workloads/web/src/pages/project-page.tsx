@@ -1,27 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { Creator } from '../app';
 import { useTableCardsApplication } from '../application-context';
-import type { ExportStatus } from '../backend';
+import { safeProductMessage } from '../product-error';
 import { useTableCardsBackend } from '../use-tablecards-backend';
 
 export function Component() {
   const { projectId } = useParams();
+  const routeState: unknown = useLocation().state;
+  const initialStep =
+    typeof routeState === 'object' &&
+    routeState !== null &&
+    'creatorStep' in routeState &&
+    routeState.creatorStep === 3
+      ? 3
+      : 1;
   const navigate = useNavigate();
   const { developmentControlsEnabled } = useTableCardsApplication();
   const backend = useTableCardsBackend();
-  const [latestExport, setLatestExport] = useState<ExportStatus | null>(null);
+  const [draftState, setDraftState] = useState({
+    dirty: false,
+    unavailable: false,
+    loading: true,
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!projectId) return;
-    void backend
-      .getLatestExport(projectId)
-      .then(setLatestExport)
-      .catch(() => setLatestExport(null));
-  }, [backend, projectId]);
 
   if (!projectId) {
     return (
@@ -33,22 +37,24 @@ export function Component() {
       <section className="saved-project-actions" aria-label="Project actions">
         <div>
           <strong>Saved project</strong>
-          <span>Save changes before duplicating or archiving.</span>
+          <span>
+            {draftState.unavailable
+              ? 'Project unavailable in this workspace.'
+              : draftState.dirty
+                ? 'Save your unsaved changes before duplicating or archiving.'
+                : 'Duplicate or archive this saved version.'}
+          </span>
         </div>
         <div className="inline-actions wrap">
-          {latestExport?.status === 'ready' && latestExport.storageUrl ? (
-            <a
-              className="secondary-button"
-              href={latestExport.storageUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Download latest PDF
-            </a>
-          ) : null}
           <button
+            className="secondary-button"
             type="button"
-            disabled={busy}
+            disabled={
+              busy ||
+              draftState.dirty ||
+              draftState.unavailable ||
+              draftState.loading
+            }
             onClick={() => {
               setBusy(true);
               setError(null);
@@ -57,9 +63,10 @@ export function Component() {
                 .then((copy) => navigate(`/projects/${copy.id}`))
                 .catch((caught: unknown) =>
                   setError(
-                    caught instanceof Error
-                      ? caught.message
-                      : 'The project could not be duplicated.',
+                    safeProductMessage(
+                      caught,
+                      'The project could not be duplicated.',
+                    ),
                   ),
                 )
                 .finally(() => setBusy(false));
@@ -68,8 +75,14 @@ export function Component() {
             Duplicate
           </button>
           <button
+            className="secondary-button"
             type="button"
-            disabled={busy}
+            disabled={
+              busy ||
+              draftState.dirty ||
+              draftState.unavailable ||
+              draftState.loading
+            }
             onClick={() => {
               if (!window.confirm('Archive this project?')) return;
               setBusy(true);
@@ -79,9 +92,10 @@ export function Component() {
                 .then(() => navigate('/projects'))
                 .catch((caught: unknown) =>
                   setError(
-                    caught instanceof Error
-                      ? caught.message
-                      : 'The project could not be archived.',
+                    safeProductMessage(
+                      caught,
+                      'The project could not be archived.',
+                    ),
                   ),
                 )
                 .finally(() => setBusy(false));
@@ -99,6 +113,8 @@ export function Component() {
       <Creator
         developmentControlsEnabled={developmentControlsEnabled}
         initialProjectId={projectId}
+        initialStep={initialStep}
+        onDraftStateChange={setDraftState}
         onProjectSaved={(project) => {
           if (project.id !== projectId) {
             navigate(`/projects/${project.id}`, { replace: true });

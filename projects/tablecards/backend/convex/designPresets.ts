@@ -3,6 +3,7 @@ import { v } from 'convex/values';
 import { withBffAccountQuery } from '@tofler/bff-auth/convex/server';
 import { internalMutation, query } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
+import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
 
@@ -64,7 +65,7 @@ export const list = query({
             publicId: preset.publicId,
             assetPublicId: asset.publicId,
             assetSource: asset.source,
-            artworkUrl: await ctx.storage.getUrl(asset.storageId),
+            artworkUrl: assetFileAddress(asset.publicId),
             displayName: preset.displayName,
             nameColor: preset.nameColor,
             namePosition: preset.namePosition,

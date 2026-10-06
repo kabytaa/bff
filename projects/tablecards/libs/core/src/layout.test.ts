@@ -164,7 +164,7 @@ describe('print manifest', () => {
       }),
     ]);
     expect(renderManifestPageToSvg(manifest, 1)).toContain(
-      'font-family="Georgia, serif"',
+      'font-family="Noto Serif, serif"',
     );
   });
 

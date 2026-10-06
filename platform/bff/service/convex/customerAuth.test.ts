@@ -84,6 +84,69 @@ function bootstrapArgs(
 }
 
 describe('customer identity and first-sign-in bootstrap', () => {
+  it('allows only the live Owner to rename a workspace within its environment', async () => {
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    await createConfiguredEnvironment(t, 'example-development');
+    await createConfiguredEnvironment(t, 'other-development');
+    await t.mutation(
+      internal.customerAuth.bootstrapCustomer,
+      bootstrapArgs('example-development', 'owner', '41'),
+    );
+    await t.mutation(
+      internal.customerAuth.bootstrapCustomer,
+      bootstrapArgs('example-development', 'outsider', '42'),
+    );
+    const args = {
+      environmentKey: 'example-development',
+      accountPublicId: 'account_0000000000000041',
+      actorUserPublicId: 'user_0000000000000041',
+      displayName: '  Autumn Studio  ',
+      now: 2_000,
+    };
+    expect(await t.mutation(internal.accounts.rename, args)).toMatchObject({
+      displayName: 'Autumn Studio',
+      updatedAt: 2_000,
+    });
+    await expect(
+      t.mutation(internal.accounts.rename, {
+        ...args,
+        actorUserPublicId: 'user_0000000000000042',
+      }),
+    ).rejects.toThrow(/FORBIDDEN/u);
+    await expect(
+      t.mutation(internal.accounts.rename, {
+        ...args,
+        environmentKey: 'other-development',
+      }),
+    ).rejects.toThrow(/NOT_FOUND/u);
+    await expect(
+      t.mutation(internal.accounts.rename, { ...args, displayName: ' ' }),
+    ).rejects.toThrow();
+    await expect(
+      t.mutation(internal.accounts.rename, {
+        ...args,
+        displayName: 'x'.repeat(121),
+      }),
+    ).rejects.toThrow();
+    expect(
+      await t.run(async (ctx) => {
+        const environment = await ctx.db
+          .query('businessEnvironments')
+          .withIndex('by_key', (q) => q.eq('key', args.environmentKey))
+          .unique();
+        return (
+          await ctx.db
+            .query('accounts')
+            .withIndex('by_environment_public_id', (q) =>
+              q
+                .eq('environmentId', environment!._id)
+                .eq('publicId', args.accountPublicId),
+            )
+            .unique()
+        )?.displayName;
+      }),
+    ).toBe('Autumn Studio');
+  });
   it('reuses the same identity, local user, account, and Owner membership', async () => {
     const t = convexTest({ schema, modules, transactionLimits: true });
     await createConfiguredEnvironment(t, 'example-development');

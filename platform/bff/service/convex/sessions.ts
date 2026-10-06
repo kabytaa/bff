@@ -4,7 +4,12 @@ import { v } from 'convex/values';
 import { permissionsForRole, publicIdentifierSchema } from '@bff/contracts';
 import { findAccountByPublicId } from './accounts';
 import type { Doc } from './_generated/dataModel';
-import { internalMutation, type MutationCtx } from './_generated/server';
+import {
+  internalMutation,
+  internalQuery,
+  type MutationCtx,
+  type QueryCtx,
+} from './_generated/server';
 import {
   buildCurrentCustomer,
   currentCustomerViewValidator,
@@ -86,12 +91,55 @@ const issueContextResultValidator = v.union(
   }),
 );
 
-async function findEnvironment(ctx: MutationCtx, environmentKey: string) {
+async function findEnvironment(
+  ctx: MutationCtx | QueryCtx,
+  environmentKey: string,
+) {
   return await ctx.db
     .query('businessEnvironments')
     .withIndex('by_key', (query) => query.eq('key', environmentKey))
     .unique();
 }
+
+/** Read-only revalidation for private resources that must stop serving bytes
+ * as soon as a session is revoked or expires, even with an unexpired JWT. */
+export const validateContext = internalQuery({
+  args: {
+    environmentKey: v.string(),
+    userPublicId: v.string(),
+    sessionPublicId: v.string(),
+    now: v.number(),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const environment = await findEnvironment(ctx, args.environmentKey);
+    if (!environment?.customerAuth)
+      fail('UNAUTHENTICATED', 'Authentication is required');
+    const session = await ctx.db
+      .query('businessSessions')
+      .withIndex('by_environment_public_id', (q) =>
+        q
+          .eq('environmentId', environment._id)
+          .eq('publicId', args.sessionPublicId),
+      )
+      .unique();
+    if (
+      !session ||
+      session.revokedAt !== undefined ||
+      session.idleExpiresAt <= args.now ||
+      session.absoluteExpiresAt <= args.now
+    )
+      fail('UNAUTHENTICATED', 'Authentication is required');
+    const user = await ctx.db.get(session.userId);
+    if (
+      !user ||
+      user.environmentId !== environment._id ||
+      user.publicId !== args.userPublicId
+    )
+      fail('UNAUTHENTICATED', 'Authentication is required');
+    return null;
+  },
+});
 
 function requireConfiguredEnvironment(
   environment: Doc<'businessEnvironments'> | null,

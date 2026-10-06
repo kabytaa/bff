@@ -72,7 +72,17 @@ acceptance. Guest names, tables and markers are never included in its prompt.
 
 ## Deploy development
 
-Push the BFF and TableCards schemas/functions independently:
+For the 2026-10-06 private-file/font remediation, use a short coordinated
+development maintenance window: stop acceptance journeys, build/deploy the new
+web assets first (including the font files), then deploy shared BFF and
+TableCards backends, then gateway/auth changes. The new browser requires new
+file routes; the new renderer requires the web fonts. There is no claim of
+zero-downtime compatibility with the old browser. Do not run or announce
+acceptance until all surfaces and health/font checks agree. Existing open tabs
+should reload after the window; legacy upload/finalize safely reject.
+
+In subsequent compatible releases, push the BFF and TableCards schemas/functions
+independently in the order established for that release:
 
 ```bash
 pnpm exec convex dev --once --typecheck enable
@@ -226,17 +236,15 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   TableCards deployment, email/support flow, analytics, or generic monitoring.
   Its shared BFF checkout is an explicitly no-charge simulation, not payment
   truth.
-- Database rows store Convex storage IDs, but URLs returned by `storage.getUrl`
-  are bearer download URLs, not automatically expiring signed URLs. Anyone
-  retaining one can reuse it independently of later account membership. Do
-  not log/share them or claim revocation through logout. See the official
-  [Convex file security model](https://docs.convex.dev/file-storage/overview).
-  Private PDF access/revocation needs an explicit reviewed release decision.
-- The server renderer accepts caller-supplied Noto Sans bytes, but the current
-  hosted job uses deterministic built-in Helvetica. Common Western Latin text
-  is covered and unsupported glyphs fail preflight instead of silently clipping.
-  Bundled broad-script font coverage remains an explicit follow-up before a
-  multilingual production claim.
+- Current uploads and generated PDFs use authenticated byte endpoints, never
+  new `storage.getUrl` bearer links. Every byte request rechecks the live BFF
+  session and membership; browsers hold disposable, bounded blob URLs. Previously
+  issued legacy bearer links cannot be revoked by this code change and must not
+  be logged/shared; invalidating those files requires separately scoped cleanup.
+- Hosted exports embed bundled, hash-verified Noto Sans and Noto Serif. The
+  supported font boundary is Latin text including common extended characters;
+  unsupported glyphs fail explicitly. This is not a broad-script or physical
+  print-fidelity certification.
 - CSV/XLSX and print code remain a large editor chunk, but route-level loading
   keeps that chunk off the landing page. Further editor-internal splitting is a
   performance optimization, not an authorization or correctness dependency.
@@ -247,15 +255,15 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
 
 ## Troubleshooting and recovery
 
-| Symptom                                 | Safe check / next action                                                                                                                                                    |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Sign-in returns but shows signed out    | Check gateway health and exact web/adapter/callback configuration; same-site cookie topology matters. Do not expose cookie or token values in diagnostics                   |
-| Save/export denied                      | Inspect the approved error code, selected account, offer, active-project/card limits and design entitlement; do not bypass the server rule to make the UI appear successful |
-| Export stays queued/generating or fails | Check TableCards scheduled work and the safe export status/error; verify registered artwork path/hash and project revision before retry                                     |
-| Upload rejected                         | Check PNG/JPEG bytes, at most 10 MiB, unrotated 7:4 ratio and minimum 1050 × 600 dimensions; Event Pass requires a saved event                                              |
-| AI unavailable                          | Confirm development provider flags and safe batch/reservation status; never add an API key or call a paid model as an unapproved workaround                                 |
-| Studio invitation controls missing      | Verify Studio was completed through shared checkout and the account role/policy allows invitations; do not manufacture policy with a hidden test fixture                    |
-| Monthly usage seems wrong               | BFF chooses the anniversary allocation; Business calls must not send a bucket/period key. Mock renewal means simulated success, not verified payment                        |
+| Symptom                                 | Safe check / next action                                                                                                                                                                                          |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sign-in returns but shows signed out    | Check gateway health and exact web/adapter/callback configuration; same-site cookie topology matters. Do not expose cookie or token values in diagnostics                                                         |
+| Save/export denied                      | Inspect the approved error code, selected account, offer, active-project/card limits and design entitlement; do not bypass the server rule to make the UI appear successful                                       |
+| Export stays queued/generating or fails | Check TableCards scheduled work and the safe export status/error; verify registered artwork path/hash and project revision before retry                                                                           |
+| Upload rejected                         | Check fully decodable PNG/JPEG bytes, at most 10 MiB and 2 megapixels, unrotated exact 7:4 ratio and minimum 1050 × 600 dimensions; PNG must be non-animated and at most 8-bit; Event Pass requires a saved event |
+| AI unavailable                          | Confirm development provider flags and safe batch/reservation status; never add an API key or call a paid model as an unapproved workaround                                                                       |
+| Studio invitation controls missing      | Verify Studio was completed through shared checkout and the account role/policy allows invitations; do not manufacture policy with a hidden test fixture                                                          |
+| Monthly usage seems wrong               | BFF chooses the anniversary allocation; Business calls must not send a bucket/period key. Mock renewal means simulated success, not verified payment                                                              |
 
 Credential-free development probes:
 

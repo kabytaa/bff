@@ -16,11 +16,18 @@ Required public deployment values mirror the retained Example Business:
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`
 - `BFF_CHECKOUT_SERVICE_TOKEN` (secret; checkout creation only)
 - `TABLECARDS_BUILD_VERSION`
+- `TABLECARDS_AI_PROVIDER` (`development` for deterministic Build 3 acceptance)
 
 `TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true` is allowed only in the development
 deployment and enables deterministic commerce/image fixtures. Production must
 omit it. `OPENAI_API_KEY` is optional and is never required for development or
 CI.
+
+The renderer fetches hash-pinned artwork and bundled Noto fonts from the
+registered web origin. Publish those assets before verifying exports; coordinated
+deployment and recovery are explained in [Operations](../docs/operations.md).
+Private artwork/PDF byte routes and their per-request authorization are explained
+in [Architecture](../docs/architecture.md), not bearer storage URLs.
 
 The backend owns active/archived project lifecycle, duplicate/restore, latest
 export projection, uploaded/generated assets and reusable design presets.

@@ -87,7 +87,7 @@ Users must print at 100% / Actual Size. One physical sheet must be printed and m
 
 Development additionally exposes a six-card landscape **print trial**, with a ready scale-check PDF. It is not an accepted replacement for the four-card launch contract; physical measurement and explicit acceptance are still required. Nominal card size also does not establish Avery perforation alignment or printer compatibility.
 
-Current PDF rendering defaults to built-in Helvetica/Times Roman and rejects unsupported glyphs during export preflight. Broad Latin coverage remains a gap: the renderer accepts reviewed Noto Sans bytes, but the repository does not bundle that asset, and browser preview uses approximate metrics. Before production, supply the reviewed font and verify coverage/fitting, or explicitly accept and accurately publish a narrower Western-Latin boundary. The accepted Latin-script promise has not been silently reduced to the current fallback; see the [renderer/font boundary](../libs/core/README.md).
+The 2026-10-06 remediation bundles hash-verified, licensed Noto Sans and Noto Serif for hosted exports and previews. PDF preflight uses actual font coverage/metrics and rejects unsupported glyphs or impossible fits. Browser preview still uses approximate fit metrics, so server validation remains authoritative. Broader Latin and combining accents have automated fixtures; this does not promise arbitrary scripts or establish physical printer compatibility. See the [renderer/font boundary](../libs/core/README.md).
 
 ## Designs
 
@@ -99,7 +99,7 @@ Designs are lightweight, curated product assets rather than a freeform editor:
 
 The paid custom-design workflow is intentionally constrained:
 
-- upload one PNG or JPEG background at the fixed 7:4 face ratio, at least 1050 × 600 pixels for 300-DPI output
+- upload one PNG or JPEG background at the fixed 7:4 face ratio, at least 1050 × 600 pixels for 300-DPI output, at most 2 megapixels and 10 MiB; PNG color must be 8-bit or lower (animated or rotated images are not supported)
 - validate format, dimensions and effective print resolution
 - adjust the guest-name font, size, color and position
 - preview the result before export
@@ -175,7 +175,7 @@ creates the next allowance.
 
 Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in users can start `feedback`, `problem` or `question` conversations with authenticated Business/user/account context. The operator workflow supports status handling and a real reply thread. Replies are delivered by email, and a user can reply by email or from the product; the resulting messages remain part of the same case. A public monitored support address remains available to people who cannot sign in.
 
-These support conversations, monitored public contact and public policy pages are launch requirements still missing from the current routed development application. They must not be described as available merely because they appear in the accepted core workflow. Build 5 owns the conversation/email capability; launch preparation must publish the required public policies and reachable contact.
+Development now has linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
 
 Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 

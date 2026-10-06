@@ -9,6 +9,7 @@ import {
   customerAuthErrorCodeSchema,
   customerAuthIntentSchema,
   removeMembershipRequestSchema,
+  renameAccountRequestSchema,
   revokeInvitationRequestSchema,
   updateAccountPolicyRequestSchema,
   type AccountContextClaims,
@@ -802,6 +803,35 @@ export async function createAccountHandler(ctx: ActionCtx, request: Request) {
         503,
         cors,
       );
+    },
+  );
+}
+
+export async function renameAccountHandler(ctx: ActionCtx, request: Request) {
+  return await withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (rawClaims, cors) => {
+      const claims = accountContext(rawClaims);
+      const input = parseInput(
+        renameAccountRequestSchema,
+        await readBoundedJson(request),
+      );
+      if (input.accountId !== claims.accountId) {
+        throw new HttpInputError(
+          403,
+          'FORBIDDEN',
+          'Select the workspace before renaming it.',
+        );
+      }
+      const account = await ctx.runMutation(internal.accounts.rename, {
+        environmentKey: claims.environmentKey,
+        accountPublicId: claims.accountId,
+        actorUserPublicId: claims.sub,
+        displayName: input.displayName,
+        now: Date.now(),
+      });
+      return jsonResponse(account, 200, cors);
     },
   );
 }

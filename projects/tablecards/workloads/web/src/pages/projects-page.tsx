@@ -4,9 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import type { CurrentProductAccess, ProjectSummary } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
+import { safeProductMessage } from '../product-error';
 
 function errorMessage(error: unknown) {
-  return error instanceof Error ? error.message : 'The project action failed.';
+  return safeProductMessage(
+    error,
+    'The project action failed. Please try again.',
+  );
 }
 
 export function Component() {
@@ -104,10 +108,17 @@ export function Component() {
       {error ? (
         <p className="notice error" role="alert">
           {error}
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={() => void load(filter)}
+          >
+            Retry projects
+          </button>
         </p>
       ) : null}
       {loading ? <p className="route-state">Loading projects…</p> : null}
-      {!loading && projects.length === 0 ? (
+      {!loading && !error && projects.length === 0 ? (
         <div className="empty-state">
           <h2>
             {filter === 'active'
@@ -135,7 +146,7 @@ export function Component() {
               <h2>{project.title}</h2>
               <p>
                 {project.designKind === 'predefined'
-                  ? 'Included design'
+                  ? 'Catalog design'
                   : project.designKind === 'ai'
                     ? 'AI background'
                     : 'Uploaded artwork'}
@@ -154,6 +165,7 @@ export function Component() {
                     Open
                   </Link>
                   <button
+                    className="secondary-button"
                     type="button"
                     disabled={busyId === project.id}
                     onClick={() =>
@@ -166,6 +178,7 @@ export function Component() {
                     Duplicate
                   </button>
                   <button
+                    className="secondary-button"
                     type="button"
                     disabled={busyId === project.id}
                     onClick={() => {

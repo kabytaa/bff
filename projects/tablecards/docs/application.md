@@ -2,7 +2,7 @@
 
 Created: 2026-09-28
 Updated: 2026-10-06
-Status: Accepted — implemented in development with the gaps recorded below
+Status: Accepted — review remediation implemented locally; development revalidation pending
 
 This document defines the customer-facing TableCards application experience:
 its pages, navigation, responsive behavior, user stories and the visible
@@ -27,6 +27,13 @@ creator components, styles, server guards and existing test assertions. It
 records the development implementation without treating every accepted
 requirement as delivered. This documentation pass did not run a new browser
 review or validate production. The original PRD history remains below.
+
+The same-day [remediation plan](../../../.agent/plans/261006-tablecards-review-remediation.md)
+now changes the reviewed source from checkpoint `3a948ad`. The delivered notes
+below describe that source, not a deployment claim. Focused component tests
+cover input/export fidelity, drafts, fit feedback, pending AI recovery, artwork
+sources and account navigation. Hosted browser revalidation and independent
+rendered review remain separate gates; the dated original review is preserved.
 
 Build 3 baseline capabilities:
 
@@ -116,18 +123,19 @@ incomplete workflow; a scope change requires product direction.
 
 ### Routes
 
-| Route                      | Entry condition and purpose                                                                                | Current delivery                    |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| `/`                        | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                         |
-| `/create`                  | Public import/design/preview; save, export and AI require a selected account                               | Development, separate creator shell |
-| `/projects`                | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                         |
-| `/projects/:projectId`     | Selected active membership; load one scoped project into the creator                                       | Development                         |
-| `/designs`                 | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                         |
-| `/settings`                | Selected active membership; account, role, offer, usage and checkout return                                | Development                         |
-| `/settings/team`           | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                         |
-| `/invite/:invitationToken` | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell           |
-| `/settings/billing`        | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered     |
-| `/support`                 | Public/signed-in support entry and authenticated conversation                                              | Planned Build 5; not registered     |
+| Route                            | Entry condition and purpose                                                                                | Current delivery                    |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `/`                              | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                         |
+| `/create`                        | Public import/design/preview; save, export and AI require a selected account                               | Development, separate creator shell |
+| `/projects`                      | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                         |
+| `/projects/:projectId`           | Selected active membership; load one scoped project into the creator                                       | Development                         |
+| `/designs`                       | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                         |
+| `/settings`                      | Selected active membership; account, role, offer, usage and checkout return                                | Development                         |
+| `/settings/team`                 | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                         |
+| `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell           |
+| `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell    |
+| `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered     |
+| `/support`                       | Public/signed-in support entry and authenticated conversation                                              | Planned Build 5; not registered     |
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
@@ -141,9 +149,9 @@ production.
 The [public shell](../workloads/web/src/layouts/public-shell.tsx) has a brand
 link to `/`, How it works/Pricing/FAQ links to landing anchors, a Create cards
 link and either Log in or signed-in Projects. Marketing links disappear at
-1050px and below. At 760px and below the header's Log in/Projects text link is
-also hidden; the landing hero still has Log in. Preserving a compact public
-header login/account action remains an accepted gap, especially on Invitation.
+1050px and below. Compact Log in/Projects and Create actions remain available
+on phones, including Invitation and policy routes. The shared public footer
+links Privacy, Terms and Contact. The signed-in hero offers Open Projects.
 
 ### Signed-in application navigation
 
@@ -155,46 +163,51 @@ memberships exist. Team is reached from Account when team access is enabled.
 No Billing or Support placeholder is present.
 
 At 760px and below the sidebar becomes fixed bottom navigation with the same
-four destinations. The top bar retains account context and the selector.
-The sidebar's Sign out has no mobile replacement; this is a delivery gap.
+four destinations. The top bar retains account context, selector and a visible
+Sign out action.
 
 The [new-project route](../workloads/web/src/pages/create-page.tsx) deliberately
 uses its own header so the public creator can remain usable without the private
 shell. Signed-in desktop users get the four navigation links and account
-selector; signed-in phone users get bottom navigation. The phone creator's
-selector is hidden by the header rules, so switching is available via Account.
-Save/Next/Export and creator-step controls are currently in normal document
-flow; the accepted persistent task action is not implemented.
+selector and Sign out; signed-in phone users get bottom navigation and retain
+the selector and exit action. Phone Continue/Review and Save/Export actions are
+fixed above the bottom navigation/safe-area inset; editor content reserves space
+for them. Responsive geometry still requires rendered browser verification.
 
 ### Deep links, authentication and editing continuity
 
-Private routes show session loading, sign-in, create-account or account-choice
+Private routes show session loading, sign-in, recovery or account-choice
 states before their content. They do not render a private page while signed
 out. The landing hero login explicitly returns to Projects. The public header
-and private-shell login omit an explicit destination and currently use the
-SDK's `/` default, so a private deep link is not restored by that entry.
+login returns to Projects on Landing and preserves other public destinations;
+private-shell login preserves the exact private path,
+query and fragment.
 
 The current [auth defaults](../customer-auth.defaults.ts) create a private
 workspace on first sign-in. If onboarding is nevertheless required, both
-private-shell and Creator fallback offer Create my account unconditionally,
-even though ordinary account creation is disabled by those defaults. Joining
-is a separate invitation route. A policy-aware recovery path remains a gap.
+private-shell and Creator explain automatic setup and offer a session/setup
+retry or the existing invitation path. They do not offer forbidden extra-account
+creation. Session failures have an explicit retry.
 
-Creator Save/Export stores the valid bounded draft before authentication and
-returns to `/create` at Review. The header Log in link returns to `/create` but
-does not invoke draft preservation. Ordinary unsaved editing is not autosaved
-through reload; route departure uses a browser confirmation, and unload uses
-the browser's warning. See the continuity gaps below.
+Creator Save/Export and its header Log in preserve the bounded draft before
+authentication and return to the current creator destination and step. Drafts
+include raw input, validated input/rows, title, design, layout, step and custom
+style/reference, never private file URLs or credentials. Anonymous/new drafts
+can move into the newly authenticated workspace; saved drafts are keyed by
+workspace and project. Drafts remain bounded to one hour/160 KiB and are
+retained through ordinary reload. Storage failure has a visible keep-tab-open
+warning. Route departure/account switching confirms unsaved discard; logout
+clears protected draft keys.
 
 An explicit first Save replaces `/create` with `/projects/:projectId`. The
-implicit save during a first Export currently leaves `/create` in the history.
+implicit save during a first Export also replaces it once the PDF is ready.
 Account switching remounts scoped content through the
 [SDK provider](../../../platform/bff/libs/sdk/typescript/src/adapters/convex/client.ts)
 and clears the prior editor. Returning a saved-project
-route to the new account's Projects remains the accepted behavior, but is not
-proved: the SDK's context remount resets the shell's previous-account ref, so
-its redirect effect cannot reliably detect the change. Current browser tests
-switch while already on Projects. Invitation acceptance explicitly selects the
+route to the new account's Projects is handled by an observer above the keyed
+provider, retaining the previous account through its loading transition. A
+deterministic component test covers that lifecycle; hosted route switching is
+still a revalidation gate. Invitation acceptance explicitly selects the
 joined account and replaces the route with Projects.
 
 ## Page requirements and delivered behavior
@@ -219,8 +232,8 @@ also gives them a direct Projects action.
 
 **Delivered:** [Landing](../workloads/web/src/pages/landing-page.tsx) contains
 the PDF-only hero, CSS card example, three-step explanation, four pricing
-cards and native FAQ disclosures. The first FAQ is open by default. Its footer
-has the brand and product attribution, but no policy links or policy routes.
+cards and native FAQ disclosures. The first FAQ is open by default. The shared
+footer has policy/contact routes with truthful preview-only disclosures.
 Paid pricing actions authenticate if necessary, then open
 `/settings?offer=<offer>` to start checkout; they are not inert price cards.
 
@@ -277,9 +290,10 @@ print formats.
 explicit tabular mapping, file upload, realistic example names and eight
 displayed import issues. Mapping focuses its first select. Plain-list phone
 Continue validates and advances; desktop uses Preview names. The creator-step
-buttons can jump directly between steps. Failed mapping currently also advances
-to Design and retains any previously valid guests, so step progression alone
-does not prove the current input is valid.
+buttons can jump directly between steps. Failed mapping stays in Guests with
+the mapping and issues visible and does not reuse previously parsed guests.
+Save/Export normalize newly typed plain-list input; unconfirmed tabular input
+returns to mapping. Canonical mapped text preserves empty optional columns.
 
 All six predefined choices can be previewed; three are Included and three
 Premium. Known premium-access and active-project-capacity blockers disable
@@ -292,12 +306,17 @@ reusable presets from Designs. Four generated choices remain secondary to
 the deterministic card workflow.
 
 Review exposes page count including the scale guide, sheet pagination and
-print-at-100% instructions. On phones choosing Review reveals the full inline
-preview below the action card; there is no separate preview dialog. Busy and
-success/error notices are rendered in the Review action card. They are hidden
-when another phone step is active. Fit/character failures currently fall back
-to an empty preview or generic export failure instead of a useful row-level
-preflight; the accepted warning behavior remains a gap.
+print-at-100% instructions. Open complete preview uses a bounded native dialog,
+with every sheet, Escape/Return to editor and focus restoration. Desktop also
+keeps a side preview; phone steps do not stack the full preview inline. Busy,
+success/error and saved/unsaved status sit outside hidden phone cards.
+Preflight identifies the guest/field for fit or unsupported-character problems
+and blocks Save/Export with a correction, rather than showing an empty-input
+placeholder. Custom event artwork exposes the accepted constrained name font,
+size, position and color controls, including Event Pass.
+An interrupted AI operation is recovered from the server on mount and retried
+with its original prompt/key, even after its unit is reserved; a new operation
+is not silently substituted.
 
 ### Projects `/projects`
 
@@ -323,7 +342,8 @@ Open is available for active projects. Duplicate opens the new copy; Archive
 requires a browser confirmation and reloads the current filter; Restore opens
 the restored project. Pending actions disable that project's buttons. Capacity
 denials come from the server and appear as an alert; Create and Duplicate are
-not disabled proactively at the limit. Errors have no dedicated Retry control.
+not disabled proactively at the limit. Errors are safely normalized and have a
+dedicated Retry projects control.
 
 ### Saved project `/projects/:projectId`
 
@@ -340,17 +360,16 @@ and returns to the new account's project home rather than rendering stale
 project data.
 
 **Delivered:** [Saved Project](../workloads/web/src/pages/project-page.tsx)
-adds a supporting action strip above the same creator. It says to save before
-Duplicate or Archive, confirms Archive, and exposes Download latest PDF when
-the latest stored export is ready. Missing/wrong-account loads show a safe
-not-found notice and disable creator Save/Export. The strip is still rendered
-for an unavailable project; mutation authority remains server-side.
-
-The internal dirty flag guards navigation, but there is no visible saved/unsaved
-indicator. Export uses the last saved project whenever one exists, without
-saving dirty edits; an existing Download PDF also survives edits. The latest
-download is not labelled with a revision and is loaded only when the saved
-route mounts. This does not yet fulfill US-07's current-revision promise.
+adds a supporting action strip above the same creator. Duplicate/Archive are
+disabled while loading, unavailable or dirty; Archive still requires confirmation.
+Missing/wrong-account loads show a safe notice and Return to Projects, with
+editor/lifecycle actions unavailable. Saved/unsaved state is visible. Export
+validates and saves the current input before requesting its PDF. Download PDF
+belongs to the creator's current state and disappears immediately on edits or
+a new save; delayed reads cannot reintroduce an old link while dirty. The
+server's latest-export read omits older revisions. These source rules and
+component regressions address the original stale-export finding; actual stored
+PDF contents still need the hosted fidelity assertion.
 
 ### Designs `/designs`
 
@@ -378,12 +397,13 @@ positions and a color. Preset cards preview the editable style in a native
 disclosure; Delete requires confirmation. The chosen style is snapshotted on
 project save, so later preset changes do not restyle a saved project.
 
-The Event Pass editor applies uploaded/AI artwork but has no independent name
-font/size/color/position controls. That accepted event-styling promise is still
-missing. Designs has no explicit loading/empty-asset state, uses one info/status
-notice for success and errors, and allows 500 prompt characters while the
-server accepts at most 400. These are recorded differences, not new design
-choices.
+The predefined library now renders all six catalog artwork sources through the
+same SVG face renderer as Creator. Event artwork has constrained name controls
+in Creator. Designs has loading, empty artwork/preset and retry states;
+successes use status and failures use alert with safe product text. AI prompts
+are bounded to the server's 400 characters. Pending server batches restore the
+original prompt/key after navigation/reload and expose Retry this background
+batch, rather than generating a fresh charged operation.
 
 ### Account `/settings`
 
@@ -406,15 +426,17 @@ and lifetime/event/billing-cycle label, and active members/seat allowance with
 the current role. Team's usage includes reserved invitation seats; the Account
 member tile counts active members only. Access loading appears as Loading… or
 dashes rather than a separate blocking page. Read failures appear as alerts.
-View plans returns to the landing route; its `?section=pricing` query is not
-handled as an anchor or scroll request.
+Owners can edit Workspace name through the server-authorized Save workspace
+name action. Legacy unnamed workspaces use meaningful My/Shared workspace
+labels rather than raw IDs. View plans opens `/#pricing`; Landing also handles
+the older `?section=pricing` destination.
 
 A paid `offer` query immediately starts BFF checkout using a tab-stored
 idempotency key and displays an opening status. Checkout success/cancel return
 messages are shown and the query is replaced with the clean `/settings` route.
-The backend enforces Owner authority even if another role follows a pricing
-link. The UI does not yet hide or explain the purchase action by role before
-that denial. A success query is feedback only; the live access read remains
+Owner-only checkout is checked before starting it, and other members receive
+an ask-your-Owner explanation. The backend remains authoritative even if another
+role follows a pricing link. A success query is feedback only; the live access read remains
 the source of the displayed offer. Subscription cancellation, expiry,
 restrictions and remediation are not implemented states here.
 
@@ -456,26 +478,28 @@ direct visits show the Studio requirement. Invitation creation returns a
 one-time link in local page state; Copy uses the clipboard or focuses/selects
 the input for manual copying. Refresh loses the link, and Reissue revokes the
 old invitation before creating a replacement. If replacement creation fails,
-the old link stays revoked. The accepted first delivery mechanism is manual
+the page explicitly says the old link is revoked and no replacement was created,
+reloads pending state, and directs creation of a new invitation. The accepted first delivery mechanism is manual
 link sharing, with no invitation-email service implemented.
 
 Owner can change another active Member/Admin's role immediately, remove after
 confirmation, and start transfer after a confirmation naming the target and
-fresh-sign-in requirement. Admin can remove ordinary Members but sees no
+fresh-sign-in requirement and immediate completion finality (former Owner becomes
+Admin and loses Owner-only controls). Admin can remove ordinary Members but sees no
 role-change or transfer buttons and cannot manage peer Admins/Owner. Member
 sees no management controls. Revoke/Reissue act immediately; notices report
 results. Ordinary mutations disable shared controls while pending; transfer
-startup has no equivalent pending state. The
+startup also disables mutations and reports that completing fresh sign-in
+immediately transfers ownership. The
 [SDK callback](../../../platform/bff/libs/sdk/typescript/src/server/index.ts)
 completes the transfer before returning to Team with refreshed roles. The
-shared auth screen currently says the user will approve after returning,
-although TableCards has no second approval page; that finality message needs
-reconciliation. Its stronger authorization remains governed by
+shared auth screen's finality copy is reconciled by the same remediation plan;
+there is no second TableCards approval page. Its stronger authorization remains governed by
 [ADR 0004](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md).
 
-The page lacks a dedicated loading/retry state. The invitation form is not
-disabled at seat capacity; concurrent/capacity failures are displayed after
-server rejection. Management availability derives from the signed-in role and
+The page has loading/retry states and error alerts. The invitation form is
+disabled at the currently displayed seat capacity; concurrent/capacity failures
+still receive safe server denial. Management availability derives from the signed-in role and
 account policy, while the server performs the final permission/invariant checks.
 
 ### Invitation `/invite/:invitationToken`
@@ -498,8 +522,8 @@ unavailable into one message; a valid non-pending preview shows its state.
 Signed-out recipients have Sign in to accept with the exact invitation return
 path. Signed-in/onboarding recipients can accept, with a Joining… pending
 button and server rejection text for recipient/capacity checks. Success selects
-the joined account and replaces the route with Projects. The page has no
-explicit session-recovery action or reinspection Retry; Back to TableCards is
+the joined account and replaces the route with Projects. Retry session and Retry
+invitation address session and reinspection failures. Back to TableCards is
 the general exit. Never copy invitation secrets into documentation or logs.
 
 ## Offer-to-interface contract
@@ -595,8 +619,8 @@ deployment or real paid/subscription state is claimed by this document.
 - Every project, asset, preset and export read/write derives account scope from
   the verified token; route parameters never select authorization scope.
 - Account switching remounts account-scoped content before loading the next
-  account. A saved-project switch must return to Projects; the current redirect
-  has the source concern noted above. The public Creator stays on its own route
+  account. A saved-project switch returns to Projects through the unkeyed
+  observer described above. The public Creator stays on its own route
   with new scoped state.
 - Owner/Admin/Member controls follow BFF permissions, and server authorization
   remains final.
@@ -633,11 +657,11 @@ Exact breakpoints and layout values live in
 [styles.css](../workloads/web/src/styles.css), rather than a second token
 catalog in this document.
 
-| Width        | Landing/navigation                                                                  | Creator and account work                                                                                                                                               |
-| ------------ | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Above 1050px | Full public header; private sidebar and sticky top bar                              | All three creator cards together with sticky side preview; adaptive project/design/usage grids                                                                         |
-| 761–1050px   | Marketing header links hidden; private sidebar retained                             | Creator becomes one column with preview above controls; all creator cards remain visible                                                                               |
-| 320–760px    | Compact public header; private fixed four-item bottom navigation and sticky top bar | Only the active Guests/Design/Review card is shown; horizontal snap-scrolling design chooser; preview appears inline in Review; page headers and project actions stack |
+| Width        | Landing/navigation                                                                  | Creator and account work                                                                                                                                    |
+| ------------ | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Above 1050px | Full public header; private sidebar and sticky top bar                              | All three creator cards together with sticky side preview; adaptive project/design/usage grids                                                              |
+| 761–1050px   | Marketing header links hidden; private sidebar retained                             | Creator becomes one column with preview above controls; all creator cards remain visible                                                                    |
+| 320–760px    | Compact public header; private fixed four-item bottom navigation and sticky top bar | Only the active Guests/Design/Review card is shown; horizontal design chooser; bounded on-demand preview; persistent primary actions; headers/actions stack |
 
 At 430px and below creator actions become full-width, labels/headings stack and
 the example-list action moves above the input. Team rows move actions under
@@ -648,11 +672,11 @@ and preset choosers, not intended at page level.
 The desktop 1280px and phone iPhone 13 test projects plus the 320px hosted
 creator case are defined in the [E2E configuration](../e2e/playwright.config.ts)
 and [hosted suite](../e2e/src/hosted-development.spec.ts). These sources show
-the tested assertions, not verification of every intermediate width. Persistent
-creator actions, mobile Sign out and the narrower public login/account header
-remain gaps. There is no modal/drawer editor: import mapping stays beside the
-input, preset styling uses a bounded disclosure and account/team work stays
-on refreshable routes.
+the tested assertions, not verification of every intermediate width. Remediation
+adds persistent actions, visible mobile Sign out and compact public auth access;
+their rendered geometry remains a hosted gate. There is no modal/drawer editor:
+only the supporting complete preview uses a bounded dialog. Import mapping stays
+beside input; preset styling uses a disclosure; account/team work stays on routes.
 
 ## Visual and interaction choices
 
@@ -664,14 +688,15 @@ semantic roles; color alone is not the message. Exact roles and values remain
 in [styles.css](../workloads/web/src/styles.css).
 
 Georgia/Times-style serif headings and the brand suggest stationery; body,
-form and navigation text uses the Inter/system sans stack. Guest-list input
+form and navigation text starts with bundled Noto Sans and system fallbacks. Guest-list input
 uses monospace for copied rows. UI typography is separate from printable card
 typography: the constrained preset choices are Clean sans and Classic serif,
 with renderer responsibilities in [layout.ts](../libs/core/src/layout.ts) and
-[pdf.ts](../libs/core/src/pdf.ts). The browser's approximate Noto Sans/Georgia
-metrics and PDF's current Helvetica/Times Roman do not guarantee identical
-glyph coverage or wrapping. Bundling the reviewed font or accepting a narrower
-documented character boundary is still a pre-production decision.
+[pdf.ts](../libs/core/src/pdf.ts). Browser preview and hosted PDF use bundled
+reviewed Noto Sans/Noto Serif. Browser preflight still uses approximate metrics;
+server preflight/rendering remains authoritative. Font bytes/provenance and
+broader Latin behavior are checked by the coordinated core work, not inferred
+from the UI font stack alone.
 
 Public pages favor large headings, representative card artwork and short
 sections. Private pages favor task cards, compact action groups, selected-state
@@ -679,17 +704,15 @@ navigation, usage tiles and lists. Rounded paper panels, pill-shaped primary
 buttons and consistent outlined secondary/file actions are reused by CSS
 classes. Feedback and confirmation currently use notices, disabled pending
 controls and native browser confirmations, rather than a separate dialog
-system. Creator notices distinguish alert/error from status/success/info;
-Designs and Team use status/info for both successes and failures, a known
-consistency gap.
+system. Supporting preview uses a native modal dialog. Creator, Designs and Team
+distinguish alert/error from status/success/info and share safe error treatment.
 
 Use the existing terms Projects, Create, Designs, Account, Team, event artwork,
 reusable preset and AI background batch. Preserve the PDF-only/independent-print
 message and make AI a supporting choice. The six predefined backgrounds and
 Included/Premium labels come from the
 [design catalog](../libs/core/src/catalog.ts). The creator preview and PDF use
-the catalog artwork, while the Designs predefined library currently uses CSS
-swatches; it is not a faithful artwork preview. No new logo, palette, artwork,
+the catalog artwork, as does the Designs predefined library. No new logo, palette, artwork,
 component library or separate design-system document is selected by this
 reconciliation.
 
@@ -697,9 +720,9 @@ Native links, buttons, labels, select controls, disclosures and confirmations
 support ordinary keyboard behavior. Active designs use `aria-pressed`, the
 mobile step uses `aria-current`, navigation uses named landmarks, errors/status
 use alert/status where implemented, and mapping explicitly moves focus to its
-first select. Focus-visible and reduced-motion styles exist. There is no
-general route-title/step focus handoff or skip link, and creator announcements
-are inside a hidden phone step during import/design work. Full contrast,
+first select. Focus-visible and reduced-motion styles exist, along with skip
+links, route-heading/step focus handoff and native modal return focus. Creator
+announcements are outside hidden phone steps. Full contrast,
 keyboard journey and assistive-technology behavior remains to be reviewed;
 one Tab assertion is not an accessibility audit.
 
@@ -765,36 +788,28 @@ confirmed edited-preview/PDF mismatch, missing mobile Sign out and saved-route
 account-switch navigation, among other findings. Its fresh browser/PDF evidence
 is separate from this source reconciliation and the earlier passing registry.
 
-### Remaining accepted UX gaps
+### Remediation evidence and remaining verification
 
-- **Current-input/current-revision fidelity:** expose saved/unsaved state,
-  reconcile newly typed/imported guest input before save, and ensure export
-  represents the reviewed saved revision. Existing URLs must not imply dirty
-  edits are already in the downloaded file. The Free/Event story currently
-  edits the textarea and saves without reimporting or checking changed PDF
-  contents, leaving this failure outside its assertions.
-- **Continuity and navigation:** preserve the intended draft/step across all
-  authentication entries, restore private deep-link destinations and verify
-  saved-project account switching, provide mobile Sign out and compact public
-  account/login access and a permitted onboarding/recovery path. Current
-  protected drafts are valid parsed rows plus title/predefined design/layout, stored only
-  when Save/Export starts sign-in, bounded to one hour/160 KiB by
-  [draft.ts](../workloads/web/src/draft.ts), and restored to Review.
-- **Entitlement and task states:** expose Event Pass's accepted constrained
-  name styling, persistent phone actions, meaningful current-input/fit/character
-  blockers, permission-aware purchase guidance, accurate transfer-finality copy
-  and actionable retries. Preserve
-  accepted limits instead of calling server enforcement alone a finished UI.
-- **Feedback and accessibility:** move import/design feedback into the active
-  phone step, normalize safe error presentation beyond Creator, and verify
-  full keyboard/focus/announcement behavior. Export polling gives a pending
-  message, then a ready link or retry suggestion after about 45 seconds; AI
-  polling is bounded to about 60 seconds. These are polling windows, not latency
-  promises, and Designs/Team lack explicit load/retry states.
-- **Launch boundaries:** policy surfaces/links, physical print acceptance,
-  broader font coverage and actual artwork parity in the Designs library remain
-  incomplete. Billing lifecycle/restriction/retention and support states stay
-  with their owning later builds; no navigation placeholders are added.
+The original 2026-10-06 findings remain in the dated review. Their UI remedies
+above have focused local evidence in [Creator tests](../workloads/web/src/creator.test.tsx),
+[account navigation tests](../workloads/web/src/auth-navigation.test.tsx),
+[Designs tests](../workloads/web/src/pages/designs-page.test.tsx) and the bounded
+[draft tests](../workloads/web/src/draft.test.ts). Tests inspect calls/state and
+actual SVG artwork references; they are not rendered-browser or PDF-content proof.
+
+- Hosted validation must inspect edited stored PDFs, saved-route switching,
+  authentication/reload draft continuity and mobile persistent-action/dialog
+  geometry, then independently review representative rendered states.
+- Full keyboard, contrast, announcements and assistive-technology behavior
+  remain bounded review work. Focus/alert improvements do not constitute a full
+  accessibility audit.
+- Export polls for about 45 seconds; AI for about 60 seconds. These are pending
+  windows, not latency promises. Unfinished AI batches are recoverable using the
+  same durable operation, and file download authorization is enforced by the
+  coordinated backend/adapter work.
+- Preview disclosures are factual development surfaces, not commercial/legal
+  sign-off. Physical 100%-scale print acceptance, verified billing/lifecycle,
+  production deployment/smoke and later support remain their original boundaries.
 
 ## Delivery sequence
 
@@ -845,9 +860,10 @@ settings.
 
 ## Document history
 
-| Date       | Status                                 | Change                                                                                                                                                                                                                                                                                                  |
-| ---------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-28 | Proposed — pending Andrew's review     | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                                                                                                                                                    |
-| 2026-09-28 | Accepted — implemented in development  | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged.                                                                                                                      |
-| 2026-09-28 | Accepted — corrected in development    | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                                                                                                                                    |
-| 2026-10-06 | Accepted — reconciled with development | Retained this document as the Business-local application source; inspected `b5aeae3` routes, components, styles, server guards and existing test assertions. Recorded actual navigation/composition/design choices and consequential gaps without changing accepted offers, runtime code or production. |
+| Date       | Status                                    | Change                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-28 | Proposed — pending Andrew's review        | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                                                                                                                                                                                                                                                  |
+| 2026-09-28 | Accepted — implemented in development     | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged.                                                                                                                                                                                                                    |
+| 2026-09-28 | Accepted — corrected in development       | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                                                                                                                                                                                                                                  |
+| 2026-10-06 | Accepted — reconciled with development    | Retained this document as the Business-local application source; inspected `b5aeae3` routes, components, styles, server guards and existing test assertions. Recorded actual navigation/composition/design choices and consequential gaps without changing accepted offers, runtime code or production.                                                                                               |
+| 2026-10-06 | Accepted — remediation source implemented | Implemented the authorized review plan from `3a948ad`: current-input saves/export, dirty downloads, drafts/auth return, unkeyed account-switch navigation, phone actions/preview/exit, artwork parity, safe notices/retries, Event Pass styling, Owner workspace naming and preview policies/fonts. Local component/type/lint gates passed; deployment and independent hosted review remain separate. |

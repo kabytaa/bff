@@ -34,6 +34,15 @@ type GeneratedImage = {
   readonly width: number;
   readonly height: number;
 };
+type StartedBatch = {
+  publicId: string;
+  status: BatchState;
+  created: boolean;
+  reservationId?: string;
+  generatedAssetsPersisted: boolean;
+  unitCommitConfirmed: boolean;
+  unitCommitRejected: boolean;
+};
 
 const startReference = makeFunctionReference<
   'mutation',
@@ -44,18 +53,17 @@ const startReference = makeFunctionReference<
     prompt: string;
     idempotencyKey: string;
   },
-  { publicId: string; status: BatchState; created: boolean }
+  StartedBatch
 >('aiState:start');
 const markGeneratingReference = makeFunctionReference<
   'mutation',
   { accountId: string; batchId: string; reservationId: string },
   null
 >('aiState:markGenerating');
-const completeReference = makeFunctionReference<
+const recordGeneratedReference = makeFunctionReference<
   'mutation',
   {
     accountId: string;
-    userId: string;
     batchId: string;
     assets: {
       storageId: Id<'_storage'>;
@@ -65,7 +73,22 @@ const completeReference = makeFunctionReference<
     }[];
   },
   null
+>('aiState:recordGenerated');
+const confirmUnitCommitReference = makeFunctionReference<
+  'mutation',
+  { accountId: string; batchId: string },
+  null
+>('aiState:confirmUnitCommit');
+const completeReference = makeFunctionReference<
+  'mutation',
+  { accountId: string; batchId: string },
+  null
 >('aiState:complete');
+const rejectUnitCommitReference = makeFunctionReference<
+  'mutation',
+  { accountId: string; batchId: string },
+  null
+>('aiState:rejectUnitCommit');
 const markFailedReference = makeFunctionReference<
   'mutation',
   { accountId: string; batchId: string; errorCode: string },
@@ -274,19 +297,85 @@ export const generate = action({
           'Open a saved event before generating event-only backgrounds',
         );
       }
-      const started = await ctx.runMutation(startReference, {
+      const startInput = {
         accountId: auth.accountId,
         userId: auth.userId,
         projectId: args.projectId,
         prompt,
         idempotencyKey: args.idempotencyKey,
-      });
+      };
+      const started = await ctx.runMutation(startReference, startInput);
+      const batchInput = {
+        accountId: auth.accountId,
+        batchId: started.publicId,
+      };
+      const finishGeneratedBatch = async (
+        reservationId: string,
+        unitCommitConfirmed: boolean,
+      ) => {
+        if (!unitCommitConfirmed) {
+          const committed = await client.commitUnits(
+            { contextToken: args.accessToken },
+            { reservationId, idempotencyKey: args.idempotencyKey },
+          );
+          if (
+            committed.reservation.state === 'expired' ||
+            committed.reservation.state === 'released'
+          ) {
+            await ctx.runMutation(rejectUnitCommitReference, batchInput);
+            return { batchId: started.publicId, status: 'failed' as const };
+          }
+          if (committed.reservation.state !== 'committed') {
+            fail('CONFLICT', 'The AI unit reservation could not be completed');
+          }
+          await ctx.runMutation(confirmUnitCommitReference, batchInput);
+        }
+        await ctx.runMutation(completeReference, batchInput);
+        return { batchId: started.publicId, status: 'ready' as const };
+      };
+      const keepCompletionPending = async () => {
+        try {
+          const durableBatch = await ctx.runMutation(
+            startReference,
+            startInput,
+          );
+          if (
+            durableBatch.status === 'ready' ||
+            durableBatch.unitCommitRejected
+          ) {
+            return { batchId: started.publicId, status: durableBatch.status };
+          }
+          await ctx.runMutation(markFailedReference, {
+            ...batchInput,
+            errorCode: 'AI_COMPLETION_PENDING',
+          });
+        } catch {
+          // Durable outputs and the same idempotency key remain retryable even
+          // when recording the recovery notice is itself interrupted.
+        }
+        return { batchId: started.publicId, status: 'generating' as const };
+      };
       if (!started.created) {
+        if (
+          started.status !== 'ready' &&
+          !started.unitCommitRejected &&
+          started.generatedAssetsPersisted &&
+          started.reservationId
+        ) {
+          try {
+            return await finishGeneratedBatch(
+              started.reservationId,
+              started.unitCommitConfirmed,
+            );
+          } catch {
+            return await keepCompletionPending();
+          }
+        }
         return { batchId: started.publicId, status: started.status };
       }
 
       let reservationId: string | undefined;
-      let reservationCommitted = false;
+      let outputsPersistenceStarted = false;
       const stored: Id<'_storage'>[] = [];
       try {
         const reservation = await client.reserveUnits(
@@ -325,24 +414,35 @@ export const generate = action({
             height: image.height,
           });
         }
-        await client.commitUnits(
-          { contextToken: args.accessToken },
-          {
-            reservationId,
-            idempotencyKey: args.idempotencyKey,
-          },
-        );
-        reservationCommitted = true;
-        await ctx.runMutation(completeReference, {
-          accountId: auth.accountId,
-          userId: auth.userId,
-          batchId: started.publicId,
+        outputsPersistenceStarted = true;
+        await ctx.runMutation(recordGeneratedReference, {
+          ...batchInput,
           assets,
         });
-        return { batchId: started.publicId, status: 'ready' };
+        return await finishGeneratedBatch(reservationId, false);
       } catch (error) {
+        if (outputsPersistenceStarted) {
+          // A mutation/commit can succeed remotely even if its response is lost.
+          // Re-read durable state before choosing cleanup; an unavailable read
+          // must preserve the potentially charged outputs for the next retry.
+          let durableBatch: StartedBatch | undefined;
+          try {
+            durableBatch = await ctx.runMutation(startReference, startInput);
+          } catch {
+            // The next identical request will reconcile the durable batch.
+          }
+          if (durableBatch?.status === 'ready') {
+            return { batchId: started.publicId, status: 'ready' };
+          }
+          if (
+            durableBatch === undefined ||
+            durableBatch.generatedAssetsPersisted
+          ) {
+            return await keepCompletionPending();
+          }
+        }
         for (const storageId of stored) await ctx.storage.delete(storageId);
-        if (reservationId && !reservationCommitted) {
+        if (reservationId) {
           try {
             await client.releaseUnits(
               { contextToken: args.accessToken },

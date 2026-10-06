@@ -2,7 +2,7 @@
 
 Created: 2026-10-06
 Updated: 2026-10-06
-Baseline: runtime source at `b5aeae3` on `feat/tablecards-application`; documentation reconciled after checkpoint `42a6e33`
+Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
 Scope: implemented Build 3 development architecture, not production approval
 
 The [product](product.md) defines promises; the [application contract](application.md)
@@ -16,6 +16,7 @@ function validators remain the exact executable definitions.
 Browser / TableCards React app
   ├─ same-site session gateway → TableCards server SDK → shared BFF auth
   ├─ account-context JWT → native TableCards Convex product functions
+  ├─ account-context JWT → authenticated TableCards private-file HTTP actions
   └─ account-context JWT → BFF SDK account/team operations
 
 TableCards backend
@@ -44,10 +45,9 @@ never receives the renewal handle through JavaScript or signs its own token.
 
 TableCards guards derive `accountId` and `userId` from verified BFF context.
 Public route IDs do not establish authorization. Account selection clears the
-old SDK context. Returning from a saved-project route to Projects is intended,
-but the [hands-on review](reviews/261006-tablecards-app-review.md)
-observed the old route retained with an empty editor after the switch. No
-stale guest disclosure was observed; this is a navigation/state defect. The
+old SDK context and private-file Blob cache. Account-change navigation lives
+outside the provider's keyed remount boundary so a saved-project switch can
+return to Projects rather than leave the previous account's route behind. The
 same-site Cloudflare gateway avoids the generated-domain cross-site cookie
 topology without becoming a session database or product proxy.
 
@@ -67,25 +67,24 @@ references relate records inside this TableCards deployment. Indexes support
 lookups; transactional functions enforce invariants rather than relying on SQL
 foreign-key or unique constraints.
 
-| Table             | Purpose and main relationships                                                                                              | Why separate                                                                                              |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `projects`        | Event metadata: public ID, account, creator, title, active/archived state, design reference/style, guest count and revision | Project lists need summaries, not every guest row                                                         |
-| `projectContents` | The project's current ordered guest array and revision, linked by `projectId`                                               | Keeps private list content separate from lightweight summaries; this is not an immutable revision history |
-| `designAssets`    | Validated uploaded/generated PNG/JPEG metadata and a Convex storage ID; optional `projectId` for event-scoped artwork       | Stores the file once and distinguishes event-only from reusable artwork                                   |
-| `designPresets`   | Account-owned reusable style pointing to `designAssets`, with name and constrained text styling                             | A preset is a reusable choice, not the underlying image or a freeform canvas                              |
-| `projectExports`  | Export request/result linked to a project and its requested revision/layout; status, file ID, page count or safe error      | Tracks asynchronous PDF work separately from editable projects                                            |
-| `aiBatches`       | Account/idempotency-keyed generation operation, optional project, prompt, status, reservation reference and four asset IDs  | Retries must not duplicate generation or consume another BFF unit                                         |
+| Table             | Purpose and main relationships                                                                                                                 | Why separate                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `projects`        | Event metadata: public ID, account, creator, title, active/archived state, design reference/style, guest count and revision                    | Project lists need summaries, not every guest row                                                         |
+| `projectContents` | The project's current ordered guest array and revision, linked by `projectId`                                                                  | Keeps private list content separate from lightweight summaries; this is not an immutable revision history |
+| `designAssets`    | Validated uploaded/generated PNG/JPEG metadata and a Convex storage ID; optional `projectId` for event-scoped artwork                          | Stores the file once and distinguishes event-only from reusable artwork                                   |
+| `designPresets`   | Account-owned reusable style pointing to `designAssets`, with name and constrained text styling                                                | A preset is a reusable choice, not the underlying image or a freeform canvas                              |
+| `projectExports`  | Export request/result with requested revision/layout and atomically captured render snapshot; status, file ID, page count or safe error        | Queued work must not silently read a newer editable project                                               |
+| `aiBatches`       | Account/idempotency-keyed operation, prompt, reservation, durable generated-file descriptors, commit confirmation and four completed asset IDs | Interrupted completion can resume without deleting charged results or consuming another unit              |
 
 Convex `_storage` holds image/PDF bytes; it is not a custom product table.
-Database rows store storage IDs, not permanently cached download URLs. Queries
-obtain current URLs when needed; possession of a file URL must be treated as
-access to that file, not a replacement for account authorization.
-
-These `getUrl` URLs do not automatically expire and remain usable after
-membership/session changes while the file exists. The earlier runbook claim
-that they were short-lived was incorrect. See the official
-[file security model](https://docs.convex.dev/file-storage/overview); release
-review must explicitly resolve private PDF access and revocation expectations.
+Database rows store storage IDs. Customer projections return relative private
+file addresses, never new `storage.getUrl` bearer links. Every byte request
+verifies the account token, exact Origin where applicable, current BFF
+membership and active session before reading storage. The browser materializes
+bounded Blob URLs and revokes its cache on account/session changes and disposal.
+Already delivered/downloaded bytes cannot be recalled. Older development
+bearer links remain usable while their files exist; no destructive file
+migration was performed. This residual limitation is explicitly disclosed.
 
 ```mermaid
 erDiagram
@@ -111,19 +110,21 @@ queries/mutations use native authenticated Convex context; actions also accept
 the current token for verified server-to-server BFF operations. Internal
 `*Authorized` functions are not public authorization shortcuts.
 
-| Capability                  | Public function(s)                                                                 | Boundary/result                                                                                     |
-| --------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Current account offer/units | `productAccess:current`                                                            | BFF effective access and current balance; UI gets an allocation label, not a bucket selector        |
-| Start purchase simulation   | `productAccess:startCheckout`                                                      | Owner context plus backend-only service credential; returns provider-neutral checkout URL           |
-| List/open/archive projects  | `projects:list`, `projects:get`, `projects:archive`                                | Verified account scope; summaries or current contents                                               |
-| Save/duplicate/restore      | `productAccess:saveProject`, `duplicateProject`, `restoreProject`                  | Current offer checks, then transactional project update/capacity enforcement                        |
-| Upload artwork              | `assets:generateUploadUrl`, `assets:finalize`, `assets:list`                       | Entitlement check, storage upload, byte/type/dimension validation and account/project attachment    |
-| Reusable presets            | `designPresets:list`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Reuse entitlement and account-scoped asset/style validation                                         |
-| Generate backgrounds        | `ai:generate`, `aiState:get`                                                       | Reserve one batch unit; exactly four choices or a safe failure                                      |
-| Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`               | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready |
-| Sessions, accounts, teams   | Public BFF browser/React SDK                                                       | BFF-authorized invitations, roles, removal and provider-neutral ownership transfer                  |
+| Capability                  | Public function(s)                                                                 | Boundary/result                                                                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Current account offer/units | `productAccess:current`                                                            | BFF effective access and current balance; UI gets an allocation label, not a bucket selector                                                            |
+| Start purchase simulation   | `productAccess:startCheckout`                                                      | Owner context plus backend-only service credential; returns provider-neutral checkout URL                                                               |
+| List/open/archive projects  | `projects:list`, `projects:get`, `projects:archive`                                | Verified account scope; summaries or current contents                                                                                                   |
+| Save/duplicate/restore      | `productAccess:saveProject`, `duplicateProject`, `restoreProject`                  | Current offer checks, then transactional project update/capacity enforcement                                                                            |
+| Upload artwork              | `POST /v1/files/artwork?projectId=...`; `assets:list`                              | Bounded authenticated PNG/JPEG bytes; server-created storage only, current offer and scope validation. Legacy upload URL/finalize functions fail closed |
+| Private file delivery       | `GET /v1/files/assets/:publicId`, `GET /v1/files/exports/:publicId`                | Authoritative session/membership and scoped row lookup on each request; no token in URL                                                                 |
+| Reusable presets            | `designPresets:list`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Reuse entitlement and account-scoped asset/style validation                                                                                             |
+| Generate backgrounds        | `ai:generate`, `aiState:get`                                                       | Reserve one batch unit; exactly four choices or a safe failure                                                                                          |
+| Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`               | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready                                                     |
+| Sessions, accounts, teams   | Public BFF browser/React SDK                                                       | BFF-authorized invitations, roles, removal, Owner-only workspace naming and provider-neutral ownership transfer                                         |
 
-The TableCards HTTP router mounts SDK session endpoints and `/v1/health`.
+The TableCards HTTP router mounts SDK session endpoints, private file transfer
+and `/v1/health`.
 Health reports service/version and no customer data. Generic product and team
 APIs belong to BFF or native Convex, not extra TableCards HTTP copies.
 
@@ -134,26 +135,28 @@ APIs belong to BFF or native Convex, not extra TableCards HTTP copies.
 1. Browser parses pasted/grid/CSV/XLSX rows and presents mapping/validation.
 2. Save rechecks current offer, account-scoped design and limits server-side;
    an internal transaction stores project metadata and current contents.
-3. Export request records the project revision/layout and schedules rendering.
+3. Export request atomically captures the authorized revision, guest contents,
+   title, style and artwork reference and schedules rendering in the same
+   mutation; a scheduling failure rolls back the job instead of orphaning it.
    An existing non-failed request for that revision/layout can be reused.
-4. Renderer loads the project, verifies predefined artwork bytes against the
-   catalog hash or loads the validated custom asset, then renders/stores PDF.
+4. Renderer loads that snapshot, verifies predefined artwork and bundled Noto
+   fonts against approved hashes, then renders/stores PDF. Legacy jobs without
+   a snapshot reject mismatched live revisions rather than relabel their PDF.
 5. UI observes ready/failed status and offers a successful download, not a
    pretend export success.
 
-The current implementation does not bind rendering to an immutable contents
-snapshot: `exportState:load` reads current project/contents without checking the
-recorded `projectRevision`. Concurrent edits can therefore render a different
-revision. Separately, the browser reuses `savedProject` when the draft is dirty,
-so the displayed preview and requested export can disagree. Both are defects,
-not the intended revision contract.
+The browser parses/saves current edits before export and hides stale download
+links when the draft changes. Latest-export queries omit a result from an older
+project revision. Snapshot/save/load interleaving and actual PDF contents are
+regression boundaries, not merely export status assertions.
 
 The canonical physical contract is four folded cards on US Letter. The
 six-card landscape option is a development print trial. Shared core geometry
 and versioned artwork align browser preview with deterministic PDF output.
 White `v2` print artwork avoids a full-page tint while the site retains a warm
-visual palette. Current hosted font coverage uses built-in Helvetica; broad
-Unicode coverage must not be promised without reviewed bundled font bytes.
+visual palette. Hosted exports embed pinned Noto Sans and Noto Serif. Unsupported
+glyphs and impossible fits remain explicit failures; this is a Latin-script
+contract, not an assertion that every writing system is supported.
 
 ### AI usage and payment boundary
 
@@ -161,14 +164,26 @@ TableCards asks BFF to reserve `ai_background_batch`, amount `1`, and an
 idempotency key. It never chooses a bucket or billing period. BFF resolves a
 fixed lifetime/event allocation or the current monthly anniversary cycle and
 creates a missing bucket lazily. Old consumption stays in its original bucket.
-Generation commits on success and attempts release on failure; reservation
-expiry is a fallback when release cannot reach BFF. Generation only passes the
+Generation persists four private output descriptors before committing a unit,
+records confirmed commit, and atomically attaches the ready choices. A lost
+commit/completion response preserves outputs and permits the same original
+requester's idempotency key to reconcile completion. The authorized
+`aiState:pendingForCaller` query restores that key after reload for the same
+account, requester and optional saved event, even when the unit balance is zero;
+it never exposes storage identifiers. Provider failure before
+persisted outputs attempts release; reservation expiry is a fallback when
+release cannot reach BFF. Generation only passes the
 background prompt, not project guest rows, to the image provider.
 
+Uploaded artwork is fully decoded before storage: exact unrotated 7:4 ratio,
+minimum 1050 × 600 pixels, at most 2 megapixels and 10 MiB; PNG is non-animated,
+8-bit or lower. Streaming IDAT/profile expansion bounds and a 32 MiB JPEG decoder
+budget protect the Convex HTTP runtime, not just the compressed request size.
+
 This crosses two independent services, not one distributed transaction.
-Interruption between committing a BFF unit and recording completed product
-assets is a reconciliation concern; the normal provider-failure test alone
-does not prove recovery from every such interruption.
+Recovery tests interrupt descriptor persistence, BFF commit and product
+completion, including responses lost after remote success. Retries must yield
+the same four assets and one charge. Pending outputs are not visible as ready.
 
 Build 3 uses a deterministic image provider and shared no-charge checkout.
 TableCards redirects to the URL returned by BFF; it has no local payment mock
@@ -179,14 +194,11 @@ and next-cycle allowances only from verified provider paid-through state.
 
 ## Consistency and evidence
 
-The 2026-10-06 independent readiness review also found an authorization defect
-in [upload finalization](../backend/convex/assets.ts): the caller-supplied
-storage ID is not bound to that caller's upload/account, and failed finalization
-deletes it without proving ownership. Account-scoped asset rows do not establish
-ownership of arbitrary storage bytes. Existing upload validation should not be
-read as proof that this boundary is safe; remediation needs negative ownership
-and cleanup tests. See the dated [reviews](reviews/) for reproduction scope and
-severity.
+The initial 2026-10-06 review is preserved as a failed baseline. Its upload,
+export and AI findings drove the current implementation; the remediation review
+records fresh verification separately. Never infer storage ownership from a
+caller-supplied ID. Upload cleanup may delete only this handler's unlinked
+server-created file, and must preserve a file whose attachment response was lost.
 
 Before changing a table or public function, reconcile this explanation with
 the executable schema/validators, browser adapter and affected tests. Before

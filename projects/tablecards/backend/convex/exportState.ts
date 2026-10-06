@@ -1,9 +1,11 @@
+import { makeFunctionReference } from 'convex/server';
 import { v } from 'convex/values';
 
 import { getDesignDefinition } from '@tablecards/core';
 import { withBffAccountQuery } from '@tofler/bff-auth/convex/server';
 import { internalMutation, query } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
+import { exportFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
 
@@ -19,6 +21,11 @@ const nameStyle = v.object({
   font: v.union(v.literal('sans'), v.literal('serif')),
   size: v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
 });
+const renderReference = makeFunctionReference<
+  'action',
+  { accountId: string; exportId: string },
+  null
+>('exports:render');
 
 export const create = internalMutation({
   args: {
@@ -64,6 +71,42 @@ export const create = internalMutation({
     if (project.designKind === 'ai' && !args.allowAiDesigns) {
       fail('ENTITLEMENT_REQUIRED', 'AI artwork is not available');
     }
+    const contents = await ctx.db
+      .query('projectContents')
+      .withIndex('by_project_id', (queryBuilder) =>
+        queryBuilder.eq('projectId', project._id),
+      )
+      .unique();
+    if (!contents || contents.accountId !== args.accountId) {
+      fail('NOT_FOUND', 'The project contents were not found');
+    }
+    if (
+      contents.revision !== project.revision ||
+      contents.guests.length !== project.guestCount
+    ) {
+      fail('CONFLICT', 'The saved project revision is inconsistent');
+    }
+    let backgroundStorageId;
+    let backgroundMimeType;
+    if (project.designKind !== 'predefined') {
+      const asset = await ctx.db
+        .query('designAssets')
+        .withIndex('by_account_public_id', (queryBuilder) =>
+          queryBuilder
+            .eq('accountId', args.accountId)
+            .eq('publicId', project.designReference),
+        )
+        .unique();
+      if (
+        !asset ||
+        asset.source !== project.designKind ||
+        (asset.projectId !== undefined && asset.projectId !== project._id)
+      ) {
+        fail('NOT_FOUND', 'The background artwork was not found');
+      }
+      backgroundStorageId = asset.storageId;
+      backgroundMimeType = asset.mimeType;
+    }
     const previous = await ctx.db
       .query('projectExports')
       .withIndex('by_project_created_at', (queryBuilder) =>
@@ -90,10 +133,27 @@ export const create = internalMutation({
       projectId: project._id,
       requestedByUserId: args.userId,
       projectRevision: project.revision,
+      snapshot: {
+        projectId: project.publicId,
+        title: project.title,
+        designKind: project.designKind,
+        designReference: project.designReference,
+        ...(project.nameStyle === undefined
+          ? {}
+          : { nameStyle: project.nameStyle }),
+        guests: contents.guests,
+        ...(backgroundStorageId === undefined
+          ? {}
+          : { backgroundStorageId, backgroundMimeType }),
+      },
       layoutId: args.layoutId,
       status: 'queued',
       createdAt: now,
       updatedAt: now,
+    });
+    await ctx.scheduler.runAfter(0, renderReference, {
+      accountId: args.accountId,
+      exportId: publicId,
     });
     return { publicId, status: 'queued' as const, created: true };
   },
@@ -141,6 +201,16 @@ export const load = internalMutation({
     if (!project || project.accountId !== args.accountId) {
       fail('NOT_FOUND', 'The project was not found');
     }
+    if (exportJob.snapshot !== undefined) {
+      await ctx.db.patch(exportJob._id, {
+        status: 'generating',
+        updatedAt: Date.now(),
+      });
+      return {
+        ...exportJob.snapshot,
+        layoutId: exportJob.layoutId ?? 'portrait_4',
+      };
+    }
     const contents = await ctx.db
       .query('projectContents')
       .withIndex('by_project_id', (queryBuilder) =>
@@ -149,6 +219,14 @@ export const load = internalMutation({
       .unique();
     if (!contents || contents.accountId !== args.accountId) {
       fail('NOT_FOUND', 'The project contents were not found');
+    }
+    // Rows queued before snapshots were introduced can render only the exact
+    // revision authorized by their original request.
+    if (
+      project.revision !== exportJob.projectRevision ||
+      contents.revision !== exportJob.projectRevision
+    ) {
+      fail('CONFLICT', 'The export revision is stale; request a new PDF');
     }
     let backgroundStorageId;
     let backgroundMimeType;
@@ -204,6 +282,13 @@ export const complete = internalMutation({
       )
       .unique();
     if (!exportJob) fail('NOT_FOUND', 'The export was not found');
+    if (
+      exportJob.status === 'ready' &&
+      exportJob.storageId === args.storageId &&
+      exportJob.pageCount === args.pageCount
+    ) {
+      return null;
+    }
     if (exportJob.status !== 'generating') {
       fail('CONFLICT', 'The export is not generating');
     }
@@ -214,6 +299,41 @@ export const complete = internalMutation({
       updatedAt: Date.now(),
     });
     return null;
+  },
+});
+
+export const cleanupUnattached = internalMutation({
+  args: {
+    accountId: v.string(),
+    exportId: v.string(),
+    storageId: v.id('_storage'),
+  },
+  returns: exportStatus,
+  handler: async (ctx, args) => {
+    const exportJob = await ctx.db
+      .query('projectExports')
+      .withIndex('by_account_public_id', (queryBuilder) =>
+        queryBuilder
+          .eq('accountId', args.accountId)
+          .eq('publicId', args.exportId),
+      )
+      .unique();
+    if (!exportJob) fail('NOT_FOUND', 'The export was not found');
+    if (exportJob.status === 'ready') return exportJob.status;
+    const linkedExport = await ctx.db
+      .query('projectExports')
+      .withIndex('by_storage_id', (queryBuilder) =>
+        queryBuilder.eq('storageId', args.storageId),
+      )
+      .first();
+    const linkedAsset = await ctx.db
+      .query('designAssets')
+      .withIndex('by_storage_id', (queryBuilder) =>
+        queryBuilder.eq('storageId', args.storageId),
+      )
+      .first();
+    if (!linkedExport && !linkedAsset) await ctx.storage.delete(args.storageId);
+    return exportJob.status;
   },
 });
 
@@ -276,9 +396,10 @@ export const get = query({
         ...(exportJob.errorCode === undefined
           ? {}
           : { errorCode: exportJob.errorCode }),
-        downloadUrl: exportJob.storageId
-          ? await ctx.storage.getUrl(exportJob.storageId)
-          : null,
+        downloadUrl:
+          exportJob.status === 'ready' && exportJob.storageId
+            ? exportFileAddress(exportJob.publicId)
+            : null,
       };
     },
   ),
@@ -316,7 +437,13 @@ export const latestForProject = query({
         )
         .order('desc')
         .first();
-      if (!exportJob || exportJob.accountId !== auth.accountId) return null;
+      if (
+        !exportJob ||
+        exportJob.accountId !== auth.accountId ||
+        exportJob.projectRevision !== project.revision
+      ) {
+        return null;
+      }
       return {
         publicId: exportJob.publicId,
         projectId: project.publicId,
@@ -327,9 +454,10 @@ export const latestForProject = query({
         ...(exportJob.errorCode === undefined
           ? {}
           : { errorCode: exportJob.errorCode }),
-        downloadUrl: exportJob.storageId
-          ? await ctx.storage.getUrl(exportJob.storageId)
-          : null,
+        downloadUrl:
+          exportJob.status === 'ready' && exportJob.storageId
+            ? exportFileAddress(exportJob.publicId)
+            : null,
       };
     },
   ),

@@ -41,6 +41,7 @@ export {
   paginatedAccountMembersSchema,
   paginatedInvitationsSchema,
   removeMembershipRequestSchema,
+  renameAccountRequestSchema,
   revokeInvitationRequestSchema,
   deriveCustomerAuthCallbackUrl,
   defineCustomerAuthDefaults,

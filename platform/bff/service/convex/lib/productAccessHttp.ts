@@ -33,15 +33,22 @@ export async function currentProductAccessHandler(
   return await withAuthenticatedCustomerRequest(
     ctx,
     request,
-    async (claims, headers) =>
-      jsonResponse(
+    async (claims, headers) => {
+      await ctx.runQuery(internal.sessions.validateContext, {
+        environmentKey: claims.environmentKey,
+        userPublicId: claims.sub,
+        sessionPublicId: claims.sessionId,
+        now: Date.now(),
+      });
+      return jsonResponse(
         await ctx.runQuery(internal.productAccess.currentForAccount, {
           ...contextArguments(accountContext(claims)),
           now: Date.now(),
         }),
         200,
         headers,
-      ),
+      );
+    },
   );
 }
 

@@ -1,13 +1,35 @@
-import { convexTest } from 'convex-test';
-import { makeFunctionReference } from 'convex/server';
-import { describe, expect, it } from 'vitest';
+// @vitest-environment node
 
+import { readFile } from 'node:fs/promises';
+
+import { convexTest, type TestConvex } from 'convex-test';
+import {
+  getFunctionName,
+  makeFunctionReference,
+  type FunctionArgs,
+  type FunctionReference,
+} from 'convex/server';
+import {
+  PDFArray,
+  PDFDict,
+  PDFDocument,
+  PDFName,
+  PDFRawStream,
+  decodePDFRawStream,
+} from 'pdf-lib';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { TABLECARDS_FONTS, getDesignDefinition } from '@tablecards/core';
+import type { ActionCtx, MutationCtx } from './_generated/server';
+import { create as createExportMutation } from './exportState';
+import { render } from './exports';
 import schema from './schema';
 
 const modules = import.meta.glob('./**/*.ts');
 const issuer = 'https://auth-dev.tofler.app';
 const accountId = 'account_abcdefghijklmnop';
 const userId = 'user_abcdefghijklmnop';
+type TestBackend = TestConvex<typeof schema>;
 
 function identity(requestedAccountId = accountId) {
   return {
@@ -30,6 +52,7 @@ const saveProject = makeFunctionReference<
   {
     accountId: string;
     userId: string;
+    projectId?: string;
     title: string;
     guests: { name: string }[];
     design: {
@@ -83,6 +106,16 @@ const failExport = makeFunctionReference<
   { accountId: string; exportId: string; errorCode: string },
   null
 >('exportState:failExport');
+const renderExport = makeFunctionReference<
+  'action',
+  { accountId: string; exportId: string },
+  null
+>('exports:render');
+const latestExport = makeFunctionReference<
+  'query',
+  { projectId: string },
+  { status: string; downloadUrl: string | null } | null
+>('exportState:latestForProject');
 const getExport = makeFunctionReference<
   'query',
   { exportId: string },
@@ -107,12 +140,11 @@ const completeAi = makeFunctionReference<
   'mutation',
   {
     accountId: string;
-    userId: string;
     batchId: string;
     assets: [];
   },
   null
->('aiState:complete');
+>('aiState:recordGenerated');
 const failAi = makeFunctionReference<
   'mutation',
   { accountId: string; batchId: string; errorCode: string },
@@ -125,7 +157,7 @@ const getAi = makeFunctionReference<
 >('aiState:get');
 
 async function seededProject(
-  t: ReturnType<typeof convexTest>,
+  t: TestBackend,
   designReference = 'minimal-ivory',
   withNameStyle = false,
 ) {
@@ -156,6 +188,99 @@ async function seededProject(
   });
 }
 
+function extractedPdfText(pdf: PDFDocument): string[] {
+  return pdf.getPages().flatMap((page) => {
+    const fonts = page.node.Resources()?.lookup(PDFName.of('Font'), PDFDict);
+    const maps = new Map<string, Map<string, string>>();
+    for (const [name, reference] of fonts?.entries() ?? []) {
+      const font = pdf.context.lookup(reference, PDFDict);
+      const unicode = pdf.context.lookup(font.get(PDFName.of('ToUnicode')));
+      if (!(unicode instanceof PDFRawStream)) continue;
+      const cmap = new TextDecoder().decode(
+        decodePDFRawStream(unicode).decode(),
+      );
+      maps.set(
+        name.decodeText(),
+        new Map(
+          [...cmap.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>/gu)].map(
+            (match) => [
+              (match[1] ?? '').toUpperCase(),
+              String.fromCharCode(
+                ...(match[2]?.match(/.{4}/gu) ?? []).map((part) =>
+                  Number.parseInt(part, 16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    const contents = page.node.Contents();
+    const streams =
+      contents instanceof PDFArray
+        ? contents.asArray().map((reference) => pdf.context.lookup(reference))
+        : [contents];
+    let activeFont = '';
+    return streams.flatMap((stream) => {
+      if (!(stream instanceof PDFRawStream)) return [];
+      const commands = new TextDecoder().decode(
+        decodePDFRawStream(stream).decode(),
+      );
+      const text: string[] = [];
+      for (const match of commands.matchAll(
+        /\/([^\s]+)\s+[\d.]+\s+Tf|<([0-9A-Fa-f]+)>\s*Tj/gu,
+      )) {
+        if (match[1]) {
+          activeFont = match[1];
+          continue;
+        }
+        const map = maps.get(activeFont);
+        const glyphs = match[2]?.match(map ? /.{4}/gu : /../gu) ?? [];
+        text.push(
+          glyphs
+            .map((glyph) =>
+              map
+                ? (map.get(glyph.toUpperCase()) ?? '')
+                : String.fromCharCode(Number.parseInt(glyph, 16)),
+            )
+            .join(''),
+        );
+      }
+      return text;
+    });
+  });
+}
+
+beforeEach(() => vi.useFakeTimers());
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.useRealTimers();
+});
+
+function stubRenderFiles() {
+  const paths = new Set([
+    getDesignDefinition('minimal-ivory').artwork.publicPath,
+    TABLECARDS_FONTS.sans.publicPath,
+    TABLECARDS_FONTS.serif.publicPath,
+  ]);
+  vi.spyOn(globalThis, 'fetch').mockImplementation(async (request) => {
+    const url = new URL(
+      request instanceof Request ? request.url : String(request),
+    );
+    if (!paths.has(url.pathname)) throw new Error('Unexpected render fetch');
+    const asset = await readFile(
+      new URL(`../../workloads/web/public${url.pathname}`, import.meta.url),
+    );
+    return new Response(Uint8Array.from(asset).buffer, {
+      headers: {
+        'content-type': url.pathname.endsWith('.ttf')
+          ? 'font/ttf'
+          : 'image/jpeg',
+      },
+    });
+  });
+}
+
 describe('TableCards durable operations', () => {
   it('deduplicates exports and keeps their status account scoped', async () => {
     const t = convexTest(schema, modules);
@@ -175,6 +300,15 @@ describe('TableCards durable operations', () => {
     await expect(t.mutation(createExport, input)).resolves.toEqual({
       ...first,
       created: false,
+    });
+    const scheduled = await t.run(
+      async (ctx) => await ctx.db.system.query('_scheduled_functions').take(4),
+    );
+    expect(scheduled).toHaveLength(1);
+    expect(scheduled[0]).toMatchObject({
+      name: 'exports:render',
+      args: [{ accountId, exportId: first.publicId }],
+      state: { kind: 'pending' },
     });
     await expect(
       t.mutation(loadExport, {
@@ -229,6 +363,72 @@ describe('TableCards durable operations', () => {
     ).rejects.toThrow(/ENTITLEMENT_REQUIRED|paid offer/u);
   });
 
+  it('rolls back the export insert when durable scheduling fails', async () => {
+    const t = convexTest(schema, modules);
+    const project = await seededProject(t);
+    const input: FunctionArgs<typeof createExport> = {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      maximumCards: 25,
+      premiumDesigns: false,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      layoutId: 'portrait_4',
+    };
+    const handler = (
+      createExportMutation as typeof createExportMutation & {
+        _handler: (
+          ctx: MutationCtx,
+          args: typeof input,
+        ) => Promise<{ publicId: string; status: string; created: boolean }>;
+      }
+    )._handler;
+    await expect(
+      t.mutation(
+        async (ctx) =>
+          await handler(
+            {
+              ...ctx,
+              scheduler: {
+                ...ctx.scheduler,
+                runAfter: async () => {
+                  throw new Error('Simulated scheduler failure');
+                },
+              },
+            },
+            input,
+          ),
+      ),
+    ).rejects.toThrow(/scheduler failure/u);
+    expect(
+      await t.run(
+        async (ctx) =>
+          await ctx.db
+            .query('projectExports')
+            .withIndex('by_account_public_id', (q) =>
+              q.eq('accountId', accountId),
+            )
+            .take(4),
+      ),
+    ).toEqual([]);
+    expect(
+      await t.run(
+        async (ctx) =>
+          await ctx.db.system.query('_scheduled_functions').take(4),
+      ),
+    ).toEqual([]);
+    const created = await t.mutation(createExport, input);
+    expect(created.created).toBe(true);
+    await t.mutation(createExport, input);
+    expect(
+      await t.run(
+        async (ctx) =>
+          await ctx.db.system.query('_scheduled_functions').take(4),
+      ),
+    ).toHaveLength(1);
+  });
+
   it('keeps AI idempotency exact and requires exactly four outputs', async () => {
     const t = convexTest(schema, modules);
     const input = {
@@ -254,7 +454,6 @@ describe('TableCards durable operations', () => {
     await expect(
       t.mutation(completeAi, {
         accountId,
-        userId,
         batchId: first.publicId,
         assets: [],
       }),
@@ -271,5 +470,214 @@ describe('TableCards durable operations', () => {
       errorCode: 'PROVIDER_UNAVAILABLE',
       choices: [],
     });
+  });
+
+  it('renders the authorized snapshot after a later save changes content and entitlement', async () => {
+    const t = convexTest(schema, modules);
+    const project = await seededProject(t);
+    const requested = await t.mutation(createExport, {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      maximumCards: 25,
+      premiumDesigns: false,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      layoutId: 'portrait_4',
+    });
+    await t.mutation(saveProject, {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      title: 'Changed title',
+      guests: Array.from({ length: 26 }, () => ({ name: 'Changed Guest' })),
+      design: { kind: 'predefined', reference: 'rosewater-frame' },
+      maximumActiveProjects: 1,
+      maximumCards: 500,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      allowPremiumDesigns: true,
+    });
+    const loaded = await t.mutation(loadExport, {
+      accountId,
+      exportId: requested.publicId,
+    });
+    expect(loaded).toMatchObject({
+      title: 'Dinner',
+      guests: [{ name: 'Ada' }, { name: 'Grace' }],
+      designReference: 'minimal-ivory',
+    });
+    stubRenderFiles();
+    await t.action(renderExport, { accountId, exportId: requested.publicId });
+    const bytes = await t.run(async (ctx) => {
+      const job = await ctx.db
+        .query('projectExports')
+        .withIndex('by_account_public_id', (q) =>
+          q.eq('accountId', accountId).eq('publicId', requested.publicId),
+        )
+        .unique();
+      if (!job?.storageId) throw new Error('Missing rendered PDF');
+      const file = await ctx.storage.get(job.storageId);
+      if (!file) throw new Error('Missing PDF bytes');
+      return await file.arrayBuffer();
+    });
+    const pdf = await PDFDocument.load(new Uint8Array(bytes));
+    expect(pdf.getTitle()).toBe('Dinner');
+    const names = extractedPdfText(pdf);
+    expect(names.filter((name) => name === 'Ada')).toHaveLength(2);
+    expect(names.filter((name) => name === 'Grace')).toHaveLength(2);
+    expect(names).not.toContain('Changed Guest');
+    expect(
+      await t.run(
+        async (ctx) =>
+          await ctx.db
+            .query('projectExports')
+            .withIndex('by_account_public_id', (q) =>
+              q.eq('accountId', accountId).eq('publicId', requested.publicId),
+            )
+            .unique(),
+      ),
+    ).toMatchObject({ projectRevision: 1, status: 'ready' });
+    await expect(
+      t.withIdentity(identity()).query(latestExport, {
+        projectId: project.publicId,
+      }),
+    ).resolves.toBeNull();
+    await expect(
+      t.mutation(createExport, {
+        accountId,
+        userId,
+        projectId: project.publicId,
+        maximumCards: 25,
+        premiumDesigns: false,
+        allowUploadedDesigns: false,
+        allowAiDesigns: true,
+        layoutId: 'portrait_4',
+      }),
+    ).rejects.toThrow(/LIMIT_EXCEEDED/u);
+  });
+
+  it.each([false, true])(
+    'preserves the attached PDF after a lost completion response (cleanup unavailable: %s)',
+    async (cleanupUnavailable) => {
+      const t = convexTest(schema, modules);
+      const project = await seededProject(t);
+      const requested = await t.mutation(createExport, {
+        accountId,
+        userId,
+        projectId: project.publicId,
+        maximumCards: 25,
+        premiumDesigns: false,
+        allowUploadedDesigns: false,
+        allowAiDesigns: true,
+        layoutId: 'portrait_4',
+      });
+      stubRenderFiles();
+      const handler = (
+        render as typeof render & {
+          _handler: (
+            ctx: ActionCtx,
+            args: { accountId: string; exportId: string },
+          ) => Promise<null>;
+        }
+      )._handler;
+      const rendering = t.action(async (ctx) => {
+        const runMutation = (async (
+          reference: FunctionReference<'mutation'>,
+          mutationArgs: Record<string, unknown>,
+        ) => {
+          if (
+            cleanupUnavailable &&
+            getFunctionName(reference) === 'exportState:cleanupUnattached'
+          ) {
+            throw new Error('Simulated unavailable cleanup reconciliation');
+          }
+          const result = await ctx.runMutation(reference, mutationArgs);
+          if (getFunctionName(reference) === 'exportState:complete') {
+            throw new Error('Simulated lost PDF completion response');
+          }
+          return result;
+        }) as typeof ctx.runMutation;
+        return await handler(
+          { ...ctx, runMutation },
+          { accountId, exportId: requested.publicId },
+        );
+      });
+      if (cleanupUnavailable) {
+        await expect(rendering).rejects.toThrow(/lost PDF completion/u);
+      } else {
+        await expect(rendering).resolves.toBeNull();
+      }
+      const bytes = await t.run(async (ctx) => {
+        const job = await ctx.db
+          .query('projectExports')
+          .withIndex('by_account_public_id', (q) =>
+            q.eq('accountId', accountId).eq('publicId', requested.publicId),
+          )
+          .unique();
+        expect(job?.status).toBe('ready');
+        if (!job?.storageId) throw new Error('Missing PDF attachment');
+        const file = await ctx.storage.get(job.storageId);
+        if (!file) throw new Error('Attached PDF was deleted');
+        return await file.arrayBuffer();
+      });
+      const pdf = await PDFDocument.load(new Uint8Array(bytes));
+      expect(pdf.getTitle()).toBe('Dinner');
+      expect(
+        extractedPdfText(pdf).filter((text) => text === 'Ada'),
+      ).toHaveLength(2);
+      await expect(
+        t
+          .withIdentity(identity())
+          .query(latestExport, { projectId: project.publicId }),
+      ).resolves.toMatchObject({
+        status: 'ready',
+        downloadUrl: `/v1/files/exports/${requested.publicId}`,
+      });
+    },
+  );
+
+  it('rejects a stale legacy export without relabelling live content', async () => {
+    const t = convexTest(schema, modules);
+    const project = await seededProject(t);
+    const requested = await t.mutation(createExport, {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      maximumCards: 25,
+      premiumDesigns: false,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      layoutId: 'portrait_4',
+    });
+    await t.run(async (ctx) => {
+      const row = await ctx.db
+        .query('projectExports')
+        .withIndex('by_account_public_id', (q) =>
+          q.eq('accountId', accountId).eq('publicId', requested.publicId),
+        )
+        .unique();
+      if (!row) throw new Error('Missing test export');
+      await ctx.db.patch(row._id, { snapshot: undefined });
+    });
+    await t.mutation(saveProject, {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      title: 'Changed title',
+      guests: [{ name: 'Changed Guest' }],
+      design: { kind: 'predefined', reference: 'minimal-ivory' },
+      maximumActiveProjects: 1,
+      maximumCards: 25,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      allowPremiumDesigns: false,
+    });
+    await expect(
+      t.mutation(loadExport, {
+        accountId,
+        exportId: requested.publicId,
+      }),
+    ).rejects.toThrow(/CONFLICT|stale/u);
   });
 });

@@ -19,11 +19,12 @@ const FIXED_PDF_DATE = new Date('2026-01-01T00:00:00.000Z');
 
 export interface RenderTableCardsPdfOptions {
   /**
-   * A caller may inject licensed Noto Sans TTF bytes. When omitted, pdf-lib's
-   * built-in Helvetica is used and preflight rejects unsupported glyphs.
+   * Production exports inject the vendored Noto fonts. The standard-font
+   * fallback remains useful for isolated geometry fixtures only.
    */
   readonly fontBytes?: Uint8Array;
   readonly fontFamilyName?: string;
+  readonly serifFontBytes?: Uint8Array;
   readonly backgroundImage?: {
     readonly bytes: Uint8Array;
     readonly mimeType: 'image/jpeg' | 'image/png';
@@ -244,7 +245,7 @@ export async function renderTableCardsPdf(
     pdfDocument.registerFontkit(fontkit);
     font = await pdfDocument.embedFont(options.fontBytes, {
       customName: options.fontFamilyName ?? 'NotoSans',
-      subset: false,
+      subset: true,
     });
     familyName = options.fontFamilyName ?? 'Noto Sans';
   }
@@ -253,11 +254,22 @@ export async function renderTableCardsPdf(
       ? undefined
       : await embedBackgroundImage(pdfDocument, options.backgroundImage);
 
-  const serifFont = await pdfDocument.embedFont(StandardFonts.TimesRoman);
+  if (options.serifFontBytes !== undefined)
+    pdfDocument.registerFontkit(fontkit);
+  const serifFont =
+    options.serifFontBytes === undefined
+      ? await pdfDocument.embedFont(StandardFonts.TimesRoman)
+      : await pdfDocument.embedFont(options.serifFontBytes, {
+          customName: 'NotoSerif',
+          subset: true,
+        });
   const manifest = createRenderManifest(
     input,
     createPdfFontMetrics(font, familyName),
-    createPdfFontMetrics(serifFont, 'Times Roman'),
+    createPdfFontMetrics(
+      serifFont,
+      options.serifFontBytes === undefined ? 'Times Roman' : 'Noto Serif',
+    ),
   );
   pdfDocument.setTitle(input.title?.trim() || 'TableCards place cards', {
     showInWindowTitleBar: false,

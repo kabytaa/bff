@@ -3,6 +3,8 @@ import { resolve } from 'node:path';
 
 import { expect, test, type Page } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
+import { encode } from 'fast-png';
+import { readBrowserDownload } from './support/pdf';
 
 import { TABLECARDS_AUTH_URL } from '../playwright.config';
 import {
@@ -165,7 +167,6 @@ test.describe('public creation, import, authentication and navigation', () => {
 test.describe('Free and Event Pass project promises', () => {
   test('US-05–10 enforce project, design, export and event artwork promises', async ({
     page,
-    context,
   }, testInfo) => {
     const persona = uniquePersona('event-story', testInfo.project.name);
     await logInFromLanding(page, persona);
@@ -207,13 +208,11 @@ test.describe('Free and Event Pass project promises', () => {
     await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
     const download = page.getByRole('link', { name: 'Download PDF' });
     await expect(download).toBeVisible({ timeout: 60_000 });
-    const pdfResponse = await context.request.get(
+    const pdfBytes = await readBrowserDownload(
+      page,
       (await download.getAttribute('href')) as string,
     );
-    expect(pdfResponse.ok()).toBe(true);
-    expect(
-      (await PDFDocument.load(await pdfResponse.body())).getPageCount(),
-    ).toBe(2);
+    expect((await PDFDocument.load(pdfBytes)).getPageCount()).toBe(2);
     const projectUrl = page.url();
 
     await openCreatorStep(page, 'Guests');
@@ -286,9 +285,18 @@ test.describe('professional design and AI promises', () => {
     await createSavedProject(page, 'Professional event');
 
     await page.goto('/designs');
-    await page
-      .getByLabel('Upload a 7:4 PNG or JPEG')
-      .setInputFiles(validArtwork);
+    await page.getByLabel('Upload a 7:4 PNG or JPEG').setInputFiles({
+      name: 'bounded-print-background.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(
+        encode({
+          width: 1820,
+          height: 1040,
+          channels: 4,
+          data: new Uint8Array(1820 * 1040 * 4).fill(255),
+        }),
+      ),
+    });
     await expect(page.getByText(/Artwork validated/u)).toBeVisible();
     await page.getByLabel('AI background description').fill('[fail] test');
     await page

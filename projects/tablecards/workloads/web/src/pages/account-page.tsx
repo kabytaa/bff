@@ -5,9 +5,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import type { CurrentProductAccess } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
+import { safeProductMessage } from '../product-error';
 
 export function Component() {
-  const { state, snapshot } = useBffAuth();
+  const { client, state, snapshot } = useBffAuth();
   const backend = useTableCardsBackend();
   const [searchParams, setSearchParams] = useSearchParams();
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
@@ -15,6 +16,8 @@ export function Component() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState('');
+  const [renaming, setRenaming] = useState(false);
   const loadSequence = useRef(0);
   const checkoutStarted = useRef(false);
   const requestedOffer = searchParams.get('offer');
@@ -28,6 +31,14 @@ export function Component() {
           (candidate) => candidate.id === state.accountId,
         )
       : undefined;
+  useEffect(() => {
+    setWorkspaceName(
+      account?.displayName ??
+        (account?.membership.role === 'owner'
+          ? 'My workspace'
+          : 'Shared workspace'),
+    );
+  }, [account?.displayName, account?.id, account?.membership.role]);
 
   const load = useCallback(async () => {
     const sequence = ++loadSequence.current;
@@ -43,9 +54,7 @@ export function Component() {
   useEffect(() => {
     void load().catch((caught: unknown) =>
       setError(
-        caught instanceof Error
-          ? caught.message
-          : 'Account usage could not be loaded.',
+        safeProductMessage(caught, 'Account usage could not be loaded.'),
       ),
     );
   }, [load, snapshot.generation]);
@@ -79,6 +88,13 @@ export function Component() {
     ) {
       return;
     }
+    if (!account) return;
+    if (account.membership.role !== 'owner') {
+      setError(
+        'Only the workspace Owner can change its plan. Ask your Owner to update access.',
+      );
+      return;
+    }
     checkoutStarted.current = true;
     setBusy(true);
     setError(null);
@@ -92,13 +108,9 @@ export function Component() {
       .catch((caught: unknown) => {
         checkoutStarted.current = false;
         setBusy(false);
-        setError(
-          caught instanceof Error
-            ? caught.message
-            : 'Checkout could not be started.',
-        );
+        setError(safeProductMessage(caught, 'Checkout could not be started.'));
       });
-  }, [backend, checkoutResult, requestedOfferId, state]);
+  }, [account, backend, checkoutResult, requestedOfferId, state]);
 
   return (
     <section className="app-page" aria-labelledby="account-title">
@@ -114,6 +126,25 @@ export function Component() {
       {error ? (
         <p className="notice error" role="alert">
           {error}
+          {!busy ? (
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => {
+                setError(null);
+                void load().catch((caught: unknown) =>
+                  setError(
+                    safeProductMessage(
+                      caught,
+                      'Account usage could not be loaded.',
+                    ),
+                  ),
+                );
+              }}
+            >
+              Retry usage
+            </button>
+          ) : null}
         </p>
       ) : null}
       {notice ? (
@@ -163,7 +194,54 @@ export function Component() {
 
       <section className="page-section account-actions">
         <h2>Workspace</h2>
-        <p>{account?.displayName ?? 'Selected TableCards account'}</p>
+        <p>
+          {account?.displayName ??
+            (account?.membership.role === 'owner'
+              ? 'My workspace'
+              : 'Shared workspace')}
+        </p>
+        {account?.membership.role === 'owner' ? (
+          <form
+            className="workspace-name-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (!workspaceName.trim()) return;
+              setRenaming(true);
+              setError(null);
+              void client
+                .renameAccount({
+                  accountId: account.id,
+                  displayName: workspaceName.trim(),
+                })
+                .then(() => setNotice('Workspace name saved.'))
+                .catch((caught: unknown) =>
+                  setError(
+                    safeProductMessage(
+                      caught,
+                      'The workspace could not be renamed.',
+                    ),
+                  ),
+                )
+                .finally(() => setRenaming(false));
+            }}
+          >
+            <label htmlFor="workspace-name">Workspace name</label>
+            <input
+              id="workspace-name"
+              value={workspaceName}
+              required
+              maxLength={120}
+              onChange={(event) => setWorkspaceName(event.target.value)}
+            />
+            <button
+              className="secondary-button"
+              type="submit"
+              disabled={renaming || !workspaceName.trim()}
+            >
+              {renaming ? 'Saving name…' : 'Save workspace name'}
+            </button>
+          </form>
+        ) : null}
         {access?.teamAccessEnabled ? (
           <Link className="secondary-button" to="/settings/team">
             Manage team
@@ -171,9 +249,14 @@ export function Component() {
         ) : (
           <p className="muted">Team collaboration is included with Studio.</p>
         )}
-        <Link className="text-link" to="/?section=pricing">
+        <Link className="text-link" to="/#pricing">
           View plans
         </Link>
+        {account?.membership.role !== 'owner' ? (
+          <p className="muted">
+            Only the Owner can change this workspace's plan.
+          </p>
+        ) : null}
       </section>
 
       {busy && requestedOfferId ? (

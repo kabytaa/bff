@@ -158,7 +158,7 @@ export function CustomerAuthApp({
         <h1 id="auth-title">{heading}</h1>
         <p className="description">
           {transfer
-            ? 'Sign in again to confirm this ownership transfer. The transfer is not complete until you return to the app and approve it.'
+            ? 'Sign in again to confirm this ownership transfer. Successful authentication completes the transfer before you return to the app.'
             : 'Use your Google account to continue. Your password is handled only by Google.'}
         </p>
 

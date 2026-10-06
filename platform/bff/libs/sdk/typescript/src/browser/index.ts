@@ -20,6 +20,7 @@ import {
   paginatedInvitationsSchema,
   relativeApplicationPathSchema,
   removeMembershipRequestSchema,
+  renameAccountRequestSchema,
   revokeInvitationRequestSchema,
   type AccountSummary,
   type AuthSessionState,
@@ -80,6 +81,10 @@ export interface BffAuthBrowserClient {
   bootstrap(): Promise<AuthSessionSnapshot>;
   selectAccount(accountId: string): Promise<AuthSessionSnapshot>;
   createAccount(displayName?: string): Promise<AccountSummary>;
+  renameAccount(input: {
+    readonly accountId: string;
+    readonly displayName: string;
+  }): Promise<AccountSummary>;
   acceptInvitation(invitationToken: string): Promise<AccountSummary>;
   inspectInvitation(invitationToken: string): Promise<InvitationPreview>;
   listAccountMembers(options?: {
@@ -627,6 +632,16 @@ export function createBffAuthBrowserClient(
         await authorizedBffPost('/v1/accounts/invitations/accept', {
           ...acceptInvitationRequestSchema.parse({ invitationToken }),
         }),
+      );
+      await activateAccount(account.id, false);
+      return account;
+    },
+    renameAccount: async (input) => {
+      const account = accountSummarySchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/name',
+          renameAccountRequestSchema.parse(input),
+        ),
       );
       await activateAccount(account.id, false);
       return account;

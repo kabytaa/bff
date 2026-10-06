@@ -26,11 +26,18 @@ cached artwork.
 
 ## Fonts
 
-`renderTableCardsPdf` accepts licensed Noto Sans TTF bytes through
-`fontBytes`. The repository does not currently vendor a binary font asset;
-callers must supply the reviewed font bytes for broad Latin coverage. Without
-them the renderer uses PDF Helvetica and rejects any unsupported character
-before drawing, so it never clips or silently substitutes text.
+Hosted `renderTableCardsPdf` calls supply the unmodified, licensed Noto Sans
+and Noto Serif TTF bytes vendored in the web `public/fonts/` directory. Provenance
+and OFL 1.1 are alongside those assets; `fonts.ts` pins both SHA-256 hashes.
+Browser preview uses the same font families; PDF preflight uses actual embedded
+font coverage and metrics. Tests cover broader Latin, combining accents,
+unsupported glyph rejection and deterministic bytes for both families.
+
+The optional `fontBytes`/`serifFontBytes` arguments keep the core independent of
+HTTP/filesystem access. The backend fetches only registered public assets and
+verifies their hashes. Omitting them retains Helvetica/Times for isolated
+geometry fixtures, not the supported hosted product path. Preview fit uses
+approximate metrics and remains advisory; server preflight is authoritative.
 
 ## Commands
 

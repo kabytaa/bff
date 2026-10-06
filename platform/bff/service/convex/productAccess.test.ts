@@ -84,6 +84,36 @@ async function fixture(t: TestBackend, developmentAutomationEnabled = true) {
     throw new Error('Fixture bootstrap failed');
   }
   const account = bootstrapped.customer.accounts[0];
+  await t.run(async (ctx) => {
+    const environment = await ctx.db
+      .query('businessEnvironments')
+      .withIndex('by_key', (q) => q.eq('key', 'tablecards-development'))
+      .unique();
+    const user =
+      environment &&
+      (await ctx.db
+        .query('businessUsers')
+        .withIndex('by_environment_public_id', (q) =>
+          q
+            .eq('environmentId', environment._id)
+            .eq('publicId', bootstrapped.customer.user.id),
+        )
+        .unique());
+    if (!environment || !user) throw new Error('Fixture session scope missing');
+    await ctx.db.insert('businessSessions', {
+      environmentId: environment._id,
+      userId: user._id,
+      publicId: 'session_product_access1',
+      handleHash: 'a'.repeat(43),
+      provider: 'google',
+      providerAuthenticatedAt: 1_000,
+      createdAt: 1_000,
+      lastSeenAt: 1_000,
+      idleExpiresAt: Date.now() + 600_000,
+      absoluteExpiresAt: Date.now() + 1_200_000,
+      cleanupAt: Date.now() + 2_000_000,
+    });
+  });
   return {
     environmentKey: 'tablecards-development',
     userPublicId: bootstrapped.customer.user.id,
@@ -228,6 +258,102 @@ describe('product access projection and unit ledger', () => {
         grantArgs(disabledContext),
       ),
     ).rejects.toMatchObject({ data: { code: 'FORBIDDEN' } });
+  });
+
+  it('rechecks live session and membership when an unexpired token requests private-resource access', async () => {
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    const context = await fixture(t);
+    const signing = await installSigningConfiguration();
+    const now = Math.floor(Date.now() / 1_000);
+    const token = await signCustomerContextToken(signing, {
+      contextType: 'account',
+      ...context,
+      sessionPublicId: 'session_product_access1',
+      tokenPublicId: 'token_product_access002',
+      role: 'owner',
+      permissions: ['account:read'],
+      authorizedAt: now,
+      expiresAt: now + 600,
+    });
+    const request = () =>
+      t.fetch('/v1/product-access', {
+        headers: {
+          authorization: `Bearer ${token}`,
+          'x-tofler-environment': context.environmentKey,
+        },
+      });
+    expect((await request()).status).toBe(200);
+    const sessionId = await t.run(async (ctx) => {
+      const environment = await ctx.db
+        .query('businessEnvironments')
+        .withIndex('by_key', (q) => q.eq('key', context.environmentKey))
+        .unique();
+      if (!environment) throw new Error('Missing fixture environment');
+      const session = await ctx.db
+        .query('businessSessions')
+        .withIndex('by_environment_public_id', (q) =>
+          q
+            .eq('environmentId', environment._id)
+            .eq('publicId', 'session_product_access1'),
+        )
+        .unique();
+      if (!session) throw new Error('Missing fixture session');
+      return session._id;
+    });
+    await t.mutation(internal.sessions.logout, {
+      environmentKey: context.environmentKey,
+      handleHash: 'a'.repeat(43),
+      now: Date.now(),
+    });
+    expect((await request()).status).toBe(401);
+    await t.run(async (ctx) =>
+      ctx.db.patch(sessionId, {
+        revokedAt: undefined,
+        idleExpiresAt: Date.now() - 1,
+      }),
+    );
+    expect((await request()).status).toBe(401);
+    await t.run(async (ctx) =>
+      ctx.db.patch(sessionId, {
+        idleExpiresAt: Date.now() + 600_000,
+        absoluteExpiresAt: Date.now() - 1,
+      }),
+    );
+    expect((await request()).status).toBe(401);
+    await t.run(async (ctx) =>
+      ctx.db.patch(sessionId, { absoluteExpiresAt: Date.now() + 600_000 }),
+    );
+    await expect(
+      t.query(internal.sessions.validateContext, {
+        environmentKey: context.environmentKey,
+        userPublicId: 'user_other_customer01',
+        sessionPublicId: 'session_product_access1',
+        now: Date.now(),
+      }),
+    ).rejects.toMatchObject({ data: { code: 'UNAUTHENTICATED' } });
+    await expect(
+      t.query(internal.sessions.validateContext, {
+        environmentKey: 'tablecards-production',
+        userPublicId: context.userPublicId,
+        sessionPublicId: 'session_product_access1',
+        now: Date.now(),
+      }),
+    ).rejects.toMatchObject({ data: { code: 'UNAUTHENTICATED' } });
+    await t.run(async (ctx) => {
+      const session = await ctx.db.get(sessionId);
+      if (!session) throw new Error('Missing fixture session');
+      const membership = await ctx.db
+        .query('memberships')
+        .withIndex('by_environment_public_id', (q) =>
+          q
+            .eq('environmentId', session.environmentId)
+            .eq('publicId', context.membershipPublicId),
+        )
+        .unique();
+      if (!membership) throw new Error('Missing fixture membership');
+      await ctx.db.delete(membership._id);
+    });
+    expect((await request()).status).toBe(403);
   });
 
   it('stores a bounded mock projection and keeps reserve/commit/release idempotent', async () => {

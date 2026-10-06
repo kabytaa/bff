@@ -56,7 +56,8 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index('by_account_public_id', ['accountId', 'publicId'])
-    .index('by_account_project', ['accountId', 'projectId']),
+    .index('by_account_project', ['accountId', 'projectId'])
+    .index('by_storage_id', ['storageId']),
   designPresets: defineTable({
     publicId: v.string(),
     accountId: v.string(),
@@ -84,6 +85,20 @@ export default defineSchema({
     projectId: v.id('projects'),
     requestedByUserId: v.string(),
     projectRevision: v.number(),
+    snapshot: v.optional(
+      v.object({
+        projectId: v.string(),
+        title: v.string(),
+        designKind,
+        designReference: v.string(),
+        nameStyle: v.optional(projectNameStyle),
+        guests: v.array(guest),
+        backgroundStorageId: v.optional(v.id('_storage')),
+        backgroundMimeType: v.optional(
+          v.union(v.literal('image/png'), v.literal('image/jpeg')),
+        ),
+      }),
+    ),
     layoutId: v.optional(
       v.union(v.literal('portrait_4'), v.literal('landscape_6')),
     ),
@@ -100,7 +115,8 @@ export default defineSchema({
     updatedAt: v.number(),
   })
     .index('by_account_public_id', ['accountId', 'publicId'])
-    .index('by_project_created_at', ['projectId', 'createdAt']),
+    .index('by_project_created_at', ['projectId', 'createdAt'])
+    .index('by_storage_id', ['storageId']),
   aiBatches: defineTable({
     publicId: v.string(),
     accountId: v.string(),
@@ -115,11 +131,32 @@ export default defineSchema({
       v.literal('failed'),
     ),
     unitReservationId: v.optional(v.string()),
+    generatedAssets: v.optional(
+      v.array(
+        v.object({
+          storageId: v.id('_storage'),
+          mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
+          width: v.number(),
+          height: v.number(),
+        }),
+      ),
+    ),
+    unitCommitConfirmed: v.optional(v.boolean()),
+    unitCommitRejected: v.optional(v.boolean()),
+    outputsPersisted: v.optional(v.boolean()),
     assetIds: v.array(v.id('designAssets')),
     errorCode: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
     .index('by_account_public_id', ['accountId', 'publicId'])
-    .index('by_account_idempotency_key', ['accountId', 'idempotencyKey']),
+    .index('by_account_idempotency_key', ['accountId', 'idempotencyKey'])
+    .index('by_account_user_project_pending', [
+      'accountId',
+      'requestedByUserId',
+      'projectId',
+      'status',
+      'outputsPersisted',
+      'updatedAt',
+    ]),
 });

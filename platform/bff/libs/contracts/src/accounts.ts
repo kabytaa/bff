@@ -85,6 +85,13 @@ export const createAccountRequestSchema = z
   })
   .strict();
 
+export const renameAccountRequestSchema = z
+  .object({
+    accountId: publicIdentifierSchema,
+    displayName: z.string().trim().min(1).max(120),
+  })
+  .strict();
+
 export const createInvitationRequestSchema = z
   .object({
     accountId: publicIdentifierSchema,

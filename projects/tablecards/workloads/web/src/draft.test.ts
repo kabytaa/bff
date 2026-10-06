@@ -61,4 +61,21 @@ describe('TableCards protected draft', () => {
     store.clear();
     expect(remove).toHaveBeenCalledWith('tablecards:protected-draft:v1');
   });
+  it('retains unreviewed input and a phone step without storing private file URLs', () => {
+    const store = createTableCardsDraftStore(memoryStorage());
+    store.write({
+      title: 'Unreviewed',
+      designId: 'minimal-ivory',
+      layoutId: 'portrait_4',
+      guests: [],
+      pastedText: 'Still editing\n',
+      validatedText: '',
+      activeStep: 1,
+    });
+    expect(store.read()).toMatchObject({
+      guests: [],
+      pastedText: 'Still editing\n',
+      activeStep: 1,
+    });
+  });
 });

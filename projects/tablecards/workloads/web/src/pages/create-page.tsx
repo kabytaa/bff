@@ -1,12 +1,14 @@
 import {
-  BffAccountSelector,
   BffAuthLink,
+  BffSignOutButton,
   useBffAuth,
 } from '@tofler/bff-auth/react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import { Creator } from '../app';
 import { useTableCardsApplication } from '../application-context';
+import { WorkspaceSelector } from '../auth-navigation';
+import { RouteFocus } from '../route-focus';
 
 const authenticatedNavigation = [
   { to: '/projects', label: 'Projects' },
@@ -30,6 +32,7 @@ export function Component() {
 
   return (
     <div className="creator-route">
+      <RouteFocus />
       <header className="creator-route-header">
         <Link
           className="brand"
@@ -53,16 +56,23 @@ export function Component() {
                   </NavLink>
                 ))}
               </nav>
-              <BffAccountSelector
+              <WorkspaceSelector
                 className="account-select"
                 label={<span className="sr-only">Account</span>}
               />
+              <BffSignOutButton className="text-button">
+                Sign out
+              </BffSignOutButton>
             </>
           ) : (
             <BffAuthLink
               className="text-button"
               intent="login"
               returnPath="/create"
+              onClick={(event) => {
+                event.preventDefault();
+                window.dispatchEvent(new Event('tablecards:creator-sign-in'));
+              }}
             >
               Log in
             </BffAuthLink>
@@ -73,7 +83,10 @@ export function Component() {
         <Creator
           developmentControlsEnabled={developmentControlsEnabled}
           onProjectSaved={(project) =>
-            navigate(`/projects/${project.id}`, { replace: true })
+            navigate(`/projects/${project.id}`, {
+              replace: true,
+              state: { creatorStep: 3 },
+            })
           }
         />
       </main>

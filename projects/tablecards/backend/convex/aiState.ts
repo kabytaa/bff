@@ -4,6 +4,7 @@ import { withBffAccountQuery } from '@tofler/bff-auth/convex/server';
 import type { Id } from './_generated/dataModel';
 import { internalMutation, query } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
+import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
 
@@ -27,6 +28,10 @@ export const start = internalMutation({
     publicId: v.string(),
     status: batchState,
     created: v.boolean(),
+    reservationId: v.optional(v.string()),
+    generatedAssetsPersisted: v.boolean(),
+    unitCommitConfirmed: v.boolean(),
+    unitCommitRejected: v.boolean(),
   }),
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -41,10 +46,31 @@ export const start = internalMutation({
       if (existing.prompt !== args.prompt) {
         fail('CONFLICT', 'The idempotency key was used for another prompt');
       }
+      const existingProject = existing.projectId
+        ? await ctx.db.get(existing.projectId)
+        : null;
+      if ((existingProject?.publicId ?? undefined) !== args.projectId) {
+        fail('CONFLICT', 'The idempotency key was used for another event');
+      }
+      if (
+        existing.status !== 'ready' &&
+        existing.requestedByUserId !== args.userId
+      ) {
+        fail(
+          'FORBIDDEN',
+          'Only the original requester can retry this AI batch',
+        );
+      }
       return {
         publicId: existing.publicId,
         status: existing.status as BatchState,
         created: false,
+        ...(existing.unitReservationId === undefined
+          ? {}
+          : { reservationId: existing.unitReservationId }),
+        generatedAssetsPersisted: existing.generatedAssets?.length === 4,
+        unitCommitConfirmed: existing.unitCommitConfirmed === true,
+        unitCommitRejected: existing.unitCommitRejected === true,
       };
     }
     let projectId: Id<'projects'> | undefined;
@@ -75,7 +101,14 @@ export const start = internalMutation({
       createdAt: now,
       updatedAt: now,
     });
-    return { publicId, status: 'queued' as const, created: true };
+    return {
+      publicId,
+      status: 'queued' as const,
+      created: true,
+      generatedAssetsPersisted: false,
+      unitCommitConfirmed: false,
+      unitCommitRejected: false,
+    };
   },
 });
 
@@ -96,6 +129,12 @@ export const markGenerating = internalMutation({
       )
       .unique();
     if (!batch) fail('NOT_FOUND', 'The AI batch was not found');
+    if (
+      batch.status === 'generating' &&
+      batch.unitReservationId === args.reservationId
+    ) {
+      return null;
+    }
     if (batch.status !== 'queued') {
       fail('CONFLICT', 'The AI batch cannot begin again');
     }
@@ -108,10 +147,9 @@ export const markGenerating = internalMutation({
   },
 });
 
-export const complete = internalMutation({
+export const recordGenerated = internalMutation({
   args: {
     accountId: v.string(),
-    userId: v.string(),
     batchId: v.string(),
     assets: v.array(
       v.object({
@@ -136,18 +174,89 @@ export const complete = internalMutation({
       )
       .unique();
     if (!batch) fail('NOT_FOUND', 'The AI batch was not found');
+    if (batch.generatedAssets !== undefined) {
+      if (
+        batch.generatedAssets.length !== args.assets.length ||
+        batch.generatedAssets.some((asset, index) => {
+          const requested = args.assets[index];
+          return (
+            requested === undefined ||
+            asset.storageId !== requested.storageId ||
+            asset.mimeType !== requested.mimeType ||
+            asset.width !== requested.width ||
+            asset.height !== requested.height
+          );
+        })
+      ) {
+        fail('CONFLICT', 'The AI batch already has different generated images');
+      }
+      return null;
+    }
     if (batch.status !== 'generating') {
       fail('CONFLICT', 'The AI batch is not generating');
     }
+    await ctx.db.patch(batch._id, {
+      generatedAssets: args.assets,
+      outputsPersisted: true,
+      updatedAt: Date.now(),
+    });
+    return null;
+  },
+});
+
+export const confirmUnitCommit = internalMutation({
+  args: { accountId: v.string(), batchId: v.string() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const batch = await ctx.db
+      .query('aiBatches')
+      .withIndex('by_account_public_id', (queryBuilder) =>
+        queryBuilder
+          .eq('accountId', args.accountId)
+          .eq('publicId', args.batchId),
+      )
+      .unique();
+    if (!batch) fail('NOT_FOUND', 'The AI batch was not found');
+    if (!batch.unitReservationId || batch.generatedAssets?.length !== 4) {
+      fail('CONFLICT', 'The generated AI batch is not persisted');
+    }
+    await ctx.db.patch(batch._id, {
+      unitCommitConfirmed: true,
+      updatedAt: Date.now(),
+    });
+    return null;
+  },
+});
+
+export const complete = internalMutation({
+  args: { accountId: v.string(), batchId: v.string() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const batch = await ctx.db
+      .query('aiBatches')
+      .withIndex('by_account_public_id', (queryBuilder) =>
+        queryBuilder
+          .eq('accountId', args.accountId)
+          .eq('publicId', args.batchId),
+      )
+      .unique();
+    if (!batch) fail('NOT_FOUND', 'The AI batch was not found');
+    if (batch.status === 'ready') return null;
+    if (
+      batch.generatedAssets?.length !== 4 ||
+      batch.unitCommitConfirmed !== true
+    ) {
+      fail('CONFLICT', 'The AI batch completion is not confirmed');
+    }
     const now = Date.now();
     const assetIds: Id<'designAssets'>[] = [];
-    for (const asset of args.assets) {
+    for (const asset of batch.generatedAssets) {
       assetIds.push(
         await ctx.db.insert('designAssets', {
           publicId: createPublicId('asset'),
           accountId: args.accountId,
           projectId: batch.projectId,
-          createdByUserId: args.userId,
+          createdByUserId: batch.requestedByUserId,
           source: 'ai',
           storageId: asset.storageId,
           mimeType: asset.mimeType,
@@ -160,7 +269,33 @@ export const complete = internalMutation({
     await ctx.db.patch(batch._id, {
       status: 'ready',
       assetIds,
+      errorCode: undefined,
       updatedAt: now,
+    });
+    return null;
+  },
+});
+
+export const rejectUnitCommit = internalMutation({
+  args: { accountId: v.string(), batchId: v.string() },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    const batch = await ctx.db
+      .query('aiBatches')
+      .withIndex('by_account_public_id', (queryBuilder) =>
+        queryBuilder
+          .eq('accountId', args.accountId)
+          .eq('publicId', args.batchId),
+      )
+      .unique();
+    if (!batch) fail('NOT_FOUND', 'The AI batch was not found');
+    if (batch.status === 'ready' || batch.unitCommitConfirmed === true)
+      return null;
+    await ctx.db.patch(batch._id, {
+      unitCommitRejected: true,
+      status: 'failed',
+      errorCode: 'AI_UNIT_UNAVAILABLE',
+      updatedAt: Date.now(),
     });
     return null;
   },
@@ -184,9 +319,13 @@ export const markFailed = internalMutation({
       .unique();
     if (!batch) return null;
     if (batch.status === 'ready') return null;
+    if (batch.unitCommitRejected === true) return null;
     await ctx.db.patch(batch._id, {
-      status: 'failed',
-      errorCode: args.errorCode,
+      status: batch.generatedAssets?.length === 4 ? 'generating' : 'failed',
+      errorCode:
+        batch.generatedAssets?.length === 4
+          ? 'AI_COMPLETION_PENDING'
+          : args.errorCode,
       updatedAt: Date.now(),
     });
     return null;
@@ -219,16 +358,18 @@ export const get = query({
         .unique();
       if (!batch) return null;
       const choices = await Promise.all(
-        batch.assetIds.map(async (assetId) => {
-          const asset = await ctx.db.get(assetId);
-          if (!asset || asset.accountId !== auth.accountId) {
-            fail('NOT_FOUND', 'An AI background is unavailable');
-          }
-          return {
-            publicId: asset.publicId,
-            url: await ctx.storage.getUrl(asset.storageId),
-          };
-        }),
+        (batch.status === 'ready' ? batch.assetIds : []).map(
+          async (assetId) => {
+            const asset = await ctx.db.get(assetId);
+            if (!asset || asset.accountId !== auth.accountId) {
+              fail('NOT_FOUND', 'An AI background is unavailable');
+            }
+            return {
+              publicId: asset.publicId,
+              url: assetFileAddress(asset.publicId),
+            };
+          },
+        ),
       );
       return {
         publicId: batch.publicId,
@@ -237,6 +378,62 @@ export const get = query({
           ? {}
           : { errorCode: batch.errorCode }),
         choices,
+      };
+    },
+  ),
+});
+
+export const pendingForCaller = query({
+  args: { projectId: v.optional(v.string()) },
+  returns: v.union(
+    v.null(),
+    v.object({
+      prompt: v.string(),
+      idempotencyKey: v.string(),
+      batchId: v.string(),
+      projectId: v.optional(v.string()),
+    }),
+  ),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (ctx, args: { projectId?: string }, auth) => {
+      let projectId: Id<'projects'> | undefined;
+      const requestedProjectId = args.projectId;
+      if (requestedProjectId !== undefined) {
+        const project = await ctx.db
+          .query('projects')
+          .withIndex('by_account_public_id', (q) =>
+            q
+              .eq('accountId', auth.accountId)
+              .eq('publicId', requestedProjectId),
+          )
+          .unique();
+        if (!project) return null;
+        projectId = project._id;
+      }
+      const batch = await ctx.db
+        .query('aiBatches')
+        .withIndex('by_account_user_project_pending', (q) =>
+          q
+            .eq('accountId', auth.accountId)
+            .eq('requestedByUserId', auth.userId)
+            .eq('projectId', projectId)
+            .eq('status', 'generating')
+            .eq('outputsPersisted', true),
+        )
+        .order('desc')
+        .first();
+      if (
+        !batch ||
+        batch.generatedAssets?.length !== 4 ||
+        !batch.unitReservationId
+      )
+        return null;
+      return {
+        prompt: batch.prompt,
+        idempotencyKey: batch.idempotencyKey,
+        batchId: batch.publicId,
+        ...(args.projectId === undefined ? {} : { projectId: args.projectId }),
       };
     },
   ),

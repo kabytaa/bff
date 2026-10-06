@@ -5,6 +5,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
 
 import { TABLECARDS_AUTH_URL, TABLECARDS_WEB_URL } from '../playwright.config';
+import { readBrowserDownload } from './support/pdf';
 
 const execFileAsync = promisify(execFile);
 const bffSiteUrl = 'https://compassionate-buffalo-689.convex.site';
@@ -265,10 +266,8 @@ test('public preview survives sign-in and produces a real PDF', async ({
   const download = authenticated.getByRole('link', { name: 'Download PDF' });
   await expect(download).toBeVisible({ timeout: 60_000 });
   const href = await download.getAttribute('href');
-  expect(href).toMatch(/^https:\/\//u);
-  const response = await context.request.get(href as string);
-  expect(response.ok()).toBe(true);
-  const bytes = await response.body();
+  expect(href).toMatch(/^blob:/u);
+  const bytes = await readBrowserDownload(authenticated, href as string);
   expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
   const pdf = await PDFDocument.load(bytes);
   expect(pdf.getPageCount()).toBe(2);

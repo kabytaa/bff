@@ -72,6 +72,9 @@ function fakeClient(initialState: AuthSessionState): BffAuthBrowserClient {
     bootstrap: vi.fn(async () => store.getSnapshot()),
     selectAccount: vi.fn(async () => store.getSnapshot()),
     createAccount: vi.fn(async () => account(accountOneId, 'First workspace')),
+    renameAccount: vi.fn(async (input) =>
+      account(input.accountId, input.displayName),
+    ),
     acceptInvitation: vi.fn(async () =>
       account(accountOneId, 'First workspace'),
     ),

@@ -9,11 +9,16 @@ import { RouterProvider } from 'react-router-dom';
 import { TableCardsApplicationProvider } from './application-context';
 import { readTableCardsWebConfiguration } from './config';
 import { tableCardsRouter } from './router';
+import { AccountNavigation } from './auth-navigation';
 import './styles.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('TableCards root element is missing');
 const root = createRoot(rootElement);
+const navigateAccount = (path: string) => {
+  void tableCardsRouter.navigate(path, { replace: true });
+};
+const currentPathname = () => tableCardsRouter.state.location.pathname;
 
 try {
   const configuration = readTableCardsWebConfiguration();
@@ -30,6 +35,10 @@ try {
   root.render(
     <StrictMode>
       <BffAuthProvider client={authClient}>
+        <AccountNavigation
+          navigate={navigateAccount}
+          pathname={currentPathname}
+        />
         <BffConvexProvider client={convexClient}>
           <TableCardsApplicationProvider
             developmentControlsEnabled={

@@ -360,3 +360,56 @@ export const updatePolicyOverrides = internalMutation({
     return await applyAccountPolicyOverrides(ctx, args);
   },
 });
+
+export const rename = internalMutation({
+  args: {
+    environmentKey: v.string(),
+    accountPublicId: v.string(),
+    actorUserPublicId: v.string(),
+    displayName: v.string(),
+    now: v.number(),
+  },
+  returns: accountSummaryValidator,
+  handler: async (ctx, args) => {
+    const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+    const displayName = displayNameSchema.parse(args.displayName);
+    const environment = await ctx.db
+      .query('businessEnvironments')
+      .withIndex('by_key', (q) => q.eq('key', environmentKey))
+      .unique();
+    if (!environment?.customerAuth)
+      return fail('NOT_FOUND', 'Workspace was not found');
+    const account = await findAccountByPublicId(
+      ctx,
+      environment._id,
+      publicIdentifierSchema.parse(args.accountPublicId),
+    );
+    const actor = await ctx.db
+      .query('businessUsers')
+      .withIndex('by_environment_public_id', (q) =>
+        q
+          .eq('environmentId', environment._id)
+          .eq('publicId', publicIdentifierSchema.parse(args.actorUserPublicId)),
+      )
+      .unique();
+    if (!account || !actor) return fail('NOT_FOUND', 'Workspace was not found');
+    const membership = await ctx.db
+      .query('memberships')
+      .withIndex('by_environment_account_user', (q) =>
+        q
+          .eq('environmentId', environment._id)
+          .eq('accountId', account._id)
+          .eq('userId', actor._id),
+      )
+      .unique();
+    if (membership?.role !== 'owner')
+      return fail('FORBIDDEN', 'Only the Owner can rename the workspace');
+    await ctx.db.patch(account._id, { displayName, updatedAt: args.now });
+    return toAccountSummary(
+      environment,
+      { ...account, displayName, updatedAt: args.now },
+      membership,
+      actor,
+    );
+  },
+});
