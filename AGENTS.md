@@ -11,6 +11,8 @@ Use these sources in this order:
 
 After meaningful implementation or a durable decision, update `STATUS.md` before handing off. Keep it short. Record outcomes and immediate next moves; do not copy full plans, maintain a speculative backlog or turn it into a second source of product truth. If it conflicts with a canonical document, correct `STATUS.md`.
 
+When Andrew asks to commit, treat it as a request to commit and push the current work branch unless he explicitly asks for a local-only commit. This does not authorize changing or merging branches, or triggering an otherwise unauthorized production deployment. Report the commit and push outcome.
+
 Keep durable Codex work products in the repository rather than relying on chat history or session memory:
 
 - active explorations and their discussion decisions in `.agent/brainstorms/`
