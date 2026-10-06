@@ -2,18 +2,21 @@
 
 Created: 2026-10-06
 Updated: 2026-10-06
-Status: Source review complete — hosted candidate verification pending
-Repository baseline: initial review at `3a948ad`; follow-up after `902dd39`; first hosted candidate `11c0be6fa5a13cdc28a9ccf1b3c56396b5613450` on `feat/tablecards-application`; replacement candidate pending
+Status: Passed for the declared development boundary
+Repository baseline: initial review at `3a948ad`; follow-up after `902dd39`; first hosted candidate `11c0be6fa5a13cdc28a9ccf1b3c56396b5613450`; replacement candidate `a914da02088e4a0724e290117aad11976515405b` on `feat/tablecards-application`
 Declared boundary: Build 3 development acceptance only
 
 ## Review scope and current verdict
 
-Development readiness is **not established yet**, pending the final deployed
-candidate and hosted verification. The independent source/security review found
-three additional P2 issues during implementation; all three have been corrected
-and their final source/regression assertions inspected. No remaining blocker
-was identified within the reviewed security and durable-operation paths.
-Production and customer launch are outside the authorized boundary.
+**Development readiness passes for the declared remediation boundary** at
+`a914da02088e4a0724e290117aad11976515405b`. This combines the independent
+source/test and exact-deployment probes below, the independent
+[application review](261006-tablecards-remediation-app-review.md), and the
+coordinator's complete fresh 27-case hosted pass. The independent
+source/security review found three additional P2 issues during implementation;
+all three were corrected and their final source/regression assertions inspected.
+No remaining blocker was identified within the reviewed paths. Production and
+customer launch are outside the authorized boundary and are not approved.
 
 The audit applies [review-business-readiness](../../../../.agents/skills/review-business-readiness/SKILL.md).
 It inspected the product/application/architecture/operations contracts, prior
@@ -125,8 +128,8 @@ rerun exercised older-project restore, failure recovery and filter transitions.
 Active-project usage still reads the complete enforced maximum of 100 projects.
 
 No source/security blocker was identified in these final inspected paths.
-The whole repository gate and exact deployed/hosted app evidence remain
-separate prerequisites to a development-readiness verdict.
+The separate whole-repository, deployed-runtime and hosted-app prerequisites
+were subsequently satisfied as recorded below.
 
 ### Deployed candidate verification
 
@@ -167,18 +170,45 @@ resolved, so this report does not claim the hosted failure proved a native
 permission hang. Creator intro copy now distinguishes signed-in editing and
 the compact brand has a meaningful accessible name.
 
-A replacement deployed candidate, complete fresh 27-case hosted run and
-independent live app review remain pending. The healthy probes above do not
-establish development acceptance.
+The coordinator reported the complete Node 24 root gate passed again after
+the runtime freeze (2m38), then committed/pushed and deployed replacement
+candidate `a914da02088e4a0724e290117aad11976515405b`. The reviewer independently
+fetched all three health endpoints again: HTTP 200, `status: ok`, exact
+replacement SHA. Both hosted font responses again returned HTTP 200 with the
+pinned SHA-256 hashes. Supplied replacement deployment identifiers: web Worker
+`5e9f85d0-abe2-46c5-bfbe-33d1b744ed09` (entry `index-Dkyj-h_x.js`), gateway Worker
+`80995c14-d28f-4d70-bdb9-42559534f838`, customer-auth Worker
+`136d2837-adec-458f-a2a3-8841250d5e81`.
 
-| Readiness lens | Applicability and current evidence |
-| --- | --- |
-| Product and commercial truth | Applicable. New policy source explicitly describes proposed prices, no-charge checkout, simulated renewal and development AI. Actual payment/retention lifecycle is not applicable to this development boundary. |
-| Experience and accessibility | Applicable. Final hosted desktop/mobile and app-review evidence pending. This security audit does not assert screen-reader or full accessibility conformance. |
-| Security and privacy | Applicable, bounded source/integration **pass**. New file addresses contain no JWT/storage bearer link; each byte request rechecks BFF access and account scope. Legacy upload finalization fails closed. Uncertain attachments preserve linked files; AI commit interruption preserves four private outputs and one charge. |
-| Legal and disclosures | Applicable proportionately to the public development preview. Privacy/terms/contact source describes real vendors, stored data, archive versus deletion and absent public support. Seller/commercial/legal verification is unverified and belongs before paid launch. |
-| Performance and compatibility | Applicable. Files, decoded images and browser object-URL retention are bounded. Final hosted browser evidence remains pending. Physical device/print output is unverified. |
-| Operations and deployment | Applicable. Final exact development candidate and fresh hosted smoke pending. Production deployment, production recovery drill and later support/monitoring are not established by this audit. |
+The replacement's first hosted attempt also exited 143 after case 13; it is
+not acceptance evidence. A legacy substring locator additionally matched the
+new accessible brand name and was made exact without runtime changes.
+The coordinator subsequently completed the fresh direct Playwright run using
+the configured persistent terminal: **27/27 passed in 7.1 minutes**, one
+worker, zero retries, 17 desktop Chromium and 10 mobile WebKit cases. This is
+supplied full-run evidence, distinct from this reviewer's independently
+executed source suites and public probes. It covers all four no-charge offers,
+actual current-draft and 500-name PDFs with embedded fonts, private-file
+anonymous/revoked denials, workspace feedback and both-device Studio
+invitation/reissue/acceptance, two-account, role/ownership and removal paths.
+The deployed runtime remained `a914da02088e4a0724e290117aad11976515405b`; later
+selector precision changes affect tests only.
+
+The independent application reviewer additionally exercised the real auth
+handoff, current-edit actual PDF, restored uploaded artwork, presets, rename
+feedback, archive/restore, sign-out and navigation at 1280-, 390- and 320-pixel
+widths. Its report records no visible blocker and no horizontal page overflow
+in those representative journeys. These combined observations satisfy this
+declared development boundary; they do not extend it to production or launch.
+
+| Readiness lens                | Applicability and current evidence                                                                                                                                                                                                                                                                                           |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Product and commercial truth  | Applicable. New policy source explicitly describes proposed prices, no-charge checkout, simulated renewal and development AI. Actual payment/retention lifecycle is not applicable to this development boundary.                                                                                                             |
+| Experience and accessibility  | Applicable; bounded pass. Fresh hosted desktop/mobile registry and independent representative app review passed. This security audit does not assert screen-reader or full accessibility conformance.                                                                                                                        |
+| Security and privacy          | Applicable, bounded source/integration **pass**. New file addresses contain no JWT/storage bearer link; each byte request rechecks BFF access and account scope. Legacy upload finalization fails closed. Uncertain attachments preserve linked files; AI commit interruption preserves four private outputs and one charge. |
+| Legal and disclosures         | Applicable proportionately to the public development preview. Privacy/terms/contact source describes real vendors, stored data, archive versus deletion and absent public support. Seller/commercial/legal verification is unverified and belongs before paid launch.                                                        |
+| Performance and compatibility | Applicable; bounded pass. Files, decoded images and browser object-URL retention are bounded; final desktop Chromium/mobile WebKit hosted coverage passed. Physical device/print output is unverified.                                                                                                                       |
+| Operations and deployment     | Applicable; development pass. Exact candidate health/fonts and fresh complete hosted suite passed. Production deployment, production recovery drill and later support/monitoring are not established by this audit.                                                                                                          |
 
 Older development bearer links can still deliver their retained files; the
 accepted plan explicitly excludes destructive migration and the new privacy

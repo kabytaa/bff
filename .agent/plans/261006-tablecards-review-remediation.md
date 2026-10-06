@@ -1,6 +1,6 @@
 # TableCards review remediation
 
-> **Status**: Accepted — execute immediately under Andrew's 2026-10-06 request
+> **Status**: Completed — authorized development remediation and re-review, 2026-10-06; not a production release
 > **Created**: 2026-10-06
 > **Last updated**: 2026-10-06
 > **Repository baseline**: `3a948ad` on `feat/tablecards-application`
@@ -135,24 +135,32 @@ root scripts are authoritative. Development deployment commands/targets come
 from the Business runbook; credentials stay external and no production command
 is permitted. Fresh builds must precede hosted verification.
 
-- [ ] Reviewed edits and actual PDF title/guest multiplicity agree.
-- [ ] Foreign-file upload/cleanup and private download denials are tested.
-- [ ] Export interleaving cannot render a mismatched recorded revision.
-- [ ] AI interruption/retry preserves one charge and recoverable four choices.
-- [ ] All reported phone/desktop actions work with useful safe feedback.
-- [ ] Font, disclosure and version evidence reflect real implementation.
-- [ ] Complete repository/hosted gates and independent re-review pass, or
+- [x] Reviewed edits and actual PDF title/guest multiplicity agree.
+- [x] Foreign-file upload/cleanup and private download denials are tested.
+- [x] Export interleaving cannot render a mismatched recorded revision.
+- [x] AI interruption/retry preserves one charge and recoverable four choices.
+- [x] All reported phone/desktop actions work with useful safe feedback.
+- [x] Font, disclosure and version evidence reflect real implementation.
+- [x] Complete repository/hosted gates and independent re-review pass, or
       precise external/physical/later-stage limits are honestly recorded.
-- [ ] Canonical docs and short handoff agree; production remains unchanged.
+- [x] Canonical docs and short handoff agree; production remains unchanged.
 
-Open questions: none blocking implementation. Confidence: 7/10; interrupted
+Initial assessment: no questions blocking implementation. Confidence: 7/10; interrupted
 cross-service recovery, private file transport and realistic browser behavior
 need negative/interleaving tests and a fresh hosted review, not assumptions.
 
+Completed result: runtime `a914da02088e4a0724e290117aad11976515405b` was pushed
+and deployed to development. The complete repository gate, fresh 27-case
+desktop/mobile hosted run and independent app/security/readiness re-review
+passed. The [development acceptance record](../../projects/tablecards/docs/reviews/261006-tablecards-remediation-and-development-acceptance.md)
+maps fixes to evidence and explicitly preserves physical, provider, legacy-link
+and later-stage limits. Production remains unchanged.
+
 ## History
 
-| Date       | Status                                           | Change                                                                                                                                                                                                                          |
-| ---------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-10-06 | Accepted — execution authorized                  | Created from saved review findings and Andrew's commit/fix/dev/re-review request.                                                                                                                                               |
-| 2026-10-06 | Implementation completed; validation in progress | Tasks 1–4 implemented. Independent Astra review found and verified fixes for reload-safe AI recovery, atomic export scheduling and bounded full raster decoding. Development deployment and fresh hosted review remain pending. |
-| 2026-10-06 | Source validated; development rollout next | Follow-up review corrected terminal AI retries, lazy scoped byte leases, growing artwork/preset/archive pagination, current custom-artwork preview, event-title/font preflight and checkout retry. Independent web/core checks passed 85/40 tests; complete Node 24 repository gate passed after source freeze. Fresh deployment and hosted/app review still required. |
+| Date       | Status                                           | Change                                                                                                                                                                                                                                                                                                                                                                 |
+| ---------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-10-06 | Accepted — execution authorized                  | Created from saved review findings and Andrew's commit/fix/dev/re-review request.                                                                                                                                                                                                                                                                                      |
+| 2026-10-06 | Implementation completed; validation in progress | Tasks 1–4 implemented. Independent Astra review found and verified fixes for reload-safe AI recovery, atomic export scheduling and bounded full raster decoding. Development deployment and fresh hosted review remain pending.                                                                                                                                        |
+| 2026-10-06 | Source validated; development rollout next       | Follow-up review corrected terminal AI retries, lazy scoped byte leases, growing artwork/preset/archive pagination, current custom-artwork preview, event-title/font preflight and checkout retry. Independent web/core checks passed 85/40 tests; complete Node 24 repository gate passed after source freeze. Fresh deployment and hosted/app review still required. |
+| 2026-10-06 | Completed — development only                     | Follow-up browser review fixed workspace/clipboard feedback and Creator state/accessibility. Runtime `a914da0` deployed with exact stamps and pinned fonts; repository gate, 27/27 hosted cases (17 desktop, 10 mobile) and independent re-reviews passed. Canonical docs and handoff reconciled; no production action.                                                |

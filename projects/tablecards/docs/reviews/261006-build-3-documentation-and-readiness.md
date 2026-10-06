@@ -6,6 +6,12 @@ Status: Reviewed — development candidate has blocking defects; production read
 Baseline: runtime source at `b5aeae3`; pushed documentation checkpoint `42a6e33` on `feat/tablecards-application`
 Target: development documentation/review; no production deployment authority
 
+**Successor, 2026-10-06:** This report preserves the failed original candidate,
+not the current runtime verdict. The [completed remediation and development
+acceptance](261006-tablecards-remediation-and-development-acceptance.md) records
+resolved findings, runtime `a914da0`, 27 passing hosted cases and independent
+app/security re-review. Production and customer-launch acceptance remain separate.
+
 ## Documentation and review outcome
 
 The four Business lifecycle skills were created and validated before the

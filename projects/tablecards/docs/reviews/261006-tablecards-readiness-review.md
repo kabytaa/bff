@@ -5,6 +5,12 @@ Updated: 2026-10-06
 Status: Completed audit — not ready for development acceptance
 Repository baseline: `b5aeae3` on `feat/tablecards-application`; inspected HEAD `42a6e3394091d2bcd5154d9f1a45728ed091f689` adds the repository preference checkpoint. Product/application/architecture/operations reconciliation was uncommitted during inspection.
 
+**Successor, 2026-10-06:** The verdict below applies to the failed original
+baseline. The [independent remediation security/readiness review](261006-tablecards-remediation-security-review.md)
+and [combined development acceptance](261006-tablecards-remediation-and-development-acceptance.md)
+pass for runtime `a914da0` within the authorized development boundary. Original
+findings and exclusions are retained; no production or launch approval is inferred.
+
 ## Boundary and verdict
 
 **Not ready for the declared Build 3 development acceptance boundary.** The current implementation has meaningful working development coverage, but account isolation at upload finalization and fidelity between reviewed content, saved content and exported content have concrete defects. These are current product/security requirements, not deferred billing work. Documentation can truthfully record this candidate and its gaps; it cannot establish a completed development implementation.

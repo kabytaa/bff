@@ -139,7 +139,9 @@ export async function logInFromLanding(
   await login.click();
   await page.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
   await completeDevelopmentLogin(page, persona);
-  await expect(page.getByRole('link', { name: 'Projects' })).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Projects', exact: true }),
+  ).toBeVisible();
 }
 
 async function paginatedOperatorFind<T>(

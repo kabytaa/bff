@@ -51,6 +51,11 @@ return to Projects rather than leave the previous account's route behind. The
 same-site Cloudflare gateway avoids the generated-domain cross-site cookie
 topology without becoming a session database or product proxy.
 
+Owner workspace naming is a same-account metadata refresh: it preserves the
+authenticated provider context and page feedback rather than performing an
+account switch. Captured session-generation guards prevent late rename results
+from restoring an old account after a switch or sign-out.
+
 Stable behavior and login presentation live in
 [customer-auth.defaults.ts](../customer-auth.defaults.ts). Origins, deployment
 URLs and development automation trust are deployment configuration. Current

@@ -144,7 +144,7 @@ test.describe('public creation, import, authentication and navigation', () => {
       timeout: 60_000,
     });
 
-    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Projects' })).toBeVisible();
     for (const [label, heading] of [
       ['Create', 'Create your place cards'],
@@ -225,7 +225,7 @@ test.describe('Free and Event Pass project promises', () => {
       expect(dialog.message()).toMatch(/Discard the unsaved changes/u);
       await dialog.dismiss();
     });
-    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
     await expect(page).toHaveURL(projectUrl);
     await openCreatorReview(page);
     await page.getByRole('button', { name: 'Save project' }).click();
@@ -233,7 +233,7 @@ test.describe('Free and Event Pass project promises', () => {
     await expect(
       page.getByText('Project saved securely to your account.'),
     ).toBeVisible();
-    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.getByRole('link', { name: 'Projects', exact: true }).click();
     await expect(page).toHaveURL(/\/projects$/u);
 
     await page.getByRole('button', { name: 'Duplicate' }).click();

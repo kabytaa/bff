@@ -251,7 +251,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
     `tablecards-${browserName}-${Date.now()}`,
   );
   await expect(
-    authenticated.getByRole('link', { name: 'Projects' }),
+    authenticated.getByRole('link', { name: 'Projects', exact: true }),
   ).toBeVisible();
   await expect(authenticated.getByText('4 cards · 2 PDF pages')).toBeVisible();
   await expect(
@@ -345,7 +345,7 @@ test('professional project, preset and AI workflows use authenticated access', a
     `tablecards-ai-${browserName}-${Date.now()}`,
   );
   await expect(
-    authenticated.getByRole('link', { name: 'Projects' }),
+    authenticated.getByRole('link', { name: 'Projects', exact: true }),
   ).toBeVisible();
   await authenticated.getByRole('button', { name: 'Save project' }).click();
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
@@ -396,7 +396,9 @@ test('Studio owner can invite a recipient and promote the joined member', async 
   await owner.getByRole('button', { name: 'Save project' }).click();
   await owner.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
   await completeDevelopmentLogin(owner, new URL(owner.url()), ownerPersona);
-  await expect(owner.getByRole('link', { name: 'Projects' })).toBeVisible();
+  await expect(
+    owner.getByRole('link', { name: 'Projects', exact: true }),
+  ).toBeVisible();
   await owner.getByRole('button', { name: 'Save project' }).click();
   await owner.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
 

@@ -5,6 +5,12 @@ Updated: 2026-10-06
 Mode: Full application, audit only
 Result: **fail** — one P1 correctness defect and several reproducible application/UX defects. This is not a production-readiness verdict.
 
+**Resolution, 2026-10-06:** The failed baseline and findings below remain
+historical evidence. The [successor application review](261006-tablecards-remediation-app-review.md)
+passes for runtime `a914da0` in development; the [combined acceptance](261006-tablecards-remediation-and-development-acceptance.md)
+maps the fixes and 27-case hosted proof. This does not imply production or
+customer-launch approval.
+
 ## Scope and baseline
 
 Applied [review-business-app](../../../../.agents/skills/review-business-app/SKILL.md), using the [documentation ownership contract](../../../../docs/factory/business-documentation.md) and the committed Product/Application contracts at `b5aeae3f7d48924365e37bf5dcbd9abaf73e84f0`. Concurrent documentation reconciliation was excluded from the reviewed baseline. Runtime source, browser tests and dependencies have no changes from the supplied runtime baseline `0067776` to that checkpoint; the changes are documentation and skill artifacts. A final diff also found no concurrent runtime/test/lockfile edits.

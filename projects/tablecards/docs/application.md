@@ -2,7 +2,7 @@
 
 Created: 2026-09-28
 Updated: 2026-10-06
-Status: Accepted — review remediation implemented locally; development revalidation pending
+Status: Accepted — remediation deployed and verified in development; production unchanged
 
 This document defines the customer-facing TableCards application experience:
 its pages, navigation, responsive behavior, user stories and the visible
@@ -28,12 +28,15 @@ records the development implementation without treating every accepted
 requirement as delivered. This documentation pass did not run a new browser
 review or validate production. The original PRD history remains below.
 
-The same-day [remediation plan](../../../.agent/plans/261006-tablecards-review-remediation.md)
-now changes the reviewed source from checkpoint `3a948ad`. The delivered notes
-below describe that source, not a deployment claim. Focused component tests
+The completed [remediation plan](../../../.agent/plans/261006-tablecards-review-remediation.md)
+changed the reviewed source from checkpoint `3a948ad`. The delivered notes
+below describe the implementation; its deployment proof is recorded separately.
+Focused component tests
 cover input/export fidelity, drafts, fit feedback, pending AI recovery, artwork
 sources and account navigation. Hosted browser revalidation and independent
-rendered review remain separate gates; the dated original review is preserved.
+rendered review are now recorded in the [completed remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
+at runtime `a914da0`: 27 hosted Chromium/WebKit cases passed, with a separate
+independent app and Astra review. The dated original review remains preserved.
 
 Build 3 baseline capabilities:
 
@@ -216,8 +219,9 @@ Account switching remounts scoped content through the
 and clears the prior editor. Returning a saved-project
 route to the new account's Projects is handled by an observer above the keyed
 provider, retaining the previous account through its loading transition. A
-deterministic component test covers that lifecycle; hosted route switching is
-still a revalidation gate. Invitation acceptance explicitly selects the
+deterministic component test covers that lifecycle. The hosted Studio journey
+proves account isolation from Projects, not every saved-editor switch
+interleaving. Invitation acceptance explicitly selects the
 joined account and replaces the route with Projects.
 
 ## Page requirements and delivered behavior
@@ -392,8 +396,10 @@ validates and saves the current input before requesting its PDF. Download PDF
 belongs to the creator's current state and disappears immediately on edits or
 a new save; delayed reads cannot reintroduce an old link while dirty. The
 server's latest-export read omits older revisions. These source rules and
-component regressions address the original stale-export finding; actual stored
-PDF contents still need the hosted fidelity assertion.
+component regressions address the original stale-export finding. The fresh
+hosted regression and independent review also parsed actual stored PDF bytes
+and verified the edited title, duplicate guest multiplicity and absence of old
+names.
 
 ### Designs `/designs`
 
@@ -460,7 +466,10 @@ the current role. Team's usage includes reserved invitation seats; the Account
 member tile counts active members only. Access loading appears as Loading… or
 dashes rather than a separate blocking page. Read failures appear as alerts.
 Owners can edit Workspace name through the server-authorized Save workspace
-name action. Legacy unnamed workspaces use meaningful My/Shared workspace
+name action. Renaming silently refreshes that account's authoritative SDK
+summary without remounting the page or losing its success message; a later
+response cannot reverse an intervening account switch or sign-out.
+Legacy unnamed workspaces use meaningful My/Shared workspace
 labels rather than raw IDs. View plans opens `/#pricing`; Landing also handles
 the older `?section=pricing` destination.
 Usage failures expose Retry usage and clear after a successful refresh. Checkout
@@ -810,22 +819,27 @@ decision tables.
 
 ### Promise, workflow, enforcement and evidence
 
-| Accepted stories   | Visible workflow                                                                                                    | Server boundary                                                                                                                                                              | Existing executable evidence and limit                                                                                                                                                                                                                                                                                                                                            |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| US-01–04, US-19–20 | Landing → import/mapping → design → Review → sign-in return → export and primary navigation                         | Shared BFF session/account scope; core import/render validation                                                                                                              | [Public story](../e2e/src/user-stories.spec.ts), [hosted creator cases](../e2e/src/hosted-development.spec.ts), [draft tests](../workloads/web/src/draft.test.ts); reload, no-overflow and one visible-focus assertion, not full continuity/accessibility or sticky-action proof                                                                                                  |
-| US-05–10           | Selected account's project home, lifecycle actions, Free/card/design denials, event upload and PDF                  | [Offer actions](../backend/convex/productAccess.ts), [projects](../backend/convex/projects.ts), [exports](../backend/convex/exports.ts) and account-owned assets             | [Free/Event story](../e2e/src/user-stories.spec.ts), [project tests](../backend/convex/projects.test.ts), [export tests](../backend/convex/operations.test.ts); initial PDF and unsaved-navigation warning are checked, edited-PDF fidelity is not                                                                                                                                |
-| US-11–12           | Professional Designs → upload/AI → four choices → preset create/update/delete → creator reuse; Account balance      | Validated [assets](../backend/convex/assets.ts), [presets](../backend/convex/designPresets.ts), [AI operation](../backend/convex/ai.ts) with BFF unit reserve/commit/release | [Professional story](../e2e/src/user-stories.spec.ts), [preset tests](../backend/convex/designPresets.test.ts), [operation tests](../backend/convex/operations.test.ts); development provider failure returns its unit, not a new live-provider benchmark                                                                                                                         |
-| US-13–18           | Studio checkout → Team → copy/reissue → recipient accept → account switch → fixed-role actions → protected transfer | Shared BFF role/policy, invitation, seat/capacity, same-principal transfer proof and account isolation                                                                       | [Studio story](../e2e/src/user-stories.spec.ts), [account lifecycle tests](../../../platform/bff/service/convex/accountLifecycle.test.ts), [account HTTP tests](../../../platform/bff/service/convex/accountHttp.test.ts), [transfer tests](../../../platform/bff/service/convex/ownershipTransfers.test.ts); broader denials live in server tests, not every visible error state |
+| Accepted stories   | Visible workflow                                                                                                    | Server boundary                                                                                                                                                              | Existing executable evidence and limit                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| US-01–04, US-19–20 | Landing → import/mapping → design → Review → sign-in return → export and primary navigation                         | Shared BFF session/account scope; core import/render validation                                                                                                              | [Public story](../e2e/src/user-stories.spec.ts), [hosted creator cases](../e2e/src/hosted-development.spec.ts), [draft tests](../workloads/web/src/draft.test.ts) and [independent rendered review](reviews/261006-tablecards-remediation-app-review.md); auth-return/reload, bounded preview, mobile primary-action geometry and basic focus are verified. Full accessibility conformance is not.        |
+| US-05–10           | Selected account's project home, lifecycle actions, Free/card/design denials, event upload and PDF                  | [Offer actions](../backend/convex/productAccess.ts), [projects](../backend/convex/projects.ts), [exports](../backend/convex/exports.ts) and account-owned assets             | [Free/Event story](../e2e/src/user-stories.spec.ts), [hosted fidelity/private-byte regressions](../e2e/src/hosted-development.spec.ts), [project tests](../backend/convex/projects.test.ts), [export tests](../backend/convex/operations.test.ts); actual edited title/guest multiplicity, old-name absence and authenticated/revoked file delivery are checked. Physical print accuracy is not inferred. |
+| US-11–12           | Professional Designs → upload/AI → four choices → preset create/update/delete → creator reuse; Account balance      | Validated [assets](../backend/convex/assets.ts), [presets](../backend/convex/designPresets.ts), [AI operation](../backend/convex/ai.ts) with BFF unit reserve/commit/release | [Professional story](../e2e/src/user-stories.spec.ts), [preset tests](../backend/convex/designPresets.test.ts), [operation tests](../backend/convex/operations.test.ts); development provider failure returns its unit, not a new live-provider benchmark                                                                                                                                                 |
+| US-13–18           | Studio checkout → Team → copy/reissue → recipient accept → account switch → fixed-role actions → protected transfer | Shared BFF role/policy, invitation, seat/capacity, same-principal transfer proof and account isolation                                                                       | [Studio story](../e2e/src/user-stories.spec.ts), [account lifecycle tests](../../../platform/bff/service/convex/accountLifecycle.test.ts), [account HTTP tests](../../../platform/bff/service/convex/accountHttp.test.ts), [transfer tests](../../../platform/bff/service/convex/ownershipTransfers.test.ts); broader denials live in server tests, not every visible error state                         |
 
 The [coverage registry](../e2e/src/support/coverage.ts) assigns all twenty
 stories. Assignment is traceability, not evidence that every clause of a
-story is satisfied. This reconciliation read those assertions and the source;
-it did not rerun the suite or replace a dated hands-on review.
+story is satisfied. The original source reconciliation did not rerun the suite;
+the [remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
+now records actual edited-PDF content/private-byte regression checks and a
+complete fresh 27-case run. Remaining limits in the table are not silently
+treated as passed.
 
-The subsequent [2026-10-06 hands-on review](reviews/261006-tablecards-app-review.md)
+The original [2026-10-06 hands-on review](reviews/261006-tablecards-app-review.md)
 confirmed edited-preview/PDF mismatch, missing mobile Sign out and saved-route
 account-switch navigation, among other findings. Its fresh browser/PDF evidence
-is separate from this source reconciliation and the earlier passing registry.
+is preserved separately from the earlier passing registry. Its findings are
+resolved in the [successor application review](reviews/261006-tablecards-remediation-app-review.md)
+within the declared development boundary.
 
 ### Remediation evidence and remaining verification
 
@@ -836,9 +850,11 @@ above have focused local evidence in [Creator tests](../workloads/web/src/creato
 [draft tests](../workloads/web/src/draft.test.ts). Tests inspect calls/state and
 actual SVG artwork references; they are not rendered-browser or PDF-content proof.
 
-- Hosted validation must inspect edited stored PDFs, saved-route switching,
-  authentication/reload draft continuity and mobile persistent-action/dialog
-  geometry, then independently review representative rendered states.
+- Hosted validation passed all 27 configured cases, including actual edited
+  stored PDFs, authentication/draft continuity, private-file denials and
+  customer workflows in both browser profiles. The independent rendered review
+  also checked saved-route/current-artwork restoration, mobile persistent-action
+  and dialog geometry, workspace feedback, navigation and basic keyboard focus.
 - Full keyboard, contrast, announcements and assistive-technology behavior
   remain bounded review work. Focus/alert improvements do not constitute a full
   accessibility audit.
@@ -901,10 +917,11 @@ settings.
 
 ## Document history
 
-| Date       | Status                                    | Change                                                                                                                                                                                                                                                                                                                                                                                                |
-| ---------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-09-28 | Proposed — pending Andrew's review        | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                                                                                                                                                                                                                                                  |
-| 2026-09-28 | Accepted — implemented in development     | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged.                                                                                                                                                                                                                    |
-| 2026-09-28 | Accepted — corrected in development       | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                                                                                                                                                                                                                                  |
-| 2026-10-06 | Accepted — reconciled with development    | Retained this document as the Business-local application source; inspected `b5aeae3` routes, components, styles, server guards and existing test assertions. Recorded actual navigation/composition/design choices and consequential gaps without changing accepted offers, runtime code or production.                                                                                               |
-| 2026-10-06 | Accepted — remediation source implemented | Implemented the authorized review plan from `3a948ad`: current-input saves/export, dirty downloads, drafts/auth return, unkeyed account-switch navigation, phone actions/preview/exit, artwork parity, safe notices/retries, Event Pass styling, Owner workspace naming and preview policies/fonts. Local component/type/lint gates passed; deployment and independent hosted review remain separate. |
+| Date       | Status                                      | Change                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-09-28 | Proposed — pending Andrew's review          | Initial application PRD created from the Build 3 mobile and missing account/team UI review. No implementation begun.                                                                                                                                                                                                                                                                                  |
+| 2026-09-28 | Accepted — implemented in development       | Andrew accepted the recommendations. The routed application, product workflows and shared team surface were implemented and deployed to development; production remains unchanged.                                                                                                                                                                                                                    |
+| 2026-09-28 | Accepted — corrected in development         | A real-phone failed-save report added proactive premium-design and active-project-capacity guidance plus safe structured product-error presentation.                                                                                                                                                                                                                                                  |
+| 2026-10-06 | Accepted — reconciled with development      | Retained this document as the Business-local application source; inspected `b5aeae3` routes, components, styles, server guards and existing test assertions. Recorded actual navigation/composition/design choices and consequential gaps without changing accepted offers, runtime code or production.                                                                                               |
+| 2026-10-06 | Accepted — remediation source implemented   | Implemented the authorized review plan from `3a948ad`: current-input saves/export, dirty downloads, drafts/auth return, unkeyed account-switch navigation, phone actions/preview/exit, artwork parity, safe notices/retries, Event Pass styling, Owner workspace naming and preview policies/fonts. Local component/type/lint gates passed; deployment and independent hosted review remain separate. |
+| 2026-10-06 | Accepted — development remediation verified | Runtime `a914da0` deployed with exact health/font evidence. Fresh hosted acceptance passed 27 cases (17 Chromium, 10 mobile WebKit); independent app/security/readiness review and focused 92 web/57 SDK/40 core checks are recorded in the remediation evidence. Earlier failed reviews remain history; production is unchanged and user usability review is optional.                               |

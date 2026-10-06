@@ -7,6 +7,11 @@ Build 3 is deployed to [development](https://tablecards-dev.tofler.app).
 Production release and real payment processing are not complete. Development
 checkout explicitly charges nothing, and its AI provider is deterministic.
 
+The [latest development acceptance](docs/reviews/261006-tablecards-remediation-and-development-acceptance.md)
+records the deployed version, resolved findings, 27 passing desktop/mobile
+cases and independent app/security reviews. It does not authorize production
+promotion or establish customer-launch readiness.
+
 ## Start here
 
 | Document                             | Owns                                                                                     |

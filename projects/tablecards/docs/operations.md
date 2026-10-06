@@ -2,7 +2,7 @@
 
 Created: 2026-09-27
 Last updated: 2026-10-06
-Status: Development deployment validated; open review defects prevent release readiness
+Status: Development remediation deployed and verified; not a production release
 
 This runbook covers the development-only Build 3 TableCards slice. It does not
 authorize a production TableCards deployment, live payment, or paid image-model
@@ -10,7 +10,7 @@ call.
 
 Use [Product](product.md) for promises, [Application](application.md) for
 screens/states and [Architecture](architecture.md) for table/API ownership.
-The [current dated review](reviews/261006-build-3-documentation-and-readiness.md)
+The [current dated review](reviews/261006-tablecards-remediation-and-development-acceptance.md)
 separates current checks from historical acceptance below.
 
 ## Ownership and surfaces
@@ -155,13 +155,36 @@ desktop Chromium and mobile WebKit and include all four offer promises,
 projects, artwork, AI units, navigation, two-account isolation, invitations,
 roles, removal and ownership transfer. Focused desktop regressions retain the
 public print PDF and 320-pixel geometry checks. The complete hosted command runs
-19 cases: 13 desktop and 6 mobile.
+27 cases: 17 desktop Chromium and 10 mobile WebKit, including actual edited
+PDF contents, private-file denials, embedded-font 500-card exports and the
+recorded UI regressions.
 The local development signing key is intentionally absent from CI, so the
 hosted suite is a separate development acceptance gate rather than part of the
 self-contained root `pnpm check` command.
 
 Real iPhone Safari and a physical 100%-scale ruler check remain useful extra
 evidence, not a reason to hide an automated failure.
+
+### 2026-10-06 remediation acceptance
+
+Runtime `a914da02088e4a0724e290117aad11976515405b` was committed and pushed,
+then deployed to both existing development Convex targets, the web Worker,
+session gateway and central development authentication. All three health
+responses matched the full SHA and both fonts matched the pins above. The
+[acceptance record](reviews/261006-tablecards-remediation-and-development-acceptance.md)
+lists exact Worker versions and independent evidence. The complete repository
+gate passed, followed by **27/27** hosted cases in 7.1 minutes.
+
+Earlier Nx-wrapped hosted attempts ended with exit 143 before completion and
+are not passes. The complete rerun used the same configured Playwright suite
+in a persistent terminal:
+
+```sh
+pnpm --package=node@24 dlx sh -c 'pnpm exec playwright test --config projects/tablecards/e2e/playwright.config.ts'
+```
+
+The interruption cause is unproven. Do not remove assertions, enable retries
+or claim acceptance from partial output when recovering a runner interruption.
 
 ### Six-card landscape print trial
 
@@ -288,6 +311,7 @@ Credential-free development probes:
 
 ```bash
 curl --fail https://scrupulous-hawk-991.convex.site/v1/health
+curl --fail https://compassionate-buffalo-689.convex.site/v1/health
 curl --fail https://api.tablecards-dev.tofler.app/_tofler/session-gateway/health
 ```
 
