@@ -1,12 +1,17 @@
 # Build 3 TableCards development operations
 
 Created: 2026-09-27
-Last updated: 2026-09-28
-Status: Development deployment validated
+Last updated: 2026-10-06
+Status: Development deployment validated; open review defects prevent release readiness
 
 This runbook covers the development-only Build 3 TableCards slice. It does not
 authorize a production TableCards deployment, live payment, or paid image-model
 call.
+
+Use [Product](product.md) for promises, [Application](application.md) for
+screens/states and [Architecture](architecture.md) for table/API ownership.
+The [current dated review](reviews/261006-build-3-documentation-and-readiness.md)
+separates current checks from historical acceptance below.
 
 ## Ownership and surfaces
 
@@ -15,7 +20,8 @@ call.
 - `projects/tablecards/backend` is the independent TableCards Convex backend.
   It owns product projects, guest rows, artwork, PDF jobs and AI batches.
 - BFF owns identities/accounts plus the provider-independent effective-offer
-  projection and typed-unit ledger.
+  projection, unit buckets and usage reservations; this is not a financial
+  credit ledger.
 - `projects/tablecards/workloads/web` is the routed public creator and
   authenticated Projects, Designs, Account and Team application.
 - `projects/tablecards/session-gateway` forwards only the fixed SDK auth routes;
@@ -60,7 +66,7 @@ environment, never commit or print them, and never expose the service token to
 Vite/browser configuration.
 
 `TABLECARDS_AI_PROVIDER=development` produces a deterministic four-image batch
-and exercises reserve/commit/release against the real BFF unit ledger. The
+and exercises reserve/commit/release against real BFF usage accounting. The
 optional `openai` provider is server-only and intentionally unused in Build 3
 acceptance. Guest names, tables and markers are never included in its prompt.
 
@@ -92,8 +98,13 @@ pnpm exec wrangler deploy \
   --assets dist/projects/tablecards/workloads/web
 ```
 
-Wrangler currently requires Node 22 or newer. On this host use the available
-Node 24 runner when the default shell still resolves Node 20.
+The repository requires Node 24. When the default shell resolves Node 20,
+run commands through the verified Node 24 wrapper, for example:
+
+```bash
+pnpm --package=node@24 dlx sh -c 'pnpm check'
+pnpm --package=node@24 dlx sh -c 'pnpm test:e2e:tablecards-hosted'
+```
 
 ## Validation
 
@@ -110,7 +121,7 @@ pnpm test:e2e:tablecards-hosted
 The Playwright flow uses short-lived development grants, the real session
 gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
 deterministic AI batch. The executable registry maps every accepted PRD story,
-US-01 through US-20, to five cohesive product journeys. Those journeys run in
+US-01 through US-20, to four cohesive product journeys. Those journeys run in
 desktop Chromium and mobile WebKit and include all four offer promises,
 projects, artwork, AI units, navigation, two-account isolation, invitations,
 roles, removal and ownership transfer. Focused desktop regressions retain the
@@ -215,8 +226,12 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   TableCards deployment, email/support flow, analytics, or generic monitoring.
   Its shared BFF checkout is an explicitly no-charge simulation, not payment
   truth.
-- Generated file URLs are short-lived; database rows store only Convex storage
-  IDs.
+- Database rows store Convex storage IDs, but URLs returned by `storage.getUrl`
+  are bearer download URLs, not automatically expiring signed URLs. Anyone
+  retaining one can reuse it independently of later account membership. Do
+  not log/share them or claim revocation through logout. See the official
+  [Convex file security model](https://docs.convex.dev/file-storage/overview).
+  Private PDF access/revocation needs an explicit reviewed release decision.
 - The server renderer accepts caller-supplied Noto Sans bytes, but the current
   hosted job uses deterministic built-in Helvetica. Common Western Latin text
   is covered and unsupported glyphs fail preflight instead of silently clipping.
@@ -229,3 +244,41 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
   professional and Studio workflows. Exhaustive permission, account-isolation,
   capacity, replay and unit-accounting decisions remain in faster BFF/Convex
   integration tests rather than a browser Cartesian product.
+
+## Troubleshooting and recovery
+
+| Symptom                                 | Safe check / next action                                                                                                                                                    |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sign-in returns but shows signed out    | Check gateway health and exact web/adapter/callback configuration; same-site cookie topology matters. Do not expose cookie or token values in diagnostics                   |
+| Save/export denied                      | Inspect the approved error code, selected account, offer, active-project/card limits and design entitlement; do not bypass the server rule to make the UI appear successful |
+| Export stays queued/generating or fails | Check TableCards scheduled work and the safe export status/error; verify registered artwork path/hash and project revision before retry                                     |
+| Upload rejected                         | Check PNG/JPEG bytes, at most 10 MiB, unrotated 7:4 ratio and minimum 1050 × 600 dimensions; Event Pass requires a saved event                                              |
+| AI unavailable                          | Confirm development provider flags and safe batch/reservation status; never add an API key or call a paid model as an unapproved workaround                                 |
+| Studio invitation controls missing      | Verify Studio was completed through shared checkout and the account role/policy allows invitations; do not manufacture policy with a hidden test fixture                    |
+| Monthly usage seems wrong               | BFF chooses the anniversary allocation; Business calls must not send a bucket/period key. Mock renewal means simulated success, not verified payment                        |
+
+Credential-free development probes:
+
+```bash
+curl --fail https://scrupulous-hawk-991.convex.site/v1/health
+curl --fail https://api.tablecards-dev.tofler.app/_tofler/session-gateway/health
+```
+
+For an incorrect web release, use the last compatible reviewed artifact and
+the existing development Worker manifest; verify the public creator, session
+and checkout return after publication. For backend changes, assess schema/data
+compatibility and prefer a fix-forward deployment; do not blindly restore an
+older schema or delete account/project data. Redeployment still needs the
+task's authorization. This runbook does not establish tested backup recovery
+or a production rollback procedure.
+
+## Production boundary
+
+There is currently no TableCards production Worker/session-gateway manifest or
+documented production acceptance run. A later authorized release must register
+exact independent targets, configure credentials outside Git, validate that
+development identity/AI entries are absent, verify truthful no-charge checkout
+when enabled for the accepted Build 3 demo, and run live production product
+smoke. Build 4 replaces simulated activation with verified provider state;
+Build 5 owns support and Build 6 owns monitoring/operator visibility. These
+later-stage obligations must not be reported as completed by development mocks.

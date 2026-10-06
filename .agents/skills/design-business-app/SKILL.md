@@ -16,6 +16,10 @@ Inspect existing routes, components, tokens and tests before documenting a
 delivered app. Preserve accepted product constraints and distinguish intended
 behavior from what current code actually does.
 
+Trace relevant shared SDK/provider behavior when it controls the journey,
+including context remounts and auth/payment returns; local components alone
+may not explain the delivered state transitions.
+
 For a new design, recommend suitable composition options and record the
 Business's choice. For an existing app, reconcile documentation without
 pretending a missing workflow already exists. A small feature updates the

@@ -17,7 +17,7 @@ reason, this hosted suite is deliberately separate from the self-contained
 `pnpm check` CI gate; CI never receives the development signing key.
 
 `src/support/coverage.ts` is the executable acceptance registry for PRD stories
-US-01 through US-20. Five cohesive story journeys run in desktop Chromium and
+US-01 through US-20. Four cohesive story journeys run in desktop Chromium and
 mobile WebKit and cover public creation/import/authentication, Free and Event
 Pass projects, Planner Pro and Studio mock subscriptions, reusable and
 event-scoped artwork, AI reservation behavior, navigation, account isolation,
@@ -33,9 +33,10 @@ cases: 13 desktop and 6 mobile. The creator checks keep the whole page within
 phone and desktop viewports while allowing only the design carousel to scroll
 horizontally.
 
-The Studio journeys provision their explicit five-seat/Admin/invitation policy
-through the validated operator CLI; choosing the Studio mock offer never
-changes security policy. `$5`, `$9/month` and `$19/month` activation is an
+The Studio journeys complete the shared BFF checkout through the visible UI;
+completion atomically applies the five-seat/Admin/invitation policy alongside
+the product grant. They do not use an operator-policy fixture to bypass that
+customer workflow. `$5`, `$9/month` and `$19/month` activation is an
 explicit no-charge development provider simulation. Live Paddle checkout,
 webhooks, failed renewal and subscription remediation remain Build 4 and are
 never implied by this suite.

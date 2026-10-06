@@ -2,7 +2,7 @@
 
 Created: 2026-10-06
 Updated: 2026-10-06
-Baseline: `0067776` on `feat/tablecards-application`
+Baseline: runtime source at `b5aeae3` on `feat/tablecards-application`; documentation reconciled after checkpoint `42a6e33`
 Scope: implemented Build 3 development architecture, not production approval
 
 The [product](product.md) defines promises; the [application contract](application.md)
@@ -44,7 +44,10 @@ never receives the renewal handle through JavaScript or signs its own token.
 
 TableCards guards derive `accountId` and `userId` from verified BFF context.
 Public route IDs do not establish authorization. Account selection clears the
-old context; switching from a saved-project route returns to Projects. The
+old SDK context. Returning from a saved-project route to Projects is intended,
+but the [hands-on review](reviews/261006-tablecards-app-review.md)
+observed the old route retained with an empty editor after the switch. No
+stale guest disclosure was observed; this is a navigation/state defect. The
 same-site Cloudflare gateway avoids the generated-domain cross-site cookie
 topology without becoming a session database or product proxy.
 
@@ -77,6 +80,12 @@ Convex `_storage` holds image/PDF bytes; it is not a custom product table.
 Database rows store storage IDs, not permanently cached download URLs. Queries
 obtain current URLs when needed; possession of a file URL must be treated as
 access to that file, not a replacement for account authorization.
+
+These `getUrl` URLs do not automatically expire and remain usable after
+membership/session changes while the file exists. The earlier runbook claim
+that they were short-lived was incorrect. See the official
+[file security model](https://docs.convex.dev/file-storage/overview); release
+review must explicitly resolve private PDF access and revocation expectations.
 
 ```mermaid
 erDiagram
@@ -132,6 +141,13 @@ APIs belong to BFF or native Convex, not extra TableCards HTTP copies.
 5. UI observes ready/failed status and offers a successful download, not a
    pretend export success.
 
+The current implementation does not bind rendering to an immutable contents
+snapshot: `exportState:load` reads current project/contents without checking the
+recorded `projectRevision`. Concurrent edits can therefore render a different
+revision. Separately, the browser reuses `savedProject` when the draft is dirty,
+so the displayed preview and requested export can disagree. Both are defects,
+not the intended revision contract.
+
 The canonical physical contract is four folded cards on US Letter. The
 six-card landscape option is a development print trial. Shared core geometry
 and versioned artwork align browser preview with deterministic PDF output.
@@ -162,6 +178,15 @@ It is not evidence that a real payment succeeded. Build 4 must derive access
 and next-cycle allowances only from verified provider paid-through state.
 
 ## Consistency and evidence
+
+The 2026-10-06 independent readiness review also found an authorization defect
+in [upload finalization](../backend/convex/assets.ts): the caller-supplied
+storage ID is not bound to that caller's upload/account, and failed finalization
+deletes it without proving ownership. Account-scoped asset rows do not establish
+ownership of arbitrary storage bytes. Existing upload validation should not be
+read as proof that this boundary is safe; remediation needs negative ownership
+and cleanup tests. See the dated [reviews](reviews/) for reproduction scope and
+severity.
 
 Before changing a table or public function, reconcile this explanation with
 the executable schema/validators, browser adapter and affected tests. Before

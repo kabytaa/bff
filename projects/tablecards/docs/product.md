@@ -1,16 +1,34 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-09-28.
+Updated: 2026-10-06.
 
-This is the canonical product-scope document for the first Business Factory product. The accepted [TableCards application PRD](application.md) defines the detailed pages, navigation, responsive behavior and user stories now implemented in development. The [MVP delivery plan](../../../docs/factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../../../docs/architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
+Status: Accepted MVP scope; deployed to development with open review defects, not released for customer launch.
 
-The dated [TableCards market-research report](../../../docs/research/260927-tablecards-market-research.md) records competitor, customer-problem, pricing, format, AI-cost and acquisition evidence. The accepted [TableCards product and launch brainstorm](../../../.agent/brainstorms/260927-tablecards-product-and-launch.md) records how that evidence changed the launch scope.
+Reconciliation baseline: `b5aeae3` on `feat/tablecards-application`.
+
+This is the canonical product-scope document for the first Business Factory product. The accepted [TableCards application contract](application.md) defines pages, navigation, responsive behavior and user stories, distinguishing development implementation from remaining gaps. The [MVP delivery plan](../../../docs/factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../../../docs/architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
+
+The dated [TableCards market-research report](../../../docs/research/260927-tablecards-market-research.md) records competitor, customer-problem, pricing, format, AI-cost and acquisition evidence. The accepted [TableCards product and launch brainstorm](../../../.agent/brainstorms/260927-tablecards-product-and-launch.md) records how that evidence changed the launch scope. [Application](application.md), [architecture](architecture.md) and [operations](operations.md) explain the maintained experience, component/data boundaries and run procedures without becoming alternate product specifications.
+
+## Delivery and evidence boundary
+
+The current development application at `https://tablecards-dev.tofler.app` implements public import/preview, authenticated projects/export, constrained artwork/presets, four-choice development AI and shared Studio account workflows. The [development acceptance result](../../../.agent/plans/260928-tablecards-user-story-acceptance.md#execution-result) records hosted desktop Chromium/mobile WebKit and repository validation; the [executable story registry](../e2e/src/support/coverage.ts) remains the coverage source. Those recorded runs establish development behavior, not real purchases, real image-provider quality, physical print compatibility or production acceptance. This documentation reconciliation inspected code and existing evidence; it did not rerun the hosted gate.
+
+TableCards production has not been released. The accepted [shared-checkout direction](../../../.agent/plans/260929-shared-mock-checkout.md) permits a future explicitly no-charge Build 3 production demo; that later decision replaces the earlier product-local, development-only checkout design. It does not mean that demo is deployed or that mock access is payment truth. Build 4 owns real billing and commercial lifecycle, Build 5 two-way support, Build 6 operational visibility, and Build 7 production/launch acceptance. Missing implementation does not remove an accepted promise below.
+
+The [2026-10-06 independent review](reviews/261006-build-3-documentation-and-readiness.md)
+found consequential export and upload defects beyond the passing story suite.
+Those findings prevent treating the development candidate as release-ready;
+the accepted promises remain unchanged while fixes and regression evidence are
+still needed.
 
 ## Purpose and launch hypothesis
 
 TableCards is intentionally a small first product. Its primary purpose is to prove that the Business Factory Foundation can support a complete real-user product and make the next Business Project easier to create. Commercial demand is desirable but remains unvalidated.
 
 The initial market is the United States. Occasional hosts are served by a one-event offer, while the likely repeat buyers are independent event planners and small planning studios. Version one has an English interface and supports Latin-script names, including common accents. Right-to-left scripts are explicitly deferred.
+
+The customer job is to turn an existing event spreadsheet and, optionally, matching artwork into a complete correctly sized PDF without manually duplicating or tiling each guest's card. Alternatives include free place-card generators, Avery tooling, Canva/mail merge and a local stationery or print service. The differentiation to validate is reliable spreadsheet-to-print workflow and reusable professional work, not a unique PDF or AI feature. TableCards sells the downloadable file; customers print independently or use their own printer. Printed stationery is an alternative cost, not the software's price benchmark.
 
 ## Business Factory MVP definition of done
 
@@ -28,23 +46,25 @@ Initial acquisition uses direct planner/stationer and print-shop discovery, obse
 1. A visitor can view the public landing and policy pages, import a list and preview the complete result without signing in.
 2. Input may be pasted lines, a pasted spreadsheet grid, CSV or XLSX. Each row has a required name, optional table number and one optional short marker suitable for a meal, dietary or seat notation.
 3. TableCards preserves spelling, order and duplicates, then previews every card and warns about unsupported characters, insufficient image resolution and text that cannot fit.
-4. The user selects a predefined design or, when entitled, uploads artwork and saves a constrained custom preset. Optional AI generation produces four background choices without receiving guest-list data.
+4. The user selects a predefined design or, when entitled, uploads artwork. Event Pass artwork belongs to its event; Planner Pro and Studio can save and reuse constrained custom presets. Optional AI generation produces four background choices without receiving guest-list data.
 5. Google sign-in is required to save a project, export a PDF, generate AI backgrounds or purchase an entitlement.
 6. TableCards generates a deterministic PDF with the chosen names, cut marks, fold marks and a scale-check page. Free projects contain at most 25 cards; paid projects contain at most 500.
 7. The user can start a support conversation for feedback, a question or a problem, receive operator replies by email and reply by email or from the product.
 
 TableCards is not the system of record for an agency's guest list. A corrected or partial CSV follows the same generation workflow; there is no separate “correction printing” feature.
 
-## Product surfaces
+Import preserves guest spelling, order and multiplicity while trimming surrounding whitespace and ignoring blank rows. Users can review column mapping and header rows before accepting the import; invalid rows must be explained rather than silently treated as a complete successful list. The supported spreadsheet format is XLSX, not legacy XLS. The import ceiling is 500 guests, including for a visitor who only previews. Exact field/parser bounds belong to the [guest contract](../libs/core/src/guests.ts) and [import adapter](../workloads/web/src/imports.ts).
 
-TableCards must feel like a working application rather than one landing page containing every marketing and product section. The MVP has these distinct customer surfaces:
+## Product workflows
 
-- `/` is a concise public landing page with the core promise, a representative example, pricing summary, essential FAQ and clear create/sign-in actions.
-- `/create` starts a new project. On phones it is a focused guest-list → design → review/export workflow with compact design selection, persistent progress/action controls and the complete sheet preview opened on demand. Desktop may use a wider workspace without forcing that density onto mobile.
-- `/projects` is the authenticated project home for creating, opening, duplicating, archiving and understanding active-project limits.
-- `/projects/:projectId` edits and exports one saved project without returning through the marketing page.
-- `/settings` exposes the selected account's offer, relevant capability/usage state and upgrade or billing entry when implemented.
-- `/settings/team` exposes Studio member and invitation management, fixed roles and ownership transfer to authorized users. Invitation links have a dedicated acceptance path that survives authentication.
+TableCards must feel like a working application rather than one landing page containing every marketing and product section. The accepted [application contract](application.md) owns exact routes, navigation, responsive behavior and interaction design. Product scope requires discoverable workflows for:
+
+- public discovery, pricing, policy access and import/design/full preview;
+- sign-in with the public draft restored for saving or export;
+- saved-project creation, opening, editing, duplication, archive/restore and export;
+- entitled event artwork and reusable/shared presets;
+- the selected workspace's offer, relevant limits/usage and checkout or billing entry;
+- Studio members, invitations, permitted role/removal changes and protected ownership transfer, with recipient acceptance surviving authentication.
 
 Saved presets, uploaded artwork, AI generation/remaining batches, project limits and Studio team controls must have discoverable product workflows when the current offer advertises them. A pricing claim cannot rely only on a backend contract or hidden development fixture: either expose and browser-test the capability or remove the claim before launch. Business-wide policy/configuration remains in the validated operator CLI, while the backoffice remains an operator evidence and remediation surface rather than a customer settings substitute.
 
@@ -65,6 +85,10 @@ Version one supports exactly one physical output:
 
 Users must print at 100% / Actual Size. One physical sheet must be printed and measured before launch. Flat cards, A4, arbitrary dimensions, professional print fulfillment and multiple physical presets are deferred.
 
+Development additionally exposes a six-card landscape **print trial**, with a ready scale-check PDF. It is not an accepted replacement for the four-card launch contract; physical measurement and explicit acceptance are still required. Nominal card size also does not establish Avery perforation alignment or printer compatibility.
+
+Current PDF rendering defaults to built-in Helvetica/Times Roman and rejects unsupported glyphs during export preflight. Broad Latin coverage remains a gap: the renderer accepts reviewed Noto Sans bytes, but the repository does not bundle that asset, and browser preview uses approximate metrics. Before production, supply the reviewed font and verify coverage/fitting, or explicitly accept and accurately publish a narrower Western-Latin boundary. The accepted Latin-script promise has not been silently reduced to the current fallback; see the [renderer/font boundary](../libs/core/README.md).
+
 ## Designs
 
 Designs are lightweight, curated product assets rather than a freeform editor:
@@ -75,15 +99,17 @@ Designs are lightweight, curated product assets rather than a freeform editor:
 
 The paid custom-design workflow is intentionally constrained:
 
-- upload one PNG or JPEG background at the fixed card ratio
+- upload one PNG or JPEG background at the fixed 7:4 face ratio, at least 1050 × 600 pixels for 300-DPI output
 - validate format, dimensions and effective print resolution
 - adjust the guest-name font, size, color and position
 - preview the result before export
-- save and reuse design presets
+- save and reuse design presets with Planner Pro or Studio; Event Pass retains event-only artwork
 
 There is no freeform design studio, vector editor, design marketplace, logo system or arbitrary canvas in the MVP. Do not promise a fixed cadence of new designs.
 
 AI backgrounds are a subordinate optional capability rather than the main product promise. Build 3 adds them only after predefined-design import, preview and deterministic export work. One generation batch returns four choices. Free receives one lifetime welcome batch, Event Pass two batches, Planner Pro ten batches per month and Studio thirty shared batches per month. Monthly batches do not roll over, a failed provider generation releases its unit and guest names/list data are never sent to the image provider.
+
+The deployed development flow uses deterministic generated fixtures to verify choice selection and unit accounting. An optional server-side OpenAI adapter exists; its presence is not a completed live quality/cost benchmark or a provider promise to customers. Prompts contain only the user's bounded visual-style request, never automatically attached guest/project/account contents. Predefined/uploaded designs and deterministic export must remain usable when AI is disabled or fails.
 
 ## Authentication and accounts
 
@@ -94,7 +120,11 @@ AI backgrounds are a subordinate optional capability rather than the main produc
 - Adding Apple or another provider later must not change environment-local user IDs, account IDs, memberships or public BFF contracts.
 - Account linking UI and additional providers are deferred until a second provider is actually enabled.
 
-Clerk is not required. The supported Business-user authentication mechanism is selected in Build 2 behind the BFF authentication adapter; Build 1 does not preselect Better Auth or Convex Auth.
+Build 2 selected shared BFF-owned Google authentication and the public SDK/session adapter, as recorded in [ADR 0004](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md). TableCards consumes the authenticated environment/user/account context; it does not own a competing login or session system.
+
+First sign-in creates a private workspace. A user may keep it and join one invited Studio workspace; compatible membership/ownership caps also permit transfer of that joined workspace to the invitee. Ordinary users cannot create arbitrary extra workspaces. The account selector appears when there are multiple memberships, and each tab has its own selected account context.
+
+An account/workspace owns its offer and AI allowance, and TableCards projects, guest contents, artwork, presets, exports and AI operations are account-scoped. Studio members work on the shared workspace's records; a private workspace's records do not become shared merely because its owner joins Studio. BFF owns identity, sessions, accounts, memberships, role/policy authority, shared checkout and generic access/unit state. TableCards owns card content, product-specific limits/design rules, rendering and image operations. The [architecture document](architecture.md) explains the data/API boundaries.
 
 ## Offers and working prices
 
@@ -113,14 +143,17 @@ Event Pass completes one event containing up to 500 cards, including premium des
 
 After a professional subscription ends, projects remain readable and exportable for 30 days, then inaccessible for another 60 days and are deleted after advance warnings. The subscription belongs to the account/workspace rather than directly to an individual identity. Do not add annual offers, per-seat charges, extra team tiers or email-domain joining in version one.
 
+Binding each Event Pass purchase to one event for 90 days and the professional cancellation/access/deletion policy are accepted requirements for Build 4, not verified behavior of the current mock. Current development enforcement covers card/project limits, design capabilities and account scope; one active project does not establish purchase-to-event binding or a real purchase's lifetime/retention lifecycle. Build 4 must also reject a voluntary downgrade until usage fits, and preserve members/data with Owner/Admin remediation access when failed payment or expiry forces a restricted account. It must never remove team members automatically to satisfy a lower limit.
+
 Build 3 uses a deterministic no-charge checkout owned by the shared BFF to
 exercise Event Pass/subscription gates and the account-owned typed AI-unit
 balance. TableCards chooses a code-owned offer, asks BFF to start checkout and
 redirects to the returned URL; it never renders a provider or dummy payment
 screen itself. The shared page applies product access and compatible account
 policy atomically, so Studio immediately exposes its five seats, roles and
-invitations. The same mock is available in development and in the Build 3
-production demo, with an explicit notice that no money is charged. Build 4 may
+invitations. The mock is verified in development and is the accepted mechanism
+for a future Build 3 production demo, with an explicit notice that no money is
+charged. Build 4 may
 let development choose mock or Paddle, while production checkout creation
 returns Paddle directly without changing the TableCards interface. Only
 verified provider events may grant real paid access. The unit balance supports
@@ -134,13 +167,15 @@ creates the next allowance.
 
 - A Studio workspace supports up to five members at one fixed price.
 - Membership uses explicit invitations; automatic email-domain joining is out of scope.
-- Owner, Admin and Member are the only planned roles.
+- Owner, Admin and Member are the only MVP roles. The Owner controls checkout and ownership transfer. An Admin may manage invitations and ordinary Members but cannot manage the Owner, assign/remove other Admins or transfer ownership. A Member has product access without those administrative powers; a role does not independently grant a paid offer.
 - Authorized Studio users can view members and pending invitations, create or revoke invitations, change permitted roles and remove permitted members from the product. The Owner can start the protected ownership-transfer flow for an existing active member. The UI must reflect the already enforced Owner/Admin/Member boundaries rather than inventing broader permissions.
-- The exact invitation-delivery UX remains to be chosen. Do not introduce a transactional-email provider until that workflow actually requires one.
+- Development creates or reissues a recipient-bound invitation link for an authorized user to copy and deliver themselves. Acceptance validates the signed-in recipient, membership capacity and reserved seat; reissue invalidates the previous link. Automated invitation email is not implemented or required by this accepted link workflow. Do not introduce a transactional-email provider merely to demonstrate invitations.
 
 ## Support, feedback and operations
 
 Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in users can start `feedback`, `problem` or `question` conversations with authenticated Business/user/account context. The operator workflow supports status handling and a real reply thread. Replies are delivered by email, and a user can reply by email or from the product; the resulting messages remain part of the same case. A public monitored support address remains available to people who cannot sign in.
+
+These support conversations, monitored public contact and public policy pages are launch requirements still missing from the current routed development application. They must not be described as available merely because they appear in the accepted core workflow. Build 5 owns the conversation/email capability; launch preparation must publish the required public policies and reachable contact.
 
 Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 
@@ -154,6 +189,28 @@ Monitoring covers public/product/BFF health, unexpected application errors, PDF-
 
 The launch backoffice must be usable, not merely a database viewer. Andrew needs an environment-aware overview; safe global customer/account/project/payment/support search; joined customer/account views for memberships, sessions, subscription/entitlements, projects/exports, support and audit history; queues for unresolved support and failed delivery/webhook/job work; and basic acquisition/conversion trends. It needs clear mobile/desktop navigation, filters, pagination and error/empty/loading states. It is not a general analytics product, configuration editor or unrestricted administrative console; repeatable configuration stays in the validated CLI, and sensitive actions require separately designed authorization, confirmation and audit controls.
 
+Operational placement is deliberate: customers create/export cards, select an offer and manage their own permitted Studio membership through product UI; operators apply deployment/auth/catalog configuration and repeatable provisioning/recovery through validated automation; the backoffice shows safe joined state, queues and evidence. Human support handling or a sensitive remediation action belongs in an explicitly secured operator workflow when its delivery stage implements it. Existing backoffice customer/account reads do not establish that TableCards billing, support or launch monitoring already works.
+
+## Promise acceptance and evidence
+
+Every advertised capability must have an understandable workflow, authoritative enforcement and suitable verification before launch. The table connects product promises to existing sources rather than duplicating the application story registry. Development evidence uses the no-charge commerce and deterministic AI providers.
+
+| Promise                                                        | Discoverable workflow                                                             | Authority and suitable evidence                                                                                                                                                                      | Current boundary                                                                                            |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Preserve the imported list and preview every card              | Public creator, mapping/review and restored draft                                 | [Guest/import rules](../libs/core/src/guests.ts), [import tests](../workloads/web/src/imports.test.ts), [hosted journeys](../e2e/src/user-stories.spec.ts)                                           | Implemented in development; public policies remain a launch gap                                             |
+| Clean 25-card Free export and up to 500 paid cards             | Creator/saved-project review and PDF download                                     | [Server export](../backend/convex/exports.ts), [project scope/limit tests](../backend/convex/projects.test.ts), [PDF tests](../libs/core/src/pdf.test.ts), hosted offer journeys                     | Development gates pass; physical print and broader font coverage remain unverified                          |
+| Offer prices, project/seat/AI limits and paid designs          | Public pricing, Account and shared checkout                                       | [Code-owned catalog](../libs/core/src/catalog.ts), [BFF checkout tests](../../../platform/bff/service/convex/checkouts.test.ts), [TableCards access enforcement](../backend/convex/productAccess.ts) | Exact accepted pilot offers exercised without money; verified provider billing and lifecycle remain Build 4 |
+| Event artwork and reusable/shared presets                      | Saved event artwork and professional Designs workflow                             | [Asset validation](../backend/convex/assets.ts), [project/preset tests](../backend/convex/projects.test.ts), hosted Event/Planner/Studio journeys                                                    | Implemented in development; Event artwork remains event-scoped                                              |
+| Four AI choices, no guest contents, correct balance/refund     | Authenticated generation and live remaining-batch state                           | [AI orchestration](../backend/convex/ai.ts), [BFF unit tests](../../../platform/bff/service/convex/productAccess.test.ts), hosted AI success/failure journeys                                        | Deterministic provider verified; live model quality/cost still unknown                                      |
+| Five-person Studio, roles and protected ownership transfer     | Team, copied invitations, recipient acceptance and reauthentication               | Shared BFF account authority, [auth ADR](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md), hosted Studio journeys                                                         | Real account/team APIs with mock commercial access; production/live-provider acceptance remains             |
+| Retention, real billing, two-way support and observable launch | Billing/remediation, support and operator workflows required by the delivery plan | Verified provider events/lifecycle tests, correlated email round-trip, operational/production smoke and human print/live acceptance                                                                  | Accepted requirements, not delivered launch capabilities; Builds 4–7                                        |
+
+## Assumptions and learning gates
+
+The 2026-09-27 research is desk evidence and a dated price/provider snapshot. It supports the workflow hypothesis, not TableCards willingness to pay, conversion, retention or contribution margin. Automated development runs observe software behavior, not customers. No real-file user pilots or independent paid-buyer results are recorded in the accepted sources used for this reconciliation; AI demand and Studio demand remain unvalidated.
+
+The accepted acquisition gate is 40 planners/stationers plus 10 print shops across two US metro areas, at least eight useful conversations and five observed real-file pilots. Four pilots should produce a correct PDF within ten minutes without operator repair, with exact guest multiplicity and a physical print check. Once real billing exists, require three independent full-price buyers before broad paid acquisition, and two professional repeat purchases over the following 60–90 days before treating retention as validated. Organic search/Pinterest follows the focused discovery work. A later single high-intent search experiment is capped at `$150–$200`; support time, refunds, repeat use and measured contribution must justify further spend.
+
 ## Test policy
 
 Every implementation slice must be self-verifiable. The browser regression remains deliberately small and covers the important happy flows: pre-auth import/preview, Google session bootstrap using a deterministic test adapter, pasted-grid/CSV/XLSX input, Free PDF export, mock Event Pass/subscription entitlement, AI-unit success/failure behavior, team access when implemented, and support submission through operator response. The separate support slice also verifies outbound delivery, an inbound email reply joining the correct case and denial of spoofed or cross-environment replies without making ordinary CI depend on a live email provider.
@@ -164,7 +221,7 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 
 - right-to-left scripts
 - A4, flat cards, multiple card sizes and arbitrary dimensions
-- seating-plan management, meal fields and caterer manifests
+- seating-plan management, structured meal/dietary fields and caterer manifests beyond the accepted optional short marker
 - direct Google Sheets integration, correction-only selection or general guest-list management
 - domain-based team joining and per-seat billing
 - annual billing before professional retention is demonstrated
@@ -175,8 +232,10 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 
 ## Remaining delivery-time decisions
 
-- Choose how Studio invitation links are delivered without prematurely requiring an email provider.
+- Validate the implemented manual invitation-link workflow with a real Studio team; add automated delivery only if a subsequent accepted requirement needs it.
 - Choose whether the required two-way support conversation is BFF-owned with an email bridge or integrated with a helpdesk, then select the provider and safe inbound-reply correlation mechanism.
 - Choose the working product/domain name and reachable launch users.
 - Benchmark and select a cost-efficient image-generation provider/model that satisfies the accepted four-choice batch contract and safety/privacy boundary.
 - Obtain Paddle's written Israeli seller, payout and microtransaction terms before locking Build 4 resources or publishing the final price page.
+- Complete physical four-card/100%-scale verification; separately accept or reject the six-card trial and resolve font coverage before publishing final print claims.
+- Implement and verify the accepted Event Pass/professional lifecycle, public policies/contact, support and launch operations; production readiness requires the delivery plan's production and live acceptance gates.

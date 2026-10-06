@@ -1,10 +1,10 @@
 # TableCards web
 
 The accepted customer-facing pages, navigation, responsive behavior and user
-stories are defined in the repository-level
-[`TableCards Application PRD`](../../../../docs/products/tablecards-application-prd.md).
+stories are defined in the Business-local
+[`TableCards Application PRD`](../../docs/application.md).
 Canonical offer and product decisions remain in the
-[`TableCards MVP specification`](../../../../docs/products/tablecards-mvp.md).
+[`TableCards MVP specification`](../../docs/product.md).
 
 This React application has lazy public and signed-in route shells. `/` is the
 concise landing page; `/create` is the public three-step creator; `/projects`
@@ -66,7 +66,9 @@ pnpm exec wrangler deploy \
 
 The development Business auth definition permits at most two memberships per
 user: the automatically created private workspace plus one invited Studio
-workspace. It still permits owning only one account. Completing Studio checkout
+workspace. It permits owning up to two accounts so the invited workspace can
+be transferred to a member who already owns their private workspace; ordinary
+users still cannot create additional accounts. Completing Studio checkout
 atomically applies its five-seat, Admin and invitation policy; ordinary policy
 configuration remains available through the validated operator workflow.
 

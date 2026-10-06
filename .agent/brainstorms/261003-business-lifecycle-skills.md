@@ -1,6 +1,6 @@
 # Brainstorm: Business Lifecycle Skills
 
-> **Status**: Accepted — implementation and forward-testing in progress
+> **Status**: Accepted — four skills implemented and forward-tested on TableCards
 > **Created**: 2026-10-03
 > **Last updated**: 2026-10-06
 > **Repository baseline**: `0067776`
@@ -783,7 +783,7 @@ responsive reviewer, permissions tester or broken-button detector. His review
 can add evidence or override a subjective decision, but the candidate should
 already be independently reviewed and usable without it.
 
-## Open Questions
+## Exploration Questions — historical
 
 1. Should `design-business-mvp` begin with a raw idea and help compare candidate
    Businesses, or start only after a Business idea has already been selected?
@@ -791,6 +791,13 @@ already be independently reviewed and usable without it.
    real demand validation remains a later separate skill, as recommended?
 3. Do we need a later `release-business` skill, or are repository-specific
    runbooks and the existing production workflow sufficient?
+
+The 2026-10-06 implementation supports a selected Business's product definition
+or reconciliation, proportionate existing research and explicit learning gaps.
+It does not silently choose a new Business or claim observed demand. No extra
+demand-validation or release skill was created; those remain possible later
+work only if real usage establishes a need. These exploration questions do
+not block the accepted four-skill scope.
 
 ## Astra Review — 2026-10-03
 
@@ -812,6 +819,29 @@ No existing documents have moved, shared rules have not changed, and new skills
 have not yet been created or behaviorally tested.
 
 ## Current Direction
+
+### 2026-10-06 forward-test closeout
+
+The four skills were created and structurally validated, then committed as
+`b5aeae3` before independent TableCards forward-tests. Andrew's later push
+request and commit-means-push preference were recorded in `42a6e33`; both
+checkpoints are on `origin/feat/tablecards-application`. This did not merge or
+deploy production.
+
+Independent product/application agents reconciled the Business-local docs;
+hands-on app review and Astra readiness review found important defects beyond
+the passing regression suite. The [forward-test record](../../docs/factory/reviews/261006-business-lifecycle-skills-forward-tests.md)
+links the outputs, supported shared-SDK inspection refinement and coverage
+limits. TableCards now has product, application, architecture, operations and
+dated review explanations beside its code, with root paths retained as
+routers. No universal page template or additional mandatory document pack
+was introduced.
+
+This skill/documentation/review scope is complete; TableCards itself is not
+ready for development acceptance because export fidelity/revision and upload
+authorization defects remain. The original “functionally complete” context
+snapshot is historical, not the new review verdict. Runtime fixes and their
+rerun evidence are separate work; optional user review is not a gate.
 
 ### 2026-10-06 implementation handoff
 

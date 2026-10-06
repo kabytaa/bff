@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-09-27.
+Updated: 2026-10-06.
 
 This is the current delivery view for the first Business Factory product. The [TableCards MVP product specification](../products/tablecards-mvp.md) is the canonical product scope. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack.
 
@@ -43,7 +43,7 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 3. Codex adds the one-time Event Pass, subscriptions, plan entitlements, Studio membership and the minimal operator view. Paddle fixtures keep regression independent of live charges.
 4. Codex adds the separate customer-support conversation slice with outbound and inbound email replies.
 5. Codex adds focused product/business analytics, actionable monitoring and the usable operator backoffice needed to run the MVP.
-6. Codex deploys and runs the automated happy path. Andrew then completes the physical ruler check, provider verification, live acceptance and first outreach.
+6. Codex performs the authorized deployment, automated journeys and independent readiness review. Andrew's usability review is optional; physical print acceptance and personal provider verification remain separate requirements when applicable. Outreach follows the accepted acquisition experiment rather than an agent review claiming market validation.
 
 ## Grouped launch tasks
 
@@ -52,7 +52,7 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 | Build 1        | Foundation: workspace, Convex BFF, contracts and test harness                     | Codex  | None                                                                    |
 | Build 2        | Shared identity: Google auth, accounts and SDK                                    | Codex  | Build 1; production OAuth later needs provider access                   |
 | Build 3        | TableCards core: import, designs/AI, preview, verified PDF and payment mock       | Codex  | Builds 1–2 and the accepted product specification                       |
-| Build 4        | Paid/team flow: Paddle Event Pass/subscriptions, entitlements and membership      | Codex  | Builds 1–3; hosted checks need confirmed Paddle access/terms            |
+| Build 4        | Verified paid flow: Paddle Event Pass/subscriptions and lifecycle enforcement     | Codex  | Builds 1–3; hosted checks need confirmed Paddle access/terms            |
 | Build 5        | Customer support: case conversation, email replies and operator workflow          | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
 | Build 6        | Operational visibility: analytics, monitoring and usable backoffice               | Codex  | Builds 3–5                                                              |
 | Build 7        | Deploy, run happy-path regression and prepare launch                              | Codex  | Builds 1–6 and relevant provider access                                 |
@@ -78,15 +78,17 @@ Development readiness requires the hosted example to create or reuse an authenti
 
 Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks and a scale-check page. Require authentication for save/export/AI/payment, not for import and preview.
 
-Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through a deterministic test/development payment mock. It must drive the same application-facing entitlement contract later used by real billing, support repeatable positive and denial tests without a live charge and give production visitors no self-grant path. Do not add Paddle checkout, provider products, webhooks or subscription lifecycle in this build.
+Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the future Build 3 production demo may use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
 
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
+
+Current development uses deterministic image fixtures to prove choices and usage accounting. They do not establish model quality, live-provider costs or interrupted cross-service recovery; those need separate evidence before their corresponding release claim.
 
 The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. One physical sheet must still be printed at 100% and measured before the output is called verified.
 
 ### Build 4 — Paid/team flow and operations
 
-After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, replace the Build 3 payment mock with a Paddle Event Pass plus Planner Pro and Studio subscriptions, server-side entitlements, verified idempotent webhooks and minimal purchase/acquisition events while preserving the application-facing contract. Configure the shared account machinery for Studio invitations and its five-seat limit, add shared design presets and add only the operator views needed for projects, users, purchases, subscriptions, entitlements and memberships. Do not add annual billing. The Build 3 development mock intentionally treats every monthly cycle as successfully renewed; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
+After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, route the shared checkout interface directly to Paddle in production; development may choose Paddle or the mock. Implement verified Event Pass and subscription state, idempotent webhooks and minimal purchase/acquisition events while preserving the Business-facing contract. Build on the Studio invitations, five-seat policy and shared design workflows demonstrated in Build 3, and add only the operator views needed for purchases, subscriptions and billing remediation. Do not add annual billing. Monthly mock allocation demonstrates a successful-renewal simulation, not payment truth; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
 
 Signed payment fixtures must let the full happy path run without a live charge and must prove that a missing, failed or expired renewal does not create the next allowance. A requested downgrade is rejected until the account satisfies the target plan's limits. An unavoidable expiration or payment failure preserves users, memberships and data, restricts ordinary product access and keeps Owner/Admin remediation access so they can restore payment or reduce usage; it never removes members automatically. Done means Free cannot export over 25 cards or use paid design capabilities, Event Pass grants exactly one 90-day event, verified subscriptions produce the correct project/AI/team entitlements, cancellation/status changes and the accepted 30-day access plus 60-day deletion-warning lifecycle are handled, seat and role rules are enforced and webhook replays are harmless.
 
@@ -131,7 +133,7 @@ Configure environments, secrets, Cloudflare deployment, domains and CI; connect 
 10. Confirm the run's acquisition, signup, activation, checkout/payment, export and support events appear once with the expected safe context.
 11. Confirm production health/version, operational queues and alert delivery are healthy, with no unresolved synthetic or real failure hidden from the backoffice.
 
-Run provider-specific sandbox/live smoke checks separately. Done when automated validation passes, the production flow is reachable and Andrew has a concise final acceptance checklist.
+Run provider-specific sandbox/live smoke checks separately. Done when the authorized production flow works, production smoke and the applicable self-review gates pass, and the release report explains changes, verification and residual risk. Andrew's usability review is optional; it does not replace Codex's checks or waive explicitly required physical/provider acceptance.
 
 ## Human blocker groups
 
