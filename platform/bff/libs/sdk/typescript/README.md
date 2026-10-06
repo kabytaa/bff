@@ -131,6 +131,8 @@ workspace and refreshes its authoritative account summary. The shared BFF
 requires live Owner membership in that account, rejects a different selected
 account/environment and trims/limits names to 120 characters. This is a customer
 workspace action, not a Business/operator configuration method.
+The same-account refresh does not clear authentication or remount the app;
+late responses cannot restore a context after switching accounts or signing out.
 
 ## Convex native authentication
 

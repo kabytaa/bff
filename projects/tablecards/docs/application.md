@@ -249,7 +249,10 @@ Paid pricing actions authenticate if necessary, then open
 
 ### Creator `/create`
 
-The creator remains usable before authentication.
+The creator remains usable before authentication. Visitors see try-before-sign-in
+guidance; authenticated new projects show creation guidance, and saved projects
+show an edit heading with unsaved-change guidance. The phone's compact brand
+link retains an accessible destination label even when its wordmark is hidden.
 
 #### Step 1 — Guests
 
@@ -862,8 +865,10 @@ actual SVG artwork references; they are not rendered-browser or PDF-content proo
    connect protected ownership transfer.
 7. Add the focused browser scenarios, accessibility checks and remaining
    negative upload/provider/offer cases.
-8. Deploy development, complete Andrew's real-phone review and reconcile every
-   pricing claim against the delivered UI before production planning.
+8. Deploy development, complete agent-owned browser/review gates and reconcile
+   every pricing claim against the delivered UI before production planning.
+   Andrew's additional usability review is optional; physical printing and
+   personal provider/seller verification remain distinct when applicable.
 
 Build 4 keeps the checkout interface but adds Paddle selection, verified
 webhooks, paid-through renewal, subscription status and billing remediation

@@ -189,6 +189,10 @@ describe('createBffAuthBrowserClient', () => {
     const auth = client(harness.implementation);
     await auth.bootstrap();
     const renamed = { ...account(accountOneId), displayName: 'Wedding Studio' };
+    const observedStatuses: string[] = [];
+    const unsubscribe = auth.subscribe(() => {
+      observedStatuses.push(auth.getSnapshot().state.status);
+    });
     harness.enqueue(
       json(renamed),
       json(authenticated(accountOneId, [renamed])),
@@ -210,6 +214,82 @@ describe('createBffAuthBrowserClient', () => {
       status: 'authenticated',
       customer: { accounts: [{ displayName: 'Wedding Studio' }] },
     });
+    expect(observedStatuses).toEqual(['authenticated']);
+    unsubscribe();
+    auth.dispose();
+  });
+
+  it('does not reactivate a renamed account after switching while its mutation is pending', async () => {
+    const harness = fetchHarness();
+    const accounts = [account(accountOneId), account(accountTwoId)];
+    harness.enqueue(json(authenticated(accountOneId, accounts)));
+    const auth = client(harness.implementation);
+    await auth.bootstrap();
+    const mutation = deferred<Response>();
+    harness.enqueue(
+      mutation.promise,
+      json(authenticated(accountTwoId, accounts)),
+    );
+    const rename = auth.renameAccount({
+      accountId: accountOneId,
+      displayName: 'Renamed',
+    });
+    await vi.waitFor(() => expect(harness.calls).toHaveLength(2));
+    await auth.selectAccount(accountTwoId);
+    mutation.resolve(json({ ...accounts[0], displayName: 'Renamed' }));
+    await rename;
+    expect(auth.getSnapshot().state).toMatchObject({
+      status: 'authenticated',
+      accountId: accountTwoId,
+    });
+    expect(harness.calls).toHaveLength(3);
+    auth.dispose();
+  });
+
+  it('does not restore a renamed account when its metadata refresh finishes after logout', async () => {
+    const harness = fetchHarness();
+    const original = account(accountOneId);
+    harness.enqueue(json(authenticated(accountOneId, [original])));
+    const auth = client(harness.implementation);
+    await auth.bootstrap();
+    const renamed = { ...original, displayName: 'Renamed' };
+    const refresh = deferred<Response>();
+    harness.enqueue(json(renamed), refresh.promise, json({ signedOut: true }));
+    const rename = auth.renameAccount({
+      accountId: accountOneId,
+      displayName: 'Renamed',
+    });
+    await vi.waitFor(() => expect(harness.calls).toHaveLength(3));
+    await auth.logout();
+    refresh.resolve(json(authenticated(accountOneId, [renamed])));
+    await rename;
+    expect(auth.getSnapshot().state).toEqual({ status: 'signed_out' });
+    auth.dispose();
+  });
+
+  it('fails closed if the session is revoked during a rename metadata refresh', async () => {
+    const harness = fetchHarness();
+    const original = account(accountOneId);
+    harness.enqueue(json(authenticated(accountOneId, [original])));
+    const auth = client(harness.implementation);
+    await auth.bootstrap();
+    harness.enqueue(
+      json({ ...original, displayName: 'Renamed' }),
+      json(
+        {
+          error: {
+            code: 'SESSION_EXPIRED',
+            message: 'Sign in again.',
+            correlationId: 'correlation_1111111111111111',
+          },
+        },
+        401,
+      ),
+    );
+    await expect(
+      auth.renameAccount({ accountId: accountOneId, displayName: 'Renamed' }),
+    ).rejects.toMatchObject({ code: 'SESSION_EXPIRED' });
+    expect(auth.getSnapshot().state).toEqual({ status: 'signed_out' });
     auth.dispose();
   });
   it('bootstraps onboarding, one-account and multi-account states without storing tokens', async () => {

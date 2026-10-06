@@ -15,9 +15,12 @@ import type * as designPresets from '../designPresets.js';
 import type * as environment from '../environment.js';
 import type * as exportState from '../exportState.js';
 import type * as exports from '../exports.js';
+import type * as files from '../files.js';
 import type * as http from '../http.js';
+import type * as lib_fileAddresses from '../lib/fileAddresses.js';
 import type * as lib_productErrors from '../lib/productErrors.js';
 import type * as lib_publicIds from '../lib/publicIds.js';
+import type * as lib_validateArtwork from '../lib/validateArtwork.js';
 import type * as productAccess from '../productAccess.js';
 import type * as projects from '../projects.js';
 
@@ -35,9 +38,12 @@ declare const fullApi: ApiFromModules<{
   environment: typeof environment;
   exportState: typeof exportState;
   exports: typeof exports;
+  files: typeof files;
   http: typeof http;
+  'lib/fileAddresses': typeof lib_fileAddresses;
   'lib/productErrors': typeof lib_productErrors;
   'lib/publicIds': typeof lib_publicIds;
+  'lib/validateArtwork': typeof lib_validateArtwork;
   productAccess: typeof productAccess;
   projects: typeof projects;
 }>;

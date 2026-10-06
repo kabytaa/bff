@@ -81,6 +81,25 @@ zero-downtime compatibility with the old browser. Do not run or announce
 acceptance until all surfaces and health/font checks agree. Existing open tabs
 should reload after the window; legacy upload/finalize safely reject.
 
+Verify the public font bytes before resuming export tests. These commands do
+not need credentials; compare both outputs with the canonical code-owned pins
+in [fonts.ts](../libs/core/src/fonts.ts), not merely HTTP 200:
+
+```sh
+curl -fsS https://tablecards-dev.tofler.app/fonts/NotoSans-Regular.ttf | sha256sum
+curl -fsS https://tablecards-dev.tofler.app/fonts/NotoSerif-Regular.ttf | sha256sum
+```
+
+For the 2026-10-06 candidate the expected hashes are:
+
+| Font       | SHA-256                                                            |
+| ---------- | ------------------------------------------------------------------ |
+| Noto Sans  | `b85c38ecea8a7cfb39c24e395a4007474fa5a4fc864f6ee33309eb4948d232d5` |
+| Noto Serif | `c8f669ceb2c9c60ccf55198b305e08a997ffca79a38cc7eeb551e643cbe66505` |
+
+The backend independently verifies the same pins before embedding the fonts.
+An HTML fallback/error page or stale font download is not a valid deployment.
+
 In subsequent compatible releases, push the BFF and TableCards schemas/functions
 independently in the order established for that release:
 

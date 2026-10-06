@@ -86,7 +86,9 @@ async function preparePublicDraft(page: Page) {
   ).toBeVisible();
   // The auth provider can remount its children once the initial cookie probe
   // resolves. Start public interaction only after that one-time transition.
-  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   await page
     .getByLabel(/Paste one name per line/u)
     .fill(
@@ -158,14 +160,20 @@ test('mobile creator is step focused and has no horizontal page overflow', async
   ).toHaveCount(0);
   // Wait for the initial session probe to finish so its provider remount cannot
   // replace the landing route while WebKit is following the creator link.
-  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   await Promise.all([
     page.waitForURL(`${TABLECARDS_WEB_URL}/create`),
     page.getByRole('link', { name: 'Create free — up to 25 cards' }).click(),
   ]);
   await expect(page.getByRole('button', { name: 'Guests' })).toBeVisible();
-  await expect(page.getByText('TableCards', { exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'TableCards home', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Preview names' }),
   ).not.toBeVisible();
@@ -199,7 +207,9 @@ test('desktop creator keeps the design and print controls aligned', async ({
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/create');
-  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   const exampleAction = page.getByRole('button', {
     name: 'Try an example list',
   });
@@ -268,7 +278,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
   const href = await download.getAttribute('href');
   expect(href).toMatch(/^blob:/u);
   const bytes = await readBrowserDownload(authenticated, href as string);
-  expect(bytes.subarray(0, 5).toString()).toBe('%PDF-');
+  expect(new TextDecoder().decode(bytes.subarray(0, 5))).toBe('%PDF-');
   const pdf = await PDFDocument.load(bytes);
   expect(pdf.getPageCount()).toBe(2);
   await authenticated.goto('/create');
@@ -287,7 +297,9 @@ test('free mobile creator explains premium design access before save', async ({
   });
   const page = await context.newPage();
   await page.goto('/create');
-  await expect(page.getByRole('link', { name: 'Log in' })).toBeVisible();
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   await page
     .getByLabel(/Paste one name per line/u)
     .fill('Alexandria Catherine Montgomery-Sinclair');
@@ -301,7 +313,9 @@ test('free mobile creator explains premium design access before save', async ({
     new URL(page.url()),
     `tablecards-mobile-access-${browserName}-${Date.now()}`,
   );
-  await authenticated.getByRole('button', { name: 'Review' }).click();
+  await authenticated
+    .getByRole('button', { name: 'Review', exact: true })
+    .click();
   await expect(
     authenticated.getByText(/Rosewater Frame requires a paid plan/u),
   ).toBeVisible();

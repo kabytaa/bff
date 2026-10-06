@@ -637,13 +637,25 @@ export function createBffAuthBrowserClient(
       return account;
     },
     renameAccount: async (input) => {
+      requireActive();
+      const operationEpoch = epoch;
+      const accountId = selectedAccountId(store.getSnapshot().state);
       const account = accountSummarySchema.parse(
         await authorizedBffPost(
           '/v1/accounts/name',
           renameAccountRequestSchema.parse(input),
         ),
       );
-      await activateAccount(account.id, false);
+      // A metadata edit must not remount the current account's application or
+      // reactivate it after an intervening switch, logout or disposal.
+      if (accountId !== undefined && !disposed && epoch === operationEpoch) {
+        try {
+          applyContext(await fetchContext(accountId), operationEpoch);
+        } catch (error) {
+          applyFailure(error, operationEpoch);
+          throw error;
+        }
+      }
       return account;
     },
     inspectInvitation: async (invitationToken) =>

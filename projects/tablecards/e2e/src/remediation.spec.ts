@@ -38,6 +38,10 @@ test('review regression: edited saved project exports the actual current names, 
   await step(page, 'Review');
   await page.getByRole('button', { name: 'Save project' }).click();
   await page.waitForURL(/\/projects\/project_/u);
+  await step(page, 'Guests');
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
+    'Old Guest\nOriginal Guest\nRemoved Guest',
+  );
   await importNames(page, 'Łukasz Dvořák\nŁukasz Dvořák');
   await page.getByLabel('Event name').fill('Reviewed current event');
   await step(page, 'Review');

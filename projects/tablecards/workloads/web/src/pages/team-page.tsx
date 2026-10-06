@@ -21,6 +21,11 @@ export function Component() {
   const [invitations, setInvitations] = useState<readonly InvitationView[]>([]);
   const [recipientEmail, setRecipientEmail] = useState('');
   const [invitationLink, setInvitationLink] = useState<string | null>(null);
+  const [copyFeedback, setCopyFeedback] = useState<{
+    readonly link: string;
+    readonly message: string;
+    readonly pending: boolean;
+  } | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [noticeKind, setNoticeKind] = useState<'info' | 'error'>('info');
   const [loading, setLoading] = useState(true);
@@ -138,22 +143,43 @@ export function Component() {
 
   const copyInvitationLink = async () => {
     if (!invitationLink) return;
-    setNotice(null);
-    setNoticeKind('info');
+    const link = invitationLink;
+    setCopyFeedback({
+      link,
+      message: 'Copying invitation link…',
+      pending: true,
+    });
+    const finish = (message: string) =>
+      setCopyFeedback((current) =>
+        current?.link === link ? { link, message, pending: false } : current,
+      );
+    let timeout: number | undefined;
     try {
       if (!navigator.clipboard?.writeText) {
         throw new Error('Clipboard access is unavailable');
       }
-      await navigator.clipboard.writeText(invitationLink);
-      setNotice('Invitation link copied.');
+      await Promise.race([
+        navigator.clipboard.writeText(link),
+        new Promise<never>((_resolve, reject) => {
+          timeout = window.setTimeout(
+            () => reject(new Error('Clipboard permission did not finish')),
+            2_000,
+          );
+        }),
+      ]);
+      finish('Invitation link copied.');
     } catch {
       const input =
         document.querySelector<HTMLInputElement>('#invitation-link');
-      input?.focus();
-      input?.select();
-      setNotice(
+      if (input?.value === link) {
+        input.focus();
+        input.select();
+      }
+      finish(
         'Automatic copying is unavailable. The invitation link is selected so you can copy it manually.',
       );
+    } finally {
+      if (timeout !== undefined) window.clearTimeout(timeout);
     }
   };
 
@@ -251,10 +277,18 @@ export function Component() {
               <button
                 className="secondary-button"
                 type="button"
+                disabled={
+                  copyFeedback?.link === invitationLink && copyFeedback.pending
+                }
                 onClick={() => void copyInvitationLink()}
               >
                 Copy link
               </button>
+              {copyFeedback?.link === invitationLink ? (
+                <p className="notice info" role="status">
+                  {copyFeedback.message}
+                </p>
+              ) : null}
             </div>
           ) : null}
         </section>

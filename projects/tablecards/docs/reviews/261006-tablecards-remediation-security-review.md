@@ -3,7 +3,7 @@
 Created: 2026-10-06
 Updated: 2026-10-06
 Status: Source review complete — hosted candidate verification pending
-Repository baseline: initial review at `3a948ad`; follow-up reviews `902dd39` on `feat/tablecards-application` plus the final uncommitted corrections
+Repository baseline: initial review at `3a948ad`; follow-up after `902dd39`; first hosted candidate `11c0be6fa5a13cdc28a9ccf1b3c56396b5613450` on `feat/tablecards-application`; replacement candidate pending
 Declared boundary: Build 3 development acceptance only
 
 ## Review scope and current verdict
@@ -127,6 +127,49 @@ Active-project usage still reads the complete enforced maximum of 100 projects.
 No source/security blocker was identified in these final inspected paths.
 The whole repository gate and exact deployed/hosted app evidence remain
 separate prerequisites to a development-readiness verdict.
+
+### Deployed candidate verification
+
+The coordinator reported the complete Node 24 `NX_PARALLEL=1 pnpm check` gate
+passed and deployed candidate `11c0be6fa5a13cdc28a9ccf1b3c56396b5613450` to the
+existing development targets. This reviewer independently fetched BFF,
+TableCards backend and session-gateway health: all three returned HTTP 200,
+`status: ok` and that exact version. Independent public font fetches returned
+HTTP 200 and the Noto Sans/Serif SHA-256 hashes matched their code-owned pins.
+
+Deployment context supplied by the coordinator: web Worker
+`2fb342a4-d6ee-4eb3-8bca-e88ae624ea1d`, gateway Worker
+`dc564170-ebc7-4e07-b844-21c22407c01f`, and customer-auth Worker
+`25e3ac4f-b666-4b38-96b7-840ee738b1bf`. Worker identifiers are supplied deployment
+evidence; the health/font responses above were independently observed.
+The first 27-case hosted run was interrupted with exit 143 after case 25 and is
+not a passing acceptance result. Hosted testing exposed a workspace-rename
+feedback loss caused by an authentication `loading` transition remounting the
+application. The replacement SDK implementation silently refreshes the
+original selected account's authoritative context, guarded by the epoch
+captured before the mutation. It does not reactivate the renamed account after
+an intervening account switch, sign-out or disposal. The reviewer inspected
+those guards and independently reran all **57 SDK tests across 8 files** on
+Node 24, serially: passed. Regressions assert no transient loading state,
+switch-during-mutation safety, sign-out-during-refresh safety and fail-closed
+revoked-session handling. The Convex adapter's identity key remains based on
+user/account rather than mutable display metadata.
+
+A separate Team correction keeps invitation-copy feedback keyed to its link
+and independent of late invitation-list reload notices. Copy requests now
+have a two-second bound and select the still-current link for manual copying
+on missing, rejected or indefinitely pending Clipboard APIs. The review
+inspected these guards and independently reran the final web suite after its
+freeze: **92 tests across 14 files passed** on Node 24, serially with unchanged
+timeouts. The implementation reviewer reproduced the notice-overwrite race
+against the old source; an isolated native Chromium Clipboard API probe
+resolved, so this report does not claim the hosted failure proved a native
+permission hang. Creator intro copy now distinguishes signed-in editing and
+the compact brand has a meaningful accessible name.
+
+A replacement deployed candidate, complete fresh 27-case hosted run and
+independent live app review remain pending. The healthy probes above do not
+establish development acceptance.
 
 | Readiness lens | Applicability and current evidence |
 | --- | --- |

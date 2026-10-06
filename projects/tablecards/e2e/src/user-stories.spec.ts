@@ -32,7 +32,9 @@ async function openCreatorStep(
   name: 'Design' | 'Guests' | 'Review',
 ) {
   await expect(
-    page.getByRole('heading', { name: 'Build your first sheet' }),
+    page.getByRole('heading', {
+      name: /^(?:Build your first sheet|Create your place cards|Edit your sheet)$/u,
+    }),
   ).toBeVisible();
   const control = page.getByRole('button', { name, exact: true });
   if (await control.isVisible()) await control.click();
@@ -145,7 +147,7 @@ test.describe('public creation, import, authentication and navigation', () => {
     await page.getByRole('link', { name: 'Projects' }).click();
     await expect(page.getByRole('heading', { name: 'Projects' })).toBeVisible();
     for (const [label, heading] of [
-      ['Create', 'Build your first sheet'],
+      ['Create', 'Create your place cards'],
       ['Designs', 'Designs'],
       ['Account', 'Account and usage'],
       ['Projects', 'Projects'],
@@ -228,6 +230,9 @@ test.describe('Free and Event Pass project promises', () => {
     await openCreatorReview(page);
     await page.getByRole('button', { name: 'Save project' }).click();
     await page.waitForURL(/\/projects\/project_/u);
+    await expect(
+      page.getByText('Project saved securely to your account.'),
+    ).toBeVisible();
     await page.getByRole('link', { name: 'Projects' }).click();
     await expect(page).toHaveURL(/\/projects$/u);
 
@@ -494,8 +499,14 @@ test('CSV upload remains readable by the hosted browser bundle', async ({
   const completePreview = page.getByRole('button', {
     name: 'Open complete preview',
   });
-  if (await completePreview.isVisible()) await completePreview.click();
-  await page.getByRole('button', { name: 'Next sheet' }).click();
-  await expect(page.locator('.paper-preview')).toContainText(/Ada.*Grace/su);
+  const hasCompletePreview = await completePreview.isVisible();
+  if (hasCompletePreview) await completePreview.click();
+  const previewSurface = hasCompletePreview
+    ? page.getByRole('dialog', { name: 'Complete print preview' })
+    : page;
+  await previewSurface.getByRole('button', { name: 'Next sheet' }).click();
+  await expect(previewSurface.locator('.paper-preview')).toContainText(
+    /Ada.*Grace/su,
+  );
   expect((await readFile(validArtwork)).length).toBeGreaterThan(0);
 });

@@ -1498,11 +1498,22 @@ export function Creator({
       data-active-step={activeStep}
     >
       <div className="section-intro">
-        <p className="eyebrow">Try it before you sign in</p>
-        <h2 id="creator-title">Build your first sheet</h2>
+        <p className="eyebrow">
+          {state.status === 'authenticated'
+            ? 'Your place cards'
+            : 'Try it before you sign in'}
+        </p>
+        <h2 id="creator-title">
+          {initialProjectId || savedProject
+            ? 'Edit your sheet'
+            : state.status === 'authenticated'
+              ? 'Create your place cards'
+              : 'Build your first sheet'}
+        </h2>
         <p>
-          Guest-list content stays in this tab until you choose to save or
-          export.
+          {initialProjectId || savedProject
+            ? 'Changes stay in this tab until you save or export an updated PDF.'
+            : 'Guest-list content stays in this tab until you choose to save or export.'}
         </p>
         <p className="save-state" role="status">
           {projectLoading

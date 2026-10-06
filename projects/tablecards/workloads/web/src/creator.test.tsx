@@ -78,6 +78,7 @@ function mount(projectId: string | null = 'project-one', onSaved = vi.fn()) {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mocks.auth.state.status = 'authenticated';
   sessionStorage.clear();
   Element.prototype.scrollIntoView = vi.fn();
   mocks.backend.getCurrentAccess.mockResolvedValue({
@@ -117,6 +118,39 @@ beforeEach(() => {
   });
 });
 afterEach(cleanup);
+
+describe('creator introduction reflects the current journey', () => {
+  it('shows edit guidance, not sign-in marketing, for a saved project', async () => {
+    mount();
+    await screen.findByDisplayValue('Original event');
+    expect(
+      screen.getByRole('heading', { name: 'Edit your sheet' }),
+    ).toBeTruthy();
+    expect(screen.queryByText('Try it before you sign in')).toBeNull();
+    expect(
+      screen.getByText(
+        'Changes stay in this tab until you save or export an updated PDF.',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('shows creation guidance for an authenticated new project', () => {
+    mount(null);
+    expect(
+      screen.getByRole('heading', { name: 'Create your place cards' }),
+    ).toBeTruthy();
+    expect(screen.queryByText('Try it before you sign in')).toBeNull();
+  });
+
+  it('keeps the public try-before-sign-in introduction for visitors', () => {
+    mocks.auth.state.status = 'signed_out';
+    mount(null);
+    expect(
+      screen.getByRole('heading', { name: 'Build your first sheet' }),
+    ).toBeTruthy();
+    expect(screen.getByText('Try it before you sign in')).toBeTruthy();
+  });
+});
 
 const retainedNameStyle = {
   color: '#123456',

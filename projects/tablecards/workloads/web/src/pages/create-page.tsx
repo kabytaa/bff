@@ -37,6 +37,11 @@ export function Component() {
         <Link
           className="brand"
           to={state.status === 'authenticated' ? '/projects' : '/'}
+          aria-label={
+            state.status === 'authenticated'
+              ? 'TableCards projects'
+              : 'TableCards home'
+          }
         >
           <span className="brand-mark" aria-hidden="true">
             TC
