@@ -4,6 +4,7 @@ import {
   type DesignId,
 } from './catalog';
 import { guestRowSchema, type GuestRow } from './guests';
+import { NOTO_FONT_DATA } from './font-data';
 
 export const POINTS_PER_INCH = 72;
 export const LETTER_PAGE = Object.freeze({
@@ -70,33 +71,59 @@ export interface FontMetrics {
   heightAtSize(fontSize: number): number;
 }
 
-/**
- * Browser-preview metrics approximating Noto Sans. The PDF renderer always
- * rebuilds the manifest using the actual embedded PDF font metrics.
- */
-export const APPROXIMATE_NOTO_SANS_METRICS: FontMetrics = Object.freeze({
-  familyName: 'Noto Sans',
-  supportsText: (text: string) =>
-    /^[\p{Script=Latin}\p{Mark}\p{Number}\p{Zs}\p{Punctuation}]+$/u.test(text),
-  widthOfTextAtSize: (text: string, fontSize: number) => {
-    let units = 0;
-    for (const character of text) {
-      if (/\s/u.test(character)) {
-        units += 0.28;
-      } else if (/[ilI1.,'’|]/u.test(character)) {
-        units += 0.3;
-      } else if (/[MW@%]/u.test(character)) {
-        units += 0.86;
-      } else if (/\p{Lu}/u.test(character)) {
-        units += 0.64;
-      } else {
-        units += 0.54;
-      }
-    }
-    return units * fontSize;
+/** Canonical-equivalent rendering only; imported/stored names stay untouched. */
+export function normalizeRenderText(text: string): string {
+  return text.normalize('NFC');
+}
+
+/** Common Latin, including Vietnamese; unsupported shaping fails before export. */
+export function isCommonLatinRenderText(text: string): boolean {
+  const normalized = normalizeRenderText(text);
+  return (
+    /^[\u0020-\u024f\u1e00-\u1eff\u2000-\u206f]*$/u.test(normalized) &&
+    !/\p{Mark}/u.test(normalized)
+  );
+}
+
+function pinnedFontMetrics(
+  familyName: string,
+  data: {
+    readonly unitsPerEm: number;
+    readonly ascent: number;
+    readonly advances: Readonly<Record<number, number>>;
   },
-  heightAtSize: (fontSize: number) => fontSize * 1.2,
-});
+): FontMetrics {
+  return Object.freeze({
+    familyName,
+    supportsText: (text: string) =>
+      isCommonLatinRenderText(text) &&
+      Array.from(normalizeRenderText(text)).every(
+        (character) => data.advances[character.codePointAt(0)!] !== undefined,
+      ),
+    widthOfTextAtSize: (text: string, fontSize: number) =>
+      (Array.from(normalizeRenderText(text)).reduce(
+        (sum, character) =>
+          sum + (data.advances[character.codePointAt(0)!] ?? Infinity),
+        0,
+      ) *
+        fontSize) /
+      data.unitsPerEm,
+    heightAtSize: (fontSize: number) =>
+      (data.ascent * fontSize) / data.unitsPerEm,
+  });
+}
+
+/** Measured from the pinned font bytes; no large font parser in the browser. */
+export const NOTO_SANS_METRICS = pinnedFontMetrics(
+  'Noto Sans',
+  NOTO_FONT_DATA.sans,
+);
+export const NOTO_SERIF_METRICS = pinnedFontMetrics(
+  'Noto Serif',
+  NOTO_FONT_DATA.serif,
+);
+/** Compatibility name; the metrics are no longer approximate. */
+export const APPROXIMATE_NOTO_SANS_METRICS = NOTO_SANS_METRICS;
 
 export interface FillRectangleCommand {
   readonly type: 'fill_rectangle';
@@ -177,7 +204,7 @@ export type RenderPreflightIssueCode =
 export interface RenderPreflightIssue {
   readonly code: RenderPreflightIssueCode;
   readonly guestIndex: number;
-  readonly field: 'marker' | 'name' | 'table';
+  readonly field: 'marker' | 'name' | 'table' | 'title';
   readonly message: string;
 }
 
@@ -321,9 +348,34 @@ function fitGuest(
 export function preflightRender(
   input: CreateRenderManifestInput,
   metrics: FontMetrics = APPROXIMATE_NOTO_SANS_METRICS,
-  nameMetrics: FontMetrics = metrics,
+  nameMetrics: FontMetrics = metrics === NOTO_SANS_METRICS
+    ? NOTO_SERIF_METRICS
+    : metrics,
 ): readonly RenderPreflightIssue[] {
   const issues: RenderPreflightIssue[] = [];
+  if (input.title !== undefined) {
+    const title = input.title.trim() || 'TableCards print check';
+    const supported = metrics.supportsText(title);
+    if (
+      !supported ||
+      fitText(
+        title,
+        metrics,
+        PRINT_LAYOUTS[input.layoutId ?? 'portrait_4'].page.width - 112,
+        24,
+        10,
+      ) === undefined
+    ) {
+      issues.push({
+        code: supported ? 'text_does_not_fit' : 'unsupported_font_character',
+        guestIndex: -1,
+        field: 'title',
+        message: supported
+          ? 'The event name is too long for the print-check title. Shorten it.'
+          : 'The event name contains a character the print font cannot render.',
+      });
+    }
+  }
   const selectedNameMetrics =
     input.nameStyle?.font === 'serif' ? nameMetrics : metrics;
   for (let index = 0; index < input.guests.length; index += 1) {
@@ -390,7 +442,7 @@ function addFace(
   commands.push(
     Object.freeze({
       type: 'text',
-      text: guest.name,
+      text: normalizeRenderText(guest.name),
       centerX: x + FINISHED_CARD.width / 2,
       centerY: centerY + direction * nameOffset,
       fontSize: fitted.nameSize,
@@ -404,7 +456,7 @@ function addFace(
     commands.push(
       Object.freeze({
         type: 'text',
-        text: guest.table,
+        text: normalizeRenderText(guest.table),
         centerX: x + FINISHED_CARD.width / 2,
         centerY: centerY - detailsDirection * 20,
         fontSize: fitted.tableSize,
@@ -418,7 +470,7 @@ function addFace(
     commands.push(
       Object.freeze({
         type: 'text',
-        text: guest.marker,
+        text: normalizeRenderText(guest.marker),
         centerX: x + FINISHED_CARD.width / 2,
         centerY:
           centerY - detailsDirection * (guest.table === undefined ? 20 : 34),
@@ -451,7 +503,7 @@ function createScaleCheckPage(
   const commands: RenderCommand[] = [
     Object.freeze({
       type: 'text',
-      text: title,
+      text: normalizeRenderText(title),
       centerX: page.width / 2,
       centerY: upperBand + 24,
       fontSize: titleSize,
@@ -604,7 +656,9 @@ function createCardsPage(
 export function createRenderManifest(
   input: CreateRenderManifestInput,
   metrics: FontMetrics = APPROXIMATE_NOTO_SANS_METRICS,
-  nameMetrics: FontMetrics = metrics,
+  nameMetrics: FontMetrics = metrics === NOTO_SANS_METRICS
+    ? NOTO_SERIF_METRICS
+    : metrics,
 ): RenderManifest {
   const issues = preflightRender(input, metrics, nameMetrics);
   if (issues.length > 0) {
@@ -740,7 +794,7 @@ export function renderManifestPageToSvg(
         command.fontFamily === 'serif'
           ? 'Noto Serif, serif'
           : manifest.fontFamily;
-      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
+      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-kerning="none" font-variant-ligatures="none" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
     })
     .join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${page.width} ${page.height}" role="img" aria-label="TableCards ${page.kind === 'scale_check' ? 'scale check' : `print sheet ${pageIndex}`}">${body}</svg>`;

@@ -15,12 +15,13 @@ import {
 
 import type {
   CurrentProductAccess,
-  DesignAsset,
   DesignPreset,
   PresetStyle,
 } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
+import { useArtwork } from '../use-artwork';
 import { safeProductMessage } from '../product-error';
+import { MetadataPageControls, useMetadataPages } from '../metadata-pages';
 
 const defaultStyle: PresetStyle = {
   displayName: 'My reusable design',
@@ -29,6 +30,35 @@ const defaultStyle: PresetStyle = {
   nameFont: 'serif',
   nameSize: 'medium',
 };
+
+function ArtworkThumbnail({
+  backend,
+  address,
+}: {
+  readonly backend: ReturnType<typeof useTableCardsBackend>;
+  readonly address?: string | null;
+}) {
+  const artwork = useArtwork(backend, address, { lazy: true });
+  return (
+    <div
+      ref={artwork.ref}
+      className="asset-preview"
+      style={
+        artwork.url ? { backgroundImage: `url(${artwork.url})` } : undefined
+      }
+    >
+      {artwork.state === 'error' ? (
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={artwork.retry}
+        >
+          Retry artwork preview
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 function message(error: unknown) {
   return safeProductMessage(
@@ -121,10 +151,17 @@ export function Component() {
   const backend = useTableCardsBackend();
   const { snapshot } = useBffAuth();
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
-  const [assets, setAssets] = useState<readonly DesignAsset[]>([]);
-  const [presets, setPresets] = useState<readonly DesignPreset[]>([]);
   const [style, setStyle] = useState<PresetStyle>(defaultStyle);
   const [assetId, setAssetId] = useState('');
+  const assetLibrary = useMetadataPages(
+    backend.listAssetPage,
+    'artwork',
+    assetId,
+  );
+  const presetLibrary = useMetadataPages(backend.listPresetPage, 'presets');
+  const assets = assetLibrary.items;
+  const presets = presetLibrary.items;
+  const loadGeneration = useRef(0);
   const [prompt, setPrompt] = useState(
     'Elegant watercolor botanicals on warm white paper',
   );
@@ -145,17 +182,17 @@ export function Component() {
   };
 
   const load = useCallback(async () => {
+    const sequence = ++loadGeneration.current;
     setLoading(true);
     try {
-      const [nextAccess, nextAssets, nextPresets, pending] = await Promise.all([
+      const [nextAccess, nextAssets, , pending] = await Promise.all([
         backend.getCurrentAccess(),
-        backend.listAssets(),
-        backend.listPresets(),
+        assetLibrary.refresh(),
+        presetLibrary.refresh(),
         backend.getPendingAiBatch(),
       ]);
+      if (sequence !== loadGeneration.current) return;
       setAccess(nextAccess);
-      setAssets(nextAssets);
-      setPresets(nextPresets);
       if (pending) {
         aiAttempt.current = {
           prompt: pending.prompt,
@@ -166,18 +203,25 @@ export function Component() {
       }
       setAssetId(
         (current) =>
-          current || nextAssets.find((asset) => asset.reusable)?.id || '',
+          current ||
+          nextAssets?.items.find((asset) => asset.reusable)?.id ||
+          '',
       );
+    } catch (error) {
+      if (sequence === loadGeneration.current) throw error;
     } finally {
-      setLoading(false);
+      if (sequence === loadGeneration.current) setLoading(false);
     }
-  }, [backend]);
+  }, [assetLibrary.refresh, backend, presetLibrary.refresh]);
 
   useEffect(() => {
     void load().catch((error: unknown) => {
       setNotice(message(error));
       setNoticeKind('error');
     });
+    return () => {
+      loadGeneration.current += 1;
+    };
   }, [load, snapshot.generation]);
 
   const upload = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +243,13 @@ export function Component() {
   };
 
   const generate = async () => {
+    if (
+      !aiRecovery &&
+      (prompt.trim().length < 3 || prompt.trim().length > 400)
+    ) {
+      notify('Describe the background in 3 to 400 characters.', 'error');
+      return;
+    }
     if (
       !aiAttempt.current ||
       (!aiRecovery && aiAttempt.current.prompt !== prompt)
@@ -223,7 +274,7 @@ export function Component() {
         aiAttempt.current = null;
         setAiRecovery(false);
         throw new Error(
-          batch.errorMessage ?? 'The image provider did not finish the batch.',
+          'This background batch failed. Edit the description and try again.',
         );
       }
       await load();
@@ -279,11 +330,12 @@ export function Component() {
               className="secondary-button"
               type="button"
               disabled={busy || loading}
-              onClick={() =>
+              onClick={() => {
+                setNotice(null);
                 void load().catch((caught: unknown) =>
                   notify(message(caught), 'error'),
-                )
-              }
+                );
+              }}
             >
               Retry library
             </button>
@@ -341,6 +393,8 @@ export function Component() {
                 <textarea
                   id="design-ai-prompt"
                   rows={3}
+                  required
+                  minLength={3}
                   maxLength={400}
                   value={prompt}
                   disabled={busy || loading || aiRecovery}
@@ -353,7 +407,9 @@ export function Component() {
                     busy ||
                     loading ||
                     (!aiRecovery &&
-                      (access.aiBackgroundBatchesRemaining ?? 0) < 1)
+                      ((access.aiBackgroundBatchesRemaining ?? 0) < 1 ||
+                        prompt.trim().length < 3 ||
+                        prompt.trim().length > 400))
                   }
                   onClick={() => void generate()}
                 >
@@ -377,7 +433,10 @@ export function Component() {
             600; maximum 2 megapixels and 10 MiB.
           </p>
         ) : null}
-        {!loading && access?.artworkUploadEnabled && assets.length === 0 ? (
+        {!loading &&
+        assetLibrary.page.done &&
+        access?.artworkUploadEnabled &&
+        assets.length === 0 ? (
           <p className="muted">
             No artwork yet. Upload an image or generate a background batch to
             begin.
@@ -386,14 +445,7 @@ export function Component() {
         <div className="asset-grid">
           {assets.map((asset) => (
             <article key={asset.id}>
-              <div
-                className="asset-preview"
-                style={
-                  asset.url
-                    ? { backgroundImage: `url(${asset.url})` }
-                    : undefined
-                }
-              />
+              <ArtworkThumbnail backend={backend} address={asset.url} />
               <p>
                 {asset.source === 'ai' ? 'AI background' : 'Uploaded artwork'}
               </p>
@@ -412,6 +464,13 @@ export function Component() {
             </article>
           ))}
         </div>
+        <MetadataPageControls
+          label="artwork"
+          page={assetLibrary.page}
+          onLoadMore={assetLibrary.loadMore}
+          disabled={busy || loading}
+          showEnd={assets.length > 0}
+        />
       </section>
 
       <section className="page-section">
@@ -452,7 +511,10 @@ export function Component() {
             </button>
           </form>
         ) : null}
-        {!loading && access?.reusablePresetsEnabled && presets.length === 0 ? (
+        {!loading &&
+        presetLibrary.page.done &&
+        access?.reusablePresetsEnabled &&
+        presets.length === 0 ? (
           <p className="muted">
             No reusable presets yet. Choose validated artwork and save a preset
             above.
@@ -470,6 +532,15 @@ export function Component() {
               />
             ))}
           </div>
+        ) : null}
+        {access?.reusablePresetsEnabled ? (
+          <MetadataPageControls
+            label="presets"
+            page={presetLibrary.page}
+            onLoadMore={presetLibrary.loadMore}
+            disabled={busy || loading}
+            showEnd={presets.length > 0}
+          />
         ) : null}
       </section>
     </section>
@@ -498,14 +569,14 @@ function PresetCard({
     nameSize: preset.nameSize,
   });
   const [busy, setBusy] = useState(false);
+  const artwork = useArtwork(backend, preset.artworkUrl, { lazy: true });
   return (
     <article className="preset-card">
       <div
+        ref={artwork.ref}
         className="preset-preview"
         style={{
-          ...(preset.artworkUrl
-            ? { backgroundImage: `url(${preset.artworkUrl})` }
-            : {}),
+          ...(artwork.url ? { backgroundImage: `url(${artwork.url})` } : {}),
           color: editing.nameColor,
           fontFamily:
             editing.nameFont === 'serif'
@@ -525,8 +596,17 @@ function PresetCard({
                 : 'center',
         }}
       >
-        Ada Lovelace
+        {artwork.state === 'error' ? 'Artwork unavailable' : 'Ada Lovelace'}
       </div>
+      {artwork.state === 'error' ? (
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={artwork.retry}
+        >
+          Retry artwork preview
+        </button>
+      ) : null}
       <details>
         <summary>{preset.displayName}</summary>
         <StyleFields style={editing} onChange={setEditing} />

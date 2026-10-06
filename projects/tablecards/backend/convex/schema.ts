@@ -57,6 +57,7 @@ export default defineSchema({
   })
     .index('by_account_public_id', ['accountId', 'publicId'])
     .index('by_account_project', ['accountId', 'projectId'])
+    .index('by_account_created_at', ['accountId', 'createdAt'])
     .index('by_storage_id', ['storageId']),
   designPresets: defineTable({
     publicId: v.string(),

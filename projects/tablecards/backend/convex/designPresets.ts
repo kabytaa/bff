@@ -1,7 +1,9 @@
+import { paginationOptsValidator, type PaginationOptions } from 'convex/server';
 import { v } from 'convex/values';
 
 import { withBffAccountQuery } from '@tofler/bff-auth/convex/server';
-import { internalMutation, query } from './_generated/server';
+import type { Doc } from './_generated/dataModel';
+import { internalMutation, query, type QueryCtx } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
 import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
@@ -32,6 +34,26 @@ const presetView = v.object({
   updatedAt: v.number(),
 });
 
+async function presetProjection(ctx: QueryCtx, preset: Doc<'designPresets'>) {
+  const asset = await ctx.db.get(preset.assetId);
+  if (!asset || asset.accountId !== preset.accountId) {
+    fail('NOT_FOUND', 'Preset artwork is unavailable');
+  }
+  return {
+    publicId: preset.publicId,
+    assetPublicId: asset.publicId,
+    assetSource: asset.source,
+    artworkUrl: assetFileAddress(asset.publicId),
+    displayName: preset.displayName,
+    nameColor: preset.nameColor,
+    namePosition: preset.namePosition,
+    nameFont: preset.nameFont ?? ('sans' as const),
+    nameSize: preset.nameSize ?? ('medium' as const),
+    createdAt: preset.createdAt,
+    updatedAt: preset.updatedAt,
+  };
+}
+
 function validateStyle(args: { displayName: string; nameColor: string }): void {
   const displayName = args.displayName.trim();
   if (displayName.length === 0 || displayName.length > 80) {
@@ -56,26 +78,36 @@ export const list = query({
         .order('desc')
         .take(101);
       return await Promise.all(
-        presets.map(async (preset) => {
-          const asset = await ctx.db.get(preset.assetId);
-          if (!asset || asset.accountId !== auth.accountId) {
-            fail('NOT_FOUND', 'Preset artwork is unavailable');
-          }
-          return {
-            publicId: preset.publicId,
-            assetPublicId: asset.publicId,
-            assetSource: asset.source,
-            artworkUrl: assetFileAddress(asset.publicId),
-            displayName: preset.displayName,
-            nameColor: preset.nameColor,
-            namePosition: preset.namePosition,
-            nameFont: preset.nameFont ?? ('sans' as const),
-            nameSize: preset.nameSize ?? ('medium' as const),
-            createdAt: preset.createdAt,
-            updatedAt: preset.updatedAt,
-          };
-        }),
+        presets.map((preset) => presetProjection(ctx, preset)),
       );
+    },
+  ),
+});
+
+export const page = query({
+  args: { paginationOpts: paginationOptsValidator },
+  returns: v.object({
+    page: v.array(presetView),
+    isDone: v.boolean(),
+    continueCursor: v.string(),
+  }),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (ctx, args: { paginationOpts: PaginationOptions }, auth) => {
+      const result = await ctx.db
+        .query('designPresets')
+        .withIndex('by_account_updated_at', (q) =>
+          q.eq('accountId', auth.accountId),
+        )
+        .order('desc')
+        .paginate({ cursor: args.paginationOpts.cursor, numItems: 24 });
+      return {
+        page: await Promise.all(
+          result.page.map((preset) => presetProjection(ctx, preset)),
+        ),
+        isDone: result.isDone,
+        continueCursor: result.continueCursor,
+      };
     },
   ),
 });

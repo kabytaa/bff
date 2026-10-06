@@ -317,11 +317,21 @@ describe('AI action interruption recovery', () => {
       /UNAUTHENTICATED/u,
     );
     expect(bff.reserveUnits).not.toHaveBeenCalled();
-    await expect(
-      t
+    const failed = await t.withIdentity(identity()).action(generateBatch, {
+      ...input,
+      prompt: '[fail] Watercolor',
+    });
+    expect(failed.status).toBe('failed');
+    expect(
+      await t
         .withIdentity(identity())
-        .action(generateBatch, { ...input, prompt: '[fail] Watercolor' }),
-    ).rejects.toThrow(/PROVIDER_UNAVAILABLE/u);
+        .query(getBatch, { batchId: failed.batchId }),
+    ).toMatchObject({ status: 'failed', errorCode: 'PROVIDER_UNAVAILABLE' });
+    const retry = await t.withIdentity(identity()).action(generateBatch, {
+      ...input,
+      prompt: '[fail] Watercolor',
+    });
+    expect(retry).toEqual(failed);
     expect(bff.reserveUnits).toHaveBeenCalledTimes(1);
     expect(bff.commitUnits).not.toHaveBeenCalled();
     expect(bff.releaseUnits).toHaveBeenCalledTimes(1);
@@ -336,6 +346,14 @@ describe('AI action interruption recovery', () => {
             .take(8),
       ),
     ).toEqual([]);
+    const recovered = await t.withIdentity(identity()).action(generateBatch, {
+      ...input,
+      idempotencyKey: 'new_provider_attempt_abcdefghijklmnop',
+    });
+    expect(recovered.status).toBe('ready');
+    expect(bff.reserveUnits).toHaveBeenCalledTimes(2);
+    expect(bff.commitUnits).toHaveBeenCalledTimes(1);
+    expect(bff.releaseUnits).toHaveBeenCalledTimes(1);
   });
 
   it('does not publish private outputs when BFF did not commit the reservation', async () => {

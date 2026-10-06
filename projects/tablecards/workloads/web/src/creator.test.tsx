@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import {
+  act,
   cleanup,
   fireEvent,
   render,
@@ -25,7 +26,9 @@ const mocks = vi.hoisted(() => ({
   backend: {
     getCurrentAccess: vi.fn(),
     listPresets: vi.fn(),
+    listPresetPage: vi.fn(),
     listAssets: vi.fn(),
+    getAsset: vi.fn(),
     listProjects: vi.fn(),
     getProject: vi.fn(),
     getLatestExport: vi.fn(),
@@ -34,6 +37,8 @@ const mocks = vi.hoisted(() => ({
     getExport: vi.fn(),
     generateAi: vi.fn(),
     getPendingAiBatch: vi.fn(),
+    resolveArtwork: vi.fn(),
+    releaseArtwork: vi.fn(),
   },
 }));
 vi.mock('@tofler/bff-auth/react', () => ({ useBffAuth: () => mocks.auth }));
@@ -86,7 +91,14 @@ beforeEach(() => {
   });
   mocks.backend.getPendingAiBatch.mockResolvedValue(null);
   mocks.backend.listPresets.mockResolvedValue([]);
+  mocks.backend.listPresetPage.mockImplementation(async () => ({
+    items: await mocks.backend.listPresets(),
+    done: true,
+    cursor: '',
+  }));
   mocks.backend.listAssets.mockResolvedValue([]);
+  mocks.backend.getAsset.mockResolvedValue(null);
+  mocks.backend.resolveArtwork.mockResolvedValue('blob:resolved-artwork');
   mocks.backend.listProjects.mockResolvedValue([originalProject]);
   mocks.backend.getProject.mockResolvedValue(originalProject);
   mocks.backend.getLatestExport.mockResolvedValue({
@@ -105,6 +117,408 @@ beforeEach(() => {
   });
 });
 afterEach(cleanup);
+
+const retainedNameStyle = {
+  color: '#123456',
+  position: 'top',
+  font: 'serif',
+  size: 'small',
+} as const;
+function writeSavedArtworkDraft(kind: 'uploaded' | 'ai') {
+  createTableCardsDraftStore(
+    sessionStorage,
+    Date.now,
+    'tablecards:protected-draft:v1:account-one:project-one',
+  ).write({
+    title: 'Unsaved artwork event',
+    designId: 'garden-sage',
+    layoutId: 'portrait_4',
+    guests: [{ name: 'Retained Guest' }],
+    pastedText: 'Retained Guest',
+    validatedText: 'Retained Guest',
+    activeStep: 3,
+    customDesign: {
+      kind,
+      reference: 'asset-new',
+      label: 'Unsaved event artwork',
+      nameStyle: retainedNameStyle,
+    },
+  });
+}
+
+describe('restored current private artwork', () => {
+  it('loads and selects an older preset with its exact snapshotted name style', async () => {
+    const first = Array.from({ length: 24 }, (_, index) => ({
+      id: `preset-${index}`,
+      assetId: `asset-${index}`,
+      assetSource: 'uploaded',
+      artworkUrl: `/v1/files/assets/asset_${index}`,
+      displayName: `Recent preset ${index}`,
+      nameColor: '#243026',
+      nameFont: 'sans',
+      namePosition: 'center',
+      nameSize: 'medium',
+      updatedAt: 1,
+    }));
+    const older = {
+      ...first[0],
+      id: 'older-preset',
+      assetId: 'older-asset',
+      artworkUrl: '/v1/files/assets/older_asset',
+      displayName: 'Older retained preset',
+      nameColor: '#123456',
+      nameFont: 'serif',
+      namePosition: 'top',
+      nameSize: 'small',
+    };
+    mocks.backend.listPresetPage
+      .mockResolvedValueOnce({
+        items: first,
+        done: false,
+        cursor: 'older-presets-cursor',
+      })
+      .mockResolvedValueOnce({ items: [older], done: true, cursor: 'end' });
+    mocks.backend.getCurrentAccess.mockResolvedValue({
+      offerKey: 'studio',
+      artworkUploadEnabled: true,
+      reusablePresetsEnabled: true,
+      aiBackgroundBatchesRemaining: 2,
+    });
+    mocks.backend.resolveArtwork.mockImplementation(async (address) =>
+      address === older.artworkUrl ? 'blob:older-preset' : 'blob:recent-preset',
+    );
+    mount();
+    await screen.findByDisplayValue('Original event');
+    fireEvent.click(
+      await screen.findByRole('button', { name: 'Load more presets' }),
+    );
+    fireEvent.click(
+      await screen.findByRole('button', { name: 'Older retained preset' }),
+    );
+    await waitFor(() =>
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(false),
+    );
+    expect(mocks.backend.listPresetPage).toHaveBeenLastCalledWith(
+      'older-presets-cursor',
+    );
+    expect(screen.getByText('All presets loaded.')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Next sheet' }));
+    expect(
+      document
+        .querySelector('.creator-preview .paper-preview image')
+        ?.getAttribute('href'),
+    ).toBe('blob:older-preset');
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await waitFor(() => expect(mocks.backend.saveProject).toHaveBeenCalled());
+    expect(mocks.backend.saveProject.mock.calls[0]?.[0].design).toEqual({
+      kind: 'uploaded',
+      reference: 'older-asset',
+      nameStyle: retainedNameStyle,
+    });
+  });
+  it('hydrates selected artwork through an exact authorized lookup when it is outside the library window', async () => {
+    writeSavedArtworkDraft('uploaded');
+    mocks.backend.listAssets.mockResolvedValue(
+      Array.from({ length: 128 }, (_, index) => ({
+        id: `unrelated-${index}`,
+        source: 'uploaded',
+        url: `/api/private-artwork/unrelated-${index}`,
+        reusable: true,
+        createdAt: 1,
+      })),
+    );
+    mocks.backend.getAsset.mockResolvedValue({
+      id: 'asset-new',
+      source: 'uploaded',
+      url: '/api/private-artwork/selected-beyond-window',
+      reusable: false,
+      createdAt: 1,
+    });
+    mocks.backend.resolveArtwork.mockResolvedValue(
+      'blob:selected-beyond-window',
+    );
+    mount();
+    await screen.findByDisplayValue('Unsaved artwork event');
+    await waitFor(() =>
+      expect(mocks.backend.getAsset).toHaveBeenCalledWith('asset-new'),
+    );
+    await waitFor(() =>
+      expect(mocks.backend.resolveArtwork).toHaveBeenCalledWith(
+        '/api/private-artwork/selected-beyond-window',
+      ),
+    );
+    await waitFor(() =>
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(false),
+    );
+    expect(mocks.backend.getAsset).toHaveBeenCalledWith('asset-new');
+    expect(mocks.backend.resolveArtwork).toHaveBeenCalledTimes(1);
+    expect(mocks.backend.resolveArtwork).toHaveBeenCalledWith(
+      '/api/private-artwork/selected-beyond-window',
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Next sheet' }));
+    expect(
+      document
+        .querySelector('.creator-preview .paper-preview image')
+        ?.getAttribute('href'),
+    ).toBe('blob:selected-beyond-window');
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Create print-ready PDF' }),
+    );
+    await screen.findByRole('link', { name: 'Download PDF' });
+    expect(mocks.backend.saveProject.mock.calls[0]?.[0].design.reference).toBe(
+      'asset-new',
+    );
+  });
+  it.each(['uploaded', 'ai'] as const)(
+    'loads a restored %s draft reference before preview/export and preserves edits while waiting',
+    async (kind) => {
+      writeSavedArtworkDraft(kind);
+      let completeAssets!: (
+        assets: readonly {
+          id: string;
+          source: 'uploaded' | 'ai';
+          url: string;
+          reusable: boolean;
+          createdAt: number;
+        }[],
+      ) => void;
+      mocks.backend.listAssets.mockReturnValue(
+        new Promise((resolve) => {
+          completeAssets = resolve;
+        }),
+      );
+      let completeArtwork!: (url: string) => void;
+      mocks.backend.resolveArtwork.mockReturnValue(
+        new Promise((resolve) => {
+          completeArtwork = resolve;
+        }),
+      );
+      mount();
+      await screen.findByDisplayValue('Unsaved artwork event');
+      expect(screen.getByText(/Loading your selected artwork/)).toBeTruthy();
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        screen
+          .getByRole('button', { name: 'Create print-ready PDF' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        screen
+          .getByRole('button', { name: 'Open complete preview' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        document.querySelector('.creator-preview .paper-preview'),
+      ).toBeNull();
+      fireEvent.change(screen.getByLabelText('Event name'), {
+        target: { value: 'Edited while artwork loads' },
+      });
+      fireEvent.change(screen.getByLabelText(/Paste one name/), {
+        target: { value: 'Current Edited Guest' },
+      });
+      await act(async () =>
+        completeAssets([
+          {
+            id: 'asset-new',
+            source: kind,
+            url: '/api/private-artwork/current-draft',
+            reusable: false,
+            createdAt: 1,
+          },
+          ...Array.from({ length: 200 }, (_, index) => ({
+            id: `unrelated-${index}`,
+            source: kind,
+            url: `/api/private-artwork/unrelated-${index}`,
+            reusable: false,
+            createdAt: 1,
+          })),
+        ]),
+      );
+      await waitFor(() =>
+        expect(mocks.backend.resolveArtwork).toHaveBeenCalledWith(
+          '/api/private-artwork/current-draft',
+        ),
+      );
+      expect(mocks.backend.resolveArtwork).toHaveBeenCalledTimes(1);
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        document.querySelector('.creator-preview .paper-preview'),
+      ).toBeNull();
+      await act(async () => completeArtwork('blob:current-draft-artwork'));
+      await waitFor(() =>
+        expect(
+          screen
+            .getByRole('button', { name: 'Create print-ready PDF' })
+            .hasAttribute('disabled'),
+        ).toBe(false),
+      );
+      fireEvent.click(screen.getByRole('button', { name: 'Next sheet' }));
+      const imageSources = Array.from(
+        document.querySelectorAll('.creator-preview .paper-preview image'),
+      ).map((element) => element.getAttribute('href'));
+      expect(imageSources.length).toBeGreaterThan(0);
+      expect(
+        imageSources.every((source) => source === 'blob:current-draft-artwork'),
+      ).toBe(true);
+      expect((screen.getByLabelText('Font') as HTMLSelectElement).value).toBe(
+        'serif',
+      );
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Create print-ready PDF' }),
+      );
+      await screen.findByRole('link', { name: 'Download PDF' });
+      expect(mocks.backend.saveProject).toHaveBeenCalledWith(
+        expect.objectContaining({
+          projectId: 'project-one',
+          title: 'Edited while artwork loads',
+          guests: [{ name: 'Current Edited Guest' }],
+          design: {
+            kind,
+            reference: 'asset-new',
+            nameStyle: retainedNameStyle,
+          },
+        }),
+      );
+      expect(mocks.backend.requestExport).toHaveBeenCalledWith(
+        'project-one',
+        'portrait_4',
+      );
+    },
+  );
+
+  it.each(['missing', 'failed', 'bytes'] as const)(
+    'blocks a %s restored asset without a catalog fallback and retries without losing the draft',
+    async (failure) => {
+      writeSavedArtworkDraft('uploaded');
+      if (failure === 'failed')
+        mocks.backend.listAssets.mockRejectedValue(
+          new Error('[CONVEX Q(assets:list)] Request ID: private Server Error'),
+        );
+      if (failure === 'bytes') {
+        mocks.backend.listAssets.mockResolvedValue([
+          {
+            id: 'asset-new',
+            source: 'uploaded',
+            url: '/api/private-artwork/current-draft',
+            reusable: false,
+            createdAt: 1,
+          },
+        ]);
+        mocks.backend.resolveArtwork.mockRejectedValue(
+          new Error('Authorized bytes unavailable'),
+        );
+      }
+      mount();
+      await screen.findByDisplayValue('Unsaved artwork event');
+      const alert = await screen.findByRole('alert');
+      expect(alert.textContent).toContain(
+        'The selected artwork could not be loaded in this workspace. Your edits are preserved.',
+      );
+      expect(alert.textContent).not.toMatch(/CONVEX|Request ID/);
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        screen
+          .getByRole('button', { name: 'Create print-ready PDF' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        document.querySelector('.creator-preview .paper-preview'),
+      ).toBeNull();
+      expect(mocks.backend.saveProject).not.toHaveBeenCalled();
+      mocks.backend.listAssets.mockResolvedValue([
+        {
+          id: 'asset-new',
+          source: 'uploaded',
+          url: '/api/private-artwork/current-draft',
+          reusable: false,
+          createdAt: 1,
+        },
+      ]);
+      mocks.backend.resolveArtwork.mockResolvedValue('blob:retried-artwork');
+      fireEvent.click(screen.getByRole('button', { name: 'Retry artwork' }));
+      await waitFor(() =>
+        expect(
+          screen
+            .getByRole('button', { name: 'Save project' })
+            .hasAttribute('disabled'),
+        ).toBe(false),
+      );
+      expect(
+        (screen.getByLabelText('Event name') as HTMLInputElement).value,
+      ).toBe('Unsaved artwork event');
+      expect(
+        (screen.getByLabelText(/Paste one name/) as HTMLTextAreaElement).value,
+      ).toBe('Retained Guest');
+      expect(screen.getByText('Unsaved event artwork')).toBeTruthy();
+      fireEvent.click(screen.getByRole('button', { name: 'Next sheet' }));
+      expect(
+        document
+          .querySelector('.creator-preview .paper-preview image')
+          ?.getAttribute('href'),
+      ).toBe('blob:retried-artwork');
+    },
+  );
+
+  it('resolves the current draft through an authorized preset without replacing its snapshotted style', async () => {
+    writeSavedArtworkDraft('uploaded');
+    mocks.backend.listPresets.mockResolvedValue([
+      {
+        id: 'preset-one',
+        assetId: 'asset-new',
+        assetSource: 'uploaded',
+        artworkUrl: '/api/private-artwork/preset-artwork',
+        displayName: 'Later preset name',
+        nameColor: '#abcdef',
+        nameFont: 'sans',
+        nameSize: 'large',
+        namePosition: 'bottom',
+      },
+    ]);
+    mocks.backend.resolveArtwork.mockResolvedValue('blob:preset-artwork');
+    mount();
+    await screen.findByDisplayValue('Unsaved artwork event');
+    await waitFor(() =>
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(false),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Next sheet' }));
+    expect(
+      document
+        .querySelector('.creator-preview .paper-preview image')
+        ?.getAttribute('href'),
+    ).toBe('blob:preset-artwork');
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await waitFor(() => expect(mocks.backend.saveProject).toHaveBeenCalled());
+    expect(mocks.backend.saveProject.mock.calls[0]?.[0].design).toEqual({
+      kind: 'uploaded',
+      reference: 'asset-new',
+      nameStyle: retainedNameStyle,
+    });
+  });
+});
 
 describe('current creator input and export', () => {
   it('saves newly typed input before exporting and hides the previous download while dirty', async () => {
@@ -291,6 +705,65 @@ describe('current creator input and export', () => {
       mocks.backend.generateAi.mock.calls[0]?.[0],
     );
   });
+  it('allows a new description and operation after a definitive failed AI batch', async () => {
+    mocks.backend.generateAi
+      .mockResolvedValueOnce({
+        batchId: 'failed-batch',
+        status: 'failed',
+        errorMessage: 'PROVIDER_UNAVAILABLE',
+      })
+      .mockResolvedValueOnce({
+        batchId: 'new-batch',
+        status: 'ready',
+        assets: [{ id: 'art-one', url: 'blob:art-one' }],
+      });
+    mount();
+    await screen.findByDisplayValue('Original event');
+    const prompt = screen.getByLabelText('AI background description');
+    fireEvent.change(prompt, { target: { value: '[fail] first description' } });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate four choices' }),
+    );
+    expect((await screen.findByRole('alert')).textContent).toContain(
+      'This background batch failed. Edit the description and try again.',
+    );
+    expect(prompt.hasAttribute('disabled')).toBe(false);
+    expect(
+      screen.queryByRole('button', { name: 'Retry this background batch' }),
+    ).toBeNull();
+    fireEvent.change(prompt, {
+      target: { value: 'Successful revised description' },
+    });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Generate four choices' }),
+    );
+    await screen.findByRole('button', { name: 'Use AI choice 1' });
+    const first = mocks.backend.generateAi.mock.calls[0]?.[0];
+    const second = mocks.backend.generateAi.mock.calls[1]?.[0];
+    expect(second.prompt).toBe('Successful revised description');
+    expect(second.idempotencyKey).not.toBe(first.idempotencyKey);
+  });
+  it('requires a fresh AI description of 3 to 400 trimmed characters without entering recovery', async () => {
+    mount();
+    await screen.findByDisplayValue('Original event');
+    const prompt = screen.getByLabelText('AI background description');
+    for (const invalid of ['   ', ' ab ', 'x'.repeat(401)]) {
+      fireEvent.change(prompt, { target: { value: invalid } });
+      expect(
+        screen
+          .getByRole('button', { name: 'Generate four choices' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+    }
+    expect(mocks.backend.generateAi).not.toHaveBeenCalled();
+    expect(prompt.hasAttribute('disabled')).toBe(false);
+    fireEvent.change(prompt, { target: { value: '  oak  ' } });
+    expect(
+      screen
+        .getByRole('button', { name: 'Generate four choices' })
+        .hasAttribute('disabled'),
+    ).toBe(false);
+  });
   it('recovers the original AI operation after a component remount, even with no units remaining', async () => {
     const pending = {
       batchId: 'batch-pending',
@@ -335,6 +808,46 @@ describe('current creator input and export', () => {
 });
 
 describe('preview and guest-column fidelity', () => {
+  it('renders the actual edited event name on the print-check preview', async () => {
+    mount();
+    await screen.findByDisplayValue('Original event');
+    fireEvent.change(screen.getByLabelText('Event name'), {
+      target: { value: 'Current edited event name' },
+    });
+    expect(
+      document.querySelector('.creator-preview .paper-preview')?.textContent,
+    ).toContain('Current edited event name');
+    expect(
+      document.querySelector('.creator-preview .paper-preview')?.textContent,
+    ).not.toContain('TableCards print check');
+  });
+  it.each(['W'.repeat(120), 'Unsupported 🦄 event'])(
+    'blocks save and export when the actual event name cannot render: %s',
+    async (title) => {
+      mount();
+      await screen.findByDisplayValue('Original event');
+      fireEvent.change(screen.getByLabelText('Event name'), {
+        target: { value: title },
+      });
+      expect(screen.getByRole('alert').textContent).toMatch(
+        /title|event name/i,
+      );
+      expect(
+        screen
+          .getByRole('button', { name: 'Save project' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        screen
+          .getByRole('button', { name: 'Create print-ready PDF' })
+          .hasAttribute('disabled'),
+      ).toBe(true);
+      expect(
+        document.querySelector('.creator-preview .paper-preview'),
+      ).toBeNull();
+      expect(mocks.backend.saveProject).not.toHaveBeenCalled();
+    },
+  );
   it('retains an empty table column when a marker exists', () => {
     expect(guestRowsToText([{ name: 'Ada', marker: 'Vegan' }])).toBe(
       'Name\tTable\tMarker\nAda\t\tVegan',
@@ -351,5 +864,30 @@ describe('preview and guest-column fidelity', () => {
     expect(
       screen.getByRole('list', { name: 'Print fit issues' }).textContent,
     ).toMatch(/cannot fit without clipping/);
+  });
+  it('omits only the toolbar summary when requested, retaining sheet navigation and useful empty copy', () => {
+    const view = render(
+      <SheetPreview
+        guests={[{ name: 'Ada' }]}
+        designId="minimal-ivory"
+        layoutId="portrait_4"
+        showSummary={false}
+      />,
+    );
+    expect(screen.queryByText(/PDF pages including scale check/)).toBeNull();
+    expect(screen.getByRole('button', { name: 'Next sheet' })).toBeTruthy();
+    view.rerender(
+      <SheetPreview
+        guests={[]}
+        designId="minimal-ivory"
+        layoutId="portrait_4"
+        showSummary={false}
+      />,
+    );
+    expect(
+      screen.getByText(
+        'Add at least one valid guest to see every sheet before signing in.',
+      ),
+    ).toBeTruthy();
   });
 });

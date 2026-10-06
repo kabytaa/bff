@@ -32,6 +32,7 @@ function checkPngExpansion(bytes: Uint8Array, width: number, height: number) {
   let offset = 8;
   let chunks = 0;
   let hasData = false;
+  let hasProfile = false;
   let ended = false;
   while (offset + 12 <= bytes.length) {
     if (++chunks > 4096) throw new Error('Too many PNG chunks');
@@ -54,6 +55,8 @@ function checkPngExpansion(bytes: Uint8Array, width: number, height: number) {
       hasData = true;
     }
     if (type === 'iCCP') {
+      if (hasProfile) throw new Error('Duplicate PNG color profile');
+      hasProfile = true;
       const separator = data.indexOf(0);
       if (separator < 1 || separator > 79 || data[separator + 1] !== 0)
         throw new Error('Invalid PNG color profile');

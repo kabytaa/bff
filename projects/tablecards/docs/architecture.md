@@ -86,6 +86,16 @@ Already delivered/downloaded bytes cannot be recalled. Older development
 bearer links remain usable while their files exist; no destructive file
 migration was performed. This residual limitation is explicitly disclosed.
 
+Artwork libraries use account-indexed, 24-item metadata cursor pages through
+`assets:page` and `designPresets:page`, loaded explicitly as needed. Assets are
+ordered newest-created first; presets newest-updated first. Existing bounded
+`list` functions remain for Creator compatibility, but are not the Designs
+library's completeness boundary. Visible thumbnails and the selected design
+acquire browser byte references through `resolveArtwork`; leaving view releases
+them, allowing inactive cached bytes to be evicted without breaking active
+previews. `assets:get` resolves the exact account-owned current selection even
+when it falls outside the library list's bounded window.
+
 ```mermaid
 erDiagram
     PROJECTS ||--|| PROJECT_CONTENTS : current_contents
@@ -110,18 +120,18 @@ queries/mutations use native authenticated Convex context; actions also accept
 the current token for verified server-to-server BFF operations. Internal
 `*Authorized` functions are not public authorization shortcuts.
 
-| Capability                  | Public function(s)                                                                 | Boundary/result                                                                                                                                         |
-| --------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Current account offer/units | `productAccess:current`                                                            | BFF effective access and current balance; UI gets an allocation label, not a bucket selector                                                            |
-| Start purchase simulation   | `productAccess:startCheckout`                                                      | Owner context plus backend-only service credential; returns provider-neutral checkout URL                                                               |
-| List/open/archive projects  | `projects:list`, `projects:get`, `projects:archive`                                | Verified account scope; summaries or current contents                                                                                                   |
-| Save/duplicate/restore      | `productAccess:saveProject`, `duplicateProject`, `restoreProject`                  | Current offer checks, then transactional project update/capacity enforcement                                                                            |
-| Upload artwork              | `POST /v1/files/artwork?projectId=...`; `assets:list`                              | Bounded authenticated PNG/JPEG bytes; server-created storage only, current offer and scope validation. Legacy upload URL/finalize functions fail closed |
-| Private file delivery       | `GET /v1/files/assets/:publicId`, `GET /v1/files/exports/:publicId`                | Authoritative session/membership and scoped row lookup on each request; no token in URL                                                                 |
-| Reusable presets            | `designPresets:list`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Reuse entitlement and account-scoped asset/style validation                                                                                             |
-| Generate backgrounds        | `ai:generate`, `aiState:get`                                                       | Reserve one batch unit; exactly four choices or a safe failure                                                                                          |
-| Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`               | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready                                                     |
-| Sessions, accounts, teams   | Public BFF browser/React SDK                                                       | BFF-authorized invitations, roles, removal, Owner-only workspace naming and provider-neutral ownership transfer                                         |
+| Capability                  | Public function(s)                                                                                       | Boundary/result                                                                                                                                                                                                                                                                        |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Current account offer/units | `productAccess:current`                                                                                  | BFF effective access and current balance; UI gets an allocation label, not a bucket selector                                                                                                                                                                                           |
+| Start purchase simulation   | `productAccess:startCheckout`                                                                            | Owner context plus backend-only service credential; returns provider-neutral checkout URL                                                                                                                                                                                              |
+| List/open/archive projects  | `projects:list`, `projects:page`, `projects:get`, `projects:archive`                                     | Verified account/state index; paginated 24-row summaries keep growing archives discoverable. The bounded active list remains available for accurate offer-capacity counts; get returns current scoped contents                                                                         |
+| Save/duplicate/restore      | `productAccess:saveProject`, `duplicateProject`, `restoreProject`                                        | Current offer checks, then transactional project update/capacity enforcement                                                                                                                                                                                                           |
+| Upload/artwork library      | `POST /v1/files/artwork?projectId=...`; `assets:list`, `assets:get`, `assets:page`                       | Bounded authenticated PNG/JPEG bytes; server-created storage only, current offer and scope validation. Metadata pages cover growing libraries; exact account-scoped lookup resolves current selections beyond the compatibility list. Legacy upload URL/finalize functions fail closed |
+| Private file delivery       | `GET /v1/files/assets/:publicId`, `GET /v1/files/exports/:publicId`                                      | Authoritative session/membership and scoped row lookup on each request; no token in URL                                                                                                                                                                                                |
+| Reusable presets            | `designPresets:list`, `designPresets:page`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Account-indexed metadata pages; reuse entitlement and account-scoped asset/style validation                                                                                                                                                                                            |
+| Generate backgrounds        | `ai:generate`, `aiState:get`                                                                             | Reserve one batch unit; exactly four choices or a safe failure                                                                                                                                                                                                                         |
+| Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`                                     | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready                                                                                                                                                                                    |
+| Sessions, accounts, teams   | Public BFF browser/React SDK                                                                             | BFF-authorized invitations, roles, removal, Owner-only workspace naming and provider-neutral ownership transfer                                                                                                                                                                        |
 
 The TableCards HTTP router mounts SDK session endpoints, private file transfer
 and `/v1/health`.
@@ -157,6 +167,13 @@ White `v2` print artwork avoids a full-page tint while the site retains a warm
 visual palette. Hosted exports embed pinned Noto Sans and Noto Serif. Unsupported
 glyphs and impossible fits remain explicit failures; this is a Latin-script
 contract, not an assertion that every writing system is supported.
+Browser preflight uses generated advances from those same hash-pinned fonts,
+including distinct serif metrics and the current event title; the core test
+regenerates/checks the metrics. SVG and PDF both disable kerning and discretionary
+ligatures and render canonical-equivalent NFC text without changing stored
+names. Common Latin (including Vietnamese) and supported punctuation are
+accepted; remaining combining marks fail preflight instead of entering unsafe
+font shaping. The server applies the same boundary before drawing any text.
 
 ### AI usage and payment boundary
 

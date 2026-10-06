@@ -10,6 +10,8 @@ import {
 
 import {
   createRenderManifest,
+  isCommonLatinRenderText,
+  normalizeRenderText,
   type CreateRenderManifestInput,
   type FontMetrics,
   type RenderManifest,
@@ -44,7 +46,8 @@ function createPdfFontMetrics(font: PDFFont, familyName: string): FontMetrics {
   return Object.freeze({
     familyName,
     supportsText: (text: string) => {
-      for (const character of text) {
+      if (!isCommonLatinRenderText(text)) return false;
+      for (const character of normalizeRenderText(text)) {
         const codePoint = character.codePointAt(0);
         if (codePoint === undefined || !supported.has(codePoint)) {
           return false;
@@ -53,7 +56,7 @@ function createPdfFontMetrics(font: PDFFont, familyName: string): FontMetrics {
       return true;
     },
     widthOfTextAtSize: (text: string, fontSize: number) =>
-      font.widthOfTextAtSize(text, fontSize),
+      font.widthOfTextAtSize(normalizeRenderText(text), fontSize),
     heightAtSize: (fontSize: number) =>
       font.heightAtSize(fontSize, { descender: false }),
   });
@@ -246,6 +249,7 @@ export async function renderTableCardsPdf(
     font = await pdfDocument.embedFont(options.fontBytes, {
       customName: options.fontFamilyName ?? 'NotoSans',
       subset: true,
+      features: { liga: false, clig: false, kern: false },
     });
     familyName = options.fontFamilyName ?? 'Noto Sans';
   }
@@ -262,6 +266,7 @@ export async function renderTableCardsPdf(
       : await pdfDocument.embedFont(options.serifFontBytes, {
           customName: 'NotoSerif',
           subset: true,
+          features: { liga: false, clig: false, kern: false },
         });
   const manifest = createRenderManifest(
     input,

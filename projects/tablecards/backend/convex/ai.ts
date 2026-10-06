@@ -420,7 +420,7 @@ export const generate = action({
           assets,
         });
         return await finishGeneratedBatch(reservationId, false);
-      } catch (error) {
+      } catch {
         if (outputsPersistenceStarted) {
           // A mutation/commit can succeed remotely even if its response is lost.
           // Re-read durable state before choosing cleanup; an unavailable read
@@ -460,7 +460,10 @@ export const generate = action({
           batchId: started.publicId,
           errorCode: 'PROVIDER_UNAVAILABLE',
         });
-        throw error;
+        // A definitive, persisted failure is part of the operation protocol.
+        // Returning its ID lets clients distinguish a fresh-attempt retry from
+        // an uncertain network/commit response which must reuse the old key.
+        return { batchId: started.publicId, status: 'failed' as const };
       }
     },
   ),

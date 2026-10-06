@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-import { expect, test, type Page } from '@playwright/test';
+import { devices, expect, test, type Page } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
 import { encode } from 'fast-png';
 import { readBrowserDownload } from './support/pdf';
@@ -361,14 +361,18 @@ test.describe('Studio accounts and teams', () => {
   }, testInfo) => {
     const ownerPersona = uniquePersona('studio-owner', testInfo.project.name);
     const memberPersona = uniquePersona('studio-member', testInfo.project.name);
-    const ownerContext = await browser.newContext();
+    const contextOptions =
+      testInfo.project.name === 'mobile-webkit'
+        ? devices['iPhone 13']
+        : { viewport: { width: 1280, height: 900 } };
+    const ownerContext = await browser.newContext(contextOptions);
     const owner = await ownerContext.newPage();
     await logInFromLanding(owner, ownerPersona);
     await activateOffer(owner, 'Studio');
     await owner.goto('/settings/team');
     await expect(owner.getByRole('heading', { name: 'Team' })).toBeVisible();
 
-    const memberContext = await browser.newContext();
+    const memberContext = await browser.newContext(contextOptions);
     const member = await memberContext.newPage();
     await logInFromLanding(member, memberPersona);
     await createSavedProject(member, 'Private member event');
@@ -487,6 +491,10 @@ test('CSV upload remains readable by the hosted browser bundle', async ({
   await expect(page.getByLabel('Event name')).toBeVisible();
   await openCreatorStep(page, 'Review');
   await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+  const completePreview = page.getByRole('button', {
+    name: 'Open complete preview',
+  });
+  if (await completePreview.isVisible()) await completePreview.click();
   await page.getByRole('button', { name: 'Next sheet' }).click();
   await expect(page.locator('.paper-preview')).toContainText(/Ada.*Grace/su);
   expect((await readFile(validArtwork)).length).toBeGreaterThan(0);

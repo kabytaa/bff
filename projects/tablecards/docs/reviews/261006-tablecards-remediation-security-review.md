@@ -3,7 +3,7 @@
 Created: 2026-10-06
 Updated: 2026-10-06
 Status: Source review complete — hosted candidate verification pending
-Repository baseline: `3a948ad` on `feat/tablecards-application`, with the current uncommitted remediation
+Repository baseline: initial review at `3a948ad`; follow-up reviews `902dd39` on `feat/tablecards-application` plus the final uncommitted corrections
 Declared boundary: Build 3 development acceptance only
 
 ## Review scope and current verdict
@@ -80,6 +80,53 @@ evidence rather than being replaced or deleted.
    [64MiB Convex HTTP runtime limit](https://docs.convex.dev/production/state/limits).
 
 ## Applicability and limits
+
+### Follow-up source review after `902dd39`
+
+The coordinator requested a further independent review of fixes discovered
+during final application verification. On 2026-10-06 the reviewer inspected
+account-scoped metadata pagination, exact selected-artwork retrieval, lazy
+authenticated byte delivery and reference-counted cache eviction, terminal AI
+failure versus uncertain completion, restored custom-artwork previews, checked
+font metrics/title preflight and operation-specific checkout recovery.
+
+The independent backend rerun passed **43 tests** and the core rerun passed
+**40 tests**, serially with unchanged timeouts. After all runtime source was
+frozen, the independent full web rerun passed **85 tests across 13 files**,
+also serially with unchanged timeouts. The 130-item paging tests check
+complete ordering, bounded 24-item pages, cursor/account isolation and final
+exhaustion. After the final archived-project addition, the independent
+`libraryPages.test.ts` rerun passed all **7 tests**, including the new project
+account/state boundary. Exact asset reads remain account/project scoped. The reviewed byte
+adapter never sends credentials to an arbitrary projection URL, keeps active
+preview leases during eviction and rejects deliveries finishing after a scope
+change. The hook releases offscreen and unmounted deliveries.
+
+AI now returns a persisted terminal `failed` batch after a confirmed provider
+failure, allowing a new attempt/key; unknown completion continues with the
+original key. Tests prove one release, no charge on failure, same-key replay
+and a successful new attempt. Custom artwork from the current unsaved draft is
+resolved by its exact authorized asset reference; missing/loading bytes block
+save/export rather than displaying a different predefined background.
+
+The font suite regenerates checked advances from both hash-pinned fonts and
+actually renders PDFs with composed/decomposed common Latin, rejected residual
+marks and positive-kerning edge fixtures. Browser/PDF use the same normalization
+and disabled kerning/ligature features. Current event-title preflight is also
+covered. This establishes the tested font contract, not physical printing or
+arbitrary script support.
+
+The final UI regressions cover older preset selection with its exact style,
+same-cursor failure/retry, deduplication/end state, selection retention through
+library refresh and stale-page cancellation. Archived projects now have a
+bounded account/state-scoped page API and customer Load more controls. The
+review inspected that final API and its added integration assertion; the web
+rerun exercised older-project restore, failure recovery and filter transitions.
+Active-project usage still reads the complete enforced maximum of 100 projects.
+
+No source/security blocker was identified in these final inspected paths.
+The whole repository gate and exact deployed/hosted app evidence remain
+separate prerequisites to a development-readiness verdict.
 
 | Readiness lens | Applicability and current evidence |
 | --- | --- |

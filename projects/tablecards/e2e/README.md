@@ -28,8 +28,13 @@ well.
 Seven focused legacy regression cases continue to run in desktop Chromium for
 the public print-test PDF, 320-pixel containment, anonymous draft restoration,
 stored PDF bytes, Free access guidance, professional project/preset/AI behavior
-and Studio invitation acceptance. Together the hosted command executes 19
-cases: 13 desktop and 6 mobile. The creator checks keep the whole page within
+and Studio invitation acceptance. Eight remediation cases (four journeys on
+each device) additionally inspect actual edited PDF title/guest multiplicity,
+unauthenticated and post-logout private byte denial, policy/design/navigation
+actions, explicit fit failures and the paid 500-card ceiling with embedded
+fonts. Together the hosted command executes 27 cases: 17 desktop and 10 mobile.
+The Studio owner and member contexts both inherit the selected desktop/mobile
+device settings. The creator checks keep the whole page within
 phone and desktop viewports while allowing only the design carousel to scroll
 horizontally.
 

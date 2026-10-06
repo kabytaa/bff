@@ -46,6 +46,39 @@ function fixture() {
   } as unknown as BffAuthBrowserClient;
   const query = vi.fn(async (reference) => {
     const name = getFunctionName(reference);
+    if (name === 'assets:page')
+      return {
+        page: [
+          {
+            publicId: 'asset_one',
+            source: 'uploaded',
+            reusable: true,
+            createdAt: 1,
+            url: '/v1/files/assets/asset_one',
+          },
+        ],
+        isDone: false,
+        continueCursor: 'opaque-assets-next',
+      };
+    if (name === 'designPresets:page')
+      return {
+        page: [
+          {
+            publicId: 'preset_one',
+            assetPublicId: 'asset_one',
+            assetSource: 'uploaded',
+            artworkUrl: '/v1/files/assets/asset_one',
+            displayName: 'Test',
+            nameColor: '#000000',
+            namePosition: 'center',
+            nameFont: 'sans',
+            nameSize: 'medium',
+            updatedAt: 1,
+          },
+        ],
+        isDone: true,
+        continueCursor: 'opaque-presets-end',
+      };
     if (name === 'exportState:get' || name === 'exportState:latestForProject')
       return {
         publicId: 'export_one',
@@ -62,6 +95,14 @@ function fixture() {
           url: '/v1/files/assets/asset_one',
         },
       ];
+    if (name === 'assets:get')
+      return {
+        publicId: 'asset_one',
+        source: 'uploaded',
+        reusable: true,
+        createdAt: 1,
+        url: '/v1/files/assets/asset_one',
+      };
     if (name === 'designPresets:list')
       return [
         {
@@ -134,6 +175,64 @@ afterEach(() => {
 });
 
 describe('TableCards authenticated browser file adapter', () => {
+  it('loads cursor-based metadata pages without fetching any private bytes', async () => {
+    const { backend, query, auth } = fixture();
+    await expect(backend.listAssetPage()).resolves.toEqual({
+      items: [
+        {
+          id: 'asset_one',
+          source: 'uploaded',
+          reusable: true,
+          createdAt: 1,
+          url: '/v1/files/assets/asset_one',
+        },
+      ],
+      done: false,
+      cursor: 'opaque-assets-next',
+    });
+    expect(query).toHaveBeenLastCalledWith(expect.anything(), {
+      paginationOpts: { cursor: null, numItems: 24 },
+    });
+    await backend.listAssetPage('opaque-assets-next');
+    expect(query).toHaveBeenLastCalledWith(expect.anything(), {
+      paginationOpts: { cursor: 'opaque-assets-next', numItems: 24 },
+    });
+    await expect(backend.listPresetPage()).resolves.toEqual({
+      items: [
+        {
+          id: 'preset_one',
+          assetId: 'asset_one',
+          assetSource: 'uploaded',
+          artworkUrl: '/v1/files/assets/asset_one',
+          displayName: 'Test',
+          nameColor: '#000000',
+          namePosition: 'center',
+          nameFont: 'sans',
+          nameSize: 'medium',
+          updatedAt: 1,
+        },
+      ],
+      done: true,
+      cursor: 'opaque-presets-end',
+    });
+    await backend.listPresetPage('opaque-presets-next');
+    expect(query).toHaveBeenLastCalledWith(expect.anything(), {
+      paginationOpts: { cursor: 'opaque-presets-next', numItems: 24 },
+    });
+    expect(
+      query.mock.calls.map(([reference]) => getFunctionName(reference)),
+    ).toEqual([
+      'assets:page',
+      'assets:page',
+      'designPresets:page',
+      'designPresets:page',
+    ]);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(URL.createObjectURL).not.toHaveBeenCalled();
+    expect(auth.getAccessToken).not.toHaveBeenCalled();
+    backend.dispose();
+  });
+
   it('sends artwork bytes and Authorization directly, receives only the asset public ID', async () => {
     const { backend, action } = fixture();
     const file = new File([new Uint8Array([1, 2, 3])], 'art.jpg', {
@@ -201,23 +300,30 @@ describe('TableCards authenticated browser file adapter', () => {
           headers: { 'content-type': 'image/jpeg' },
         }),
     );
-    expect((await backend.listAssets())[0]?.url).toBe(
+    const assetAddress = (await backend.listAssets())[0]?.url;
+    const presetAddress = (await backend.listPresets())[0]?.artworkUrl;
+    expect(assetAddress).toBe('/v1/files/assets/asset_one');
+    expect(presetAddress).toBe(assetAddress);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(await backend.resolveArtwork(assetAddress!)).toBe(
       'blob:private-delivered-bytes',
     );
-    expect((await backend.listPresets())[0]?.artworkUrl).toBe(
+    expect(await backend.resolveArtwork(presetAddress!)).toBe(
       'blob:private-delivered-bytes',
     );
     expect(fetchMock).toHaveBeenCalledTimes(1);
     switchAccount();
     expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1);
-    await backend.listAssets();
+    await backend.resolveArtwork(assetAddress!);
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock.mock.calls[1]?.[1]?.headers).toEqual({
       authorization: 'Bearer new-synthetic-context',
     });
     signOut();
     expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2);
-    await expect(backend.listAssets()).rejects.toThrow(/Sign in/u);
+    await expect(backend.resolveArtwork(assetAddress!)).rejects.toThrow(
+      /Sign in/u,
+    );
     backend.dispose();
     expect(unsubscribe).toHaveBeenCalledTimes(1);
   });
@@ -264,7 +370,9 @@ describe('TableCards authenticated browser file adapter', () => {
         headers: { 'content-type': 'image/jpeg' },
       }),
     );
-    await expect(backend.listAssets()).rejects.toThrow(/too large/u);
+    await expect(
+      backend.resolveArtwork('/v1/files/assets/asset_one'),
+    ).rejects.toThrow(/too large/u);
     expect(URL.createObjectURL).not.toHaveBeenCalled();
     backend.dispose();
   });
@@ -310,6 +418,162 @@ describe('TableCards authenticated browser file adapter', () => {
     expect(URL.revokeObjectURL).toHaveBeenCalledWith(
       'blob:private-delivered-bytes',
     );
+    backend.dispose();
+  });
+
+  it('lists a large artwork/preset library without fetching bytes and resolves only the selected asset', async () => {
+    const { backend, query } = fixture();
+    const assets = Array.from({ length: 128 }, (_, index) => ({
+      publicId: `asset_${index}`,
+      source: 'uploaded',
+      reusable: true,
+      createdAt: index,
+      url: `/v1/files/assets/asset_${index}`,
+    }));
+    const presets = assets.map((asset, index) => ({
+      publicId: `preset_${index}`,
+      assetPublicId: asset.publicId,
+      assetSource: 'uploaded',
+      artworkUrl: asset.url,
+      displayName: `Preset ${index}`,
+      nameColor: '#000000',
+      namePosition: 'center',
+      nameFont: 'sans',
+      nameSize: 'medium',
+      updatedAt: index,
+    }));
+    query.mockResolvedValueOnce(assets).mockResolvedValueOnce(presets);
+    const listedAssets = await backend.listAssets();
+    const listedPresets = await backend.listPresets();
+    expect(listedAssets).toHaveLength(128);
+    expect(listedPresets).toHaveLength(128);
+    expect(fetchMock).not.toHaveBeenCalled();
+    fetchMock.mockResolvedValueOnce(
+      new Response(new Uint8Array([1]), {
+        headers: { 'content-type': 'image/jpeg' },
+      }),
+    );
+    const selected = await backend.resolveArtwork(listedAssets[127]!.url!);
+    expect(selected).toBe('blob:private-delivered-bytes');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain('/asset_127');
+    backend.releaseArtwork(listedAssets[127]!.url!, selected);
+    backend.dispose();
+  });
+
+  it('retrieves one selected descriptor by public ID without reading the library or file bytes', async () => {
+    const { backend, query } = fixture();
+    query.mockResolvedValueOnce({
+      publicId: 'asset_outside_window',
+      source: 'uploaded',
+      reusable: true,
+      createdAt: 1,
+      url: '/v1/files/assets/asset_outside_window',
+    });
+    await expect(
+      backend.getAsset('asset_outside_window'),
+    ).resolves.toMatchObject({
+      id: 'asset_outside_window',
+      url: '/v1/files/assets/asset_outside_window',
+    });
+    expect(query).toHaveBeenCalledTimes(1);
+    expect(getFunctionName(query.mock.calls[0]![0])).toBe('assets:get');
+    expect(query).toHaveBeenCalledWith(expect.anything(), {
+      publicId: 'asset_outside_window',
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+    query.mockResolvedValueOnce(null);
+    await expect(backend.getAsset('asset_missing')).resolves.toBeNull();
+    backend.dispose();
+  });
+
+  it('evicts inactive bytes across many maximum-size images while keeping the current project artwork usable', async () => {
+    const { backend } = fixture();
+    let nextUrl = 0;
+    vi.mocked(URL.createObjectURL).mockImplementation(
+      () => `blob:artwork-${nextUrl++}`,
+    );
+    const bytes = new Uint8Array(10 * 1024 * 1024);
+    fetchMock.mockImplementation(
+      async () =>
+        new Response(bytes, { headers: { 'content-type': 'image/jpeg' } }),
+    );
+    const selectedAddress = '/v1/files/assets/asset_selected';
+    const selected = await backend.resolveArtwork(selectedAddress);
+    for (let index = 0; index < 20; index += 1) {
+      const address = `/v1/files/assets/asset_${index}`;
+      const url = await backend.resolveArtwork(address);
+      backend.releaseArtwork(address, url);
+    }
+    expect(fetchMock).toHaveBeenCalledTimes(21);
+    expect(URL.revokeObjectURL).toHaveBeenCalled();
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(selected);
+    expect(await backend.resolveArtwork(selectedAddress)).toBe(selected);
+    expect(fetchMock).toHaveBeenCalledTimes(21);
+    backend.releaseArtwork(selectedAddress, selected);
+    backend.releaseArtwork(selectedAddress, selected);
+    backend.dispose();
+  });
+
+  it('deduplicates concurrent delivery but balances one active lease per caller', async () => {
+    const { backend } = fixture();
+    let nextUrl = 0;
+    vi.mocked(URL.createObjectURL).mockImplementation(
+      () => `blob:lease-${nextUrl++}`,
+    );
+    fetchMock.mockImplementation(
+      async () =>
+        new Response(new Uint8Array([1]), {
+          headers: { 'content-type': 'image/jpeg' },
+        }),
+    );
+    const selectedAddress = '/v1/files/assets/asset_selected';
+    const [first, second] = await Promise.all([
+      backend.resolveArtwork(selectedAddress),
+      backend.resolveArtwork(selectedAddress),
+    ]);
+    expect(first).toBe(second);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    backend.releaseArtwork(selectedAddress, first);
+    for (let index = 0; index < 40; index += 1) {
+      const address = `/v1/files/assets/asset_${index}`;
+      const url = await backend.resolveArtwork(address);
+      backend.releaseArtwork(address, url);
+    }
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(first);
+    backend.releaseArtwork(selectedAddress, second);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(first);
+    backend.dispose();
+  });
+
+  it('does not retain failed leases or release a new account lease with an old object URL', async () => {
+    const { backend, switchAccount } = fixture();
+    let nextUrl = 0;
+    vi.mocked(URL.createObjectURL).mockImplementation(
+      () => `blob:scope-${nextUrl++}`,
+    );
+    fetchMock.mockResolvedValueOnce(new Response('error', { status: 503 }));
+    const address = '/v1/files/assets/asset_selected';
+    await expect(backend.resolveArtwork(address)).rejects.toThrow(/failed/u);
+    fetchMock.mockImplementation(
+      async () =>
+        new Response(new Uint8Array([1]), {
+          headers: { 'content-type': 'image/jpeg' },
+        }),
+    );
+    const oldUrl = await backend.resolveArtwork(address);
+    switchAccount();
+    const newUrl = await backend.resolveArtwork(address);
+    backend.releaseArtwork(address, oldUrl);
+    for (let index = 0; index < 40; index += 1) {
+      const otherAddress = `/v1/files/assets/asset_${index}`;
+      const url = await backend.resolveArtwork(otherAddress);
+      backend.releaseArtwork(otherAddress, url);
+    }
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(oldUrl);
+    expect(URL.revokeObjectURL).not.toHaveBeenCalledWith(newUrl);
+    backend.releaseArtwork(address, newUrl);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith(newUrl);
     backend.dispose();
   });
 });

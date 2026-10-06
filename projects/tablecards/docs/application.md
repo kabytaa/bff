@@ -199,6 +199,16 @@ retained through ordinary reload. Storage failure has a visible keep-tab-open
 warning. Route departure/account switching confirms unsaved discard; logout
 clears protected draft keys.
 
+Restored custom artwork is resolved from the current draft's account-scoped
+asset reference, not the previously saved design. Loading or unavailable bytes
+have an explicit notice and block save/export/complete preview; the app never
+silently substitutes catalog artwork. Retry preserves guest, title and style
+edits. Private addresses are descriptors only: selected artwork resolves through
+authorized bytes, and library thumbnails resolve only near the viewport and
+release their byte leases when hidden or unmounted.
+If the selected reference is outside the capped library list, an exact
+account-scoped lookup resolves it without downloading unrelated files.
+
 An explicit first Save replaces `/create` with `/projects/:projectId`. The
 implicit save during a first Export also replaces it once the PDF is ready.
 Account switching remounts scoped content through the
@@ -304,6 +314,9 @@ user to save and reopen; Free can use its AI batch on a saved event, Event Pass
 can upload/generate for its event, and professional accounts can also select
 reusable presets from Designs. Four generated choices remain secondary to
 the deterministic card workflow.
+The Creator preset chooser loads 24 account-scoped metadata records at a time,
+with Load more presets, page retry and end feedback. Older presets remain
+selectable with their snapshotted font, size, color and position.
 
 Review exposes page count including the scale guide, sheet pagination and
 print-at-100% instructions. Open complete preview uses a bounded native dialog,
@@ -314,9 +327,13 @@ Preflight identifies the guest/field for fit or unsupported-character problems
 and blocks Save/Export with a correction, rather than showing an empty-input
 placeholder. Custom event artwork exposes the accepted constrained name font,
 size, position and color controls, including Event Pass.
+The edited event name appears on the print-check preview and participates in
+the same title-fit/character preflight used before save/export.
 An interrupted AI operation is recovered from the server on mount and retried
 with its original prompt/key, even after its unit is reserved; a new operation
-is not silently substituted.
+is not silently substituted. A confirmed failed batch instead releases the
+recovery state and allows an edited description with a new operation; an empty
+pending query alone is not treated as evidence of terminal failure.
 
 ### Projects `/projects`
 
@@ -343,7 +360,11 @@ requires a browser confirmation and reloads the current filter; Restore opens
 the restored project. Pending actions disable that project's buttons. Capacity
 denials come from the server and appear as an alert; Create and Duplicate are
 not disabled proactively at the limit. Errors are safely normalized and have a
-dedicated Retry projects control.
+dedicated Retry projects control. Active lists stay within the accepted
+100-project cap. Archived lists use account-scoped 24-row metadata pages with
+Load more projects, safe page retry and end feedback, so older archives remain
+discoverable/restorable. Switching filters clears the old cards synchronously;
+failed loads never masquerade as an empty workspace.
 
 ### Saved project `/projects/:projectId`
 
@@ -401,9 +422,18 @@ The predefined library now renders all six catalog artwork sources through the
 same SVG face renderer as Creator. Event artwork has constrained name controls
 in Creator. Designs has loading, empty artwork/preset and retry states;
 successes use status and failures use alert with safe product text. AI prompts
-are bounded to the server's 400 characters. Pending server batches restore the
+must contain 3–400 trimmed characters before a fresh generation. Pending server batches restore the
 original prompt/key after navigation/reload and expose Retry this background
 batch, rather than generating a fresh charged operation.
+Confirmed failures re-enable the description and normal Generate action, while
+unknown response failures retain the original operation for recovery. Custom
+artwork and preset thumbnails load authorized bytes only when visible; a large
+metadata library does not eagerly download every private file.
+Artwork and presets each load 24 metadata records per page, with independent
+Load more, pending, safe retry and end states. Failed page requests preserve
+already loaded choices. Refresh after upload, AI or preset mutation returns to
+the newest page and retains an older selected artwork option; repeated IDs are
+deduplicated. The page windows do not impose an account-library size limit.
 
 ### Account `/settings`
 
@@ -430,6 +460,10 @@ Owners can edit Workspace name through the server-authorized Save workspace
 name action. Legacy unnamed workspaces use meaningful My/Shared workspace
 labels rather than raw IDs. View plans opens `/#pricing`; Landing also handles
 the older `?section=pricing` destination.
+Usage failures expose Retry usage and clear after a successful refresh. Checkout
+failures instead expose Retry checkout with the original idempotency key; a
+usage refresh cannot silently hide a checkout failure. Rename and Owner-only
+permission errors do not offer a misleading usage retry.
 
 A paid `offer` query immediately starts BFF checkout using a tab-stored
 idempotency key and displays an opening status. Checkout success/cancel return
@@ -693,10 +727,12 @@ uses monospace for copied rows. UI typography is separate from printable card
 typography: the constrained preset choices are Clean sans and Classic serif,
 with renderer responsibilities in [layout.ts](../libs/core/src/layout.ts) and
 [pdf.ts](../libs/core/src/pdf.ts). Browser preview and hosted PDF use bundled
-reviewed Noto Sans/Noto Serif. Browser preflight still uses approximate metrics;
-server preflight/rendering remains authoritative. Font bytes/provenance and
-broader Latin behavior are checked by the coordinated core work, not inferred
-from the UI font stack alone.
+reviewed Noto Sans/Noto Serif. Browser preflight uses generated checked advances
+from those same pinned fonts; the server repeats the bounded common-Latin NFC
+validation and uses actual embedded metrics. Kerning and discretionary ligatures
+are disabled in both renderers. Stored names are not changed; remaining
+combining marks fail explicitly. Font bytes/provenance and supported Latin
+behavior are tested, not inferred from the UI font stack alone.
 
 Public pages favor large headings, representative card artwork and short
 sections. Private pages favor task cards, compact action groups, selected-state

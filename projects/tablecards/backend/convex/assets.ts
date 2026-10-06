@@ -1,15 +1,40 @@
+import { paginationOptsValidator, type PaginationOptions } from 'convex/server';
 import { v } from 'convex/values';
 
 import {
   withBffAccountAction,
   withBffAccountQuery,
 } from '@tofler/bff-auth/convex/server';
-import type { Id } from './_generated/dataModel';
+import type { Doc, Id } from './_generated/dataModel';
 import { action, internalMutation, query } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
 import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
+
+const assetProjection = v.object({
+  publicId: v.string(),
+  source: v.union(v.literal('uploaded'), v.literal('ai')),
+  mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
+  width: v.number(),
+  height: v.number(),
+  reusable: v.boolean(),
+  url: v.union(v.null(), v.string()),
+  createdAt: v.number(),
+});
+
+function assetView(asset: Doc<'designAssets'>) {
+  return {
+    publicId: asset.publicId,
+    source: asset.source,
+    mimeType: asset.mimeType,
+    width: asset.width,
+    height: asset.height,
+    reusable: asset.projectId === undefined,
+    url: assetFileAddress(asset.publicId),
+    createdAt: asset.createdAt,
+  };
+}
 
 // Older clients must fail without allocating, reading, attaching or deleting
 // a caller-supplied file. Uploads now use the authenticated HTTP byte transport.
@@ -111,18 +136,7 @@ export const cleanupUnattached = internalMutation({
 
 export const list = query({
   args: {},
-  returns: v.array(
-    v.object({
-      publicId: v.string(),
-      source: v.union(v.literal('uploaded'), v.literal('ai')),
-      mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
-      width: v.number(),
-      height: v.number(),
-      reusable: v.boolean(),
-      url: v.union(v.null(), v.string()),
-      createdAt: v.number(),
-    }),
-  ),
+  returns: v.array(assetProjection),
   handler: withBffAccountQuery(
     tablecardsCustomerAuth,
     async (ctx, _args, auth) => {
@@ -132,16 +146,57 @@ export const list = query({
           queryBuilder.eq('accountId', auth.accountId),
         )
         .take(128);
-      return assets.map((asset) => ({
-        publicId: asset.publicId,
-        source: asset.source,
-        mimeType: asset.mimeType,
-        width: asset.width,
-        height: asset.height,
-        reusable: asset.projectId === undefined,
-        url: assetFileAddress(asset.publicId),
-        createdAt: asset.createdAt,
-      }));
+      return assets.map(assetView);
+    },
+  ),
+});
+
+export const get = query({
+  args: { publicId: v.string() },
+  returns: v.union(v.null(), assetProjection),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (ctx, args: { publicId: string }, auth) => {
+      const asset = await ctx.db
+        .query('designAssets')
+        .withIndex('by_account_public_id', (q) =>
+          q.eq('accountId', auth.accountId).eq('publicId', args.publicId),
+        )
+        .unique();
+      if (!asset) return null;
+      if (asset.projectId) {
+        const project = await ctx.db.get(asset.projectId);
+        if (!project || project.accountId !== auth.accountId) return null;
+      }
+      return assetView(asset);
+    },
+  ),
+});
+
+export const page = query({
+  args: { paginationOpts: paginationOptsValidator },
+  returns: v.object({
+    page: v.array(assetProjection),
+    isDone: v.boolean(),
+    continueCursor: v.string(),
+  }),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (ctx, args: { paginationOpts: PaginationOptions }, auth) => {
+      const result = await ctx.db
+        .query('designAssets')
+        .withIndex('by_account_created_at', (q) =>
+          q.eq('accountId', auth.accountId),
+        )
+        .order('desc')
+        // This explicit-load-more API always reads one small metadata page;
+        // caller-provided size/end-cursor options cannot turn it into a scan.
+        .paginate({ cursor: args.paginationOpts.cursor, numItems: 24 });
+      return {
+        page: result.page.map(assetView),
+        isDone: result.isDone,
+        continueCursor: result.continueCursor,
+      };
     },
   ),
 });

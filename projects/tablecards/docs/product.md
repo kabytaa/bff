@@ -87,7 +87,7 @@ Users must print at 100% / Actual Size. One physical sheet must be printed and m
 
 Development additionally exposes a six-card landscape **print trial**, with a ready scale-check PDF. It is not an accepted replacement for the four-card launch contract; physical measurement and explicit acceptance are still required. Nominal card size also does not establish Avery perforation alignment or printer compatibility.
 
-The 2026-10-06 remediation bundles hash-verified, licensed Noto Sans and Noto Serif for hosted exports and previews. PDF preflight uses actual font coverage/metrics and rejects unsupported glyphs or impossible fits. Browser preview still uses approximate fit metrics, so server validation remains authoritative. Broader Latin and combining accents have automated fixtures; this does not promise arbitrary scripts or establish physical printer compatibility. See the [renderer/font boundary](../libs/core/README.md).
+The 2026-10-06 remediation bundles hash-verified, licensed Noto Sans and Noto Serif for hosted exports and previews. Browser preflight uses checked advances from those same fonts; PDF preflight uses their embedded metrics. Both check the actual event title, reject impossible fits and support common Latin names, including Vietnamese and common accented names supplied in composed or decomposed form. Rendering uses canonical-equivalent NFC text without changing stored names; remaining combining marks and unsupported scripts fail explicitly before export. Kerning and discretionary ligatures are disabled in both renderers. Server authorization and final render validation remain authoritative. This does not establish physical printer compatibility. See the [renderer/font boundary](../libs/core/README.md).
 
 ## Designs
 

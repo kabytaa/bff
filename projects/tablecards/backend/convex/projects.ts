@@ -1,4 +1,5 @@
 import { v } from 'convex/values';
+import { paginationOptsValidator, type PaginationOptions } from 'convex/server';
 
 import { getDesignDefinition } from '@tablecards/core';
 import {
@@ -14,6 +15,7 @@ import {
 import { tablecardsCustomerAuth } from './environment';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
+import type { Doc } from './_generated/dataModel';
 
 const MAX_TITLE_LENGTH = 120;
 const MAX_NAME_LENGTH = 120;
@@ -55,6 +57,23 @@ const projectSummary = v.object({
   createdAt: v.number(),
   updatedAt: v.number(),
 });
+
+function projectProjection(project: Doc<'projects'>) {
+  return {
+    publicId: project.publicId,
+    title: project.title,
+    state: project.state,
+    designKind: project.designKind,
+    designReference: project.designReference,
+    ...(project.nameStyle === undefined
+      ? {}
+      : { nameStyle: project.nameStyle }),
+    guestCount: project.guestCount,
+    revision: project.revision,
+    createdAt: project.createdAt,
+    updatedAt: project.updatedAt,
+  };
+}
 
 function validateText(
   value: string,
@@ -101,20 +120,37 @@ export const list = query({
         )
         .order('desc')
         .take(101);
-      return projects.map((project) => ({
-        publicId: project.publicId,
-        title: project.title,
-        state: project.state,
-        designKind: project.designKind,
-        designReference: project.designReference,
-        ...(project.nameStyle === undefined
-          ? {}
-          : { nameStyle: project.nameStyle }),
-        guestCount: project.guestCount,
-        revision: project.revision,
-        createdAt: project.createdAt,
-        updatedAt: project.updatedAt,
-      }));
+      return projects.map(projectProjection);
+    },
+  ),
+});
+
+export const page = query({
+  args: { state: projectState, paginationOpts: paginationOptsValidator },
+  returns: v.object({
+    page: v.array(projectSummary),
+    isDone: v.boolean(),
+    continueCursor: v.string(),
+  }),
+  handler: withBffAccountQuery(
+    tablecardsCustomerAuth,
+    async (
+      ctx,
+      args: { state: 'active' | 'archived'; paginationOpts: PaginationOptions },
+      auth,
+    ) => {
+      const result = await ctx.db
+        .query('projects')
+        .withIndex('by_account_state_updated_at', (q) =>
+          q.eq('accountId', auth.accountId).eq('state', args.state),
+        )
+        .order('desc')
+        .paginate({ cursor: args.paginationOpts.cursor, numItems: 24 });
+      return {
+        page: result.page.map(projectProjection),
+        isDone: result.isDone,
+        continueCursor: result.continueCursor,
+      };
     },
   ),
 });

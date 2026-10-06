@@ -13,13 +13,17 @@ export function Component() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
   const [activeProjects, setActiveProjects] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{
+    readonly message: string;
+    readonly operation: 'usage' | 'checkout' | 'rename' | 'permission';
+  } | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [workspaceName, setWorkspaceName] = useState('');
   const [renaming, setRenaming] = useState(false);
   const loadSequence = useRef(0);
   const checkoutStarted = useRef(false);
+  const [checkoutRetry, setCheckoutRetry] = useState(0);
   const requestedOffer = searchParams.get('offer');
   const checkoutResult = searchParams.get('checkout');
   const requestedOfferId = (
@@ -49,13 +53,18 @@ export function Component() {
     if (sequence !== loadSequence.current) return;
     setAccess(nextAccess);
     setActiveProjects(projects.length);
+    setError((current) => (current?.operation === 'usage' ? null : current));
   }, [backend]);
 
   useEffect(() => {
     void load().catch((caught: unknown) =>
-      setError(
-        safeProductMessage(caught, 'Account usage could not be loaded.'),
-      ),
+      setError({
+        operation: 'usage',
+        message: safeProductMessage(
+          caught,
+          'Account usage could not be loaded.',
+        ),
+      }),
     );
   }, [load, snapshot.generation]);
 
@@ -90,9 +99,11 @@ export function Component() {
     }
     if (!account) return;
     if (account.membership.role !== 'owner') {
-      setError(
-        'Only the workspace Owner can change its plan. Ask your Owner to update access.',
-      );
+      setError({
+        operation: 'permission',
+        message:
+          'Only the workspace Owner can change its plan. Ask your Owner to update access.',
+      });
       return;
     }
     checkoutStarted.current = true;
@@ -108,9 +119,19 @@ export function Component() {
       .catch((caught: unknown) => {
         checkoutStarted.current = false;
         setBusy(false);
-        setError(safeProductMessage(caught, 'Checkout could not be started.'));
+        setError({
+          operation: 'checkout',
+          message: safeProductMessage(caught, 'Checkout could not be started.'),
+        });
       });
-  }, [account, backend, checkoutResult, requestedOfferId, state]);
+  }, [
+    account,
+    backend,
+    checkoutResult,
+    checkoutRetry,
+    requestedOfferId,
+    state,
+  ]);
 
   return (
     <section className="app-page" aria-labelledby="account-title">
@@ -125,20 +146,30 @@ export function Component() {
       </header>
       {error ? (
         <p className="notice error" role="alert">
-          {error}
-          {!busy ? (
+          {error.message}
+          {!busy && error.operation === 'checkout' ? (
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => setCheckoutRetry((attempt) => attempt + 1)}
+            >
+              Retry checkout
+            </button>
+          ) : null}
+          {!busy && error.operation === 'usage' ? (
             <button
               className="secondary-button"
               type="button"
               onClick={() => {
                 setError(null);
                 void load().catch((caught: unknown) =>
-                  setError(
-                    safeProductMessage(
+                  setError({
+                    operation: 'usage',
+                    message: safeProductMessage(
                       caught,
                       'Account usage could not be loaded.',
                     ),
-                  ),
+                  }),
                 );
               }}
             >
@@ -215,12 +246,13 @@ export function Component() {
                 })
                 .then(() => setNotice('Workspace name saved.'))
                 .catch((caught: unknown) =>
-                  setError(
-                    safeProductMessage(
+                  setError({
+                    operation: 'rename',
+                    message: safeProductMessage(
                       caught,
                       'The workspace could not be renamed.',
                     ),
-                  ),
+                  }),
                 )
                 .finally(() => setRenaming(false));
             }}

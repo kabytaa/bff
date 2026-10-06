@@ -28,8 +28,8 @@ import { Link, useBlocker } from 'react-router-dom';
 import {
   type CurrentProductAccess,
   type DesignAsset,
-  type DesignPreset,
   type SavedProject,
+  type TableCardsBackend,
 } from './backend';
 import { createTableCardsDraftStore } from './draft';
 import {
@@ -42,6 +42,8 @@ import { safeProductMessage } from './product-error';
 import { ACCOUNT_CHANGE_EVENT, WorkspaceSelector } from './auth-navigation';
 import { PreviewDialog } from './preview-dialog';
 import { useTableCardsBackend } from './use-tablecards-backend';
+import { useArtwork } from './use-artwork';
+import { MetadataPageControls, useMetadataPages } from './metadata-pages';
 
 const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
 María Fernanda de la Cruz Hernández
@@ -54,6 +56,30 @@ const GUEST_LIST_PLACEHOLDER = `Paste one name per line, for example:
 Olivia Bennett
 José García
 Zoë Martin`;
+
+function ArtworkThumbnail({
+  backend,
+  address,
+  className,
+}: {
+  readonly backend: TableCardsBackend;
+  readonly address?: string | null;
+  readonly className?: string;
+}) {
+  const artwork = useArtwork(backend, address, { lazy: true });
+  return (
+    <span
+      ref={artwork.ref}
+      className={className}
+      style={
+        artwork.url ? { backgroundImage: `url(${artwork.url})` } : undefined
+      }
+      aria-label={artwork.state === 'error' ? 'Artwork unavailable' : undefined}
+    >
+      {artwork.state === 'error' ? 'Artwork unavailable' : null}
+    </span>
+  );
+}
 
 interface Notice {
   readonly kind: 'error' | 'success' | 'info';
@@ -255,14 +281,18 @@ export function SheetPreview({
   layoutId,
   backgroundImageHref,
   nameStyle,
+  title,
   showSummary = true,
+  artworkState,
 }: {
   readonly guests: readonly GuestRow[];
   readonly designId: DesignId;
   readonly layoutId: PrintLayoutId;
   readonly backgroundImageHref?: string;
   readonly nameStyle?: NameStyle;
+  readonly title?: string;
   readonly showSummary?: boolean;
+  readonly artworkState?: 'loading' | 'error';
 }) {
   const [pageIndex, setPageIndex] = useState(0);
   const fitIssues = useMemo(
@@ -271,17 +301,19 @@ export function SheetPreview({
         guests,
         designId,
         layoutId,
+        ...(title === undefined ? {} : { title }),
         ...(nameStyle ? { nameStyle } : {}),
       }),
-    [guests, designId, layoutId, nameStyle],
+    [guests, designId, layoutId, nameStyle, title],
   );
   const preview = useMemo(() => {
-    if (guests.length === 0) return null;
+    if (guests.length === 0 || artworkState) return null;
     try {
       const manifest = createRenderManifest({
         guests,
         designId,
         layoutId,
+        ...(title === undefined ? {} : { title }),
         ...(nameStyle === undefined ? {} : { nameStyle }),
       });
       return {
@@ -299,13 +331,36 @@ export function SheetPreview({
     } catch {
       return null;
     }
-  }, [backgroundImageHref, designId, guests, layoutId, nameStyle, pageIndex]);
+  }, [
+    artworkState,
+    backgroundImageHref,
+    designId,
+    guests,
+    layoutId,
+    nameStyle,
+    pageIndex,
+    title,
+  ]);
   const totalPages = preview?.manifest.pages.length ?? 0;
   useEffect(() => {
     setPageIndex((current) => Math.min(current, Math.max(totalPages - 1, 0)));
   }, [totalPages]);
 
   if (!preview) {
+    if (artworkState)
+      return (
+        <div className="empty-preview">
+          <h3>
+            {artworkState === 'loading'
+              ? 'Loading selected artwork…'
+              : 'Selected artwork is unavailable'}
+          </h3>
+          <p>
+            The preview cannot be shown until this event's selected artwork is
+            loaded. Your guest-list and styling edits are preserved.
+          </p>
+        </div>
+      );
     if (fitIssues.length > 0)
       return (
         <div className="empty-preview">
@@ -313,8 +368,10 @@ export function SheetPreview({
           <ul className="issue-list" aria-label="Print fit issues">
             {fitIssues.slice(0, 8).map((issue, index) => (
               <li key={index}>
-                {issue.message} Shorten this field or choose a smaller name
-                size.
+                {issue.message}{' '}
+                {issue.field === 'title'
+                  ? 'Shorten the event name or use supported characters.'
+                  : 'Shorten this field or choose a smaller name size.'}
               </li>
             ))}
           </ul>
@@ -324,21 +381,21 @@ export function SheetPreview({
       <div className="empty-preview">
         <span aria-hidden="true">✦</span>
         <h3>Your print preview appears here</h3>
-        {showSummary ? (
-          <p>
-            Add at least one valid guest to see every sheet before signing in.
-          </p>
-        ) : null}
+        <p>
+          Add at least one valid guest to see every sheet before signing in.
+        </p>
       </div>
     );
   }
   return (
     <div className="sheet-preview">
       <div className="preview-toolbar">
-        <p>
-          <strong>{guests.length}</strong> cards · <strong>{totalPages}</strong>{' '}
-          PDF pages including scale check
-        </p>
+        {showSummary ? (
+          <p>
+            <strong>{guests.length}</strong> cards ·{' '}
+            <strong>{totalPages}</strong> PDF pages including scale check
+          </p>
+        ) : null}
         <div>
           <button
             type="button"
@@ -472,8 +529,23 @@ export function Creator({
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [access, setAccess] = useState<CurrentProductAccess | null>(null);
   const [accessLoadFailed, setAccessLoadFailed] = useState(false);
-  const [presets, setPresets] = useState<readonly DesignPreset[]>([]);
+  const presetLibrary = useMetadataPages(backend.listPresetPage, 'presets');
+  const presets = presetLibrary.items;
   const [assets, setAssets] = useState<readonly DesignAsset[]>([]);
+  const [assetLoadState, setAssetLoadState] = useState<
+    'loading' | 'ready' | 'error'
+  >('loading');
+  const presetLoadState = presetLibrary.page.loading
+    ? 'loading'
+    : presetLibrary.page.error
+      ? 'error'
+      : 'ready';
+  const [artworkRetry, setArtworkRetry] = useState(0);
+  const [exactArtwork, setExactArtwork] = useState<{
+    readonly key: string;
+    readonly state: 'loading' | 'ready' | 'error';
+    readonly address?: string;
+  } | null>(null);
   const [generatedChoices, setGeneratedChoices] = useState<
     readonly { readonly id: string; readonly url: string }[]
   >([]);
@@ -683,7 +755,7 @@ export function Creator({
       setDownloadUrl(null);
       setAccess(null);
       setAccessLoadFailed(false);
-      setPresets([]);
+      presetLibrary.clear();
       setAssets([]);
       setGeneratedChoices([]);
       setActiveProjectCount(null);
@@ -694,7 +766,7 @@ export function Creator({
       setDirty(false);
       wasAuthenticated.current = false;
     }
-  }, [draftStore, state.status]);
+  }, [draftStore, presetLibrary.clear, state.status]);
 
   useEffect(() => {
     if (state.status !== 'authenticated') return;
@@ -702,6 +774,7 @@ export function Creator({
     setAccess(null);
     setAccessLoadFailed(false);
     setActiveProjectCount(null);
+    setAssetLoadState('loading');
     void backend
       .getCurrentAccess()
       .then((nextAccess) => {
@@ -711,31 +784,20 @@ export function Creator({
       .catch(() => {
         if (!cancelled) setAccessLoadFailed(true);
       });
-    void backend
-      .listPresets()
-      .then((nextPresets) => {
-        if (cancelled) return;
-        setPresets(nextPresets);
-        setCustomDesign((current) => {
-          if (!current || current.artworkUrl) return current;
-          const preset = nextPresets.find(
-            (candidate) => candidate.assetId === current.reference,
-          );
-          return preset?.artworkUrl
-            ? { ...current, artworkUrl: preset.artworkUrl }
-            : current;
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setPresets([]);
-      });
+    void presetLibrary.refresh();
     void backend
       .listAssets()
       .then((nextAssets) => {
-        if (!cancelled) setAssets(nextAssets);
+        if (!cancelled) {
+          setAssets(nextAssets);
+          setAssetLoadState('ready');
+        }
       })
       .catch(() => {
-        if (!cancelled) setAssets([]);
+        if (!cancelled) {
+          setAssets([]);
+          setAssetLoadState('error');
+        }
       });
     void backend
       .listProjects('active')
@@ -748,7 +810,13 @@ export function Creator({
     return () => {
       cancelled = true;
     };
-  }, [backend, snapshot.generation, state.status]);
+  }, [
+    artworkRetry,
+    backend,
+    presetLibrary.refresh,
+    snapshot.generation,
+    state.status,
+  ]);
 
   useEffect(() => {
     if (state.status !== 'authenticated' || !initialProjectId) return;
@@ -865,18 +933,90 @@ export function Creator({
     };
   }, [backend, dirty, initialProjectId, projectLoading, projectUnavailable]);
 
+  // A restored draft can select artwork different from the last saved project.
+  // Resolve that current reference only from authorized reads or this session's
+  // already-delivered selection; never persist or invent a private file URL.
+  const listedArtworkAddress = customDesign
+    ? (assets.find(
+        (asset) =>
+          asset.id === customDesign.reference &&
+          asset.source === customDesign.kind,
+      )?.url ??
+      presets.find(
+        (preset) =>
+          preset.assetId === customDesign.reference &&
+          preset.assetSource === customDesign.kind,
+      )?.artworkUrl ??
+      customDesign.artworkUrl)
+    : undefined;
+  const currentArtworkKey = customDesign
+    ? `${customDesign.kind}:${customDesign.reference}`
+    : null;
+  const currentExactArtwork =
+    exactArtwork?.key === currentArtworkKey ? exactArtwork : null;
   useEffect(() => {
-    if (!savedProject || savedProject.designKind === 'predefined') return;
-    const asset = assets.find(
-      (candidate) => candidate.id === savedProject.designId,
-    );
-    if (!asset?.url) return;
-    setCustomDesign((current) =>
-      current?.reference === savedProject.designId
-        ? { ...current, artworkUrl: asset.url ?? undefined }
-        : current,
-    );
-  }, [assets, savedProject]);
+    if (
+      !customDesign ||
+      !currentArtworkKey ||
+      listedArtworkAddress ||
+      state.status !== 'authenticated' ||
+      assetLoadState === 'loading' ||
+      presetLoadState === 'loading'
+    )
+      return;
+    let cancelled = false;
+    const key = currentArtworkKey;
+    setExactArtwork({ key, state: 'loading' });
+    void backend
+      .getAsset(customDesign.reference)
+      .then((asset) => {
+        if (cancelled) return;
+        if (
+          asset?.id === customDesign.reference &&
+          asset.source === customDesign.kind &&
+          asset.url
+        )
+          setExactArtwork({ key, state: 'ready', address: asset.url });
+        else setExactArtwork({ key, state: 'error' });
+      })
+      .catch(() => {
+        if (!cancelled) setExactArtwork({ key, state: 'error' });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    backend,
+    currentArtworkKey,
+    customDesign?.reference,
+    customDesign?.kind,
+    listedArtworkAddress,
+    state.status,
+    assetLoadState,
+    presetLoadState,
+    artworkRetry,
+  ]);
+  const customArtworkAddress =
+    listedArtworkAddress ?? currentExactArtwork?.address;
+  const selectedArtwork = useArtwork(
+    state.status === 'authenticated' ? backend : null,
+    customArtworkAddress,
+  );
+  const customArtworkUrl = selectedArtwork.url;
+  const customArtworkState = customDesign
+    ? !customArtworkAddress
+      ? assetLoadState === 'loading' ||
+        presetLoadState === 'loading' ||
+        !currentExactArtwork ||
+        currentExactArtwork.state === 'loading'
+        ? 'loading'
+        : 'error'
+      : selectedArtwork.state === 'ready'
+        ? undefined
+        : selectedArtwork.state === 'error'
+          ? 'error'
+          : 'loading'
+    : undefined;
 
   const useImportResult = (result: ReturnType<typeof normalizePastedText>) => {
     setIssues(result.issues);
@@ -1040,7 +1180,8 @@ export function Creator({
     premiumDesignUnavailable ||
     activeProjectLimitReached ||
     projectUnavailable ||
-    projectLoading;
+    projectLoading ||
+    customArtworkState !== undefined;
 
   const currentInput = useMemo(
     () =>
@@ -1058,13 +1199,14 @@ export function Creator({
     () =>
       preflightRender({
         guests: currentInput,
+        title: title.trim() || 'Untitled event',
         designId,
         layoutId,
         ...(customDesign?.nameStyle
           ? { nameStyle: customDesign.nameStyle }
           : {}),
       }),
-    [currentInput, customDesign?.nameStyle, designId, layoutId],
+    [currentInput, customDesign?.nameStyle, designId, layoutId, title],
   );
   const resolveCurrentGuests = () => {
     if (fileTable) {
@@ -1103,6 +1245,7 @@ export function Creator({
     }
     const currentFitIssues = preflightRender({
       guests: currentGuests,
+      title: title.trim() || 'Untitled event',
       designId,
       layoutId,
       ...(customDesign?.nameStyle ? { nameStyle: customDesign.nameStyle } : {}),
@@ -1110,11 +1253,21 @@ export function Creator({
     if (currentFitIssues.length) {
       setNotice({
         kind: 'error',
-        message: `${currentFitIssues[0]?.message ?? 'A field does not fit.'} Shorten it or choose a smaller name size.`,
+        message: `${currentFitIssues[0]?.message ?? 'A field does not fit.'} ${currentFitIssues[0]?.field === 'title' ? 'Shorten the event name or use supported characters.' : 'Shorten it or choose a smaller name size.'}`,
       });
       return null;
     }
     if (projectLoading || projectUnavailable) return null;
+    if (customArtworkState) {
+      setNotice({
+        kind: customArtworkState === 'loading' ? 'info' : 'error',
+        message:
+          customArtworkState === 'loading'
+            ? 'Wait for the selected artwork to load before saving or exporting.'
+            : 'The selected artwork is unavailable. Retry loading it or choose a predefined design before saving or exporting.',
+      });
+      return null;
+    }
     if (premiumAccessPending || premiumAccessUnverified) {
       setNotice({
         kind: 'info',
@@ -1260,6 +1413,16 @@ export function Creator({
   const generateProjectBackgrounds = async () => {
     if (!initialProjectId) return;
     if (
+      !aiRecovery &&
+      (aiPrompt.trim().length < 3 || aiPrompt.trim().length > 400)
+    ) {
+      setNotice({
+        kind: 'error',
+        message: 'Describe the background in 3 to 400 characters.',
+      });
+      return;
+    }
+    if (
       !aiAttempt.current ||
       (!aiRecovery && aiAttempt.current.prompt !== aiPrompt)
     )
@@ -1286,7 +1449,7 @@ export function Creator({
         aiAttempt.current = null;
         setAiRecovery(false);
         throw new Error(
-          batch.errorMessage ?? 'The image provider did not finish the batch.',
+          'This background batch failed. Edit the description and try again.',
         );
       }
       setGeneratedChoices(batch.assets);
@@ -1355,7 +1518,11 @@ export function Creator({
         <button
           className="secondary-button complete-preview-action"
           type="button"
-          disabled={currentInput.length === 0 || Boolean(fileTable)}
+          disabled={
+            currentInput.length === 0 ||
+            Boolean(fileTable) ||
+            customArtworkState !== undefined
+          }
           onClick={() => setPreviewOpen(true)}
         >
           Open complete preview
@@ -1389,9 +1556,36 @@ export function Creator({
       ) : null}
       {fitIssues.length ? (
         <p className="notice error creator-feedback" role="alert">
-          {fitIssues[0]?.message} Shorten this field or choose a smaller name
-          size before saving or exporting.
+          {fitIssues[0]?.message}{' '}
+          {fitIssues[0]?.field === 'title'
+            ? 'Shorten the event name or use supported characters before saving or exporting.'
+            : 'Shorten this field or choose a smaller name size before saving or exporting.'}
         </p>
+      ) : null}
+      {customArtworkState ? (
+        <div
+          className={`notice ${customArtworkState === 'loading' ? 'info' : 'error'} creator-feedback`}
+          role={customArtworkState === 'loading' ? 'status' : 'alert'}
+        >
+          <p>
+            {customArtworkState === 'loading'
+              ? 'Loading your selected artwork. Save, export and complete preview are unavailable until it is ready.'
+              : 'The selected artwork could not be loaded in this workspace. Your edits are preserved. Retry artwork or choose a predefined design.'}
+          </p>
+          {customArtworkState === 'error' ? (
+            <button
+              className="secondary-button"
+              type="button"
+              disabled={state.status !== 'authenticated'}
+              onClick={() => {
+                selectedArtwork.retry();
+                setArtworkRetry((attempt) => attempt + 1);
+              }}
+            >
+              Retry artwork
+            </button>
+          ) : null}
+        </div>
       ) : null}
       {projectUnavailable ? (
         <p className="notice info">
@@ -1597,21 +1791,26 @@ export function Creator({
                           setDirty(true);
                         }}
                       >
-                        <span
-                          style={
-                            preset.artworkUrl
-                              ? {
-                                  backgroundImage: `url(${preset.artworkUrl})`,
-                                }
-                              : undefined
-                          }
+                        <ArtworkThumbnail
+                          backend={backend}
+                          address={preset.artworkUrl}
                         />
                         {preset.displayName}
                       </button>
                     ))}
                   </div>
-                ) : access?.reusablePresetsEnabled ? (
+                ) : access?.reusablePresetsEnabled &&
+                  presetLibrary.page.done ? (
                   <p className="muted">No reusable presets yet.</p>
+                ) : null}
+                {access?.reusablePresetsEnabled ? (
+                  <MetadataPageControls
+                    label="presets"
+                    page={presetLibrary.page}
+                    onLoadMore={presetLibrary.loadMore}
+                    disabled={busy !== null}
+                    showEnd={presets.length > 0}
+                  />
                 ) : null}
                 {access?.reusablePresetsEnabled ? (
                   <Link className="text-button" to="/designs">
@@ -1656,6 +1855,8 @@ export function Creator({
                       <textarea
                         id="project-ai-prompt"
                         rows={3}
+                        required
+                        minLength={3}
                         maxLength={400}
                         value={aiPrompt}
                         disabled={aiRecovery || aiRecoveryLoading}
@@ -1668,7 +1869,9 @@ export function Creator({
                           busy !== null ||
                           aiRecoveryLoading ||
                           (!aiRecovery &&
-                            (access.aiBackgroundBatchesRemaining ?? 0) < 1)
+                            ((access.aiBackgroundBatchesRemaining ?? 0) < 1 ||
+                              aiPrompt.trim().length < 3 ||
+                              aiPrompt.trim().length > 400))
                         }
                         onClick={() => void generateProjectBackgrounds()}
                       >
@@ -1706,9 +1909,10 @@ export function Creator({
                           setDirty(true);
                         }}
                       >
-                        <span
+                        <ArtworkThumbnail
+                          backend={backend}
+                          address={choice.url}
                           className="asset-preview"
-                          style={{ backgroundImage: `url(${choice.url})` }}
                         />
                         Use AI choice {index + 1}
                       </button>
@@ -1959,10 +2163,12 @@ export function Creator({
           <SheetPreview
             showSummary={false}
             guests={currentInput}
+            title={title.trim() || 'Untitled event'}
             designId={designId}
             layoutId={layoutId}
-            {...(customDesign?.artworkUrl
-              ? { backgroundImageHref: customDesign.artworkUrl }
+            artworkState={customArtworkState}
+            {...(customArtworkUrl
+              ? { backgroundImageHref: customArtworkUrl }
               : {})}
             {...(customDesign?.nameStyle === undefined
               ? {}
@@ -1983,10 +2189,12 @@ export function Creator({
           <SheetPreview
             showSummary={false}
             guests={currentInput}
+            title={title.trim() || 'Untitled event'}
             designId={designId}
             layoutId={layoutId}
-            {...(customDesign?.artworkUrl
-              ? { backgroundImageHref: customDesign.artworkUrl }
+            artworkState={customArtworkState}
+            {...(customArtworkUrl
+              ? { backgroundImageHref: customArtworkUrl }
               : {})}
             {...(customDesign?.nameStyle
               ? { nameStyle: customDesign.nameStyle }

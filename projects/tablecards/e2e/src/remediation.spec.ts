@@ -1,9 +1,10 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Request } from '@playwright/test';
 
 import {
   logInFromLanding,
   uniquePersona,
   expectNoHorizontalPageOverflow,
+  chooseDevelopmentOffer,
 } from './support/hosted';
 import { readBrowserDownload, readPdfText } from './support/pdf';
 
@@ -23,6 +24,10 @@ async function importNames(page: Page, text: string) {
 test('review regression: edited saved project exports the actual current names, title and duplicate multiplicity', async ({
   page,
 }, info) => {
+  let privateDownload: Request | undefined;
+  page.on('request', (request) => {
+    if (request.url().includes('/v1/files/exports/')) privateDownload = request;
+  });
   await logInFromLanding(
     page,
     uniquePersona('pdf-regression', info.project.name),
@@ -51,6 +56,22 @@ test('review regression: edited saved project exports the actual current names, 
   await step(page, 'Review');
   await expect(download).toHaveCount(0);
   await expectNoHorizontalPageOverflow(page);
+  if (!privateDownload)
+    throw new Error('No authenticated byte request was observed');
+  const address = privateDownload.url();
+  const authorization = privateDownload.headers()['authorization'];
+  if (!authorization) throw new Error('The byte request lacked authentication');
+  const anonymous = await page.context().request.get(address, {
+    headers: { origin: 'https://tablecards-dev.tofler.app' },
+  });
+  expect(anonymous.status()).toBe(401);
+  page.once('dialog', (dialog) => void dialog.accept());
+  await page.getByRole('button', { name: 'Sign out' }).last().click();
+  await expect(page.getByRole('link', { name: 'Log in' }).last()).toBeVisible();
+  const revoked = await page.context().request.get(address, {
+    headers: { origin: 'https://tablecards-dev.tofler.app', authorization },
+  });
+  expect(revoked.status()).toBe(401);
 });
 
 test('review regression: policies, usable designs, workspace naming, pricing and signout on phone and desktop', async ({
@@ -117,5 +138,35 @@ test('review regression: a name that cannot fit gets explicit feedback rather th
   await expect(
     page.getByText(/cannot fit|does not fit|too long|shorten/iu).first(),
   ).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+});
+
+test('review regression: the paid 500-card ceiling renders and downloads with embedded fonts', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('large-pdf-regression', info.project.name),
+  );
+  await chooseDevelopmentOffer(page, 'Planner Pro');
+  await page.goto('/create');
+  await importNames(
+    page,
+    Array.from({ length: 500 }, () => 'Łukasz Dvořák').join('\n'),
+  );
+  await page.getByLabel('Event name').fill('Maximum supported event');
+  await step(page, 'Review');
+  await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
+  const download = page.getByRole('link', { name: 'Download PDF' });
+  await expect(download).toBeVisible({ timeout: 90_000 });
+  const bytes = await readBrowserDownload(
+    page,
+    (await download.getAttribute('href'))!,
+  );
+  expect(bytes.byteLength).toBeLessThan(19 * 1024 * 1024);
+  const parsed = await readPdfText(bytes);
+  expect(parsed.title).toBe('Maximum supported event');
+  expect(parsed.pageCount).toBe(126);
+  expect(parsed.text.match(/Łukasz Dvořák/gu)).toHaveLength(1000);
   await expectNoHorizontalPageOverflow(page);
 });

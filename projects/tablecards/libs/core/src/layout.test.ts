@@ -183,7 +183,7 @@ describe('print manifest', () => {
         designId: 'minimal-ivory',
         title: 'W'.repeat(500),
       }),
-    ).toThrow(/title cannot be rendered without clipping/u);
+    ).toThrow(/event name is too long/u);
   });
 
   it('rejects characters absent from the selected font metrics', () => {

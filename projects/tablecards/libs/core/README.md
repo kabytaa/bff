@@ -29,15 +29,24 @@ cached artwork.
 Hosted `renderTableCardsPdf` calls supply the unmodified, licensed Noto Sans
 and Noto Serif TTF bytes vendored in the web `public/fonts/` directory. Provenance
 and OFL 1.1 are alongside those assets; `fonts.ts` pins both SHA-256 hashes.
-Browser preview uses the same font families; PDF preflight uses actual embedded
-font coverage and metrics. Tests cover broader Latin, combining accents,
+Browser preview uses the same font families and checked Latin advances generated
+from these exact font bytes; PDF preflight uses actual embedded
+font coverage and metrics. Kerning and discretionary ligatures are disabled in
+SVG and PDF so their widths agree. Rendered text uses canonical-equivalent NFC
+without changing stored/imported names. Coverage is bounded to common Latin
+(including Vietnamese), supported punctuation and spaces; decomposed accents
+that compose are supported, remaining combining marks fail explicitly rather
+than reaching unsafe font shaping. Tests cover those boundaries, wide glyphs,
 unsupported glyph rejection and deterministic bytes for both families.
 
 The optional `fontBytes`/`serifFontBytes` arguments keep the core independent of
 HTTP/filesystem access. The backend fetches only registered public assets and
 verifies their hashes. Omitting them retains Helvetica/Times for isolated
-geometry fixtures, not the supported hosted product path. Preview fit uses
-approximate metrics and remains advisory; server preflight is authoritative.
+geometry fixtures, not the supported hosted product path. The normal core test
+verifies every generated advance against the font files and pins both hashes;
+changing a font requires regenerating `font-data.ts`, not hand-adjusting widths.
+Both guest text and the actual event title are preflighted. Server checks remain
+authoritative for authorization and rendering.
 
 ## Commands
 
@@ -46,4 +55,5 @@ pnpm exec nx run tablecards-core:test
 pnpm exec nx run tablecards-core:typecheck
 pnpm exec nx run tablecards-core:lint
 pnpm exec nx run tablecards-core:build
+node projects/tablecards/libs/core/scripts/generate-font-metrics.mjs --check
 ```

@@ -117,6 +117,52 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe('private TableCards HTTP files', () => {
+  it('looks up the selected asset outside the library window without exposing another account descriptor', async () => {
+    const t = convexTest(schema, modules);
+    await t.run(async (ctx) => {
+      const storageId = await ctx.storage.store(
+        new Blob([Uint8Array.from(image).buffer], { type: 'image/jpeg' }),
+      );
+      for (let index = 0; index < 130; index += 1) {
+        await ctx.db.insert('designAssets', {
+          publicId: `asset_window_${index}`,
+          accountId,
+          createdByUserId: userId,
+          source: 'uploaded',
+          storageId,
+          mimeType: 'image/jpeg',
+          width: 1050,
+          height: 600,
+          createdAt: index,
+        });
+      }
+    });
+    const customer = t.withIdentity(identity());
+    const listed = await customer.query(
+      makeFunctionReference<'query'>('assets:list'),
+      {},
+    );
+    expect(listed).toHaveLength(128);
+    expect(
+      listed.map((asset: { publicId: string }) => asset.publicId),
+    ).not.toContain('asset_window_129');
+    const get = makeFunctionReference<'query'>('assets:get');
+    await expect(
+      customer.query(get, { publicId: 'asset_window_129' }),
+    ).resolves.toMatchObject({
+      publicId: 'asset_window_129',
+      url: '/v1/files/assets/asset_window_129',
+    });
+    await expect(
+      t
+        .withIdentity(identity({ accountId: otherAccountId }))
+        .query(get, { publicId: 'asset_window_129' }),
+    ).resolves.toBeNull();
+    await expect(
+      customer.query(get, { publicId: 'asset_missing' }),
+    ).resolves.toBeNull();
+    expect(access.get).not.toHaveBeenCalled();
+  });
   it('fully decodes bounded PNG pixels and rejects truncated or oversized raster headers before storage', async () => {
     const t = convexTest(schema, modules);
     const customer = t.withIdentity(identity());

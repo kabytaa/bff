@@ -76,6 +76,7 @@ export interface ExportStatus {
 
 export interface AiAsset {
   readonly id: string;
+  /** Protected HTTP address. Resolve only when displaying the artwork. */
   readonly url: string;
 }
 
@@ -89,6 +90,7 @@ export interface AiBatch {
 export interface DesignAsset {
   readonly id: string;
   readonly source: 'uploaded' | 'ai';
+  /** Protected HTTP address, not a browser image source. */
   readonly url: string | null;
   readonly reusable: boolean;
   readonly createdAt: number;
@@ -98,6 +100,7 @@ export interface DesignPreset {
   readonly id: string;
   readonly assetId: string;
   readonly assetSource: 'uploaded' | 'ai';
+  /** Protected HTTP address, not a browser image source. */
   readonly artworkUrl: string | null;
   readonly displayName: string;
   readonly nameColor: string;
@@ -105,6 +108,39 @@ export interface DesignPreset {
   readonly nameFont: 'sans' | 'serif';
   readonly nameSize: 'small' | 'medium' | 'large';
   readonly updatedAt: number;
+}
+
+export interface MetadataPage<T> {
+  readonly items: readonly T[];
+  readonly done: boolean;
+  readonly cursor: string;
+}
+
+interface BackendDesignAsset {
+  readonly publicId: string;
+  readonly source: 'uploaded' | 'ai';
+  readonly reusable: boolean;
+  readonly url: string | null;
+  readonly createdAt: number;
+}
+
+interface BackendDesignPreset {
+  readonly publicId: string;
+  readonly assetPublicId: string;
+  readonly assetSource: 'uploaded' | 'ai';
+  readonly artworkUrl: string | null;
+  readonly displayName: string;
+  readonly nameColor: string;
+  readonly namePosition: 'top' | 'center' | 'bottom';
+  readonly nameFont: 'sans' | 'serif';
+  readonly nameSize: 'small' | 'medium' | 'large';
+  readonly updatedAt: number;
+}
+
+interface BackendMetadataPage<T> {
+  readonly page: readonly T[];
+  readonly isDone: boolean;
+  readonly continueCursor: string;
 }
 
 export interface PresetStyle {
@@ -120,6 +156,18 @@ const listProjectsRef = makeFunctionReference<
   { state?: 'active' | 'archived' },
   readonly BackendProjectSummary[]
 >('projects:list');
+const pageProjectsRef = makeFunctionReference<
+  'query',
+  {
+    state: 'active' | 'archived';
+    paginationOpts: { cursor: string | null; numItems: number };
+  },
+  {
+    page: readonly BackendProjectSummary[];
+    isDone: boolean;
+    continueCursor: string;
+  }
+>('projects:page');
 const getProjectRef = makeFunctionReference<
   'query',
   { projectId: string },
@@ -213,30 +261,28 @@ const getAiBatchRef = makeFunctionReference<
 const listAssetsRef = makeFunctionReference<
   'query',
   Record<string, never>,
-  readonly {
-    publicId: string;
-    source: 'uploaded' | 'ai';
-    reusable: boolean;
-    url: string | null;
-    createdAt: number;
-  }[]
+  readonly BackendDesignAsset[]
 >('assets:list');
 const listPresetsRef = makeFunctionReference<
   'query',
   Record<string, never>,
-  readonly {
-    publicId: string;
-    assetPublicId: string;
-    assetSource: 'uploaded' | 'ai';
-    artworkUrl: string | null;
-    displayName: string;
-    nameColor: string;
-    namePosition: 'top' | 'center' | 'bottom';
-    nameFont: 'sans' | 'serif';
-    nameSize: 'small' | 'medium' | 'large';
-    updatedAt: number;
-  }[]
+  readonly BackendDesignPreset[]
 >('designPresets:list');
+const getAssetRef = makeFunctionReference<
+  'query',
+  { publicId: string },
+  BackendDesignAsset | null
+>('assets:get');
+const assetPageRef = makeFunctionReference<
+  'query',
+  { paginationOpts: { cursor: string | null; numItems: number } },
+  BackendMetadataPage<BackendDesignAsset>
+>('assets:page');
+const presetPageRef = makeFunctionReference<
+  'query',
+  { paginationOpts: { cursor: string | null; numItems: number } },
+  BackendMetadataPage<BackendDesignPreset>
+>('designPresets:page');
 const createPresetRef = makeFunctionReference<
   'action',
   {
@@ -282,6 +328,31 @@ function projectView(project: BackendProjectSummary): SavedProject {
       ? {}
       : { nameStyle: project.nameStyle }),
     ...(project.guests === undefined ? {} : { guests: project.guests }),
+  };
+}
+
+function assetView(asset: BackendDesignAsset): DesignAsset {
+  return {
+    id: asset.publicId,
+    source: asset.source,
+    url: asset.url,
+    reusable: asset.reusable,
+    createdAt: asset.createdAt,
+  };
+}
+
+function presetView(preset: BackendDesignPreset): DesignPreset {
+  return {
+    id: preset.publicId,
+    assetId: preset.assetPublicId,
+    assetSource: preset.assetSource,
+    artworkUrl: preset.artworkUrl,
+    displayName: preset.displayName,
+    nameColor: preset.nameColor,
+    namePosition: preset.namePosition,
+    nameFont: preset.nameFont,
+    nameSize: preset.nameSize,
+    updatedAt: preset.updatedAt,
   };
 }
 
@@ -352,7 +423,16 @@ export interface TableCardsBackend {
     projectId?: string,
   ): Promise<{ readonly publicId: string }>;
   listAssets(): Promise<readonly DesignAsset[]>;
+  listAssetPage(cursor?: string | null): Promise<MetadataPage<DesignAsset>>;
+  getAsset(assetId: string): Promise<DesignAsset | null>;
   listPresets(): Promise<readonly DesignPreset[]>;
+  listPresetPage(cursor?: string | null): Promise<MetadataPage<DesignPreset>>;
+  listProjectPage(
+    state: 'active' | 'archived',
+    cursor?: string | null,
+  ): Promise<MetadataPage<ProjectSummary>>;
+  resolveArtwork(address: string): Promise<string>;
+  releaseArtwork(address: string, objectUrl: string): void;
   createPreset(assetId: string, style: PresetStyle): Promise<string>;
   updatePreset(presetId: string, style: PresetStyle): Promise<void>;
   deletePreset(presetId: string): Promise<void>;
@@ -365,9 +445,11 @@ export function createTableCardsBackend(
 ): TableCardsBackend & { activate(): void; dispose(): void } {
   const fileOrigin = new URL(convexSiteUrl).origin;
   const cache = new Map<string, { url: string; bytes: number }>();
+  const references = new Map<string, number>();
   const pending = new Map<string, Promise<string>>();
   const controllers = new Set<AbortController>();
   let totalBytes = 0;
+  let latestPdfAddress: string | null = null;
   let scopeGeneration = 0;
   let disposed = false;
   let activeDownloads = 0;
@@ -385,8 +467,50 @@ export function createTableCardsBackend(
     controllers.clear();
     for (const entry of cache.values()) URL.revokeObjectURL(entry.url);
     cache.clear();
+    references.clear();
+    latestPdfAddress = null;
     pending.clear();
     totalBytes = 0;
+  }
+  function active(address: string): boolean {
+    return (references.get(address) ?? 0) > 0 || address === latestPdfAddress;
+  }
+  function evict(address: string) {
+    const entry = cache.get(address);
+    if (!entry) return;
+    cache.delete(address);
+    totalBytes -= entry.bytes;
+    URL.revokeObjectURL(entry.url);
+  }
+  function reserveCache(bytes: number, entries = 1): boolean {
+    for (const address of cache.keys()) {
+      if (
+        totalBytes + bytes <= 128 * 1024 * 1024 &&
+        cache.size + entries <= 160
+      )
+        return true;
+      if (!active(address)) evict(address);
+    }
+    return (
+      totalBytes + bytes <= 128 * 1024 * 1024 && cache.size + entries <= 160
+    );
+  }
+  function trimInactive() {
+    let bytes = 0;
+    let count = 0;
+    for (const [address, entry] of cache) {
+      if (!active(address)) {
+        bytes += entry.bytes;
+        count += 1;
+      }
+    }
+    for (const [address, entry] of cache) {
+      if (bytes <= 64 * 1024 * 1024 && count <= 32) break;
+      if (active(address)) continue;
+      bytes -= entry.bytes;
+      count -= 1;
+      evict(address);
+    }
   }
   let unsubscribe: (() => void) | undefined;
   function subscribe() {
@@ -418,7 +542,12 @@ export function createTableCardsBackend(
     if (disposed || scope() === null)
       throw new Error('Sign in and select an account to continue.');
     const cached = cache.get(address);
-    if (cached) return cached.url;
+    if (cached) {
+      cache.delete(address);
+      cache.set(address, cached);
+      if (mime === 'pdf') latestPdfAddress = address;
+      return cached.url;
+    }
     const existing = pending.get(address);
     if (existing) return await existing;
     const generation = scopeGeneration;
@@ -478,17 +607,18 @@ export function createTableCardsBackend(
           throw new Error('File download returned an empty response.');
         if (disposed || generation !== scopeGeneration)
           throw new Error('The selected account changed. Open the file again.');
-        // Repeated polling reuses delivered bytes. Bound both object count and
-        // retained memory; revocation occurs on scope change or component disposal.
-        if (cache.size >= 160 || totalBytes + length > 128 * 1024 * 1024)
+        // Active previews own leases. Evict only inactive LRU bytes so opening
+        // another valid asset does not exhaust a growing account's library.
+        if (!reserveCache(length))
           throw new Error(
-            'Too many files are open. Refresh TableCards to continue.',
+            'Close another artwork preview before opening this file.',
           );
         const objectUrl = URL.createObjectURL(
           new Blob(chunks, { type: contentType }),
         );
         cache.set(address, { url: objectUrl, bytes: length });
         totalBytes += length;
+        if (mime === 'pdf') latestPdfAddress = address;
         return objectUrl;
       } finally {
         const next = downloadWaiters.shift();
@@ -515,8 +645,48 @@ export function createTableCardsBackend(
       unsubscribe = undefined;
       clearFiles();
     },
+    async resolveArtwork(address) {
+      if (!/^\/v1\/files\/assets\/[a-z0-9_]{1,128}$/iu.test(address))
+        throw new Error('Refresh TableCards to access this artwork.');
+      if (disposed)
+        throw new Error('Open TableCards again to access this artwork.');
+      subscribe();
+      const generation = scopeGeneration;
+      references.set(address, (references.get(address) ?? 0) + 1);
+      try {
+        return await fileUrl(address, 'artwork');
+      } catch (error) {
+        if (generation === scopeGeneration) {
+          const count = references.get(address) ?? 0;
+          if (count <= 1) references.delete(address);
+          else references.set(address, count - 1);
+          trimInactive();
+        }
+        throw error;
+      }
+    },
+    releaseArtwork(address, objectUrl) {
+      // A late cleanup from the old account must never release a new scope's
+      // lease for the same address. Object URLs are unique per delivered Blob.
+      if (cache.get(address)?.url !== objectUrl) return;
+      const count = references.get(address) ?? 0;
+      if (count <= 1) references.delete(address);
+      else references.set(address, count - 1);
+      trimInactive();
+    },
     async listProjects(state = 'active') {
       return (await convex.query(listProjectsRef, { state })).map(projectView);
+    },
+    async listProjectPage(state, cursor) {
+      const result = await convex.query(pageProjectsRef, {
+        state,
+        paginationOpts: { cursor: cursor ?? null, numItems: 24 },
+      });
+      return {
+        items: result.page.map(projectView),
+        done: result.isDone,
+        cursor: result.continueCursor,
+      };
     },
     async getPendingAiBatch(projectId) {
       return await convex.query(
@@ -631,17 +801,15 @@ export function createTableCardsBackend(
           return {
             batchId: result.publicId,
             status: 'ready',
-            assets: await Promise.all(
-              result.choices
-                .filter(
-                  (choice): choice is { publicId: string; url: string } =>
-                    choice.url !== null,
-                )
-                .map(async (choice) => ({
-                  id: choice.publicId,
-                  url: await fileUrl(choice.url, 'artwork'),
-                })),
-            ),
+            assets: result.choices
+              .filter(
+                (choice): choice is { publicId: string; url: string } =>
+                  choice.url !== null,
+              )
+              .map((choice) => ({
+                id: choice.publicId,
+                url: choice.url,
+              })),
           };
         }
         if (result?.status === 'failed') {
@@ -693,34 +861,34 @@ export function createTableCardsBackend(
       return { publicId: body.publicId };
     },
     async listAssets() {
-      return await Promise.all(
-        (await convex.query(listAssetsRef, {})).map(async (asset) => ({
-          id: asset.publicId,
-          source: asset.source,
-          url: asset.url === null ? null : await fileUrl(asset.url, 'artwork'),
-          reusable: asset.reusable,
-          createdAt: asset.createdAt,
-        })),
-      );
+      return (await convex.query(listAssetsRef, {})).map(assetView);
+    },
+    async listAssetPage(cursor) {
+      const result = await convex.query(assetPageRef, {
+        paginationOpts: { cursor: cursor ?? null, numItems: 24 },
+      });
+      return {
+        items: result.page.map(assetView),
+        done: result.isDone,
+        cursor: result.continueCursor,
+      };
+    },
+    async getAsset(assetId) {
+      const asset = await convex.query(getAssetRef, { publicId: assetId });
+      return asset === null ? null : assetView(asset);
     },
     async listPresets() {
-      return await Promise.all(
-        (await convex.query(listPresetsRef, {})).map(async (preset) => ({
-          id: preset.publicId,
-          assetId: preset.assetPublicId,
-          assetSource: preset.assetSource,
-          artworkUrl:
-            preset.artworkUrl === null
-              ? null
-              : await fileUrl(preset.artworkUrl, 'artwork'),
-          displayName: preset.displayName,
-          nameColor: preset.nameColor,
-          namePosition: preset.namePosition,
-          nameFont: preset.nameFont,
-          nameSize: preset.nameSize,
-          updatedAt: preset.updatedAt,
-        })),
-      );
+      return (await convex.query(listPresetsRef, {})).map(presetView);
+    },
+    async listPresetPage(cursor) {
+      const result = await convex.query(presetPageRef, {
+        paginationOpts: { cursor: cursor ?? null, numItems: 24 },
+      });
+      return {
+        items: result.page.map(presetView),
+        done: result.isDone,
+        cursor: result.continueCursor,
+      };
     },
     async createPreset(assetId, style) {
       return await convex.action(createPresetRef, {
