@@ -1,6 +1,6 @@
 # TableCards Cloudflare AI adapter
 
-Private development-only bridge from the TableCards Convex Node action to
+Private bridge from the TableCards Convex Node action to
 Cloudflare's Workers AI binding. It owns no product data, sessions, unit balances
 or queue. The browser never calls it. See [Architecture](../docs/architecture.md#ai-usage-and-payment-boundary)
 and [Operations](../docs/operations.md#cloudflare-ai-budget-and-reference-images).
@@ -37,4 +37,8 @@ existing account authorization, not an OpenAI key.
 Deployment-wide budget admission is enforced transactionally in Convex,
 not by this stateless adapter. Preserve fixed model/geometry and no inference
 retries when changing it. An exposed/copied server secret is an operator incident,
-not a reason to make this endpoint public. No production route is configured.
+not a reason to make this endpoint public. Production uses the separate
+`wrangler.production.jsonc` Worker with a different `PROVIDER_SECRET` and URL.
+Main CI deploys code without replacing that secret. Its Convex budget and
+`aiBatches` counter are independent, while provider free credits/billing still
+belong to the same Cloudflare account. See the [production runbook](../docs/operations.md#production-release-and-recovery).

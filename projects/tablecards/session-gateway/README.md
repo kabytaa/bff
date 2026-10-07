@@ -1,7 +1,8 @@
 # TableCards session gateway
 
 This Cloudflare Worker exposes only the fixed customer-auth session-adapter
-routes on `api.tablecards-dev.tofler.app`. It forwards them opaquely to the
+routes on `api.tablecards-dev.tofler.app` and the separate production
+`api.tablecards.tofler.app`. It forwards them opaquely to the
 TableCards Convex HTTP deployment so the browser's protected session cookie is
 same-site. Product queries, mutations, uploads, and downloads never pass
 through this Worker.
@@ -17,5 +18,8 @@ pnpm exec wrangler deploy \
 ```
 
 Use `/_tofler/session-gateway/health` for an uncached, credential-free version
-check. No production manifest exists in Build 3; the development gateway must
-not be reused as a production mock-commerce surface.
+check. Production uses `wrangler.production.jsonc`, its own Worker, and the
+`clean-gerbil-451.convex.site` upstream. Main CI supplies the exact release SHA;
+the deployment guard and [Operations](../docs/operations.md#production-release-and-recovery)
+keep the development and production lanes separate. This gateway never handles
+checkout or grants access; shared BFF owns the no-charge preview checkout.

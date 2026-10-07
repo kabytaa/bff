@@ -3,7 +3,7 @@
 Created: 2026-10-06
 Updated: 2026-10-07
 Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
-Scope: implemented Build 3 development architecture, not production approval
+Scope: implemented Build 3 architecture; deployment evidence is separate from architecture approval
 
 The [product](product.md) defines promises; the [application contract](application.md)
 defines how people use them. This document explains the implementation and its
@@ -38,6 +38,14 @@ entitlements. Only the Convex Node action calls its fixed deployment URL with a
 server secret. It fixes the model/geometry and adapts optional image bytes to
 Workers AI multipart input. Product authorization, daily budget, reservations,
 durable completion and private output storage remain in TableCards/BFF.
+
+The same architecture uses isolated deployment lanes: development TableCards
+`scrupulous-hawk-991` / BFF `compassionate-buffalo-689`, and production
+TableCards `clean-gerbil-451` / BFF `exuberant-goldfinch-830`. Each lane has its
+own web/gateway/private AI Worker, auth environment, provider secret and database
+admission counter. Shared Cloudflare billing/free credits are not isolated by
+those application counters. Exact URLs and release/recovery commands belong in
+[Operations](operations.md#production-release-and-recovery), not duplicated schemas.
 
 See [shared BFF table explanations](../../../docs/architecture/shared-bff-data-model.md),
 [SDK exports and contracts](../../../platform/bff/libs/sdk/typescript/README.md)
@@ -80,14 +88,14 @@ references relate records inside this TableCards deployment. Indexes support
 lookups; transactional functions enforce invariants rather than relying on SQL
 foreign-key or unique constraints.
 
-| Table             | Purpose and main relationships                                                                                                                 | Why separate                                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `projects`        | Event metadata: public ID, account, creator, title, active/archived state, design reference/style, guest count and revision                    | Project lists need summaries, not every guest row                                                         |
-| `projectContents` | The project's current ordered guest array and revision, linked by `projectId`                                                                  | Keeps private list content separate from lightweight summaries; this is not an immutable revision history |
-| `designAssets`    | Validated uploaded/generated PNG/JPEG metadata and a Convex storage ID; optional `projectId` for event-scoped artwork                          | Stores the file once and distinguishes event-only from reusable artwork                                   |
-| `designPresets`   | Account-owned reusable style pointing to `designAssets`, with name and constrained text styling                                                | A preset is a reusable choice, not the underlying image or a freeform canvas                              |
-| `projectExports`  | Export request/result with requested revision/layout, optional renderer version and atomically captured render snapshot; status, file ID, page count or safe error | Queued work must not silently read a newer editable project; old-format jobs cannot masquerade as current exports |
-| `aiBatches`       | Account/idempotency-keyed operation, prompt, optional reference digest/provider/budget day, reservation, durable generated descriptors, commit confirmation and four asset IDs | Supports safe replay, bounded provider spend and interrupted completion without another unit charge |
+| Table             | Purpose and main relationships                                                                                                                                                 | Why separate                                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `projects`        | Event metadata: public ID, account, creator, title, active/archived state, design reference/style, guest count and revision                                                    | Project lists need summaries, not every guest row                                                                 |
+| `projectContents` | The project's current ordered guest array and revision, linked by `projectId`                                                                                                  | Keeps private list content separate from lightweight summaries; this is not an immutable revision history         |
+| `designAssets`    | Validated uploaded/generated PNG/JPEG metadata and a Convex storage ID; optional `projectId` for event-scoped artwork                                                          | Stores the file once and distinguishes event-only from reusable artwork                                           |
+| `designPresets`   | Account-owned reusable style pointing to `designAssets`, with name and constrained text styling                                                                                | A preset is a reusable choice, not the underlying image or a freeform canvas                                      |
+| `projectExports`  | Export request/result with requested revision/layout, optional renderer version and atomically captured render snapshot; status, file ID, page count or safe error             | Queued work must not silently read a newer editable project; old-format jobs cannot masquerade as current exports |
+| `aiBatches`       | Account/idempotency-keyed operation, prompt, optional reference digest/provider/budget day, reservation, durable generated descriptors, commit confirmation and four asset IDs | Supports safe replay, bounded provider spend and interrupted completion without another unit charge               |
 
 Convex `_storage` holds image/PDF bytes; it is not a custom product table.
 
@@ -154,7 +162,7 @@ the current token for verified server-to-server BFF operations. Internal
 | Upload/artwork library      | `POST /v1/files/artwork?projectId=...`; `assets:list`, `assets:get`, `assets:page`                       | Bounded authenticated PNG/JPEG bytes; server-created storage only, current offer and scope validation. Metadata pages cover growing libraries; exact account-scoped lookup resolves current selections beyond the compatibility list. Legacy upload URL/finalize functions fail closed |
 | Private file delivery       | `GET /v1/files/assets/:publicId`, `GET /v1/files/exports/:publicId`                                      | Authoritative session/membership and scoped row lookup on each request; no token in URL                                                                                                                                                                                                |
 | Reusable presets            | `designPresets:list`, `designPresets:page`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Account-indexed metadata pages; reuse entitlement and account-scoped asset/style validation                                                                                                                                                                                            |
-| Generate backgrounds        | `ai:generate`, `aiState:get`                                                                             | Prompt/key, optional event and validated reference bytes/MIME; dev-only mock flag. Server selects provider and enforces daily cap before reserving one unit; four choices or safe failure |
+| Generate backgrounds        | `ai:generate`, `aiState:get`                                                                             | Prompt/key, optional event and validated reference bytes/MIME; dev-only mock flag. Server selects provider and enforces daily cap before reserving one unit; four choices or safe failure                                                                                              |
 | Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`                                     | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready                                                                                                                                                                                    |
 | Sessions, accounts, teams   | Public BFF browser/React SDK                                                                             | BFF-authorized invitations, roles, removal, Owner-only workspace naming and provider-neutral ownership transfer                                                                                                                                                                        |
 
@@ -234,7 +242,7 @@ conservative `$0.0072` per batch into at most 138 starts across all accounts.
 The estimate lives beside the backend code, not in a browser or mutable JWT;
 the dollar setting is deployment configuration, not shared Business policy.
 Missing, invalid or zero budget disables new real-provider starts, including in
-an unconfigured future production deployment. `by_provider_budget_day` is read and the batch inserted in one
+an unconfigured production deployment. `by_provider_budget_day` is read and the batch inserted in one
 transaction; racing callers cannot overspend the cap. Failed/interrupted starts
 still count, since the provider may have billed them. Four fixed-geometry model
 calls run in two bounded pairs, with timeouts and no automatic provider retries.

@@ -8,7 +8,7 @@ unit balances.
 Required public deployment values mirror the retained Example Business:
 
 - `BFF_CUSTOMER_AUTH_ISSUER`
-- `BFF_CUSTOMER_ENVIRONMENT_KEY` (`tablecards-development` in development)
+- `BFF_CUSTOMER_ENVIRONMENT_KEY` (`tablecards-development` / `tablecards-production`)
 - `BFF_CUSTOMER_JWKS_URL`
 - `BFF_CUSTOMER_API_BASE_URL`
 - `BFF_CUSTOMER_WEB_ORIGINS_JSON`
@@ -17,7 +17,7 @@ Required public deployment values mirror the retained Example Business:
 - `BFF_CHECKOUT_SERVICE_TOKEN` (secret; checkout creation only)
 - `TABLECARDS_BUILD_VERSION`
 - `TABLECARDS_AI_PROVIDER` (`cloudflare` for real artwork; `development` only for fixtures)
-- `TABLECARDS_AI_DAILY_BUDGET_USD` (`1` in development; `0` or unset disables new real AI batches)
+- `TABLECARDS_AI_DAILY_BUDGET_USD` (separate `1` budgets in development and production; `0` or unset disables new real AI batches)
 - `TABLECARDS_CLOUDFLARE_AI_URL` (private adapter's HTTPS `/generate` endpoint)
 - `TABLECARDS_CLOUDFLARE_AI_SECRET` (secret shared with the adapter Worker)
 
@@ -51,3 +51,9 @@ pnpm exec convex dev --once --typecheck enable
 ```
 
 The integration suite is `pnpm exec nx run tablecards-backend:test-integration`.
+
+Production deployment is main CI's guarded `convex deploy`, not `convex dev`.
+The independent production target is `clean-gerbil-451`; never use the shared
+BFF deployment key here. [Operations](../docs/operations.md#production-release-and-recovery)
+documents required credentials, no-charge checkout, release/version checks and
+safe recovery. This backend does not claim verified payment or subscription state.

@@ -17,6 +17,8 @@ import type * as exportState from '../exportState.js';
 import type * as exports from '../exports.js';
 import type * as files from '../files.js';
 import type * as http from '../http.js';
+import type * as lib_aiBudget from '../lib/aiBudget.js';
+import type * as lib_cloudflareAi from '../lib/cloudflareAi.js';
 import type * as lib_fileAddresses from '../lib/fileAddresses.js';
 import type * as lib_productErrors from '../lib/productErrors.js';
 import type * as lib_publicIds from '../lib/publicIds.js';
@@ -40,6 +42,8 @@ declare const fullApi: ApiFromModules<{
   exports: typeof exports;
   files: typeof files;
   http: typeof http;
+  'lib/aiBudget': typeof lib_aiBudget;
+  'lib/cloudflareAi': typeof lib_cloudflareAi;
   'lib/fileAddresses': typeof lib_fileAddresses;
   'lib/productErrors': typeof lib_productErrors;
   'lib/publicIds': typeof lib_publicIds;
