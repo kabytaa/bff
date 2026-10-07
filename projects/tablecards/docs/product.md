@@ -16,7 +16,7 @@ The dated [TableCards market-research report](../../../docs/research/260927-tabl
 
 ## Delivery and evidence boundary
 
-The current development application at `https://tablecards-dev.tofler.app` implements public import/preview, authenticated projects/export, constrained artwork/presets, four-choice capped Cloudflare AI and shared Studio account workflows. The [current delta review](reviews/261007-pdf-session-and-live-ai-fixes.md) records the new candidate and explicit live-provider evidence. The [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md) retains its fresh 27-case desktop Chromium/mobile WebKit run and independent re-review; the [executable story registry](../e2e/src/support/coverage.ts) remains the coverage source. The [original acceptance result](../../../.agent/plans/260928-tablecards-user-story-acceptance.md#execution-result) is historical evidence. These checks establish tested development behavior and bounded sampled AI quality, not real purchases, universal model quality, physical print compatibility or production acceptance.
+The current development application at `https://tablecards-dev.tofler.app` implements public import/preview, authenticated projects/export, constrained artwork/presets, four-choice capped Cloudflare AI and shared Studio account workflows. The [production release review](reviews/261007-build-3-production-release.md) records the latest development verification and bounded production evidence. The [earlier delta review](reviews/261007-pdf-session-and-live-ai-fixes.md) retains provider-specific evidence; the [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md) retains its 27-case desktop Chromium/mobile WebKit run and independent re-review. The [executable story registry](../e2e/src/support/coverage.ts) remains the coverage source. The [original acceptance result](../../../.agent/plans/260928-tablecards-user-story-acceptance.md#execution-result) is historical evidence. Development checks establish tested development behavior and bounded sampled AI quality, not real purchases, universal model quality, physical print compatibility or production acceptance.
 
 The explicitly no-charge Build 3 production preview is published at
 `https://tablecards.tofler.app`, following the accepted
@@ -203,6 +203,17 @@ Support and feedback are launch requirements, not post-launch polish, but they a
 
 Both deployments have linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
 
+On 2026-10-07 Andrew requested that legal-document applicability and user
+agreement be included in the remaining delivery work, not implemented now.
+[Build 4](../../../docs/factory/mvp-delivery-plan.md#build-4--paidteam-flow-and-operations)
+owns real-purchase disclosures and any required checkout agreement;
+[Build 7](../../../docs/factory/mvp-delivery-plan.md#legal-documents-and-agreement-readiness)
+verifies the complete published-document/interaction boundary. Relevant privacy
+notices/consent precede collection or processing. Assess processing contracts,
+negotiated agreements and insurance by applicability, not as six universal
+documents or checkboxes. Final wording and shared version/evidence design are
+unsettled; authentication alone is not agreement to product terms.
+
 Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 
 Future AI support automation may classify or draft responses, but autonomous actions and resolution are not part of this MVP.
@@ -214,6 +225,25 @@ Canonical analytics should answer a bounded launch funnel: where a visitor came 
 Monitoring covers public/product/BFF health, unexpected application errors, PDF-generation failures and failed or delayed payment/support delivery. Events include environment, deployed version and safe correlation evidence; expected authentication denials and rate limits are excluded from error alerts. Sampling, redaction, retention and spend limits are required, and alerts exist only for conditions an operator can act on.
 
 The launch backoffice must be usable, not merely a database viewer. Andrew needs an environment-aware overview; safe global customer/account/project/payment/support search; joined customer/account views for memberships, sessions, subscription/entitlements, projects/exports, support and audit history; queues for unresolved support and failed delivery/webhook/job work; and basic acquisition/conversion trends. It needs clear mobile/desktop navigation, filters, pagination and error/empty/loading states. It is not a general analytics product, configuration editor or unrestricted administrative console; repeatable configuration stays in the validated CLI, and sensitive actions require separately designed authorization, confirmation and audit controls.
+
+Andrew clarified on 2026-10-07 that his phone will initially be his main operator
+tool: essential lookup, triage and support handling must be mobile-first as well
+as usable on desktop. Alerts must actually reach the operator. One Telegram
+destination was initially proposed and Andrew later selected Telegram as the
+first transport; setup, notification contents and an optional daily digest
+remain delivery-time choices. Keep
+customer/guest data out of chat alerts and preserve authorization at every
+protected detail/action. AI support and a limited QA/helper role remain optional
+ideas, not approved access or a replacement for the required support workflow;
+a possible two-day response target is not yet an advertised SLA.
+
+The backoffice must also support investigation before a user complains: link
+automatically detected failures to the known user/account and relevant recent
+operation evidence, with explicit unknowns when identity/outcome is unavailable.
+Andrew must be able to find the customer and understand what happened on his
+phone without depending on an AI assistant. Shared human/agent access boundaries
+are a design direction, not authority for an agent to read all customer data or
+perform sensitive actions.
 
 Operational placement is deliberate: customers create/export cards, select an offer and manage their own permitted Studio membership through product UI; operators apply deployment/auth/catalog configuration and repeatable provisioning/recovery through validated automation; the backoffice shows safe joined state, queues and evidence. Human support handling or a sensitive remediation action belongs in an explicitly secured operator workflow when its delivery stage implements it. Existing backoffice customer/account reads do not establish that TableCards billing, support or launch monitoring already works.
 

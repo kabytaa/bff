@@ -1,7 +1,7 @@
 # Business documentation ownership
 
 Created: 2026-10-06
-Updated: 2026-10-06
+Updated: 2026-10-07
 Accepted direction: [Business lifecycle discussion](../../.agent/brainstorms/261003-business-lifecycle-skills.md)
 
 Keep Business-only canonical explanations beside that Business's code under
@@ -21,6 +21,13 @@ sections; split only when length or ownership makes maintenance clearer. Do not
 precreate empty folders, a PRD per small feature, per-button IDs or a separate
 copy of every token/schema field. Code remains the exact source for validators,
 types and reusable values; docs explain their intent and relationships.
+
+Andrew reaffirmed on 2026-10-07: prefer fewer maintained documents, one home for
+each current fact and links instead of repeated live summaries. Update existing
+sections in the same change as their behavior/decision; create a new document
+only for a genuinely distinct useful purpose. Dated records may preserve prior
+context, but must be clearly historical, not alternative current specifications.
+Routine MVP priority discussion belongs in the [single delivery roadmap](mvp-delivery-plan.md).
 
 The design skills own product/application explanations. Existing planning,
 implementation or explicitly requested documentation work maintains technical

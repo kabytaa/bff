@@ -285,3 +285,17 @@ preview. The personal Google credential/callback, paid billing, legal/customer
 launch and physical-certification limits above remain explicit; no unavailable
 check is counted as passed. Print-fetch correction is verified, not an open
 release defect.
+
+## Follow-up: documentation-only CI policy — 2026-10-07
+
+Policy checkpoint `e5fe629` passed 49 focused release-tool tests, lint/typecheck
+and its one-time [main CI/deployment/smoke](https://github.com/kabytaa/bff/actions/runs/37581542926).
+No application behavior or schema changed. Production metadata identifies that
+published checkpoint; development retains the verified application runtime
+`bc85dc6`. The subsequent STATUS-only push `99995de` created zero CI checks or
+deployment runs, verifying the new Markdown-only filter. These are completed
+release/policy facts, not outstanding deployment work.
+
+The maintained [CI scope](../../../../tools/production-delivery/README.md#ci-scope)
+owns the current rules; newer prose does not require restamping unchanged
+services. This entry preserves evidence removed from the short STATUS handoff.

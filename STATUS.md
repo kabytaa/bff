@@ -4,68 +4,36 @@ Updated: 2026-10-07.
 
 ## Current state
 
-- Builds 1–3 meet their authorized production boundaries. Build 3 is the
-  explicitly **no-charge preview**, not real billing or paying-customer launch.
-  [Production](https://tablecards.tofler.app) and
-  [development](https://tablecards-dev.tofler.app) are published. Andrew
-  authorized production setup, merge, deployment and the final development
-  refresh; [PR #1](https://github.com/kabytaa/bff/pull/1) merged at `660f5cf`.
-- Start with the [production release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md).
-  Latest runtime `bc85dc6` passed full main CI/deployment, local production smoke,
-  27/27 hosted development cases (7.6m), 81 backend tests and 6/6 production public
-  browser cases. Earlier 2/2 manual AI tests remain valid for unchanged AI code.
-  Release checks found and fixed headers/CSP, first-PDF navigation and transient
-  immutable print-asset reads; all affected checks were rerun successfully.
-  Documentation commit `3f41d88` does not require publication: its old-policy CI
-  run was cancelled before deployment at Andrew's request. Both environments
-  already contain the verified runtime. Markdown-only changes now skip CI and
-  deployment; non-Markdown or mixed changes retain the normal gate. Live
-  metadata identifies the last deployed release, not newer prose. See
-  [CI scope](tools/production-delivery/README.md#ci-scope). Local checks are
-  proportional: affected tests for small fixes, full regression at meaningful
-  release boundaries, no browser/AI reruns for documentation. The filter's
-  focused verification passes: 49 release-tool tests, lint and typecheck.
-  Policy commit `e5fe629` passed its one-time
-  [main CI/deployment/smoke](https://github.com/kabytaa/bff/actions/runs/37581542926).
-  Follow-up STATUS-only push `99995de` created zero CI checks or deployment runs.
-  No application/schema changed: production metadata identifies `e5fe629`,
-  while development retains verified runtime `bc85dc6`; no prose-only refresh.
-- Production BFF `exuberant-goldfinch-830` and separate TableCards
-  `clean-gerbil-451` use Google-only identity, no dummy login/AI fixtures,
-  same-site session gateways and shared no-charge checkout. Development remains
-  `compassionate-buffalo-689` / `scrupulous-hawk-991`. Both have independent
-  **$1 estimated gross AI inference/day** guards; Cloudflare credits/invoice are
-  shared. Optional style images and real four-choice generation are implemented.
-- Fresh authenticated **production** callback/export/checkout/team round-trips
-  remain unverified without personal Google credentials. The real credential
-  popup passes; its initialization origin warning is recorded, not concealed.
-  Development full journeys are not misrepresented as production execution.
-  Andrew accepted his earlier print for Build 3; detailed physical measurements
-  remain final MVP pre-launch work. Six-card landscape stays a development trial.
+- Builds 1–3 meet their authorized production boundaries. TableCards is live in
+  [production](https://tablecards.tofler.app) and
+  [development](https://tablecards-dev.tofler.app) as a **no-charge preview**,
+  not real billing or customer launch.
+- Application runtime `bc85dc6` passed CI/deployment, production smoke/public
+  browser checks and full development journeys. Detailed versions, tests and
+  release history are in the [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md).
+- Documentation consolidation/cleanup passed formatting and local link checks;
+  runtime is unchanged.
+  Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
+- Approved reflection update: [brainstorm-ideas](.agents/skills/brainstorm-ideas/SKILL.md)
+  shapes ideas before planning; routine prioritization stays in the roadmap.
 
-## Next work
+## Immediate next work
 
-Build 4: verified payment/subscription lifecycle, provider configuration and
-renewal/restriction/retention tests. Build 5 owns two-way support; Build 6
-analytics/monitoring/usable backoffice; Build 7 commercial/customer-launch
-acceptance. These are not delivered by simulated checkout.
+- Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
+  read-only scope, helper permissions and essential customer/activity views.
+  Give options, trade-offs and a recommendation; no implementation is approved yet.
+- Build 4 hosted payment work awaits Paddle access/confirmed terms. Monitoring
+  remains later MVP work, before launch; no Pro upgrade or alert setup now.
+  Telegram is selected, not configured. Early QA reports come through Andrew.
 
-The [completed core plan](.agent/plans/260927-build-3-tablecards-core.md#2026-10-07-production-execution-result)
-preserves historical scope and the authorized release revision. TableCards
-canonical docs live beside its code: [README/router](projects/tablecards/README.md)
-links Product, Application, Architecture and Operations. Shared BFF explanations
-and root plans/ADRs keep their existing ownership. Business lifecycle skills were
-[forward-tested](docs/factory/reviews/261006-business-lifecycle-skills-forward-tests.md);
-user usability review is optional, not a routine completion blocker.
+## Outstanding evidence
 
-## Guardrails
+- Fresh authenticated production callback/export/checkout/team journeys remain
+  **unverified** without personal Google credentials; the popup passes but an
+  origin warning remains recorded. Development passes do not prove these flows.
+- Andrew accepted his print for Build 3. Detailed physical checks remain for MVP
+  launch; six-card landscape is still a development trial.
 
-- Structural table/schema changes require confirmation by default; authorized
-  unattended development exceptions require documented migration impact and
-  reporting. This release deployed already-agreed compatible schemas, with no
-  new structural change or destructive backfill.
-- “Commit” includes push, not implicit merge/deploy authority. Keep credentials
-  and private customer/browser artifacts out of Git. Current main release
-  publication was explicitly authorized.
-- [Provider cost attribution](docs/architecture/future-ideas.md#per-user-and-per-account-provider-cost-attribution)
-  remains a future idea; estimated AI admission is not a financial cost ledger.
+Product decisions: [TableCards Product](projects/tablecards/docs/product.md).
+Technical/operational docs: [TableCards router](projects/tablecards/README.md).
+Persistent workflow and safety rules: [AGENTS.md](AGENTS.md).

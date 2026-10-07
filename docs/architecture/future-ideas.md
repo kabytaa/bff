@@ -75,6 +75,116 @@ When a real caller or requirement triggers an entry:
 
 **Open when triggered:** Determine available provider evidence and attribution granularity, reuse existing operation/reservation identifiers, define retention/access rules and reconciliation, and assess whether any new table is genuinely needed. Do not build a financial ledger merely to implement a small estimated daily admission cap.
 
+## Shared promotions, personal offers and repeat-purchase campaigns
+
+**Status:** Deferred idea requested by Andrew on 2026-10-07; explicitly not a
+required MVP feature. No promotion engine, campaign delivery or new schema is
+approved by this entry.
+
+**Source:** [Remaining MVP discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#2026-10-07-added-concerns).
+
+**Trigger:** A Business has real billing and a concrete acquisition, conversion
+or repeat-purchase offer that needs shared eligibility/redemption behavior.
+
+**Idea:**
+
+- Support general time-bounded sales, eligible user/account-specific offers
+  (for example, signed in but not subscribed), repeat-purchase/win-back offers
+  and marketing promo codes. A repeat invitation is not permission to charge
+  automatically or change a subscription's renewal price silently.
+- Keep reusable offer definitions, scheduling, eligibility, redemption limits,
+  expiry, stacking policy and audit evidence in BFF rather than reimplementing
+  discount logic in each Business. Each Business chooses its campaigns and
+  controls presentation/branding; this is not a universal marketing UI.
+- Resolve eligibility and price server-side, scoped to Business/environment
+  and the correct buyer/account. Prevent coupon sharing beyond its intended
+  audience, replay and concurrent over-redemption. Browser input or a displayed
+  offer never grants paid access.
+- Match the accepted discount and renewal terms to the provider checkout and
+  verified payment/subscription facts. Re-evaluate then-current provider
+  capabilities, fees and permitted offer mechanics before implementation;
+  no Paddle-specific capability is asserted here.
+- Treat campaign notifications separately from transactional support: define
+  consent, opt-out, frequency, minimal targeting data and retention. Show honest
+  eligibility, expiry and subsequent prices; avoid manufactured urgency.
+- Put repeatable campaign configuration in validated operator automation;
+  expose safe campaign/redemption/conversion evidence in the read-oriented
+  backoffice. Product UI may show an eligible offer or accept a promo code;
+  exceptional operator actions require an explicitly secured workflow.
+
+**Open when triggered:** Choose the first real offer, target user versus payer
+account, determine expiration/redemption/stacking and renewal rules, establish
+privacy/marketing boundaries, verify provider integration, define necessary
+evidence and decide whether existing billing records can avoid additional
+tables. Do not turn this deferred entry into MVP billing scope.
+
+## Permission-bounded AI operations and helper assistance
+
+**Status:** Optional idea raised by Andrew on 2026-10-07; MVP inclusion is
+undecided and no bot, schedule, account access or automation is authorized.
+Autonomous customer support remains outside the currently accepted TableCards
+MVP. Alerts and working human support are required separately in Builds 5–6.
+
+**Source:** [Remaining MVP operating discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#2026-10-07-maintainability-and-operating-model).
+
+**Trigger:** Real support/operating load warrants assistance while Andrew is
+unavailable, or a trusted nontechnical QA/helper needs bounded guidance.
+
+**Idea:**
+
+- Evaluate Andrew's existing ChatGPT Pro agent/bot capabilities for scoped
+  maintenance checks, reviews, summaries, monetization suggestions and support
+  triage/drafts. A customer-facing autonomous responder is a separate decision,
+  not an automatic consequence of installing an internal assistant.
+- Later clarification: Andrew wants AI to do initial monitoring investigation,
+  not leave routine log searching to him. The [recorded trigger/evidence research](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#later-monitoring-ai-first-investigation-with-bounded-evidence)
+  compares incidents, periodic sweeps and a recommended read-only hybrid. Small
+  scoped evidence packets and bounded follow-up queries are preferred over raw
+  log/database dumps. Monitoring remains later MVP work; exact bot/runtime,
+  cadence and implementation scope are undecided. This does not promote
+  autonomous support or repair powers into accepted launch scope.
+- A candidate Telegram integration can receive redacted operator alerts, return
+  safe summaries and explain approved QA tasks in Russian. Chat membership,
+  another person's request or model-generated text never grants production
+  permissions. No existing Telegram bridge is claimed.
+- A trusted helper may observe, follow checklists and report issues without
+  Codex, code edits or deployment access. Use a separate identity, narrowly
+  scoped views/data and enforced permissions; do not share Andrew's credentials
+  or broad operator access. Russian guidance is an accessibility/language
+  preference, not a reason to expose full customer conversations.
+- Prefer read-only/draft-only first. Enforce tool/API permissions, identity,
+  scope, audit and revocation independently of prompts. No refund, billing or
+  entitlement change, user/role deletion, ownership transfer, credential access
+  or deployment by the helper or bot without a separately approved secured flow.
+- Treat feedback, email, chat and product content as untrusted inputs. Bound
+  context, retention, execution frequency and costs; preserve clear human
+  escalation, failure visibility and an emergency stop.
+- Compare the assistant with ordinary human coverage. A possible response
+  expectation of two days needs clarification (calendar/business days,
+  acknowledgment/resolution, urgent escalation) before any SLA is published.
+
+**Open when triggered:** Clarify which OpenAI product Andrew means, verify actual
+account availability and supported connections/triggering, decide the first
+allowed tasks, define helper permissions and language/data scope, test failure
+and abuse cases, and prove cost and safe stop/recovery before enabling anything.
+Do not assume subscription access is an unlimited API or a continuously
+available external customer-service integration.
+
+**Initial official-source check, 2026-10-07:**
+
+- [Meet dots](https://learn.chatgpt.com/docs/dots) describes an ongoing assistant
+  on eligible Pro tiers/regions with rollout conditions; work it initiates still
+  uses Work/Codex allowances. This does not establish Andrew's enabled features.
+- [Tasks and memory](https://learn.chatgpt.com/docs/dots/tasks-and-memory)
+  describes assigned/recurring work; local tasks need a connected computer and
+  app, while configured cloud tasks have a different execution boundary.
+- [Controls](https://learn.chatgpt.com/docs/dots/controls) separates drafting from
+  sending and states that custom instructions can make mistakes and do not
+  grant app access. They are not a replacement for restricted tools.
+- [Pricing](https://learn.chatgpt.com/docs/pricing) distinguishes subscription
+  usage from API token prices. Telegram integration, customer-service suitability,
+  24/7 availability and permission-bounded operation remain unverified.
+
 ## Custom-domain edge protection and security monitoring
 
 **Status:** Deferred operational-hardening idea beyond the accepted basic MVP analytics/monitoring slice. The current MVP uses a narrow Cloudflare gateway only for same-site customer-session routes, keeps product/native Convex traffic direct to the generated origin and uses bounded application-level rate limiting. Build 6 now owns privacy-bounded product/business analytics, ordinary health/error monitoring and actionable delivery/webhook alerts; this entry retains only the stronger custom-domain, WAF, DDoS and origin-bypass questions. The gateway is not currently a WAF or origin-authentication boundary.

@@ -2,7 +2,35 @@
 
 Updated: 2026-10-07.
 
-This is the current delivery view for the first Business Factory product. The [TableCards MVP product specification](../products/tablecards-mvp.md) is the canonical product scope. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack.
+This is the single authoritative MVP delivery roadmap for the first Business
+Factory product: accepted build scope, dependencies and launch acceptance live
+here. The [TableCards product specification](../../projects/tablecards/docs/product.md)
+owns product promises and limits. The broader platform intent remains in
+[Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md);
+[ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the stack.
+
+## One roadmap, supporting records
+
+Clarified at Andrew's request on 2026-10-07:
+
+- This document is the only overall MVP delivery plan. Splitting a build updates
+  this roadmap; it does not create a second roadmap elsewhere.
+- `.agent/brainstorms/` records questions, alternatives, research and discussion
+  history. In particular, [remaining MVP priorities](../../.agent/brainstorms/261007-remaining-mvp-priorities.md)
+  is now inactive history, not another plan or a backlog of approved work.
+  Keep ordinary priority questions in this roadmap; a separate brainstorm is
+  useful only for a distinct design decision needing substantial alternatives
+  or research, not automatically for each build or small change.
+- Accepted delivery changes are reconciled here, and product-promise changes in
+  the product specification. A recommendation in a brainstorm alone does not
+  override either canonical source or authorize implementation.
+- A scoped `.agent/plans/` execution plan details only an accepted build/feature:
+  code, dependencies, tests and rollout. It must link to this roadmap and the
+  relevant product/technical contracts, not independently redefine the MVP's
+  scope or order. Historical completed plans retain their dated evidence.
+- `STATUS.md` is the short current handoff, not a second roadmap. If it or an
+  execution plan disagrees with accepted canonical scope, reconcile the record
+  before proceeding rather than choosing whichever file was read last.
 
 ## Task-system boundary
 
@@ -30,6 +58,13 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 
 - Add data models and API surface only when the active implementation slice uses them.
 - Break down a grouped action only when work begins; do not turn the project into a speculative backlog.
+- Build numbers are delivery groupings, not fixed batch sizes. A group with
+  independent outcomes may be split into smaller named builds/sub-builds, each
+  with a clear acceptance boundary. Use focused design discussion when needed,
+  not a mandatory new document. Preserve completed-build
+  identifiers, required launch outcomes and real dependencies; splitting does
+  not add scope or authorize implementation. Do not create empty brainstorms or
+  plans for every possible split in advance.
 - Hosted provider setup must not block local work that can be implemented and tested without credentials.
 - Every feature slice must be self-verifiable with real validation commands.
 - Keep browser regression small and valuable: automate the important happy flows and expensive regressions. Put edge cases, authorization denials and webhook replay cases in faster unit or integration tests.
@@ -44,6 +79,11 @@ Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts,
 4. Codex adds the separate customer-support conversation slice with outbound and inbound email replies.
 5. Codex adds focused product/business analytics, actionable monitoring and the usable operator backoffice needed to run the MVP.
 6. Codex performs the authorized deployment, automated journeys and independent readiness review. Andrew's usability review is optional; physical print acceptance and personal provider verification remain separate requirements when applicable. Outreach follows the accepted acquisition experiment rather than an agent review claiming market validation.
+
+Before declaring the MVP finished, Build 7 also includes the final
+maintainability, shared-boundary and operations review requested on 2026-10-07.
+It evaluates the completed code and plausible other-product scenarios; it does
+not pre-authorize a large refactor or require implementing a second Business.
 
 ## Grouped launch tasks
 
@@ -84,7 +124,7 @@ paid billing or final customer-launch acceptance.
 
 Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks; keep calibration in the separate print-test PDF, not an extra customer-export page (accepted correction 2026-10-07). Require authentication for save/export/AI/payment, not for import and preview.
 
-Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the future Build 3 production demo may use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
+Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the published Build 3 production preview use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
 
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
 
@@ -102,6 +142,15 @@ The core regression fixture includes duplicate names, accents and long names. Au
 
 After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, route the shared checkout interface directly to Paddle in production; development may choose Paddle or the mock. Implement verified Event Pass and subscription state, idempotent webhooks and minimal purchase/acquisition events while preserving the Business-facing contract. Build on the Studio invitations, five-seat policy and shared design workflows demonstrated in Build 3, and add only the operator views needed for purchases, subscriptions and billing remediation. Do not add annual billing. Monthly mock allocation demonstrates a successful-renewal simulation, not payment truth; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
 
+Before enabling real payment, establish the applicable product/provider terms,
+seller identity, cancellation/refund arrangements and recurring-price/renewal
+disclosures. Present these before purchase and implement any required purchase
+agreement/evidence in the shared/provider checkout, not a TableCards-only dummy
+screen. Ask the focused business/legal questions during this work, not now;
+document versions, acceptance scope and storage design remain to be settled.
+Do not defer checkout requirements until Build 7 or confuse Google sign-in with
+acceptance of product terms.
+
 Signed payment fixtures must let the full happy path run without a live charge and must prove that a missing, failed or expired renewal does not create the next allowance. A requested downgrade is rejected until the account satisfies the target plan's limits. An unavoidable expiration or payment failure preserves users, memberships and data, restricts ordinary product access and keeps Owner/Admin remediation access so they can restore payment or reduce usage; it never removes members automatically. Done means Free cannot export over 25 cards or use paid design capabilities, Event Pass grants exactly one 90-day event, verified subscriptions produce the correct project/AI/team entitlements, cancellation/status changes and the accepted 30-day access plus 60-day deletion-warning lifecycle are handled, seat and role rules are enforced and webhook replays are harmless.
 
 ### Build 5 — Customer support conversation
@@ -112,6 +161,41 @@ Select the concrete BFF-owned email bridge or helpdesk integration only after it
 
 ### Build 6 — Analytics, monitoring and usable backoffice
 
+**2026-10-07 sequencing revision:** Andrew defers new monitoring/alert setup to
+later in the MVP, not just the Convex Pro-dependent integration. It remains
+required before customer launch; neither an immediate subscription upgrade nor
+an early lightweight monitoring build is requested. For the current preview
+and informal family QA, reports through Andrew followed by on-demand inspection
+of available evidence and reproduction/simulation are an acceptable interim
+approach. They are not continuous monitoring or proof of every incident.
+Phone-friendly backoffice use is the more relevant next discussion; exact scope,
+helper permissions and implementation order still need their own decisions.
+No provider setup or helper access grant is authorized here.
+
+This group may be split into focused backoffice, product-analytics and technical-
+monitoring deliveries. Start ordinary scope discussion in this section; create
+a separate brainstorm only when a substantial independent design choice needs
+its own reasoning. Stable sub-build labels may keep existing Build 6 references useful;
+the exact labels are not a product constraint. Evaluate and verify each outcome
+separately rather than forcing all three into one implementation/release. The
+combined launch acceptance below still applies after all required slices land.
+
+**Current backoffice choices — not implementation approval:**
+
+- First scope: read-only customer/account investigation and existing activity,
+  or operator mutations too. Recommend read-oriented investigation first, with
+  fixes in validated Codex/operator workflows; support/remediation actions join
+  only when their actual secured workflows are accepted and implemented.
+- Access: Andrew only initially, or a separately identified restricted helper;
+  decide the helper's necessary data and permissions before granting access.
+- Evidence and presentation: choose the essential overview/search/detail and
+  activity facts, product-owned versus BFF-owned reads, and phone/desktop flow.
+  Do not require automatic incidents or Telegram for the first backoffice slice.
+
+These questions now live here rather than in an active parallel priority
+brainstorm. Later analytics/monitoring decisions remain in their owning scope
+below; no vendor, AI schedule or redesigned UI is accepted by this move.
+
 Add the minimum operational visibility required to understand and run TableCards. Define a small, versioned set of canonical business events covering acquisition, signup, activation, PDF export, checkout, subscription state and support outcomes. Preserve UTM/referrer attribution from anonymous visit through user/account/payment where available. Add only product events that answer an explicit launch question; do not build generic clickstream collection or a replacement for a dedicated analytics provider. Never send guest-list/card contents, credentials, payment details or other unnecessary personal data in analytics payloads.
 
 Add privacy-bounded health and error monitoring for the public product, BFF, PDF generation, Paddle webhooks and support-email delivery. Monitoring must include deployed version/environment context, correlation IDs, credential/PII redaction, sampling, retention and spend limits. Expected authentication denials and rate limits are not errors. Alerts must be actionable and intentionally few: production or health-check failure, sustained unexpected error rate, and failed/stalled payment or support delivery that requires operator attention. Choose the smallest suitable provider arrangement during this build; PostHog, Sentry or alternatives are options, not preselected requirements.
@@ -121,9 +205,42 @@ Turn the existing read-oriented backoffice into a usable daily operator surface.
 - an environment-aware overview of deployed version/health, unresolved failures, open support cases, recent signups, activations, paid accounts and successful exports;
 - global search by safe customer email, public user/account/project ID, payment reference or support case, with direct links to a joined customer/account view;
 - customer and account detail showing membership/role, session state, plan/subscription/entitlements, recent projects/exports, support history and a chronological audit/activity timeline;
+- an investigation path from automatically detected problems to known affected users/accounts and bounded operation/activity evidence, even before a customer reports the issue; unknown identity or outcome remains explicit rather than guessed;
 - focused queues for support, failed or delayed webhooks/email/jobs and accounts needing billing remediation, with status, age, owner and correlation evidence;
 - basic acquisition and conversion views for visit → signup → activation → checkout → paid account, plus export and support-volume trends;
 - mobile/desktop navigation, filters, pagination, empty/loading/error states and safe copyable identifiers so Andrew can actually diagnose a report from a phone or desktop.
+
+**2026-10-07 operating requirement:** Andrew expects his phone to be the primary
+operator tool initially. Design the main customer lookup, issue triage and
+support-handling journeys mobile-first, while preserving a usable desktop
+experience. Do not treat mobile as a compressed desktop table or hide essential
+operator work behind desktop-only controls.
+
+Alert delivery must reach the operator, not just appear in stored logs. Andrew
+selected Telegram as the first transport on 2026-10-07; no bot/destination is
+provisioned and no credentials are installed yet. Explore actionable unexpected failures and new actionable
+support cases; an optional daily summary can report activity without one alert
+per ordinary signup/export. Define severity, deduplication, escalation,
+redaction, delivery-failure visibility and volume limits. Telegram messages
+should carry minimal safe context and protected backoffice links, not guest
+lists, credentials or full customer conversations. Adding a channel must not
+grant account/operational authority.
+
+Preserve human investigation and permitted handling even if an AI assistant is
+later introduced. Prefer reusable, scoped read/operation boundaries for the
+dashboard and authorized automation, with actor-specific permissions and audit;
+this is not approval to install an agent or grant it the operator's full powers.
+Exact endpoints, persistence and agent tooling remain implementation-design
+questions, not new schemas or an MCP-server requirement.
+
+**2026-10-07 AI operating direction:** Andrew wants later monitoring to support
+AI-led initial investigation with small, scoped evidence rather than requiring
+him to search raw logs. The [trigger/evidence discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#later-monitoring-ai-first-investigation-with-bounded-evidence)
+recommends read-only incident triage plus a bounded periodic sweep. Exact MVP
+automation scope, cadence, provider/runtime and cost limits remain open; no bot
+or schedule is authorized now. Preserve critical alert delivery if AI fails and
+independent human use; this does not grant autonomous customer replies, financial
+changes, deployment or repair authority.
 
 Keep repeatable configuration, provisioning and bulk lifecycle work in the validated operator CLI. The backoffice may perform only actions that need direct human judgment and are implemented with authorization, confirmation, idempotency and audit evidence—for this MVP, primarily support handling and explicitly designed remediation/retry actions. It must not expose raw tokens, identity-provider subjects, payment credentials or ad-hoc database editing, and it must not add refund, entitlement override or ownership controls without their own secured workflow.
 
@@ -146,6 +263,71 @@ Configure environments, secrets, Cloudflare deployment, domains and CI; connect 
 11. Confirm production health/version, operational queues and alert delivery are healthy, with no unresolved synthetic or real failure hidden from the backoffice.
 
 Run provider-specific sandbox/live smoke checks separately. Done when the authorized production flow works, production smoke and the applicable self-review gates pass, and the release report explains changes, verification and residual risk. Andrew's usability review is optional; it does not replace Codex's checks or waive explicitly required physical/provider acceptance.
+
+#### Legal documents and agreement readiness
+
+Added to the delivery scope at Andrew's request on 2026-10-07; no implementation
+or legal onboarding questions now. Use the [recorded applicability discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#2026-10-07-legal-documents-and-user-agreement)
+to assess each Business's public terms, privacy and cancellation/refund policies,
+any required data-processing contract, and conditional negotiated contracts or
+insurance. Do not require the screenshot's six items for every product or turn
+all of them into customer checkboxes.
+
+Gather the relevant operator identity, target markets, data/retention practices
+and support/commercial choices, then reconcile approved wording with actual
+behavior and the payment provider. Obtain jurisdiction-appropriate legal review
+and owner decisions where needed; agent-drafted text is not legal clearance.
+Keep Business-specific source/explanations beside the product and link shared
+service disclosures. Prefer minimal reusable version/evidence mechanisms over
+copied workflow logic, while leaving their API/schema design open for planning.
+
+Document where users receive notices and where explicit agreement is needed,
+including onboarding/invitations, uploads and checkout. Privacy notices and
+applicable consent must exist before the relevant collection/processing, not
+wait for the final review. Keep optional marketing/tracking consent separate.
+Verify public access, mobile/desktop readability, relevant first/returning-user
+and refusal/update behavior, and correctly scoped agreement evidence. Any
+structural schema change still requires confirmation. Build 7 verifies the
+complete legal-document/interaction boundary; Build 4 owns real-purchase
+disclosures and agreement before enabling payment.
+
+#### Final maintainability and operating review
+
+Review the finished implementation before MVP completion for duplicated shared
+logic, ownership boundaries, configuration differences, dependency upkeep,
+test/documentation coverage and safe day-to-day operation/recovery. Include
+repeated pricing/offer presentation, account membership and support workflows,
+without assuming all products use the same layout or domain semantics.
+
+Compare the actual code against a few documented other-product scenarios:
+one payer workspace with staff, a product-owned sports/social team independent
+of billing membership, and a product with different pricing/presentation or
+technology. A scenario review is not a second-product implementation mandate.
+In the current BFF, an account is an access/workspace and commercial container,
+including Free accounts; it is not automatically every product's domain group.
+Keep product-specific groups, roles and permissions distinct unless a concrete
+accepted requirement supports mapping them to BFF membership.
+
+Record which patterns should remain local, become shared SDK/workflow logic,
+be optional styled views or be deferred. Recommend only bounded refactors
+supported by actual duplication or maintenance risk, with affected behavior and
+regression evidence preserved. If findings justify a large redesign, explain
+its value, alternatives, scope and schema/migration impact and obtain a separate
+decision; this review is not blanket refactor authorization. The release report
+must identify remaining risks rather than label every reusable abstraction a
+launch blocker.
+
+Marketing preparation is part of Build 7, not forgotten after coding. Reconcile
+positioning, honest pricing/output copy, an initial acquisition/pilot approach
+and attribution with the [product's existing learning gates](../../projects/tablecards/docs/product.md#assumptions-and-learning-gates).
+Andrew wants the detailed marketing discussion later; no outreach, paid ads or
+new campaign automation is authorized by recording this requirement.
+
+Support coverage and any additional QA/operator helper must have an explicit
+scope, response expectation and escalation path. A two-day response target is a
+candidate to discuss, not a published SLA. A read-only, nontechnical helper and
+permission-bounded AI assistance are [optional ideas](../architecture/future-ideas.md#permission-bounded-ai-operations-and-helper-assistance),
+not prerequisites or substitutes for the required working support/alert paths.
 
 ## Human blocker groups
 
@@ -172,12 +354,16 @@ The launch gate is satisfied when:
 - TableCards is deployed with the fixed, honestly described output contract.
 - Google login and project/account isolation work in production.
 - Event Pass/subscription webhooks and server-side entitlements protect paid sizes, designs, AI allowances and collaboration.
+- Applicable product/privacy/commercial documents are published, truthful and accessible; required notices and agreement points work with appropriate version/scope evidence, without treating authentication as legal acceptance.
 - The deterministic PDF checks and focused happy-path regression pass.
 - A user can begin a support conversation, receive Andrew's reply by email and reply into the same case.
 - A monitored public support contact works for users who cannot sign in, without treating email possession as authority for sensitive account or payment actions.
 - Focused acquisition/activation/payment events produce a trustworthy basic funnel without collecting guest-list contents or credentials.
 - Production health, unexpected errors and failed payment/support delivery are observable through bounded, actionable monitoring.
 - The backoffice lets Andrew find a customer or account, understand access/payment/support state, trace a reported problem and see whether an operational queue needs attention.
+- The primary operator journeys work on Andrew's phone and on desktop, and actionable alerts reach the operator through the selected transport.
+- The final maintainability/reuse/operations review is recorded with justified bounded corrections and explicit residual risk, without forcing domain teams into billing-account membership or requiring a speculative platform rewrite.
+- The initial marketing/pilot approach is documented and reconciled with the accepted product learning gates; campaign automation and broad paid acquisition are not implicit launch requirements.
 - Andrew verifies physical print scale, completes the live flow and deliberately sends real prospects to it.
 
 Post-launch validation review, advanced integrations, platform hardening, a reusable factory skill and a technically different second-project proof are intentionally parked. They are not blockers for shipping the first product.

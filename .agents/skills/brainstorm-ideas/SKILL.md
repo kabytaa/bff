@@ -1,11 +1,11 @@
 ---
 name: brainstorm-ideas
-description: Explore feature or product directions through a repository-grounded conversation, recording options and decisions in a living brainstorm before implementation planning. Use for early exploration, option comparison, or direction refinement; do not use when the user has explicitly accepted the direction and asks for a plan or code.
+description: Shape a feature or product idea through repository-grounded exploration of behavior, options and trade-offs before implementation planning. Use for early idea exploration or direction refinement, not routine roadmap prioritization or an accepted request for a plan or code.
 ---
 
 # Brainstorm Ideas
 
-Explore the topic from the user's request without turning the exploration into an implementation plan.
+Explore how a feature or product idea should work without turning the exploration into an implementation plan. Choosing what to work on next from an existing roadmap is routine prioritization, not a reason to start a separate brainstorm. Keep those questions in the designated roadmap; see [Business documentation ownership](../../../docs/factory/business-documentation.md). New product ideas and substantive design alternatives remain valid brainstorming topics.
 
 ## Ground the discussion
 
@@ -24,6 +24,7 @@ Present two to four meaningfully different approaches. For each option include:
 
 ```markdown
 ### Option A: Name
+
 **Approach**: What it is and how it would work conceptually
 **Leverages**: Existing code, decisions, or patterns it builds on
 **Constraints**: What limits or shapes it
@@ -45,7 +46,7 @@ Treat the brainstorm document as durable memory for the discussion, not as a sub
 
 ## Maintain the living document
 
-Create or update:
+For substantive feature or product exploration, create or continue the relevant dated record:
 
 ```text
 .agent/brainstorms/{YYMMDD}-{kebab-case-topic}.md
@@ -66,27 +67,33 @@ Use this structure:
 > **Repository baseline**: `<commit>`
 
 ## Context Snapshot
+
 - Repository and implementation state when exploration began
 - Active handoff and canonical documents consulted
 - Important known constraints or unresolved decisions at that time
 
 ## The Idea
+
 What we are exploring and why it matters.
 
 ## Codebase Context
 
 ### What We Have
+
 - Existing relevant code, features, or decisions
 
 ### Constraints
+
 - Technical limitations and architectural boundaries
 
 ### Opportunities
+
 - Reusable code and patterns that fit
 
 ## Options
 
 ### Option A: Name
+
 **Approach**: ...
 **Leverages**: ...
 **Constraints**: ...
@@ -94,20 +101,25 @@ What we are exploring and why it matters.
 **Risk**: ...
 
 ### Option B: Name
+
 ...
 
 ## Open Questions
+
 - Questions to resolve
 
 ## Current Direction
+
 The option currently favored and why, or `Undecided` when the evidence does not support a preference.
 
 ## Decision Log
-| Date | Decision | Context |
-| --- | --- | --- |
+
+| Date       | Decision                             | Context                                 |
+| ---------- | ------------------------------------ | --------------------------------------- |
 | YYYY-MM-DD | Accepted choice or changed direction | Why it was chosen given the known state |
 
 ## Notes
+
 - Decisions and insights captured as the discussion evolves
 ```
 
