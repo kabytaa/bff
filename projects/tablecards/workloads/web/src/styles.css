@@ -1920,7 +1920,7 @@ footer p {
   text-transform: capitalize;
 }
 
-.mobile-sign-out {
+.application-topbar .mobile-sign-out {
   display: none;
 }
 .workspace-selector {
@@ -2050,7 +2050,7 @@ summary {
 }
 
 @media (max-width: 760px) {
-  .mobile-sign-out {
+  .application-topbar .mobile-sign-out {
     display: inline-flex;
     flex-shrink: 0;
   }
@@ -2086,29 +2086,15 @@ summary {
   .site-header .brand {
     flex-shrink: 0;
   }
-  .creator-section {
-    padding-bottom: 11rem !important;
-  }
   .creator-section .creator-preview {
     display: none;
   }
-  .creator-section .mobile-step-next,
-  .creator-section[data-active-step='3'] .action-card > .inline-actions {
-    position: fixed;
-    z-index: 40;
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: calc(0.75rem + env(safe-area-inset-bottom));
-    width: auto;
-    margin: 0;
-    box-shadow: 0 -0.5rem 1.5rem rgb(44 36 31 / 12%);
-  }
-  body:has(.mobile-navigation) .creator-section .mobile-step-next,
-  body:has(.mobile-navigation)
-    .creator-section[data-active-step='3']
-    .action-card
-    > .inline-actions {
-    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  .creator-section .button:disabled,
+  .creator-section .secondary-button:disabled {
+    opacity: 1;
+    color: var(--ink-soft);
+    background: var(--line);
+    box-shadow: none;
   }
   .creator-section[data-active-step='3'] .action-card > .inline-actions {
     display: grid;
@@ -2146,7 +2132,7 @@ summary {
 @media (max-width: 760px) {
   .application-shell {
     display: block;
-    padding-bottom: 4.6rem;
+    padding-bottom: calc(4.6rem + env(safe-area-inset-bottom));
   }
 
   .application-sidebar {
@@ -2242,6 +2228,7 @@ summary {
 
   .mobile-step-next {
     display: inline-flex;
+    width: 100%;
     margin-top: 1rem;
   }
 

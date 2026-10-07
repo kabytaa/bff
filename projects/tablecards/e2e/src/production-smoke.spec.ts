@@ -97,6 +97,18 @@ test('public pricing, creator, long names and cards-only preview work without de
     page.getByRole('group', { name: 'Print layout to test' }),
   ).toHaveCount(0);
   await expectContained(page);
+  if (info.project.use.isMobile) {
+    const next = page.getByRole('button', { name: 'Review and export' });
+    await next.scrollIntoViewIfNeeded();
+    await expect(next).toHaveCSS('position', 'static');
+    const button = await next.boundingBox();
+    const card = await page.locator('[data-creator-step="2"]').boundingBox();
+    expect(button).not.toBeNull();
+    expect(card).not.toBeNull();
+    expect(button!.y + button!.height).toBeLessThanOrEqual(
+      card!.y + card!.height,
+    );
+  }
   await page.screenshot({
     path: info.outputPath('production-design.png'),
     fullPage: true,

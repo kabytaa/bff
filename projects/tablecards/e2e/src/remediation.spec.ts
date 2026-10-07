@@ -1,4 +1,10 @@
-import { expect, test, type Page, type Request } from '@playwright/test';
+import {
+  expect,
+  test,
+  type Locator,
+  type Page,
+  type Request,
+} from '@playwright/test';
 
 import {
   logInFromLanding,
@@ -21,6 +27,117 @@ async function importNames(page: Page, text: string) {
   else await page.getByRole('button', { name: 'Preview names' }).click();
 }
 
+async function expectInlineAction(page: Page, action: Locator, card: Locator) {
+  // Scroll as a user would: Playwright's "if needed" considers the full
+  // viewport, including the area covered by the fixed application navigation.
+  await action.evaluate((element) =>
+    element.scrollIntoView({ block: 'center', behavior: 'instant' }),
+  );
+  await expect(action).toBeVisible();
+  await expect(action).toHaveCSS('position', 'static');
+  const button = await action.boundingBox();
+  const panel = await card.boundingBox();
+  expect(button).not.toBeNull();
+  expect(panel).not.toBeNull();
+  expect(button!.x).toBeGreaterThanOrEqual(panel!.x);
+  expect(button!.x + button!.width).toBeLessThanOrEqual(
+    panel!.x + panel!.width,
+  );
+  expect(button!.y).toBeGreaterThanOrEqual(panel!.y);
+  expect(button!.y + button!.height).toBeLessThanOrEqual(
+    panel!.y + panel!.height,
+  );
+  const navigation = await page.locator('.mobile-navigation').boundingBox();
+  expect(navigation).not.toBeNull();
+  expect(button!.y + button!.height).toBeLessThanOrEqual(navigation!.y);
+}
+
+test('review regression: creator actions stay in their cards and Sign out appears once', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('inline-creator-actions', info.project.name),
+  );
+  const signOut = page.getByRole('button', { name: 'Sign out', exact: true });
+  await expect(signOut).toHaveCount(1);
+  await page.goto('/create');
+  await expect(signOut).toHaveCount(1);
+  if (info.project.use.isMobile) {
+    const next = page.getByRole('button', { name: 'Continue to design' });
+    for (const viewport of [
+      { width: 320, height: 568 },
+      { width: 390, height: 480 },
+      { width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await expectInlineAction(
+        page,
+        next,
+        page.locator('[data-creator-step="1"]'),
+      );
+      await expect(next).toBeDisabled();
+      await expect(next).toHaveCSS('opacity', '1');
+      await expectNoHorizontalPageOverflow(page);
+    }
+    await page.screenshot({
+      path: info.outputPath('inline-empty-guests.png'),
+      fullPage: true,
+    });
+  }
+  await importNames(page, 'Ada Lovelace\nAlexandra Catherine Montgomery');
+  await page.getByLabel('Event name').fill('Inline action review');
+  if (info.project.use.isMobile) {
+    const review = page.getByRole('button', { name: 'Review and export' });
+    await expectInlineAction(
+      page,
+      review,
+      page.locator('[data-creator-step="2"]'),
+    );
+    await review.click();
+    await expectInlineAction(
+      page,
+      page.locator('.action-card > .inline-actions'),
+      page.locator('.action-card'),
+    );
+    await page.screenshot({
+      path: info.outputPath('inline-review-actions.png'),
+      fullPage: true,
+    });
+  }
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(/\/projects\/project_/u);
+  await expect(signOut).toHaveCount(1);
+  const download = page.getByRole('link', { name: 'Download PDF' });
+  await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
+  await expect(download).toBeVisible({ timeout: 90_000 });
+  if (info.project.use.isMobile) {
+    await expectInlineAction(
+      page,
+      page.locator('.action-card > .inline-actions'),
+      page.locator('.action-card'),
+    );
+    await expect(page.locator('.mobile-navigation')).toHaveCSS(
+      'position',
+      'fixed',
+    );
+  }
+  await expectNoHorizontalPageOverflow(page);
+  const pdf = await readPdfText(
+    await readBrowserDownload(page, (await download.getAttribute('href'))!),
+  );
+  expect(pdf.pageCount).toBe(1);
+  const downloaded = page.waitForEvent('download');
+  await download.click();
+  // Mobile WebKit reports an empty suggested filename for Blob downloads;
+  // validate the real PDF, while still exercising the link's click.
+  await downloaded;
+  page.once('dialog', (dialog) => void dialog.accept());
+  await signOut.click();
+  await expect(page.getByRole('link', { name: 'Log in' }).last()).toBeVisible();
+  await expect(signOut).toHaveCount(0);
+});
+
 test('review regression: Create shares application navigation, preserves drafts and stays contained', async ({
   page,
 }, info) => {
@@ -29,6 +146,9 @@ test('review regression: Create shares application navigation, preserves drafts 
     uniquePersona('creator-navigation', info.project.name),
   );
   await page.goto('/projects');
+  await expect(
+    page.getByRole('button', { name: 'Sign out', exact: true }),
+  ).toHaveCount(1);
   const projectHeading = page.getByRole('heading', {
     name: 'Projects',
     exact: true,
@@ -99,6 +219,13 @@ test('review regression: Create shares application navigation, preserves drafts 
   await expect(page.getByLabel('Event name')).toHaveValue('Navigation review');
   await step(page, 'Review');
   if (info.project.use.isMobile) {
+    await page
+      .locator('.action-card > .inline-actions')
+      .scrollIntoViewIfNeeded();
+    await expect(page.locator('.action-card > .inline-actions')).toHaveCSS(
+      'position',
+      'static',
+    );
     const actions = await page
       .locator('.action-card > .inline-actions')
       .boundingBox();

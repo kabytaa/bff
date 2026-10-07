@@ -132,19 +132,19 @@ incomplete workflow; a scope change requires product direction.
 
 ### Routes
 
-| Route                            | Entry condition and purpose                                                                                | Current delivery                    |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| `/`                              | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                         |
+| Route                            | Entry condition and purpose                                                                                | Current delivery                         |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `/`                              | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                              |
 | `/create`                        | Public import/design/preview; save, export and AI require a selected account                               | Public guest header; signed-in app shell |
-| `/projects`                      | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                         |
-| `/projects/:projectId`           | Selected active membership; load one scoped project into the creator                                       | Development                         |
-| `/designs`                       | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                         |
-| `/settings`                      | Selected active membership; account, role, offer, usage and checkout return                                | Development                         |
-| `/settings/team`                 | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                         |
-| `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell           |
-| `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell    |
-| `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered     |
-| `/support`                       | Public/signed-in support entry and authenticated conversation                                              | Planned Build 5; not registered     |
+| `/projects`                      | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                              |
+| `/projects/:projectId`           | Selected active membership; load one scoped project into the creator                                       | Development                              |
+| `/designs`                       | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                              |
+| `/settings`                      | Selected active membership; account, role, offer, usage and checkout return                                | Development                              |
+| `/settings/team`                 | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                              |
+| `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell                |
+| `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell         |
+| `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered          |
+| `/support`                       | Public/signed-in support entry and authenticated conversation                                              | Planned Build 5; not registered          |
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
@@ -173,7 +173,8 @@ uses a desktop sidebar with Projects, Create, Designs and Account. Account is
 a route, not a menu. The sidebar also shows account name, role and Sign out;
 the sticky top bar shows account name, page title and a selector when multiple
 memberships exist. Team is reached from Account when team access is enabled.
-No Billing or Support placeholder is present.
+Sign out appears only in the sidebar on desktop, not a second time in the top
+bar. No Billing or Support placeholder is present.
 
 At 760px and below the sidebar becomes fixed bottom navigation with the same
 four destinations. The top bar retains account context, selector and a visible
@@ -184,9 +185,11 @@ same application shell once signed in: Create is the active sidebar destination
 on desktop and the active bottom-navigation destination on phones. Only the
 guest creator retains its public brand/Login header, so import and preview remain
 available without authentication. The editor adapts to the width left beside
-the sidebar, not just the viewport. Phone Continue/Review and Save/Export actions are
-fixed above the bottom navigation/safe-area inset; editor content reserves space
-for them. Responsive geometry still requires rendered browser verification.
+the sidebar, not just the viewport. Phone Continue/Review and Save/Export/download
+actions stay inside their respective step cards and scroll with the content;
+only app navigation remains fixed. Disabled creator actions use an opaque muted
+treatment. Content reserves bottom-navigation/safe-area clearance, not an extra
+floating-action gap. Responsive geometry still requires rendered browser verification.
 
 Browser tabs use the existing terracotta/white TC brand mark. A self-hosted SVG
 favicon, PNG fallback and Apple touch icon apply to public and private routes;

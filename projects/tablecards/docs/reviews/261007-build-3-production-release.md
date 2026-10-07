@@ -497,3 +497,68 @@ new schema, migration, real charge or production customer-data write occurred.
 **Outcome:** all three reported UI issues are corrected and deployed to both
 development and production. Reload an older open tab to load the new asset
 manifest. Default-Free welcome-credit provisioning remains outside this batch.
+
+### Subsequent mobile action-placement review — 2026-10-07
+
+Andrew reported the disabled Continue action looking strangely detached on
+mobile and explicitly requested an independent Astra opinion. Scope: supplied
+production screenshot and current application contract/CSS/markup at runtime
+`0aa407c`, repository `a4f52ad`; not a new live real-iPhone or whole-app audit.
+
+**Visual finding:** the bare fixed button is disconnected from its form card,
+straddles the panel edge, and follows a large reserved blank area. Whole-button
+disabled opacity makes the background show through. Fixed header, navigation
+and browser chrome compound the mobile space cost. Prior containment/action-
+separation assertions pass but do not establish good visual composition.
+
+**Astra recommendation, not yet accepted:** put Continue, Review and final
+Save/Export/download actions inside their respective active cards; remove
+floating-action reserve while keeping bottom-navigation clearance. Use an opaque
+muted disabled treatment. The trade-off is scrolling to Review on a longer
+Design step. A consistent opaque fixed action bar is a credible alternative,
+but consumes permanent space and adds keyboard/browser-toolbar handling.
+
+The accepted application contract currently specifies fixed actions; it remains
+unchanged until a replacement is accepted. Future verification must cover all
+three steps, disabled/active states, keyboard, scrolling and short screens.
+No runtime change, deployment or new browser/AI suite was performed for this
+opinion; current production metadata was checked and prior scoped evidence reused.
+
+### Accepted inline actions and single Sign out — 2026-10-07
+
+Andrew accepted a simple solution consistent with Astra's recommendation and
+authorized correcting the duplicate desktop Sign out and deploying this batch.
+Baseline: repository `a4f52ad`, production runtime `0aa407c`. This supersedes
+the fixed creator-action choice above, not the fixed application navigation.
+
+Continue, Review and Save/Export/download now remain inside their step cards.
+The extra floating-action padding is removed; bottom-navigation and safe-area
+clearance remain. Disabled mobile creator buttons have opaque muted styling.
+The application documentation records this choice and its scrolling trade-off.
+
+Desktop's duplicate Sign out was a CSS specificity defect: the later global
+text-button display rule overrode the header button's hiding rule. The scoped
+header selector now wins on desktop; its mobile override keeps the single
+header action visible when the sidebar is hidden. No auth or backend changes.
+
+Affected web/E2E lint and type checks and the development asset build passed.
+Development web Worker **`46ee14e0-2d5a-448f-8d17-efdb7d0c9bd3`** contains this
+runtime tree; unchanged development services were not redeployed.
+
+Focused navigation/draft/heading-focus checks passed **2/2** in desktop Chromium
+and mobile WebKit. The final new inline-action/logout cases passed **2/2 (45.5s)**:
+disabled and active actions, 320 × 568 / 390 × 480 / 390 × 844 phone viewports,
+all three steps, contained actions above app navigation after scrolling, project
+save, a real one-page PDF, download click and actual logout. Screenshots were
+inspected: Continue is inside its card without the former blank gap; Save/Export
+is contained; desktop has only the sidebar Sign out.
+
+Initial harness checks were corrected rather than changing unrelated behavior:
+Playwright's viewport-only "scroll if needed" does not account for a fixed
+navigation overlay, so the scoped check explicitly scrolls actions into view.
+Mobile WebKit does not supply a suggested filename for this Blob link; the
+check validates actual PDF bytes and the download event instead. No code change
+was made to authentication or PDF generation. Real iPhone software-keyboard and
+browser-toolbar behavior were not exercised; existing production Google
+credential limits above are unchanged. No schema/migration, paid AI request or
+payment is involved. Production publication and fresh public checks are next.

@@ -20,6 +20,10 @@ Updated: 2026-10-07.
 
 ## Immediate next work
 
+- Publish and verify the accepted inline mobile creator actions and single
+  desktop Sign out correction in both environments. Scoped browser checks are
+  next; the previous production release remains live until publication passes.
+  See the [follow-up review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#accepted-inline-actions-and-single-sign-out--2026-10-07).
 - Resolve production-safe Free welcome-credit provisioning separately; do not
   enable development mocks or fabricate paid grants. Any schema change needs
   Andrew's confirmation.
