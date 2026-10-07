@@ -83,3 +83,14 @@ The public pricing notice now identifies simulated checkout before an upgrade
 click; the AI FAQ includes the optional reference image instead of claiming
 only text ever goes to the provider. Both are disclosure corrections, not new
 features or access rules.
+
+The first merged deployment published at `660f5cf`; production smoke correctly
+withheld acceptance. The new gateway initially failed TLS handshake while its
+certificate activated; it later returned healthy matching-SHA responses. The
+early desktop auth browser case timed out during that window; mobile passed
+after activation. These partial results are not the final production pass.
+The next smoke failure exposed missing TableCards CSP/no-index/no-store headers.
+The actual header file was hardened rather than weakening the gate, preserving
+immutable versioned-artwork caching and permitting required blob previews,
+same-site session and Convex HTTP/WebSocket traffic. A source regression guards
+the header contract; fresh production and full development revalidation follow.

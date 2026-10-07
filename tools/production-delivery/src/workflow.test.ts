@@ -14,6 +14,25 @@ function step(workflow: string, name: string, nextName: string): string {
 }
 
 describe('production workflow credential boundaries', () => {
+  it('ships TableCards preview security headers without disabling immutable artwork caching', async () => {
+    const headers = await readFile(
+      'projects/tablecards/workloads/web/public/_headers',
+      'utf8',
+    );
+    expect(headers).toContain("frame-ancestors 'none'");
+    expect(headers).toContain("img-src 'self' data: blob:");
+    expect(headers).toContain('https://*.tofler.app');
+    expect(headers).toContain('wss://*.convex.cloud');
+    expect(headers).toContain('X-Robots-Tag: noindex, nofollow');
+    expect(headers).toContain('/\n  Cache-Control: no-store');
+    expect(headers).toContain('/:route\n  Cache-Control: no-store');
+    expect(headers).toContain('/settings/*\n  Cache-Control: no-store');
+    expect(headers).toContain('/invite/*\n  Cache-Control: no-store');
+    expect(headers).not.toMatch(/^\/\*\n {2}Cache-Control: no-store/mu);
+    expect(headers).toContain(
+      '/designs/predefined/v2/*\n  Cache-Control: public, max-age=31536000, immutable',
+    );
+  });
   it('keeps deploy secrets out of the job-wide environment', async () => {
     const workflow = await readFile(workflowPath, 'utf8');
     const jobEnvironment = workflow.slice(

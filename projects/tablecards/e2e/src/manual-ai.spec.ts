@@ -88,13 +88,14 @@ test('manual AI test: Cloudflare artwork and optional company-style reference', 
     .locator('.asset-grid article')
     .filter({ hasText: 'AI background' });
   await expect(choices).toHaveCount(4);
-  await choices.first().scrollIntoViewIfNeeded();
-  await expect
-    .poll(async () =>
-      choices
-        .first()
-        .locator('.asset-preview')
-        .evaluate(async (element) => {
+  // Private thumbnails acquire bytes only while visible. Inspect each choice
+  // in its real viewport; a full-page capture cannot show released thumbnails.
+  for (let index = 0; index < 4; index += 1) {
+    const choice = choices.nth(index);
+    await choice.scrollIntoViewIfNeeded();
+    await expect
+      .poll(async () =>
+        choice.locator('.asset-preview').evaluate(async (element) => {
           const url = getComputedStyle(element).backgroundImage.match(
             /^url\(["']?(.*?)["']?\)$/u,
           )?.[1];
@@ -113,8 +114,12 @@ test('manual AI test: Cloudflare artwork and optional company-style reference', 
             colors.add((data[i]! << 16) | (data[i + 1]! << 8) | data[i + 2]!);
           return colors.size;
         }),
-    )
-    .toBeGreaterThan(64);
+      )
+      .toBeGreaterThan(64);
+    await choice.screenshot({
+      path: info.outputPath(`manual-ai-choice-${index + 1}.png`),
+    });
+  }
   await expectNoHorizontalPageOverflow(page);
   await page.screenshot({
     path: info.outputPath('manual-ai-choices.png'),
