@@ -92,7 +92,12 @@ test('protected save hands off to real, business-branded Google authentication o
     0,
   );
   await expectContained(page);
-  // Stops before personal Google credentials; no mock or fabricated token.
+  await page.getByLabel('Continue with Google').click();
+  await page.waitForURL((url) => url.hostname === 'accounts.google.com');
+  await expect(
+    page.getByText(/redirect_uri_mismatch|invalid_client|Access blocked/iu),
+  ).toHaveCount(0);
+  // Stops at Google before personal credentials; no mock or fabricated token.
 });
 
 test('policies and deep links describe the no-charge boundary on phone and desktop', async ({

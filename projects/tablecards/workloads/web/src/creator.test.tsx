@@ -674,6 +674,7 @@ describe('current creator input and export', () => {
     expect(mocks.backend.getExport.mock.invocationCallOrder[0]).toBeLessThan(
       onSaved.mock.invocationCallOrder[0]!,
     );
+    expect(screen.queryByRole('link', { name: 'Download PDF' })).toBeNull();
   });
 
   it('restores raw input, styling and the active step without an expiring blob URL', async () => {

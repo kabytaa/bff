@@ -1361,15 +1361,18 @@ export function Creator({
       for (let attempt = 0; attempt < 45; attempt += 1) {
         const exportState = await backend.getExport(requested.exportId);
         if (exportState?.status === 'ready' && exportState.storageUrl) {
+          if (!initialProjectId && onProjectSaved) {
+            // The destination owns a new backend/file cache. Do not expose a
+            // link from this route just before its cleanup revokes that Blob.
+            allowNavigation.current = true;
+            onProjectSaved(project);
+            return;
+          }
           setDownloadUrl(exportState.storageUrl);
           setNotice({
             kind: 'success',
             message: 'Your PDF is ready. Print it at Actual Size / 100%.',
           });
-          if (!initialProjectId) {
-            allowNavigation.current = true;
-            onProjectSaved?.(project);
-          }
           return;
         }
         if (exportState?.status === 'failed')

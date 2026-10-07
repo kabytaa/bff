@@ -121,3 +121,12 @@ was blocked. The run was stopped rather than accepted. Explicit `blob:` access
 was added only to the connection directive, with a source regression and a
 credential-free production browser probe. [MDN's CSP connection reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy/connect-src)
 explains the Fetch API boundary. A complete stable-version rerun is required.
+
+The subsequent run at `d9b32b4` passed ordinary export and edited-PDF checks,
+but the 500-card first-export check caught a different race (`ERR_FILE_NOT_FOUND`,
+not a CSP violation). Creator exposed its current Blob link immediately before
+navigating to the saved project; route cleanup could revoke it before it was
+read. First exports now navigate without exposing the departing route's link;
+the saved-project route resolves its own authorized download. A component
+regression asserts no stale link during handoff. The partial hosted run was
+stopped and is not acceptance; fresh focused and full runs follow.
