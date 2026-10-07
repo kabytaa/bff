@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../../node_modules/wrangler/config-schema.json",
+  "name": "business-factory-tablecards-dev",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "tablecards-dev.tofler.app",
+      "custom_domain": true,
+    },
+  ],
+  "assets": {
+    "directory": "../../../../dist/projects/tablecards/workloads/web",
+    "not_found_handling": "single-page-application",
+  },
+}

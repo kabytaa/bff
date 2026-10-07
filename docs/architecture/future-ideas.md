@@ -1,6 +1,6 @@
 # Future Architecture Ideas
 
-Updated: 2026-09-27.
+Updated: 2026-10-07.
 
 ## Purpose
 
@@ -36,7 +36,7 @@ When a real caller or requirement triggers an entry:
 
 ## Usage-based billing and account credits
 
-**Status:** Deferred idea; no meter, balance or usage-ledger tables belong in the current authentication/account slice.
+**Status:** Partially adopted by Build 3 for non-financial product units. BFF now has account-owned access grants, aggregate unit buckets and idempotent reserve/commit/release reservations for AI batches. Purchasable credit balances, automatic top-up, postpaid metering and a financial transaction ledger remain deferred.
 
 **Source:** [Build 2 Shared MVP brainstorm](../../.agent/brainstorms/260926-build-2-shared-mvp.md)
 
@@ -50,8 +50,30 @@ When a real caller or requirement triggers an entry:
 - Keep balances, spending limits and usage counters authoritative in BFF. Do not place mutable balances in ten-minute JWTs.
 - Prefer prepaid credit packs for the first real caller to limit unpaid invoices and runaway provider cost. Re-evaluate postpaid metering only when a concrete Business needs it.
 - Preserve optional user, membership and seat attribution for audit/reporting while the account remains the payer.
+- Treat a unit bucket's scope as an allocation rather than assuming every balance is calendar-period based. Candidate allocations include a subscription billing period, lifetime welcome grant, purchased event and persistent prepaid-credit pool; reassess whether the implemented `periodKey` should become `allocationKey` when a real non-period caller triggers this work.
+- For optional automatic top-up, keep an explicit account policy with threshold, top-up amount, spend caps and failure behavior. Trigger an idempotent payment attempt when available credit crosses the threshold, but add credits only after verified provider confirmation and notify the customer after every charge.
+- Record every purchased credit, committed debit, refund, expiry and operator adjustment in an immutable financial transaction ledger. The existing aggregate bucket may remain the transactional balance projection, but it must not be the only evidence for money-backed credits.
+- Keep provider payment records and BFF product-operation reservations separate: a billing provider can prove that money moved, while BFF must still prevent concurrent Business operations from overspending the product balance.
 
-**Open when triggered:** Select provider capabilities from then-current official documentation; define meter schema, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation and operator workflows.
+**Open when triggered:** Select provider or Convex component capabilities from then-current official documentation; decide whether `periodKey` becomes `allocationKey`; define meter and immutable transaction schemas, auto-top-up thresholds and spend caps, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation, customer notifications and operator workflows. Do not add financial tables until a real money-backed caller exists.
+
+## Per-user and per-account provider cost attribution
+
+**Status:** Deferred idea requested by Andrew on 2026-10-07. No shared cost ledger, reporting API or dashboard is implemented by the current TableCards daily-budget change.
+
+**Source:** TableCards AI-budget discussion, 2026-10-07; [current provider/budget boundary](../../projects/tablecards/docs/operations.md#cloudflare-ai-budget-and-reference-images).
+
+**Trigger:** A Business needs to understand its cost to serve each user/workspace, compare cost with revenue, or enforce a cross-Business provider-spend policy.
+
+**Idea:**
+
+- Attribute trusted provider operations to Business/environment, account and initiating user; team operations roll up once to their account rather than being counted again as separate user expenses.
+- Keep our cost to serve a user separate from what they paid, their feature entitlements and their remaining usage units. A refunded product unit does not prove a provider call cost nothing.
+- Record provider usage/request evidence, currency, a price/version snapshot and estimate-versus-confirmed status. Distinguish gross metered cost, free credits and net billed spend; reconcile available provider usage/invoices before describing an estimate as actual money spent.
+- Make attribution idempotent across retries, partial failures and recovery. Report costly failed operations too; do not send guest lists, prompts, image bytes or credentials into cost records.
+- BFF should own the shared contract/rollup; trusted Business backends report operations server-to-server. Operators use validated automation for configuration and a read-oriented backoffice for user/account cost and margin views. Product UI exposes customer allowances or billing, not unrestricted internal cost records.
+
+**Open when triggered:** Determine available provider evidence and attribution granularity, reuse existing operation/reservation identifiers, define retention/access rules and reconciliation, and assess whether any new table is genuinely needed. Do not build a financial ledger merely to implement a small estimated daily admission cap.
 
 ## Custom-domain edge protection and security monitoring
 

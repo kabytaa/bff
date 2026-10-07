@@ -693,8 +693,13 @@ export const transfer = internalMutation({
       return fail('CAPACITY_CONFLICT', 'New Owner capacity is full');
     }
 
+    const previousOwnerRole =
+      (account.policyOverrides?.adminRoleEnabled ??
+      environment.customerAuth.accountDefaults.adminRoleEnabled)
+        ? ('admin' as const)
+        : ('member' as const);
     await ctx.db.patch(previousOwnerMembership._id, {
-      role: 'member',
+      role: previousOwnerRole,
       updatedAt: args.now,
     });
     await ctx.db.patch(newOwnerMembership._id, {

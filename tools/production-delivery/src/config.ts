@@ -24,6 +24,17 @@ export interface ProductionConfig {
   exampleConvexUrl: string;
   exampleSessionAdapterUrl: string;
   exampleWebUrl: string;
+  tablecards?: TableCardsProductionConfig;
+}
+
+export interface TableCardsProductionConfig {
+  convexSiteUrl: string;
+  convexUrl: string;
+  environmentKey: 'tablecards-production';
+  sessionAdapterUrl: string;
+  webUrl: string;
+  aiUrl: string;
+  dailyAiBudgetUsd: '1';
 }
 
 export interface BuildConfig extends ProductionConfig {
@@ -188,6 +199,22 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
     );
   }
 
+  const tablecardsEnabled =
+    environment.TABLECARDS_PRODUCTION_ENABLED === 'true';
+  const tablecards = tablecardsEnabled
+    ? readTableCardsConfig(environment)
+    : undefined;
+  if (
+    tablecards &&
+    [bffDeployment, exampleDeployment].includes(
+      new URL(tablecards.convexUrl).hostname.replace(/\.convex\.cloud$/u, ''),
+    )
+  ) {
+    throw new ProductionConfigError(
+      'TableCards must use a separate Convex deployment.',
+    );
+  }
+
   return {
     backofficeUrl,
     bffConvexSiteUrl,
@@ -199,7 +226,87 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
     exampleConvexUrl,
     exampleSessionAdapterUrl,
     exampleWebUrl,
+    ...(tablecards ? { tablecards } : {}),
   };
+}
+
+function readTableCardsConfig(
+  environment: NodeJS.ProcessEnv,
+): TableCardsProductionConfig {
+  const webUrl = exactOrigin(
+    environment,
+    'TABLECARDS_WEB_URL',
+    'https://tablecards.tofler.app',
+  );
+  const sessionAdapterUrl = exactOrigin(
+    environment,
+    'TABLECARDS_SESSION_ADAPTER_URL',
+    'https://api.tablecards.tofler.app',
+  );
+  const convexUrl = httpsOrigin(
+    environment,
+    'EXPECTED_TABLECARDS_CONVEX_URL',
+    '.convex.cloud',
+  );
+  const convexSiteUrl = httpsOrigin(
+    environment,
+    'TABLECARDS_CONVEX_SITE_URL',
+    '.convex.site',
+  );
+  assertDeploymentPair(convexUrl, convexSiteUrl, 'TableCards');
+  if (
+    required(environment, 'TABLECARDS_ENVIRONMENT_KEY') !==
+    'tablecards-production'
+  ) {
+    throw new ProductionConfigError(
+      'TABLECARDS_ENVIRONMENT_KEY must be tablecards-production.',
+    );
+  }
+  if (required(environment, 'TABLECARDS_AI_DAILY_BUDGET_USD') !== '1') {
+    throw new ProductionConfigError(
+      'The reviewed production AI budget must be 1 USD/day.',
+    );
+  }
+  const aiUrl = required(environment, 'TABLECARDS_CLOUDFLARE_AI_URL');
+  if (
+    aiUrl !==
+    'https://business-factory-tablecards-ai.kabytaa.workers.dev/generate'
+  ) {
+    throw new ProductionConfigError(
+      'TABLECARDS_CLOUDFLARE_AI_URL must identify the separate production adapter.',
+    );
+  }
+  return {
+    webUrl,
+    sessionAdapterUrl,
+    convexUrl,
+    convexSiteUrl,
+    environmentKey: 'tablecards-production',
+    aiUrl,
+    dailyAiBudgetUsd: '1',
+  };
+}
+
+export function readTableCardsDeploymentTargetConfig(
+  environment: NodeJS.ProcessEnv = process.env,
+): { deploymentName: string; convexUrl: string } {
+  const convexUrl = httpsOrigin(
+    environment,
+    'EXPECTED_TABLECARDS_CONVEX_URL',
+    '.convex.cloud',
+  );
+  const match = /^prod:([a-z0-9-]+)\|.+$/u.exec(
+    required(environment, 'CONVEX_DEPLOY_KEY'),
+  );
+  if (
+    !match ||
+    match[1] !== new URL(convexUrl).hostname.replace(/\.convex\.cloud$/u, '')
+  ) {
+    throw new ProductionConfigError(
+      'CONVEX_DEPLOY_KEY must target the exact TableCards production deployment.',
+    );
+  }
+  return { deploymentName: match[1], convexUrl };
 }
 
 export function readBuildConfig(

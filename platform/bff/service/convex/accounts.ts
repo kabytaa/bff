@@ -230,6 +230,123 @@ export const createForUser = internalMutation({
   },
 });
 
+export async function applyAccountPolicyOverrides(
+  ctx: MutationCtx,
+  args: {
+    readonly environmentKey: string;
+    readonly accountPublicId: string;
+    readonly actorUserPublicId: string;
+    readonly policyOverrides: {
+      readonly seatLimit?: number;
+      readonly adminRoleEnabled?: boolean;
+      readonly memberInvitationsEnabled?: boolean;
+    };
+    readonly now: number;
+  },
+) {
+  const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
+  const accountPublicId = publicIdentifierSchema.parse(args.accountPublicId);
+  const actorUserPublicId = publicIdentifierSchema.parse(
+    args.actorUserPublicId,
+  );
+  const policyOverrides = accountPolicyOverridesSchema.parse(
+    args.policyOverrides,
+  );
+  const environment = await ctx.db
+    .query('businessEnvironments')
+    .withIndex('by_key', (query) => query.eq('key', environmentKey))
+    .unique();
+  if (!environment?.customerAuth) {
+    return fail('CONFIGURATION_ERROR', 'Customer login is not configured');
+  }
+  const account = await findAccountByPublicId(
+    ctx,
+    environment._id,
+    accountPublicId,
+  );
+  const actor = await ctx.db
+    .query('businessUsers')
+    .withIndex('by_environment_public_id', (query) =>
+      query
+        .eq('environmentId', environment._id)
+        .eq('publicId', actorUserPublicId),
+    )
+    .unique();
+  if (!account || !actor) {
+    return fail('NOT_FOUND', 'Account membership was not found');
+  }
+  const actorMembership = await ctx.db
+    .query('memberships')
+    .withIndex('by_environment_account_user', (query) =>
+      query
+        .eq('environmentId', environment._id)
+        .eq('accountId', account._id)
+        .eq('userId', actor._id),
+    )
+    .unique();
+  if (actorMembership?.role !== 'owner') {
+    return fail('FORBIDDEN', 'Only the Owner can change account policy');
+  }
+
+  const effectiveSeatLimit =
+    policyOverrides.seatLimit ??
+    environment.customerAuth.accountDefaults.seatLimit;
+  if (
+    effectiveSeatLimit <
+    account.activeMembershipCount + account.pendingInvitationCount
+  ) {
+    return fail(
+      'CAPACITY_CONFLICT',
+      'Account usage exceeds the requested seat limit',
+    );
+  }
+  const effectiveAdminRoleEnabled =
+    policyOverrides.adminRoleEnabled ??
+    environment.customerAuth.accountDefaults.adminRoleEnabled;
+  if (!effectiveAdminRoleEnabled) {
+    const existingAdmin = await ctx.db
+      .query('memberships')
+      .withIndex('by_environment_account_role', (query) =>
+        query
+          .eq('environmentId', environment._id)
+          .eq('accountId', account._id)
+          .eq('role', 'admin'),
+      )
+      .first();
+    if (existingAdmin) {
+      return fail(
+        'CONFLICT',
+        'Remove all Admin roles before disabling the Admin role',
+      );
+    }
+  }
+  const effectiveInvitationsEnabled =
+    policyOverrides.memberInvitationsEnabled ??
+    environment.customerAuth.accountDefaults.memberInvitationsEnabled;
+  if (!effectiveInvitationsEnabled && account.pendingInvitationCount > 0) {
+    return fail(
+      'CONFLICT',
+      'Revoke pending invitations before disabling invitations',
+    );
+  }
+
+  const storedOverrides =
+    Object.keys(policyOverrides).length === 0 ? undefined : policyOverrides;
+  await ctx.db.patch(account._id, {
+    policyOverrides: storedOverrides,
+    updatedAt: args.now,
+  });
+  await ctx.db.patch(environment._id, {
+    accountPolicyStateRevision:
+      (environment.accountPolicyStateRevision ?? 0) + 1,
+  });
+  const updated = await ctx.db.get(account._id);
+  if (!updated) {
+    return fail('CONFIGURATION_ERROR', 'Account policy update failed');
+  }
+  return toAccountSummary(environment, updated, actorMembership, actor);
+}
+
 export const updatePolicyOverrides = internalMutation({
   args: {
     environmentKey: v.string(),
@@ -240,106 +357,59 @@ export const updatePolicyOverrides = internalMutation({
   },
   returns: accountSummaryValidator,
   handler: async (ctx, args) => {
+    return await applyAccountPolicyOverrides(ctx, args);
+  },
+});
+
+export const rename = internalMutation({
+  args: {
+    environmentKey: v.string(),
+    accountPublicId: v.string(),
+    actorUserPublicId: v.string(),
+    displayName: v.string(),
+    now: v.number(),
+  },
+  returns: accountSummaryValidator,
+  handler: async (ctx, args) => {
     const environmentKey = validateBusinessEnvironmentKey(args.environmentKey);
-    const accountPublicId = publicIdentifierSchema.parse(args.accountPublicId);
-    const actorUserPublicId = publicIdentifierSchema.parse(
-      args.actorUserPublicId,
-    );
-    const policyOverrides = accountPolicyOverridesSchema.parse(
-      args.policyOverrides,
-    );
+    const displayName = displayNameSchema.parse(args.displayName);
     const environment = await ctx.db
       .query('businessEnvironments')
-      .withIndex('by_key', (query) => query.eq('key', environmentKey))
+      .withIndex('by_key', (q) => q.eq('key', environmentKey))
       .unique();
-    if (!environment?.customerAuth) {
-      return fail('CONFIGURATION_ERROR', 'Customer login is not configured');
-    }
+    if (!environment?.customerAuth)
+      return fail('NOT_FOUND', 'Workspace was not found');
     const account = await findAccountByPublicId(
       ctx,
       environment._id,
-      accountPublicId,
+      publicIdentifierSchema.parse(args.accountPublicId),
     );
     const actor = await ctx.db
       .query('businessUsers')
-      .withIndex('by_environment_public_id', (query) =>
-        query
+      .withIndex('by_environment_public_id', (q) =>
+        q
           .eq('environmentId', environment._id)
-          .eq('publicId', actorUserPublicId),
+          .eq('publicId', publicIdentifierSchema.parse(args.actorUserPublicId)),
       )
       .unique();
-    if (!account || !actor) {
-      return fail('NOT_FOUND', 'Account membership was not found');
-    }
-    const actorMembership = await ctx.db
+    if (!account || !actor) return fail('NOT_FOUND', 'Workspace was not found');
+    const membership = await ctx.db
       .query('memberships')
-      .withIndex('by_environment_account_user', (query) =>
-        query
+      .withIndex('by_environment_account_user', (q) =>
+        q
           .eq('environmentId', environment._id)
           .eq('accountId', account._id)
           .eq('userId', actor._id),
       )
       .unique();
-    if (actorMembership?.role !== 'owner') {
-      return fail('FORBIDDEN', 'Only the Owner can change account policy');
-    }
-
-    const effectiveSeatLimit =
-      policyOverrides.seatLimit ??
-      environment.customerAuth.accountDefaults.seatLimit;
-    if (
-      effectiveSeatLimit <
-      account.activeMembershipCount + account.pendingInvitationCount
-    ) {
-      return fail(
-        'CAPACITY_CONFLICT',
-        'Account usage exceeds the requested seat limit',
-      );
-    }
-    const effectiveAdminRoleEnabled =
-      policyOverrides.adminRoleEnabled ??
-      environment.customerAuth.accountDefaults.adminRoleEnabled;
-    if (!effectiveAdminRoleEnabled) {
-      const existingAdmin = await ctx.db
-        .query('memberships')
-        .withIndex('by_environment_account_role', (query) =>
-          query
-            .eq('environmentId', environment._id)
-            .eq('accountId', account._id)
-            .eq('role', 'admin'),
-        )
-        .first();
-      if (existingAdmin) {
-        return fail(
-          'CONFLICT',
-          'Remove all Admin roles before disabling the Admin role',
-        );
-      }
-    }
-    const effectiveInvitationsEnabled =
-      policyOverrides.memberInvitationsEnabled ??
-      environment.customerAuth.accountDefaults.memberInvitationsEnabled;
-    if (!effectiveInvitationsEnabled && account.pendingInvitationCount > 0) {
-      return fail(
-        'CONFLICT',
-        'Revoke pending invitations before disabling invitations',
-      );
-    }
-
-    const storedOverrides =
-      Object.keys(policyOverrides).length === 0 ? undefined : policyOverrides;
-    await ctx.db.patch(account._id, {
-      policyOverrides: storedOverrides,
-      updatedAt: args.now,
-    });
-    await ctx.db.patch(environment._id, {
-      accountPolicyStateRevision:
-        (environment.accountPolicyStateRevision ?? 0) + 1,
-    });
-    const updated = await ctx.db.get(account._id);
-    if (!updated) {
-      return fail('CONFIGURATION_ERROR', 'Account policy update failed');
-    }
-    return toAccountSummary(environment, updated, actorMembership, actor);
+    if (membership?.role !== 'owner')
+      return fail('FORBIDDEN', 'Only the Owner can rename the workspace');
+    await ctx.db.patch(account._id, { displayName, updatedAt: args.now });
+    return toAccountSummary(
+      environment,
+      { ...account, displayName, updatedAt: args.now },
+      membership,
+      actor,
+    );
   },
 });

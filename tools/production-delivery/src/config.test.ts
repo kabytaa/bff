@@ -5,6 +5,7 @@ import {
   readBuildConfig,
   readExampleDeploymentTargetConfig,
   readSmokeConfig,
+  readTableCardsDeploymentTargetConfig,
 } from './config';
 
 const commitSha = '0123456789abcdef0123456789abcdef01234567';
@@ -23,6 +24,83 @@ const production = {
 } satisfies NodeJS.ProcessEnv;
 
 describe('production configuration', () => {
+  const tablecardsEnvironment = {
+    ...production,
+    TABLECARDS_PRODUCTION_ENABLED: 'true',
+    TABLECARDS_WEB_URL: 'https://tablecards.tofler.app',
+    TABLECARDS_SESSION_ADAPTER_URL: 'https://api.tablecards.tofler.app',
+    TABLECARDS_ENVIRONMENT_KEY: 'tablecards-production',
+    TABLECARDS_CONVEX_SITE_URL: 'https://clean-gerbil-451.convex.site',
+    EXPECTED_TABLECARDS_CONVEX_URL: 'https://clean-gerbil-451.convex.cloud',
+    TABLECARDS_CLOUDFLARE_AI_URL:
+      'https://business-factory-tablecards-ai.kabytaa.workers.dev/generate',
+    TABLECARDS_AI_DAILY_BUDGET_USD: '1',
+  };
+
+  it('requires and isolates the reviewed TableCards production lane', () => {
+    expect(
+      readSmokeConfig(tablecardsEnvironment).tablecards?.environmentKey,
+    ).toBe('tablecards-production');
+    for (const name of [
+      'TABLECARDS_WEB_URL',
+      'TABLECARDS_SESSION_ADAPTER_URL',
+      'TABLECARDS_ENVIRONMENT_KEY',
+      'TABLECARDS_CONVEX_SITE_URL',
+      'EXPECTED_TABLECARDS_CONVEX_URL',
+      'TABLECARDS_CLOUDFLARE_AI_URL',
+      'TABLECARDS_AI_DAILY_BUDGET_USD',
+    ]) {
+      expect(() =>
+        readSmokeConfig({ ...tablecardsEnvironment, [name]: undefined }),
+      ).toThrow(ProductionConfigError);
+    }
+    for (const [name, value] of [
+      ['TABLECARDS_WEB_URL', 'https://tablecards-dev.tofler.app'],
+      [
+        'TABLECARDS_SESSION_ADAPTER_URL',
+        'https://api.tablecards-dev.tofler.app',
+      ],
+      ['TABLECARDS_ENVIRONMENT_KEY', 'tablecards-development'],
+      ['TABLECARDS_AI_DAILY_BUDGET_USD', '100'],
+      [
+        'TABLECARDS_CLOUDFLARE_AI_URL',
+        'https://business-factory-tablecards-ai-dev.kabytaa.workers.dev/generate',
+      ],
+      ['TABLECARDS_CONVEX_SITE_URL', production.CONVEX_SITE_URL],
+    ]) {
+      expect(() =>
+        readSmokeConfig({ ...tablecardsEnvironment, [name!]: value }),
+      ).toThrow(ProductionConfigError);
+    }
+    expect(() =>
+      readSmokeConfig({
+        ...tablecardsEnvironment,
+        TABLECARDS_CONVEX_SITE_URL: production.CONVEX_SITE_URL,
+        EXPECTED_TABLECARDS_CONVEX_URL: production.EXPECTED_CONVEX_URL,
+      }),
+    ).toThrow(/separate Convex/u);
+  });
+
+  it('rejects a wrong TableCards deployment key before writes', () => {
+    expect(
+      readTableCardsDeploymentTargetConfig({
+        ...tablecardsEnvironment,
+        CONVEX_DEPLOY_KEY: 'prod:clean-gerbil-451|test',
+      }).deploymentName,
+    ).toBe('clean-gerbil-451');
+    for (const key of [
+      'prod:kind-fox-456|test',
+      'dev:clean-gerbil-451|test',
+      'project:team:project|test',
+    ]) {
+      expect(() =>
+        readTableCardsDeploymentTargetConfig({
+          ...tablecardsEnvironment,
+          CONVEX_DEPLOY_KEY: key,
+        }),
+      ).toThrow(ProductionConfigError);
+    }
+  });
   it('parses separate approved BFF, example and asset targets', () => {
     expect(readBuildConfig(production)).toEqual({
       backofficeUrl: 'https://ops.tofler.tech',

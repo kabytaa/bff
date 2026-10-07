@@ -72,9 +72,42 @@ function fakeClient(initialState: AuthSessionState): BffAuthBrowserClient {
     bootstrap: vi.fn(async () => store.getSnapshot()),
     selectAccount: vi.fn(async () => store.getSnapshot()),
     createAccount: vi.fn(async () => account(accountOneId, 'First workspace')),
+    renameAccount: vi.fn(async (input) =>
+      account(input.accountId, input.displayName),
+    ),
     acceptInvitation: vi.fn(async () =>
       account(accountOneId, 'First workspace'),
     ),
+    inspectInvitation: vi.fn(async () => ({
+      accountDisplayName: 'First workspace',
+      state: 'pending' as const,
+      expiresAt: 2,
+    })),
+    listAccountMembers: vi.fn(async () => ({
+      page: [],
+      isDone: true,
+      continueCursor: '',
+    })),
+    listAccountInvitations: vi.fn(async () => ({
+      page: [],
+      isDone: true,
+      continueCursor: '',
+    })),
+    createInvitation: vi.fn(async () => {
+      throw new Error('Not used');
+    }),
+    revokeInvitation: vi.fn(async () => {
+      throw new Error('Not used');
+    }),
+    changeMembershipRole: vi.fn(async () => {
+      throw new Error('Not used');
+    }),
+    removeMembership: vi.fn(async () => {
+      throw new Error('Not used');
+    }),
+    startOwnershipTransfer: vi.fn(async () => {
+      throw new Error('Not used');
+    }),
     getAccessToken: vi.fn(async () => null),
     logout: vi.fn(async () => undefined),
     getSignInUrl: vi.fn((options = '/') => {

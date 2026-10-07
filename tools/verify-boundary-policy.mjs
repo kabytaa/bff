@@ -48,7 +48,11 @@ if (
 if (
   !Array.isArray(options.allow) ||
   JSON.stringify(options.allow) !==
-    JSON.stringify(['@bff/service-api', '@example/backend-api'])
+    JSON.stringify([
+      '@bff/service-api',
+      '@example/backend-api',
+      '@tablecards/backend-api',
+    ])
 ) {
   fail('only explicit generated Convex API imports are allowed');
 }

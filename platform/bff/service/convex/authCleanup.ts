@@ -54,6 +54,7 @@ export const deleteExpiredProtocolState = internalMutation({
       'businessSessions',
       'securityEvents',
       'accountInvitations',
+      'checkoutAttempts',
     ] as const;
     let remaining = CLEANUP_BATCH_SIZE;
     let deleted = 0;

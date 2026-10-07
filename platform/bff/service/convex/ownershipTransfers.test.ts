@@ -305,7 +305,7 @@ describe('provider-confirmed ownership transfer', () => {
       }),
     ).toEqual({
       roles: {
-        membership_owner_0001: 'member',
+        membership_owner_0001: 'admin',
         membership_target_0001: 'owner',
       },
       owned: { [ownerUserId]: 0, [targetUserId]: 1 },

@@ -14,6 +14,17 @@ Only the TypeScript/Convex path is currently supported. Future Node framework
 glue belongs in this package; future Swift, Kotlin, Go, or Rust SDKs are sibling
 technology implementations under `platform/bff/libs/sdk/`.
 
+The server entry also exposes `createBffCheckoutClient`. A Business backend
+passes its short account context plus a code-owned offer/grant/policy snapshot
+and receives only a provider-neutral `checkoutUrl` and expiry. Checkout
+creation additionally requires an environment-specific server credential so a
+browser holding the ordinary account JWT cannot invent an entitlement payload;
+the credential belongs only in the Business backend environment. The browser
+then navigates to the returned URL. Build 3 returns the shared BFF mock page;
+Build 4 can return Paddle without changing Business UI or the client method.
+Redirecting never proves a real payment: provider access must ultimately come
+from BFF's verified provider state.
+
 ## Server session adapter
 
 `createBffAuthServer` is the portable Web `Request`/`Response` implementation.
@@ -114,6 +125,14 @@ snapshot. The SDK does not load that file at runtime.
 The browser and React entries never import the server entry. New tabs obtain
 their own context JWT; logout is broadcast across tabs, while account switches
 remain tab-local.
+
+`auth.renameAccount({ accountId, displayName })` renames the currently selected
+workspace and refreshes its authoritative account summary. The shared BFF
+requires live Owner membership in that account, rejects a different selected
+account/environment and trims/limits names to 120 characters. This is a customer
+workspace action, not a Business/operator configuration method.
+The same-account refresh does not clear authentication or remount the app;
+late responses cannot restore a context after switching accounts or signing out.
 
 ## Convex native authentication
 

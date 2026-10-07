@@ -5,6 +5,7 @@ import {
   assertBackofficeBundleContent,
   assertCustomerAuthBundleContent,
   assertExampleBundleContent,
+  assertTableCardsBundleContent,
 } from './bundles';
 
 const config: ProductionConfig = {
@@ -21,6 +22,53 @@ const config: ProductionConfig = {
 };
 
 describe('production bundle assertions', () => {
+  it('requires exact TableCards targets and disabled development controls', () => {
+    const withTableCards: ProductionConfig = {
+      ...config,
+      tablecards: {
+        convexUrl: 'https://clean-gerbil-451.convex.cloud',
+        convexSiteUrl: 'https://clean-gerbil-451.convex.site',
+        environmentKey: 'tablecards-production',
+        sessionAdapterUrl: 'https://api.tablecards.tofler.app',
+        webUrl: 'https://tablecards.tofler.app',
+        aiUrl:
+          'https://business-factory-tablecards-ai.kabytaa.workers.dev/generate',
+        dailyAiBudgetUsd: '1',
+      },
+    };
+    const valid = [
+      config.bffConvexSiteUrl,
+      withTableCards.tablecards!.convexUrl,
+      withTableCards.tablecards!.convexSiteUrl,
+      withTableCards.tablecards!.environmentKey,
+      withTableCards.tablecards!.sessionAdapterUrl,
+      'VITE_TABLECARDS_DEV_CONTROLS:"false"',
+    ].join(' ');
+    expect(() =>
+      assertTableCardsBundleContent(valid, withTableCards),
+    ).not.toThrow();
+    expect(() =>
+      assertTableCardsBundleContent(
+        valid.replace('"false"', '`false`'),
+        withTableCards,
+      ),
+    ).not.toThrow();
+    expect(() =>
+      assertTableCardsBundleContent(
+        valid.replace('"false"', '"true"'),
+        withTableCards,
+      ),
+    ).toThrow(/controls/u);
+    for (const marker of [
+      'tablecards-development',
+      'auth-dev.tofler.app',
+      'https://other-fox-789.convex.cloud',
+    ]) {
+      expect(() =>
+        assertTableCardsBundleContent(`${valid} ${marker}`, withTableCards),
+      ).toThrow();
+    }
+  });
   it('accepts the exact target set for each surface', () => {
     expect(() =>
       assertBackofficeBundleContent(

@@ -1,0 +1,170 @@
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
+
+const projectState = v.union(v.literal('active'), v.literal('archived'));
+const designKind = v.union(
+  v.literal('predefined'),
+  v.literal('uploaded'),
+  v.literal('ai'),
+);
+const guest = v.object({
+  name: v.string(),
+  table: v.optional(v.string()),
+  marker: v.optional(v.string()),
+});
+const projectNameStyle = v.object({
+  color: v.string(),
+  position: v.union(v.literal('top'), v.literal('center'), v.literal('bottom')),
+  font: v.union(v.literal('sans'), v.literal('serif')),
+  size: v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
+});
+
+export default defineSchema({
+  projects: defineTable({
+    publicId: v.string(),
+    accountId: v.string(),
+    createdByUserId: v.string(),
+    title: v.string(),
+    state: projectState,
+    designKind,
+    designReference: v.string(),
+    nameStyle: v.optional(projectNameStyle),
+    guestCount: v.number(),
+    revision: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_account_state_updated_at', ['accountId', 'state', 'updatedAt']),
+  projectContents: defineTable({
+    accountId: v.string(),
+    projectId: v.id('projects'),
+    revision: v.number(),
+    guests: v.array(guest),
+    updatedAt: v.number(),
+  }).index('by_project_id', ['projectId']),
+  designAssets: defineTable({
+    publicId: v.string(),
+    accountId: v.string(),
+    projectId: v.optional(v.id('projects')),
+    createdByUserId: v.string(),
+    source: v.union(v.literal('uploaded'), v.literal('ai')),
+    storageId: v.id('_storage'),
+    mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
+    width: v.number(),
+    height: v.number(),
+    createdAt: v.number(),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_account_project', ['accountId', 'projectId'])
+    .index('by_account_created_at', ['accountId', 'createdAt'])
+    .index('by_storage_id', ['storageId']),
+  designPresets: defineTable({
+    publicId: v.string(),
+    accountId: v.string(),
+    createdByUserId: v.string(),
+    assetId: v.id('designAssets'),
+    displayName: v.string(),
+    nameColor: v.string(),
+    namePosition: v.union(
+      v.literal('top'),
+      v.literal('center'),
+      v.literal('bottom'),
+    ),
+    nameFont: v.optional(v.union(v.literal('sans'), v.literal('serif'))),
+    nameSize: v.optional(
+      v.union(v.literal('small'), v.literal('medium'), v.literal('large')),
+    ),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_account_updated_at', ['accountId', 'updatedAt']),
+  projectExports: defineTable({
+    publicId: v.string(),
+    accountId: v.string(),
+    projectId: v.id('projects'),
+    requestedByUserId: v.string(),
+    projectRevision: v.number(),
+    renderVersion: v.optional(v.number()),
+    snapshot: v.optional(
+      v.object({
+        projectId: v.string(),
+        title: v.string(),
+        designKind,
+        designReference: v.string(),
+        nameStyle: v.optional(projectNameStyle),
+        guests: v.array(guest),
+        backgroundStorageId: v.optional(v.id('_storage')),
+        backgroundMimeType: v.optional(
+          v.union(v.literal('image/png'), v.literal('image/jpeg')),
+        ),
+      }),
+    ),
+    layoutId: v.optional(
+      v.union(v.literal('portrait_4'), v.literal('landscape_6')),
+    ),
+    status: v.union(
+      v.literal('queued'),
+      v.literal('generating'),
+      v.literal('ready'),
+      v.literal('failed'),
+    ),
+    storageId: v.optional(v.id('_storage')),
+    pageCount: v.optional(v.number()),
+    errorCode: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_project_created_at', ['projectId', 'createdAt'])
+    .index('by_storage_id', ['storageId']),
+  aiBatches: defineTable({
+    publicId: v.string(),
+    accountId: v.string(),
+    projectId: v.optional(v.id('projects')),
+    requestedByUserId: v.string(),
+    idempotencyKey: v.string(),
+    prompt: v.string(),
+    referenceDigest: v.optional(v.string()),
+    provider: v.optional(
+      v.union(v.literal('cloudflare'), v.literal('development')),
+    ),
+    providerBudgetDay: v.optional(v.string()),
+    status: v.union(
+      v.literal('queued'),
+      v.literal('generating'),
+      v.literal('ready'),
+      v.literal('failed'),
+    ),
+    unitReservationId: v.optional(v.string()),
+    generatedAssets: v.optional(
+      v.array(
+        v.object({
+          storageId: v.id('_storage'),
+          mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
+          width: v.number(),
+          height: v.number(),
+        }),
+      ),
+    ),
+    unitCommitConfirmed: v.optional(v.boolean()),
+    unitCommitRejected: v.optional(v.boolean()),
+    outputsPersisted: v.optional(v.boolean()),
+    assetIds: v.array(v.id('designAssets')),
+    errorCode: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_account_public_id', ['accountId', 'publicId'])
+    .index('by_account_idempotency_key', ['accountId', 'idempotencyKey'])
+    .index('by_provider_budget_day', ['provider', 'providerBudgetDay'])
+    .index('by_account_user_project_pending', [
+      'accountId',
+      'requestedByUserId',
+      'projectId',
+      'status',
+      'outputsPersisted',
+      'updatedAt',
+    ]),
+});

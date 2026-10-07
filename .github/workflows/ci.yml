@@ -50,6 +50,14 @@ jobs:
       EXAMPLE_WEB_URL: ${{ vars.EXAMPLE_WEB_URL }}
       EXPECTED_CONVEX_URL: ${{ vars.CONVEX_URL }}
       EXPECTED_EXAMPLE_CONVEX_URL: ${{ vars.EXAMPLE_CONVEX_URL }}
+      TABLECARDS_PRODUCTION_ENABLED: 'true'
+      TABLECARDS_WEB_URL: ${{ vars.TABLECARDS_WEB_URL }}
+      TABLECARDS_SESSION_ADAPTER_URL: ${{ vars.TABLECARDS_SESSION_ADAPTER_URL }}
+      TABLECARDS_CONVEX_SITE_URL: ${{ vars.TABLECARDS_CONVEX_SITE_URL }}
+      EXPECTED_TABLECARDS_CONVEX_URL: ${{ vars.TABLECARDS_CONVEX_URL }}
+      TABLECARDS_ENVIRONMENT_KEY: ${{ vars.TABLECARDS_ENVIRONMENT_KEY }}
+      TABLECARDS_CLOUDFLARE_AI_URL: ${{ vars.TABLECARDS_CLOUDFLARE_AI_URL }}
+      TABLECARDS_AI_DAILY_BUDGET_USD: ${{ vars.TABLECARDS_AI_DAILY_BUDGET_USD }}
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -98,6 +106,33 @@ jobs:
         run: |
           pnpm exec convex deploy --message "$GITHUB_SHA"
           pnpm exec convex env set EXAMPLE_BUILD_VERSION "$GITHUB_SHA"
+      - name: Verify the separate TableCards production target
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.TABLECARDS_CONVEX_DEPLOY_KEY }}
+        run: pnpm production:verify-tablecards-target
+      - name: Configure the separate TableCards production deployment
+        working-directory: projects/tablecards/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.TABLECARDS_CONVEX_DEPLOY_KEY }}
+        run: |
+          pnpm exec convex env set BFF_CUSTOMER_AUTH_ISSUER "$CUSTOMER_AUTH_URL"
+          pnpm exec convex env set BFF_CUSTOMER_ENVIRONMENT_KEY "$TABLECARDS_ENVIRONMENT_KEY"
+          pnpm exec convex env set BFF_CUSTOMER_JWKS_URL "$CONVEX_SITE_URL/v1/auth/jwks"
+          pnpm exec convex env set BFF_CUSTOMER_API_BASE_URL "$CONVEX_SITE_URL"
+          pnpm exec convex env set BFF_CUSTOMER_WEB_ORIGINS_JSON "[\"$TABLECARDS_WEB_URL\"]"
+          pnpm exec convex env set BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL "$TABLECARDS_SESSION_ADAPTER_URL"
+          pnpm exec convex env set BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH "/create"
+          pnpm exec convex env set TABLECARDS_AI_PROVIDER "cloudflare"
+          pnpm exec convex env set TABLECARDS_AI_DAILY_BUDGET_USD "$TABLECARDS_AI_DAILY_BUDGET_USD"
+          pnpm exec convex env set TABLECARDS_CLOUDFLARE_AI_URL "$TABLECARDS_CLOUDFLARE_AI_URL"
+          pnpm exec convex env remove TABLECARDS_DEVELOPMENT_MOCKS_ENABLED
+      - name: Deploy and stamp the separate TableCards backend
+        working-directory: projects/tablecards/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.TABLECARDS_CONVEX_DEPLOY_KEY }}
+        run: |
+          pnpm exec convex deploy --message "$GITHUB_SHA"
+          pnpm exec convex env set TABLECARDS_BUILD_VERSION "$GITHUB_SHA"
       - name: Deploy the production example session gateway
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -124,5 +159,25 @@ jobs:
         run: >-
           pnpm exec wrangler deploy
           --config projects/example/workloads/web/wrangler.production.jsonc
+      - name: Deploy the production TableCards AI adapter
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config projects/tablecards/ai-provider/wrangler.production.jsonc
+      - name: Deploy the production TableCards session gateway
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config projects/tablecards/session-gateway/wrangler.production.jsonc
+          --var "UPSTREAM_ORIGIN:$TABLECARDS_CONVEX_SITE_URL"
+          --var "BUILD_VERSION:$GITHUB_SHA"
+      - name: Deploy the production TableCards
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: >-
+          pnpm exec wrangler deploy
+          --config projects/tablecards/workloads/web/wrangler.production.jsonc
       - name: Smoke-check the production release
         run: pnpm production:smoke

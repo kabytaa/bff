@@ -9,6 +9,7 @@ import {
   customerAuthErrorCodeSchema,
   customerAuthIntentSchema,
   removeMembershipRequestSchema,
+  renameAccountRequestSchema,
   revokeInvitationRequestSchema,
   updateAccountPolicyRequestSchema,
   type AccountContextClaims,
@@ -46,7 +47,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-async function readBoundedJson(request: Request) {
+export async function readBoundedJson(request: Request) {
   if (!request.headers.get('content-type')?.startsWith('application/json')) {
     throw new HttpInputError(
       415,
@@ -131,7 +132,7 @@ function optionalString(
   return value;
 }
 
-function parseInput<T>(schema: ZodType<T>, input: unknown): T {
+export function parseInput<T>(schema: ZodType<T>, input: unknown): T {
   const parsed = schema.safeParse(input);
   if (!parsed.success) {
     throw new HttpInputError(400, 'INVALID_INPUT', 'Request input is invalid.');
@@ -148,7 +149,7 @@ function responseHeaders(extra: HeadersInit = {}): Headers {
   return headers;
 }
 
-function jsonResponse(
+export function jsonResponse(
   body: unknown,
   status = 200,
   extraHeaders: HeadersInit = {},
@@ -183,7 +184,7 @@ function errorData(error: unknown): Record<string, unknown> | undefined {
   return error.data;
 }
 
-function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
+export function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
   if (error instanceof HttpInputError) {
     return publicError(error.code, error.message, error.status, extraHeaders);
   }
@@ -212,7 +213,9 @@ function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
         ? 401
         : code === 'FORBIDDEN'
           ? 403
-          : code === 'CONFLICT' || code === 'CAPACITY_CONFLICT'
+          : code === 'CONFLICT' ||
+              code === 'CAPACITY_CONFLICT' ||
+              code === 'UNIT_EXHAUSTED'
             ? 409
             : code === 'RATE_LIMITED'
               ? 429
@@ -234,7 +237,7 @@ function mapError(error: unknown, extraHeaders: HeadersInit = {}) {
   );
 }
 
-function authOriginHeaders(request: Request) {
+export function authOriginHeaders(request: Request) {
   const configuration = readCustomerSigningConfiguration();
   const origin = request.headers.get('origin');
   if (origin !== configuration.issuer) {
@@ -305,7 +308,7 @@ async function customerApiOriginHeaders(
   };
 }
 
-async function withAuthenticatedCustomerRequest(
+export async function withAuthenticatedCustomerRequest(
   ctx: ActionCtx,
   request: Request,
   handler: (
@@ -331,7 +334,34 @@ async function withAuthenticatedCustomerRequest(
   }
 }
 
-function accountContext(claims: CustomerContextClaims): AccountContextClaims {
+async function withCustomerOriginRequest(
+  ctx: ActionCtx,
+  request: Request,
+  handler: (
+    environmentKey: string,
+    responseHeaders: HeadersInit,
+  ) => Promise<Response>,
+) {
+  let cors: HeadersInit = {};
+  try {
+    const environmentKey = request.headers.get('x-tofler-environment');
+    if (!environmentKey || environmentKey.length > 64) {
+      throw new HttpInputError(
+        400,
+        'INVALID_INPUT',
+        'Business environment is required.',
+      );
+    }
+    cors = await customerApiOriginHeaders(ctx, request, environmentKey);
+    return await handler(environmentKey, cors);
+  } catch (error) {
+    return mapError(error, cors);
+  }
+}
+
+export function accountContext(
+  claims: CustomerContextClaims,
+): AccountContextClaims {
   if (claims.contextType !== 'account') {
     throw new HttpInputError(
       403,
@@ -777,6 +807,35 @@ export async function createAccountHandler(ctx: ActionCtx, request: Request) {
   );
 }
 
+export async function renameAccountHandler(ctx: ActionCtx, request: Request) {
+  return await withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (rawClaims, cors) => {
+      const claims = accountContext(rawClaims);
+      const input = parseInput(
+        renameAccountRequestSchema,
+        await readBoundedJson(request),
+      );
+      if (input.accountId !== claims.accountId) {
+        throw new HttpInputError(
+          403,
+          'FORBIDDEN',
+          'Select the workspace before renaming it.',
+        );
+      }
+      const account = await ctx.runMutation(internal.accounts.rename, {
+        environmentKey: claims.environmentKey,
+        accountPublicId: claims.accountId,
+        actorUserPublicId: claims.sub,
+        displayName: input.displayName,
+        now: Date.now(),
+      });
+      return jsonResponse(account, 200, cors);
+    },
+  );
+}
+
 export async function listAccountMembersHandler(
   ctx: ActionCtx,
   request: Request,
@@ -802,6 +861,69 @@ export async function listAccountMembersHandler(
         },
       });
       return jsonResponse(result, 200, cors);
+    },
+  );
+}
+
+export async function listAccountInvitationsHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return await withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (rawClaims, cors) => {
+      const claims = accountContext(rawClaims);
+      const url = new URL(request.url);
+      const requestedItems = Number(url.searchParams.get('limit') ?? '25');
+      if (!Number.isInteger(requestedItems) || requestedItems < 1) {
+        throw new HttpInputError(400, 'INVALID_INPUT', 'limit is invalid.');
+      }
+      const cursor = url.searchParams.get('cursor');
+      const result = await ctx.runMutation(
+        internal.invitations.listPendingForAccount,
+        {
+          environmentKey: claims.environmentKey,
+          accountPublicId: claims.accountId,
+          actorUserPublicId: claims.sub,
+          paginationOpts: {
+            numItems: Math.min(50, requestedItems),
+            cursor,
+          },
+          now: Date.now(),
+        },
+      );
+      return jsonResponse(result, 200, cors);
+    },
+  );
+}
+
+export async function inspectInvitationHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return await withCustomerOriginRequest(
+    ctx,
+    request,
+    async (environmentKey, cors) => {
+      const input = parseInput(
+        acceptInvitationRequestSchema,
+        await readBoundedJson(request),
+      );
+      const preview = await ctx.runQuery(internal.invitations.inspect, {
+        environmentKey,
+        tokenHash: await sha256Base64Url(input.invitationToken),
+        now: Date.now(),
+      });
+      if (!preview) {
+        return publicError(
+          'INVALID_INPUT',
+          'The invitation is invalid or unavailable.',
+          400,
+          cors,
+        );
+      }
+      return jsonResponse(preview, 200, cors);
     },
   );
 }

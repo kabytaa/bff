@@ -315,6 +315,7 @@ export const customerAuthErrorCodeSchema = z.enum([
   'CONFLICT',
   'INVALID_INPUT',
   'RATE_LIMITED',
+  'UNIT_EXHAUSTED',
   'RETRYABLE_UNAVAILABLE',
 ]);
 export type CustomerAuthErrorCode = z.infer<typeof customerAuthErrorCodeSchema>;

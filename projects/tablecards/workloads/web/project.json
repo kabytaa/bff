@@ -1,0 +1,52 @@
+{
+  "name": "tablecards-web",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/tablecards/workloads/web/src",
+  "projectType": "application",
+  "tags": ["scope:business", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "inputs": [
+        "production",
+        "^production",
+        { "env": "VITE_BFF_CUSTOMER_API_URL" },
+        { "env": "VITE_BFF_CUSTOMER_ENVIRONMENT_KEY" },
+        { "env": "VITE_BFF_SESSION_ADAPTER_URL" },
+        { "env": "VITE_CONVEX_URL" },
+        { "env": "VITE_CONVEX_SITE_URL" },
+        { "env": "VITE_TABLECARDS_WEB_ORIGIN" },
+        { "env": "VITE_TABLECARDS_DEV_CONTROLS" }
+      ],
+      "options": {
+        "command": "vite build --config projects/tablecards/workloads/web/vite.config.ts && tsx --tsconfig tsconfig.base.json projects/tablecards/workloads/web/scripts/generate-print-test.ts dist/projects/tablecards/workloads/web/six-card-landscape-print-test.pdf"
+      },
+      "outputs": ["{workspaceRoot}/dist/projects/tablecards/workloads/web"]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint projects/tablecards/workloads/web projects/tablecards/customer-auth.defaults.ts --max-warnings 0"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite --config projects/tablecards/workloads/web/vite.config.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config projects/tablecards/workloads/web/vitest.config.ts"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/tablecards/workloads/web/tsconfig.json --noEmit"
+      }
+    }
+  }
+}

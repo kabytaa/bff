@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "business-factory-tablecards-session-gateway",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": false,
+  "routes": [{ "pattern": "api.tablecards.tofler.app", "custom_domain": true }],
+  "vars": { "BUILD_VERSION": "production" }
+}

@@ -16,6 +16,16 @@ const config: SmokeConfig = {
   exampleWebUrl: 'https://example.tofler.app',
 };
 
+const tablecards: NonNullable<SmokeConfig['tablecards']> = {
+  convexSiteUrl: 'https://clean-gerbil-451.convex.site',
+  convexUrl: 'https://clean-gerbil-451.convex.cloud',
+  environmentKey: 'tablecards-production',
+  sessionAdapterUrl: 'https://api.tablecards.tofler.app',
+  webUrl: 'https://tablecards.tofler.app',
+  aiUrl: 'https://business-factory-tablecards-ai.kabytaa.workers.dev/generate',
+  dailyAiBudgetUsd: '1',
+};
+
 const baseHeaders = {
   'cache-control': 'no-store',
   'x-content-type-options': 'nosniff',
@@ -72,6 +82,71 @@ function corsHeaders(credentials = false): HeadersInit {
 
 function routes(): Map<string, RouteResponder> {
   return new Map([
+    [
+      `${tablecards.convexSiteUrl}/v1/health`,
+      () =>
+        Response.json({
+          status: 'ok',
+          service: 'tablecards-backend',
+          version: config.commitSha,
+        }),
+    ],
+    [
+      `${tablecards.sessionAdapterUrl}/_tofler/session-gateway/health`,
+      () =>
+        Response.json({
+          status: 'ok',
+          service: 'business-factory-tablecards-session-gateway',
+          version: config.commitSha,
+        }),
+    ],
+    [
+      `${tablecards.sessionAdapterUrl}/_tofler/auth/context`,
+      (_input, init) =>
+        new Response(null, {
+          status: init?.method === 'OPTIONS' ? 204 : 401,
+          headers: {
+            'access-control-allow-origin': tablecards.webUrl,
+            'access-control-allow-credentials': 'true',
+            vary: 'Origin',
+          },
+        }),
+    ],
+    [
+      `${tablecards.sessionAdapterUrl}/v1/health`,
+      () => new Response(null, { status: 404 }),
+    ],
+    [
+      `${tablecards.convexSiteUrl}/v1/files/assets/asset_smoke`,
+      () => new Response(null, { status: 403 }),
+    ],
+    [tablecards.aiUrl, () => new Response(null, { status: 401 })],
+    [
+      `${tablecards.webUrl}/build-metadata.json`,
+      () => metadata('business-factory-tablecards'),
+    ],
+    [
+      `${tablecards.webUrl}/`,
+      () =>
+        page(
+          'https://*.tofler.app https://*.convex.cloud https://*.convex.site',
+          '/assets/tablecards.js',
+        ),
+    ],
+    [
+      `${tablecards.webUrl}/assets/tablecards.js`,
+      () =>
+        new Response(
+          [
+            config.bffConvexSiteUrl,
+            tablecards.environmentKey,
+            tablecards.convexUrl,
+            tablecards.convexSiteUrl,
+            tablecards.sessionAdapterUrl,
+            'VITE_TABLECARDS_DEV_CONTROLS:"false"',
+          ].join(' '),
+        ),
+    ],
     [`${config.bffConvexSiteUrl}/v1/health`, () => healthy()],
     [
       `${config.bffConvexSiteUrl}/v1/auth/jwks`,
@@ -218,6 +293,46 @@ function createFetcher(
 }
 
 describe('production smoke', () => {
+  it('checks TableCards production versions, exact bundle, private-file and AI denials', async () => {
+    await expect(
+      checkProductionOnce({ ...config, tablecards }, createFetcher()),
+    ).resolves.toBeUndefined();
+  });
+
+  it.each([
+    [
+      'stale product version',
+      `${tablecards.convexSiteUrl}/v1/health`,
+      () =>
+        Response.json({
+          status: 'ok',
+          service: 'tablecards-backend',
+          version: 'old',
+        }),
+    ],
+    [
+      'unprotected artwork',
+      `${tablecards.convexSiteUrl}/v1/files/assets/asset_smoke`,
+      () => Response.json({ private: 'leaked' }),
+    ],
+    [
+      'unprotected provider',
+      tablecards.aiUrl,
+      () => Response.json({ image: 'leaked' }),
+    ],
+    [
+      'cross-environment gateway CORS',
+      `${tablecards.sessionAdapterUrl}/_tofler/auth/context`,
+      () => new Response(null, { status: 401, headers: corsHeaders(true) }),
+    ],
+  ])('rejects TableCards %s', async (_label, url, responder) => {
+    await expect(
+      checkProductionOnce(
+        { ...config, tablecards },
+        createFetcher(new Map([[url, responder]])),
+      ),
+    ).rejects.toThrow();
+  });
   it('proves both backends, public JWKS, negative auth and all asset SHAs', async () => {
     const fetcher = createFetcher();
 

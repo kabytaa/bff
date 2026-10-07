@@ -6,26 +6,31 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 
 - [Current handoff and next moves](STATUS.md)
 - [MVP architecture](docs/architecture/bff-mvp-architecture.md)
+- [Shared BFF data model and table purposes](docs/architecture/shared-bff-data-model.md)
 - [Future architecture ideas (non-authoritative)](docs/architecture/future-ideas.md)
 - [ADR 0001 — Convex-first BFF stack](docs/architecture/adr/0001-convex-first-bff-stack.md)
 - [ADR 0002 — Business environments and operator authentication](docs/architecture/adr/0002-business-environments-and-operator-auth.md)
 - [ADR 0003 — Production delivery](docs/architecture/adr/0003-production-delivery.md)
 - [ADR 0004 — Business customer authentication and accounts](docs/architecture/adr/0004-business-customer-auth-and-accounts.md)
 - [MVP delivery plan — Codex and manual work](docs/factory/mvp-delivery-plan.md)
-- [TableCards MVP product specification](docs/products/tablecards-mvp.md)
+- [TableCards code and documentation](projects/tablecards/README.md)
+- [TableCards MVP product specification](projects/tablecards/docs/product.md)
+- [Business documentation ownership](docs/factory/business-documentation.md)
 - [Provider accounts, access and secrets](docs/operations/provider-accounts-and-secrets.md)
 - [Build 1 local development](docs/operations/build-1-local-development.md)
 - [Build 1 hosted verification](docs/operations/build-1-hosted-verification.md)
 - [Development authenticated dashboard smoke](docs/operations/development-authenticated-smoke.md)
 - [Production delivery](docs/operations/production-delivery.md)
 - [Build 2 customer authentication](docs/operations/build-2-customer-auth.md)
+- [TableCards market research (2026-09-27)](docs/research/260927-tablecards-market-research.md)
+- [Active TableCards product and launch brainstorm](.agent/brainstorms/260927-tablecards-product-and-launch.md)
 - [Research source map and reconciliation](docs/research/source-map.md)
 - [First Business Project brainstorm](.agent/brainstorms/260921-first-business-project.md)
 
 The architecture is the supplied source document. The TableCards specification is the canonical product scope, and the delivery plan describes implementation. Nirvana is reserved for short personal blockers that Andrew must complete away from the conversation; Codex work and decisions that can be resolved together stay out of Nirvana.
 
-The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server and database, Cloudflare for static web hosting/DNS and Paddle when billing begins. Build 1 protects its small operator dashboard with direct Google OIDC and a fixed server-side operator allowlist; the authentication library for Business users is deliberately chosen in Build 2. A reusable in-product support and feedback flow is part of the MVP. Implementations must include executable validation and a small happy-path browser regression suite. Clerk is not required. Apple login, PostHog, Resend and Sentry are optional integrations added only when a product or platform workflow requires them. Businesses remain free to choose different product-specific technology.
+The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server and database, Cloudflare for static web hosting/DNS and Paddle when real billing begins. The operator dashboard uses direct Google OIDC and a fixed server-side operator allowlist. Business customer authentication uses the delivered provider-neutral BFF session/account protocol and technology-first SDK described in ADR 0004. An email-capable customer-support conversation is a later required MVP slice. Implementations include executable validation and focused browser regression. Apple login and specific analytics, email and monitoring vendors are optional integrations selected only when their owning workflow requires them. Businesses remain free to choose different product-specific technology.
 
 Deployment-invariant, non-secret BFF identifiers live in the internal `bff-static-config` library. Credentials and values that actually vary by deployment remain external configuration.
 
-Build 1 is complete in development and production. Build 2 customer authentication and accounts are in production acceptance. See [the current handoff](STATUS.md) for the exact state and active work.
+Builds 1 and 2 are complete in production. TableCards Build 3 is deployed to development, not released to production. See [the current handoff](STATUS.md) for current verification, findings and next work.

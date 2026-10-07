@@ -20,10 +20,13 @@ import {
   customerAuthOptionsHandler,
   exchangeLoginHandler,
   issueContextHandler,
+  inspectInvitationHandler,
+  listAccountInvitationsHandler,
   listAccountMembersHandler,
   logoutHandler,
   readLoginChallengeHandler,
   removeMembershipHandler,
+  renameAccountHandler,
   revokeInvitationHandler,
   startLoginHandler,
   startOwnershipTransferHandler,
@@ -31,6 +34,22 @@ import {
   updateAccountPolicyHandler,
 } from './lib/customerHttp';
 import { customerDevelopmentAutomationRouteEnabled } from './lib/customerCrypto';
+import { developmentProductAccessRouteEnabled } from './developmentProductAccess';
+import {
+  commitUnitsHandler,
+  currentProductAccessHandler,
+  currentUnitBalanceHandler,
+  releaseUnitsHandler,
+  reserveUnitsHandler,
+  setDevelopmentProductAccessHandler,
+} from './lib/productAccessHttp';
+import {
+  cancelCheckoutHandler,
+  checkoutOptionsHandler,
+  completeCheckoutHandler,
+  createCheckoutHandler,
+  readCheckoutHandler,
+} from './lib/checkoutHttp';
 
 const http = httpRouter();
 
@@ -122,6 +141,81 @@ http.route({
 });
 
 http.route({
+  path: '/v1/product-access',
+  method: 'GET',
+  handler: httpAction(currentProductAccessHandler),
+});
+
+http.route({
+  path: '/v1/checkouts',
+  method: 'POST',
+  handler: httpAction(createCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts',
+  method: 'GET',
+  handler: httpAction(readCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts/complete',
+  method: 'POST',
+  handler: httpAction(completeCheckoutHandler),
+});
+
+http.route({
+  path: '/v1/checkouts/cancel',
+  method: 'POST',
+  handler: httpAction(cancelCheckoutHandler),
+});
+
+for (const path of [
+  '/v1/checkouts/complete',
+  '/v1/checkouts/cancel',
+] as const) {
+  http.route({
+    path,
+    method: 'OPTIONS',
+    handler: httpAction(async (_ctx, request) =>
+      checkoutOptionsHandler(request),
+    ),
+  });
+}
+
+http.route({
+  path: '/v1/product-access/units',
+  method: 'GET',
+  handler: httpAction(currentUnitBalanceHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/reserve',
+  method: 'POST',
+  handler: httpAction(reserveUnitsHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/commit',
+  method: 'POST',
+  handler: httpAction(commitUnitsHandler),
+});
+
+http.route({
+  path: '/v1/product-access/units/release',
+  method: 'POST',
+  handler: httpAction(releaseUnitsHandler),
+});
+
+if (developmentProductAccessRouteEnabled()) {
+  http.route({
+    path: '/v1/product-access/development',
+    method: 'POST',
+    handler: httpAction(setDevelopmentProductAccessHandler),
+  });
+}
+
+http.route({
   path: '/v1/accounts',
   method: 'POST',
   handler: httpAction(createAccountHandler),
@@ -131,6 +225,12 @@ http.route({
   path: '/v1/accounts/members',
   method: 'GET',
   handler: httpAction(listAccountMembersHandler),
+});
+
+http.route({
+  path: '/v1/accounts/name',
+  method: 'POST',
+  handler: httpAction(renameAccountHandler),
 });
 
 http.route({
@@ -158,6 +258,18 @@ http.route({
 });
 
 http.route({
+  path: '/v1/accounts/invitations',
+  method: 'GET',
+  handler: httpAction(listAccountInvitationsHandler),
+});
+
+http.route({
+  path: '/v1/accounts/invitations/inspect',
+  method: 'POST',
+  handler: httpAction(inspectInvitationHandler),
+});
+
+http.route({
   path: '/v1/accounts/invitations/accept',
   method: 'POST',
   handler: httpAction(acceptInvitationHandler),
@@ -173,15 +285,30 @@ for (const path of [
   '/v1/me',
   '/v1/accounts',
   '/v1/accounts/members',
+  '/v1/accounts/name',
   '/v1/accounts/members/role',
   '/v1/accounts/members/remove',
   '/v1/accounts/policy',
   '/v1/accounts/invitations',
+  '/v1/accounts/invitations/inspect',
   '/v1/accounts/invitations/accept',
   '/v1/accounts/invitations/revoke',
+  '/v1/product-access',
+  '/v1/product-access/units',
+  '/v1/product-access/units/reserve',
+  '/v1/product-access/units/commit',
+  '/v1/product-access/units/release',
 ] as const) {
   http.route({
     path,
+    method: 'OPTIONS',
+    handler: httpAction(customerApiOptionsHandler),
+  });
+}
+
+if (developmentProductAccessRouteEnabled()) {
+  http.route({
+    path: '/v1/product-access/development',
     method: 'OPTIONS',
     handler: httpAction(customerApiOptionsHandler),
   });

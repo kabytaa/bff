@@ -146,6 +146,52 @@ export function assertBackofficeBundleContent(
   );
 }
 
+export function assertTableCardsBundleContent(
+  content: string,
+  config: ProductionConfig,
+): void {
+  const target = config.tablecards;
+  if (!target)
+    throw new Error('TableCards production configuration is required.');
+  requireMarkers(
+    content,
+    [
+      config.bffConvexSiteUrl,
+      target.convexUrl,
+      target.convexSiteUrl,
+      target.environmentKey,
+      target.sessionAdapterUrl,
+    ],
+    'TableCards',
+  );
+  rejectMarkers(
+    content,
+    [
+      'tablecards-development',
+      'tablecards-dev.tofler.app',
+      'auth-dev.tofler.app',
+      '__BFF_CUSTOMER_DEVELOPMENT_GRANT__',
+    ],
+    'TableCards',
+  );
+  if (
+    !/VITE_TABLECARDS_DEV_CONTROLS["']?\s*:\s*["'\x60]false["'\x60]/u.test(
+      content,
+    )
+  ) {
+    throw new Error(
+      'TableCards development controls must be explicitly disabled.',
+    );
+  }
+  assertOnlyConvexUrls(content, [target.convexUrl], 'cloud', 'TableCards');
+  assertOnlyConvexUrls(
+    content,
+    [config.bffConvexSiteUrl, target.convexSiteUrl],
+    'site',
+    'TableCards',
+  );
+}
+
 export async function assertProductionBundles(
   config: ProductionConfig,
 ): Promise<void> {
@@ -157,4 +203,10 @@ export async function assertProductionBundles(
   assertBackofficeBundleContent(backoffice, config);
   assertCustomerAuthBundleContent(customerAuth, config);
   assertExampleBundleContent(example, config);
+  if (config.tablecards) {
+    assertTableCardsBundleContent(
+      await bundleText('dist/projects/tablecards/workloads/web'),
+      config,
+    );
+  }
 }

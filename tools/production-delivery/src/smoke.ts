@@ -4,6 +4,7 @@ import {
   assertBackofficeBundleContent,
   assertCustomerAuthBundleContent,
   assertExampleBundleContent,
+  assertTableCardsBundleContent,
 } from './bundles';
 import { readSmokeConfig, type SmokeConfig } from './config';
 
@@ -332,6 +333,89 @@ export async function checkProductionOnce(
     ['https://*.tofler.app', 'https://*.convex.cloud', 'https://*.convex.site'],
     (content) => assertExampleBundleContent(content, config),
   );
+  if (config.tablecards) await checkTableCardsProduction(config, fetcher);
+}
+
+async function checkTableCardsProduction(
+  config: SmokeConfig,
+  fetcher: Fetcher,
+): Promise<void> {
+  const target = config.tablecards;
+  if (!target)
+    throw new Error('TableCards production configuration is required.');
+  const health = (await (
+    await successfulResponse(fetcher, `${target.convexSiteUrl}/v1/health`)
+  ).json()) as Record<string, unknown>;
+  if (
+    health.status !== 'ok' ||
+    health.service !== 'tablecards-backend' ||
+    health.version !== config.commitSha
+  )
+    throw new Error('TableCards backend health does not match the release.');
+  const gateway = (await (
+    await successfulResponse(
+      fetcher,
+      `${target.sessionAdapterUrl}/_tofler/session-gateway/health`,
+    )
+  ).json()) as Record<string, unknown>;
+  if (
+    gateway.status !== 'ok' ||
+    gateway.service !== 'business-factory-tablecards-session-gateway' ||
+    gateway.version !== config.commitSha
+  )
+    throw new Error('TableCards gateway health does not match the release.');
+  const denial = await assertExpectedStatus(
+    fetcher,
+    `${target.sessionAdapterUrl}/_tofler/auth/context`,
+    401,
+    {
+      method: 'POST',
+      headers: {
+        origin: target.webUrl,
+        'content-type': 'application/json',
+        'x-tofler-csrf': '1',
+      },
+      body: '{}',
+    },
+  );
+  assertCorsHeaders(denial, target.webUrl, true);
+  const preflight = await assertExpectedStatus(
+    fetcher,
+    `${target.sessionAdapterUrl}/_tofler/auth/context`,
+    204,
+    {
+      method: 'OPTIONS',
+      headers: {
+        origin: target.webUrl,
+        'access-control-request-method': 'POST',
+        'access-control-request-headers': 'content-type, x-tofler-csrf',
+      },
+    },
+  );
+  assertCorsHeaders(preflight, target.webUrl, true);
+  await assertExpectedStatus(
+    fetcher,
+    `${target.sessionAdapterUrl}/v1/health`,
+    404,
+  );
+  await assertExpectedStatus(
+    fetcher,
+    `${target.convexSiteUrl}/v1/files/assets/asset_smoke`,
+    403,
+  );
+  await assertExpectedStatus(fetcher, target.aiUrl, 401, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: '{}',
+  });
+  await assertStaticSurface(
+    fetcher,
+    target.webUrl,
+    'business-factory-tablecards',
+    config.commitSha,
+    ['https://*.tofler.app', 'https://*.convex.cloud', 'https://*.convex.site'],
+    (content) => assertTableCardsBundleContent(content, config),
+  );
 }
 
 export async function runProductionSmoke(
@@ -356,7 +440,7 @@ export async function runProductionSmoke(
       console.info(`Production smoke attempt ${attempt}/${attempts}.`);
       await checkProductionOnce(config, fetcher);
       console.info(
-        `Production smoke passed for ${config.commitSha} across every Build 2 surface.`,
+        `Production smoke passed for ${config.commitSha} across every configured surface.`,
       );
       return;
     } catch (error) {

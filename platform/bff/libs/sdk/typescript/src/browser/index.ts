@@ -1,17 +1,40 @@
 import {
+  acceptInvitationRequestSchema,
   accountSummarySchema,
+  changeMembershipRoleRequestSchema,
+  createInvitationRequestSchema,
+  createInvitationResponseSchema,
   CUSTOMER_AUTH_CSRF_HEADER,
   CUSTOMER_AUTH_CSRF_HEADER_VALUE,
   customerAuthErrorResponseSchema,
   customerSessionContextResponseSchema,
   customerSessionLogoutResponseSchema,
+  invitationPreviewSchema,
+  invitationViewSchema,
+  membershipRemovalResultSchema,
+  membershipViewSchema,
   normalizeHttpsOrigin,
+  ownershipTransferRequestSchema,
+  ownershipTransferStartResponseSchema,
+  paginatedAccountMembersSchema,
+  paginatedInvitationsSchema,
   relativeApplicationPathSchema,
+  removeMembershipRequestSchema,
+  renameAccountRequestSchema,
+  revokeInvitationRequestSchema,
   type AccountSummary,
   type AuthSessionState,
   type CustomerAuthErrorCode,
   type CustomerAuthIntent,
   type CustomerSessionContextResponse,
+  type CreateInvitationResponse,
+  type InvitationPreview,
+  type InvitationView,
+  type MembershipRemovalResult,
+  type MembershipView,
+  type OwnershipTransferStartResponse,
+  type PaginatedAccountMembers,
+  type PaginatedInvitations,
 } from '../core';
 
 const TOKEN_REFRESH_SKEW_SECONDS = 30;
@@ -58,7 +81,31 @@ export interface BffAuthBrowserClient {
   bootstrap(): Promise<AuthSessionSnapshot>;
   selectAccount(accountId: string): Promise<AuthSessionSnapshot>;
   createAccount(displayName?: string): Promise<AccountSummary>;
+  renameAccount(input: {
+    readonly accountId: string;
+    readonly displayName: string;
+  }): Promise<AccountSummary>;
   acceptInvitation(invitationToken: string): Promise<AccountSummary>;
+  inspectInvitation(invitationToken: string): Promise<InvitationPreview>;
+  listAccountMembers(options?: {
+    readonly cursor?: string;
+    readonly limit?: number;
+  }): Promise<PaginatedAccountMembers>;
+  listAccountInvitations(options?: {
+    readonly cursor?: string;
+    readonly limit?: number;
+  }): Promise<PaginatedInvitations>;
+  createInvitation(recipientEmail: string): Promise<CreateInvitationResponse>;
+  revokeInvitation(invitationId: string): Promise<InvitationView>;
+  changeMembershipRole(
+    membershipId: string,
+    role: 'admin' | 'member',
+  ): Promise<MembershipView>;
+  removeMembership(membershipId: string): Promise<MembershipRemovalResult>;
+  startOwnershipTransfer(
+    targetMembershipId: string,
+    returnPath?: string,
+  ): Promise<OwnershipTransferStartResponse>;
   getAccessToken(forceRefreshToken?: boolean): Promise<string | null>;
   logout(): Promise<void>;
   getSignInUrl(
@@ -432,6 +479,76 @@ export function createBffAuthBrowserClient(
     return await responseJson(response);
   }
 
+  async function authorizedBffGet(path: string, search: URLSearchParams) {
+    const token = await getAccessToken(false);
+    if (!token) {
+      throw new BffAuthClientError(
+        'UNAUTHENTICATED',
+        'Sign in again to continue.',
+        401,
+      );
+    }
+    let response: Response;
+    try {
+      const url = new URL(path, bffOrigin);
+      url.searchParams.set('environment', options.environmentKey);
+      for (const [key, value] of search) url.searchParams.set(key, value);
+      response = await fetchImplementation(url, {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          authorization: `Bearer ${token}`,
+          'x-tofler-environment': options.environmentKey,
+        },
+      });
+    } catch {
+      throw new BffAuthClientError(
+        'RETRYABLE_UNAVAILABLE',
+        'The request is temporarily unavailable.',
+        503,
+      );
+    }
+    if (!response.ok) throw await responseError(response);
+    return await responseJson(response);
+  }
+
+  async function publicBffPost(path: string, body: unknown) {
+    let response: Response;
+    try {
+      const url = new URL(path, bffOrigin);
+      url.searchParams.set('environment', options.environmentKey);
+      response = await fetchImplementation(url, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'x-tofler-environment': options.environmentKey,
+        },
+        body: JSON.stringify(body),
+      });
+    } catch {
+      throw new BffAuthClientError(
+        'RETRYABLE_UNAVAILABLE',
+        'The request is temporarily unavailable.',
+        503,
+      );
+    }
+    if (!response.ok) throw await responseError(response);
+    return await responseJson(response);
+  }
+
+  function currentAccountId() {
+    const state = store.getSnapshot().state;
+    if (state.status !== 'authenticated') {
+      throw new BffAuthClientError(
+        'ONBOARDING_REQUIRED',
+        'Select or join an account first.',
+        403,
+      );
+    }
+    return state.accountId;
+  }
+
   async function bootstrap() {
     requireActive();
     const operationEpoch = ++epoch;
@@ -513,11 +630,128 @@ export function createBffAuthBrowserClient(
     acceptInvitation: async (invitationToken) => {
       const account = accountSummarySchema.parse(
         await authorizedBffPost('/v1/accounts/invitations/accept', {
-          invitationToken,
+          ...acceptInvitationRequestSchema.parse({ invitationToken }),
         }),
       );
       await activateAccount(account.id, false);
       return account;
+    },
+    renameAccount: async (input) => {
+      requireActive();
+      const operationEpoch = epoch;
+      const accountId = selectedAccountId(store.getSnapshot().state);
+      const account = accountSummarySchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/name',
+          renameAccountRequestSchema.parse(input),
+        ),
+      );
+      // A metadata edit must not remount the current account's application or
+      // reactivate it after an intervening switch, logout or disposal.
+      if (accountId !== undefined && !disposed && epoch === operationEpoch) {
+        try {
+          applyContext(await fetchContext(accountId), operationEpoch);
+        } catch (error) {
+          applyFailure(error, operationEpoch);
+          throw error;
+        }
+      }
+      return account;
+    },
+    inspectInvitation: async (invitationToken) =>
+      invitationPreviewSchema.parse(
+        await publicBffPost(
+          '/v1/accounts/invitations/inspect',
+          acceptInvitationRequestSchema.parse({ invitationToken }),
+        ),
+      ),
+    listAccountMembers: async (input = {}) => {
+      currentAccountId();
+      const search = new URLSearchParams({
+        limit: String(Math.max(1, Math.min(50, input.limit ?? 25))),
+      });
+      if (input.cursor !== undefined) search.set('cursor', input.cursor);
+      return paginatedAccountMembersSchema.parse(
+        await authorizedBffGet('/v1/accounts/members', search),
+      );
+    },
+    listAccountInvitations: async (input = {}) => {
+      currentAccountId();
+      const search = new URLSearchParams({
+        limit: String(Math.max(1, Math.min(50, input.limit ?? 25))),
+      });
+      if (input.cursor !== undefined) search.set('cursor', input.cursor);
+      return paginatedInvitationsSchema.parse(
+        await authorizedBffGet('/v1/accounts/invitations', search),
+      );
+    },
+    createInvitation: async (recipientEmail) =>
+      createInvitationResponseSchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/invitations',
+          createInvitationRequestSchema.parse({
+            accountId: currentAccountId(),
+            recipientEmail,
+          }),
+        ),
+      ),
+    revokeInvitation: async (invitationId) =>
+      invitationViewSchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/invitations/revoke',
+          revokeInvitationRequestSchema.parse({ invitationId }),
+        ),
+      ),
+    changeMembershipRole: async (membershipId, role) =>
+      membershipViewSchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/members/role',
+          changeMembershipRoleRequestSchema.parse({ membershipId, role }),
+        ),
+      ),
+    removeMembership: async (membershipId) =>
+      membershipRemovalResultSchema.parse(
+        await authorizedBffPost(
+          '/v1/accounts/members/remove',
+          removeMembershipRequestSchema.parse({ membershipId }),
+        ),
+      ),
+    startOwnershipTransfer: async (
+      targetMembershipId,
+      returnPath = '/settings/team',
+    ) => {
+      const body = ownershipTransferRequestSchema
+        .extend({ returnPath: relativeApplicationPathSchema })
+        .parse({
+          accountId: currentAccountId(),
+          targetMembershipId,
+          returnPath,
+        });
+      let response: Response;
+      try {
+        response = await fetchImplementation(
+          new URL('/_tofler/auth/transfer/start', adapterOrigin),
+          {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'content-type': 'application/json',
+              [CUSTOMER_AUTH_CSRF_HEADER]: CUSTOMER_AUTH_CSRF_HEADER_VALUE,
+            },
+            body: JSON.stringify(body),
+          },
+        );
+      } catch {
+        throw new BffAuthClientError(
+          'RETRYABLE_UNAVAILABLE',
+          'The request is temporarily unavailable.',
+          503,
+        );
+      }
+      if (!response.ok) throw await responseError(response);
+      return ownershipTransferStartResponseSchema.parse(
+        await responseJson(response),
+      );
     },
     getAccessToken,
     logout: async () => {
