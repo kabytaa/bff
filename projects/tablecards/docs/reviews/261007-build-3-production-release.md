@@ -410,3 +410,40 @@ that the browser login was completed with personal credentials.
 in both environments without schema changes, paid calls or production data
 mutation. Free welcome-credit provisioning remains the separate open promise
 gap described above; these passes do not close it.
+
+## Follow-up: consistent Create navigation and site icons — 2026-10-07
+
+Baseline: `07541d0` on main; Andrew supplied desktop production screenshots and
+authorized fixing and deploying the navigation mismatch and absent site icon.
+This is a feature/delta app review, not another full launch-readiness review.
+
+Signed-in `/create` now renders the same application shell as Projects, Designs
+and Account: desktop sidebar, phone bottom navigation, current workspace,
+active destination and Sign out. The guest creator retains its public header
+and draft-preserving sign-in. Container-aware editor layout accounts for width
+consumed by the sidebar and also applies to the saved-project editor. The
+existing TC mark supplies a self-hosted SVG favicon, 32-pixel PNG fallback and
+180-pixel Apple touch icon; no new brand, installable app, schema, backend,
+migration, payment or AI operation is introduced.
+
+Local Node 24 verification passed: **109/109 web tests**, affected web/e2e lint
+and typechecks, formatting and an exact-development web build. New coverage
+checks authenticated/guest/loading/account-choice shell behavior and actual
+icon formats/dimensions. Hosted regression adds common navigation, draft
+restoration, viewport widths 320–1440, phone action/navigation separation and
+neighboring Designs navigation. Production public smoke checks favicon/touch
+image delivery from landing and creator deep links. Deployment and rendered
+phone/desktop evidence will be recorded after publication.
+
+Development web publication **`911f1c99-fc99-404c-85b1-b0cb37a74b05`** succeeded
+from the reviewed working-tree candidate. Unchanged development backends, auth,
+gateway and AI adapter were not redeployed. The focused hosted checks passed
+**4/4 (1m12s)** in desktop Chromium and mobile WebKit: common-shell navigation,
+draft reload, narrow/wide containment, phone action placement, navigation to
+Designs, saved-project transition and actual edited PDF export/private-byte
+denial. Rendered desktop/mobile screenshots were inspected: sidebar/active Create
+on desktop, bottom navigation and primary action separated on phones, readable
+controls and no page-wide horizontal overflow. The existing programmatic heading
+focus indication remains; fixed phone controls appear mid-image in full-page
+captures because they stay attached to the viewport, not the document bottom.
+No manual AI generation or real payment was required.

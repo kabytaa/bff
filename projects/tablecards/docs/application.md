@@ -135,7 +135,7 @@ incomplete workflow; a scope change requires product direction.
 | Route                            | Entry condition and purpose                                                                                | Current delivery                    |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | `/`                              | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                         |
-| `/create`                        | Public import/design/preview; save, export and AI require a selected account                               | Development, separate creator shell |
+| `/create`                        | Public import/design/preview; save, export and AI require a selected account                               | Public guest header; signed-in app shell |
 | `/projects`                      | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                         |
 | `/projects/:projectId`           | Selected active membership; load one scoped project into the creator                                       | Development                         |
 | `/designs`                       | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                         |
@@ -179,13 +179,18 @@ At 760px and below the sidebar becomes fixed bottom navigation with the same
 four destinations. The top bar retains account context, selector and a visible
 Sign out action.
 
-The [new-project route](../workloads/web/src/pages/create-page.tsx) deliberately
-uses its own header so the public creator can remain usable without the private
-shell. Signed-in desktop users get the four navigation links and account
-selector and Sign out; signed-in phone users get bottom navigation and retain
-the selector and exit action. Phone Continue/Review and Save/Export actions are
+The [new-project route](../workloads/web/src/pages/create-page.tsx) uses that
+same application shell once signed in: Create is the active sidebar destination
+on desktop and the active bottom-navigation destination on phones. Only the
+guest creator retains its public brand/Login header, so import and preview remain
+available without authentication. The editor adapts to the width left beside
+the sidebar, not just the viewport. Phone Continue/Review and Save/Export actions are
 fixed above the bottom navigation/safe-area inset; editor content reserves space
 for them. Responsive geometry still requires rendered browser verification.
+
+Browser tabs use the existing terracotta/white TC brand mark. A self-hosted SVG
+favicon, PNG fallback and Apple touch icon apply to public and private routes;
+this does not add an installable app or change authentication.
 
 ### Deep links, authentication and editing continuity
 

@@ -1502,25 +1502,6 @@ footer p {
   gap: 1rem;
 }
 
-.creator-auth-navigation {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.creator-auth-navigation a {
-  border-radius: 0.65rem;
-  padding: 0.55rem 0.7rem;
-  color: var(--ink-soft);
-  text-decoration: none;
-}
-
-.creator-auth-navigation a.active,
-.creator-auth-navigation a:hover {
-  color: var(--ink);
-  background: var(--sage-wash);
-}
-
 .application-shell {
   min-height: 100vh;
   background: var(--mist);
@@ -1592,6 +1573,26 @@ footer p {
 
 .application-content {
   padding: clamp(1rem, 3vw, 3rem);
+  container-type: inline-size;
+}
+
+.application-content > .creator-section {
+  width: min(100%, 82rem);
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 1.25rem;
+}
+
+/* Account for the sidebar rather than assuming the whole viewport is usable. */
+@container (max-width: 58rem) {
+  .creator-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .creator-preview {
+    position: static;
+    grid-row: auto;
+  }
 }
 
 .app-page {
@@ -2160,14 +2161,6 @@ summary {
   .creator-route-header .brand > span:last-child,
   .creator-route-header .header-actions .text-button {
     display: inline-flex;
-  }
-
-  .creator-auth-navigation {
-    display: none;
-  }
-
-  .creator-route:has(.mobile-navigation) {
-    padding-bottom: 4.6rem;
   }
 
   .creator-route .creator-section {

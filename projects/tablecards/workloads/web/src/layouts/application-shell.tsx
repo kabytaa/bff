@@ -3,6 +3,7 @@ import {
   BffSignOutButton,
   useBffAuth,
 } from '@tofler/bff-auth/react';
+import type { ReactNode } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { WorkspaceSelector } from '../auth-navigation';
 import { RouteFocus } from '../route-focus';
@@ -76,7 +77,7 @@ function SetupRequired() {
   );
 }
 
-export function ApplicationShell() {
+export function ApplicationShell({ children }: { children?: ReactNode }) {
   const { state } = useBffAuth();
   const location = useLocation();
 
@@ -138,7 +139,7 @@ export function ApplicationShell() {
           id="application-content"
           tabIndex={-1}
         >
-          <Outlet />
+          {children ?? <Outlet />}
         </main>
       </div>
       <nav className="mobile-navigation" aria-label="Application navigation">

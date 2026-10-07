@@ -18,9 +18,14 @@ Updated: 2026-10-07.
   Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
 - Approved reflection update: [brainstorm-ideas](.agents/skills/brainstorm-ideas/SKILL.md)
   shapes ideas before planning; routine prioritization stays in the roadmap.
+- Create navigation/site-icon correction is deployed to development. All 109
+  web tests and four focused hosted desktop/mobile checks passed; production
+  publication is next. This is a web-only correction, not a schema/backend change.
 
 ## Immediate next work
 
+- Finish the authorized Create-sidebar/favicon release to development and
+  production, then record the scoped browser and deployment results.
 - Resolve production-safe Free welcome-credit provisioning separately; do not
   enable development mocks or fabricate paid grants. Any schema change needs
   Andrew's confirmation.

@@ -21,6 +21,82 @@ async function importNames(page: Page, text: string) {
   else await page.getByRole('button', { name: 'Preview names' }).click();
 }
 
+test('review regression: Create shares application navigation, preserves drafts and stays contained', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('creator-navigation', info.project.name),
+  );
+  await page.goto('/projects');
+  const navigation = page.locator(
+    info.project.use.isMobile
+      ? '.mobile-navigation'
+      : '.application-sidebar nav',
+  );
+  await navigation.getByRole('link', { name: 'Create', exact: true }).click();
+  await expect(page).toHaveURL(/\/create$/u);
+  await expect(page.locator('.application-shell')).toBeVisible();
+  await expect(page.locator('.creator-route-header')).toHaveCount(0);
+  await expect(page.locator('.application-topbar strong')).toHaveText('Create');
+  await expect(
+    navigation.getByRole('link', { name: 'Create', exact: true }),
+  ).toHaveAttribute('aria-current', 'page');
+  await expect(
+    page.getByRole('link', { name: 'Log in', exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator('.application-sidebar')).toBeVisible({
+    visible: !info.project.use.isMobile,
+  });
+  await expect(page.locator('.mobile-navigation')).toBeVisible({
+    visible: Boolean(info.project.use.isMobile),
+  });
+  await importNames(page, 'Ada Lovelace\nAlexandra Catherine Montgomery');
+  await page.getByLabel('Event name').fill('Navigation review');
+  await page.reload();
+  await step(page, 'Guests');
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
+    'Ada Lovelace\nAlexandra Catherine Montgomery',
+  );
+  const widths = info.project.use.isMobile
+    ? [320, 390]
+    : [800, 1024, 1280, 1440];
+  for (const width of widths) {
+    await page.setViewportSize({
+      width,
+      height: info.project.use.isMobile ? 844 : 900,
+    });
+    await expectNoHorizontalPageOverflow(page);
+  }
+  await page.screenshot({
+    path: info.outputPath('authenticated-create.png'),
+    fullPage: true,
+  });
+  await step(page, 'Design');
+  await expect(page.getByLabel('Event name')).toHaveValue('Navigation review');
+  await step(page, 'Review');
+  if (info.project.use.isMobile) {
+    const actions = await page
+      .locator('.action-card > .inline-actions')
+      .boundingBox();
+    const bottomNavigation = await navigation.boundingBox();
+    expect(actions).not.toBeNull();
+    expect(bottomNavigation).not.toBeNull();
+    expect(actions!.y + actions!.height).toBeLessThanOrEqual(
+      bottomNavigation!.y,
+    );
+  }
+  page.once('dialog', (dialog) => void dialog.accept());
+  await navigation.getByRole('link', { name: 'Designs', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Designs', exact: true }),
+  ).toBeVisible();
+  await expect(
+    navigation.getByRole('link', { name: 'Designs', exact: true }),
+  ).toHaveAttribute('aria-current', 'page');
+  await expectNoHorizontalPageOverflow(page);
+});
+
 test('review regression: edited saved project exports the actual current names, title and duplicate multiplicity', async ({
   page,
 }, info) => {

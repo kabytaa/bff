@@ -30,6 +30,30 @@ async function prepareCards(page: Page) {
   await openStep(page, 'Review');
 }
 
+test('site icons load as real images from landing and creator deep links', async ({
+  page,
+}) => {
+  for (const route of ['/', '/create']) {
+    await page.goto(route);
+    await expect(
+      page.locator('link[rel="icon"][type="image/svg+xml"]'),
+    ).toHaveAttribute('href', '/favicon.svg');
+    for (const [path, type] of [
+      ['/favicon.svg', 'image/svg+xml'],
+      ['/favicon-32.png', 'image/png'],
+      ['/apple-touch-icon.png', 'image/png'],
+    ] as const) {
+      const response = await page.request.get(path);
+      expect(response.status()).toBe(200);
+      expect(response.headers()['content-type']).toContain(type);
+      expect((await response.body()).byteLength).toBeGreaterThan(100);
+    }
+    expect(
+      await page.locator('link[rel="apple-touch-icon"]').getAttribute('sizes'),
+    ).toBe('180x180');
+  }
+});
+
 test('public pricing, creator, long names and cards-only preview work without dev controls', async ({
   page,
 }, info) => {

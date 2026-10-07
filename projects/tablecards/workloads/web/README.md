@@ -26,6 +26,17 @@ The landing page imports the lightweight `@tablecards/core/catalog` entry only.
 Spreadsheet/PDF editor code and team-management route code stay behind lazy
 route boundaries rather than entering the first public page download.
 
+Signed-in Create reuses the application sidebar/bottom navigation. Guests keep
+the public creator header. Browser/tab and Apple touch icons are static assets
+under `public/`; to regenerate the PNG fallbacks after editing `favicon.svg`:
+
+```bash
+pnpm exec tsx projects/tablecards/workloads/web/scripts/generate-site-icons.ts
+```
+
+This maintenance command uses the repository's Playwright Chromium installation;
+normal builds copy the checked-in icons and do not launch a browser.
+
 ## Local setup
 
 Copy `.env.example` to a local Vite environment file and fill in only public
