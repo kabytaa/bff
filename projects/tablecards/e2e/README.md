@@ -13,7 +13,7 @@ pnpm test:e2e:tablecards-hosted
 ```
 
 The local development signing key remains outside Git. Production cannot trust
-these grants and Build 3 has no production TableCards deployment. For the same
+these grants. For the same
 reason, this hosted suite is deliberately separate from the self-contained
 `pnpm check` CI gate; CI never receives the development signing key.
 Artifacts go to this project's ignored `test-results/`, separate from local
@@ -66,3 +66,17 @@ customer workflow. `$5`, `$9/month` and `$19/month` activation is an
 explicit no-charge development provider simulation. Live Paddle checkout,
 webhooks, failed renewal and subscription remediation remain Build 4 and are
 never implied by this suite.
+
+## Production public smoke
+
+```sh
+pnpm exec playwright test --config projects/tablecards/e2e/playwright.production.config.ts
+```
+
+This isolated configuration runs six public cases (three journeys on Chromium
+and mobile WebKit). It checks pricing, guest input/preview, absent dev controls,
+policies, containment and the production TableCards-branded Google handoff.
+It does not import development grants, use customer credentials, issue a charge
+or generate AI. It stops before Google authentication, so it does not establish
+a fresh production authenticated export/checkout/team journey. Its artifacts
+remain ignored under `test-results/production`; do not commit cookies or traces.

@@ -189,7 +189,7 @@ export function Component() {
           <strong>{access?.offerName ?? 'Loading…'}</strong>
           <small>
             {access?.source === 'development_mock'
-              ? 'Development mock'
+              ? 'No-charge simulation'
               : access?.source === 'provider'
                 ? 'Verified provider'
                 : 'Default access'}

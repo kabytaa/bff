@@ -20,6 +20,7 @@
     "production:build": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/build-surfaces.ts",
     "production:smoke": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/smoke.ts",
     "production:verify-example-target": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/verify-example-target.ts",
+    "production:verify-tablecards-target": "tsx --tsconfig tsconfig.base.json tools/production-delivery/src/verify-tablecards-target.ts",
     "development-auth:keygen": "nx run bff-backoffice-e2e:generate-development-auth-key",
     "customer-development-auth:keygen": "nx run bff-customer-auth-tools:generate-development-auth-key",
     "development-auth:build": "nx run bff-backoffice:build-development-auth",

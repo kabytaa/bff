@@ -27,6 +27,9 @@ describe('production workflow credential boundaries', () => {
     expect(jobEnvironment).not.toContain('secrets.CONVEX_DEPLOY_KEY');
     expect(jobEnvironment).not.toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
     expect(jobEnvironment).not.toContain('secrets.CLOUDFLARE_API_TOKEN');
+    expect(jobEnvironment).not.toContain(
+      'secrets.TABLECARDS_CONVEX_DEPLOY_KEY',
+    );
   });
 
   it('scopes each Convex key to only its matching deployment steps', async () => {
@@ -80,7 +83,7 @@ describe('production workflow credential boundaries', () => {
     );
 
     expect(staticRelease.match(/secrets\.CLOUDFLARE_API_TOKEN/gu)).toHaveLength(
-      4,
+      7,
     );
     expect(
       workflow.slice(
@@ -90,5 +93,35 @@ describe('production workflow credential boundaries', () => {
         ),
       ),
     ).not.toContain('secrets.CLOUDFLARE_API_TOKEN');
+  });
+
+  it('guards the TableCards key before configuration and cannot disable production checks', async () => {
+    const workflow = await readFile(workflowPath, 'utf8');
+    expect(workflow).toContain("TABLECARDS_PRODUCTION_ENABLED: 'true'");
+    const target = step(
+      workflow,
+      'Verify the separate TableCards production target',
+      'Configure the separate TableCards production deployment',
+    );
+    const configure = step(
+      workflow,
+      'Configure the separate TableCards production deployment',
+      'Deploy and stamp the separate TableCards backend',
+    );
+    const deploy = step(
+      workflow,
+      'Deploy and stamp the separate TableCards backend',
+      'Deploy the production example session gateway',
+    );
+    for (const section of [target, configure, deploy]) {
+      expect(section).toContain('secrets.TABLECARDS_CONVEX_DEPLOY_KEY');
+      expect(section).not.toContain('secrets.CONVEX_DEPLOY_KEY }}');
+      expect(section).not.toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
+    }
+    expect(target).toContain('production:verify-tablecards-target');
+    expect(target).not.toContain('convex env set');
+    expect(configure).toContain(
+      'convex env remove TABLECARDS_DEVELOPMENT_MOCKS_ENABLED',
+    );
   });
 });

@@ -15,10 +15,10 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
       className="app-page policy-page"
       aria-labelledby="policy-title"
     >
-      <p className="eyebrow">TableCards development preview</p>
+      <p className="eyebrow">TableCards no-charge preview</p>
       <h1 id="policy-title">{title}</h1>
       <p className="notice">
-        Updated October 7, 2026. This is a development preview, not a commercial
+        Updated October 7, 2026. This is a no-charge preview, not a commercial
         launch. Checkout is a clearly labelled no-charge simulation.
       </p>
       {kind === 'privacy' ? (
@@ -55,14 +55,14 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             bearer links; those links cannot be retroactively revoked without
             replacing or deleting the underlying files.
           </p>
-          <h2>Development data and requests</h2>
+          <h2>Preview data and requests</h2>
           <p>
             Use synthetic guest names where possible. Archiving a project hides
-            it from active projects; it is not deletion. Development data can
-            remain until operator cleanup. Automated retention, self-service
-            deletion and a public support channel are not yet provided. Contact
-            the person who invited you to this preview for a data request. Do
-            not upload sensitive personal or payment information.
+            it from active projects; it is not deletion. Preview data can remain
+            until operator cleanup. Automated retention, self-service deletion
+            and a public support channel are not yet provided. Contact the
+            person who invited you to this preview for a data request. Do not
+            upload sensitive personal or payment information.
           </p>
         </>
       ) : kind === 'terms' ? (
@@ -89,7 +89,7 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             Upload only artwork you have permission to use, and provide guest
             information you are authorized to process. Review spelling, table
             assignments and readability before export. Preview features may
-            change and development data should not be your only copy.
+            change and preview data should not be your only copy.
           </p>
           <h2>Before commercial launch</h2>
           <p>
@@ -104,7 +104,7 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
         <>
           <h2>Preview help</h2>
           <p>
-            For this development preview, contact the operator who gave you
+            For this no-charge preview, contact the operator who gave you
             access. Include the page, the action you tried and any short error
             reference. Never send a session cookie, access token, payment
             details or a private guest list.

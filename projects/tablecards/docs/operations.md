@@ -1,12 +1,13 @@
-# Build 3 TableCards development operations
+# Build 3 TableCards operations
 
 Created: 2026-09-27
 Last updated: 2026-10-07
-Status: Development remediation deployed and verified; not a production release
+Status: Development verified; authorized production release in progress
 
-This runbook covers the development-only Build 3 TableCards slice. Real
-Cloudflare generation was explicitly authorized on 2026-10-07 with capped usage.
-It does not authorize a production TableCards deployment or live payment.
+This runbook covers the Build 3 no-charge preview in development and production.
+Andrew authorized production setup, merge, deployment and verification on
+2026-10-07. Real Cloudflare generation is authorized with separate capped usage
+in each deployment. Real payment and customer launch remain later stages.
 
 Use [Product](product.md) for promises, [Application](application.md) for
 screens/states and [Architecture](architecture.md) for table/API ownership.
@@ -86,7 +87,7 @@ Install matching strong random credentials in its `PROVIDER_SECRET` and Convex's
 `TABLECARDS_CLOUDFLARE_AI_SECRET` through secret/environment tools only. Never
 put these values in Git, public environment files, screenshots or command output.
 Worker request observability is disabled; errors return safe codes, not prompts,
-images or provider payloads. No production route is configured.
+images or provider payloads. Production uses the separate adapter below.
 
 Andrew raised the initial eight-batch cap on 2026-10-07 to **$1 per UTC day across
 the TableCards development deployment**. The non-secret
@@ -113,8 +114,8 @@ An already-admitted batch may finish recovery after lowering the budget.
 Only plain dollar amounts with up to two decimal places, from `0` to `7.20`,
 are supported: the upper bound keeps the indexed admission read within 1,000
 records. Larger budgets require a reviewed counting strategy, not an unbounded
-query. A future production deployment must configure its own budget explicitly;
-this task neither sets nor deploys production. Customer-plan allowances do not
+query. Production must configure its own budget explicitly; the authorized
+release uses a separate `$1/day` setting and counter. Customer-plan allowances do not
 change when the site's safety budget changes.
 
 [Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
@@ -138,6 +139,84 @@ Guest lists, project/account metadata and filenames are not automatically sent.
 Only a reference digest persists on the operation; the reference itself is not
 a saved gallery file. The UI/privacy notice disclose the Cloudflare transfer
 and explain that exact logo reproduction is not promised.
+
+## Production release and recovery
+
+The reviewed production targets are independent of development:
+
+| Surface                        | Production target                                                     |
+| ------------------------------ | --------------------------------------------------------------------- |
+| Web                            | `https://tablecards.tofler.app`                                       |
+| Same-site session gateway      | `https://api.tablecards.tofler.app`                                   |
+| TableCards Convex              | `clean-gerbil-451` (`.convex.cloud` / `.convex.site`)                 |
+| Shared BFF Convex              | `exuberant-goldfinch-830`                                             |
+| Shared authentication/checkout | `https://auth.tofler.app`                                             |
+| Private AI adapter             | `https://business-factory-tablecards-ai.kabytaa.workers.dev/generate` |
+| Business environment           | `tablecards-production`                                               |
+
+Production auth uses the same code-owned defaults as development, with exact
+production origins, the `/create` return path and automation disabled. Definition
+revision 4/configuration revision 1 passed a compatible operator preflight and
+was applied after Andrew's confirmation. Production never accepts development
+identity grants, fixture AI or arbitrary offer selection. The shared no-charge
+checkout is intentionally enabled; it creates simulated grants, not verified
+paid subscriptions. The UI identifies these as **No-charge simulation**.
+
+Production Convex requires the same private checkout/provider credentials as
+development, but different values: `BFF_CHECKOUT_SERVICE_TOKEN` matches its
+environment entry in BFF's `BFF_CHECKOUT_SERVICE_SECRETS_JSON`, and
+`TABLECARDS_CLOUDFLARE_AI_SECRET` matches this Worker's `PROVIDER_SECRET`.
+`TABLECARDS_AI_PROVIDER=cloudflare`, `TABLECARDS_AI_DAILY_BUDGET_USD=1` and the
+production adapter URL are deployment settings. `TABLECARDS_DEVELOPMENT_MOCKS_ENABLED`
+must be absent. Each Convex database counts its own `aiBatches` starts; development
+cannot consume production's application budget. Both adapters still share the
+Cloudflare account's provider allowance and invoice.
+
+Install secrets through native provider tools/stdin, never repository files,
+browser variables or logs. GitHub's `production` environment holds the scoped
+`TABLECARDS_CONVEX_DEPLOY_KEY`; the [production-delivery tool](../../../tools/production-delivery/README.md)
+documents public inputs. Its target guard checks the key's non-secret deployment
+prefix before any TableCards environment write. Shared BFF and retained Example
+credentials remain isolated in their own CI steps.
+
+The main-branch workflow validates first, then preflights exact-target bundles,
+deploys/stamps BFF, Example and TableCards backends, publishes gateways and static
+surfaces, and runs `pnpm production:smoke`. Every health/build metadata must match
+the same full merge SHA. TableCards manifests live beside web/gateway/AI code as
+`wrangler.production.jsonc`. This is not a zero-downtime rollout guarantee: if
+publication partially fails, do not call the release complete. Inspect the failed
+step, fix the release-scoped problem and rerun the workflow at the reviewed SHA.
+Prefer roll-forward; do not roll a deployed schema back or erase customer data
+without a separately reviewed compatibility/migration plan. Existing browser tabs
+should reload after publication.
+
+After CI's anonymous target/header/CORS/private-route checks, run public browser
+smoke without any development identity:
+
+```sh
+pnpm exec playwright test --config projects/tablecards/e2e/playwright.production.config.ts
+```
+
+It checks pricing, long/accented/duplicate names, cards-only preview, responsive
+containment, policies and real business-branded Google handoff on Chromium and
+mobile WebKit. It deliberately stops before personal Google authentication.
+Authenticated development user-story tests are separate evidence, not a claim
+that a new production account completed checkout/team/export. Record those
+limits and actual deployed versions in the dated release review.
+
+Verify production fonts against the same pins documented below. Public artwork
+must match its catalog pins; new uploaded artwork/PDF bytes must remain private.
+To pause new production AI starts without changing account allowances:
+
+```sh
+cd projects/tablecards/backend
+pnpm exec convex env set TABLECARDS_AI_DAILY_BUDGET_USD 0 --deployment clean-gerbil-451
+```
+
+Restoring `1` reopens the remaining daily admission budget; lowering the cap does
+not erase attempts or cancel recovery. Disabling AI is not a rollback of ordinary
+predefined/uploaded designs or PDF export. Real billing, public support,
+observability and physical launch certification remain Builds 4–7.
 
 ## Deploy development
 
@@ -393,8 +472,8 @@ uses the same 7:4 renderer contract. There is no vector-motif fallback.
 
 ## Safety and known limits
 
-- Build 3 has no Paddle tables, provider webhook, live charge, production
-  TableCards deployment, email/support flow, analytics, or generic monitoring.
+- Build 3 has no Paddle tables, provider webhook, live charge,
+  email/support flow, analytics, or generic monitoring.
   Its shared BFF checkout is an explicitly no-charge simulation, not payment
   truth.
 - Current uploads and generated PDFs use authenticated byte endpoints, never

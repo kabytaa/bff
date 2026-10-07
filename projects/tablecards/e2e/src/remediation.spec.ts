@@ -88,7 +88,7 @@ test('review regression: policies, usable designs, workspace naming, pricing and
     await page.goto(`/${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect(
-      page.getByText(/development preview, not a commercial launch/u),
+      page.getByText(/no-charge preview, not a commercial launch/u),
     ).toBeVisible();
     await expectNoHorizontalPageOverflow(page);
   }

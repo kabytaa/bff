@@ -1,8 +1,8 @@
 # Feature: Build 3 TableCards Core
 
-> **Status**: In progress — Development slice deployed and validated
+> **Status**: In progress — Production release authorized 2026-10-07
 > **Created**: 2026-09-27
-> **Last updated**: 2026-09-28
+> **Last updated**: 2026-10-07
 > **Repository baseline**: `f6344be`
 > **Source brainstorm**: [TableCards Product and Launch Direction](../brainstorms/260927-tablecards-product-and-launch.md), accepted 2026-09-27
 >
@@ -404,3 +404,60 @@ The initial documentation commit `f6344be` is the only commit requested before i
 | 2026-09-28 | In progress — Reviewed raster designs deployed         | Replaced the temporary SVG motifs with six user-supplied, normalized 1050 × 600 JPEG designs. One versioned, SHA-256-pinned catalog now drives picker thumbnails, sheet previews and backend PDF exports; the old motif fallback was removed. Focused gates and all six hosted Chromium/WebKit journeys pass.                                                                                                                                      |
 | 2026-09-28 | In progress — Ink-friendly artwork revision            | Created immutable `v2` versions of all six designs through a deterministic, no-AI color-key transformation. Neutral paper pixels became true white while meaningful corner artwork was preserved; `v1` remains immutable, and the catalog now points previews and verified exports at `v2`.                                                                                                                                                        |
 | 2026-09-28 | In progress — Unit allocation boundary corrected       | Removed allocation selection from the Business reservation request, made BFF resolve monthly/fixed allocations, anchored mock monthly renewal to the activation anniversary and made buckets lazy. Rollover tests preserve prior-cycle history without offer reselection; the complete repository gate and all six hosted Chromium/WebKit journeys pass after coordinated BFF and TableCards development deployment. Production remains unchanged. |
+
+## 2026-10-07 production execution revision
+
+Andrew authorized completing Build 3, merging to main, deploying production and
+refreshing development. This supersedes the original development-only execution
+authority above, not its historical baseline. Current repository baseline is
+`2ea3e9e` on `feat/tablecards-application`; PR #1 remains open. Product/application
+remediation, cards-only PDFs, bundled licensed fonts and real Cloudflare AI are
+already implemented and development-verified. The accepted shared no-charge
+checkout plan replaces the earlier local mock; real billing remains Build 4.
+Andrew accepted his existing printed sheet for Build 3 and deferred detailed
+physical measurement to MVP pre-launch. No new product features are planned.
+
+Exact targets: BFF production `exuberant-goldfinch-830`, independent TableCards
+production `clean-gerbil-451`, `tablecards.tofler.app`,
+`api.tablecards.tofler.app`, shared `auth.tofler.app`, and a separate private
+`business-factory-tablecards-ai` Worker. Production AI receives its own $1/day
+estimated admission budget, independent of development counters. Auth uses
+TableCards definition revision 4 with automation disabled. Its compatible
+preflight was shown and Andrew confirmed apply in the active conversation.
+
+Execute these release tasks in order:
+
+1. Extend `tools/production-delivery/src/{config,build-surfaces,bundles,smoke}.ts`
+   and tests for three isolated Convex targets, the exact TableCards origins,
+   production-only bundles, SHA metadata, credential/route denials and CORS.
+   Add production manifests beside web/gateway/AI code and extend CI with a
+   deployment-key guard before every TableCards environment write.
+   Validate `pnpm nx run production-delivery:test`, lint/typecheck and dry runs.
+2. Register/apply the exact production auth snapshot through the conflict-safe
+   operator CLI. Install checkout/provider secrets and a deployment-scoped CI
+   key through provider tools/stdin, never files or logs. Configure only exact
+   production values; preserve existing deployments/secrets. Read back safe
+   identifiers and variable names. No new schema is authored: deployment adds
+   the already-agreed BFF access/bucket/reservation/checkout tables and the six
+   existing TableCards product tables to production without a data backfill.
+3. Run `pnpm check`, the exact production preflight and fresh hosted development
+   checks. Commit/push the release wiring, wait for green PR CI and merge PR #1
+   using the checked head. Observe the main production workflow to completion;
+   fix only release-scoped failures and rerun affected gates.
+4. Verify live SHA/target/security checks with `pnpm production:smoke`; drive
+   public desktop/mobile journeys and real Google login as far as available
+   authorized browser credentials permit. Verify private provider inference
+   under the cap without guest data. Never enable dummy identity in production
+   or fabricate Google authentication to make smoke pass. Record any unavailable
+   authenticated/physical evidence explicitly, not as a successful run.
+5. Refresh BFF/TableCards/auth/gateway/web development against the release
+   commit, rerun the affected desktop/mobile suites and manual AI tests, and
+   reconcile Product/Application/Architecture/Operations plus dated readiness
+   evidence. Mark Build 3 complete only after its production boundary passes;
+   preserve later Build 4–7 payment/support/monitoring/launch obligations.
+
+Official implementation references: [Convex deploy targeting](https://docs.convex.dev/cli/reference/deploy),
+[deployment-scoped tokens](https://docs.convex.dev/cli/reference/deployment),
+and [Cloudflare environment/domain configuration](https://developers.cloudflare.com/workers/wrangler/configuration/).
+Installed Node 24/Convex 1.46.0/Wrangler 4.141.0 and their local CLI help were
+checked; no runtime/dependency upgrade is needed.

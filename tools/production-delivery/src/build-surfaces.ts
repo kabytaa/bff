@@ -55,6 +55,25 @@ export async function buildProductionSurfaces(
     VITE_CONVEX_URL: config.exampleConvexUrl,
   });
 
+  if (config.tablecards) {
+    await runNxTarget('tablecards-session-gateway:build', {});
+    await runNxTarget('tablecards-ai-provider:build', {});
+    await runNxTarget('tablecards-web:build', {
+      VITE_BFF_CUSTOMER_API_URL: config.bffConvexSiteUrl,
+      VITE_BFF_CUSTOMER_ENVIRONMENT_KEY: config.tablecards.environmentKey,
+      VITE_BFF_SESSION_ADAPTER_URL: config.tablecards.sessionAdapterUrl,
+      VITE_CONVEX_SITE_URL: config.tablecards.convexSiteUrl,
+      VITE_CONVEX_URL: config.tablecards.convexUrl,
+      VITE_TABLECARDS_WEB_ORIGIN: config.tablecards.webUrl,
+      VITE_TABLECARDS_DEV_CONTROLS: 'false',
+    });
+    await writeBuildMetadata(
+      'dist/projects/tablecards/workloads/web',
+      'business-factory-tablecards',
+      config.commitSha,
+    );
+  }
+
   await assertProductionBundles(config);
   await Promise.all([
     writeBuildMetadata(
