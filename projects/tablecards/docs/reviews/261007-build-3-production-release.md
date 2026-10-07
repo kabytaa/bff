@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Initial production boundary passed; print-fetch correction revalidation in progress
+Status: Ready for the authorized Build 3 no-charge production preview; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -132,7 +132,7 @@ the saved-project route resolves its own authorized download. A component
 regression asserts no stale link during handoff. The partial hosted run was
 stopped and is not acceptance; fresh focused and full runs follow.
 
-## Final acceptance — 2026-10-07
+## Initial runtime acceptance — 2026-10-07
 
 This is acceptance of the first fixed runtime checkpoint; the later print-fetch
 correction and its separately versioned evidence are recorded below.
@@ -244,5 +244,40 @@ generation are not automatically replayed. There is no schema/migration change.
 **81 backend tests passed**, including eight new network/body/service recovery,
 bounded-failure and denial tests. Typecheck and lint pass; the corrected backend
 pushed cleanly to the explicit development deployment. Fresh stable hosted and
-production results follow this corrective publication; the 11/12 run is not
-accepted as a successful rerun.
+production results below verify this corrective publication; the 11/12 run is
+not accepted as a successful rerun.
+
+### Final corrective acceptance
+
+Runtime `bc85dc63b8c520bbb3ef61b5bda131d07ad45e57` passed full repository CI,
+production publication and CI smoke in
+[37579983360](https://github.com/kabytaa/bff/actions/runs/37579983360).
+Fresh local production smoke passed on attempt one (6.1s). Public production
+Chromium/mobile WebKit cases passed **6/6 (41.8s)**. The stable development suite
+passed **27/27 (7.6m)**, with both manual AI cases correctly skipped. Both
+previously affected first exports and 500-card downloads passed, together with
+all import, project, offer, preset and Studio journeys. Earlier **2/2 manual AI**
+results remain evidence for unchanged generation/reference/account-unit code;
+no new inference was needed for a print-fetch correction.
+
+Production TableCards web version was `29c84d38-9303-4daf-9f08-285125ba457b`,
+gateway `fa3aa908-e265-4bf8-b073-7908a4e136cd`, private AI
+`f23fedbd-8fb9-4e9e-870a-efdb16bd6b9a` and shared auth
+`4fa713a1-9d59-4bf1-ab10-c0e59708d76a`. The same workflow records the retained
+Example/backoffice publications. Development web was
+`56b67752-c1d4-4614-85de-d72f8822b1e8`, gateway
+`c3aec162-d2df-4561-911b-5f69ceaa2f31` and shared auth
+`2c8f4c52-8cfc-4876-8fa9-1cf3e87eb3a0`; its private AI Worker was unchanged.
+Live metadata identifies the same runtime SHA across each environment.
+
+The final documentation-only commit updates this evidence and handoff without
+changing application code. Its automatic main publication is verified by CI and
+matching live metadata; browser/AI/full hosted suites are not needlessly rerun
+for prose. This preserves a distinction between focused change checks, full
+release regression and automatic repository CI.
+
+**Final verdict:** ready for the authorized, visibly no-charge production
+preview. The personal Google credential/callback, paid billing, legal/customer
+launch and physical-certification limits above remain explicit; no unavailable
+check is counted as passed. Print-fetch correction is verified, not an open
+release defect.

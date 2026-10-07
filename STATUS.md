@@ -10,17 +10,16 @@ Updated: 2026-10-07.
   [development](https://tablecards-dev.tofler.app) are published. Andrew
   authorized production setup, merge, deployment and the final development
   refresh; [PR #1](https://github.com/kabytaa/bff/pull/1) merged at `660f5cf`.
-- A post-refresh regression at `8192eae` found a transient server-side print
-  asset fetch failure (11/12 story cases passed). Bounded immutable-read retries
-  are implemented and 81 backend tests pass; fresh development and production
-  verification of this correction is in progress. Earlier passes are retained
-  as versioned evidence, not a substitute for this correction's checks.
 - Start with the [production release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md).
-  Runtime `1ede7b7` passed full main CI/deployment, local production smoke,
-  27/27 hosted development cases, 2/2 manual AI cases and 6/6 production public
-  browser cases on desktop/mobile. Header/CSP and first-PDF navigation races
-  found during release checks were fixed and rerun. The final docs/test-only
-  publication preserves that runtime; main CI and live metadata identify its SHA.
+  Latest runtime `bc85dc6` passed full main CI/deployment, local production smoke,
+  27/27 hosted development cases (7.6m), 81 backend tests and 6/6 production public
+  browser cases. Earlier 2/2 manual AI tests remain valid for unchanged AI code.
+  Release checks found and fixed headers/CSP, first-PDF navigation and transient
+  immutable print-asset reads; all affected checks were rerun successfully.
+  The final documentation-only publication preserves that runtime; main CI and
+  live metadata identify its SHA. Do not repeat browser/AI suites for docs-only
+  changes; use affected tests for small fixes and full regression at significant
+  release boundaries. Main CI still runs automatically on pushes.
 - Production BFF `exuberant-goldfinch-830` and separate TableCards
   `clean-gerbil-451` use Google-only identity, no dummy login/AI fixtures,
   same-site session gateways and shared no-charge checkout. Development remains

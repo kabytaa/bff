@@ -471,7 +471,7 @@ checked; no runtime/dependency upgrade is needed.
 ## 2026-10-07 production execution result
 
 **Completed for the authorized Build 3 no-charge preview.** PR #1 merged at
-`660f5cf` and corrective runtime `1ede7b7` was pushed to main, deployed to
+`660f5cf` and corrective runtimes `1ede7b7` / `bc85dc6` were pushed to main, deployed to
 production and refreshed to development. [Release review](../../projects/tablecards/docs/reviews/261007-build-3-production-release.md)
 owns the exact versions, failed-run history, full acceptance matrix and limits.
 The final documentation/test-only publication carries the same application code.
@@ -483,12 +483,14 @@ The final documentation/test-only publication carries the same application code.
       schemas deployed without a new structural change or destructive backfill.
 - [x] Full main CI, publication and local production smoke pass. Release checks
       found and corrected missing HTML security/cache headers, Blob-fetch CSP and
-      a first-export download lifetime race; failures were not counted as acceptance.
+      a first-export download lifetime race and transient immutable print-asset
+      reads; failures were not counted as acceptance. All 81 backend tests pass.
 - [x] Production public desktop/mobile journeys and actual Google credential
       popup verified (6/6); private production inference verified separately.
-- [x] Latest stable development full story suite passes (27/27, 8.0 minutes),
+- [x] Latest stable development full story suite passes (27/27, 7.6 minutes),
       including both 500-card exports, no-charge checkout and Studio workflows;
-      manual AI tests pass (2/2, 1.7 minutes), checking all four actual images.
+      earlier manual AI tests pass (2/2, 1.7 minutes), checking all four actual images
+      against unchanged AI code. Production public browser cases pass (6/6, 41.8s).
 - [x] Product/Application/Architecture/Operations reconciled beside the code,
       with a dated release review and short STATUS handoff.
 
