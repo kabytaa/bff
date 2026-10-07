@@ -2240,8 +2240,8 @@ export function Creator({
             <strong>Before you print</strong>
             <p>
               Use US Letter paper and select <b>Actual Size</b> or <b>100%</b>.
-              Measure the 1-inch square on page one before printing the full
-              set.
+              Test-print one sheet before printing the full set. Calibration is
+              available separately in the print-test PDF, not your export.
             </p>
           </div>
         </div>

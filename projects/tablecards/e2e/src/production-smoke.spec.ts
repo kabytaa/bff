@@ -49,6 +49,7 @@ test('public pricing, creator, long names and cards-only preview work without de
     page.getByRole('button', { name: 'Create print-ready PDF' }),
   ).toBeVisible();
   await expect(page.getByText(/including scale check/u)).toHaveCount(0);
+  await expect(page.getByText(/square on page one/u)).toHaveCount(0);
   await expect(page.getByLabel('AI engine (development)')).toHaveCount(0);
   await openStep(page, 'Design');
   await expect(

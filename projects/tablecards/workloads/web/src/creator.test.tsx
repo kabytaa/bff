@@ -858,6 +858,12 @@ describe('preview and guest-column fidelity', () => {
     expect(
       document.querySelector('.creator-preview .paper-preview')?.textContent,
     ).not.toContain('TableCards print check');
+    expect(document.querySelector('.print-callout')?.textContent).toContain(
+      'Calibration is available separately',
+    );
+    expect(document.querySelector('.print-callout')?.textContent).not.toContain(
+      'square on page one',
+    );
   });
   it.each(['W'.repeat(120), 'Unsupported 🦄 event'])(
     'blocks save and export when the actual event name cannot render: %s',

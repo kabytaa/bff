@@ -71,3 +71,11 @@ include the existing AI helper modules; no runtime API or schema changed.
 
 Final hosted results, merge/runtime versions and live production checks are
 recorded here after they actually complete. Build 3 is not yet marked complete.
+
+The first fresh hosted run was interrupted with exit 143 after 19 passing
+ordinary cases and no assertion failure. Its partial output is not acceptance;
+the interruption cause is unproven. A persistent-terminal rerun is required.
+Rendered development inspection (desktop/mobile design and review) found stale
+print-callout text referencing a calibration square on page one. It was corrected
+to distinguish separate calibration from cards-only customer exports, with a
+component regression and production browser assertion. No PDF layout changed.
