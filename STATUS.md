@@ -8,25 +8,18 @@ Updated: 2026-10-07.
   [production](https://tablecards.tofler.app) and
   [development](https://tablecards-dev.tofler.app) as a **no-charge preview**,
   not real billing or customer launch.
-- Production release `a5d304f` passed CI/deployment and smoke; the previously
-  failing default-Free balance query now succeeds. Shared BFF development has
-  the same fix; unchanged development product surfaces retain `bc85dc6`.
-  Targeted development and public production phone/desktop checks pass. Versions and
-  release history are in the [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md).
-- The crash fix changes one balance-read branch; no schema, migration, grant
-  creation or paid inference. Unallocated spending remains denied.
-  Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
-- Approved reflection update: [brainstorm-ideas](.agents/skills/brainstorm-ideas/SKILL.md)
-  shapes ideas before planning; routine prioritization stays in the roadmap.
-- Create navigation/site icons and non-interactive heading highlights are fixed
-  in development. All 109 web tests, four scoped hosted checks and the final two
-  desktop/mobile focus regressions passed. Production publication is next;
-  no schema/backend change or paid AI call.
+- Production release `0aa407c` passed CI/deployment and smoke. Signed-in Create
+  now shares the app sidebar/bottom navigation; site icons are present; unwanted
+  heading outlines are removed while keyboard-control focus remains visible.
+  Development web has the same corrections; unchanged development services
+  retain their prior releases. The default-Free balance-read crash remains fixed.
+- Scoped desktop/mobile development checks, 109 web tests and four live public
+  production checks passed. No schema/migration or paid AI call. Exact versions,
+  evidence and limitations are in the [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#follow-up-consistent-create-navigation-and-site-icons--2026-10-07).
+- Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
 
 ## Immediate next work
 
-- Finish the authorized Create-sidebar/favicon release to development and
-  production, then record the scoped browser and deployment results.
 - Resolve production-safe Free welcome-credit provisioning separately; do not
   enable development mocks or fabricate paid grants. Any schema change needs
   Andrew's confirmation.

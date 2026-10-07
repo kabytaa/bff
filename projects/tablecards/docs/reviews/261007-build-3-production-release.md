@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Released no-charge preview; no-schema balance-read fix deployed and verified in both environments; welcome-credit provisioning remains open; not customer launch
+Status: Released no-charge preview; balance-read and navigation/icon/heading fixes deployed and verified; welcome-credit provisioning remains open; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -433,7 +433,7 @@ icon formats/dimensions. Hosted regression adds common navigation, draft
 restoration, viewport widths 320–1440, phone action/navigation separation and
 neighboring Designs navigation. Production public smoke checks favicon/touch
 image delivery from landing and creator deep links. Deployment and rendered
-phone/desktop evidence will be recorded after publication.
+phone/desktop evidence follows below.
 
 Development web publication **`911f1c99-fc99-404c-85b1-b0cb37a74b05`** succeeded
 from the reviewed working-tree candidate. Unchanged development backends, auth,
@@ -464,7 +464,7 @@ before login: its trace shows the previous HTML/main bundle requesting a retired
 lazy landing chunk, which the new SPA manifest answered as HTML. A separate
 fresh Chromium probe subsequently loaded the current landing correctly. This
 was a deployment-transition asset mismatch, not a focus assertion failure;
-the focused suite is rerun against the settled publication before release.
+the focused suite was rerun against the settled publication before release.
 
 The settled-publication rerun passed **2/2 (23.7s)** in Chromium/mobile WebKit,
 including heading focus without border, retained keyboard-control focus rings,
@@ -472,3 +472,28 @@ navigation, draft reload and 320–1440-pixel containment. Updated desktop/mobil
 screenshots were inspected and no longer show the heading highlight. The
 prior saved-project/export regression remains valid: only non-interactive
 heading CSS and its focused checks changed after that pass.
+
+### Completed publication and final acceptance
+
+Commits `2f226f6` and **`0aa407c6aa0e2f0865c79e17014c8583f2616cd2`** were pushed
+to main. The first validation was deliberately cancelled before deployment
+when Andrew added the heading issue. The completed batch passed
+[CI 37668089734](https://github.com/kabytaa/bff/actions/runs/37668089734): full
+repository validation **3m12s**, production publication and exact-version/safety
+smoke **2m17s**. Production TableCards build metadata identifies `0aa407c`.
+Development web remains the reviewed `8bec54d1-8e6e-4488-9586-a4c48ea353c2`
+publication of this same runtime tree; unrelated development services were not
+restamped. Final handoff-only Markdown updates do not require another deployment.
+
+Fresh public production browser checks passed **4/4 (12.1s)** in desktop
+Chromium and mobile WebKit: SVG/PNG/touch icons return actual image responses on
+landing/deep links; anonymous creator, long-name/card preview, no development
+controls, contained layout and focused-heading outline suppression all pass.
+Both production screenshots were inspected. Development's authenticated
+navigation/export evidence is not a fresh personal Google login in production;
+the earlier credential-boundary limitation remains unchanged. No paid inference,
+new schema, migration, real charge or production customer-data write occurred.
+
+**Outcome:** all three reported UI issues are corrected and deployed to both
+development and production. Reload an older open tab to load the new asset
+manifest. Default-Free welcome-credit provisioning remains outside this batch.
