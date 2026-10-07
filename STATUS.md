@@ -25,6 +25,9 @@ Updated: 2026-10-07.
   proportional: affected tests for small fixes, full regression at meaningful
   release boundaries, no browser/AI reruns for documentation. The filter's
   focused verification passes: 49 release-tool tests, lint and typecheck.
+  Policy commit `e5fe629` has its one-time configuration rollout tracked by
+  [main CI](https://github.com/kabytaa/bff/actions/runs/37581542926); it changes
+  delivery rules only, with no application or schema changes.
 - Production BFF `exuberant-goldfinch-830` and separate TableCards
   `clean-gerbil-451` use Google-only identity, no dummy login/AI fixtures,
   same-site session gateways and shared no-charge checkout. Development remains
