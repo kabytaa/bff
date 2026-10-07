@@ -20,6 +20,7 @@ import type * as http from '../http.js';
 import type * as lib_aiBudget from '../lib/aiBudget.js';
 import type * as lib_cloudflareAi from '../lib/cloudflareAi.js';
 import type * as lib_fileAddresses from '../lib/fileAddresses.js';
+import type * as lib_printAssets from '../lib/printAssets.js';
 import type * as lib_productErrors from '../lib/productErrors.js';
 import type * as lib_publicIds from '../lib/publicIds.js';
 import type * as lib_validateArtwork from '../lib/validateArtwork.js';
@@ -45,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   'lib/aiBudget': typeof lib_aiBudget;
   'lib/cloudflareAi': typeof lib_cloudflareAi;
   'lib/fileAddresses': typeof lib_fileAddresses;
+  'lib/printAssets': typeof lib_printAssets;
   'lib/productErrors': typeof lib_productErrors;
   'lib/publicIds': typeof lib_publicIds;
   'lib/validateArtwork': typeof lib_validateArtwork;

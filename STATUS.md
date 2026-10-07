@@ -10,6 +10,11 @@ Updated: 2026-10-07.
   [development](https://tablecards-dev.tofler.app) are published. Andrew
   authorized production setup, merge, deployment and the final development
   refresh; [PR #1](https://github.com/kabytaa/bff/pull/1) merged at `660f5cf`.
+- A post-refresh regression at `8192eae` found a transient server-side print
+  asset fetch failure (11/12 story cases passed). Bounded immutable-read retries
+  are implemented and 81 backend tests pass; fresh development and production
+  verification of this correction is in progress. Earlier passes are retained
+  as versioned evidence, not a substitute for this correction's checks.
 - Start with the [production release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md).
   Runtime `1ede7b7` passed full main CI/deployment, local production smoke,
   27/27 hosted development cases, 2/2 manual AI cases and 6/6 production public

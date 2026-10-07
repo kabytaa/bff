@@ -144,6 +144,13 @@ and explain that exact logo reproduction is not promised.
 
 ## Production release and recovery
 
+PDF export reads its pinned public artwork/fonts with at most three transport
+attempts (ten seconds each). Persistent failure remains a failed export that can
+be requested again; retries do not weaken hash/MIME checks, follow redirects or
+replay storage/AI writes. If `EXPORT_FAILED` persists, inspect the scoped Convex
+`exports:render` failure and public asset availability; never copy raw customer
+logs/identity tokens into release evidence.
+
 The reviewed production targets are independent of development:
 
 | Surface                        | Production target                                                     |

@@ -128,6 +128,12 @@ expose a link that its backend disposal immediately revokes. Existing-project
 exports remain on their current route. This is a browser lifetime rule, not a
 change to server export ownership or authorization.
 
+Server PDF rendering retries immutable font/artwork GETs at most three times
+for transport/body-read errors or temporary 429/5xx responses, with a ten-second
+timeout per read. Redirects remain blocked; 4xx failures stop immediately and
+successful bytes still require the original size/MIME/hash validation. Storage,
+export writes and paid AI calls are not replayed by this helper.
+
 Artwork libraries use account-indexed, 24-item metadata cursor pages through
 `assets:page` and `designPresets:page`, loaded explicitly as needed. Assets are
 ordered newest-created first; presets newest-updated first. Existing bounded

@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Ready for the authorized Build 3 no-charge production preview; not customer launch
+Status: Initial production boundary passed; print-fetch correction revalidation in progress
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -134,6 +134,9 @@ stopped and is not acceptance; fresh focused and full runs follow.
 
 ## Final acceptance — 2026-10-07
 
+This is acceptance of the first fixed runtime checkpoint; the later print-fetch
+correction and its separately versioned evidence are recorded below.
+
 Runtime checkpoint `1ede7b7bea4f1850f5962ddbc62aaa86d16786c2` passed:
 
 - **Full main CI**, including repository validation, exact-target publication of
@@ -222,3 +225,24 @@ production preview. Production deployment and live smoke pass; development
 journeys pass. This verdict does not establish paying-customer launch readiness
 or waive the missing authenticated production evidence. No optional user review
 is treated as a routine implementation blocker.
+
+## Follow-up: transient print-asset read — 2026-10-07
+
+Main CI [37578953222](https://github.com/kabytaa/bff/actions/runs/37578953222)
+validated and deployed documentation/test checkpoint `8192eae`. The additional
+development story run passed 11/12 cases but the desktop import/login/first-export
+journey displayed `EXPORT_FAILED`. Scoped Convex metadata confirmed a thrown
+network `fetch failed` inside `exports:render`; no raw customer logs or identity
+values were retained. The precise underlying network cause is unverified.
+
+The rendering path now retries only immutable print-asset GET/body reads, at most
+three attempts with ten-second timeouts and short bounded backoff. It retries
+temporary 429/5xx responses, stops immediately on ordinary 4xx, blocks redirects
+and retains all byte/MIME/hash verification. Export/storage writes and image
+generation are not automatically replayed. There is no schema/migration change.
+
+**81 backend tests passed**, including eight new network/body/service recovery,
+bounded-failure and denial tests. Typecheck and lint pass; the corrected backend
+pushed cleanly to the explicit development deployment. Fresh stable hosted and
+production results follow this corrective publication; the 11/12 run is not
+accepted as a successful rerun.

@@ -23,6 +23,7 @@ import {
   tablecardsCustomerSession,
 } from './environment';
 import { fail } from './lib/productErrors';
+import { readPrintAsset } from './lib/printAssets';
 
 type ExportStatus = 'failed' | 'generating' | 'queued' | 'ready';
 type ExportInput = {
@@ -95,13 +96,9 @@ async function loadFont(
   const webOrigin = tablecardsCustomerSession.transport.webOrigins[0];
   if (!webOrigin)
     fail('PROVIDER_UNAVAILABLE', 'The TableCards web origin is unavailable');
-  const response = await fetch(
+  const { bytes } = await readPrintAsset(
     new URL(definition.publicPath, `${webOrigin}/`),
-    { redirect: 'error' },
   );
-  if (!response.ok)
-    fail('PROVIDER_UNAVAILABLE', 'The print font is unavailable');
-  const bytes = new Uint8Array(await response.arrayBuffer());
   if (
     bytes.length === 0 ||
     bytes.length > 1_000_000 ||
@@ -125,21 +122,15 @@ async function loadPredefinedArtwork(designId: DesignId): Promise<{
     fail('PROVIDER_UNAVAILABLE', 'The TableCards web origin is unavailable');
   }
   const artworkUrl = new URL(design.artwork.publicPath, `${webOrigin}/`);
-  const response = await fetch(artworkUrl, {
-    headers: { accept: design.artwork.mimeType },
-    redirect: 'error',
+  const { bytes, contentType } = await readPrintAsset(artworkUrl, {
+    accept: design.artwork.mimeType,
   });
-  if (!response.ok) {
-    fail('PROVIDER_UNAVAILABLE', 'The predefined artwork is unavailable');
-  }
-  const contentType = response.headers.get('content-type')?.split(';')[0];
   if (contentType !== design.artwork.mimeType) {
     fail(
       'PROVIDER_UNAVAILABLE',
       'The predefined artwork has an invalid content type',
     );
   }
-  const bytes = new Uint8Array(await response.arrayBuffer());
   if (bytes.length === 0 || bytes.length > MAX_PREDEFINED_ARTWORK_BYTES) {
     fail('PROVIDER_UNAVAILABLE', 'The predefined artwork has an invalid size');
   }
