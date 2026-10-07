@@ -214,9 +214,22 @@ pnpm exec convex env set TABLECARDS_AI_DAILY_BUDGET_USD 0 --deployment clean-ger
 ```
 
 Restoring `1` reopens the remaining daily admission budget; lowering the cap does
-not erase attempts or cancel recovery. Disabling AI is not a rollback of ordinary
+not erase attempts or cancel recovery. Main CI reconciles this value from
+GitHub's `production` environment on every release. An emergency CLI pause is
+therefore not persistent across a later deployment: prevent pending publication
+or review that desired configuration before allowing CI to reopen generation.
+Disabling AI is not a rollback of ordinary
 predefined/uploaded designs or PDF export. Real billing, public support,
 observability and physical launch certification remain Builds 4–7.
+
+The no-charge preview remains unindexed. TableCards HTML routes, including
+project, invitation and team deep links, send `no-store`; CSP blocks embedding
+and permits the required same-site session/Convex connections and private Blob
+image previews. Versioned predefined artwork retains immutable caching. The
+actual rules are in [web/public/_headers](../workloads/web/public/_headers),
+and live release smoke verifies their publication. Newly created custom-domain
+TLS may take time to activate; do not disable certificate verification or mark
+a failing hostname as accepted. See [Cloudflare custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
 
 ## Deploy development
 

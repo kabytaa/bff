@@ -21,6 +21,7 @@ describe('production workflow credential boundaries', () => {
     );
     expect(headers).toContain("frame-ancestors 'none'");
     expect(headers).toContain("img-src 'self' data: blob:");
+    expect(headers).toContain("connect-src 'self' blob:");
     expect(headers).toContain('https://*.tofler.app');
     expect(headers).toContain('wss://*.convex.cloud');
     expect(headers).toContain('X-Robots-Tag: noindex, nofollow');

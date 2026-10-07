@@ -43,6 +43,16 @@ test('public pricing, creator, long names and cards-only preview work without de
     page.getByText(/Preview checkout is a no-charge simulation/u),
   ).toBeVisible();
   await expectContained(page);
+  expect(
+    await page.evaluate(async () => {
+      const url = URL.createObjectURL(new Blob(['local-download-probe']));
+      try {
+        return await (await fetch(url)).text();
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    }),
+  ).toBe('local-download-probe');
   await prepareCards(page);
   await expect(page.getByText(/4 cards · 1 PDF pages/u)).toBeVisible();
   await expect(
