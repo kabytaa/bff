@@ -111,6 +111,16 @@ Development additionally exposes a six-card landscape **print trial**, with a re
 
 The 2026-10-06 remediation bundles hash-verified, licensed Noto Sans and Noto Serif for hosted exports and previews. Browser preflight uses checked advances from those same fonts; PDF preflight uses their embedded metrics. Both check the actual event title, reject impossible fits and support common Latin names, including Vietnamese and common accented names supplied in composed or decomposed form. Rendering uses canonical-equivalent NFC text without changing stored names; remaining combining marks and unsupported scripts fail explicitly before export. Kerning and discretionary ligatures are disabled in both renderers. Server authorization and final render validation remain authoritative. This does not establish physical printer compatibility. See the [renderer/font boundary](../libs/core/README.md).
 
+On 2026-10-07 Andrew requested more readable long names. Preview and newly
+generated PDFs now use up to two balanced lines rather than shrinking every name
+into one line. Short/medium names stay on one line when they fit with at most
+15% size reduction; longer names wrap at ordinary word boundaries before further
+shrinking. Names are never truncated; nonbreaking text remains intact and
+impossible fits still fail explicitly. The same layout protects card-edge and
+table/meal-detail clearance on both folded faces. The example list mixes short,
+medium, accented and long names instead of showing four extreme names first.
+This does not alter saved guest content or already downloaded PDFs.
+
 ## Designs
 
 Designs are lightweight, curated product assets rather than a freeform editor:

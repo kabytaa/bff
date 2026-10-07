@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import fontkit from '@pdf-lib/fontkit';
+import { PDFDocument } from 'pdf-lib';
 import { describe, expect, it } from 'vitest';
 
 import { TABLECARDS_FONTS } from './fonts';
@@ -8,12 +9,72 @@ import { NOTO_FONT_DATA } from './font-data';
 import {
   NOTO_SANS_METRICS,
   NOTO_SERIF_METRICS,
+  FINISHED_CARD,
   createRenderManifest,
   preflightRender,
+  type FontMetrics,
 } from './layout';
 import { renderTableCardsPdf } from './pdf';
 
 describe('pinned browser/PDF font metrics', () => {
+  it('chooses the same balanced name lines and positions with browser and embedded PDF metrics', async () => {
+    const document = await PDFDocument.create();
+    document.registerFontkit(fontkit);
+    const embedded: FontMetrics[] = [];
+    for (const key of ['sans', 'serif'] as const) {
+      const bytes = readFileSync(
+        new URL(
+          `../../../workloads/web/public${TABLECARDS_FONTS[key].publicPath}`,
+          import.meta.url,
+        ),
+      );
+      const font = await document.embedFont(bytes, {
+        subset: true,
+        features: { liga: false, clig: false, kern: false },
+      });
+      const supported = new Set(font.getCharacterSet());
+      embedded.push({
+        familyName: key === 'sans' ? 'Noto Sans' : 'Noto Serif',
+        supportsText: (text) =>
+          [...text.normalize('NFC')].every((character) =>
+            supported.has(character.codePointAt(0)!),
+          ),
+        widthOfTextAtSize: (text, size) =>
+          font.widthOfTextAtSize(text.normalize('NFC'), size),
+        heightAtSize: (size) => font.heightAtSize(size, { descender: false }),
+      });
+    }
+    for (const font of ['sans', 'serif'] as const) {
+      for (const position of ['top', 'center', 'bottom'] as const) {
+        const input = {
+          guests: [
+            { name: 'Anaïs Dubois' },
+            {
+              name: 'Alexandria Catherine Montgomery-Sinclair',
+              table: '14',
+              marker: 'Vegetarian',
+            },
+            { name: 'María Fernanda de la Cruz Hernández' },
+          ],
+          designId: 'garden-sage' as const,
+          nameStyle: {
+            font,
+            position,
+            size: 'large' as const,
+            color: '#20251f',
+          },
+        };
+        const names = (manifest: ReturnType<typeof createRenderManifest>) =>
+          manifest.pages[0]!.commands.filter(
+            (command) => command.type === 'text' && command.role === 'name',
+          );
+        expect(
+          names(createRenderManifest(input, embedded[0]!, embedded[1]!)),
+        ).toEqual(names(createRenderManifest(input)));
+      }
+    }
+  });
+
   it('regenerates every advance from the hash-verified font bytes', () => {
     expect(NOTO_FONT_DATA.sans.sha256).toBe(TABLECARDS_FONTS.sans.sha256);
     expect(NOTO_FONT_DATA.serif.sha256).toBe(TABLECARDS_FONTS.serif.sha256);
@@ -37,6 +98,9 @@ describe('pinned browser/PDF font metrics', () => {
         ),
       );
       const font = fontkit.create(bytes);
+      expect(Math.abs(font.descent) / font.unitsPerEm).toBeLessThanOrEqual(
+        0.35,
+      );
       const metrics = key === 'sans' ? NOTO_SANS_METRICS : NOTO_SERIF_METRICS;
       for (const text of [
         'W'.repeat(30),
@@ -178,7 +242,9 @@ describe('pinned browser/PDF font metrics', () => {
       ['sans', '_J', NOTO_SANS_METRICS],
       ['serif', 'f)', NOTO_SERIF_METRICS],
     ] as const) {
-      const count = Math.floor(220 / metrics.widthOfTextAtSize(pair, 8));
+      const count = Math.floor(
+        (FINISHED_CARD.width - 48) / metrics.widthOfTextAtSize(pair, 8),
+      );
       const input = {
         guests: [{ name: pair.repeat(count) }],
         designId: 'minimal-ivory' as const,

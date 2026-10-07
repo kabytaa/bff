@@ -1,4 +1,37 @@
 import { expect, test, type Page } from '@playwright/test';
+import {
+  MIXED_EXAMPLE_NAMES,
+  expectExampleNameLayout,
+} from './support/name-layout';
+
+test('public mixed-name examples use readable two-line names on both preview sheets', async ({
+  page,
+}, info) => {
+  await page.goto('/create');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
+    MIXED_EXAMPLE_NAMES.join('\n'),
+  );
+  await openStep(page, 'Design');
+  await page.getByRole('button', { name: /Garden Sage/u }).click();
+  await page.getByRole('button', { name: 'Open complete preview' }).click();
+  const preview = page.getByRole('dialog', { name: 'Complete print preview' });
+  await expect(preview).toBeVisible();
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  await expectExampleNameLayout(preview, MIXED_EXAMPLE_NAMES.slice(0, 4));
+  await page.screenshot({
+    path: info.outputPath('production-mixed-first-sheet.png'),
+    fullPage: true,
+  });
+  await preview.getByRole('button', { name: 'Next sheet' }).click();
+  await expectExampleNameLayout(preview, MIXED_EXAMPLE_NAMES.slice(4));
+  await page.screenshot({
+    path: info.outputPath('production-mixed-second-sheet.png'),
+    fullPage: true,
+  });
+  await preview.getByRole('button', { name: 'Return to editor' }).click();
+  await expectContained(page);
+});
 
 async function expectContained(page: Page) {
   expect(

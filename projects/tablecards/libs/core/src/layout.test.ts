@@ -5,6 +5,8 @@ import {
   FINISHED_CARD,
   LANDSCAPE_LETTER_PAGE,
   LETTER_PAGE,
+  NOTO_SANS_METRICS,
+  NOTO_SERIF_METRICS,
   RenderPreflightError,
   UNFOLDED_CARD,
   createRenderManifest,
@@ -35,6 +37,9 @@ describe('print manifest', () => {
     ).toEqual(['scale_check', 'cards']);
     expect(renderManifestPageToSvg(createRenderManifest(input), 0)).toContain(
       'print sheet 1',
+    );
+    expect(renderManifestPageToSvg(createRenderManifest(input), 0)).toContain(
+      'style="font-kerning:none;font-variant-ligatures:none;text-rendering:geometricPrecision"',
     );
   });
   it('uses exact US Letter and folded card geometry', () => {
@@ -217,10 +222,167 @@ describe('print manifest', () => {
       designId: 'minimal-ivory',
     });
     const svg = renderManifestPageToSvg(manifest, 0);
-    expect(svg).toContain('Anne &amp; O’Connor');
+    expect(svg).toContain('Anne &amp;');
+    expect(svg).toContain('O’Connor</text>');
+    expect(
+      manifest.pages[0]!.commands.filter(
+        (command): command is TextCommand =>
+          command.type === 'text' &&
+          command.role === 'name' &&
+          command.rotation === 0,
+      )
+        .map((command) => command.text)
+        .join(' '),
+    ).toBe('Anne & O’Connor');
     expect(svg).toContain('rotate(180');
     expect(svg).not.toContain('Anne & O’Connor');
     expect(() => renderManifestPageToSvg(manifest, 1)).toThrow(RangeError);
+  });
+
+  it('keeps short names large and balances long names over two matching faces', () => {
+    for (const [name, count] of [
+      ['Anaïs Dubois', 1],
+      ['Alexandria Catherine Montgomery-Sinclair', 2],
+      ['María Fernanda de la Cruz Hernández', 2],
+      ['Jean-Baptiste Alexandre de Villeneuve', 2],
+      ['Christopher Bartholomew Worthington III', 2],
+    ] as const) {
+      const manifest = createRenderManifest({
+        guests: [{ name }],
+        designId: 'garden-sage',
+      });
+      const names = manifest.pages[0]!.commands.filter(
+        (command): command is TextCommand =>
+          command.type === 'text' && command.role === 'name',
+      );
+      const lower = names.filter((command) => command.rotation === 0);
+      const upper = names.filter((command) => command.rotation === 180);
+      expect(lower).toHaveLength(count);
+      expect(upper.map((command) => command.text)).toEqual(
+        lower.map((command) => command.text),
+      );
+      expect(lower.map((command) => command.text).join(' ')).toBe(name);
+      expect(lower[0]!.fontSize).toBeGreaterThanOrEqual(16);
+      if (count === 1) expect(lower[0]!.fontSize).toBe(26);
+      else {
+        expect(lower[0]!.centerY).toBeGreaterThan(lower[1]!.centerY);
+        expect(upper[0]!.centerY).toBeLessThan(upper[1]!.centerY);
+      }
+    }
+  });
+
+  it('preserves compound and nonbreaking names without inventing breaks or losing text', () => {
+    for (const name of [
+      'Alexandria Catherine Montgomery-Sinclair',
+      'Christopher-Bartholomew-Worthington',
+      'Alexandria\u00a0Catherine',
+      'Alexandria\u202fCatherine',
+      'Christopher\u2011Bartholomew',
+      'W'.repeat(20),
+    ]) {
+      const names = createRenderManifest({
+        guests: [{ name }],
+        designId: 'minimal-ivory',
+      }).pages[0]!.commands.filter(
+        (command): command is TextCommand =>
+          command.type === 'text' &&
+          command.role === 'name' &&
+          command.rotation === 0,
+      );
+      expect(names.length).toBeLessThanOrEqual(2);
+      expect(
+        names
+          .map((command) => command.text)
+          .join(name.includes(' ') ? ' ' : ''),
+      ).toBe(name);
+      if (!name.includes(' ') && !name.includes('-'))
+        expect(names).toHaveLength(1);
+      if (name.includes('Montgomery-Sinclair'))
+        expect(
+          names.some((command) => command.text.endsWith('Montgomery-Sinclair')),
+        ).toBe(true);
+    }
+  });
+
+  it('bounds both name lines and keeps a detail gap for every font, position and size', () => {
+    for (const font of ['sans', 'serif'] as const) {
+      const metrics = font === 'sans' ? NOTO_SANS_METRICS : NOTO_SERIF_METRICS;
+      for (const position of ['top', 'center', 'bottom'] as const) {
+        for (const size of ['small', 'medium', 'large'] as const) {
+          for (const details of [
+            {},
+            { table: 'TABLE 12' },
+            { marker: 'Vegan' },
+            { table: 'TABLE 12', marker: 'Vegan' },
+          ]) {
+            const name = 'María Fernanda de la Cruz Hernández';
+            const page = createRenderManifest({
+              guests: [{ name, ...details }],
+              designId: 'garden-sage',
+              nameStyle: { font, position, size, color: '#223322' },
+            }).pages[0]!;
+            for (const rotation of [0, 180] as const) {
+              const face = page.commands.find(
+                (command) =>
+                  command.type === 'fill_rectangle' &&
+                  command.rotation === rotation,
+              );
+              if (face?.type !== 'fill_rectangle')
+                throw new Error('Missing face');
+              const direction = rotation === 0 ? 1 : -1;
+              const texts = page.commands.filter(
+                (command): command is TextCommand =>
+                  command.type === 'text' && command.rotation === rotation,
+              );
+              const names = texts.filter((command) => command.role === 'name');
+              expect(names).toHaveLength(2);
+              expect(names.map((command) => command.text).join(' ')).toBe(name);
+              const bounds = (command: TextCommand) => {
+                const fontMetrics =
+                  command.role === 'name' ? metrics : NOTO_SANS_METRICS;
+                const center =
+                  FINISHED_CARD.height / 2 +
+                  direction *
+                    (command.centerY - face.y - FINISHED_CARD.height / 2);
+                const halfHeight =
+                  fontMetrics.heightAtSize(command.fontSize) / 2;
+                return {
+                  lower: center - halfHeight - 0.35 * command.fontSize,
+                  upper: center + halfHeight,
+                };
+              };
+              for (const command of names) {
+                expect(
+                  metrics.widthOfTextAtSize(command.text, command.fontSize),
+                ).toBeLessThanOrEqual(204 + 1e-8);
+                expect(bounds(command).lower).toBeGreaterThanOrEqual(16 - 1e-8);
+                expect(bounds(command).upper).toBeLessThanOrEqual(128 + 1e-8);
+                expect(command.centerX).toBe(face.x + FINISHED_CARD.width / 2);
+              }
+              const extra = texts.filter((command) => command.role !== 'name');
+              if (extra.length > 0) {
+                const lowerName = Math.min(
+                  ...names.map((command) => bounds(command).lower),
+                );
+                const upperName = Math.max(
+                  ...names.map((command) => bounds(command).upper),
+                );
+                if (position === 'bottom')
+                  expect(upperName + 6).toBeLessThanOrEqual(
+                    Math.min(...extra.map((command) => bounds(command).lower)) +
+                      1e-8,
+                  );
+                else
+                  expect(lowerName - 6).toBeGreaterThanOrEqual(
+                    Math.max(...extra.map((command) => bounds(command).upper)) -
+                      1e-8,
+                  );
+              }
+            }
+          }
+        }
+      }
+    }
   });
 
   it('renders catalog artwork in truthful picker and print-sheet SVGs', () => {

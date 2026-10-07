@@ -13,6 +13,10 @@ import {
   chooseDevelopmentOffer,
 } from './support/hosted';
 import { readBrowserDownload, readPdfText } from './support/pdf';
+import {
+  MIXED_EXAMPLE_NAMES,
+  expectExampleNameLayout,
+} from './support/name-layout';
 
 async function step(page: Page, name: 'Design' | 'Guests' | 'Review') {
   const button = page.getByRole('button', { name, exact: true });
@@ -51,6 +55,64 @@ async function expectInlineAction(page: Page, action: Locator, card: Locator) {
   expect(navigation).not.toBeNull();
   expect(button!.y + button!.height).toBeLessThanOrEqual(navigation!.y);
 }
+
+test('review regression: mixed examples wrap long names consistently in preview and downloaded PDF', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('balanced-name-lines', info.project.name),
+  );
+  await page.goto('/create');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
+    MIXED_EXAMPLE_NAMES.join('\n'),
+  );
+  await step(page, 'Design');
+  await page.getByRole('button', { name: /Garden Sage/u }).click();
+  await page.getByLabel('Event name').fill('Mixed name review');
+  await page.getByRole('button', { name: 'Open complete preview' }).click();
+  const preview = page.getByRole('dialog', { name: 'Complete print preview' });
+  await expect(preview).toBeVisible();
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+  const lines = await expectExampleNameLayout(
+    preview,
+    MIXED_EXAMPLE_NAMES.slice(0, 4),
+  );
+  await page.screenshot({
+    path: info.outputPath('mixed-name-first-sheet.png'),
+    fullPage: true,
+  });
+  await preview.getByRole('button', { name: 'Next sheet' }).click();
+  lines.push(
+    ...(await expectExampleNameLayout(preview, MIXED_EXAMPLE_NAMES.slice(4))),
+  );
+  await page.screenshot({
+    path: info.outputPath('mixed-name-second-sheet.png'),
+    fullPage: true,
+  });
+  await preview.getByRole('button', { name: 'Return to editor' }).click();
+  await step(page, 'Review');
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(/\/projects\/project_/u);
+  await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
+  const download = page.getByRole('link', { name: 'Download PDF' });
+  await expect(download).toBeVisible({ timeout: 90_000 });
+  const pdf = await readPdfText(
+    await readBrowserDownload(page, (await download.getAttribute('href'))!),
+  );
+  expect(pdf.title).toBe('Mixed name review');
+  expect(pdf.pageCount).toBe(2);
+  for (const line of lines)
+    expect(pdf.text.split('\n').filter((text) => text === line)).toHaveLength(
+      2,
+    );
+  expect(pdf.text).not.toContain('Alexandria Catherine Montgomery-Sinclair');
+  const downloaded = page.waitForEvent('download');
+  await download.click();
+  await (await downloaded).saveAs(info.outputPath('mixed-names.pdf'));
+  await expectNoHorizontalPageOverflow(page);
+});
 
 test('review regression: creator actions stay in their cards and Sign out appears once', async ({
   page,

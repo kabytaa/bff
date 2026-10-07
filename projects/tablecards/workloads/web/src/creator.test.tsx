@@ -120,6 +120,38 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe('creator introduction reflects the current journey', () => {
+  it('loads a varied example list and previews long names as two readable lines', async () => {
+    mount(null);
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Try an example list' }),
+    );
+    const names = screen.getByLabelText(
+      /Paste one name per line/u,
+    ) as HTMLTextAreaElement;
+    expect(names.value.split('\n')).toEqual([
+      'Anaïs Dubois',
+      'Alexandria Catherine Montgomery-Sinclair',
+      'Björn Hansen',
+      'Olivia Rose Bennett',
+      'María Fernanda de la Cruz Hernández',
+      'José García',
+    ]);
+    const sheet = await screen.findByRole('img', {
+      name: 'TableCards print sheet 1',
+    });
+    const lines = [...sheet.querySelectorAll('text')].map(
+      (element) => element.textContent,
+    );
+    expect(lines.filter((line) => line === 'Anaïs Dubois')).toHaveLength(2);
+    expect(
+      lines.filter((line) => line === 'Alexandria Catherine'),
+    ).toHaveLength(2);
+    expect(lines.filter((line) => line === 'Montgomery-Sinclair')).toHaveLength(
+      2,
+    );
+    expect(mocks.backend.generateAi).not.toHaveBeenCalled();
+  });
+
   it('shows edit guidance, not sign-in marketing, for a saved project', async () => {
     mount();
     await screen.findByDisplayValue('Original event');

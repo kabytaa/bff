@@ -50,17 +50,17 @@ import {
   type AiReferenceImage,
 } from './ai-reference-input';
 
-const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
+const SAMPLE_GUESTS = `Anaïs Dubois
+Alexandria Catherine Montgomery-Sinclair
+Björn Hansen
+Olivia Rose Bennett
 María Fernanda de la Cruz Hernández
-Jean-Baptiste Alexandre de Villeneuve
-Christopher Bartholomew Worthington III
-Anaïs Dubois
-Björn Hansen`;
+José García`;
 
 const GUEST_LIST_PLACEHOLDER = `Paste one name per line, for example:
 Olivia Bennett
-José García
-Zoë Martin`;
+Alexandria Catherine Montgomery-Sinclair
+José García`;
 
 function ArtworkThumbnail({
   backend,

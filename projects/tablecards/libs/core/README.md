@@ -42,6 +42,11 @@ that compose are supported, remaining combining marks fail explicitly rather
 than reaching unsafe font shaping. Tests cover those boundaries, wide glyphs,
 unsupported glyph rejection and deterministic bytes for both families.
 
+Printable SVG text explicitly sets `font-kerning: none`,
+`font-variant-ligatures: none` and `text-rendering: geometricPrecision` as CSS.
+Font presentation attributes alone are not reliable across browsers; the
+precision setting prevents inherited UI hinting from changing preview advances.
+
 The optional `fontBytes`/`serifFontBytes` arguments keep the core independent of
 HTTP/filesystem access. The backend fetches only registered public assets and
 verifies their hashes. Omitting them retains Helvetica/Times for isolated
@@ -50,6 +55,24 @@ verifies every generated advance against the font files and pins both hashes;
 changing a font requires regenerating `font-data.ts`, not hand-adjusting widths.
 Both guest text and the actual event title are preflighted. Server checks remain
 authoritative for authorization and rendering.
+
+Names use one line at the selected size, allowing at most a 15% reduction before
+trying two balanced lines. The split minimizes the widest line, then imbalance;
+ordinary whitespace is preferred, preserving compound surnames. An existing
+ordinary hyphen is a fallback break only when a whitespace split cannot fit,
+and remains printed. Nonbreaking spaces/hyphens and unbroken words are never
+split arbitrarily. Two lines can shrink further to the existing 8 pt minimum;
+unbreakable names use the single-line fallback or explicit fit error, not
+truncation. Names have 24 pt side insets, 16 pt vertical bounds and at least
+6 pt clearance from table/marker text. The name block stays as close as possible
+to the selected top/center/bottom position within those bounds.
+
+Each line is an ordinary centered text command in the shared manifest, including
+mirrored offsets on the rotated upper face. SVG preview and PDF therefore use
+the same line decisions, size and placement. This is a rendering change only:
+guest strings, project snapshots, manifest shape and database schema are not
+migrated. Existing saved projects receive this policy when previewed/re-exported;
+already downloaded PDF files do not change.
 
 ## Commands
 

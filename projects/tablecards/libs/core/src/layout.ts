@@ -235,11 +235,24 @@ export interface NameStyle {
   readonly size: 'small' | 'medium' | 'large';
 }
 
-interface FittedGuestText {
+interface FittedName {
   readonly nameSize: number;
+  readonly nameLines: readonly string[];
+  readonly nameLineHeight: number;
+  readonly nameOffset: number;
+}
+
+interface FittedGuestText extends FittedName {
   readonly tableSize?: number;
   readonly markerSize?: number;
 }
+
+const NAME_MAXIMUM_WIDTH = FINISHED_CARD.width - 48;
+const NAME_VERTICAL_INSET = 16;
+const NAME_DETAIL_GAP = 6;
+// Conservative reserve below the PDF's ascender-centered text baseline.
+// Both pinned Noto fonts have a descent below 0.35 em; SVG shares these bounds.
+const DESCENDER_RESERVE_EM = 0.35;
 
 function fitText(
   text: string,
@@ -257,6 +270,137 @@ function fitText(
     }
   }
   return undefined;
+}
+
+function balancedNameSplit(
+  text: string,
+  metrics: FontMetrics,
+  boundaries: Iterable<RegExpMatchArray>,
+  keepBoundary: boolean,
+): readonly string[] | undefined {
+  let best: readonly string[] | undefined;
+  let bestWidth = Infinity;
+  let bestDifference = Infinity;
+  for (const boundary of boundaries) {
+    const start = boundary.index!;
+    const end = start + boundary[0].length;
+    const lines = [text.slice(0, keepBoundary ? end : start), text.slice(end)];
+    if (lines.some((line) => line.length === 0)) continue;
+    const widths = lines.map((line) => metrics.widthOfTextAtSize(line, 1));
+    const widest = Math.max(...widths);
+    const difference = Math.abs(widths[0]! - widths[1]!);
+    if (
+      widest < bestWidth ||
+      (widest === bestWidth && difference < bestDifference)
+    ) {
+      best = Object.freeze(lines);
+      bestWidth = widest;
+      bestDifference = difference;
+    }
+  }
+  return best;
+}
+
+function fitName(
+  text: string,
+  metrics: FontMetrics,
+  detailMetrics: FontMetrics,
+  tableSize: number | undefined,
+  markerSize: number | undefined,
+  style?: NameStyle,
+): FittedName | undefined {
+  const maximumSize =
+    style?.size === 'small' ? 18 : style?.size === 'medium' ? 22 : 26;
+  const hasDetails = tableSize !== undefined || markerSize !== undefined;
+  const preferredCenter =
+    FINISHED_CARD.height / 2 +
+    (style?.position === 'top'
+      ? 38
+      : style?.position === 'bottom'
+        ? -28
+        : hasDetails
+          ? 10
+          : 0);
+  let minimumY = NAME_VERTICAL_INSET;
+  let maximumY = FINISHED_CARD.height - NAME_VERTICAL_INSET;
+  for (const [size, offset] of [
+    [tableSize, 20],
+    [markerSize, tableSize === undefined ? 20 : 34],
+  ] as const) {
+    if (size === undefined) continue;
+    const halfHeight = detailMetrics.heightAtSize(size) / 2;
+    if (style?.position === 'bottom') {
+      maximumY = Math.min(
+        maximumY,
+        FINISHED_CARD.height / 2 +
+          offset -
+          halfHeight -
+          size * DESCENDER_RESERVE_EM -
+          NAME_DETAIL_GAP,
+      );
+    } else {
+      minimumY = Math.max(
+        minimumY,
+        FINISHED_CARD.height / 2 - offset + halfHeight + NAME_DETAIL_GAP,
+      );
+    }
+  }
+
+  const fitLines = (
+    lines: readonly string[],
+    minimumSize: number,
+  ): FittedName | undefined => {
+    // Font advances scale linearly. Shape each candidate once, not at every
+    // quarter-point size (important for embedded-font 500-card exports).
+    const widths = lines.map((line) => metrics.widthOfTextAtSize(line, 1));
+    for (let size = maximumSize; size >= minimumSize; size -= 0.25) {
+      if (widths.some((width) => width * size > NAME_MAXIMUM_WIDTH)) continue;
+      const lineHeight = size * 1.25;
+      const upperExtent =
+        metrics.heightAtSize(size) / 2 + ((lines.length - 1) * lineHeight) / 2;
+      const lowerExtent = upperExtent + size * DESCENDER_RESERVE_EM;
+      const lowestCenter = minimumY + lowerExtent;
+      const highestCenter = maximumY - upperExtent;
+      if (lowestCenter > highestCenter) continue;
+      const center = Math.max(
+        lowestCenter,
+        Math.min(preferredCenter, highestCenter),
+      );
+      return Object.freeze({
+        nameSize: size,
+        nameLines: Object.freeze([...lines]),
+        nameLineHeight: lineHeight,
+        nameOffset: center - FINISHED_CARD.height / 2,
+      });
+    }
+    return undefined;
+  };
+
+  const normalized = normalizeRenderText(text);
+  const single = [normalized];
+  // A modest reduction keeps medium names natural; never shrink a long name
+  // into tiny text before trying two balanced lines.
+  const preferredSingle = fitLines(single, maximumSize * 0.85);
+  if (preferredSingle) return preferredSingle;
+  // Ordinary word spaces only: NBSP, narrow NBSP and figure spaces stay intact.
+  const words = balancedNameSplit(
+    normalized,
+    metrics,
+    normalized.matchAll(/[ \u2000-\u2006\u2008-\u200a\u205f]+/gu),
+    false,
+  );
+  const wrapped = words ? fitLines(words, 8) : undefined;
+  if (wrapped) return wrapped;
+  // A fallback at an existing ordinary hyphen keeps that hyphen visible.
+  const hyphenated = balancedNameSplit(
+    normalized,
+    metrics,
+    normalized.matchAll(/-/gu),
+    true,
+  );
+  return (
+    (hyphenated ? fitLines(hyphenated, 8) : undefined) ?? fitLines(single, 8)
+  );
 }
 
 function fitGuest(
@@ -291,19 +435,6 @@ function fitGuest(
     guest.table === undefined || metrics.supportsText(guest.table);
   const markerSupported =
     guest.marker === undefined || metrics.supportsText(guest.marker);
-  const nameSize = nameSupported
-    ? fitText(
-        guest.name,
-        nameMetrics,
-        220,
-        nameStyle?.size === 'small'
-          ? 18
-          : nameStyle?.size === 'medium'
-            ? 22
-            : 26,
-        8,
-      )
-    : undefined;
   const tableSize =
     guest.table === undefined || !tableSupported
       ? undefined
@@ -312,9 +443,19 @@ function fitGuest(
     guest.marker === undefined || !markerSupported
       ? undefined
       : fitText(guest.marker, metrics, 200, 9, 6);
+  const name = nameSupported
+    ? fitName(
+        guest.name,
+        nameMetrics,
+        metrics,
+        tableSize,
+        markerSize,
+        nameStyle,
+      )
+    : undefined;
 
   for (const [field, value, size] of [
-    ['name', guest.name, nameSize],
+    ['name', guest.name, name?.nameSize],
     ['table', guest.table, tableSize],
     ['marker', guest.marker, markerSize],
   ] as const) {
@@ -334,13 +475,13 @@ function fitGuest(
     }
   }
 
-  if (issues.length > 0 || nameSize === undefined) {
+  if (issues.length > 0 || name === undefined) {
     return { ok: false, issues: Object.freeze(issues) };
   }
   return {
     ok: true,
     fitted: Object.freeze({
-      nameSize,
+      ...name,
       ...(tableSize === undefined ? {} : { tableSize }),
       ...(markerSize === undefined ? {} : { markerSize }),
     }),
@@ -430,30 +571,25 @@ function addFace(
   );
   const direction = rotation === 0 ? 1 : -1;
   const centerY = y + FINISHED_CARD.height / 2;
-  const hasDetails = guest.table !== undefined || guest.marker !== undefined;
-  const nameOffset =
-    nameStyle?.position === 'top'
-      ? 38
-      : nameStyle?.position === 'bottom'
-        ? -28
-        : hasDetails
-          ? 10
-          : 0;
   const detailsDirection =
     nameStyle?.position === 'bottom' ? -direction : direction;
-  commands.push(
-    Object.freeze({
-      type: 'text',
-      text: normalizeRenderText(guest.name),
-      centerX: x + FINISHED_CARD.width / 2,
-      centerY: centerY + direction * nameOffset,
-      fontSize: fitted.nameSize,
-      color: nameStyle?.color ?? design.palette.text,
-      rotation,
-      role: 'name',
-      fontFamily: nameStyle?.font ?? 'sans',
-    }),
-  );
+  fitted.nameLines.forEach((line, index) => {
+    const lineOffset =
+      ((fitted.nameLines.length - 1) / 2 - index) * fitted.nameLineHeight;
+    commands.push(
+      Object.freeze({
+        type: 'text',
+        text: line,
+        centerX: x + FINISHED_CARD.width / 2,
+        centerY: centerY + direction * (fitted.nameOffset + lineOffset),
+        fontSize: fitted.nameSize,
+        color: nameStyle?.color ?? design.palette.text,
+        rotation,
+        role: 'name',
+        fontFamily: nameStyle?.font ?? 'sans',
+      }),
+    );
+  });
   if (guest.table !== undefined && fitted.tableSize !== undefined) {
     commands.push(
       Object.freeze({
@@ -799,7 +935,10 @@ export function renderManifestPageToSvg(
         command.fontFamily === 'serif'
           ? 'Noto Serif, serif'
           : manifest.fontFamily;
-      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-kerning="none" font-variant-ligatures="none" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
+      // CSS is required: browsers do not consistently honor the font-* SVG
+      // presentation attributes. Geometric precision also avoids inheriting
+      // UI legibility/hinting adjustments that change scaled preview advances.
+      return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" style="font-kerning:none;font-variant-ligatures:none;text-rendering:geometricPrecision" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
     })
     .join('');
   const sheetNumber = manifest.pages

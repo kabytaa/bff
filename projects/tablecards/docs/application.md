@@ -779,6 +779,17 @@ are disabled in both renderers. Stored names are not changed; remaining
 combining marks fail explicitly. Font bytes/provenance and supported Latin
 behavior are tested, not inferred from the UI font stack alone.
 
+Printable names use a shared automatic one/two-line policy, not another UI
+control. Keep a single line if it fits at the chosen size or within a 15%
+reduction; otherwise prefer a balanced two-line word split before shrinking
+further. Preserve compound surnames where possible, keep nonbreaking text intact
+and never truncate. Each line is independently centered; the whole block remains
+near the chosen position while clearing card edges and table/meal details.
+Both folded faces and PDF/SVG use the same commands. The example action loads
+six mixed short/medium/accented/long names, with only one extreme name among the
+first four; the input hint includes a long name too. Existing projects re-render
+with this policy without changing their stored guest strings.
+
 Public pages favor large headings, representative card artwork and short
 sections. Private pages favor task cards, compact action groups, selected-state
 navigation, usage tiles and lists. Rounded paper panels, pill-shaped primary

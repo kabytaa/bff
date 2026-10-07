@@ -582,3 +582,53 @@ credentials in production; the earlier limit remains explicit.
 **Outcome:** both reported issues are corrected, committed/pushed and deployed
 to development and production. Reload an older open tab for the current assets.
 Free welcome-credit provisioning remains a separate open issue.
+
+### Balanced long names and mixed examples — 2026-10-07
+
+Andrew requested two-line long names, a varied example list, an independent
+Astra opinion and deployment. Baseline: repository `4e76eca`, production
+runtime `badf706`. Scope: name fitting and example input through desktop/mobile
+preview, save and real PDF export; not an unrelated whole-app/auth/payment/AI
+review. The supplied Garden Sage print photo shows very long single-line names
+touching the artwork and four extreme names first.
+
+Astra recommended balanced word splits before substantial shrinking, preserving
+compound/nonbreaking names, protecting card/detail bounds and rotating line
+offsets with the upper face. A follow-up accepted a 15% single-line reduction
+allowance so medium names remain natural; truly long names get two lines.
+The shared core now emits one/two ordinary text commands per name with 24 pt
+side insets, 16 pt vertical bounds, 6 pt detail clearance and 1.25 em leading.
+It preserves all name characters, never truncates or invents hyphens, and keeps
+an explicit failure for impossible fits. Existing saved projects use the new
+policy on preview/re-export; downloaded files remain unchanged.
+
+The six example names now mix short, medium, accented and long names. Core
+checks cover both fonts, all position/size choices, optional table/meal details,
+both rotated faces, compound/nonbreaking cases, impossible fits, actual pinned
+PDF-font parity and the 500-card ceiling. Scoped hosted checks exercise the
+example action, both preview sheets, real saved/exported PDF lines and a download
+on desktop Chromium/mobile WebKit. No schema/migration, provider call, payment
+or production customer-data write is planned. Results/publication follow.
+
+Local checks passed: **46 core tests**, **110 web tests**, scoped core/web/backend/
+E2E lint/type checks and **11 private-file backend tests**, including foreign
+account, missing identity and revoked session/member denials. The first hosted
+run passed mobile save/export and both impossible-name cases but exposed a
+desktop SVG measurement discrepancy: María's 23 pt line measured 205.179 pt
+against the pinned 203.964 pt advance. Investigation showed inherited UI
+`optimizeLegibility` and ignored SVG font presentation attributes. Explicit
+printable-text CSS disables kerning/ligatures and uses `geometricPrecision`;
+the same Chrome line then measured 203.969 pt. Astra endorsed this scoped fix.
+The strict 204.5 pt browser bound is retained, not widened. Actual downloaded
+mobile PDF pages were rasterized and inspected; their full names, two-line
+order and card artwork are readable. This is screen/PDF evidence, not a new
+physical printer measurement. Final hosted rerun and publication follow.
+
+Final development browser rerun passed **4/4 (1m9s)**: mixed example order,
+short one-line/long two-line SVG with strict width/computed-font rules on both
+preview sheets and faces, save, an actual two-page PDF containing every preview
+line exactly twice, download click, and explicit impossible-name recovery in
+desktop Chromium/mobile WebKit. Both browser screenshot sets were inspected.
+Development web Worker **`d746c2d7-5c2b-4d81-ba77-359d17580b25`** and the
+TableCards `scrupulous-hawk-991` backend contain this runtime tree. Other
+development services were unchanged. Production publication follows.
