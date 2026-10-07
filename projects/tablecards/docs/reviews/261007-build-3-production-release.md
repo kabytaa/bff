@@ -662,3 +662,28 @@ redeploying unchanged services. Focused mixed-name preview/save/export/download
 reruns passed **2/2 (53.5s)** in desktop Chromium/mobile WebKit against that
 backend, with real PDF bytes. Version-2 cache invalidation is covered by the
 backend regression rather than mutating a production customer's export.
+
+#### Completed balanced-name publication
+
+Final runtime commit **`d8e83f2b0be316c5f75f1cb217c9f69a89ec6f4a`** was pushed
+to main. [CI 37681234317](https://github.com/kabytaa/bff/actions/runs/37681234317)
+passed repository validation **6m17s** and guarded production deployment/smoke
+**2m11s**. Live TableCards web metadata and production backend health both match
+this commit. The updated development backend identifies the same commit;
+development web remains `d746c2d7-5c2b-4d81-ba77-359d17580b25`, with unchanged
+application assets. Unchanged development services were not restamped.
+
+Fresh public production mixed-example checks passed **2/2 (10.4s)** in desktop
+Chromium/mobile WebKit: exact example contents, both sheets/faces, short
+one-line and long two-line names, strict measured width and computed-font
+rules, preview return and no horizontal page overflow. All four production
+screenshots were inspected. The final development PDFs are byte-identical
+across browsers and their rasterized output was inspected. Private authenticated
+production export remains subject to the Google-credential limit recorded
+above; development export and production public checks are distinct evidence.
+
+**Outcome:** Astra's balanced-wrap approach and varied examples are implemented,
+committed/pushed and deployed to development/production. Refresh an older open
+tab, then create a new PDF for existing projects; previously downloaded PDFs
+cannot change. No schema/migration, production customer-data repair or paid AI
+call was needed. The evidence-only Markdown follow-up skips CI/deployment.

@@ -8,24 +8,19 @@ Updated: 2026-10-07.
   [production](https://tablecards.tofler.app) and
   [development](https://tablecards-dev.tofler.app) as a **no-charge preview**,
   not real billing or customer launch.
-- Production release `badf706` passed CI/deployment and smoke. Mobile creator
-  actions now stay inside their cards; desktop has only one Sign out button.
-  Development web has the same corrections; unchanged development services
-  retain their prior releases. The prior navigation/icons, heading-focus and
-  default-Free balance-read corrections remain in place.
-- Scoped desktop/mobile development flows and two fresh public production
-  checks passed. No schema/migration or paid AI call. Exact versions, evidence
-  and limits are in the [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#accepted-inline-actions-and-single-sign-out--2026-10-07).
+- Production release `d8e83f2` passed CI/deployment and smoke. Long names now
+  use balanced two-line layouts; examples mix lengths/accents, and old PDF
+  caches regenerate on the next export. Development has the same behavior;
+  unchanged development services retain their prior releases. Navigation/icons,
+  inline mobile actions, single Sign out and default-Free balance fixes remain.
+- Scoped desktop/mobile development preview/save/PDF/download checks and two
+  fresh public production checks passed. No schema/migration or paid AI call.
+  Exact versions, evidence and limits are in the
+  [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#balanced-long-names-and-mixed-examples--2026-10-07).
 - Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
 
 ## Immediate next work
 
-- In progress: Andrew's authorized long-name/two-line and mixed-example batch.
-  Development preview/save/export/download and impossible-fit checks passed
-  4/4 on desktop/mobile; release `c0bbbd5` passed guarded production CI/smoke.
-  Finishing saved-PDF cache invalidation, then final publication/public checks;
-  no schema or migration. See the
-  [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#balanced-long-names-and-mixed-examples--2026-10-07).
 - Resolve production-safe Free welcome-credit provisioning separately; do not
   enable development mocks or fabricate paid grants. Any schema change needs
   Andrew's confirmation.
