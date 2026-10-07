@@ -25,9 +25,11 @@ Updated: 2026-10-07.
   proportional: affected tests for small fixes, full regression at meaningful
   release boundaries, no browser/AI reruns for documentation. The filter's
   focused verification passes: 49 release-tool tests, lint and typecheck.
-  Policy commit `e5fe629` has its one-time configuration rollout tracked by
-  [main CI](https://github.com/kabytaa/bff/actions/runs/37581542926); it changes
-  delivery rules only, with no application or schema changes.
+  Policy commit `e5fe629` passed its one-time
+  [main CI/deployment/smoke](https://github.com/kabytaa/bff/actions/runs/37581542926).
+  Follow-up STATUS-only push `99995de` created zero CI checks or deployment runs.
+  No application/schema changed: production metadata identifies `e5fe629`,
+  while development retains verified runtime `bc85dc6`; no prose-only refresh.
 - Production BFF `exuberant-goldfinch-830` and separate TableCards
   `clean-gerbil-451` use Google-only identity, no dummy login/AI fixtures,
   same-site session gateways and shared no-charge checkout. Development remains
