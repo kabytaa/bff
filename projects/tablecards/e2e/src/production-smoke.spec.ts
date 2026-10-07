@@ -39,6 +39,9 @@ test('public pricing, creator, long names and cards-only preview work without de
   ).toBeVisible();
   for (const price of ['$0', '$5', '$9', '$19'])
     await expect(page.getByText(price, { exact: true })).toBeVisible();
+  await expect(
+    page.getByText(/Preview checkout is a no-charge simulation/u),
+  ).toBeVisible();
   await expectContained(page);
   await prepareCards(page);
   await expect(page.getByText(/4 cards · 1 PDF pages/u)).toBeVisible();

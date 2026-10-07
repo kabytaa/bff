@@ -79,3 +79,7 @@ Rendered development inspection (desktop/mobile design and review) found stale
 print-callout text referencing a calibration square on page one. It was corrected
 to distinguish separate calibration from cards-only customer exports, with a
 component regression and production browser assertion. No PDF layout changed.
+The public pricing notice now identifies simulated checkout before an upgrade
+click; the AI FAQ includes the optional reference image instead of claiming
+only text ever goes to the provider. Both are disclosure corrections, not new
+features or access rules.

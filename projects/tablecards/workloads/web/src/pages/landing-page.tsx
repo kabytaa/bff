@@ -101,6 +101,10 @@ export function Component() {
         <div className="section-intro centered">
           <p className="eyebrow">Simple pilot pricing</p>
           <h2>Start free, then pay for the workflow you need</h2>
+          <p className="notice">
+            Preview checkout is a no-charge simulation. Prices shown describe
+            proposed offers, not a live charge or paid subscription.
+          </p>
         </div>
         <div className="pricing-grid">
           {(Object.keys(OFFER_CATALOG) as OfferId[]).map((offerId) => {
@@ -165,7 +169,10 @@ export function Component() {
           </details>
           <details>
             <summary>Does AI see my guest list?</summary>
-            <p>No. AI receives only the visual style description you write.</p>
+            <p>
+              No. AI receives your visual style description and, if you choose
+              one, a resized company/style reference image—not your guest list.
+            </p>
           </details>
         </div>
       </section>
