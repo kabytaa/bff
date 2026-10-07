@@ -14,6 +14,23 @@ function step(workflow: string, name: string, nextName: string): string {
 }
 
 describe('production workflow credential boundaries', () => {
+  it.each(['pull_request', 'push'])(
+    'skips Markdown-only %s changes without excluding code, assets or configuration',
+    async (event) => {
+      const workflow = await readFile(workflowPath, 'utf8');
+      const trigger = workflow.match(
+        new RegExp(`^  ${event}:\\n((?: {4}[^\\n]*\\n|\\n)*)`, 'mu'),
+      )?.[1];
+      const ignoredPaths = trigger?.match(
+        / {4}paths-ignore:\n((?: {6}- [^\n]+\n)+)/u,
+      )?.[1];
+
+      // GitHub skips only when every changed path matches. Keep this narrow:
+      // a mixed Markdown/code diff, workflow edit or asset edit must still run.
+      expect(ignoredPaths?.trim()).toBe("- '**/*.md'");
+    },
+  );
+
   it('ships TableCards preview security headers without disabling immutable artwork caching', async () => {
     const headers = await readFile(
       'projects/tablecards/workloads/web/public/_headers',

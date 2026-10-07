@@ -5,6 +5,32 @@ surfaces, retained Example and TableCards for their separate Convex deployments,
 and smoke-checks the live release. It is intentionally
 separate from interactive development.
 
+## CI scope
+
+Both pull-request and main-push triggers ignore Markdown-only changes
+(`**/*.md`), including `STATUS.md`, READMEs, brainstorms, plans, ADRs and skills.
+These changes start no Actions run, full checks or production deployment. No
+manual development refresh is needed just to publish a documentation SHA.
+
+Any changed non-Markdown file keeps the normal validation gate; a mixed
+documentation/code change still runs. A validated main push then deploys and
+smoke-checks production. Source code, tests, schemas, dependencies, workflow and
+deployment configuration, public assets and `.mdx` are **not** excluded. Markdown
+currently is repository documentation, not runtime input; revise this filter
+before introducing runtime-generated pages or configuration from Markdown.
+
+Live health and metadata identify the **last deployed release commit**, which
+may precede `main` after documentation-only commits. Do not redeploy or relabel
+unchanged services merely to make their SHA match newer prose.
+
+Use focused local checks for small implementation changes, full regression at
+meaningful release boundaries, and only relevant prose/link checks for docs.
+GitHub still runs the complete CI gate for non-Markdown changes. Before adding
+required-check branch protection, reassess this path-filtered workflow: a skipped
+workflow does not report its required check and can leave a docs-only PR pending.
+See [GitHub's path-filter documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)
+and [required-check guidance](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks).
+
 ## Commands
 
 ```bash

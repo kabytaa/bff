@@ -474,7 +474,10 @@ checked; no runtime/dependency upgrade is needed.
 `660f5cf` and corrective runtimes `1ede7b7` / `bc85dc6` were pushed to main, deployed to
 production and refreshed to development. [Release review](../../projects/tablecards/docs/reviews/261007-build-3-production-release.md)
 owns the exact versions, failed-run history, full acceptance matrix and limits.
-The final documentation/test-only publication carries the same application code.
+Documentation-only commit `3f41d88` preserves the accepted runtime without
+requiring another publication. Andrew approved Markdown-only CI/deployment
+exclusions on 2026-10-07; the old-policy docs run was cancelled before deployment.
+Health metadata identifies the last deployed release, not newer prose.
 
 - [x] Isolated production manifests, target/key guards, version/security checks
       and real-provider/public browser smoke implemented; 47 release tests pass.

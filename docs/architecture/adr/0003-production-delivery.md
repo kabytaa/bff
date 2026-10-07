@@ -21,7 +21,16 @@ Andrew and Codex are currently the only collaborators. Andrew reviews completed 
 
 ### Current release trigger
 
-During the solo phase, Andrew reviews the prepared diff and explicitly authorizes Codex to push directly to `main`. Pull requests validate but do not deploy. A push to `main` starts the same full validation gate and deploys automatically only after validation succeeds; there is no second routine approval click.
+During the solo phase, Andrew reviews the prepared diff and explicitly authorizes Codex to push directly to `main`. Pull requests with non-documentation changes validate but do not deploy. A push to `main` with non-documentation changes starts the same full validation gate and deploys automatically only after validation succeeds; there is no second routine approval click.
+
+**2026-10-07 revision, approved by Andrew:** Markdown-only changes start no CI
+run or deployment, including status, brainstorms, plans and repository
+instructions. Mixed changes retain the normal gate. Live metadata identifies the
+last deployed release, not a newer documentation-only commit. No manual
+development refresh is required for prose. The original every-push policy is
+superseded by this narrow exception; code/configuration/assets remain checked.
+See [CI scope](../../../tools/production-delivery/README.md#ci-scope) for the
+filter, runtime-Markdown caveat and future required-check protection considerations.
 
 Introduce protected pull requests before the impact changes materially: real production users or data, paid workflows, another collaborator or a recurring direct-push error is sufficient reason to reassess.
 

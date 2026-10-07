@@ -270,11 +270,15 @@ Example/backoffice publications. Development web was
 `2c8f4c52-8cfc-4876-8fa9-1cf3e87eb3a0`; its private AI Worker was unchanged.
 Live metadata identifies the same runtime SHA across each environment.
 
-The final documentation-only commit updates this evidence and handoff without
-changing application code. Its automatic main publication is verified by CI and
-matching live metadata; browser/AI/full hosted suites are not needlessly rerun
-for prose. This preserves a distinction between focused change checks, full
-release regression and automatic repository CI.
+Documentation-only commit `3f41d88` updates this evidence and handoff without
+changing application code. Andrew approved skipping CI and deployment for
+Markdown-only changes on 2026-10-07. Its old-policy
+[run 37580934343](https://github.com/kabytaa/bff/actions/runs/37580934343)
+was cancelled during validation, before production publication. Both environments
+retain the accepted runtime above. Health metadata identifies the last deployed
+release, not newer prose; no browser/AI/full hosted rerun or manual development
+refresh is required for documentation. Non-Markdown or mixed changes retain the
+normal gate; see [CI scope](../../../../tools/production-delivery/README.md#ci-scope).
 
 **Final verdict:** ready for the authorized, visibly no-charge production
 preview. The personal Google credential/callback, paid billing, legal/customer

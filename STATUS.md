@@ -16,10 +16,15 @@ Updated: 2026-10-07.
   browser cases. Earlier 2/2 manual AI tests remain valid for unchanged AI code.
   Release checks found and fixed headers/CSP, first-PDF navigation and transient
   immutable print-asset reads; all affected checks were rerun successfully.
-  The final documentation-only publication preserves that runtime; main CI and
-  live metadata identify its SHA. Do not repeat browser/AI suites for docs-only
-  changes; use affected tests for small fixes and full regression at significant
-  release boundaries. Main CI still runs automatically on pushes.
+  Documentation commit `3f41d88` does not require publication: its old-policy CI
+  run was cancelled before deployment at Andrew's request. Both environments
+  already contain the verified runtime. Markdown-only changes now skip CI and
+  deployment; non-Markdown or mixed changes retain the normal gate. Live
+  metadata identifies the last deployed release, not newer prose. See
+  [CI scope](tools/production-delivery/README.md#ci-scope). Local checks are
+  proportional: affected tests for small fixes, full regression at meaningful
+  release boundaries, no browser/AI reruns for documentation. The filter's
+  focused verification passes: 49 release-tool tests, lint and typecheck.
 - Production BFF `exuberant-goldfinch-830` and separate TableCards
   `clean-gerbil-451` use Google-only identity, no dummy login/AI fixtures,
   same-site session gateways and shared no-charge checkout. Development remains

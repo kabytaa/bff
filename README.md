@@ -33,4 +33,4 @@ The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server 
 
 Deployment-invariant, non-secret BFF identifiers live in the internal `bff-static-config` library. Credentials and values that actually vary by deployment remain external configuration.
 
-Builds 1 and 2 are complete in production. TableCards Build 3 is deployed to development, not released to production. See [the current handoff](STATUS.md) for current verification, findings and next work.
+Builds 1–3 meet their authorized production boundaries; TableCards Build 3 is a no-charge preview, not real billing or paying-customer launch. See [the current handoff](STATUS.md) for verification, remaining evidence limits and next work. Markdown-only changes skip CI and deployment; [CI scope](tools/production-delivery/README.md#ci-scope) explains the release rules.
