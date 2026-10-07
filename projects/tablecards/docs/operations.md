@@ -1,7 +1,7 @@
 # Build 3 TableCards development operations
 
 Created: 2026-09-27
-Last updated: 2026-10-06
+Last updated: 2026-10-07
 Status: Development remediation deployed and verified; not a production release
 
 This runbook covers the development-only Build 3 TableCards slice. It does not
@@ -185,6 +185,39 @@ pnpm --package=node@24 dlx sh -c 'pnpm exec playwright test --config projects/ta
 
 The interruption cause is unproven. Do not remove assertions, enable retries
 or claim acceptance from partial output when recovering a runner interruption.
+
+### 2026-10-07 development redeployment
+
+Andrew requested commit/push and development deployment. The worktree was
+already clean and `d0c53e71062b440c3a0483087483b7eda4360117` was pushed;
+there was no uncommitted implementation to create an empty checkpoint for.
+This commit differs from reviewed runtime `a914da0` only in documentation and
+E2E selectors, not application/server implementation.
+
+Fresh uncached web and development-auth builds passed. All 44 backend
+integration tests passed, including negative authorization. Both existing
+Convex development deployments were pushed with typechecking enabled and
+stamped with the full `d0c53e7` SHA; gateway health matches it. Hosted fonts
+still match their code-owned pins, both web surfaces return HTTP 200 and an
+anonymous private-file request correctly returns HTTP 401.
+
+| Surface                  | Redeployed version                                                                  |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| TableCards web           | `bc9923cf-aec7-430f-8be0-cb1890e6445c`; entry `/assets/index-Dkyj-h_x.js` unchanged |
+| Session gateway          | `07da38cc-2ddc-468a-8829-c1490f996127`                                              |
+| Central development auth | `093d57d7-a654-46e0-866a-1f7ffd618d63`                                              |
+| TableCards Convex        | `scrupulous-hawk-991`; push/typecheck passed 03:04:55 UTC                           |
+| Shared BFF Convex        | `compassionate-buffalo-689`; push/typecheck passed 03:04:50 UTC                     |
+
+The unchanged configured hosted suite passed **27/27** after deployment at
+03:13 UTC, in 7.7 minutes (command duration 7m45.9s): 17 desktop Chromium and
+10 mobile WebKit cases, one worker and zero retries. It covered actual edited
+and 500-card PDFs, private-file denials, no-charge offers, artwork/presets/AI,
+workspace feedback and full Studio invitation/role/account/transfer journeys.
+No provider secret, paid model, production target or merge was changed. This
+operational refresh does not broaden the original development acceptance into
+a production or customer-launch verdict. The follow-up documentation commit
+records this deployment; it does not change the deployed implementation.
 
 ### Six-card landscape print trial
 

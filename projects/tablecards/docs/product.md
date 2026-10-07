@@ -1,10 +1,10 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-10-06.
+Updated: 2026-10-07.
 
 Status: Accepted MVP scope; review remediation verified in development, not released for customer launch.
 
-Current runtime baseline: `a914da0` on `feat/tablecards-application`; earlier reconciliation at `b5aeae3` is preserved in the dated reviews.
+Current runtime baseline: `d0c53e7` on `feat/tablecards-application`, redeployed 2026-10-07 with implementation unchanged from reviewed runtime `a914da0`. The earlier reconciliation at `b5aeae3` is preserved in the dated reviews; [Operations](operations.md#2026-10-07-development-redeployment) records the redeployment.
 
 This is the canonical product-scope document for the first Business Factory product. The accepted [TableCards application contract](application.md) defines pages, navigation, responsive behavior and user stories, distinguishing development implementation from remaining gaps. The [MVP delivery plan](../../../docs/factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../../../docs/architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
 
