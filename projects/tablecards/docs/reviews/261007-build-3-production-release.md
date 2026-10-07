@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Released no-charge preview; no-schema balance-read fix locally verified, deployment pending; welcome-credit provisioning remains open; not customer launch
+Status: Released no-charge preview; no-schema balance-read fix deployed and verified in both environments; welcome-credit provisioning remains open; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -378,3 +378,35 @@ zero remaining. A trusted, idempotent production default-grant mechanism needs
 separate design/approval; do not mislabel default access as a paid provider grant
 or enable development identities. The accepted Free offer remains unchanged.
 Deployment, live replay and final release results will be recorded below.
+
+### Balance-read deployment acceptance
+
+Fix `a5d304fb77da9442e0a5583c551527f2eb98fbb5` was committed and pushed to main.
+[CI 37662281506](https://github.com/kabytaa/bff/actions/runs/37662281506)
+passed full repository validation (3m01s), complete production publication and
+final exact-version/security smoke (deployment job 2m23s).
+
+Shared BFF development `compassionate-buffalo-689` pushed/typechecked cleanly and
+its health version identifies `a5d304f`. A live read against an existing
+unallocated development account returned zero allowance/available units.
+Unchanged development TableCards/web/auth code retains its earlier deployment;
+it was not republished just to restamp test/documentation changes. The targeted
+authenticated development browser journey for designs, workspace settings,
+pricing, Projects navigation and signout passed on **both desktop Chromium and
+mobile WebKit (2/2, 35.7s)** with synthetic development accounts, no inference.
+
+The exact production account-scope balance query that failed before publication
+was replayed on `exuberant-goldfinch-830`: it returned `unallocated`, zero
+allowance/available/reserved/consumed and no error. This is an admin-invoked
+read-only backend replay, not a fabricated Google login or a customer-data write.
+Production health identifies `a5d304f`; CI's final smoke confirms the complete
+release, not just the early backend publication. Public production Chromium and
+mobile WebKit checks also passed **6/6 (22.8s)** during publication of otherwise
+unchanged web/auth behavior. Personal authenticated production callback/export/
+checkout/team journeys remain unverified; this bounded replay is not a claim
+that the browser login was completed with personal credentials.
+
+**Outcome:** the reported missing-allocation read crash is corrected and verified
+in both environments without schema changes, paid calls or production data
+mutation. Free welcome-credit provisioning remains the separate open promise
+gap described above; these passes do not close it.
