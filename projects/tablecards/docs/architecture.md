@@ -46,6 +46,8 @@ own web/gateway/private AI Worker, auth environment, provider secret and databas
 admission counter. Shared Cloudflare billing/free credits are not isolated by
 those application counters. Exact URLs and release/recovery commands belong in
 [Operations](operations.md#production-release-and-recovery), not duplicated schemas.
+The [2026-10-07 release review](reviews/261007-build-3-production-release.md)
+records the published no-charge production boundary and its verification limits.
 
 See [shared BFF table explanations](../../../docs/architecture/shared-bff-data-model.md),
 [SDK exports and contracts](../../../platform/bff/libs/sdk/typescript/README.md)
@@ -107,8 +109,9 @@ version identifies a legacy export instead of silently reusing its old PDF.
 Legacy AI rows are preserved; only tagged Cloudflare starts count toward the
 new provider-day admission budget. Integration tests cover legacy export
 handling and concurrent indexed admission. These changes were already deployed
-to development before the schema-confirmation rule was requested; production
-was not changed.
+to development before the schema-confirmation rule was requested. The later,
+explicitly authorized production release deploys the same compatible schema;
+it authors no new structural changes or destructive backfill.
 
 Database rows store storage IDs. Customer projections return relative private
 file addresses, never new `storage.getUrl` bearer links. Every byte request
@@ -118,6 +121,12 @@ bounded Blob URLs and revokes its cache on account/session changes and disposal.
 Already delivered/downloaded bytes cannot be recalled. Older development
 bearer links remain usable while their files exist; no destructive file
 migration was performed. This residual limitation is explicitly disclosed.
+
+A first export navigates to its saved-project route before presenting a download.
+That route resolves its own authorized Blob URL; the departing Creator must not
+expose a link that its backend disposal immediately revokes. Existing-project
+exports remain on their current route. This is a browser lifetime rule, not a
+change to server export ownership or authorization.
 
 Artwork libraries use account-indexed, 24-item metadata cursor pages through
 `assets:page` and `designPresets:page`, loaded explicitly as needed. Assets are
@@ -263,8 +272,8 @@ Recovery tests interrupt descriptor persistence, BFF commit and product
 completion, including responses lost after remote success. Retries must yield
 the same four assets and one charge. Pending outputs are not visible as ready.
 
-Build 3 development now uses capped real Cloudflare image generation, optional
-explicit test fixtures, and shared no-charge checkout.
+Build 3 uses capped real Cloudflare image generation and shared no-charge
+checkout in both deployments. Explicit fixtures remain development-only.
 TableCards redirects to the URL returned by BFF; it has no local payment mock
 screen. Checkout completion applies grant and compatible account policy in
 one BFF transaction. Monthly mock renewal simulates success automatically.

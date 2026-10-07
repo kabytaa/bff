@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Release in progress — production verdict pending deployment and smoke
+Status: Ready for the authorized Build 3 no-charge production preview; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -37,16 +37,16 @@ migration or customer-data rewrite is planned.
 
 ## Boundary and evidence matrix
 
-| Area                                | State                                             | Evidence / limit                                                                                                                                                   |
-| ----------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Product promises and UI             | Pending fresh run                                 | Full development user-story rerun covers import, projects, PDFs, uploads/presets, no-charge offers and Studio team/transfer; pricing must remain visibly simulated |
-| Desktop/mobile app                  | Pending production run                            | New public Chromium/mobile WebKit suite checks creator, long names, policies and real Google handoff; rendered captures need inspection                            |
-| Production targets/version/security | Pending deployment                                | Main CI and `production:smoke` must establish all three backend targets and web/gateway SHA/header/CORS/private-route contracts                                    |
-| AI                                  | Pass for private provider smoke                   | Account orchestration/reference behavior requires the separately opted-in development manual AI tests; independent `$1/day` budgets, same provider invoice         |
-| Payments and subscription truth     | Not applicable to no-charge boundary              | Shared simulation is explicitly approved; verified paid-through renewal/failure/downgrade/cancellation is Build 4, not proven by mock checkout                     |
-| Privacy/disclosures                 | Scoped pass; commercial legal sign-off unverified | Notices explain vendor/image transfer, no charge, archive versus deletion, retention and absent public support; not a compliance certification                     |
-| Operations/support/monitoring       | Scoped release work pending                       | Production manifests, target guards, recovery and AI pause commands exist; public support/monitoring remain Builds 5–6 and launch requirements                     |
-| Print                               | Accepted Build 3 boundary                         | Andrew accepted his earlier satisfactory print; measured scale/margin/Avery compatibility remains the final MVP prelaunch gate. Six-up stays development-only      |
+| Area                                | State                                                   | Evidence / limit                                                                                                                                                            |
+| ----------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Product promises and UI             | Pass for development; production authentication bounded | Fresh 27/27 hosted cases cover import, projects, PDFs, uploads/presets, no-charge offers and Studio team/transfer; fresh authenticated production actions remain unverified |
+| Desktop/mobile app                  | Pass for public production journeys                     | 6/6 Chromium/mobile WebKit cases cover creator, long names, policies and actual Google credential-entry popup; sampled rendered inspection recorded below                   |
+| Production targets/version/security | Pass                                                    | Main CI and fresh `production:smoke` verify all three backend targets, seven Workers, SHA/header/CORS/private-route contracts                                               |
+| AI                                  | Pass for scoped provider and development journeys       | Private production inference and 2/2 development manual AI cases passed; independent `$1/day` budgets share Cloudflare billing                                              |
+| Payments and subscription truth     | Not applicable to no-charge boundary                    | Shared simulation is explicitly approved; verified paid-through renewal/failure/downgrade/cancellation is Build 4, not proven by mock checkout                              |
+| Privacy/disclosures                 | Scoped pass; commercial legal sign-off unverified       | Notices explain vendor/image transfer, no charge, archive versus deletion, retention and absent public support; not a compliance certification                              |
+| Operations/support/monitoring       | Pass for scoped release operations                      | Production publication, target guards, recovery and AI pause procedure verified/documented; public support/monitoring remain Builds 5–6 and launch requirements             |
+| Print                               | Accepted Build 3 boundary                               | Andrew accepted his earlier satisfactory print; measured scale/margin/Avery compatibility remains the final MVP prelaunch gate. Six-up stays development-only               |
 
 Production browser automation intentionally does not borrow a Google account or
 fabricate an identity. It stops at the real Google entry; a fresh authenticated
@@ -78,8 +78,9 @@ no remaining sampled overflow issue. Lazy private-image thumbnails release
 offscreen bytes; an offscreen blank in a full-page capture is not evidence of a
 failed generation. Individual visible images were inspected.
 
-Final fixed production and refreshed development results are recorded below
-after completion. Build 3 is not yet marked complete.
+Final fixed production and refreshed development results are recorded below.
+Earlier interrupted or failing runs are retained as diagnostic history, not
+counted as acceptance.
 
 The first fresh hosted run was interrupted with exit 143 after 19 passing
 ordinary cases and no assertion failure. Its partial output is not acceptance;
@@ -130,3 +131,94 @@ read. First exports now navigate without exposing the departing route's link;
 the saved-project route resolves its own authorized download. A component
 regression asserts no stale link during handoff. The partial hosted run was
 stopped and is not acceptance; fresh focused and full runs follow.
+
+## Final acceptance — 2026-10-07
+
+Runtime checkpoint `1ede7b7bea4f1850f5962ddbc62aaa86d16786c2` passed:
+
+- **Full main CI**, including repository validation, exact-target publication of
+  all three production backends/seven Workers and final smoke:
+  [37577528728](https://github.com/kabytaa/bff/actions/runs/37577528728).
+- **Fresh local production smoke**, first attempt, 6.9 seconds. It verifies
+  exact health/metadata versions, origin/header contracts, disabled development
+  controls and anonymous private-file/AI denials across the configured surfaces.
+- **27/27 ordinary hosted development cases**, 8.0 minutes; two manual AI cases
+  correctly skipped. Both 500-card first-export journeys passed after the
+  navigation-lifetime correction. The suite includes the full executable story
+  registry, not only printing: saved/edited projects, account isolation,
+  uploaded artwork/presets, offer and allowance denials, no-charge shared
+  checkout, invitation acceptance, role/removal changes and ownership transfer.
+- **2/2 opted-in manual AI cases**, 1.7 minutes, real Cloudflare generation on
+  desktop Chromium/mobile WebKit with optional company-style input. Each case
+  checks all four visible, non-solid choices and one account-unit consumption.
+  Sampled individual captures show actual corner illustrations and usable blank
+  centers; this is not exact-logo fidelity or universal quality certification.
+- **6/6 public production browser cases**, 33.2 seconds, plus a fresh repeated
+  full pass before final publication (23.8 seconds). Both engines reach the actual Google
+  credential-entry popup; no personal credentials are entered. Local PDF Blob
+  byte reading is tested under the live CSP without inventing a production user.
+- **101 web tests**, focused E2E lint/typecheck and all **47 release-safety
+  tests** passed for the corrective implementation. Live development deep-link
+  headers and both environments' pinned fonts/artwork bytes were verified.
+
+Rendered production desktop/mobile Design captures were inspected after the
+fresh run: desktop has the bounded form/preview columns; mobile uses steps,
+an intentional horizontal design carousel and a bottom primary action. Neither
+sample has document-level horizontal overflow. Long/accented/duplicate names
+remain present in the preview; authentication/error/empty states are additionally
+covered by the full development journeys, not by an anonymous screenshot alone.
+
+Production Worker versions at this runtime checkpoint:
+
+| Surface                  | Worker version                         |
+| ------------------------ | -------------------------------------- |
+| TableCards web           | `1210aac2-4df7-415f-a83e-72b0f4d04a26` |
+| TableCards gateway       | `2b403d34-f83e-4b30-af46-a42017ec3b7f` |
+| TableCards private AI    | `6c30dbb8-4855-400d-90ed-c2d504ea530a` |
+| Shared customer auth     | `b6565733-b5db-40b3-a358-2228ac384655` |
+| Backoffice               | `367b4258-9de4-450b-b20a-771febe91312` |
+| Retained Example web     | `379bc906-3b4b-479c-8888-c020d75612f7` |
+| Retained Example gateway | `ca1f7a20-e4ad-4749-97b1-f92d07d1a963` |
+
+Stable development versions were TableCards web
+`12e4bab2-ab93-4210-a669-827056962648`, gateway
+`fa9fdc3e-dd08-4820-a1a6-26e51c03371e`, shared auth
+`b8bfff0d-2825-45d4-b560-40e86634e594` and unchanged private AI
+`c8d84c72-bf5d-4678-8a05-d5892dcbeaea`. Both backend version labels match the
+runtime SHA. The final documentation/test-only commit republishes identical
+application code with its own metadata; its deployment/verification is tracked
+by main CI and the short current handoff, not a self-referential commit in this
+record. Full 27-case/manual-AI results belong to the runtime checkpoint above.
+
+### Remaining limits, not concealed passes
+
+- Fresh authenticated production callback, project/export, shared checkout and
+  team recipient/transfer round-trips are **unverified**: personal Google
+  credentials are unavailable. Production dummy identities/fixtures remain
+  disabled. The full development journeys, exact production deployment guards,
+  retained Build 2 authentication evidence and real Google popup provide bounded
+  evidence; they are not substituted for those missing executions.
+- Google initialization emits an origin warning/400 even though the actual
+  credential-entry popup opens successfully. A read-only referrer-policy
+  experiment did not remove it; no speculative header change was made. Its
+  effect on the unavailable authenticated callback is unverified. Review the
+  OAuth client's exact authorized origins if callback problems occur and before
+  final customer launch. [Google's setup guidance](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid)
+  is the relevant primary reference.
+- An earlier mobile policy-link click stayed on `/terms`; the cause is
+  unproven. The final test waits for fonts and performs a real mobile tap; the
+  complete suite passed without retries. No routing defect or runtime fix is
+  asserted from that earlier failure. Google-popup selector failures were test
+  corrections, not evidence of provider authentication completion.
+- Print is Andrew's accepted Build 3 sample, not measured printer/Avery
+  certification. Real billing/lifecycle, support, monitoring, commercial legal
+  sign-off and independent customer validation remain their later stage gates.
+- Dollar caps estimate gross inference starts, including failures; they do not
+  cap the Cloudflare invoice or establish actual per-user provider spend. The
+  two deployment counters are independent; free credits/billing are shared.
+
+**Verdict:** ready for the explicitly authorized, visibly no-charge Build 3
+production preview. Production deployment and live smoke pass; development
+journeys pass. This verdict does not establish paying-customer launch readiness
+or waive the missing authenticated production evidence. No optional user review
+is treated as a routine implementation blocker.

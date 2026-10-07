@@ -76,13 +76,25 @@ Development readiness requires the hosted example to create or reuse an authenti
 
 ### Build 3 — TableCards core
 
+The authorized no-charge production preview was deployed and smoke-verified on
+2026-10-07. [Release evidence](../../projects/tablecards/docs/reviews/261007-build-3-production-release.md)
+records the full development journeys, bounded production browser/provider
+proof and remaining personal-authentication/launch limits. This is not real
+paid billing or final customer-launch acceptance.
+
 Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks; keep calibration in the separate print-test PDF, not an extra customer-export page (accepted correction 2026-10-07). Require authentication for save/export/AI/payment, not for import and preview.
 
 Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the future Build 3 production demo may use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
 
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
 
-Development uses capped real Cloudflare generation, with an optional company/style reference, following explicit provider-spend approval on 2026-10-07. Ordinary regression selects labelled image fixtures without inference cost. [TableCards Operations](../../projects/tablecards/docs/operations.md#cloudflare-ai-budget-and-reference-images) owns the exact model, cap and live verification procedure. Fixture tests alone do not establish live-provider quality/cost; separate browser evidence and durable cross-service recovery tests support their respective development claims, not production acceptance.
+Development and the no-charge production preview use capped real Cloudflare
+generation, with optional company/style references and independent deployment
+budgets. Ordinary development regression selects labelled fixtures without
+inference cost; production rejects fixtures. [TableCards Operations](../../projects/tablecards/docs/operations.md#cloudflare-ai-budget-and-reference-images)
+owns the model, cap and manual AI procedure. Fixture tests alone do not prove
+live quality/cost; private production inference, browser evidence and durable
+cross-service recovery checks have separately stated limits.
 
 The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. On 2026-10-07 Andrew accepted his existing satisfactory printed sheet as sufficient for Build 3 and deferred detailed physical testing to final MVP pre-launch acceptance. Further printing is not a Build 3 blocker. A 100%-scale ruler/margin check remains required before claiming measured physical output compatibility at launch; the six-card layout remains a development trial rather than a new launch promise.
 

@@ -3,17 +3,20 @@
 TableCards turns guest lists into downloadable place-card PDFs. Customers
 print independently; this Business does not print or ship cards.
 
-Build 3 is deployed to [development](https://tablecards-dev.tofler.app).
-Production release and real payment processing are not complete. Development
-checkout explicitly charges nothing. Real Cloudflare artwork has a deployment
+Build 3's no-charge preview is deployed to
+[production](https://tablecards.tofler.app) and
+[development](https://tablecards-dev.tofler.app). Checkout explicitly charges
+nothing in both environments; real payment processing remains Build 4.
+Real Cloudflare artwork has a separate deployment
 budget of `$1` per UTC day, conservatively admitting up to 138 four-image starts;
 explicitly labelled fixtures remain for regression.
 
-The [current corrections/review](docs/reviews/261007-pdf-session-and-live-ai-fixes.md)
-records the deployed candidate and checks. The
+The [production release review](docs/reviews/261007-build-3-production-release.md)
+records deployment, desktop/mobile verification and limits, including the
+unverified personal Google credential round-trip. The
 [earlier development acceptance](docs/reviews/261006-tablecards-remediation-and-development-acceptance.md)
 retains 27 passing cases and independent app/security reviews for its baseline.
-Neither authorizes production promotion or establishes customer-launch readiness.
+Earlier development results alone do not establish production or paying-customer launch readiness.
 
 ## Start here
 
@@ -22,7 +25,7 @@ Neither authorizes production promotion or establishes customer-launch readiness
 | [Product](docs/product.md)           | Customers, value, offers, limits, accepted promises and non-goals                        |
 | [Application](docs/application.md)   | Pages, navigation, actions, states, responsive behavior, design choices and user stories |
 | [Architecture](docs/architecture.md) | Components, data ownership, table purposes, relationships, APIs and security boundaries  |
-| [Operations](docs/operations.md)     | Development configuration, deployment, verification, troubleshooting and release limits  |
+| [Operations](docs/operations.md)     | Environment configuration, deployment, verification, troubleshooting and release limits  |
 | [Reviews](docs/reviews/)             | Dated findings, evidence, coverage limits and unresolved risks                           |
 
 These are the authoritative TableCards explanations, not copies of shared BFF
@@ -43,7 +46,7 @@ preserve evidence and reasoning. They do not override current product scope.
 | [Backend](backend/README.md)                 | Account-scoped Convex product records, validated artwork, PDF and AI operations            |
 | [Core](libs/core/README.md)                  | Offer/design catalogs, guest validation, physical geometry and deterministic PDF rendering |
 | [Session gateway](session-gateway/README.md) | Narrow same-site proxy for SDK session routes, not product traffic                         |
-| [AI provider](ai-provider/README.md)          | Private Workers AI binding adapter; authorization, budget and storage stay in Convex/BFF |
+| [AI provider](ai-provider/README.md)         | Private Workers AI binding adapter; authorization, budget and storage stay in Convex/BFF   |
 | [E2E](e2e/README.md)                         | Hosted desktop/mobile journeys and executable user-story coverage                          |
 
 ## Verification

@@ -2,7 +2,7 @@
 
 Created: 2026-09-27
 Last updated: 2026-10-07
-Status: Development verified; authorized production release in progress
+Status: Build 3 no-charge production preview deployed; final release evidence below
 
 This runbook covers the Build 3 no-charge preview in development and production.
 Andrew authorized production setup, merge, deployment and verification on
@@ -11,8 +11,10 @@ in each deployment. Real payment and customer launch remain later stages.
 
 Use [Product](product.md) for promises, [Application](application.md) for
 screens/states and [Architecture](architecture.md) for table/API ownership.
-The [current delta review](reviews/261007-pdf-session-and-live-ai-fixes.md)
-records this candidate; the [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
+The [production release review](reviews/261007-build-3-production-release.md)
+records current versions, checks and limits. The
+[delta review](reviews/261007-pdf-session-and-live-ai-fixes.md) and
+[earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
 and older runs below remain historical evidence for their versions.
 
 ## Ownership and surfaces
@@ -199,7 +201,8 @@ pnpm exec playwright test --config projects/tablecards/e2e/playwright.production
 
 It checks pricing, long/accented/duplicate names, cards-only preview, responsive
 containment, policies and real business-branded Google handoff on Chromium and
-mobile WebKit. It deliberately stops before personal Google authentication.
+mobile WebKit, including opening Google's real credential-entry popup.
+It deliberately stops before entering personal Google credentials.
 Authenticated development user-story tests are separate evidence, not a claim
 that a new production account completed checkout/team/export. Record those
 limits and actual deployed versions in the dated release review.

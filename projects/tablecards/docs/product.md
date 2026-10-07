@@ -2,9 +2,13 @@
 
 Updated: 2026-10-07.
 
-Status: Accepted MVP scope; review remediation verified in development, not released for customer launch.
+Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
-Current development candidate: the 2026-10-07 PDF/session/Cloudflare corrections on `feat/tablecards-application`, developed against `ed7539f`; [the scoped review](reviews/261007-pdf-session-and-live-ai-fixes.md) records deployed versions and checks. Earlier `d0c53e7`/`a914da0` acceptance and the `b5aeae3` reconciliation remain historical evidence in dated reviews and [Operations](operations.md#2026-10-07-development-redeployment).
+Current release: the 2026-10-07 merged Build 3 preview on `main`; the
+[production release review](reviews/261007-build-3-production-release.md)
+records exact versions, production smoke and verification limits. The earlier
+PDF/session/Cloudflare [delta review](reviews/261007-pdf-session-and-live-ai-fixes.md),
+`d0c53e7`/`a914da0` acceptance and `b5aeae3` reconciliation remain historical evidence.
 
 This is the canonical product-scope document for the first Business Factory product. The accepted [TableCards application contract](application.md) defines pages, navigation, responsive behavior and user stories, distinguishing development implementation from remaining gaps. The [MVP delivery plan](../../../docs/factory/mvp-delivery-plan.md) describes execution, while [ADR 0001](../../../docs/architecture/adr/0001-convex-first-bff-stack.md) governs the shared technical stack.
 
@@ -14,7 +18,15 @@ The dated [TableCards market-research report](../../../docs/research/260927-tabl
 
 The current development application at `https://tablecards-dev.tofler.app` implements public import/preview, authenticated projects/export, constrained artwork/presets, four-choice capped Cloudflare AI and shared Studio account workflows. The [current delta review](reviews/261007-pdf-session-and-live-ai-fixes.md) records the new candidate and explicit live-provider evidence. The [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md) retains its fresh 27-case desktop Chromium/mobile WebKit run and independent re-review; the [executable story registry](../e2e/src/support/coverage.ts) remains the coverage source. The [original acceptance result](../../../.agent/plans/260928-tablecards-user-story-acceptance.md#execution-result) is historical evidence. These checks establish tested development behavior and bounded sampled AI quality, not real purchases, universal model quality, physical print compatibility or production acceptance.
 
-TableCards production has not been released. The accepted [shared-checkout direction](../../../.agent/plans/260929-shared-mock-checkout.md) permits a future explicitly no-charge Build 3 production demo; that later decision replaces the earlier product-local, development-only checkout design. It does not mean that demo is deployed or that mock access is payment truth. Build 4 owns real billing and commercial lifecycle, Build 5 two-way support, Build 6 operational visibility, and Build 7 production/launch acceptance. Missing implementation does not remove an accepted promise below.
+The explicitly no-charge Build 3 production preview is published at
+`https://tablecards.tofler.app`, following the accepted
+[shared-checkout direction](../../../.agent/plans/260929-shared-mock-checkout.md).
+Production target/security smoke and public desktop/mobile journeys pass;
+fresh authenticated production checkout/export/team round-trips remain
+unverified without personal Google credentials. Mock access is not payment
+truth. Build 4 owns real billing and commercial lifecycle, Build 5 two-way
+support, Build 6 operational visibility, and Build 7 customer-launch acceptance.
+Missing implementation does not remove an accepted promise below.
 
 The [initial 2026-10-06 independent review](reviews/261006-build-3-documentation-and-readiness.md)
 found consequential export and upload defects beyond the passing story suite.
@@ -81,7 +93,7 @@ Version one supports exactly one physical output:
 | Unfolded size | 3.5 × 4 inches                                           |
 | Layout        | Four cards per sheet                                     |
 | Faces         | Name and design on both visible faces                    |
-| Guides        | Cut marks and fold marks; separate calibration download |
+| Guides        | Cut marks and fold marks; separate calibration download  |
 | Media         | Ordinary compatible cardstock or Avery 5302-style sheets |
 
 Users must print at 100% / Actual Size. One physical sheet must be printed and measured before launch. Flat cards, A4, arbitrary dimensions, professional print fulfillment and multiple physical presets are deferred.
@@ -112,7 +124,15 @@ There is no freeform design studio, vector editor, design marketplace, logo syst
 
 AI backgrounds are a subordinate optional capability rather than the main product promise. Build 3 adds them only after predefined-design import, preview and deterministic export work. One generation batch returns four choices. Free receives one lifetime welcome batch, Event Pass two batches, Planner Pro ten batches per month and Studio thirty shared batches per month. Monthly batches do not roll over, a failed provider generation releases its unit and guest names/list data are never sent to the image provider.
 
-Development uses Cloudflare Workers AI for real illustrated choices, authorized on 2026-10-07. Andrew subsequently raised the initial eight-batch safety cap to a deployment budget of `$1` per UTC day: the conservative fixed-model estimate admits up to 138 four-image starts, including failed starts. An explicitly labelled mock engine remains for repeatable tests without provider spend; it is not real AI artwork. No OpenAI API key is needed or used. Cloudflare's account-wide free allowance is shared with other applications, so the cap bounds estimated gross inference rather than guaranteeing a zero invoice or changing any customer's advertised unit allowance. Production needs its own explicitly configured budget and is unchanged. The fixed model/geometry and cost evidence belong in [Operations](operations.md#cloudflare-ai-budget-and-reference-images).
+Development and production use Cloudflare Workers AI for real illustrated
+choices under the 2026-10-07 authorization. Each deployment has its own `$1`
+estimated UTC-day budget and counter, conservatively admitting up to 138
+four-image starts, including failed starts. Explicitly labelled fixtures are
+development-only and are not real AI artwork. No OpenAI API key is used.
+Cloudflare's account-wide free allowance and invoice remain shared: this is an
+estimated gross-inference guard, not an invoice guarantee or a change to
+customer-plan allowances. Model, geometry and cost evidence belong in
+[Operations](operations.md#cloudflare-ai-budget-and-reference-images).
 
 Users may optionally supply a PNG/JPEG company icon or style image. The app sends a resized, metadata-stripped copy alongside the bounded visual-style request; it does not automatically attach guest/project/account contents. This is style/palette inspiration, not guaranteed exact logo reproduction. The reference is not separately saved in the artwork library; generated results remain private workspace artwork. Predefined/uploaded designs and deterministic export must remain usable when AI is disabled, capped or fails.
 
@@ -156,9 +176,10 @@ balance. TableCards chooses a code-owned offer, asks BFF to start checkout and
 redirects to the returned URL; it never renders a provider or dummy payment
 screen itself. The shared page applies product access and compatible account
 policy atomically, so Studio immediately exposes its five seats, roles and
-invitations. The mock is verified in development and is the accepted mechanism
-for a future Build 3 production demo, with an explicit notice that no money is
-charged. Build 4 may
+invitations. The mock is verified in development and enabled for the published
+Build 3 production preview, with explicit notices that no money is charged.
+Its fresh authenticated production round-trip is not claimed by that deployment.
+Build 4 may
 let development choose mock or Paddle, while production checkout creation
 returns Paddle directly without changing the TableCards interface. Only
 verified provider events may grant real paid access. The unit balance supports
@@ -174,13 +195,13 @@ creates the next allowance.
 - Membership uses explicit invitations; automatic email-domain joining is out of scope.
 - Owner, Admin and Member are the only MVP roles. The Owner controls checkout and ownership transfer. An Admin may manage invitations and ordinary Members but cannot manage the Owner, assign/remove other Admins or transfer ownership. A Member has product access without those administrative powers; a role does not independently grant a paid offer.
 - Authorized Studio users can view members and pending invitations, create or revoke invitations, change permitted roles and remove permitted members from the product. The Owner can start the protected ownership-transfer flow for an existing active member. The UI must reflect the already enforced Owner/Admin/Member boundaries rather than inventing broader permissions.
-- Development creates or reissues a recipient-bound invitation link for an authorized user to copy and deliver themselves. Acceptance validates the signed-in recipient, membership capacity and reserved seat; reissue invalidates the previous link. Automated invitation email is not implemented or required by this accepted link workflow. Do not introduce a transactional-email provider merely to demonstrate invitations.
+- The product creates or reissues a recipient-bound invitation link for an authorized user to copy and deliver themselves. Acceptance validates the signed-in recipient, membership capacity and reserved seat; reissue invalidates the previous link. This workflow is browser-tested in development; a fresh production recipient round-trip is unverified. Automated invitation email is not implemented or required by this accepted link workflow. Do not introduce a transactional-email provider merely to demonstrate invitations.
 
 ## Support, feedback and operations
 
 Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in users can start `feedback`, `problem` or `question` conversations with authenticated Business/user/account context. The operator workflow supports status handling and a real reply thread. Replies are delivered by email, and a user can reply by email or from the product; the resulting messages remain part of the same case. A public monitored support address remains available to people who cannot sign in.
 
-Development now has linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
+Both deployments have linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
 
 Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 
@@ -200,15 +221,15 @@ Operational placement is deliberate: customers create/export cards, select an of
 
 Every advertised capability must have an understandable workflow, authoritative enforcement and suitable verification before launch. The table connects product promises to existing sources rather than duplicating the application story registry. Ordinary development regression uses no-charge commerce and explicitly selected AI fixtures; manual AI test evidence against real Cloudflare is recorded separately.
 
-| Promise                                                        | Discoverable workflow                                                             | Authority and suitable evidence                                                                                                                                                                      | Current boundary                                                                                              |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Preserve the imported list and preview every card              | Public creator, mapping/review and restored draft                                 | [Guest/import rules](../libs/core/src/guests.ts), [import tests](../workloads/web/src/imports.test.ts), [hosted journeys](../e2e/src/user-stories.spec.ts)                                           | Verified in development; truthful development policies exist, final commercial disclosures remain later gates |
-| Clean 25-card Free export and up to 500 paid cards             | Creator/saved-project review and PDF download                                     | [Server export](../backend/convex/exports.ts), [project scope/limit tests](../backend/convex/projects.test.ts), [PDF tests](../libs/core/src/pdf.test.ts), hosted offer journeys                     | Development gates pass; Andrew accepted his existing print for Build 3; measured print certification remains a pre-launch gate |
-| Offer prices, project/seat/AI limits and paid designs          | Public pricing, Account and shared checkout                                       | [Code-owned catalog](../libs/core/src/catalog.ts), [BFF checkout tests](../../../platform/bff/service/convex/checkouts.test.ts), [TableCards access enforcement](../backend/convex/productAccess.ts) | Exact accepted pilot offers exercised without money; verified provider billing and lifecycle remain Build 4   |
-| Event artwork and reusable/shared presets                      | Saved event artwork and professional Designs workflow                             | [Asset validation](../backend/convex/assets.ts), [project/preset tests](../backend/convex/projects.test.ts), hosted Event/Planner/Studio journeys                                                    | Implemented in development; Event artwork remains event-scoped                                                |
-| Four AI choices, no guest contents, correct balance/refund     | Authenticated generation and live remaining-batch state                           | [AI orchestration](../backend/convex/ai.ts), [BFF unit tests](../../../platform/bff/service/convex/productAccess.test.ts), hosted AI success/failure journeys                                        | Fixtures plus sampled real Cloudflare checks; estimated cost/budget verified, not universal quality or confirmed per-user spend |
-| Five-person Studio, roles and protected ownership transfer     | Team, copied invitations, recipient acceptance and reauthentication               | Shared BFF account authority, [auth ADR](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md), hosted Studio journeys                                                         | Real account/team APIs with mock commercial access; production/live-provider acceptance remains               |
-| Retention, real billing, two-way support and observable launch | Billing/remediation, support and operator workflows required by the delivery plan | Verified provider events/lifecycle tests, correlated email round-trip, operational/production smoke and human print/live acceptance                                                                  | Accepted requirements, not delivered launch capabilities; Builds 4–7                                          |
+| Promise                                                        | Discoverable workflow                                                             | Authority and suitable evidence                                                                                                                                                                      | Current boundary                                                                                                                                        |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Preserve the imported list and preview every card              | Public creator, mapping/review and restored draft                                 | [Guest/import rules](../libs/core/src/guests.ts), [import tests](../workloads/web/src/imports.test.ts), [hosted journeys](../e2e/src/user-stories.spec.ts)                                           | Verified in development; truthful development policies exist, final commercial disclosures remain later gates                                           |
+| Clean 25-card Free export and up to 500 paid cards             | Creator/saved-project review and PDF download                                     | [Server export](../backend/convex/exports.ts), [project scope/limit tests](../backend/convex/projects.test.ts), [PDF tests](../libs/core/src/pdf.test.ts), hosted offer journeys                     | Development gates pass; Andrew accepted his existing print for Build 3; measured print certification remains a pre-launch gate                          |
+| Offer prices, project/seat/AI limits and paid designs          | Public pricing, Account and shared checkout                                       | [Code-owned catalog](../libs/core/src/catalog.ts), [BFF checkout tests](../../../platform/bff/service/convex/checkouts.test.ts), [TableCards access enforcement](../backend/convex/productAccess.ts) | Exact accepted pilot offers exercised without money; verified provider billing and lifecycle remain Build 4                                             |
+| Event artwork and reusable/shared presets                      | Saved event artwork and professional Designs workflow                             | [Asset validation](../backend/convex/assets.ts), [project/preset tests](../backend/convex/projects.test.ts), hosted Event/Planner/Studio journeys                                                    | Deployed to both; full development workflows verified; Event artwork remains event-scoped                                                               |
+| Four AI choices, no guest contents, correct balance/refund     | Authenticated generation and live remaining-batch state                           | [AI orchestration](../backend/convex/ai.ts), [BFF unit tests](../../../platform/bff/service/convex/productAccess.test.ts), hosted AI success/failure journeys                                        | Fixtures plus sampled real Cloudflare checks; estimated cost/budget verified, not universal quality or confirmed per-user spend                         |
+| Five-person Studio, roles and protected ownership transfer     | Team, copied invitations, recipient acceptance and reauthentication               | Shared BFF account authority, [auth ADR](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md), hosted Studio journeys                                                         | Real APIs with no-charge commercial access; development round-trips pass; fresh authenticated production recipient/transfer evidence remains unverified |
+| Retention, real billing, two-way support and observable launch | Billing/remediation, support and operator workflows required by the delivery plan | Verified provider events/lifecycle tests, correlated email round-trip, operational/production smoke and human print/live acceptance                                                                  | Accepted requirements, not delivered launch capabilities; Builds 4–7                                                                                    |
 
 ## Assumptions and learning gates
 
@@ -239,8 +260,8 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 
 - Validate the implemented manual invitation-link workflow with a real Studio team; add automated delivery only if a subsequent accepted requirement needs it.
 - Choose whether the required two-way support conversation is BFF-owned with an email bridge or integrated with a helpdesk, then select the provider and safe inbound-reply correlation mechanism.
-- Choose the working product/domain name and reachable launch users.
-- Configure an explicit production AI budget and rebenchmark if the selected Cloudflare model/geometry changes; sampled development generation does not establish universal model quality.
+- Validate the working TableCards brand and reach launch users; the preview domain is already deployed.
+- Rebenchmark the configured production AI budget if model/geometry changes; sampled generation does not establish universal model quality.
 - Obtain Paddle's written Israeli seller, payout and microtransaction terms before locking Build 4 resources or publishing the final price page.
 - Complete physical four-card/100%-scale verification; separately accept or reject the six-card trial and resolve font coverage before publishing final print claims.
 - Implement and verify the accepted Event Pass/professional lifecycle, public policies/contact, support and launch operations; production readiness requires the delivery plan's production and live acceptance gates.

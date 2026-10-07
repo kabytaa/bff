@@ -92,17 +92,24 @@ test('protected save hands off to real, business-branded Google authentication o
     0,
   );
   await expectContained(page);
-  await page.getByLabel('Continue with Google').click();
-  await page.waitForURL((url) => url.hostname === 'accounts.google.com');
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByLabel('Continue with Google')
+    .getByRole('button')
+    .first()
+    .click();
+  const google = await popupPromise;
+  await google.waitForURL((url) => url.hostname === 'accounts.google.com');
+  await expect(google.getByRole('textbox').first()).toBeVisible();
   await expect(
-    page.getByText(/redirect_uri_mismatch|invalid_client|Access blocked/iu),
+    google.getByText(/redirect_uri_mismatch|invalid_client|Access blocked/iu),
   ).toHaveCount(0);
   // Stops at Google before personal credentials; no mock or fabricated token.
 });
 
 test('policies and deep links describe the no-charge boundary on phone and desktop', async ({
   page,
-}) => {
+}, info) => {
   for (const route of ['privacy', 'terms', 'contact']) {
     await page.goto(`/${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
@@ -110,7 +117,10 @@ test('policies and deep links describe the no-charge boundary on phone and deskt
       page.getByText(/no-charge preview, not a commercial launch/u),
     ).toBeVisible();
     await expectContained(page);
-    await page.getByRole('link', { name: 'Back to TableCards' }).click();
+    await page.evaluate(() => document.fonts.ready.then(() => undefined));
+    const back = page.getByRole('link', { name: 'Back to TableCards' });
+    if (info.project.use.isMobile) await back.tap();
+    else await back.click();
     await expect(page).toHaveURL('https://tablecards.tofler.app/');
   }
 });

@@ -2,7 +2,7 @@
 
 Created: 2026-09-28
 Updated: 2026-10-07
-Status: Accepted — remediation deployed and verified in development; production unchanged
+Status: Accepted — Build 3 no-charge preview deployed in development and production
 
 This document defines the customer-facing TableCards application experience:
 its pages, navigation, responsive behavior, user stories and the visible
@@ -14,6 +14,9 @@ deployment and recovery belong in [operations](operations.md).
 The [2026-10-07 corrections/review](reviews/261007-pdf-session-and-live-ai-fixes.md)
 records cards-only output, accurate public session actions, real capped AI and
 optional company/style references; earlier acceptance is retained below.
+The [production release review](reviews/261007-build-3-production-release.md)
+records the merged release, actual desktop/mobile checks and unavailable
+personal Google credential round-trips. This is not a paying-customer launch.
 
 ## Repository baseline
 
@@ -21,8 +24,8 @@ The PRD was proposed from the Build 3 review tree based on `f6344be` and
 accepted for implementation on 2026-09-28. The implementation branch is based
 on the preserved Build 3 checkpoint `beb4440`; its routed application,
 TableCards backend additions and shared BFF account-management additions are
-deployed to development and exercised in Chromium and WebKit. Production is
-unchanged.
+deployed to development and exercised in Chromium and WebKit. Production was
+unchanged at that historical baseline; the 2026-10-07 release is recorded above.
 
 The 2026-10-06 reconciliation inspected branch `feat/tablecards-application` at
 `b5aeae3`, including the [router](../workloads/web/src/router.tsx), page and
@@ -608,11 +611,11 @@ next step. It must not silently fail or expose development-offer switching in
 production.
 
 The table preserves the accepted offer contract. Current monthly allowances
-are development mock renewal, not proof of verified paid cycles. Event Pass's
+are no-charge mock renewal, not proof of verified paid cycles. Event Pass's
 90-day access and professional cancellation/read-export/deletion-warning
 lifecycle remain Build 4. Free and Event Pass AI generation is reached from a
-saved project, not the reusable Designs tools. No production TableCards
-deployment or real paid/subscription state is claimed by this document.
+saved project, not the reusable Designs tools. Production deployment is recorded
+in the release review; real paid/subscription state is not claimed.
 
 ## User stories and acceptance
 
@@ -882,8 +885,9 @@ actual SVG artwork references; they are not rendered-browser or PDF-content proo
 - Preview disclosures are factual development surfaces, not commercial/legal
   sign-off. Andrew accepted his earlier print as sufficient for Build 3 on
   2026-10-07; detailed physical scale/margin checks remain a final MVP pre-launch
-  gate, not a Build 3 blocker. Verified billing/lifecycle, production
-  deployment/smoke and later support remain distinct delivery boundaries.
+  gate, not a Build 3 blocker. The no-charge production release is separately
+  evidenced; verified billing/lifecycle, later support and paying-customer
+  launch remain distinct delivery boundaries.
 
 ## Delivery sequence
 

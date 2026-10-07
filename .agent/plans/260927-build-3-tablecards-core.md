@@ -1,6 +1,6 @@
 # Feature: Build 3 TableCards Core
 
-> **Status**: In progress — Production release authorized 2026-10-07
+> **Status**: Completed — Authorized no-charge production boundary verified 2026-10-07
 > **Created**: 2026-09-27
 > **Last updated**: 2026-10-07
 > **Repository baseline**: `f6344be`
@@ -346,7 +346,13 @@ git diff --check
 
 Run uncached health/version and route-denial probes against BFF, TableCards Convex, gateway and web dev hosts; run hosted Chromium/WebKit; download and parse the development PDF. Do not perform a production deploy. Record the still-required physical print and any unavailable live image-provider evidence.
 
-## Acceptance Criteria
+## Original acceptance criteria (historical)
+
+These initial development criteria are preserved, not the current release
+checklist. Subsequent accepted revisions supersede the scale-check customer
+page, development-only checkout/AI and production exclusions below. The current
+completed boundary and remaining evidence limits are recorded in the
+[production result](#2026-10-07-production-execution-result).
 
 - [ ] Anonymous visitors can import pasted lines/grids, CSV and XLSX and preview all valid cards without authentication.
 - [ ] Duplicate names, order, common Latin accents, optional table/marker fields and long-name warnings behave exactly as specified.
@@ -410,7 +416,7 @@ The initial documentation commit `f6344be` is the only commit requested before i
 Andrew authorized completing Build 3, merging to main, deploying production and
 refreshing development. This supersedes the original development-only execution
 authority above, not its historical baseline. Current repository baseline is
-`2ea3e9e` on `feat/tablecards-application`; PR #1 remains open. Product/application
+`2ea3e9e` on `feat/tablecards-application`; PR #1 was open at authorization. Product/application
 remediation, cards-only PDFs, bundled licensed fonts and real Cloudflare AI are
 already implemented and development-verified. The accepted shared no-charge
 checkout plan replaces the earlier local mock; real billing remains Build 4.
@@ -461,3 +467,48 @@ Official implementation references: [Convex deploy targeting](https://docs.conve
 and [Cloudflare environment/domain configuration](https://developers.cloudflare.com/workers/wrangler/configuration/).
 Installed Node 24/Convex 1.46.0/Wrangler 4.141.0 and their local CLI help were
 checked; no runtime/dependency upgrade is needed.
+
+## 2026-10-07 production execution result
+
+**Completed for the authorized Build 3 no-charge preview.** PR #1 merged at
+`660f5cf` and corrective runtime `1ede7b7` was pushed to main, deployed to
+production and refreshed to development. [Release review](../../projects/tablecards/docs/reviews/261007-build-3-production-release.md)
+owns the exact versions, failed-run history, full acceptance matrix and limits.
+The final documentation/test-only publication carries the same application code.
+
+- [x] Isolated production manifests, target/key guards, version/security checks
+      and real-provider/public browser smoke implemented; 47 release tests pass.
+- [x] Compatible production auth applied with Google only; independent private
+      server credentials installed without repository exposure. The already-agreed
+      schemas deployed without a new structural change or destructive backfill.
+- [x] Full main CI, publication and local production smoke pass. Release checks
+      found and corrected missing HTML security/cache headers, Blob-fetch CSP and
+      a first-export download lifetime race; failures were not counted as acceptance.
+- [x] Production public desktop/mobile journeys and actual Google credential
+      popup verified (6/6); private production inference verified separately.
+- [x] Latest stable development full story suite passes (27/27, 8.0 minutes),
+      including both 500-card exports, no-charge checkout and Studio workflows;
+      manual AI tests pass (2/2, 1.7 minutes), checking all four actual images.
+- [x] Product/Application/Architecture/Operations reconciled beside the code,
+      with a dated release review and short STATUS handoff.
+
+Customer exports are cards-only (25 cards: 7 sheets; 500: 125), with separate
+calibration and four-card portrait as the production contract. Six-up remains a
+development trial. Real Cloudflare AI is capped separately at $1 estimated gross
+inference/day in each deployment; production fixtures/dummy identity are off.
+Shared checkout is explicitly no-charge in both environments. Verified billing
+and subscription lifecycle remain Build 4; support/observability/launch remain
+Builds 5–7. Andrew accepted his print for Build 3.
+
+Fresh authenticated production callback/export/checkout/team round-trips remain
+unverified without personal Google credentials; the Google initialization warning
+and bounded popup proof are disclosed in the review. This completion means the
+authorized deploy-and-smoke boundary, not paid billing, customer-launch readiness
+or a claim that unavailable personal-authentication checks ran.
+
+### Dated revision
+
+2026-10-07: production execution completed after the explicitly authorized
+scope expansion and merged corrections. Original baseline/criteria/authority
+above are historical; retained earlier development plans and reviews are not
+deleted or rewritten as production evidence.
