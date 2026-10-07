@@ -192,6 +192,11 @@ Browser tabs use the existing terracotta/white TC brand mark. A self-hosted SVG
 favicon, PNG fallback and Apple touch icon apply to public and private routes;
 this does not add an installable app or change authentication.
 
+Route/creator-step changes still focus the non-interactive heading for screen
+reader orientation, but those programmatically focused headings have no border
+outline. Buttons, links, inputs and other controls retain visible keyboard focus;
+do not remove focus outlines globally.
+
 ### Deep links, authentication and editing continuity
 
 Private routes show session loading, sign-in, recovery or account-choice

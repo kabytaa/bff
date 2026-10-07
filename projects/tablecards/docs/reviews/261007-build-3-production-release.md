@@ -443,7 +443,32 @@ draft reload, narrow/wide containment, phone action placement, navigation to
 Designs, saved-project transition and actual edited PDF export/private-byte
 denial. Rendered desktop/mobile screenshots were inspected: sidebar/active Create
 on desktop, bottom navigation and primary action separated on phones, readable
-controls and no page-wide horizontal overflow. The existing programmatic heading
-focus indication remains; fixed phone controls appear mid-image in full-page
+controls and no page-wide horizontal overflow. The initial screenshots retain
+the old programmatic heading outline; the subsequent correction is below.
+Fixed phone controls appear mid-image in full-page
 captures because they stay attached to the viewport, not the document bottom.
 No manual AI generation or real payment was required.
+
+Andrew then reported the same blue focus border around Projects on production
+mobile and authorized including it in this batch. Route and step headings keep
+their negative tab index and focus/announcement behavior, but their non-interactive
+heading outline is suppressed. Existing keyboard focus rings on actionable
+controls are unchanged. Browser regressions now assert focused Projects/Create/
+step headings without an outline and a real keyboard-focused control with the
+three-pixel focus ring. The first main pipeline was cancelled during validation,
+before production deployment, to publish the completed batch in one release.
+
+Development was refreshed to web Worker **`8bec54d1-8e6e-4488-9586-a4c48ea353c2`**.
+The first post-publication focus run passed on mobile but failed on desktop
+before login: its trace shows the previous HTML/main bundle requesting a retired
+lazy landing chunk, which the new SPA manifest answered as HTML. A separate
+fresh Chromium probe subsequently loaded the current landing correctly. This
+was a deployment-transition asset mismatch, not a focus assertion failure;
+the focused suite is rerun against the settled publication before release.
+
+The settled-publication rerun passed **2/2 (23.7s)** in Chromium/mobile WebKit,
+including heading focus without border, retained keyboard-control focus rings,
+navigation, draft reload and 320–1440-pixel containment. Updated desktop/mobile
+screenshots were inspected and no longer show the heading highlight. The
+prior saved-project/export regression remains valid: only non-interactive
+heading CSS and its focused checks changed after that pass.

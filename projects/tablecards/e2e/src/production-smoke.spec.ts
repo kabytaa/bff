@@ -78,6 +78,10 @@ test('public pricing, creator, long names and cards-only preview work without de
     }),
   ).toBe('local-download-probe');
   await prepareCards(page);
+  const heading = page.getByRole('heading', { name: 'Build your first sheet' });
+  await heading.focus();
+  await expect(heading).toBeFocused();
+  await expect(heading).toHaveCSS('outline-style', 'none');
   await expect(page.getByText(/4 cards · 1 PDF pages/u)).toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Save project' }),

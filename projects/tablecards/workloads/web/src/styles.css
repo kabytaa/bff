@@ -83,6 +83,11 @@ summary:focus-visible {
   outline-offset: 3px;
 }
 
+/* Route/step focus announces headings; they are not interactive controls. */
+:is(h1, h2, h3)[tabindex='-1']:focus {
+  outline: none;
+}
+
 h1,
 h2,
 h3,

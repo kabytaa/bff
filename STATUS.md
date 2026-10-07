@@ -18,9 +18,10 @@ Updated: 2026-10-07.
   Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
 - Approved reflection update: [brainstorm-ideas](.agents/skills/brainstorm-ideas/SKILL.md)
   shapes ideas before planning; routine prioritization stays in the roadmap.
-- Create navigation/site-icon correction is deployed to development. All 109
-  web tests and four focused hosted desktop/mobile checks passed; production
-  publication is next. This is a web-only correction, not a schema/backend change.
+- Create navigation/site icons and non-interactive heading highlights are fixed
+  in development. All 109 web tests, four scoped hosted checks and the final two
+  desktop/mobile focus regressions passed. Production publication is next;
+  no schema/backend change or paid AI call.
 
 ## Immediate next work
 

@@ -29,6 +29,13 @@ test('review regression: Create shares application navigation, preserves drafts 
     uniquePersona('creator-navigation', info.project.name),
   );
   await page.goto('/projects');
+  const projectHeading = page.getByRole('heading', {
+    name: 'Projects',
+    exact: true,
+  });
+  await projectHeading.focus();
+  await expect(projectHeading).toBeFocused();
+  await expect(projectHeading).toHaveCSS('outline-style', 'none');
   const navigation = page.locator(
     info.project.use.isMobile
       ? '.mobile-navigation'
@@ -37,6 +44,12 @@ test('review regression: Create shares application navigation, preserves drafts 
   await navigation.getByRole('link', { name: 'Create', exact: true }).click();
   await expect(page).toHaveURL(/\/create$/u);
   await expect(page.locator('.application-shell')).toBeVisible();
+  const creatorHeading = page.getByRole('heading', {
+    name: 'Create your place cards',
+  });
+  await creatorHeading.focus();
+  await expect(creatorHeading).toBeFocused();
+  await expect(creatorHeading).toHaveCSS('outline-style', 'none');
   await expect(page.locator('.creator-route-header')).toHaveCount(0);
   await expect(page.locator('.application-topbar strong')).toHaveText('Create');
   await expect(
@@ -52,8 +65,18 @@ test('review regression: Create shares application navigation, preserves drafts 
     visible: Boolean(info.project.use.isMobile),
   });
   await importNames(page, 'Ada Lovelace\nAlexandra Catherine Montgomery');
+  if (info.project.use.isMobile) {
+    const stepHeading = page.getByRole('heading', { name: 'Choose the look' });
+    await expect(stepHeading).toBeFocused();
+    await expect(stepHeading).toHaveCSS('outline-style', 'none');
+  }
   await page.getByLabel('Event name').fill('Navigation review');
   await page.reload();
+  if (info.project.use.isMobile) {
+    await expect(
+      page.getByRole('button', { name: 'Guests', exact: true }),
+    ).toBeVisible();
+  }
   await step(page, 'Guests');
   await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
     'Ada Lovelace\nAlexandra Catherine Montgomery',
@@ -95,6 +118,10 @@ test('review regression: Create shares application navigation, preserves drafts 
     navigation.getByRole('link', { name: 'Designs', exact: true }),
   ).toHaveAttribute('aria-current', 'page');
   await expectNoHorizontalPageOverflow(page);
+  await page.keyboard.press('Tab');
+  const keyboardTarget = page.locator(':focus');
+  await expect(keyboardTarget).toHaveCSS('outline-style', 'solid');
+  await expect(keyboardTarget).toHaveCSS('outline-width', '3px');
 });
 
 test('review regression: edited saved project exports the actual current names, title and duplicate multiplicity', async ({
