@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Released no-charge preview; balance-read and navigation/icon/heading fixes deployed and verified; welcome-credit provisioning remains open; not customer launch
+Status: Released no-charge preview; balance-read, navigation/icons/headings and inline-actions/single-Sign-out fixes deployed and verified; welcome-credit provisioning remains open; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -561,4 +561,24 @@ check validates actual PDF bytes and the download event instead. No code change
 was made to authentication or PDF generation. Real iPhone software-keyboard and
 browser-toolbar behavior were not exercised; existing production Google
 credential limits above are unchanged. No schema/migration, paid AI request or
-payment is involved. Production publication and fresh public checks are next.
+payment is involved. Production results follow.
+
+#### Completed publication
+
+Commit **`badf7062e5ee8ad59c524c7422dc4f5700ad78ae`** was pushed to main.
+[CI 37671776761](https://github.com/kabytaa/bff/actions/runs/37671776761) passed:
+repository validation **4m10s**, production deployment and release safety smoke
+**2m18s**. Live TableCards build metadata matches this exact commit. Development
+web remains the tested `46ee14e0-2d5a-448f-8d17-efdb7d0c9bd3` publication of the
+same runtime tree. The final evidence-only Markdown commit does not redeploy.
+
+Fresh public production browser checks passed **2/2 (10.0s)** in desktop
+Chromium and mobile WebKit: import/long names, cards-only preview, contained
+layout, disabled development controls and inline mobile Review. Both production
+screenshots were inspected. Single visible Sign out and authenticated
+save/download/logout were exercised in development, not with personal Google
+credentials in production; the earlier limit remains explicit.
+
+**Outcome:** both reported issues are corrected, committed/pushed and deployed
+to development and production. Reload an older open tab for the current assets.
+Free welcome-credit provisioning remains a separate open issue.
