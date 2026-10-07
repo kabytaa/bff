@@ -27,6 +27,9 @@ const renderReference = makeFunctionReference<
   null
 >('exports:render');
 
+// Invalidate single-line PDF caches without rewriting existing exports.
+const CURRENT_RENDER_VERSION = 3;
+
 export const create = internalMutation({
   args: {
     accountId: v.string(),
@@ -116,7 +119,7 @@ export const create = internalMutation({
       .first();
     if (
       previous?.projectRevision === project.revision &&
-      previous.renderVersion === 2 &&
+      previous.renderVersion === CURRENT_RENDER_VERSION &&
       (previous.layoutId ?? 'portrait_4') === args.layoutId &&
       previous.status !== 'failed'
     ) {
@@ -134,7 +137,7 @@ export const create = internalMutation({
       projectId: project._id,
       requestedByUserId: args.userId,
       projectRevision: project.revision,
-      renderVersion: 2,
+      renderVersion: CURRENT_RENDER_VERSION,
       snapshot: {
         projectId: project.publicId,
         title: project.title,
@@ -443,7 +446,7 @@ export const latestForProject = query({
         !exportJob ||
         exportJob.accountId !== auth.accountId ||
         exportJob.projectRevision !== project.revision ||
-        exportJob.renderVersion !== 2
+        exportJob.renderVersion !== CURRENT_RENDER_VERSION
       ) {
         return null;
       }

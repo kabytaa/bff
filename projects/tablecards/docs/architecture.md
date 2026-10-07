@@ -206,8 +206,12 @@ APIs belong to BFF or native Convex, not extra TableCards HTTP copies.
 The browser parses/saves current edits before export and hides stale download
 links when the draft changes. Latest-export queries omit a result from an older
 project revision or an older renderer version. Cards-only exports use
-`renderVersion=2`, so a saved project cannot reuse an earlier calibration-page
-PDF. Previously downloaded files/explicit old export IDs are not deleted.
+`renderVersion=3`, so a saved project cannot reuse either an earlier
+calibration-page PDF or version 2's single-line name layout. The next export
+creates a current-version job even when the saved revision is unchanged;
+subsequent requests still deduplicate. This changes an existing cache marker,
+not the schema, and requires no migration or backfill. Previously downloaded
+files/explicit old export IDs are not deleted.
 Snapshot/save/load interleaving and actual PDF contents are
 regression boundaries, not merely export status assertions.
 

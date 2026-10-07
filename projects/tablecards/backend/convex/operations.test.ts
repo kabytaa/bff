@@ -607,6 +607,79 @@ describe('TableCards durable operations', () => {
     expect(fresh.publicId).not.toBe(first.publicId);
   });
 
+  it('regenerates single-line PDF caches without changing the saved project or old export', async () => {
+    const t = convexTest(schema, modules);
+    const project = await seededProject(t);
+    const input = {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      maximumCards: 25,
+      premiumDesigns: false,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      layoutId: 'portrait_4' as const,
+    };
+    const first = await t.mutation(createExport, input);
+    const original = await t.run(async (ctx) => {
+      const row = await ctx.db
+        .query('projectExports')
+        .withIndex('by_account_public_id', (q) =>
+          q.eq('accountId', accountId).eq('publicId', first.publicId),
+        )
+        .unique();
+      await ctx.db.patch(row!._id, { renderVersion: 2, status: 'ready' });
+      return await ctx.db.get(row!.projectId);
+    });
+    const owner = t.withIdentity(identity());
+    await expect(
+      owner.query(latestExport, { projectId: project.publicId }),
+    ).resolves.toBeNull();
+
+    vi.setSystemTime(Date.now() + 1);
+    const fresh = await t.mutation(createExport, input);
+    expect(fresh).toMatchObject({ created: true, status: 'queued' });
+    expect(fresh.publicId).not.toBe(first.publicId);
+    await expect(t.mutation(createExport, input)).resolves.toEqual({
+      ...fresh,
+      created: false,
+    });
+    const rows = await t.run(async (ctx) => {
+      const exports = await ctx.db
+        .query('projectExports')
+        .withIndex('by_project_created_at', (q) =>
+          q.eq('projectId', original!._id),
+        )
+        .collect();
+      return { exports, project: await ctx.db.get(original!._id) };
+    });
+    expect(rows.project).toEqual(original);
+    expect(rows.exports).toHaveLength(2);
+    expect(
+      rows.exports.find((row) => row.publicId === fresh.publicId),
+    ).toMatchObject({
+      renderVersion: 3,
+      projectRevision: original!.revision,
+    });
+    expect(
+      rows.exports.find((row) => row.publicId === first.publicId),
+    ).toMatchObject({
+      renderVersion: 2,
+      status: 'ready',
+    });
+    await expect(
+      owner.query(getExport, { exportId: first.publicId }),
+    ).resolves.toMatchObject({ status: 'ready' });
+    await expect(
+      owner.query(latestExport, { projectId: project.publicId }),
+    ).resolves.toMatchObject({ status: 'queued' });
+    await expect(
+      t.withIdentity(identity('account_otheraccount1234')).query(getExport, {
+        exportId: first.publicId,
+      }),
+    ).resolves.toBeNull();
+  });
+
   it('keeps AI idempotency exact and requires exactly four outputs', async () => {
     const t = convexTest(schema, modules);
     const input = {

@@ -644,3 +644,21 @@ signature checks and all normal validation/deployment gates. This is a scoped
 release-infrastructure correction, not an application or schema change. The
 [delivery tool documentation](../../../../tools/production-delivery/README.md#ci-scope)
 links the official mirror configuration/format. Publication results follow.
+
+The mirror correction release `c0bbbd54c616bc26c527b90b4d51854e7ee49d1d`
+passed [CI 37678976550](https://github.com/kabytaa/bff/actions/runs/37678976550):
+validation 4m1s and guarded production deployment/smoke 2m22s. Final inspection
+found an existing-project edge case: renderer-version 2 could reuse a PDF made
+with the previous single-line layout. The existing cache marker now advances
+to 3; stale latest-export links are hidden and the next export regenerates,
+while explicit old export IDs/files and saved project revisions remain intact.
+There is no schema change, migration, backfill or deletion. A focused regression
+covers regeneration, current-version deduplication and foreign-account denial.
+Final cache-fix verification/publication follows.
+
+Cache-fix checks passed: **13 durable-operation backend tests** and backend
+lint/type checks. The changed TableCards development backend was pushed without
+redeploying unchanged services. Focused mixed-name preview/save/export/download
+reruns passed **2/2 (53.5s)** in desktop Chromium/mobile WebKit against that
+backend, with real PDF bytes. Version-2 cache invalidation is covered by the
+backend regression rather than mutating a production customer's export.

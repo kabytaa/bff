@@ -22,8 +22,9 @@ Updated: 2026-10-07.
 
 - In progress: Andrew's authorized long-name/two-line and mixed-example batch.
   Development preview/save/export/download and impossible-fit checks passed
-  4/4 on desktop/mobile. Next: commit/push, guarded production publication and
-  public production checks; no schema or migration. See the
+  4/4 on desktop/mobile; release `c0bbbd5` passed guarded production CI/smoke.
+  Finishing saved-PDF cache invalidation, then final publication/public checks;
+  no schema or migration. See the
   [release review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#balanced-long-names-and-mixed-examples--2026-10-07).
 - Resolve production-safe Free welcome-credit provisioning separately; do not
   enable development mocks or fabricate paid grants. Any schema change needs
