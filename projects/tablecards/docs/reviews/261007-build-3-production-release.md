@@ -632,3 +632,15 @@ desktop Chromium/mobile WebKit. Both browser screenshot sets were inspected.
 Development web Worker **`d746c2d7-5c2b-4d81-ba77-359d17580b25`** and the
 TableCards `scrupulous-hawk-991` backend contain this runtime tree. Other
 development services were unchanged. Production publication follows.
+
+Commit `f0929fc2dbd961d41002f5f00f49039cee83fd8f` was pushed to main; development
+backend health identifies that actual updated application release. Production
+CI attempt 1 stalled in Ubuntu package setup and was cancelled before tests or
+deployment. A fresh-runner retry was also slow; cancellation was requested just
+before setup finally advanced, so no product failure is inferred from either
+cancellation. CI now promotes its already configured official HTTPS Ubuntu
+archive ahead of Azure's mirror on the ephemeral runner, preserving fallback,
+signature checks and all normal validation/deployment gates. This is a scoped
+release-infrastructure correction, not an application or schema change. The
+[delivery tool documentation](../../../../tools/production-delivery/README.md#ci-scope)
+links the official mirror configuration/format. Publication results follow.

@@ -28,6 +28,13 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Prefer the official Ubuntu archive for browser dependencies
+        run: |
+          # Azure's mirror has stalled package setup; keep its fallback, but
+          # promote the already configured official HTTPS archive on this runner.
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            sudo sed -i 's|^https://archive\.ubuntu\.com/ubuntu/[[:space:]]*priority:2$|https://archive.ubuntu.com/ubuntu/\tpriority:0|' /etc/apt/apt-mirrors.txt
+          fi
       - run: pnpm exec playwright install --with-deps chromium webkit
       - run: pnpm check
 

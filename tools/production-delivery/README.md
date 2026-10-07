@@ -31,6 +31,13 @@ workflow does not report its required check and can leave a docs-only PR pending
 See [GitHub's path-filter documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)
 and [required-check guidance](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks).
 
+Browser setup promotes the runner's existing official HTTPS Ubuntu archive
+ahead of Azure's mirror, which stalled dependency installation during the
+2026-10-07 release. The exact mirror-list substitution affects only the ephemeral
+runner; it retains all repositories/fallbacks, package verification and CI gates.
+See the [runner-image mirror configuration](https://github.com/actions/runner-images/blob/main/images/ubuntu/scripts/build/configure-apt-sources.sh)
+and [APT's priority format](https://manpages.ubuntu.com/manpages/noble/man1/apt-transport-mirror.1.html).
+
 ## Commands
 
 ```bash
