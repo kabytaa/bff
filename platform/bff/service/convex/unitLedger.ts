@@ -209,7 +209,9 @@ export const balanceForAccount = internalQuery({
       args.now,
     );
     if (!grant) {
-      return fail('UNIT_EXHAUSTED', 'No unit allocation is available');
+      // Absence is a valid balance-read state for default Free accounts.
+      // Spending still requires an actual grant in reserveForAccount.
+      return balanceView(context, input.unitType, 'unallocated', 0, null);
     }
     const bucket = await bucketFor(
       ctx,

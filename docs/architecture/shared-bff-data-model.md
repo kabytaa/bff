@@ -180,6 +180,12 @@ consumption. BFF creates it lazily on the first reservation against that
 allocation, and prior buckets remain as usage history. Mutable balances do not
 enter the short-lived account JWT.
 
+A balance read does not require an allocation to exist. After verifying account
+membership, BFF returns zero allowance/reserved/consumed/available and the
+response-only `periodKey: unallocated` when no matching grant exists. It creates
+no grant or bucket. Reservations still fail with `UNIT_EXHAUSTED` in that state;
+zero-balance reads do not enable spending or replenish welcome credits.
+
 ### `accountUnitReservations`
 
 An idempotent claim against a unit bucket for one operation. The Business asks

@@ -4,7 +4,7 @@ Updated: 2026-10-07.
 
 ## Current state
 
-- Builds 1–3 meet their authorized production boundaries. TableCards is live in
+- Builds 1–3 were released at their authorized production boundaries. TableCards is live in
   [production](https://tablecards.tofler.app) and
   [development](https://tablecards-dev.tofler.app) as a **no-charge preview**,
   not real billing or customer launch.
@@ -19,6 +19,8 @@ Updated: 2026-10-07.
 
 ## Immediate next work
 
+- Publish and verify the authorized no-schema balance-read correction in both
+  environments. Local reproduction and focused regression pass; release pending.
 - Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
   read-only scope, helper permissions and essential customer/activity views.
   Give options, trade-offs and a recommendation; no implementation is approved yet.
@@ -26,8 +28,13 @@ Updated: 2026-10-07.
   remains later MVP work, before launch; no Pro upgrade or alert setup now.
   Telegram is selected, not configured. Early QA reports come through Andrew.
 
-## Outstanding evidence
+## Open issue and outstanding evidence
 
+- The production fresh-login/Projects crash was reproduced locally and through
+  a read-only production query. The narrow fix returns zero for an unallocated
+  balance while continuing to deny spending. The separate promised Free welcome
+  AI grant is not provisioned in production; it remains open. See the
+  [scoped diagnosis](projects/tablecards/docs/reviews/261007-build-3-production-release.md#follow-up-production-default-access-failure--2026-10-07).
 - Fresh authenticated production callback/export/checkout/team journeys remain
   **unverified** without personal Google credentials; the popup passes but an
   origin warning remains recorded. Development passes do not prove these flows.

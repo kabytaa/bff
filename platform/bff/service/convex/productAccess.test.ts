@@ -181,6 +181,94 @@ function grantArgs(context: Awaited<ReturnType<typeof fixture>>) {
 afterEach(() => vi.unstubAllEnvs());
 
 describe('product access projection and unit ledger', () => {
+  it('loads a fresh Free account with no allocation while still refusing unit spending', async () => {
+    vi.stubEnv(DEVELOPMENT_PRODUCT_ACCESS_ENVIRONMENT.enabled, 'disabled');
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    const context = await fixture(t, false);
+    const access = await t.query(internal.productAccess.currentForAccount, {
+      ...context,
+      now: BILLING_CYCLE_START,
+    });
+    expect(access).toMatchObject({
+      offerKey: 'free',
+      source: 'default',
+      unitGrants: [],
+    });
+    await expect(
+      t.query(internal.unitLedger.balanceForAccount, {
+        ...context,
+        unitType: 'ai_background_batch',
+        now: BILLING_CYCLE_START,
+      }),
+    ).resolves.toMatchObject({
+      accountId: context.accountPublicId,
+      unitType: 'ai_background_batch',
+      periodKey: 'unallocated',
+      allowance: 0,
+      reserved: 0,
+      consumed: 0,
+      available: 0,
+    });
+    const signing = await installSigningConfiguration();
+    const now = Math.floor(Date.now() / 1_000);
+    const token = await signCustomerContextToken(signing, {
+      contextType: 'account',
+      environmentKey: context.environmentKey,
+      userPublicId: context.userPublicId,
+      sessionPublicId: 'session_product_access1',
+      tokenPublicId: 'token_fresh_free_read01',
+      accountPublicId: context.accountPublicId,
+      membershipPublicId: context.membershipPublicId,
+      role: 'owner',
+      permissions: ['account:read'],
+      authorizedAt: now,
+      expiresAt: now + 600,
+    });
+    const response = await t.fetch(
+      '/v1/product-access/units?unitType=ai_background_batch',
+      {
+        headers: {
+          authorization: `Bearer ${token}`,
+          origin: 'https://tablecards-dev.tofler.app',
+          'x-tofler-environment': context.environmentKey,
+        },
+      },
+    );
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({
+      allowance: 0,
+      available: 0,
+      periodKey: 'unallocated',
+    });
+    expect(
+      (await t.fetch('/v1/product-access/units?unitType=ai_background_batch'))
+        .status,
+    ).toBe(401);
+    await expect(
+      t.mutation(internal.unitLedger.reserveForAccount, {
+        ...context,
+        unitType: 'ai_background_batch',
+        amount: 1,
+        idempotencyKey: 'fresh_account_reserve_01',
+        reservationPublicId: 'unit_reservation_fresh01',
+        now: BILLING_CYCLE_START,
+      }),
+    ).rejects.toThrow('UNIT_EXHAUSTED');
+    await expect(
+      t.query(internal.unitLedger.balanceForAccount, {
+        ...context,
+        membershipPublicId: 'membership_other_user01',
+        unitType: 'ai_background_batch',
+        now: BILLING_CYCLE_START,
+      }),
+    ).rejects.toThrow('FORBIDDEN');
+    await t.run(async (ctx) => {
+      expect(await ctx.db.query('accountAccessGrants').take(1)).toEqual([]);
+      expect(await ctx.db.query('accountUnitBuckets').take(1)).toEqual([]);
+      expect(await ctx.db.query('accountUnitReservations').take(1)).toEqual([]);
+    });
+  });
+
   it('resolves missing access to Free and exposes it through the authenticated route', async () => {
     const t = convexTest({ schema, modules, transactionLimits: true });
     const context = await fixture(t);

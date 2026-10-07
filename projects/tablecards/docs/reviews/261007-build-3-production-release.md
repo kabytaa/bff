@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-07
-Status: Ready for the authorized Build 3 no-charge production preview; not customer launch
+Status: Released no-charge preview; no-schema balance-read fix locally verified, deployment pending; welcome-credit provisioning remains open; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -299,3 +299,82 @@ release/policy facts, not outstanding deployment work.
 The maintained [CI scope](../../../../tools/production-delivery/README.md#ci-scope)
 owns the current rules; newer prose does not require restamping unchanged
 services. This entry preserves evidence removed from the short STATUS handoff.
+
+## Follow-up: production default-access failure — 2026-10-07
+
+Andrew reports an error after signing in directly and opening Projects without
+first creating a saved project. An empty project library is a valid state, not
+a prerequisite failure.
+
+Read-only inspection of the 250 most recent entries in each explicitly selected
+production deployment found eight matching failures:
+
+- TableCards `clean-gerbil-451`: `productAccess:current` throws
+  `BffProductAccessError: UNIT_EXHAUSTED`; last observed at
+  `2026-10-07T17:34:20.157Z`.
+- Shared BFF `exuberant-goldfinch-830`: `unitLedger:balanceForAccount` throws
+  `UNIT_EXHAUSTED`, "No unit allocation is available"; last observed at
+  `2026-10-07T17:34:20.090Z`.
+
+Source confirms the missing-default-grant path:
+
+1. [Shared access projection](../../../../platform/bff/service/convex/productAccess.ts)
+   returns default Free access with no unit grants when an access grant is absent.
+2. [TableCards access](../../backend/convex/productAccess.ts) initializes that
+   default only when development mocks are enabled, but `current` always requests
+   an AI unit balance. Production must keep those mocks disabled.
+3. [Unit balance](../../../../platform/bff/service/convex/unitLedger.ts) rejects
+   a missing grant. This is not merely a missing bucket: an existing grant can
+   project a balance before its bucket is created.
+4. [Projects loading](../../workloads/web/src/pages/projects-page.tsx) combines
+   library and access loading, so the balance error becomes a page error even
+   when there are no projects to list. Account usage has the same access dependency.
+
+This establishes a real access-initialization defect, not evidence that project
+records are missing or actual AI credits were consumed. The reported customer's
+private account/offer records were not inspected, and no raw customer payloads,
+credentials or identities were retained. Development's mock initialization
+explains why its passing stories did not cover this production path.
+
+**Open:** implement a trusted, idempotent production default-access path consistent
+with the Free offer, keep ordinary project access independent of optional AI
+balance failures, and add a fresh-account regression with development mocks off.
+Do not enable development identities or grants in production as a workaround.
+This investigation made no runtime, schema, customer-data or deployment changes;
+implementation and development/production verification await authorization.
+
+### Authorized minimal balance-read correction
+
+Andrew subsequently authorized reproducing the failure locally, then committing,
+pushing and deploying a small fix to both environments without another approval
+if no schema change is needed. A production-shaped in-memory test with Business
+development automation disabled first failed with the exact observed
+`UNIT_EXHAUSTED` message. A read-only query against an existing production
+default-Free account also reproduced it; only public scope identifiers and safe
+projection/counter fields were inspected, not guest content or credentials.
+
+The minimal correction changes only `unitLedger:balanceForAccount`: a verified
+account with no matching allocation returns a zero balance instead of throwing.
+`unallocated` is a response label, not a stored bucket or caller-selectable
+allocation. Reservation/spending, existing allowances, initialization gates,
+production identities and checkout behavior are unchanged. No schema, index,
+backfill, grant write or migration is introduced.
+
+**Local pass:** eight shared access/ledger tests, two TableCards action/SDK/guard
+tests and four Projects component tests. The fresh-account case also verifies
+the authenticated HTTP balance response, unauthenticated denial, wrong-member
+denial, unallocated spending denial and absence of grant/bucket/reservation
+writes. The TableCards test substitutes only BFF transport responses; it is not
+a hosted Google login. A Node 20 jsdom worker startup failed before running UI
+tests; the supported Node 24 rerun passed. Focused lint and all three affected
+project typechecks passed. No paid inference is required: this failure precedes
+any AI operation, and the existing manual AI suite upgrades its synthetic account
+before generation, so that suite alone cannot reproduce this path.
+
+**Separate open promise gap:** this correction does not provision the promised
+Free lifetime welcome AI batch. Development initializes that grant through its
+mock path; a production default-Free account without a grant honestly reports
+zero remaining. A trusted, idempotent production default-grant mechanism needs
+separate design/approval; do not mislabel default access as a paid provider grant
+or enable development identities. The accepted Free offer remains unchanged.
+Deployment, live replay and final release results will be recorded below.

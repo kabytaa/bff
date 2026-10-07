@@ -52,6 +52,18 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 describe('complete archived project discovery', () => {
+  it('shows a fresh signed-in Free workspace without requiring a project or AI allocation', async () => {
+    mocks.backend.listProjects.mockResolvedValue([]);
+    mocks.backend.getCurrentAccess.mockResolvedValue({
+      maxActiveProjects: 1,
+      aiBatchesRemaining: 0,
+    });
+    mount();
+    await screen.findByText('0 of 1 active projects');
+    expect(screen.getByText('Create your first project')).toBeTruthy();
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
   it('loads older archived rows, retries the same cursor, ends, and restores an older project', async () => {
     mocks.backend.listProjectPage
       .mockResolvedValueOnce({
