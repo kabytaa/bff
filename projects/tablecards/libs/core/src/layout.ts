@@ -219,6 +219,8 @@ export class RenderPreflightError extends Error {
 }
 
 export interface CreateRenderManifestInput {
+  /** Only the separate calibration download includes this extra page. */
+  readonly includeScaleCheck?: boolean;
   readonly guests: readonly GuestRow[];
   readonly designId: DesignId;
   readonly title?: string;
@@ -668,13 +670,16 @@ export function createRenderManifest(
   const layout = PRINT_LAYOUTS[input.layoutId ?? 'portrait_4'];
   const selectedNameMetrics =
     input.nameStyle?.font === 'serif' ? nameMetrics : metrics;
-  const pages: RenderPage[] = [
-    createScaleCheckPage(
-      metrics,
-      input.title?.trim() || 'TableCards print check',
-      layout,
-    ),
-  ];
+  const pages: RenderPage[] = [];
+  if (input.includeScaleCheck) {
+    pages.push(
+      createScaleCheckPage(
+        metrics,
+        input.title?.trim() || 'TableCards print check',
+        layout,
+      ),
+    );
+  }
   for (
     let offset = 0;
     offset < input.guests.length;
@@ -797,5 +802,8 @@ export function renderManifestPageToSvg(
       return `<text x="${command.centerX}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="${escapeXml(family)}" font-kerning="none" font-variant-ligatures="none" font-size="${command.fontSize}" fill="${command.color}"${transform}>${escapeXml(command.text)}</text>`;
     })
     .join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${page.width} ${page.height}" role="img" aria-label="TableCards ${page.kind === 'scale_check' ? 'scale check' : `print sheet ${pageIndex}`}">${body}</svg>`;
+  const sheetNumber = manifest.pages
+    .slice(0, pageIndex + 1)
+    .filter((entry) => entry.kind === 'cards').length;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${page.width} ${page.height}" role="img" aria-label="TableCards ${page.kind === 'scale_check' ? 'scale check' : `print sheet ${sheetNumber}`}">${body}</svg>`;
 }

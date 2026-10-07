@@ -842,7 +842,7 @@ describe('current creator input and export', () => {
 });
 
 describe('preview and guest-column fidelity', () => {
-  it('renders the actual edited event name on the print-check preview', async () => {
+  it('shows card sheets immediately and preserves the event title without a print-check page', async () => {
     mount();
     await screen.findByDisplayValue('Original event');
     fireEvent.change(screen.getByLabelText('Event name'), {
@@ -850,7 +850,11 @@ describe('preview and guest-column fidelity', () => {
     });
     expect(
       document.querySelector('.creator-preview .paper-preview')?.textContent,
-    ).toContain('Current edited event name');
+    ).toContain('Ada Original');
+    expect(screen.getByDisplayValue('Current edited event name')).toBeTruthy();
+    expect(document.querySelector('.preview-count')?.textContent).toMatch(
+      /1 cards · 1 PDF pages/,
+    );
     expect(
       document.querySelector('.creator-preview .paper-preview')?.textContent,
     ).not.toContain('TableCards print check');

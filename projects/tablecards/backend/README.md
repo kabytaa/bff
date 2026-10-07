@@ -16,12 +16,18 @@ Required public deployment values mirror the retained Example Business:
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`
 - `BFF_CHECKOUT_SERVICE_TOKEN` (secret; checkout creation only)
 - `TABLECARDS_BUILD_VERSION`
-- `TABLECARDS_AI_PROVIDER` (`development` for deterministic Build 3 acceptance)
+- `TABLECARDS_AI_PROVIDER` (`cloudflare` for real artwork; `development` only for fixtures)
+- `TABLECARDS_AI_DAILY_BUDGET_USD` (`1` in development; `0` or unset disables new real AI batches)
+- `TABLECARDS_CLOUDFLARE_AI_URL` (private adapter's HTTPS `/generate` endpoint)
+- `TABLECARDS_CLOUDFLARE_AI_SECRET` (secret shared with the adapter Worker)
 
 `TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true` is allowed only in the development
-deployment and enables deterministic commerce/image fixtures. Production must
-omit it. `OPENAI_API_KEY` is optional and is never required for development or
-CI.
+deployment and enables explicitly selected image fixtures. Production must
+omit it. No OpenAI adapter/key is required or used. Cloudflare runs via its
+Worker binding; the browser never receives the provider secret. The hard daily
+cap and reference-image/data boundary are explained in
+[Architecture](../docs/architecture.md#ai-usage-and-payment-boundary), with
+configuration/cost evidence in [Operations](../docs/operations.md#cloudflare-ai-budget-and-reference-images).
 
 The renderer fetches hash-pinned artwork and bundled Noto fonts from the
 registered web origin. Publish those assets before verifying exports; coordinated

@@ -116,6 +116,7 @@ export const create = internalMutation({
       .first();
     if (
       previous?.projectRevision === project.revision &&
+      previous.renderVersion === 2 &&
       (previous.layoutId ?? 'portrait_4') === args.layoutId &&
       previous.status !== 'failed'
     ) {
@@ -133,6 +134,7 @@ export const create = internalMutation({
       projectId: project._id,
       requestedByUserId: args.userId,
       projectRevision: project.revision,
+      renderVersion: 2,
       snapshot: {
         projectId: project.publicId,
         title: project.title,
@@ -440,7 +442,8 @@ export const latestForProject = query({
       if (
         !exportJob ||
         exportJob.accountId !== auth.accountId ||
-        exportJob.projectRevision !== project.revision
+        exportJob.projectRevision !== project.revision ||
+        exportJob.renderVersion !== 2
       ) {
         return null;
       }

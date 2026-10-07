@@ -1784,12 +1784,40 @@ footer p {
 }
 
 .preset-chooser {
+  min-width: 0;
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
 
+.ai-reference-input {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+  margin-block: 1rem;
+}
+.ai-reference-preview {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 0;
+}
+.ai-reference-preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+}
+.ai-reference-preview span {
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+
 .project-creative-tools {
+  min-width: 0;
   display: grid;
   gap: 0.9rem;
   margin-top: 1rem;
@@ -1828,6 +1856,8 @@ footer p {
 }
 
 .creative-tools-grid {
+  min-width: 0;
+  align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
 }
 

@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-10-06.
+Updated: 2026-10-07.
 
 This is the current delivery view for the first Business Factory product. The [TableCards MVP product specification](../products/tablecards-mvp.md) is the canonical product scope. The broader platform intent remains in [Business Factory — BFF MVP Architecture](../architecture/bff-mvp-architecture.md); [ADR 0001](../architecture/adr/0001-convex-first-bff-stack.md) governs the current stack.
 
@@ -19,7 +19,7 @@ The smallest launch scope is:
 - Pasted lines/grids, CSV or XLSX with required names, optional table numbers and one optional short marker, preserving spelling, order and duplicates.
 - One 3.5 × 2 inch folded tent-card format, four per US Letter sheet, with three free predefined designs and a premium library.
 - Preview of every card before export.
-- PDF export with cut/fold marks and a scale-check sheet.
+- Cards-only PDF export with cut/fold marks; a separate print-test download supplies the scale-check sheet.
 - Explicit handling of long names and unsupported characters.
 - Free 25, a `$5` Event Pass, `$9/month` Planner Pro and `$19/month` five-member Studio; no annual offer in the MVP. Paid offers add larger projects, premium/custom designs, bounded optional AI batches and reusable/team workflow.
 - Public import/preview followed by required Google login for save, export, AI generation or payment, plus an email-capable in-product support conversation, operator handling and a public contact path.
@@ -76,15 +76,15 @@ Development readiness requires the hosted example to create or reuse an authenti
 
 ### Build 3 — TableCards core
 
-Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks and a scale-check page. Require authentication for save/export/AI/payment, not for import and preview.
+Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required name, optional table and optional short marker; predefined designs; paid uploaded-artwork presets; complete preview; the fixed print layout; and deterministic PDF generation. Preserve exact guest multiplicity. Validate image resolution, font coverage and fitting before export. Include cut/fold marks; keep calibration in the separate print-test PDF, not an extra customer-export page (accepted correction 2026-10-07). Require authentication for save/export/AI/payment, not for import and preview.
 
 Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the future Build 3 production demo may use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
 
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
 
-Current development uses deterministic image fixtures to prove choices and usage accounting. They do not establish model quality, live-provider costs or interrupted cross-service recovery; those need separate evidence before their corresponding release claim.
+Development uses capped real Cloudflare generation, with an optional company/style reference, following explicit provider-spend approval on 2026-10-07. Ordinary regression selects labelled image fixtures without inference cost. [TableCards Operations](../../projects/tablecards/docs/operations.md#cloudflare-ai-budget-and-reference-images) owns the exact model, cap and live verification procedure. Fixture tests alone do not establish live-provider quality/cost; separate browser evidence and durable cross-service recovery tests support their respective development claims, not production acceptance.
 
-The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. One physical sheet must still be printed at 100% and measured before the output is called verified.
+The core regression fixture includes duplicate names, accents and long names. Automated checks verify exact guest multiplicity, page size/count and absence of clipped text. On 2026-10-07 Andrew accepted his existing satisfactory printed sheet as sufficient for Build 3 and deferred detailed physical testing to final MVP pre-launch acceptance. Further printing is not a Build 3 blocker. A 100%-scale ruler/margin check remains required before claiming measured physical output compatibility at launch; the six-card layout remains a development trial rather than a new launch promise.
 
 ### Build 4 — Paid/team flow and operations
 

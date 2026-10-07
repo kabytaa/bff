@@ -1,9 +1,27 @@
 import { ConvexError } from 'convex/values';
 import { describe, expect, it } from 'vitest';
 
-import { safeProductMessage } from './product-error';
+import { aiInputWasRejected, safeProductMessage } from './product-error';
 
 describe('safeProductMessage', () => {
+  it('distinguishes definite AI input rejection from uncertain transport/provider failure', () => {
+    for (const code of [
+      'INVALID_INPUT',
+      'LIMIT_EXCEEDED',
+      'ENTITLEMENT_REQUIRED',
+      'FORBIDDEN',
+    ])
+      expect(
+        aiInputWasRejected(new ConvexError({ code, message: 'Rejected' })),
+      ).toBe(true);
+    for (const error of [
+      new Error('Response interrupted'),
+      new ConvexError({ code: 'PROVIDER_UNAVAILABLE', message: 'Unavailable' }),
+      new ConvexError({ code: 'AI_COMPLETION_PENDING', message: 'Pending' }),
+    ])
+      expect(aiInputWasRejected(error)).toBe(false);
+  });
+
   it('shows safe entitlement and limit explanations from Convex', () => {
     expect(
       safeProductMessage(

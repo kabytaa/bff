@@ -1,0 +1,34 @@
+{
+  "name": "tablecards-ai-provider",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "projects/tablecards/ai-provider/src",
+  "projectType": "application",
+  "tags": ["scope:business", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "wrangler deploy --dry-run --config projects/tablecards/ai-provider/wrangler.jsonc --outdir dist/projects/tablecards/ai-provider"
+      },
+      "outputs": ["{workspaceRoot}/dist/projects/tablecards/ai-provider"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p projects/tablecards/ai-provider/tsconfig.json --noEmit"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint projects/tablecards/ai-provider --max-warnings 0"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config projects/tablecards/ai-provider/vitest.config.ts"
+      }
+    }
+  }
+}

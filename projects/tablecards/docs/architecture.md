@@ -1,7 +1,7 @@
 # TableCards architecture and data model
 
 Created: 2026-10-06
-Updated: 2026-10-06
+Updated: 2026-10-07
 Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
 Scope: implemented Build 3 development architecture, not production approval
 
@@ -22,6 +22,7 @@ Browser / TableCards React app
 TableCards backend
   ├─ TableCards database + Convex file storage: projects, artwork, jobs
   ├─ BFF server SDK: effective access, units and checkout creation
+  ├─ secret-authenticated AI adapter Worker → Cloudflare Workers AI binding
   └─ core library: validation, print layout and PDF rendering
 ```
 
@@ -30,6 +31,13 @@ queries, mutations, subscriptions and actions use native Convex directly. The
 shared BFF owns identities, sessions, accounts, memberships, invitations,
 roles, effective product access and unit allocations. TableCards owns its
 product data; it does not replicate those shared tables.
+
+The [AI adapter](../ai-provider/README.md) is a private provider bridge, not a
+second product backend: no browser API/CORS, accounts, storage, queue or
+entitlements. Only the Convex Node action calls its fixed deployment URL with a
+server secret. It fixes the model/geometry and adapts optional image bytes to
+Workers AI multipart input. Product authorization, daily budget, reservations,
+durable completion and private output storage remain in TableCards/BFF.
 
 See [shared BFF table explanations](../../../docs/architecture/shared-bff-data-model.md),
 [SDK exports and contracts](../../../platform/bff/libs/sdk/typescript/README.md)
@@ -78,10 +86,22 @@ foreign-key or unique constraints.
 | `projectContents` | The project's current ordered guest array and revision, linked by `projectId`                                                                  | Keeps private list content separate from lightweight summaries; this is not an immutable revision history |
 | `designAssets`    | Validated uploaded/generated PNG/JPEG metadata and a Convex storage ID; optional `projectId` for event-scoped artwork                          | Stores the file once and distinguishes event-only from reusable artwork                                   |
 | `designPresets`   | Account-owned reusable style pointing to `designAssets`, with name and constrained text styling                                                | A preset is a reusable choice, not the underlying image or a freeform canvas                              |
-| `projectExports`  | Export request/result with requested revision/layout and atomically captured render snapshot; status, file ID, page count or safe error        | Queued work must not silently read a newer editable project                                               |
-| `aiBatches`       | Account/idempotency-keyed operation, prompt, reservation, durable generated-file descriptors, commit confirmation and four completed asset IDs | Interrupted completion can resume without deleting charged results or consuming another unit              |
+| `projectExports`  | Export request/result with requested revision/layout, optional renderer version and atomically captured render snapshot; status, file ID, page count or safe error | Queued work must not silently read a newer editable project; old-format jobs cannot masquerade as current exports |
+| `aiBatches`       | Account/idempotency-keyed operation, prompt, optional reference digest/provider/budget day, reservation, durable generated descriptors, commit confirmation and four asset IDs | Supports safe replay, bounded provider spend and interrupted completion without another unit charge |
 
 Convex `_storage` holds image/PDF bytes; it is not a custom product table.
+
+The 2026-10-07 corrections added no tables: `projectExports` gained optional
+`renderVersion`; `aiBatches` gained optional `referenceDigest`, `provider` and
+`providerBudgetDay`, plus the `by_provider_budget_day` index. Existing rows
+remain valid without a data-rewriting migration or backfill. A missing renderer
+version identifies a legacy export instead of silently reusing its old PDF.
+Legacy AI rows are preserved; only tagged Cloudflare starts count toward the
+new provider-day admission budget. Integration tests cover legacy export
+handling and concurrent indexed admission. These changes were already deployed
+to development before the schema-confirmation rule was requested; production
+was not changed.
+
 Database rows store storage IDs. Customer projections return relative private
 file addresses, never new `storage.getUrl` bearer links. Every byte request
 verifies the account token, exact Origin where applicable, current BFF
@@ -134,7 +154,7 @@ the current token for verified server-to-server BFF operations. Internal
 | Upload/artwork library      | `POST /v1/files/artwork?projectId=...`; `assets:list`, `assets:get`, `assets:page`                       | Bounded authenticated PNG/JPEG bytes; server-created storage only, current offer and scope validation. Metadata pages cover growing libraries; exact account-scoped lookup resolves current selections beyond the compatibility list. Legacy upload URL/finalize functions fail closed |
 | Private file delivery       | `GET /v1/files/assets/:publicId`, `GET /v1/files/exports/:publicId`                                      | Authoritative session/membership and scoped row lookup on each request; no token in URL                                                                                                                                                                                                |
 | Reusable presets            | `designPresets:list`, `designPresets:page`; `productAccess:createPreset`, `updatePreset`, `deletePreset` | Account-indexed metadata pages; reuse entitlement and account-scoped asset/style validation                                                                                                                                                                                            |
-| Generate backgrounds        | `ai:generate`, `aiState:get`                                                                             | Reserve one batch unit; exactly four choices or a safe failure                                                                                                                                                                                                                         |
+| Generate backgrounds        | `ai:generate`, `aiState:get`                                                                             | Prompt/key, optional event and validated reference bytes/MIME; dev-only mock flag. Server selects provider and enforces daily cap before reserving one unit; four choices or safe failure |
 | Export/download             | `exports:request`, `exportState:get`, `exportState:latestForProject`                                     | Current offer and project checks; queued → generating → ready/failed, with file URL only when ready                                                                                                                                                                                    |
 | Sessions, accounts, teams   | Public BFF browser/React SDK                                                                             | BFF-authorized invitations, roles, removal, Owner-only workspace naming and provider-neutral ownership transfer                                                                                                                                                                        |
 
@@ -162,11 +182,16 @@ APIs belong to BFF or native Convex, not extra TableCards HTTP copies.
 
 The browser parses/saves current edits before export and hides stale download
 links when the draft changes. Latest-export queries omit a result from an older
-project revision. Snapshot/save/load interleaving and actual PDF contents are
+project revision or an older renderer version. Cards-only exports use
+`renderVersion=2`, so a saved project cannot reuse an earlier calibration-page
+PDF. Previously downloaded files/explicit old export IDs are not deleted.
+Snapshot/save/load interleaving and actual PDF contents are
 regression boundaries, not merely export status assertions.
 
 The canonical physical contract is four folded cards on US Letter. The
-six-card landscape option is a development print trial. Shared core geometry
+six-card landscape option is a development print trial. Normal output contains
+only card sheets. `includeScaleCheck` defaults to false; only the separate
+public print-test script opts in to a calibration page. Shared core geometry
 and versioned artwork align browser preview with deterministic PDF output.
 White `v2` print artwork avoids a full-page tint while the site retains a warm
 visual palette. Hosted exports embed pinned Noto Sans and Noto Serif. Unsupported
@@ -195,7 +220,30 @@ account, requester and optional saved event, even when the unit balance is zero;
 it never exposes storage identifiers. Provider failure before
 persisted outputs attempts release; reservation expiry is a fallback when
 release cannot reach BFF. Generation only passes the
-background prompt, not project guest rows, to the image provider.
+background prompt and explicitly selected reference image, not project guest
+rows/account metadata, to the image provider. The browser normalizes references
+to a metadata-stripped JPEG at most 512 × 512 pixels/512 KiB; the server verifies
+actual MIME, dimensions and bounded full decoding. Only a SHA-256 binding is
+stored on `aiBatches`, not the reference bytes. The idempotency key cannot be
+reused for another provider or supplied reference. Completion recovery may
+omit the original reference because it reuses already persisted outputs.
+
+Cloudflare admission is configured per deployment with
+`TABLECARDS_AI_DAILY_BUDGET_USD`. Development is `$1` per UTC day, converted at a
+conservative `$0.0072` per batch into at most 138 starts across all accounts.
+The estimate lives beside the backend code, not in a browser or mutable JWT;
+the dollar setting is deployment configuration, not shared Business policy.
+Missing, invalid or zero budget disables new real-provider starts, including in
+an unconfigured future production deployment. `by_provider_budget_day` is read and the batch inserted in one
+transaction; racing callers cannot overspend the cap. Failed/interrupted starts
+still count, since the provider may have billed them. Four fixed-geometry model
+calls run in two bounded pairs, with timeouts and no automatic provider retries.
+Already-admitted completion recovery works even after the budget is lowered.
+This admission estimate is not provider-confirmed per-user spend or an exact
+Cloudflare invoice limiter; see the [deferred shared cost-attribution idea](../../../docs/architecture/future-ideas.md#per-user-and-per-account-provider-cost-attribution).
+An explicit development fixture engine bypasses provider calls but not BFF unit
+accounting; it is rejected when development mocks are disabled. The model is
+fixed inside the adapter, not chosen by an untrusted browser request.
 
 Uploaded artwork is fully decoded before storage: exact unrotated 7:4 ratio,
 minimum 1050 × 600 pixels, at most 2 megapixels and 10 MiB; PNG is non-animated,
@@ -207,7 +255,8 @@ Recovery tests interrupt descriptor persistence, BFF commit and product
 completion, including responses lost after remote success. Retries must yield
 the same four assets and one charge. Pending outputs are not visible as ready.
 
-Build 3 uses a deterministic image provider and shared no-charge checkout.
+Build 3 development now uses capped real Cloudflare image generation, optional
+explicit test fixtures, and shared no-charge checkout.
 TableCards redirects to the URL returned by BFF; it has no local payment mock
 screen. Checkout completion applies grant and compatible account policy in
 one BFF transaction. Monthly mock renewal simulates success automatically.

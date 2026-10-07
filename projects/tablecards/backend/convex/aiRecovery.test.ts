@@ -52,7 +52,14 @@ const pendingBatch = makeFunctionReference<
 >('aiState:pendingForCaller');
 const generateBatch = makeFunctionReference<
   'action',
-  typeof input & { projectId?: string },
+  typeof input & {
+    projectId?: string;
+    developmentMock?: boolean;
+    referenceImage?: {
+      bytes: ArrayBuffer;
+      mimeType: 'image/png' | 'image/jpeg';
+    };
+  },
   { batchId: string; status: string }
 >('ai:generate');
 type TestBackend = TestConvex<typeof schema>;
@@ -151,6 +158,58 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllEnvs());
 
 describe('AI action interruption recovery', () => {
+  it.each(['0', 'invalid', undefined])(
+    'refuses new paid-provider work for budget %s before units or inference',
+    async (budget) => {
+      vi.stubEnv('TABLECARDS_AI_PROVIDER', 'cloudflare');
+      vi.stubEnv('TABLECARDS_AI_DAILY_BUDGET_USD', budget);
+      const provider = vi.spyOn(globalThis, 'fetch');
+      const t = convexTest(schema, modules);
+      await expect(
+        t.withIdentity(identity()).action(generateBatch, input),
+      ).rejects.toThrow(/LIMIT_EXCEEDED|site safety budget/u);
+      expect(bff.reserveUnits).not.toHaveBeenCalled();
+      expect(bff.commitUnits).not.toHaveBeenCalled();
+      expect(provider).not.toHaveBeenCalled();
+      expect(
+        await t.run(async (ctx) => await ctx.db.query('aiBatches').take(1)),
+      ).toEqual([]);
+    },
+  );
+
+  it('rejects malformed reference images before any access, budget or unit reservation', async () => {
+    const t = convexTest(schema, modules);
+    await expect(
+      t.withIdentity(identity()).action(generateBatch, {
+        ...input,
+        referenceImage: {
+          bytes: new Uint8Array([1, 2, 3]).buffer,
+          mimeType: 'image/png',
+        },
+      }),
+    ).rejects.toThrow(/INVALID_INPUT|style reference/u);
+    expect(bff.getAccess).not.toHaveBeenCalled();
+    expect(bff.reserveUnits).not.toHaveBeenCalled();
+    expect(
+      await t.run(async (ctx) => await ctx.db.query('aiBatches').collect()),
+    ).toEqual([]);
+  });
+
+  it('refuses an explicit test provider when development mocks are disabled', async () => {
+    vi.stubEnv('TABLECARDS_DEVELOPMENT_MOCKS_ENABLED', 'false');
+    vi.stubEnv('TABLECARDS_AI_PROVIDER', 'cloudflare');
+    const t = convexTest(schema, modules);
+    await expect(
+      t
+        .withIdentity(identity())
+        .action(generateBatch, { ...input, developmentMock: true }),
+    ).rejects.toThrow(/FORBIDDEN|test image provider/u);
+    expect(bff.reserveUnits).not.toHaveBeenCalled();
+    expect(
+      await t.run(async (ctx) => await ctx.db.query('aiBatches').collect()),
+    ).toEqual([]);
+  });
+
   it('recovers an idempotently committed batch when the BFF response is lost', async () => {
     const t = convexTest(schema, modules);
     let consumed = 0;
@@ -195,6 +254,7 @@ describe('AI action interruption recovery', () => {
       batchId: first.batchId,
       prompt: input.prompt,
       idempotencyKey: input.idempotencyKey,
+      developmentMock: true,
     });
     const otherUserId = 'user_otherabcdefghijklmnop';
     await expect(
@@ -410,6 +470,7 @@ describe('AI action interruption recovery', () => {
       prompt: input.prompt,
       idempotencyKey: input.idempotencyKey,
       projectId,
+      developmentMock: true,
     });
     await expect(
       t.withIdentity(identity()).query(pendingBatch, {}),

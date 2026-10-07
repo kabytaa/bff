@@ -71,6 +71,22 @@ function createSolidPng(width: number, height: number): Uint8Array {
 }
 
 describe('deterministic PDF renderer', () => {
+  it('adds the calibration page only for an explicitly requested print test', async () => {
+    const input = {
+      guests: [{ name: 'Calibration Guest' }],
+      designId: 'minimal-ivory' as const,
+    };
+    expect(
+      (await PDFDocument.load(await renderTableCardsPdf(input))).getPageCount(),
+    ).toBe(1);
+    expect(
+      (
+        await PDFDocument.load(
+          await renderTableCardsPdf({ ...input, includeScaleCheck: true }),
+        )
+      ).getPageCount(),
+    ).toBe(2);
+  });
   it('renders the paid 500-card ceiling with embedded fonts within private-file response bounds', async () => {
     const fontBytes = new Uint8Array(
       await readFile(
@@ -98,7 +114,7 @@ describe('deterministic PDF renderer', () => {
       },
       { fontBytes, serifFontBytes, fontFamilyName: 'Noto Sans' },
     );
-    expect((await PDFDocument.load(bytes)).getPageCount()).toBe(126);
+    expect((await PDFDocument.load(bytes)).getPageCount()).toBe(125);
     expect(bytes.byteLength).toBeLessThan(19 * 1024 * 1024);
   });
   it.each(['sans', 'serif'] as const)(
@@ -147,7 +163,7 @@ describe('deterministic PDF renderer', () => {
       };
       const bytes = await renderTableCardsPdf(input, options);
       expect(await renderTableCardsPdf(input, options)).toEqual(bytes);
-      expect((await PDFDocument.load(bytes)).getPageCount()).toBe(2);
+      expect((await PDFDocument.load(bytes)).getPageCount()).toBe(1);
       expect(Buffer.from(bytes).toString('latin1')).toContain(
         font === 'sans' ? '/NotoSans' : '/NotoSerif',
       );
@@ -199,9 +215,9 @@ describe('deterministic PDF renderer', () => {
     });
     const document = await PDFDocument.load(bytes, { updateMetadata: false });
 
-    expect(document.getPageCount()).toBe(8);
+    expect(document.getPageCount()).toBe(7);
     expect(document.getPages().map((page) => page.getSize())).toEqual(
-      Array.from({ length: 8 }, () => ({
+      Array.from({ length: 7 }, () => ({
         width: LETTER_PAGE.width,
         height: LETTER_PAGE.height,
       })),
@@ -220,9 +236,9 @@ describe('deterministic PDF renderer', () => {
       layoutId: 'landscape_6',
     });
     const document = await PDFDocument.load(bytes, { updateMetadata: false });
-    expect(document.getPageCount()).toBe(6);
+    expect(document.getPageCount()).toBe(5);
     expect(document.getPages().map((page) => page.getSize())).toEqual(
-      Array.from({ length: 6 }, () => LANDSCAPE_LETTER_PAGE),
+      Array.from({ length: 5 }, () => LANDSCAPE_LETTER_PAGE),
     );
   });
 
@@ -251,7 +267,7 @@ describe('deterministic PDF renderer', () => {
         (
           await PDFDocument.load(first, { updateMetadata: false })
         ).getPageCount(),
-      ).toBe(2);
+      ).toBe(1);
     },
   );
 
@@ -260,7 +276,7 @@ describe('deterministic PDF renderer', () => {
       guests: [{ name: 'Geometry Guest' }],
       designId: 'minimal-ivory',
     });
-    const faceBackgrounds = manifest.pages[1]!.commands.filter(
+    const faceBackgrounds = manifest.pages[0]!.commands.filter(
       (command): command is FillRectangleCommand =>
         command.type === 'fill_rectangle' && command.role === 'face_background',
     );

@@ -31,6 +31,20 @@ function productErrorData(error: unknown): ProductErrorData | null {
   return null;
 }
 
+/** These validation failures occur before any batch or unit reservation exists. */
+export function aiInputWasRejected(error: unknown): boolean {
+  const code = productErrorData(error)?.code;
+  return (
+    typeof code === 'string' &&
+    [
+      'INVALID_INPUT',
+      'LIMIT_EXCEEDED',
+      'ENTITLEMENT_REQUIRED',
+      'FORBIDDEN',
+    ].includes(code)
+  );
+}
+
 export function safeProductMessage(error: unknown, fallback: string) {
   const data = productErrorData(error);
   if (

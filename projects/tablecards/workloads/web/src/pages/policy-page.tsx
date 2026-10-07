@@ -18,7 +18,7 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
       <p className="eyebrow">TableCards development preview</p>
       <h1 id="policy-title">{title}</h1>
       <p className="notice">
-        Updated October 6, 2026. This is a development preview, not a commercial
+        Updated October 7, 2026. This is a development preview, not a commercial
         launch. Checkout is a clearly labelled no-charge simulation.
       </p>
       {kind === 'privacy' ? (
@@ -36,10 +36,13 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
           <p>
             The web application and session gateway run on Cloudflare; the
             product and shared authentication backends use Convex. Google is an
-            enabled sign-in provider. Development background generation is
-            deterministic test artwork, not a paid image-generation call. The
-            image-generation request uses your design prompt, not your guest
-            list.
+            enabled sign-in provider. Background generation uses Cloudflare
+            Workers AI with a daily usage cap. Cloudflare receives your style
+            prompt and, if selected, a resized reference image. Guest lists and
+            account details are not automatically attached. The reference image
+            is used for generation, not saved as a separate library asset.
+            Development also offers an explicitly labelled test-fixture engine
+            that makes no AI calls.
           </p>
           <h2>Your session and files</h2>
           <p>
@@ -68,8 +71,10 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
           <p>
             TableCards creates downloadable place-card PDFs. We do not supply
             paper, printing, shipping or reprints. Print at actual size / 100%,
-            check the calibration square and confirm your printer can handle the
-            selected paper and margins before printing a full event.
+            use the separate print-test PDF to check its calibration square and
+            confirm your printer can handle the selected paper and margins
+            before printing a full event. Normal exports contain card sheets
+            only, without a calibration page.
           </p>
           <h2>No-charge preview</h2>
           <p>

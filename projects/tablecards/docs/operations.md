@@ -4,14 +4,15 @@ Created: 2026-09-27
 Last updated: 2026-10-07
 Status: Development remediation deployed and verified; not a production release
 
-This runbook covers the development-only Build 3 TableCards slice. It does not
-authorize a production TableCards deployment, live payment, or paid image-model
-call.
+This runbook covers the development-only Build 3 TableCards slice. Real
+Cloudflare generation was explicitly authorized on 2026-10-07 with capped usage.
+It does not authorize a production TableCards deployment or live payment.
 
 Use [Product](product.md) for promises, [Application](application.md) for
 screens/states and [Architecture](architecture.md) for table/API ownership.
-The [current dated review](reviews/261006-tablecards-remediation-and-development-acceptance.md)
-separates current checks from historical acceptance below.
+The [current delta review](reviews/261007-pdf-session-and-live-ai-fixes.md)
+records this candidate; the [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
+and older runs below remain historical evidence for their versions.
 
 ## Ownership and surfaces
 
@@ -26,6 +27,8 @@ separates current checks from historical acceptance below.
   authenticated Projects, Designs, Account and Team application.
 - `projects/tablecards/session-gateway` forwards only the fixed SDK auth routes;
   it never proxies product data.
+- `projects/tablecards/ai-provider` is the secret-authenticated Workers AI
+  adapter; product authorization, cap, accounting and storage remain in Convex.
 
 Development URLs:
 
@@ -65,10 +68,76 @@ are credentials: generate and install them directly through the deployment
 environment, never commit or print them, and never expose the service token to
 Vite/browser configuration.
 
-`TABLECARDS_AI_PROVIDER=development` produces a deterministic four-image batch
-and exercises reserve/commit/release against real BFF usage accounting. The
-optional `openai` provider is server-only and intentionally unused in Build 3
-acceptance. Guest names, tables and markers are never included in its prompt.
+`TABLECARDS_AI_PROVIDER=cloudflare` is the development default for real artwork.
+The browser's explicit test-fixture engine (or a fixture-only deployment with
+`TABLECARDS_AI_PROVIDER=development`) produces four deterministic color images
+without AI calls and still exercises reserve/commit/release. Mock selection is
+allowed only while development mocks are enabled. No OpenAI adapter/key is used.
+
+### Cloudflare AI budget and reference images
+
+The [private AI adapter](../ai-provider/README.md) is
+`business-factory-tablecards-ai-dev`, using its `AI` binding with fixed
+`@cf/black-forest-labs/flux-2-klein-4b`, 1344 × 768 output, four images/batch,
+two concurrent calls at a time and no inference retries. Set the TableCards
+development `TABLECARDS_CLOUDFLARE_AI_URL` to
+`https://business-factory-tablecards-ai-dev.kabytaa.workers.dev/generate`.
+Install matching strong random credentials in its `PROVIDER_SECRET` and Convex's
+`TABLECARDS_CLOUDFLARE_AI_SECRET` through secret/environment tools only. Never
+put these values in Git, public environment files, screenshots or command output.
+Worker request observability is disabled; errors return safe codes, not prompts,
+images or provider payloads. No production route is configured.
+
+Andrew raised the initial eight-batch cap on 2026-10-07 to **$1 per UTC day across
+the TableCards development deployment**. The non-secret
+`TABLECARDS_AI_DAILY_BUDGET_USD` setting belongs in that Convex deployment's
+environment configuration, managed through its dashboard or the operator's
+Convex CLI—not the browser, shared BFF account-policy settings or this Worker.
+For the reviewed development target, run from `projects/tablecards/backend`:
+
+```sh
+pnpm exec convex env set TABLECARDS_AI_DAILY_BUDGET_USD 1 --deployment scrupulous-hawk-991
+```
+
+The backend rounds estimated batch cost up to `$0.0072` and admits at most
+**138 four-image starts/day** ($0.9936 of reserved gross inference budget),
+before reserving account units. Failed/interrupted
+starts still count; identical completion recovery does not start new inference.
+Concurrent starts and UTC rollover are integration-tested. A cap response leaves
+the account's remaining allowance unchanged and reports Try tomorrow. This is
+separate from each account's offer allowance and from Cloudflare's account-wide
+free tier; other applications may share that tier.
+
+Set `0` to pause new real batches; missing/invalid settings fail closed too.
+An already-admitted batch may finish recovery after lowering the budget.
+Only plain dollar amounts with up to two decimal places, from `0` to `7.20`,
+are supported: the upper bound keeps the indexed admission read within 1,000
+records. Larger budgets require a reviewed counting strategy, not an unbounded
+query. A future production deployment must configure its own budget explicitly;
+this task neither sets nor deploys production. Customer-plan allowances do not
+change when the site's safety budget changes.
+
+[Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
+checked 2026-10-07 lists 10,000 free neurons/account/day, with paid overage after
+that. For the [fixed 4B model](https://developers.cloudflare.com/workers-ai/models/flux-2-klein-4b/),
+a conservative six output tiles/image plus at most one 512-pixel reference tile
+is about 647 neurons per four-image batch, or about 89,242 neurons at 138 starts.
+The unrounded model-rate estimate is `$0.007124/batch`; the admission guard uses
+`$0.0072` for conservatism. These are gross inference estimates, not a guarantee
+of free account-wide usage or an exact provider-invoice limit. Free credits may
+reduce billed cost; Worker/Convex/storage/tax costs are separate, and provider
+calls admitted before midnight may complete after it. Per-user confirmed spend
+is a [future BFF idea](../../../docs/architecture/future-ideas.md#per-user-and-per-account-provider-cost-attribution), not this admission counter.
+Changing model, size, count or retries needs a fresh budget
+check. The adapter does not permit caller-selected values for those dimensions.
+
+Optional company/style references are PNG/JPEG up to 10 MB/16 megapixels locally,
+normalized to a metadata-stripped JPEG no larger than 512 × 512 pixels/512 KiB.
+Convex checks actual pixels, then sends the selected copy alongside the prompt.
+Guest lists, project/account metadata and filenames are not automatically sent.
+Only a reference digest persists on the operation; the reference itself is not
+a saved gallery file. The UI/privacy notice disclose the Cloudflare transfer
+and explain that exact logo reproduction is not promised.
 
 ## Deploy development
 
@@ -149,15 +218,32 @@ pnpm test:e2e:tablecards-hosted
 
 The Playwright flow uses short-lived development grants, the real session
 gateway, account-bound JWT, separate TableCards Convex service, stored PDF and
-deterministic AI batch. The executable registry maps every accepted PRD story,
+explicitly selected fixture AI batch. The executable registry maps every accepted PRD story,
 US-01 through US-20, to four cohesive product journeys. Those journeys run in
 desktop Chromium and mobile WebKit and include all four offer promises,
 projects, artwork, AI units, navigation, two-account isolation, invitations,
 roles, removal and ownership transfer. Focused desktop regressions retain the
 public print PDF and 320-pixel geometry checks. The complete hosted command runs
-27 cases: 17 desktop Chromium and 10 mobile WebKit, including actual edited
+27 ordinary cases: 17 desktop Chromium and 10 mobile WebKit, including actual edited
 PDF contents, private-file denials, embedded-font 500-card exports and the
-recorded UI regressions.
+recorded UI regressions. Two additional manual AI test cases are skipped unless
+`TABLECARDS_TEST_MANUAL_AI=true`; they make exactly two four-image batches total
+and consume the real daily budget. Normal regression explicitly selects fixtures.
+
+"Manual AI test" means an explicitly triggered automated browser test against
+the real Cloudflare provider. It is not a human-only checklist or a normal CI run.
+
+```sh
+TABLECARDS_TEST_MANUAL_AI=true pnpm exec playwright test \
+  --config projects/tablecards/e2e/playwright.config.ts \
+  projects/tablecards/e2e/src/manual-ai.spec.ts
+```
+
+Run that opt-in check only with live-provider authority and remaining budget.
+It verifies text-only desktop generation, optional reference preparation/removal
+on mobile WebKit, four stored choices, actual non-solid image pixels, exactly one
+account unit per batch and signed-in navigation. Do not loop failed inference
+tests or silently fall back to fixtures.
 The local development signing key is intentionally absent from CI, so the
 hosted suite is a separate development acceptance gate rather than part of the
 self-contained root `pnpm check` command.
@@ -355,6 +441,55 @@ compatibility and prefer a fix-forward deployment; do not blindly restore an
 older schema or delete account/project data. Redeployment still needs the
 task's authorization. This runbook does not establish tested backup recovery
 or a production rollback procedure.
+
+## 2026-10-07 PDF, session and Cloudflare corrections
+
+Following explicit capped Cloudflare approval, the development candidate is
+`ed7539f` plus uncommitted corrections, not a new Git commit. The TableCards
+backend was pushed with its explicit development env file and reports
+`ed7539f-pdf-session-cloudflare-20261007`. Web Worker
+`6eaef2bf-3bed-4646-855e-24052234890d` serves `/assets/index-lpkqrTdh.js` and
+`/assets/index-DIIg5DbD.css`. The private AI Worker is
+`8f53f89d-c176-44d9-b948-e2f97ad53a1c` after secret installation. Shared BFF,
+gateway and central authentication were not redeployed for this correction.
+
+The [dated delta review](reviews/261007-pdf-session-and-live-ai-fixes.md)
+records cards-only PDFs, public session-state actions, optional style references,
+real illustrated choices, the hard cap, validation and final browser results.
+Both manual AI test cases passed using only two batches. The final stable-version
+ordinary suite passed **27/27** (17 desktop Chromium, 10 mobile WebKit; one worker,
+zero retries, 7.2 minutes), and both final control screenshots were inspected.
+The Node 24 repository gate and 101 web/42 core/52 backend focused checks passed.
+Ordinary regression uses fixtures. Local/hosted artifact folders are separate, and final hosted
+acceptance starts only after publication has finished. Reload old tabs after
+publication: old lazy-module addresses may otherwise return the new SPA fallback.
+No production change, merge, commit or push is authorized or performed here.
+
+### 2026-10-07 AI budget revision
+
+Andrew requested a `$1/day` development budget and the name "manual AI test".
+TableCards Convex now has `TABLECARDS_AI_DAILY_BUDGET_USD=1`, confirmed by a scoped
+environment read; its health reports `ed7539f-ai-budget-20261007`. This is still
+the `ed7539f` baseline plus uncommitted corrections. The development Convex push
+and server typecheck succeeded. Web, private AI Worker, BFF, gateway and auth were
+not redeployed for this follow-up.
+
+All 73 backend tests passed fresh, including a race for the last two of 138
+admissions, already-failed attempts, lowered-budget recovery, raising the budget,
+UTC rollover and missing/invalid/zero-budget refusal before unit reservation or
+inference. Node 24 `pnpm check` passed in 2m 36s. The renamed manual AI test was
+then explicitly run against the stable deployment: **2/2 passed** in 1.8 minutes,
+using two four-image batches total. The desktop text-only and mobile company-style
+cases stored real illustrated choices, consumed one account unit apiece and
+retained correct signed-in navigation. Screenshots remain ignored private test
+artifacts. The earlier 27-case regression verifies unchanged web flows; this
+follow-up did not rerun or relabel those cases as new evidence.
+
+The [future provider-cost attribution entry](../../../docs/architecture/future-ideas.md#per-user-and-per-account-provider-cost-attribution)
+records Andrew's separate request to understand actual cost to serve each
+user/account. The daily admission estimate is not that future BFF ledger/report,
+and does not claim invoice-confirmed spend. No production configuration, merge,
+commit or push was performed.
 
 ## Production boundary
 

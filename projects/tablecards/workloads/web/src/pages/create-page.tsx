@@ -9,6 +9,7 @@ import { Creator } from '../app';
 import { useTableCardsApplication } from '../application-context';
 import { WorkspaceSelector } from '../auth-navigation';
 import { RouteFocus } from '../route-focus';
+import { PublicSessionAction } from '../public-session-action';
 
 const authenticatedNavigation = [
   { to: '/projects', label: 'Projects' },
@@ -69,7 +70,7 @@ export function Component() {
                 Sign out
               </BffSignOutButton>
             </>
-          ) : (
+          ) : state.status === 'signed_out' ? (
             <BffAuthLink
               className="text-button"
               intent="login"
@@ -81,6 +82,12 @@ export function Component() {
             >
               Log in
             </BffAuthLink>
+          ) : (
+            <PublicSessionAction
+              className="text-button"
+              destination="/projects"
+              signedInLabel="Choose workspace"
+            />
           )}
         </div>
       </header>

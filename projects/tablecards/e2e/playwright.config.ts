@@ -5,6 +5,8 @@ export const TABLECARDS_WEB_URL = 'https://tablecards-dev.tofler.app';
 
 export default defineConfig({
   testDir: './src',
+  // Keep hosted artifacts separate from the repository's local browser suites.
+  outputDir: './test-results',
   fullyParallel: false,
   forbidOnly: true,
   retries: 0,
@@ -29,7 +31,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-webkit',
-      testMatch: /(?:user-stories|remediation)\.spec\.ts/u,
+      testMatch: /(?:user-stories|remediation|manual-ai)\.spec\.ts/u,
       use: { ...devices['iPhone 13'] },
     },
   ],

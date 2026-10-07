@@ -5,12 +5,15 @@ print independently; this Business does not print or ship cards.
 
 Build 3 is deployed to [development](https://tablecards-dev.tofler.app).
 Production release and real payment processing are not complete. Development
-checkout explicitly charges nothing, and its AI provider is deterministic.
+checkout explicitly charges nothing. Real Cloudflare artwork has a deployment
+budget of `$1` per UTC day, conservatively admitting up to 138 four-image starts;
+explicitly labelled fixtures remain for regression.
 
-The [latest development acceptance](docs/reviews/261006-tablecards-remediation-and-development-acceptance.md)
-records the deployed version, resolved findings, 27 passing desktop/mobile
-cases and independent app/security reviews. It does not authorize production
-promotion or establish customer-launch readiness.
+The [current corrections/review](docs/reviews/261007-pdf-session-and-live-ai-fixes.md)
+records the deployed candidate and checks. The
+[earlier development acceptance](docs/reviews/261006-tablecards-remediation-and-development-acceptance.md)
+retains 27 passing cases and independent app/security reviews for its baseline.
+Neither authorizes production promotion or establishes customer-launch readiness.
 
 ## Start here
 
@@ -40,6 +43,7 @@ preserve evidence and reasoning. They do not override current product scope.
 | [Backend](backend/README.md)                 | Account-scoped Convex product records, validated artwork, PDF and AI operations            |
 | [Core](libs/core/README.md)                  | Offer/design catalogs, guest validation, physical geometry and deterministic PDF rendering |
 | [Session gateway](session-gateway/README.md) | Narrow same-site proxy for SDK session routes, not product traffic                         |
+| [AI provider](ai-provider/README.md)          | Private Workers AI binding adapter; authorization, budget and storage stay in Convex/BFF |
 | [E2E](e2e/README.md)                         | Hosted desktop/mobile journeys and executable user-story coverage                          |
 
 ## Verification

@@ -1,7 +1,7 @@
 # TableCards Application
 
 Created: 2026-09-28
-Updated: 2026-10-06
+Updated: 2026-10-07
 Status: Accepted — remediation deployed and verified in development; production unchanged
 
 This document defines the customer-facing TableCards application experience:
@@ -11,6 +11,9 @@ remains [the product specification](product.md); the factory delivery stages
 remain [`mvp-delivery-plan.md`](../../../docs/factory/mvp-delivery-plan.md).
 Technical ownership and contracts belong in [architecture](architecture.md);
 deployment and recovery belong in [operations](operations.md).
+The [2026-10-07 corrections/review](reviews/261007-pdf-session-and-live-ai-fixes.md)
+records cards-only output, accurate public session actions, real capped AI and
+optional company/style references; earlier acceptance is retained below.
 
 ## Repository baseline
 
@@ -155,6 +158,10 @@ link and either Log in or signed-in Projects. Marketing links disappear at
 1050px and below. Compact Log in/Projects and Create actions remain available
 on phones, including Invitation and policy routes. The shared public footer
 links Privacy, Terms and Contact. The signed-in hero offers Open Projects.
+Login is shown only after a confirmed signed-out session. Loading shows
+Checking session, recovery exposes Retry session, and known users choosing an
+account or completing onboarding get Projects rather than a second Login.
+The same rule applies to public pricing actions and the new-project header.
 
 ### Signed-in application navigation
 
@@ -325,7 +332,7 @@ The Creator preset chooser loads 24 account-scoped metadata records at a time,
 with Load more presets, page retry and end feedback. Older presets remain
 selectable with their snapshotted font, size, color and position.
 
-Review exposes page count including the scale guide, sheet pagination and
+Review exposes card-sheet page count, sheet pagination and
 print-at-100% instructions. Open complete preview uses a bounded native dialog,
 with every sheet, Escape/Return to editor and focus restoration. Desktop also
 keeps a side preview; phone steps do not stack the full preview inline. Busy,
@@ -334,8 +341,9 @@ Preflight identifies the guest/field for fit or unsupported-character problems
 and blocks Save/Export with a correction, rather than showing an empty-input
 placeholder. Custom event artwork exposes the accepted constrained name font,
 size, position and color controls, including Event Pass.
-The edited event name appears on the print-check preview and participates in
-the same title-fit/character preflight used before save/export.
+The first preview is the first card sheet, not a calibration page. The event
+name remains project metadata/PDF title and is validated before save/export.
+The separate development print-test download retains its calibration guide.
 An interrupted AI operation is recovered from the server on mount and retried
 with its original prompt/key, even after its unit is reserved; a new operation
 is not silently substituted. A confirmed failed batch instead releases the
@@ -431,7 +439,16 @@ The predefined library now renders all six catalog artwork sources through the
 same SVG face renderer as Creator. Event artwork has constrained name controls
 in Creator. Designs has loading, empty artwork/preset and retry states;
 successes use status and failures use alert with safe product text. AI prompts
-must contain 3–400 trimmed characters before a fresh generation. Pending server batches restore the
+must contain 3–400 trimmed characters before a fresh generation. Creator and
+Designs both accept an optional company icon/style reference: PNG/JPEG up to
+10 MB and 16 megapixels, resized locally to at most 512 pixels per side and
+512 KiB, with preview and Remove style image. Preparing an image disables
+Generate until ready. Copy explains Cloudflare receives a small style reference,
+not the guest list, and exact logo reproduction is not guaranteed. Development
+defaults to real Cloudflare artwork; the clearly labelled test-fixture engine
+makes no AI calls. A daily cap rejects a new request without consuming an
+account batch or inventing a pending retry. Provider failure does not silently
+substitute a color fixture. Pending server batches restore the
 original prompt/key after navigation/reload and expose Retry this background
 batch, rather than generating a fresh charged operation.
 Confirmed failures re-enable the description and normal Generate action, while
@@ -863,8 +880,10 @@ actual SVG artwork references; they are not rendered-browser or PDF-content proo
   same durable operation, and file download authorization is enforced by the
   coordinated backend/adapter work.
 - Preview disclosures are factual development surfaces, not commercial/legal
-  sign-off. Physical 100%-scale print acceptance, verified billing/lifecycle,
-  production deployment/smoke and later support remain their original boundaries.
+  sign-off. Andrew accepted his earlier print as sufficient for Build 3 on
+  2026-10-07; detailed physical scale/margin checks remain a final MVP pre-launch
+  gate, not a Build 3 blocker. Verified billing/lifecycle, production
+  deployment/smoke and later support remain distinct delivery boundaries.
 
 ## Delivery sequence
 

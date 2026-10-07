@@ -23,6 +23,20 @@ function guests(count: number) {
 }
 
 describe('print manifest', () => {
+  it('includes a measuring guide only in the explicit print-test download', () => {
+    const input = { guests: guests(4), designId: 'minimal-ivory' as const };
+    expect(createRenderManifest(input).pages.map((page) => page.kind)).toEqual([
+      'cards',
+    ]);
+    expect(
+      createRenderManifest({ ...input, includeScaleCheck: true }).pages.map(
+        (page) => page.kind,
+      ),
+    ).toEqual(['scale_check', 'cards']);
+    expect(renderManifestPageToSvg(createRenderManifest(input), 0)).toContain(
+      'print sheet 1',
+    );
+  });
   it('uses exact US Letter and folded card geometry', () => {
     expect(LETTER_PAGE).toEqual({ width: 612, height: 792 });
     expect(FINISHED_CARD).toEqual({ width: 252, height: 144 });
@@ -32,9 +46,9 @@ describe('print manifest', () => {
       guests: guests(4),
       designId: 'minimal-ivory',
     });
-    expect(manifest.pages).toHaveLength(2);
+    expect(manifest.pages).toHaveLength(1);
     expect(manifest.pages.every((page) => Object.isFrozen(page))).toBe(true);
-    const cardPage = manifest.pages[1]!;
+    const cardPage = manifest.pages[0]!;
     const outlines = cardPage.commands.filter(
       (command) =>
         command.type === 'stroke_rectangle' &&
@@ -56,25 +70,22 @@ describe('print manifest', () => {
   });
 
   it.each([
-    [25, 8],
-    [500, 126],
-  ])(
-    'creates scale page plus four cards per sheet for %i guests',
-    (count, pages) => {
-      const manifest = createRenderManifest({
-        guests: guests(count),
-        designId: 'garden-sage',
-      });
-      expect(manifest.pages).toHaveLength(pages);
-      expect(manifest.guestCount).toBe(count);
-    },
-  );
+    [25, 7],
+    [500, 125],
+  ])('creates only four cards per sheet for %i guests', (count, pages) => {
+    const manifest = createRenderManifest({
+      guests: guests(count),
+      designId: 'garden-sage',
+    });
+    expect(manifest.pages).toHaveLength(pages);
+    expect(manifest.guestCount).toBe(count);
+  });
 
   it.each([
-    [25, 6],
-    [500, 85],
+    [25, 5],
+    [500, 84],
   ])(
-    'creates scale page plus six landscape cards per sheet for %i guests',
+    'creates only six landscape cards per sheet for %i guests',
     (count, pages) => {
       const manifest = createRenderManifest({
         guests: guests(count),
@@ -83,8 +94,8 @@ describe('print manifest', () => {
       });
       expect(manifest.layoutId).toBe('landscape_6');
       expect(manifest.pages).toHaveLength(pages);
-      expect(manifest.pages[1]).toMatchObject(LANDSCAPE_LETTER_PAGE);
-      const outlines = manifest.pages[1]!.commands.filter(
+      expect(manifest.pages[0]).toMatchObject(LANDSCAPE_LETTER_PAGE);
+      const outlines = manifest.pages[0]!.commands.filter(
         (command) =>
           command.type === 'stroke_rectangle' &&
           command.width === UNFOLDED_CARD.width &&
@@ -110,7 +121,7 @@ describe('print manifest', () => {
       guests: [{ name: 'José García', table: '12', marker: 'Vegan' }],
       designId: 'midnight-gold',
     });
-    const texts = manifest.pages[1]!.commands.filter(
+    const texts = manifest.pages[0]!.commands.filter(
       (command): command is TextCommand => command.type === 'text',
     );
 
@@ -129,7 +140,7 @@ describe('print manifest', () => {
       guests: [{ name: 'Same Name' }, { name: 'Same Name' }],
       designId: 'minimal-ivory',
     });
-    const nameCommands = manifest.pages[1]!.commands.filter(
+    const nameCommands = manifest.pages[0]!.commands.filter(
       (command) => command.type === 'text' && command.role === 'name',
     );
     expect(nameCommands).toHaveLength(4);
@@ -146,7 +157,7 @@ describe('print manifest', () => {
         size: 'small',
       },
     });
-    const names = manifest.pages[1]!.commands.filter(
+    const names = manifest.pages[0]!.commands.filter(
       (command): command is TextCommand =>
         command.type === 'text' && command.role === 'name',
     );
@@ -163,7 +174,7 @@ describe('print manifest', () => {
         fontSize: 18,
       }),
     ]);
-    expect(renderManifestPageToSvg(manifest, 1)).toContain(
+    expect(renderManifestPageToSvg(manifest, 0)).toContain(
       'font-family="Noto Serif, serif"',
     );
   });
@@ -205,11 +216,11 @@ describe('print manifest', () => {
       guests: [{ name: 'Anne & O’Connor' }],
       designId: 'minimal-ivory',
     });
-    const svg = renderManifestPageToSvg(manifest, 1);
+    const svg = renderManifestPageToSvg(manifest, 0);
     expect(svg).toContain('Anne &amp; O’Connor');
     expect(svg).toContain('rotate(180');
     expect(svg).not.toContain('Anne & O’Connor');
-    expect(() => renderManifestPageToSvg(manifest, 2)).toThrow(RangeError);
+    expect(() => renderManifestPageToSvg(manifest, 1)).toThrow(RangeError);
   });
 
   it('renders catalog artwork in truthful picker and print-sheet SVGs', () => {

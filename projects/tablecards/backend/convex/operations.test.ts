@@ -128,6 +128,8 @@ const startAi = makeFunctionReference<
     userId: string;
     prompt: string;
     idempotencyKey: string;
+    provider?: 'cloudflare' | 'development';
+    referenceDigest?: string;
   },
   { publicId: string; status: string; created: boolean }
 >('aiState:start');
@@ -254,6 +256,7 @@ function extractedPdfText(pdf: PDFDocument): string[] {
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllEnvs();
   vi.useRealTimers();
 });
 
@@ -427,6 +430,181 @@ describe('TableCards durable operations', () => {
           await ctx.db.system.query('_scheduled_functions').take(4),
       ),
     ).toHaveLength(1);
+  });
+
+  it('caps live-provider attempts atomically across accounts and releases the cap only on a new UTC day', async () => {
+    vi.stubEnv('TABLECARDS_AI_DAILY_BUDGET_USD', '0.06');
+    const t = convexTest(schema, modules);
+    vi.setSystemTime(new Date('2026-10-07T12:00:00Z'));
+    const requests = Array.from({ length: 12 }, (_, index) => ({
+      accountId: `account_${index}abcdefghijklmnop`,
+      userId,
+      prompt: 'Illustrated blue corner flowers',
+      idempotencyKey: `budget_${index}abcdefghijklmnop`,
+      provider: 'cloudflare' as const,
+    }));
+    const results = await Promise.allSettled(
+      requests.map((input) => t.mutation(startAi, input)),
+    );
+    expect(
+      results.filter((result) => result.status === 'fulfilled'),
+    ).toHaveLength(8);
+    expect(
+      results.filter((result) => result.status === 'rejected'),
+    ).toHaveLength(4);
+    const accepted =
+      requests[results.findIndex((result) => result.status === 'fulfilled')]!;
+    await expect(t.mutation(startAi, accepted)).resolves.toMatchObject({
+      created: false,
+    });
+    await expect(
+      t.mutation(startAi, {
+        ...accepted,
+        idempotencyKey: 'mock_budget_abcdefghijklmnop',
+        provider: 'development',
+      }),
+    ).resolves.toMatchObject({ created: true });
+    vi.setSystemTime(new Date('2026-10-08T00:00:00Z'));
+    await expect(
+      t.mutation(startAi, {
+        ...accepted,
+        idempotencyKey: 'new_day_abcdefghijklmnop',
+      }),
+    ).resolves.toMatchObject({ created: true });
+  });
+
+  it('enforces the one-dollar budget at 138 starts, counting failed attempts and preserving recovery', async () => {
+    vi.stubEnv('TABLECARDS_AI_DAILY_BUDGET_USD', '1');
+    vi.setSystemTime(new Date('2026-10-07T12:00:00Z'));
+    const t = convexTest(schema, modules);
+    await t.run(async (ctx) => {
+      for (let index = 0; index < 136; index += 1)
+        await ctx.db.insert('aiBatches', {
+          publicId: `ai_batch_seed_${index}abcdefghijklmnop`,
+          accountId: `account_seed_${index}abcdefghijklmnop`,
+          requestedByUserId: userId,
+          idempotencyKey: `seed_budget_${index}abcdefghijklmnop`,
+          prompt: 'Blue corner motifs',
+          provider: 'cloudflare',
+          providerBudgetDay: '2026-10-07',
+          status: index % 2 === 0 ? 'failed' : 'queued',
+          assetIds: [],
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        });
+    });
+    const requests = Array.from({ length: 12 }, (_, index) => ({
+      accountId: `account_race_${index}abcdefghijklmnop`,
+      userId,
+      prompt: 'Blue corner motifs',
+      idempotencyKey: `dollar_budget_${index}abcdefghijklmnop`,
+      provider: 'cloudflare' as const,
+    }));
+    const results = await Promise.allSettled(
+      requests.map((input) => t.mutation(startAi, input)),
+    );
+    expect(
+      results.filter((result) => result.status === 'fulfilled'),
+    ).toHaveLength(2);
+    const denied = results.filter((result) => result.status === 'rejected');
+    expect(denied).toHaveLength(10);
+    for (const result of denied)
+      expect(String(result.reason)).toMatch(/LIMIT_EXCEEDED|daily AI safety/u);
+    expect(
+      await t.run(
+        async (ctx) =>
+          await ctx.db
+            .query('aiBatches')
+            .withIndex('by_provider_budget_day', (q) =>
+              q
+                .eq('provider', 'cloudflare')
+                .eq('providerBudgetDay', '2026-10-07'),
+            )
+            .take(139),
+      ),
+    ).toHaveLength(138);
+    const accepted =
+      requests[results.findIndex((result) => result.status === 'fulfilled')]!;
+    vi.stubEnv('TABLECARDS_AI_DAILY_BUDGET_USD', '0');
+    await expect(t.mutation(startAi, accepted)).resolves.toMatchObject({
+      created: false,
+    });
+    await expect(
+      t.mutation(startAi, {
+        ...accepted,
+        idempotencyKey: 'paused_budget_abcdefghijklmnop',
+      }),
+    ).rejects.toThrow(/LIMIT_EXCEEDED|paused/u);
+    vi.stubEnv('TABLECARDS_AI_DAILY_BUDGET_USD', '2');
+    await expect(
+      t.mutation(startAi, {
+        ...accepted,
+        idempotencyKey: 'raised_budget_abcdefghijklmnop',
+      }),
+    ).resolves.toMatchObject({ created: true });
+  });
+
+  it('binds the selected image and provider to the original idempotency key', async () => {
+    const t = convexTest(schema, modules);
+    const input = {
+      accountId,
+      userId,
+      prompt: 'Company style',
+      idempotencyKey: 'reference_abcdefghijklmnop',
+      provider: 'development' as const,
+      referenceDigest: 'original_image_digest',
+    };
+    await t.mutation(startAi, input);
+    await expect(
+      t.mutation(startAi, {
+        ...input,
+        referenceDigest: 'different_image_digest',
+      }),
+    ).rejects.toThrow(/CONFLICT|reference image/u);
+    await expect(
+      t.mutation(startAi, { ...input, provider: 'cloudflare' }),
+    ).rejects.toThrow(/CONFLICT|provider/u);
+    const recovery = { ...input, referenceDigest: undefined };
+    await expect(t.mutation(startAi, recovery)).resolves.toMatchObject({
+      created: false,
+    });
+  });
+
+  it('does not reuse or advertise legacy PDFs with the extra calibration page', async () => {
+    const t = convexTest(schema, modules);
+    const project = await seededProject(t);
+    const input = {
+      accountId,
+      userId,
+      projectId: project.publicId,
+      maximumCards: 25,
+      premiumDesigns: false,
+      allowUploadedDesigns: false,
+      allowAiDesigns: true,
+      layoutId: 'portrait_4' as const,
+    };
+    const first = await t.mutation(createExport, input);
+    await t.run(async (ctx) => {
+      const row = await ctx.db
+        .query('projectExports')
+        .withIndex('by_account_public_id', (q) =>
+          q.eq('accountId', accountId).eq('publicId', first.publicId),
+        )
+        .unique();
+      await ctx.db.patch(row!._id, {
+        renderVersion: undefined,
+        status: 'ready',
+        pageCount: 2,
+      });
+    });
+    await expect(
+      t
+        .withIdentity(identity())
+        .query(latestExport, { projectId: project.publicId }),
+    ).resolves.toBeNull();
+    const fresh = await t.mutation(createExport, input);
+    expect(fresh.created).toBe(true);
+    expect(fresh.publicId).not.toBe(first.publicId);
   });
 
   it('keeps AI idempotency exact and requires exactly four outputs', async () => {

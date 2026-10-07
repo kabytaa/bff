@@ -245,6 +245,11 @@ const generateAiRef = makeFunctionReference<
     prompt: string;
     idempotencyKey: string;
     projectId?: string;
+    referenceImage?: {
+      bytes: ArrayBuffer;
+      mimeType: 'image/png' | 'image/jpeg';
+    };
+    developmentMock?: boolean;
   },
   { batchId: string; status: 'queued' | 'generating' | 'ready' | 'failed' }
 >('ai:generate');
@@ -409,6 +414,7 @@ export interface TableCardsBackend {
     readonly batchId: string;
     readonly prompt: string;
     readonly idempotencyKey: string;
+    readonly developmentMock?: boolean;
   } | null>;
   archiveProject(projectId: string): Promise<void>;
   duplicateProject(projectId: string): Promise<SavedProject>;
@@ -417,6 +423,11 @@ export interface TableCardsBackend {
     readonly prompt: string;
     readonly idempotencyKey: string;
     readonly projectId?: string;
+    readonly referenceImage?: {
+      readonly bytes: ArrayBuffer;
+      readonly mimeType: 'image/png' | 'image/jpeg';
+    };
+    readonly developmentMock?: boolean;
   }): Promise<AiBatch>;
   uploadArtwork(
     file: File,
@@ -693,7 +704,12 @@ export function createTableCardsBackend(
         makeFunctionReference<
           'query',
           { projectId?: string },
-          { batchId: string; prompt: string; idempotencyKey: string } | null
+          {
+            batchId: string;
+            prompt: string;
+            idempotencyKey: string;
+            developmentMock?: boolean;
+          } | null
         >('aiState:pendingForCaller'),
         projectId === undefined ? {} : { projectId },
       );
@@ -789,6 +805,10 @@ export function createTableCardsBackend(
         accessToken: await requireToken(auth),
         prompt: input.prompt,
         idempotencyKey: input.idempotencyKey,
+        ...(input.referenceImage
+          ? { referenceImage: input.referenceImage }
+          : {}),
+        ...(input.developmentMock ? { developmentMock: true } : {}),
         ...(input.projectId === undefined
           ? {}
           : { projectId: input.projectId }),

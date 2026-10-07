@@ -18,6 +18,7 @@ const bytes = await renderTableCardsPdf(
     title: 'Six-card landscape print test',
     designId: 'garden-sage',
     layoutId: 'landscape_6',
+    includeScaleCheck: true,
     guests: [
       { name: 'Olivia Bennett', table: 'TABLE 1' },
       { name: 'José García', table: 'TABLE 2' },

@@ -7,6 +7,8 @@ Pure TableCards product logic shared by the browser and backend:
 - versioned offer and predefined-design catalogs;
 - immutable US Letter / 3.5 × 2 inch folded-card render manifests for canonical
   four-card portrait and development six-card landscape layouts;
+- customer exports/preview contain only card sheets; `includeScaleCheck: true`
+  is reserved for the separate public print-test PDF;
 - one code-owned raster-artwork catalog used by browser previews and
   deterministic `pdf-lib` output, plus optional fixed-ratio PNG/JPEG custom
   artwork on both correctly oriented faces. The catalog pins each public asset
@@ -20,7 +22,8 @@ The six `v1` predefined JPEGs were supplied as selected design artwork and
 mechanically normalized to the exact 1050 × 600 contract. The active `v2`
 assets preserve that artwork while replacing the neutral paper field with
 print-friendly white; `v1` remains immutable for cache safety. No image API is
-called at build or runtime. Any later reviewed replacement must use another
+called by this predefined catalog at build or runtime. Customer-requested AI
+artwork is handled separately by the backend/AI adapter. Any later reviewed replacement must use another
 versioned public path and update the catalog hash rather than overwriting
 cached artwork.
 

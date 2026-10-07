@@ -13,6 +13,10 @@ After meaningful implementation or a durable decision, update `STATUS.md` before
 
 When Andrew asks to commit, treat it as a request to commit and push the current work branch unless he explicitly asks for a local-only commit. This does not authorize changing or merging branches, or triggering an otherwise unauthorized production deployment. Report the commit and push outcome.
 
+Before making structural database/schema changes (tables, fields/types/requiredness, relationships or indexes), explain the proposed changes, rationale and existing-data/migration impact, and obtain Andrew's confirmation unless those exact changes were already approved. Routine data writes are not structural changes. Keep Andrew informed of every structural change and record the affected schema, migration steps and verification in the relevant architecture documentation or work record.
+
+During explicitly authorized unattended or long-running implementation (for example, "I'm going to sleep; finish the agreed work"), necessary safe development schema changes within the accepted scope may proceed without waiting for another confirmation. Report them in progress updates and the handoff, including any migrations. This exception does not authorize new product scope, destructive/data-loss migrations or otherwise unauthorized production changes.
+
 Keep durable Codex work products in the repository rather than relying on chat history or session memory:
 
 - active explorations and their discussion decisions in `.agent/brainstorms/`

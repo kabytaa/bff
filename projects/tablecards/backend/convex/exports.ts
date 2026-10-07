@@ -280,10 +280,9 @@ export const render = internalAction({
       await ctx.runMutation(completeReference, {
         ...args,
         storageId: storedPdf,
-        pageCount:
-          Math.ceil(
-            input.guests.length / PRINT_LAYOUTS[input.layoutId].cardsPerSheet,
-          ) + 1,
+        pageCount: Math.ceil(
+          input.guests.length / PRINT_LAYOUTS[input.layoutId].cardsPerSheet,
+        ),
       });
       return null;
     } catch (error) {

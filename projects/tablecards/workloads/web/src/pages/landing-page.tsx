@@ -1,7 +1,7 @@
 import { OFFER_CATALOG, type OfferId } from '@tablecards/core/catalog';
-import { BffAuthLink, useBffAuth } from '@tofler/bff-auth/react';
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { PublicSessionAction } from '../public-session-action';
 
 const offerFeatures: Record<OfferId, readonly string[]> = {
   free: ['25 cards', '1 active project', '3 designs', '1 AI batch'],
@@ -28,7 +28,6 @@ const offerActions: Record<OfferId, string> = {
 };
 
 export function Component() {
-  const { state } = useBffAuth();
   const location = useLocation();
   useEffect(() => {
     const section =
@@ -53,19 +52,10 @@ export function Component() {
             <Link className="button" to="/create">
               Create free — up to 25 cards
             </Link>
-            {state.status === 'authenticated' ? (
-              <Link className="secondary-button" to="/projects">
-                Open Projects
-              </Link>
-            ) : (
-              <BffAuthLink
-                className="secondary-button"
-                intent="login"
-                returnPath="/projects"
-              >
-                Log in
-              </BffAuthLink>
-            )}
+            <PublicSessionAction
+              className="secondary-button"
+              signedInLabel="Open Projects"
+            />
           </div>
           <p className="muted">Digital PDF only. No printing or shipping.</p>
         </div>
@@ -137,21 +127,15 @@ export function Component() {
                   <Link className="secondary-button" to="/create">
                     {offerActions[offerId]}
                   </Link>
-                ) : state.status === 'authenticated' ? (
-                  <Link
-                    className="secondary-button"
-                    to={`/settings?offer=${offerId}`}
-                  >
-                    {offerActions[offerId]}
-                  </Link>
                 ) : (
-                  <BffAuthLink
+                  <PublicSessionAction
                     className="secondary-button"
                     intent="continue"
                     returnPath={`/settings?offer=${offerId}`}
-                  >
-                    {offerActions[offerId]}
-                  </BffAuthLink>
+                    destination={`/settings?offer=${offerId}`}
+                    signedInLabel={offerActions[offerId]}
+                    signedOutLabel={offerActions[offerId]}
+                  />
                 )}
               </article>
             );

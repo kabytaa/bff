@@ -46,6 +46,8 @@ function fixture() {
   } as unknown as BffAuthBrowserClient;
   const query = vi.fn(async (reference) => {
     const name = getFunctionName(reference);
+    if (name === 'aiState:get')
+      return { publicId: 'batch_reference', status: 'ready', choices: [] };
     if (name === 'assets:page')
       return {
         page: [
@@ -175,6 +177,33 @@ afterEach(() => {
 });
 
 describe('TableCards authenticated browser file adapter', () => {
+  it('forwards only the selected reference bytes and MIME type alongside the style request', async () => {
+    const { backend, action, query } = fixture();
+    const referenceImage = {
+      bytes: new Uint8Array([1, 2, 3]).buffer,
+      mimeType: 'image/jpeg' as const,
+    };
+    action.mockResolvedValue({ batchId: 'batch_reference', status: 'ready' });
+    query.mockResolvedValue({
+      publicId: 'batch_reference',
+      status: 'ready',
+      choices: [],
+    });
+    await backend.generateAi({
+      prompt: 'Blue corners',
+      idempotencyKey: 'selected_reference',
+      referenceImage,
+    });
+    expect(getFunctionName(action.mock.calls[0]?.[0])).toBe('ai:generate');
+    expect(action.mock.calls[0]?.[1]).toEqual({
+      accessToken: 'synthetic-context',
+      prompt: 'Blue corners',
+      idempotencyKey: 'selected_reference',
+      referenceImage,
+    });
+    backend.dispose();
+  });
+
   it('loads cursor-based metadata pages without fetching any private bytes', async () => {
     const { backend, query, auth } = fixture();
     await expect(backend.listAssetPage()).resolves.toEqual({

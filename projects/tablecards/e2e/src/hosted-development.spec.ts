@@ -98,7 +98,7 @@ async function preparePublicDraft(page: Page) {
     );
   await page.getByRole('button', { name: 'Preview names' }).click();
   await expect(page.getByText('4 guests ready to preview.')).toBeVisible();
-  await expect(page.getByText(/4 cards · 2 PDF pages/u)).toBeVisible();
+  await expect(page.getByText(/4 cards · 1 PDF pages/u)).toBeVisible();
 }
 
 async function expectNoHorizontalPageOverflow(page: Page) {
@@ -198,7 +198,7 @@ test('mobile creator is step focused and has no horizontal page overflow', async
   await page.getByLabel(/Landscape — 6 cards/u).check();
   await expect(page.getByLabel(/Landscape — 6 cards/u)).toBeChecked();
   await page.getByRole('button', { name: 'Review and export' }).click();
-  await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+  await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
   await expectNoHorizontalPageOverflow(page);
 });
 
@@ -253,7 +253,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
   await expect(
     authenticated.getByRole('link', { name: 'Projects', exact: true }),
   ).toBeVisible();
-  await expect(authenticated.getByText('4 cards · 2 PDF pages')).toBeVisible();
+  await expect(authenticated.getByText('4 cards · 1 PDF pages')).toBeVisible();
   await expect(
     authenticated.getByText(/Your guest list was restored/u),
   ).toBeVisible();
@@ -280,7 +280,7 @@ test('public preview survives sign-in and produces a real PDF', async ({
   const bytes = await readBrowserDownload(authenticated, href as string);
   expect(new TextDecoder().decode(bytes.subarray(0, 5))).toBe('%PDF-');
   const pdf = await PDFDocument.load(bytes);
-  expect(pdf.getPageCount()).toBe(2);
+  expect(pdf.getPageCount()).toBe(1);
   await authenticated.goto('/create');
   await expect(
     authenticated.getByText(/allows 1 active project/u),
@@ -351,6 +351,9 @@ test('professional project, preset and AI workflows use authenticated access', a
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
   await completeMockCheckout(authenticated, 'planner_pro', 'Planner Pro');
   await authenticated.goto('/designs');
+  await authenticated
+    .getByLabel('AI engine (development)')
+    .selectOption('mock');
   await authenticated
     .getByRole('button', { name: /Generate four choices/u })
     .click();

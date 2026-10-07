@@ -9,6 +9,7 @@ import {
 } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ConvexError } from 'convex/values';
 
 import { Component } from './designs-page';
 
@@ -92,6 +93,31 @@ function preset(id: string) {
 }
 
 describe('complete paginated design library', () => {
+  it('does not invent an unfinished batch after the daily safety cap rejects the input', async () => {
+    mocks.backend.generateAi.mockRejectedValue(
+      new ConvexError({
+        code: 'LIMIT_EXCEEDED',
+        message:
+          'The daily AI safety limit has been reached. Try tomorrow; your remaining batches are unchanged.',
+      }),
+    );
+    mount();
+    fireEvent.click(
+      await screen.findByRole('button', { name: /Generate four choices/ }),
+    );
+    expect((await screen.findByRole('alert')).textContent).toContain(
+      'daily AI safety limit',
+    );
+    expect(
+      screen.queryByRole('button', { name: 'Retry this background batch' }),
+    ).toBeNull();
+    expect(
+      screen
+        .getByLabelText('AI background description')
+        .hasAttribute('disabled'),
+    ).toBe(false);
+  });
+
   it('loads a second artwork page, deduplicates it, and retains the selected older asset after a mutation refresh', async () => {
     const first = Array.from({ length: 24 }, (_, index) =>
       asset(`asset-${index}`),

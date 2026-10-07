@@ -20,8 +20,13 @@ import type {
 } from '../backend';
 import { useTableCardsBackend } from '../use-tablecards-backend';
 import { useArtwork } from '../use-artwork';
-import { safeProductMessage } from '../product-error';
+import { aiInputWasRejected, safeProductMessage } from '../product-error';
 import { MetadataPageControls, useMetadataPages } from '../metadata-pages';
+import {
+  AiReferenceInput,
+  AiTestProviderControl,
+  type AiReferenceImage,
+} from '../ai-reference-input';
 
 const defaultStyle: PresetStyle = {
   displayName: 'My reusable design',
@@ -171,7 +176,17 @@ export function Component() {
   );
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
-  const aiAttempt = useRef<{ prompt: string; key: string } | null>(null);
+  const [referenceImage, setReferenceImage] = useState<AiReferenceImage | null>(
+    null,
+  );
+  const [referenceBusy, setReferenceBusy] = useState(false);
+  const [developmentMock, setDevelopmentMock] = useState(false);
+  const aiAttempt = useRef<{
+    prompt: string;
+    key: string;
+    referenceImage?: AiReferenceImage | null;
+    developmentMock?: boolean;
+  } | null>(null);
   const [aiRecovery, setAiRecovery] = useState(false);
   const notify = (
     text: string,
@@ -197,8 +212,10 @@ export function Component() {
         aiAttempt.current = {
           prompt: pending.prompt,
           key: pending.idempotencyKey,
+          developmentMock: pending.developmentMock,
         };
         setPrompt(pending.prompt);
+        setDevelopmentMock(pending.developmentMock === true);
         setAiRecovery(true);
       }
       setAssetId(
@@ -252,15 +269,32 @@ export function Component() {
     }
     if (
       !aiAttempt.current ||
-      (!aiRecovery && aiAttempt.current.prompt !== prompt)
+      (!aiRecovery &&
+        (aiAttempt.current.prompt !== prompt ||
+          aiAttempt.current.referenceImage !== referenceImage ||
+          aiAttempt.current.developmentMock !== developmentMock))
     )
-      aiAttempt.current = { prompt, key: crypto.randomUUID() };
+      aiAttempt.current = {
+        prompt,
+        key: crypto.randomUUID(),
+        referenceImage,
+        developmentMock,
+      };
     const attempt = aiAttempt.current;
     setBusy(true);
     try {
       const batch = await backend.generateAi({
         prompt: attempt.prompt,
         idempotencyKey: attempt.key,
+        ...(attempt.referenceImage
+          ? {
+              referenceImage: {
+                bytes: attempt.referenceImage.bytes,
+                mimeType: attempt.referenceImage.mimeType,
+              },
+            }
+          : {}),
+        ...(attempt.developmentMock ? { developmentMock: true } : {}),
       });
       if (batch.status !== 'ready' || !batch.assets?.length) {
         if (batch.status !== 'failed') {
@@ -284,6 +318,7 @@ export function Component() {
       if (first) setAssetId(first.id);
       notify(`${batch.assets?.length ?? 0} background choices are ready.`);
     } catch (error) {
+      if (aiInputWasRejected(error)) aiAttempt.current = null;
       setAiRecovery(aiAttempt.current !== null);
       notify(message(error), 'error');
       await load().catch(() => undefined);
@@ -400,11 +435,23 @@ export function Component() {
                   disabled={busy || loading || aiRecovery}
                   onChange={(event) => setPrompt(event.target.value)}
                 />
+                <AiReferenceInput
+                  value={referenceImage}
+                  onChange={setReferenceImage}
+                  onBusyChange={setReferenceBusy}
+                  disabled={busy || loading || aiRecovery}
+                />
+                <AiTestProviderControl
+                  developmentMock={developmentMock}
+                  onChange={setDevelopmentMock}
+                  disabled={busy || loading || aiRecovery}
+                />
                 <button
                   className="secondary-button"
                   type="button"
                   disabled={
                     busy ||
+                    referenceBusy ||
                     loading ||
                     (!aiRecovery &&
                       ((access.aiBackgroundBatchesRemaining ?? 0) < 1 ||

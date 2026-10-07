@@ -4,6 +4,7 @@ import { withBffAccountQuery } from '@tofler/bff-auth/convex/server';
 import type { Id } from './_generated/dataModel';
 import { internalMutation, query } from './_generated/server';
 import { tablecardsCustomerAuth } from './environment';
+import { dailyAiBatchLimit } from './lib/aiBudget';
 import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
@@ -23,6 +24,10 @@ export const start = internalMutation({
     projectId: v.optional(v.string()),
     prompt: v.string(),
     idempotencyKey: v.string(),
+    referenceDigest: v.optional(v.string()),
+    provider: v.optional(
+      v.union(v.literal('cloudflare'), v.literal('development')),
+    ),
   },
   returns: v.object({
     publicId: v.string(),
@@ -45,6 +50,25 @@ export const start = internalMutation({
     if (existing) {
       if (existing.prompt !== args.prompt) {
         fail('CONFLICT', 'The idempotency key was used for another prompt');
+      }
+      if (
+        args.referenceDigest !== undefined &&
+        existing.referenceDigest !== args.referenceDigest
+      ) {
+        fail(
+          'CONFLICT',
+          'The idempotency key was used for another reference image',
+        );
+      }
+      if (
+        args.provider !== undefined &&
+        existing.provider !== undefined &&
+        args.provider !== existing.provider
+      ) {
+        fail(
+          'CONFLICT',
+          'The idempotency key was used for another image provider',
+        );
       }
       const existingProject = existing.projectId
         ? await ctx.db.get(existing.projectId)
@@ -88,6 +112,34 @@ export const start = internalMutation({
       projectId = project._id;
     }
     const now = Date.now();
+    const providerBudgetDay =
+      args.provider === 'cloudflare'
+        ? new Date(now).toISOString().slice(0, 10)
+        : undefined;
+    if (providerBudgetDay) {
+      const dailyBatchLimit = dailyAiBatchLimit();
+      if (dailyBatchLimit === 0)
+        fail(
+          'LIMIT_EXCEEDED',
+          'AI generation is paused by the site safety budget; your remaining batches are unchanged.',
+        );
+      // Deployment budget converted into conservative four-image admissions.
+      // Failed/interrupted batches still count: a provider may have billed them.
+      // Atomic insertion + indexed read prevents simultaneous callers overspending.
+      const dailyBatches = await ctx.db
+        .query('aiBatches')
+        .withIndex('by_provider_budget_day', (q) =>
+          q
+            .eq('provider', 'cloudflare')
+            .eq('providerBudgetDay', providerBudgetDay),
+        )
+        .take(dailyBatchLimit);
+      if (dailyBatches.length >= dailyBatchLimit)
+        fail(
+          'LIMIT_EXCEEDED',
+          'The daily AI safety limit has been reached. Try tomorrow; your remaining batches are unchanged.',
+        );
+    }
     const publicId = createPublicId('ai_batch');
     await ctx.db.insert('aiBatches', {
       publicId,
@@ -96,6 +148,11 @@ export const start = internalMutation({
       requestedByUserId: args.userId,
       idempotencyKey: args.idempotencyKey,
       prompt: args.prompt,
+      ...(args.referenceDigest === undefined
+        ? {}
+        : { referenceDigest: args.referenceDigest }),
+      ...(args.provider === undefined ? {} : { provider: args.provider }),
+      ...(providerBudgetDay === undefined ? {} : { providerBudgetDay }),
       status: 'queued',
       assetIds: [],
       createdAt: now,
@@ -392,6 +449,7 @@ export const pendingForCaller = query({
       idempotencyKey: v.string(),
       batchId: v.string(),
       projectId: v.optional(v.string()),
+      developmentMock: v.optional(v.boolean()),
     }),
   ),
   handler: withBffAccountQuery(
@@ -433,6 +491,7 @@ export const pendingForCaller = query({
         prompt: batch.prompt,
         idempotencyKey: batch.idempotencyKey,
         batchId: batch.publicId,
+        ...(batch.provider === 'development' ? { developmentMock: true } : {}),
         ...(args.projectId === undefined ? {} : { projectId: args.projectId }),
       };
     },

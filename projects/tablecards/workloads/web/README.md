@@ -47,7 +47,10 @@ put in a URL, `localStorage`, analytics, or an AI prompt. The backend remains
 authoritative for project/card/design limits and validates every uploaded file.
 
 `VITE_TABLECARDS_DEV_CONTROLS=true` enables development-only product tools such
-as deterministic AI and the print trial. It is not an authorization boundary.
+as the explicitly labelled fixture AI engine and the print trial. Real AI uses
+capped Cloudflare generation and accepts an optional company/style image;
+see [Operations](../../docs/operations.md#cloudflare-ai-budget-and-reference-images).
+The flag is not an authorization boundary.
 Mock commerce is owned and separately enabled by BFF; TableCards receives only
 a provider-neutral checkout URL.
 

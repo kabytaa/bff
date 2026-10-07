@@ -52,7 +52,10 @@ test('review regression: edited saved project exports the actual current names, 
     await readBrowserDownload(page, (await download.getAttribute('href'))!),
   );
   expect(parsed.title).toBe('Reviewed current event');
-  expect(parsed.pageCount).toBe(2);
+  expect(parsed.pageCount).toBe(1);
+  expect(parsed.text).not.toMatch(
+    /TableCards print check|Actual Size|calibration/iu,
+  );
   expect(parsed.text.match(/Łukasz Dvořák/gu)).toHaveLength(4);
   expect(parsed.text).not.toMatch(/Old Guest|Original Guest|Removed Guest/u);
   await step(page, 'Design');
@@ -170,7 +173,7 @@ test('review regression: the paid 500-card ceiling renders and downloads with em
   expect(bytes.byteLength).toBeLessThan(19 * 1024 * 1024);
   const parsed = await readPdfText(bytes);
   expect(parsed.title).toBe('Maximum supported event');
-  expect(parsed.pageCount).toBe(126);
+  expect(parsed.pageCount).toBe(125);
   expect(parsed.text.match(/Łukasz Dvořák/gu)).toHaveLength(1000);
   await expectNoHorizontalPageOverflow(page);
 });

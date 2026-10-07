@@ -86,6 +86,7 @@ export default defineSchema({
     projectId: v.id('projects'),
     requestedByUserId: v.string(),
     projectRevision: v.number(),
+    renderVersion: v.optional(v.number()),
     snapshot: v.optional(
       v.object({
         projectId: v.string(),
@@ -125,6 +126,11 @@ export default defineSchema({
     requestedByUserId: v.string(),
     idempotencyKey: v.string(),
     prompt: v.string(),
+    referenceDigest: v.optional(v.string()),
+    provider: v.optional(
+      v.union(v.literal('cloudflare'), v.literal('development')),
+    ),
+    providerBudgetDay: v.optional(v.string()),
     status: v.union(
       v.literal('queued'),
       v.literal('generating'),
@@ -152,6 +158,7 @@ export default defineSchema({
   })
     .index('by_account_public_id', ['accountId', 'publicId'])
     .index('by_account_idempotency_key', ['accountId', 'idempotencyKey'])
+    .index('by_provider_budget_day', ['provider', 'providerBudgetDay'])
     .index('by_account_user_project_pending', [
       'accountId',
       'requestedByUserId',

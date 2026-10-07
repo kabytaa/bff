@@ -110,7 +110,7 @@ describe('pinned browser/PDF font metrics', () => {
         },
       };
       expect(preflightRender(input)).toEqual([]);
-      expect(createRenderManifest(input).pages[1]?.commands).toContainEqual(
+      expect(createRenderManifest(input).pages[0]?.commands).toContainEqual(
         expect.objectContaining({
           role: 'name',
           text: original.normalize('NFC'),

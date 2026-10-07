@@ -1,8 +1,8 @@
 'use node';
 
 import { deflateSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
 
-import { imageSize } from 'image-size';
 import { makeFunctionReference } from 'convex/server';
 import { v } from 'convex/values';
 
@@ -16,6 +16,11 @@ import {
   tablecardsDevelopmentMocksEnabled,
 } from './environment';
 import { fail } from './lib/productErrors';
+import {
+  cloudflareImages,
+  validateReferenceImage,
+  type ReferenceImage,
+} from './lib/cloudflareAi';
 
 const UNIT_TYPE = 'ai_background_batch';
 const WIDTH = 1344;
@@ -52,6 +57,8 @@ const startReference = makeFunctionReference<
     projectId?: string;
     prompt: string;
     idempotencyKey: string;
+    referenceDigest?: string;
+    provider?: 'cloudflare' | 'development';
   },
   StartedBatch
 >('aiState:start');
@@ -178,77 +185,19 @@ function deterministicImages(): GeneratedImage[] {
   }));
 }
 
-function decodeBase64(value: string): Uint8Array {
-  return new Uint8Array(Buffer.from(value, 'base64'));
-}
-
-async function openAiImages(prompt: string): Promise<GeneratedImage[]> {
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
-  if (!apiKey) fail('PROVIDER_UNAVAILABLE', 'Image generation is unavailable');
-  const response = await fetch('https://api.openai.com/v1/images/generations', {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'gpt-image-2',
-      prompt: `Create a print-safe place-card background with no words, letters, names, numbers, logos, or watermarks. Style request: ${prompt}`,
-      n: 4,
-      size: '1344x768',
-      quality: 'low',
-      output_format: 'jpeg',
-      output_compression: 85,
-      moderation: 'auto',
-    }),
-  });
-  if (!response.ok) {
-    fail('PROVIDER_UNAVAILABLE', 'Image generation is temporarily unavailable');
-  }
-  const body = (await response.json()) as {
-    data?: { b64_json?: string }[];
-  };
-  if (!body.data || body.data.length !== 4) {
-    fail(
-      'PROVIDER_UNAVAILABLE',
-      'The image provider returned an incomplete batch',
-    );
-  }
-  return body.data.map((entry) => {
-    if (!entry.b64_json) {
-      fail('PROVIDER_UNAVAILABLE', 'The image provider response was invalid');
-    }
-    const bytes = decodeBase64(entry.b64_json);
-    const dimensions = imageSize(bytes);
-    if (
-      dimensions.type !== 'jpg' ||
-      dimensions.width !== WIDTH ||
-      dimensions.height !== HEIGHT
-    ) {
-      fail(
-        'PROVIDER_UNAVAILABLE',
-        'The image provider dimensions were invalid',
-      );
-    }
-    return {
-      bytes,
-      mimeType: 'image/jpeg' as const,
-      width: WIDTH,
-      height: HEIGHT,
-    };
-  });
-}
-
-async function generateImages(prompt: string): Promise<GeneratedImage[]> {
-  const provider = process.env.TABLECARDS_AI_PROVIDER?.trim();
-  if (provider === 'openai') return await openAiImages(prompt);
-  if (provider === 'development' && tablecardsDevelopmentMocksEnabled()) {
-    if (prompt.toLowerCase().includes('[fail]')) {
+async function generateImages(
+  prompt: string,
+  provider: 'cloudflare' | 'development',
+  reference?: ReferenceImage,
+): Promise<GeneratedImage[]> {
+  if (provider === 'cloudflare')
+    return await cloudflareImages(prompt, reference);
+  if (tablecardsDevelopmentMocksEnabled()) {
+    if (prompt.toLowerCase().includes('[fail]'))
       fail(
         'PROVIDER_UNAVAILABLE',
         'The development provider failed as requested',
       );
-    }
     return deterministicImages();
   }
   fail('PROVIDER_UNAVAILABLE', 'Image generation is unavailable');
@@ -260,6 +209,13 @@ export const generate = action({
     prompt: v.string(),
     idempotencyKey: v.string(),
     projectId: v.optional(v.string()),
+    referenceImage: v.optional(
+      v.object({
+        bytes: v.bytes(),
+        mimeType: v.union(v.literal('image/png'), v.literal('image/jpeg')),
+      }),
+    ),
+    developmentMock: v.optional(v.boolean()),
   },
   returns: v.object({ batchId: v.string(), status: batchState }),
   handler: withBffAccountAction(
@@ -271,10 +227,28 @@ export const generate = action({
         prompt: string;
         idempotencyKey: string;
         projectId?: string;
+        referenceImage?: ReferenceImage;
+        developmentMock?: boolean;
       },
       auth,
     ): Promise<{ batchId: string; status: BatchState }> => {
       const prompt = args.prompt.trim();
+      if (args.referenceImage) validateReferenceImage(args.referenceImage);
+      if (args.developmentMock && !tablecardsDevelopmentMocksEnabled())
+        fail('FORBIDDEN', 'The test image provider is unavailable');
+      const configuredProvider = process.env.TABLECARDS_AI_PROVIDER?.trim();
+      if (
+        !args.developmentMock &&
+        configuredProvider !== 'development' &&
+        configuredProvider !== 'cloudflare'
+      )
+        fail('PROVIDER_UNAVAILABLE', 'Image generation is unavailable');
+      const provider =
+        args.developmentMock || configuredProvider === 'development'
+          ? ('development' as const)
+          : ('cloudflare' as const);
+      if (provider === 'development' && !tablecardsDevelopmentMocksEnabled())
+        fail('PROVIDER_UNAVAILABLE', 'Image generation is unavailable');
       if (prompt.length < 3 || prompt.length > 400) {
         fail('INVALID_INPUT', 'Describe the background in 3 to 400 characters');
       }
@@ -303,6 +277,15 @@ export const generate = action({
         projectId: args.projectId,
         prompt,
         idempotencyKey: args.idempotencyKey,
+        provider,
+        ...(args.referenceImage
+          ? {
+              referenceDigest: createHash('sha256')
+                .update(new Uint8Array(args.referenceImage.bytes))
+                .update(args.referenceImage.mimeType)
+                .digest('hex'),
+            }
+          : {}),
       };
       const started = await ctx.runMutation(startReference, startInput);
       const batchInput = {
@@ -392,7 +375,11 @@ export const generate = action({
           batchId: started.publicId,
           reservationId,
         });
-        const images = await generateImages(prompt);
+        const images = await generateImages(
+          prompt,
+          provider,
+          args.referenceImage,
+        );
         if (images.length !== 4) {
           fail(
             'PROVIDER_UNAVAILABLE',

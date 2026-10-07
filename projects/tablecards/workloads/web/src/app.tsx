@@ -38,12 +38,17 @@ import {
   parsePastedGrid,
   type ParsedGuestTable,
 } from './imports';
-import { safeProductMessage } from './product-error';
+import { aiInputWasRejected, safeProductMessage } from './product-error';
 import { ACCOUNT_CHANGE_EVENT, WorkspaceSelector } from './auth-navigation';
 import { PreviewDialog } from './preview-dialog';
 import { useTableCardsBackend } from './use-tablecards-backend';
 import { useArtwork } from './use-artwork';
 import { MetadataPageControls, useMetadataPages } from './metadata-pages';
+import {
+  AiReferenceInput,
+  AiTestProviderControl,
+  type AiReferenceImage,
+} from './ai-reference-input';
 
 const SAMPLE_GUESTS = `Alexandria Catherine Montgomery-Sinclair
 María Fernanda de la Cruz Hernández
@@ -393,7 +398,7 @@ export function SheetPreview({
         {showSummary ? (
           <p>
             <strong>{guests.length}</strong> cards ·{' '}
-            <strong>{totalPages}</strong> PDF pages including scale check
+            <strong>{totalPages}</strong> PDF pages
           </p>
         ) : null}
         <div>
@@ -406,8 +411,7 @@ export function SheetPreview({
             ←
           </button>
           <span>
-            {pageIndex === 0 ? 'Scale guide' : `Sheet ${pageIndex}`} ·{' '}
-            {pageIndex + 1}/{totalPages}
+            Sheet {pageIndex + 1} · {pageIndex + 1}/{totalPages}
           </span>
           <button
             type="button"
@@ -564,7 +568,17 @@ export function Creator({
   const [previewOpen, setPreviewOpen] = useState(false);
   const loadedProject = useRef<string | null>(null);
   const fetchedLatestExport = useRef(false);
-  const aiAttempt = useRef<{ prompt: string; key: string } | null>(null);
+  const [referenceImage, setReferenceImage] = useState<AiReferenceImage | null>(
+    null,
+  );
+  const [referenceBusy, setReferenceBusy] = useState(false);
+  const [developmentMock, setDevelopmentMock] = useState(false);
+  const aiAttempt = useRef<{
+    prompt: string;
+    key: string;
+    referenceImage?: AiReferenceImage | null;
+    developmentMock?: boolean;
+  } | null>(null);
   const [aiRecovery, setAiRecovery] = useState(false);
   const [aiRecoveryLoading, setAiRecoveryLoading] = useState(
     Boolean(initialProjectId),
@@ -583,8 +597,10 @@ export function Creator({
         aiAttempt.current = {
           prompt: pending.prompt,
           key: pending.idempotencyKey,
+          developmentMock: pending.developmentMock,
         };
         setAiPrompt(pending.prompt);
+        setDevelopmentMock(pending.developmentMock === true);
         setAiRecovery(true);
         setNotice({
           kind: 'info',
@@ -1424,9 +1440,17 @@ export function Creator({
     }
     if (
       !aiAttempt.current ||
-      (!aiRecovery && aiAttempt.current.prompt !== aiPrompt)
+      (!aiRecovery &&
+        (aiAttempt.current.prompt !== aiPrompt ||
+          aiAttempt.current.referenceImage !== referenceImage ||
+          aiAttempt.current.developmentMock !== developmentMock))
     )
-      aiAttempt.current = { prompt: aiPrompt, key: crypto.randomUUID() };
+      aiAttempt.current = {
+        prompt: aiPrompt,
+        key: crypto.randomUUID(),
+        referenceImage,
+        developmentMock,
+      };
     const attempt = aiAttempt.current;
     setBusy('Generating four backgrounds');
     setNotice(null);
@@ -1435,6 +1459,15 @@ export function Creator({
         prompt: attempt.prompt,
         idempotencyKey: attempt.key,
         projectId: initialProjectId,
+        ...(attempt.referenceImage
+          ? {
+              referenceImage: {
+                bytes: attempt.referenceImage.bytes,
+                mimeType: attempt.referenceImage.mimeType,
+              },
+            }
+          : {}),
+        ...(attempt.developmentMock ? { developmentMock: true } : {}),
       });
       if (batch.status !== 'ready' || !batch.assets?.length) {
         if (batch.status !== 'failed') {
@@ -1467,6 +1500,7 @@ export function Creator({
           'Four background choices are ready. Choose one for this event.',
       });
     } catch (error) {
+      if (aiInputWasRejected(error)) aiAttempt.current = null;
       setAiRecovery(aiAttempt.current !== null);
       const nextAccess = await backend.getCurrentAccess().catch(() => null);
       if (nextAccess) setAccess(nextAccess);
@@ -1542,12 +1576,11 @@ export function Creator({
           <p className="preview-count">
             <strong>{currentInput.length}</strong> cards ·{' '}
             <strong>
-              {1 +
-                Math.ceil(
-                  currentInput.length / PRINT_LAYOUTS[layoutId].cardsPerSheet,
-                )}
+              {Math.ceil(
+                currentInput.length / PRINT_LAYOUTS[layoutId].cardsPerSheet,
+              )}
             </strong>{' '}
-            PDF pages including scale check
+            PDF pages
           </p>
         ) : null}
       </div>
@@ -1870,14 +1903,32 @@ export function Creator({
                         minLength={3}
                         maxLength={400}
                         value={aiPrompt}
-                        disabled={aiRecovery || aiRecoveryLoading}
+                        disabled={
+                          busy !== null || aiRecovery || aiRecoveryLoading
+                        }
                         onChange={(event) => setAiPrompt(event.target.value)}
+                      />
+                      <AiReferenceInput
+                        value={referenceImage}
+                        onChange={setReferenceImage}
+                        onBusyChange={setReferenceBusy}
+                        disabled={
+                          busy !== null || aiRecovery || aiRecoveryLoading
+                        }
+                      />
+                      <AiTestProviderControl
+                        developmentMock={developmentMock}
+                        onChange={setDevelopmentMock}
+                        disabled={
+                          busy !== null || aiRecovery || aiRecoveryLoading
+                        }
                       />
                       <button
                         className="secondary-button"
                         type="button"
                         disabled={
                           busy !== null ||
+                          referenceBusy ||
                           aiRecoveryLoading ||
                           (!aiRecovery &&
                             ((access.aiBackgroundBatchesRemaining ?? 0) < 1 ||

@@ -133,12 +133,12 @@ test.describe('public creation, import, authentication and navigation', () => {
     await page.getByRole('button', { name: 'Use these columns' }).click();
     await expect(page.getByLabel('Event name')).toBeVisible();
     await openCreatorStep(page, 'Review');
-    await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+    await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
     await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
     await page.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
     await completeDevelopmentLogin(page, persona);
     await expect(page.getByText(/guest list was restored/u)).toBeVisible();
-    await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+    await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
     await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
     await expect(page.getByRole('link', { name: 'Download PDF' })).toBeVisible({
       timeout: 60_000,
@@ -214,7 +214,7 @@ test.describe('Free and Event Pass project promises', () => {
       page,
       (await download.getAttribute('href')) as string,
     );
-    expect((await PDFDocument.load(pdfBytes)).getPageCount()).toBe(2);
+    expect((await PDFDocument.load(pdfBytes)).getPageCount()).toBe(1);
     const projectUrl = page.url();
 
     await openCreatorStep(page, 'Guests');
@@ -304,6 +304,15 @@ test.describe('professional design and AI promises', () => {
     });
     await expect(page.getByText(/Artwork validated/u)).toBeVisible();
     await page.getByLabel('AI background description').fill('[fail] test');
+    const uploadControl = await page
+      .locator('.creative-tools-grid > .file-button')
+      .boundingBox();
+    expect(uploadControl?.height).toBeLessThanOrEqual(70);
+    await page.screenshot({
+      path: testInfo.outputPath('professional-controls.png'),
+      fullPage: true,
+    });
+    await page.getByLabel('AI engine (development)').selectOption('mock');
     await page
       .getByRole('button', { name: /Generate four choices · 10 remaining/u })
       .click();
@@ -495,7 +504,7 @@ test('CSV upload remains readable by the hosted browser bundle', async ({
   await page.getByRole('button', { name: 'Use these columns' }).click();
   await expect(page.getByLabel('Event name')).toBeVisible();
   await openCreatorStep(page, 'Review');
-  await expect(page.getByText(/2 cards · 2 PDF pages/u)).toBeVisible();
+  await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
   const completePreview = page.getByRole('button', {
     name: 'Open complete preview',
   });
@@ -504,7 +513,9 @@ test('CSV upload remains readable by the hosted browser bundle', async ({
   const previewSurface = hasCompletePreview
     ? page.getByRole('dialog', { name: 'Complete print preview' })
     : page;
-  await previewSurface.getByRole('button', { name: 'Next sheet' }).click();
+  await expect(
+    previewSurface.getByRole('button', { name: 'Next sheet' }),
+  ).toBeDisabled();
   await expect(previewSurface.locator('.paper-preview')).toContainText(
     /Ada.*Grace/su,
   );

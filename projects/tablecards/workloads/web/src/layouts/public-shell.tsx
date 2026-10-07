@@ -1,9 +1,8 @@
-import { BffAuthLink, useBffAuth } from '@tofler/bff-auth/react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { RouteFocus } from '../route-focus';
+import { PublicSessionAction } from '../public-session-action';
 
 export function PublicShell() {
-  const { state } = useBffAuth();
   const location = useLocation();
   return (
     <div className="public-shell">
@@ -24,23 +23,14 @@ export function PublicShell() {
           <a href="/#faq">FAQ</a>
         </nav>
         <div className="header-actions">
-          {state.status === 'authenticated' ? (
-            <Link className="text-button" to="/projects">
-              Projects
-            </Link>
-          ) : (
-            <BffAuthLink
-              className="text-button"
-              intent="login"
-              returnPath={
-                location.pathname === '/'
-                  ? '/projects'
-                  : `${location.pathname}${location.search}${location.hash}`
-              }
-            >
-              Log in
-            </BffAuthLink>
-          )}
+          <PublicSessionAction
+            className="text-button"
+            returnPath={
+              location.pathname === '/'
+                ? '/projects'
+                : `${location.pathname}${location.search}${location.hash}`
+            }
+          />
           <Link className="button button-small" to="/create">
             Create cards
           </Link>

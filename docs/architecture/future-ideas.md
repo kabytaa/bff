@@ -1,6 +1,6 @@
 # Future Architecture Ideas
 
-Updated: 2026-09-28.
+Updated: 2026-10-07.
 
 ## Purpose
 
@@ -56,6 +56,24 @@ When a real caller or requirement triggers an entry:
 - Keep provider payment records and BFF product-operation reservations separate: a billing provider can prove that money moved, while BFF must still prevent concurrent Business operations from overspending the product balance.
 
 **Open when triggered:** Select provider or Convex component capabilities from then-current official documentation; decide whether `periodKey` becomes `allocationKey`; define meter and immutable transaction schemas, auto-top-up thresholds and spend caps, reservation expiry, concurrency, refunds/adjustments, ledger invariants, fraud limits, reconciliation, customer notifications and operator workflows. Do not add financial tables until a real money-backed caller exists.
+
+## Per-user and per-account provider cost attribution
+
+**Status:** Deferred idea requested by Andrew on 2026-10-07. No shared cost ledger, reporting API or dashboard is implemented by the current TableCards daily-budget change.
+
+**Source:** TableCards AI-budget discussion, 2026-10-07; [current provider/budget boundary](../../projects/tablecards/docs/operations.md#cloudflare-ai-budget-and-reference-images).
+
+**Trigger:** A Business needs to understand its cost to serve each user/workspace, compare cost with revenue, or enforce a cross-Business provider-spend policy.
+
+**Idea:**
+
+- Attribute trusted provider operations to Business/environment, account and initiating user; team operations roll up once to their account rather than being counted again as separate user expenses.
+- Keep our cost to serve a user separate from what they paid, their feature entitlements and their remaining usage units. A refunded product unit does not prove a provider call cost nothing.
+- Record provider usage/request evidence, currency, a price/version snapshot and estimate-versus-confirmed status. Distinguish gross metered cost, free credits and net billed spend; reconcile available provider usage/invoices before describing an estimate as actual money spent.
+- Make attribution idempotent across retries, partial failures and recovery. Report costly failed operations too; do not send guest lists, prompts, image bytes or credentials into cost records.
+- BFF should own the shared contract/rollup; trusted Business backends report operations server-to-server. Operators use validated automation for configuration and a read-oriented backoffice for user/account cost and margin views. Product UI exposes customer allowances or billing, not unrestricted internal cost records.
+
+**Open when triggered:** Determine available provider evidence and attribution granularity, reuse existing operation/reservation identifiers, define retention/access rules and reconciliation, and assess whether any new table is genuinely needed. Do not build a financial ledger merely to implement a small estimated daily admission cap.
 
 ## Custom-domain edge protection and security monitoring
 
