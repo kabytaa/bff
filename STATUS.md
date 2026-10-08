@@ -8,24 +8,24 @@ Updated: 2026-10-08.
   [production](https://tablecards.tofler.app) and
   [development](https://tablecards-dev.tofler.app) as a **no-charge preview**,
   not real billing or customer launch.
-- Release `ca30bb9` passed CI, production deployment and smoke. Free accounts
-  receive their promised lifetime AI batch on the next authorized access request;
-  used credits and upgraded plans are never reset. Andrew approved the sole
-  compatible schema change: `accountAccessGrants.source` also accepts `default`.
-  No migration/deletion or paid AI call. Prior UI/PDF fixes remain.
-- Both changed development backends identify this release; unchanged development
-  services retain their prior releases. 196 local tests and 2 scoped desktop/mobile
-  hosted account/reload/save/generation/consumption checks passed. Exact versions,
-  evidence and limits are in the
+- Release `c16df8d` is committed/pushed and passed CI, production deployment and
+  smoke. Astra agreed to keep Duplicate/Archive in Projects and remove the saved
+  editor banner. Project name is editable above every step before/after saving;
+  name-only edits retain save, stale-download and departure protections. A
+  same-route Save bypass bug was also fixed. No schema/API change or paid AI call.
+- Development web identifies this release; unchanged development services retain
+  their prior releases. 115 web tests, 8 focused desktop/mobile development
+  journeys and 4 public production browser checks passed. Astra's code and visual
+  reviews passed. Versions and evidence are in the
+  [naming/actions review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#project-naming-and-editor-actions--2026-10-08).
+- The earlier Free welcome-credit fix remains: one lifetime batch is initialized
+  once, never resetting consumption or upgraded access. Its approved compatible
+  enum addition required no migration; see the
   [welcome-credit review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#free-welcome-credit-provisioning--2026-10-08).
 - Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
 
 ## Immediate next work
 
-- In progress: simplify the saved editor with Astra's review. Keep lifecycle
-  actions in Projects and expose Project name above every creator step using
-  the existing title field. Local/development/production verification pending;
-  no schema/API change.
 - Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
   read-only scope, helper permissions and essential customer/activity views.
   Give options, trade-offs and a recommendation; no implementation is approved yet.

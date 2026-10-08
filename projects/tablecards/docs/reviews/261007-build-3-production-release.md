@@ -767,7 +767,7 @@ busy guards formerly supplied by the controls' inert wrapper. Draft restoration
 and departure confirmation remain unchanged. No schema, migration, backend/API
 change, production customer-data repair or paid AI call is involved.
 
-Verification/publication is in progress. Focused component tests cover first
+Focused component tests cover first
 save, name-only saved edits, stale PDF hiding and header loading/unavailable/busy
 guards. Hosted phone/desktop checks cover persistence, all steps, dirty departure,
 duplicate capacity, confirmed archive/restore and sign-in draft retention.
@@ -781,5 +781,36 @@ existing project left a navigation bypass enabled even though no navigation
 occurred. The bypass now applies only to the intended route change after saving
 a new project. A second name edit after Save is protected without a reload.
 All **115 web component/unit tests**, web/e2e lint/type checks, changed-file
-format checks and the development web build pass. Hosted/publication evidence
-follows after the development UI release.
+format checks and the development web build pass.
+
+Runtime `c16df8d8cdb8b78df97729d427cc384e07fe8a60` is committed and pushed to
+main. Development web metadata matches it; Worker version is
+`7c53b589-fc24-49cd-a144-a6624295e650`. Unchanged development backends/auth/gateway/
+AI services were not redeployed or restamped. Hosted checks passed **8/8** across
+desktop Chromium/mobile WebKit: naming/save/reload and lifecycle placement,
+navigation/draft/reflow, actual current-title PDF export/stale download handling,
+and named visitor draft preservation through sign-in. The first batch completed
+five passing cases before its process ended with SIGTERM; the remaining three
+mobile cases passed in a separate **38.3s** batch. No assertion failure was waived.
+Both synthetic saved-editor screenshots were inspected by Codex and Astra;
+Astra's scoped code/visual reviews have no remaining blocker. Private production
+Google journeys retain the credential limitation above. Production CI and smoke
+passed in [CI 37727634315](https://github.com/kabytaa/bff/actions/runs/37727634315):
+repository validation **2m36s**, guarded deployment/smoke **2m11s**. Production
+web metadata matches `c16df8d8cdb8b78df97729d427cc384e07fe8a60`.
+
+Fresh public production browser checks passed **4/4 (12.3s)** in desktop Chromium
+and mobile WebKit: Project name visible above every public step, named draft
+retained after reload, unchanged public pricing/import/cards-only preview and
+disabled development controls. These checks do not establish a fresh private
+production Google session or customer rename; the authenticated journey was
+verified in development, with the same released frontend code.
+Both production creator screenshots were also inspected; naming is contained
+and the surrounding preview/step composition remains consistent.
+
+**Outcome:** implemented, committed/pushed and deployed to both environments.
+Duplicate/Archive remain in Projects and Restore under Archived. Naming reuses
+the existing project title and explicit save semantics, with no new dialog,
+autosave, schema or migration. Agent-owned scoped review found no remaining
+blocking issue; Andrew's further review is optional. This evidence-only
+Markdown follow-up skips CI/deployment.
