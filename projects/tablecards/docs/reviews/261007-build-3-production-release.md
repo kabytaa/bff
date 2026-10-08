@@ -693,7 +693,7 @@ call was needed. The evidence-only Markdown follow-up skips CI/deployment.
 Baseline: repository `deb3a23`, deployed production runtime `d8e83f2`. Andrew
 approved the fix and both deployments, including the exact compatible addition
 of `default` to `accountAccessGrants.source`. Existing rows remain valid; no
-table/field/index changes, migration, deletion or mass customer backfill.
+new tables/fields/indexes, migration, deletion or mass customer backfill.
 
 The TableCards backend now initializes its code-owned Free definition once on
 the next authorized product-access request. Shared BFF's server-only endpoint

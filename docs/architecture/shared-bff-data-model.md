@@ -163,7 +163,8 @@ subscription history or registered plan definition. Real billing can later
 derive the same provider-neutral projection from verified provider state.
 
 Andrew approved adding `default` to the existing `source` enum on 2026-10-08.
-Existing rows remain valid; no table, field, index or data migration is required.
+Existing rows remain valid. No new table, field or index is introduced, and no
+data migration is required.
 TableCards provisions missing Free grants on the next authorized product-access
 request, using the existing lifetime allocation key so prior usage stays spent.
 
