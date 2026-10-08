@@ -826,5 +826,33 @@ Restore are unchanged. No schema/migration or paid provider call is needed.
 The current product/application contracts and browser selectors are updated;
 historical review evidence retains its original labels. A focused component test
 asserts the new action opens a separate project, and the hosted desktop/mobile
-case checks the original stays active and guest contents are preserved. Tests
-and publication are pending.
+case checks the original stays active and guest contents are preserved.
+
+All **5 focused Projects component tests**, web/e2e lint/type checks and the
+development web build passed. Hosted copying passed **2/2 (32.3s)** in desktop
+Chromium and mobile WebKit through the visible no-charge development checkout,
+save, Make a copy and Projects journey: a different project URL, retained guest
+contents, both original/copy active and 2 of 25 projects. Both synthetic Projects
+screenshots were inspected; the label fits and actions wrap naturally on phone.
+No PDF or AI provider tests were repeated for this label-only change.
+
+Runtime `ee1e1d94076b8d73e66b448b3f9d5130afd102c7` is published to development
+web, Worker `b33687fc-3511-4f3a-b6c0-3aa443a1f1ca`, with matching metadata.
+Unchanged development services retain their prior releases. Fresh private production Google journeys remain
+credential-limited as recorded above; hosted development and production
+publication/smoke evidence are distinct.
+
+[CI 37730458660](https://github.com/kabytaa/bff/actions/runs/37730458660) passed
+repository validation **3m13s** and guarded production deployment/smoke **2m20s**.
+Production web metadata plus shared BFF/TableCards health identify the exact
+runtime above. An additional read-only published-asset check followed the live
+HTML/entry module to `projects-page-Cpn1Zdvd.js`, verified its JavaScript content
+type and Make a copy label, and found no old Duplicate button label. This proves
+publication, not a fresh authenticated production click; actual copying was
+tested through the development UI in both browsers. Unchanged public production
+journeys reuse the preceding valid browser evidence for this label-only change.
+
+**Outcome:** committed/pushed and deployed to development and production.
+Make a copy replaces Duplicate without changing operation semantics. No schema,
+migration, AI call or real payment was needed. The final evidence-only Markdown
+commit skips CI/deployment and does not restamp unchanged services.
