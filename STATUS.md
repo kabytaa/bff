@@ -23,12 +23,35 @@ Updated: 2026-10-08.
   enum addition required no migration; see the
   [welcome-credit review](projects/tablecards/docs/reviews/261007-build-3-production-release.md#free-welcome-credit-provisioning--2026-10-08).
 - Markdown-only changes skip CI/deployment; see [CI scope](tools/production-delivery/README.md#ci-scope).
+- Customer-operations and agent-organization discussion is saved as an active
+  documentation checkpoint for continuation, not approved implementation.
 
 ## Immediate next work
 
-- Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
-  read-only scope, helper permissions and essential customer/activity views.
-  Give options, trade-offs and a recommendation; no implementation is approved yet.
+- At the first conversation on or after **2026-10-28**, proactively revisit
+  Andrew's workplace-VPN reachability issue for TableCards and related sites.
+  Domains registered 2026-09-26 reach the 32-day checkpoint then; age-related
+  blocking is **unconfirmed**, and automatic unblocking is not guaranteed.
+  Public DNS/HTTPS checks passed. Obtain the exact VPN browser error or IT log
+  when Andrew is available, then recheck; no investigation is required from him now.
+- Continue the [customer-operations backoffice discussion](.agent/brainstorms/261008-customer-operations-backoffice.md),
+  grounded in the single roadmap; accepted scope/history live there, not here.
+  Signed-out intake remains reopened, not removed. Initial support tool calls and
+  substantive replies require approval; internal advisors use agreed option 2
+  for bounded approved-information research/drafts, with approval for effects.
+  Latest: architect supervises proposed NOC, QA/regression and developer staff;
+  project manager's primary output is verified company-wide progress from analysts.
+  Product coordinates business/technical/review needs; agreed work reaches Codex
+  with Andrew involved in substantive decisions initially, tuning attention later.
+  Ordinary analyst context may be read across roles; private contexts stay protected.
+  Andrew sets each secret's access/sharing rule; no blanket assistant exception.
+  **Next compare Dots/Paperclip's private-context and outbound controls**, not
+  Convex enforcement for external company bots. Dots remains the likely candidate;
+  Paperclip matches the org concept, but neither's full secrecy boundary is verified.
+  Exact Codex handoff, sources/budgets, role powers and final MVP inclusion remain
+  open. Continue remaining intake/context/routing/evaluation questions with options
+  and reasons. No provider setup, schema, schedule or implementation is authorized;
+  telemetry and future CPU-only model integrations remain separate/deferred.
 - Build 4 hosted payment work awaits Paddle access/confirmed terms. Monitoring
   remains later MVP work, before launch; no Pro upgrade or alert setup now.
   Telegram is selected, not configured. Early QA reports come through Andrew.

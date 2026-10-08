@@ -144,7 +144,13 @@ incomplete workflow; a scope change requires product direction.
 | `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell                |
 | `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell         |
 | `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered          |
-| `/support`                       | Public/signed-in support entry and authenticated conversation                                              | Planned Build 5; not registered          |
+| `/support`                       | Public/signed-in ticket submission only; ongoing customer conversation is by email                         | Planned Build 5; not registered          |
+
+On 2026-10-08 Andrew confirmed the [support boundary](product.md#support-feedback-and-operations):
+customers open tickets through the website or email, then continue by email.
+Ticket history, status and operator replies belong to the shared backoffice;
+no customer conversation/history page is planned for MVP. The exact submission
+form and signed-in/public behavior remain to design.
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,

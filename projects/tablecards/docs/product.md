@@ -224,7 +224,32 @@ creates the next allowance.
 
 ## Support, feedback and operations
 
-Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in users can start `feedback`, `problem` or `question` conversations with authenticated Business/user/account context. The operator workflow supports status handling and a real reply thread. Replies are delivered by email, and a user can reply by email or from the product; the resulting messages remain part of the same case. A public monitored support address remains available to people who cannot sign in.
+Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Customers can open `feedback` (including suggestions and missing-feature requests), `problem` or `question` cases through a shared website submission form, available without signing in or an upfront email-confirmation gate, or by emailing support. Accept public messages immediately with spam controls and send the initial receipt. General help may proceed; private support requires appropriate authenticated account authority. Signed-in submissions carry authenticated Business/user/account context; public form/email intake does not establish account authority. Operators view the conversation/history, manage status and reply in the shared backoffice. Substantive replies are as needed; ticket AI suggests drafts for an operator to review and send, not autonomous replies. Customer follow-up is by email, with replies joining the same case. There are no customer ticket-history or conversation/reply pages in the product for MVP. A public monitored support address remains available to people who cannot sign in; authenticated private-support continuation and detailed form behavior remain to define. Receiving a suggestion does not promise its implementation.
+
+The signed-out website form is now under renewed scope review, not silently
+removed. [Build 5](../../../docs/factory/mvp-delivery-plan.md#build-5--customer-support-conversation)
+records the pending channel decision and the second Astra recommendation.
+
+Support emails use Business-configured styling and a logo through shared BFF
+rendering, not a TableCards-only delivery implementation. Reuse the existing
+auth presentation where appropriate; exact branding/logo contracts remain to
+design. A receipt confirms intake, not verified identity or case resolution;
+delivery failures, duplicate prevention and email-abuse protections belong to
+the shared support workflow.
+
+MVP support reuses the existing Google-only product authentication. It does not
+introduce email/Apple login, custom contact-verification tiers or an account
+recovery workflow. People unable to sign in may still submit feedback/general
+questions; requests for additional login providers are suggestions, not promised
+scope. Existing public/guest behavior is unchanged, and support does not bypass
+the authentication required for account features.
+
+Andrew accepted this channel/UI boundary on 2026-10-08, replacing the earlier
+in-product reply-thread promise while retaining website ticket submission.
+[Build 5](../../../docs/factory/mvp-delivery-plan.md#build-5--customer-support-conversation)
+owns the shared workflow. Andrew subsequently chooses BFF as the authoritative
+home for tickets and conversations, with email as transport. The email provider
+and detailed design remain open, and support remains unimplemented.
 
 Both deployments have linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
 
@@ -241,9 +266,50 @@ unsettled; authentication alone is not agreement to product terms.
 
 Support may expose bounded account, subscription and payment-status context so Andrew can understand finance-related problems. Email possession or a support conversation never authorizes refunds, billing changes, credential disclosure or another sensitive action; those require their own authenticated operator controls and audit trail.
 
-Future AI support automation may classify or draft responses, but autonomous actions and resolution are not part of this MVP.
+On 2026-10-08 Andrew chooses an in-app knowledge helper plus ticket auto-suggest:
+operators approve/send substantive ticket replies; automatic receipts are separate.
+Andrew subsequently requires approval for all permitted support-bot tool calls,
+including reads; wider automation requires a separately reviewed policy change.
+Share suitable Business knowledge/procedures, not every permission. Evaluate
+answer correctness and approved disclosure, including confidential business and
+implementation information. Supply only approved knowledge, not the raw repository.
+An on-demand Codex review/improvement workflow should inspect bounded questions,
+answers and drafts, test improvements and report evidence rather than require
+Andrew to do routine analysis. [The customer-operations brainstorm](../../../.agent/brainstorms/261008-customer-operations-backoffice.md#approved-knowledge-and-an-on-demand-codex-improvement-workflow--2026-10-08)
+owns its design. Exact helper/ticket context, tools, model, cost/data limits and
+skill/command remain open. Autonomous ticket sending/actions/resolution are not
+approved; neither passing evaluation nor a helper's success grants those powers.
+Shared BFF bot controls and selective event context are now under exploration:
+approved customer-facing fields and internal-only information must remain distinct.
+Raw event records, human-operator privilege and direct product-data access are
+not granted to bots. Andrew prefers small file-assigned instructions/evaluation
+questions, a BFF/backoffice-owned support assistant and a shared themed helper
+component that TableCards can place without reimplementing chat logic. A large
+bot-management console is deferred. Exact helper placement, public/signed-in
+availability, integration and source contracts remain open; no helper is yet
+implemented. Support configuration requires at least one bot; helpers may be
+absent or multiple, with no automatically created default pair. Helper/support
+use a small extensible bot definition with name/main
+instructions and assigned skill metadata; full skill content loads on demand,
+not all product knowledge on every invocation. TableCards may supply approved
+page context and code-registered UI/backend tools through the shared interface;
+for UI tools, the page declares capabilities and executes its own registered
+handlers for structured tool requests returned by BFF; no generated code is run.
+Exact results/continuation, approval, authorization, payload and cost boundaries
+remain to design.
+This revises fixed-tools-only scope, not existing account rules. Helpers
+are optional and may have page-specific definitions; a Business need not embed one.
+Support starts in draft mode; multiple named definitions may serve different
+categories/cases, such as payment questions or print-document problems, within
+one shared runtime/case history. Initial specialists/routing and future automatic
+replies remain open; no auto-send activation or billing-action powers are implied.
+Preserve future current-page, signed-in BFF facts and product-owned saved-project context
+through approved bounded adapters, without copying TableCards data into BFF or
+automatically supplying guest lists/files. These extensions do not approve
+initial live-data access or change the backoffice's no-product-read boundary.
+MCP is a later possibility, not an MVP dependency.
 
-Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. A dedicated later MVP slice must make these capabilities operational before launch rather than leaving them as post-launch polish. The support slice selects a concrete outbound/inbound email or helpdesk mechanism; the operational-visibility slice selects the smallest analytics and error-monitoring arrangement after defining exact events, privacy limits, actionable alerts and operator questions. No vendor is preselected.
+Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. A dedicated later MVP slice must make these capabilities operational before launch rather than leaving them as post-launch polish. The support slice selects a concrete outbound/inbound email mechanism for BFF-owned tickets and conversations; the operational-visibility slice selects the smallest analytics and error-monitoring arrangement after defining exact events, privacy limits, actionable alerts and operator questions. No vendor is preselected.
 
 Canonical analytics should answer a bounded launch funnel: where a visitor came from, whether they signed up, reached first successful preview/export, started checkout, became paid and later needed support. High-volume UI clicks are collected only when they answer a named product question. Analytics must not contain guest names/lists, card contents, credentials, payment details or unnecessary customer profile data.
 
@@ -258,8 +324,9 @@ destination was initially proposed and Andrew later selected Telegram as the
 first transport; setup, notification contents and an optional daily digest
 remain delivery-time choices. Keep
 customer/guest data out of chat alerts and preserve authorization at every
-protected detail/action. AI support and a limited QA/helper role remain optional
-ideas, not approved access or a replacement for the required support workflow;
+protected detail/action. Further autonomous AI operations and the earlier limited
+QA/helper-role suggestion remain optional ideas, not approved access or a
+replacement for the required support workflow;
 a possible two-day response target is not yet an advertised SLA.
 
 The backoffice must also support investigation before a user complains: link
@@ -308,13 +375,13 @@ PDF geometry, guest multiplicity, duplicate names, accents, long-name fitting, a
 - annual billing before professional retention is demonstrated
 - Apple login and other identity providers
 - marketing campaign automation
-- marketing/transactional email outside the required support and invitation workflows, advanced analytics/reporting, AI support automation and monitoring/security hardening beyond the bounded launch operations slice
+- marketing/transactional email outside the required support and invitation workflows, advanced analytics/reporting, autonomous ticket replies/account remedies and monitoring/security hardening beyond the bounded launch operations slice
 - print fulfillment and shipping
 
 ## Remaining delivery-time decisions
 
 - Validate the implemented manual invitation-link workflow with a real Studio team; add automated delivery only if a subsequent accepted requirement needs it.
-- Choose whether the required two-way support conversation is BFF-owned with an email bridge or integrated with a helpdesk, then select the provider and safe inbound-reply correlation mechanism.
+- Select the email provider and safe inbound-reply correlation mechanism for the accepted BFF-owned tickets and conversations; settle the detailed form, contact-trust and lifecycle behavior.
 - Validate the working TableCards brand and reach launch users; the preview domain is already deployed.
 - Rebenchmark the configured production AI budget if model/geometry changes; sampled generation does not establish universal model quality.
 - Obtain Paddle's written Israeli seller, payout and microtransaction terms before locking Build 4 resources or publishing the final price page.

@@ -1,6 +1,6 @@
 # Future Architecture Ideas
 
-Updated: 2026-10-07.
+Updated: 2026-10-08.
 
 ## Purpose
 
@@ -83,6 +83,20 @@ approved by this entry.
 
 **Source:** [Remaining MVP discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#2026-10-07-added-concerns).
 
+**2026-10-08 refinement:** Andrew suggests reusing meaningful Business activity
+events for future special-offer/discount eligibility; see the
+[active customer-operations discussion](../../.agent/brainstorms/261008-customer-operations-backoffice.md#reuse-for-analytics-and-future-offers).
+Reaching a feature limit or returning after a purchase can be evidence for an
+offer rule, not an automatic discount or charge. Recheck current verified
+account/billing state and the campaign's eligibility before applying any offer.
+This does not add campaign automation or a promotion schema to the current scope.
+
+**2026-10-08 advisory-bot proposal:** Andrew proposes monetization and marketing
+advisors that suggest scoped offers or acquisition experiments, with operator
+approval before activation/outreach. Continue the
+[same active exploration](../../.agent/brainstorms/261008-customer-operations-backoffice.md#business-automation-and-commercial-advisors--exploration-2026-10-08);
+neither advisor, promotional sending nor MVP inclusion is approved here.
+
 **Trigger:** A Business has real billing and a concrete acquisition, conversion
 or repeat-purchase offer that needs shared eligibility/redemption behavior.
 
@@ -118,12 +132,70 @@ privacy/marketing boundaries, verify provider integration, define necessary
 evidence and decide whether existing billing records can avoid additional
 tables. Do not turn this deferred entry into MVP billing scope.
 
+## Product-specific backoffice extensions
+
+**Status:** Deferred idea raised by Andrew on 2026-10-08, not an MVP requirement.
+The current backoffice direction uses shared generic pages, meaningful BFF-held
+customer information and important reported Business events. No custom Business
+pages or direct product-database reads are required in that slice.
+
+**Source:** [Customer information/event boundary](../../.agent/brainstorms/261008-customer-operations-backoffice.md#bff-customer-information-and-business-events--accepted-direction-2026-10-08).
+
+**Trigger:** A demonstrated operator/support question cannot be answered well
+from existing BFF facts and meaningful activity events.
+
+**Idea:** Consider an optional product-owned detail surface or a bounded read
+adapter, preserving the shared shell and each product's domain semantics.
+Decide ownership, allowed data, source freshness, phone/desktop behavior and
+maintenance cost against the actual need. Do not prebuild a plugin framework,
+copy private product records into BFF or impose one product's data model on others.
+
 ## Permission-bounded AI operations and helper assistance
 
 **Status:** Optional idea raised by Andrew on 2026-10-07; MVP inclusion is
 undecided and no bot, schedule, account access or automation is authorized.
 Autonomous customer support remains outside the currently accepted TableCards
 MVP. Alerts and working human support are required separately in Builds 5–6.
+
+**2026-10-08 revision:** Andrew now proposes including customer-facing AI support
+in the MVP from the beginning. Continue that decision in the [active customer-operations brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#ai-support-alternatives--proposed-mvp-scope),
+not as a second discussion here. He subsequently selects an in-app knowledge
+helper plus ticket auto-suggest for operator review/send, not autonomous ticket
+replies. Provider, data/tools and implementation remain undecided; the single
+roadmap owns the narrowed MVP direction.
+
+**2026-10-08 shared-control/MCP exploration:** Andrew proposes shared BFF bot
+controls, on-demand Codex evaluation/improvement and filtered important-event
+context. Continue the [same active discussion](../../.agent/brainstorms/261008-customer-operations-backoffice.md#shared-bot-controls-and-event-access--exploration-2026-10-08).
+MCP is a potential later interface to already authorized tools, not an access
+grant or required MVP integration. A small file-configured extensible bot definition
+is chosen in the discussion; a large management console or connector is not approved.
+Future helper page/customer/saved-work context uses approved bounded product-owned
+adapters where necessary, not copied product data or unrestricted reads. Initial
+integration scope remains open in the same brainstorm, not a second plan here.
+Andrew subsequently refines the small runtime to metadata-first/on-demand skills
+and programmatic Business context/tool registration, not fixed shared tools only.
+The same discussion owns the exact execution/data/cost boundary; this does not
+promote MCP, a large management UI or arbitrary remote-code execution into scope.
+
+**2026-10-08 business-automation advisor:** Andrew proposes reviewing support
+decisions/outcomes and suggesting tested policy changes, never self-activation.
+The [active discussion](../../.agent/brainstorms/261008-customer-operations-backoffice.md#business-automation-and-commercial-advisors--exploration-2026-10-08)
+owns evidence access, cadence and approval design; technical incident monitoring
+remains a distinct later topic. Initial support tool calls/replies all require
+approval; no scheduled bot, rule builder or expanded action authority is approved.
+Andrew subsequently proposes external periodic review and selectable backoffice
+proposals, now considering dots rather than a custom Codex CLI runner; continue
+that refinement in the same discussion, not as live BFF advisory bots.
+The same exploration now distinguishes COO operations oversight from Andrew's
+independent CTO assistant; every configured bot may raise an assistant request.
+Implementation, communication/access and MVP inclusion remain open; this does
+not create a second authoritative plan.
+
+**2026-10-08 operator-scope revision:** The [active brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#operator-access--accepted-simplification-2026-10-08)
+now records full access for every approved human backoffice operator, with no
+granular roles initially. The restricted-helper suggestion below is historical,
+not a current MVP requirement; AI authority remains a separate open decision.
 
 **Source:** [Remaining MVP operating discussion](../../.agent/brainstorms/261007-remaining-mvp-priorities.md#2026-10-07-maintainability-and-operating-model).
 
@@ -147,7 +219,8 @@ unavailable, or a trusted nontechnical QA/helper needs bounded guidance.
   safe summaries and explain approved QA tasks in Russian. Chat membership,
   another person's request or model-generated text never grants production
   permissions. No existing Telegram bridge is claimed.
-- A trusted helper may observe, follow checklists and report issues without
+- Historical restricted-helper proposal, not the current backoffice role model:
+  a trusted helper may observe, follow checklists and report issues without
   Codex, code edits or deployment access. Use a separate identity, narrowly
   scoped views/data and enforced permissions; do not share Andrew's credentials
   or broad operator access. Russian guidance is an accessibility/language

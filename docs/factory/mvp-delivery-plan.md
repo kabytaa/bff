@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-10-07.
+Updated: 2026-10-08.
 
 This is the single authoritative MVP delivery roadmap for the first Business
 Factory product: accepted build scope, dependencies and launch acceptance live
@@ -50,9 +50,50 @@ The smallest launch scope is:
 - Cards-only PDF export with cut/fold marks; a separate print-test download supplies the scale-check sheet.
 - Explicit handling of long names and unsupported characters.
 - Free 25, a `$5` Event Pass, `$9/month` Planner Pro and `$19/month` five-member Studio; no annual offer in the MVP. Paid offers add larger projects, premium/custom designs, bounded optional AI batches and reusable/team workflow.
-- Public import/preview followed by required Google login for save, export, AI generation or payment, plus an email-capable in-product support conversation, operator handling and a public contact path.
+- Public import/preview followed by required Google login for save, export, AI generation or payment, plus support submission, email follow-up, shared backoffice handling and a public contact path (exact signed-out intake under review).
 
-Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts, seating planning, direct Google Sheets integration, general guest-list management, structured meal/caterer workflows, print fulfillment, annual or per-seat billing, domain joining, Apple login, generic marketing automation, advanced reporting, AI support automation or a second product.
+Not in the first launch: arbitrary dimensions, A4/flat-card output, RTL scripts, seating planning, direct Google Sheets integration, general guest-list management, structured meal/caterer workflows, print fulfillment, annual or per-seat billing, domain joining, Apple login, generic marketing automation, advanced reporting, autonomous ticket replies/account remedies or a second product.
+
+**2026-10-08 AI direction:** Andrew chooses an in-app knowledge helper and ticket
+auto-suggest in the MVP support discussion: an operator reviews/edits and sends
+substantive ticket replies. This narrows the earlier blanket AI-support exclusion;
+Andrew subsequently specifies approval for every permitted support-tool call,
+including read-only calls, until a reviewed policy change is explicitly approved.
+Automatic initial receipts remain separate. Both roles may share suitable
+Business knowledge/procedures, with distinct context and tool boundaries, and
+need repeatable answer evaluation and approved-knowledge/disclosure review.
+Andrew wants an on-demand Codex review/improvement skill, not mandatory manual
+analysis. [The active customer-operations brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#helper-first-ticket-suggestions-and-shared-answer-checks--2026-10-08)
+owns the alternatives. Provider/model, helper/ticket context, evaluation tooling
+and exact improvement workflow remain open; no code/schema change is approved.
+Andrew prefers file-assigned reusable instructions/evaluation questions and
+configured bots, not a default pair: at least one BFF-owned support bot, initially
+drafting replies, and zero or more optional helpers. Businesses can embed the
+configurable, themed helper component without rewriting chat logic. Defer a large
+management console. Use a small extensible bot definition with name/main
+instructions and assigned skill metadata; load full content only when relevant,
+not all product knowledge on each call. Businesses can supply approved context
+and register tools through code, revising the earlier fixed-tools-only boundary.
+UI declares its tools and executes its registered handlers for structured requests
+returned by BFF/the bot; arbitrary generated code is not executed. Exact
+lazy-loading limits, result/continuation protocol and per-action approval/backend
+authorization contracts remain open.
+External automation/monetization/marketing reviews and a backoffice proposal
+inbox are proposals in the
+[same brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#business-automation-and-commercial-advisors--exploration-2026-10-08),
+with dots now a candidate rather than a custom scheduled Codex CLI runner;
+not additional accepted MVP builds or automatically activated policy/campaign tools.
+The clarified COO and independent CTO-assistant responsibilities stay in that
+exploration too, not new accepted MVP builds; this roadmap remains authoritative.
+Helpers are optional and may vary by page. Drafting is the support bot's initial
+reply mode, not its identity. Helper/support are roles, not a two-bot limit:
+support multiple named definitions selected by category or case, with one shared
+runtime and authoritative ticket history. Exact initial specialists/routing and
+future automatic-reply rollout remain open, not enabled by this design choice.
+Preserve future page, signed-in customer and product-owned saved-work context;
+those live-data integrations are not automatically initial MVP requirements.
+Exact file/integration contracts and filtered event access
+remain to design; MCP is an optional later interface, not an MVP dependency.
 
 ## Delivery rules
 
@@ -93,7 +134,7 @@ not pre-authorize a large refactor or require implementing a second Business.
 | Build 2        | Shared identity: Google auth, accounts and SDK                                    | Codex  | Build 1; production OAuth later needs provider access                   |
 | Build 3        | TableCards core: import, designs/AI, preview, verified PDF and payment mock       | Codex  | Builds 1–2 and the accepted product specification                       |
 | Build 4        | Verified paid flow: Paddle Event Pass/subscriptions and lifecycle enforcement     | Codex  | Builds 1–3; hosted checks need confirmed Paddle access/terms            |
-| Build 5        | Customer support: case conversation, email replies and operator workflow          | Codex  | Builds 2 and 4; hosted checks need the selected email/helpdesk provider |
+| Build 5        | Customer support: case conversation, email replies and operator workflow          | Codex  | Builds 2 and 4; hosted checks need the selected email provider          |
 | Build 6        | Operational visibility: analytics, monitoring and usable backoffice               | Codex  | Builds 3–5                                                              |
 | Build 7        | Deploy, run happy-path regression and prepare launch                              | Codex  | Builds 1–6 and relevant provider access                                 |
 | Human blockers | Provider onboarding, domain/credentials, physical print check and live acceptance | Andrew | Activated only when Codex cannot complete the action                    |
@@ -155,9 +196,44 @@ Signed payment fixtures must let the full happy path run without a live charge a
 
 ### Build 5 — Customer support conversation
 
-Add the required support capability as its own implementation slice rather than expanding Build 2. Signed-in users can start `feedback`, `problem` or `question` cases with trusted environment/user/account context. Andrew can review and respond through the operator workflow. Replies are delivered by email, and customer replies from email or the product join the same conversation. Provide a monitored public support path for people who cannot sign in.
+Add the required support capability as its own implementation slice rather than expanding Build 2. Customers can open `feedback` (including suggestions and missing-feature requests), `problem` or `question` cases through a shared website submission capability, available without signing in or an upfront email-confirmation gate, or by emailing support. Accept public messages immediately with spam controls and send the initial receipt; general help may proceed, but private support requires appropriate authenticated account authority. Signed-in submissions carry trusted environment/user/account context; public intake must not invent account authority. Operators review history, handle status and reply through the shared backoffice. Substantive replies are as needed; ticket AI suggests drafts for an operator to review and send, not autonomous replies. Customer follow-up uses email, with inbound replies joining the same case. Provide a monitored support address for people who cannot sign in; authenticated private-support continuation and detailed form behavior remain to define. No customer ticket-history or conversation/reply pages in the Business website for MVP.
 
-Select the concrete BFF-owned email bridge or helpdesk integration only after its focused design discussion. Finance-related cases may show bounded account/subscription/payment-status context, but support messages never authorize refunds, billing changes or credential disclosure. Done means the signed-in and public paths work, outbound delivery and inbound reply correlation are verified, spoofed/cross-environment replies are denied and the complete conversation is visible to the appropriate user and operator.
+The earlier signed-out form acceptance is reopened for scope review, not removed:
+Astra recommends a signed-in form plus public support email, with the public form
+deferred until evidence justifies it. Andrew's channel decision remains pending
+in the linked active discussion; BFF ownership/email follow-up are unchanged.
+
+Emails use Business-configured styling and a logo, with shared BFF rendering;
+reuse existing auth presentation where appropriate rather than duplicate brand
+settings. Exact logo/configuration contracts and editing controls remain open.
+Initial receipt delivery must be retry-safe, bounded against abuse and email
+loops, and distinguish received, sent/delivered, answered and resolved. A receipt
+does not verify contact/account identity or promise a substantive response/SLA.
+
+BFF owns the authoritative tickets and conversations; an email provider supplies transport, not a separate helpdesk record. Select the concrete inbound/outbound email integration after its focused design discussion. Finance-related cases may show bounded account/subscription/payment-status context, but support messages never authorize refunds, billing changes or credential disclosure. Done means website/email intake works, outbound delivery and inbound reply correlation are verified, spoofed/cross-environment replies are denied and the case/history/handling is available in the shared backoffice while customers receive their conversation by email.
+
+**2026-10-08 channel and ownership decisions:** Andrew confirms website or email submission,
+email-only customer follow-up and history/handling in the shared backoffice,
+not in the Business website. This replaces the earlier in-product reply-thread
+promise, not the initial website ticket-opening capability. The
+[active ticket discussion](../../.agent/brainstorms/261008-customer-operations-backoffice.md#ticket-system-and-email-first-conversations--exploration-2026-10-08)
+preserves the earlier alternatives. Andrew subsequently chooses BFF-owned
+tickets and conversations rather than external-helpdesk ownership. The email
+provider and detailed data/workflow design remain open. A standalone mailbox
+or customer portal is not the chosen scope.
+After Astra's review, Andrew accepts immediate public intake plus the initial
+receipt, without an upfront email-confirmation gate. Spam controls remain
+required; general help does not need account proof, while private support must
+use appropriate authenticated account authority. Exact private-support
+continuation remains to design; contact confirmation does not confer
+product-account authority. Suggestions do not promise feature delivery.
+Andrew further limits the MVP to existing Google-only product authentication:
+support adds no email/Apple login, custom verification-tier system or account
+recovery. Public contact remains available for general help and suggestions,
+including requests for other login providers; it does not grant alternative
+product access. Retain basic spam/duplicate/loop protections and existing
+account permissions, without turning contact intake into a new identity system.
+No provider, schema, AI authority or implementation is approved by this decision.
 
 ### Build 6 — Analytics, monitoring and usable backoffice
 
@@ -186,27 +262,60 @@ combined launch acceptance below still applies after all required slices land.
   or operator mutations too. Recommend read-oriented investigation first, with
   fixes in validated Codex/operator workflows; support/remediation actions join
   only when their actual secured workflows are accepted and implemented.
-- Access: Andrew only initially, or a separately identified restricted helper;
-  decide the helper's necessary data and permissions before granting access.
-- Evidence and presentation: choose the essential overview/search/detail and
-  activity facts, product-owned versus BFF-owned reads, and phone/desktop flow.
-  Do not require automatic incidents or Telegram for the first backoffice slice.
+- Operator access, agreed 2026-10-08: every approved backoffice operator has the
+  same full access to all implemented features and Businesses. Keep sign-in and
+  approved-operator admission; do not build granular operator roles, per-Business
+  grants or a permissions UI now. Adding actual operators is a separate decision;
+  product-customer access and AI action authority are unchanged.
+- Customer evidence, agreed 2026-10-08: generic shared pages show meaningful
+  BFF-held customer/account information plus important Business-reported events.
+  No custom Business backoffice pages or direct reads of product databases in
+  this slice. Choose the event catalog, bounded data contract and phone/desktop
+  presentation; no automatic incidents or Telegram prerequisite for this slice.
 
-These questions now live here rather than in an active parallel priority
-brainstorm. Later analytics/monitoring decisions remain in their owning scope
-below; no vendor, AI schedule or redesigned UI is accepted by this move.
+These delivery questions live here rather than in an active parallel priority
+brainstorm. The focused [customer-operations discussion](../../.agent/brainstorms/261008-customer-operations-backoffice.md)
+records the problem/scope alternatives requested on 2026-10-08; it is not a
+second roadmap or implementation approval. Later analytics/monitoring decisions
+remain in their owning scope below; no vendor, AI schedule or redesigned UI is
+accepted by this discussion.
+
+**2026-10-08 customer-context decision:** Andrew confirms one shared backoffice
+for all Businesses, with customer investigation and support inside the selected
+Business/environment. Cross-Business customer lookup, matching-email associations
+and combined person profiles are not required for the initial workflow; revisit
+them only for a demonstrated need. This narrows the earlier umbrella discussion,
+not the underlying [identity boundary](../architecture/adr/0004-business-customer-auth-and-accounts.md#authority-and-isolation).
+Phone/desktop design, signed-in/public tickets and customer-handling actions
+remain part of the combined exploration; final feature scope and which sensitive
+actions, if any, to expose are still open. Full operator access does not itself
+add those actions or grant them to the AI assistant.
 
 Add the minimum operational visibility required to understand and run TableCards. Define a small, versioned set of canonical business events covering acquisition, signup, activation, PDF export, checkout, subscription state and support outcomes. Preserve UTM/referrer attribution from anonymous visit through user/account/payment where available. Add only product events that answer an explicit launch question; do not build generic clickstream collection or a replacement for a dedicated analytics provider. Never send guest-list/card contents, credentials, payment details or other unnecessary personal data in analytics payloads.
+
+**2026-10-08 event/data boundary:** Businesses report selected meaningful usage
+and outcome events to BFF; operator history is not technical log/metric storage.
+Andrew selects successful milestones plus important failed/blocked outcomes,
+without detailed click tracking; exact event names and payloads still need design.
+Keep the catalog, payloads, rate/retention limits and reads bounded. The shared
+customer page reads BFF-held facts and recorded events only, distinguishes
+reported history from current authoritative state and does not imply product
+records are replicated or remotely inspected. The proposed event store/ingestion
+contract is not implemented; structural schema approval is still required.
+Appropriate event facts may later feed analytics/pixels through separate approved
+mapping/privacy controls. Future special-offer eligibility is in the
+[existing promotions idea](../architecture/future-ideas.md#shared-promotions-personal-offers-and-repeat-purchase-campaigns),
+not a new MVP campaign/discount engine or permission to send full customer records.
 
 Add privacy-bounded health and error monitoring for the public product, BFF, PDF generation, Paddle webhooks and support-email delivery. Monitoring must include deployed version/environment context, correlation IDs, credential/PII redaction, sampling, retention and spend limits. Expected authentication denials and rate limits are not errors. Alerts must be actionable and intentionally few: production or health-check failure, sustained unexpected error rate, and failed/stalled payment or support delivery that requires operator attention. Choose the smallest suitable provider arrangement during this build; PostHog, Sentry or alternatives are options, not preselected requirements.
 
 Turn the existing read-oriented backoffice into a usable daily operator surface. It should provide:
 
 - an environment-aware overview of deployed version/health, unresolved failures, open support cases, recent signups, activations, paid accounts and successful exports;
-- global search by safe customer email, public user/account/project ID, payment reference or support case, with direct links to a joined customer/account view;
-- customer and account detail showing membership/role, session state, plan/subscription/entitlements, recent projects/exports, support history and a chronological audit/activity timeline;
+- search within the selected Business/environment by safe customer email, public user/account ID, BFF-held payment/support reference or a recorded product-event reference, with direct links to the shared customer/account view; no product-database query is required;
+- Business-scoped customer/account detail showing meaningful BFF-held profile, memberships/invitations, session state, access/limits/units, available checkout or verified billing facts, support history and a chronological security/activity timeline; product milestones come from reported events, not custom product pages or live product-data reads;
 - an investigation path from automatically detected problems to known affected users/accounts and bounded operation/activity evidence, even before a customer reports the issue; unknown identity or outcome remains explicit rather than guessed;
-- focused queues for support, failed or delayed webhooks/email/jobs and accounts needing billing remediation, with status, age, owner and correlation evidence;
+- focused queues for support, BFF-known failed or delayed webhooks/email and accounts needing billing remediation, plus important reported product-job outcomes, with status, age, owner and correlation evidence; missing or stale event evidence remains explicit;
 - basic acquisition and conversion views for visit → signup → activation → checkout → paid account, plus export and support-volume trends;
 - mobile/desktop navigation, filters, pagination, empty/loading/error states and safe copyable identifiers so Andrew can actually diagnose a report from a phone or desktop.
 
@@ -228,7 +337,8 @@ grant account/operational authority.
 
 Preserve human investigation and permitted handling even if an AI assistant is
 later introduced. Prefer reusable, scoped read/operation boundaries for the
-dashboard and authorized automation, with actor-specific permissions and audit;
+dashboard and authorized automation, with customer/AI authorization and audit,
+without a granular human-operator permission matrix;
 this is not approval to install an agent or grant it the operator's full powers.
 Exact endpoints, persistence and agent tooling remain implementation-design
 questions, not new schemas or an MCP-server requirement.
@@ -341,7 +451,7 @@ Create or confirm the seller account, finish business/identity/payout verificati
 
 Confirm the existing Convex login can create a separate Business Factory project, choose or buy the product domain, and provide Cloudflare/DNS access. After Codex provides exact callback URLs, create/select the Google Cloud project, configure consent/branding and create the web OAuth client.
 
-Do not pre-create Apple, PostHog, Resend or Sentry accounts. Build 3 will benchmark and select the minimum cost-efficient image-generation provider/model for the accepted four-choice batch; TableCards needs no scanner, browser-worker or printing provider. Build 5 will select and activate the minimum email-delivery or helpdesk capability required for the accepted support workflow; Build 6 will select the minimum analytics/monitoring arrangement only after its events, privacy boundaries, alert thresholds and operating questions are defined.
+Do not pre-create Apple, PostHog, Resend or Sentry accounts. Build 3 will benchmark and select the minimum cost-efficient image-generation provider/model for the accepted four-choice batch; TableCards needs no scanner, browser-worker or printing provider. Build 5 will select and activate the minimum inbound/outbound email capability for the accepted BFF-owned support workflow; Build 6 will select the minimum analytics/monitoring arrangement only after its events, privacy boundaries, alert thresholds and operating questions are defined.
 
 ### Physical and live launch checks
 
