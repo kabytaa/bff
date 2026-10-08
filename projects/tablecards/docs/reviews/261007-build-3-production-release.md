@@ -1,8 +1,8 @@
 # Build 3 production release review
 
 Created: 2026-10-07
-Updated: 2026-10-07
-Status: Released no-charge preview; balance-read, navigation/icons/headings and inline-actions/single-Sign-out fixes deployed and verified; welcome-credit provisioning remains open; not customer launch
+Updated: 2026-10-08
+Status: Released no-charge preview; welcome-credit fix approved and implemented, publication in progress; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -687,3 +687,46 @@ committed/pushed and deployed to development/production. Refresh an older open
 tab, then create a new PDF for existing projects; previously downloaded PDFs
 cannot change. No schema/migration, production customer-data repair or paid AI
 call was needed. The evidence-only Markdown follow-up skips CI/deployment.
+
+### Free welcome-credit provisioning — 2026-10-08
+
+Baseline: repository `deb3a23`, deployed production runtime `d8e83f2`. Andrew
+approved the fix and both deployments, including the exact compatible addition
+of `default` to `accountAccessGrants.source`. Existing rows remain valid; no
+table/field/index changes, migration, deletion or mass customer backfill.
+
+The TableCards backend now initializes its code-owned Free definition once on
+the next authorized product-access request. Shared BFF's server-only endpoint
+requires a live account context plus the environment service credential,
+validates bounded input and inserts only if no grant exists. It returns an
+upgrade that won a race untouched, and never writes/resets bucket consumption.
+The existing `welcome-lifetime-v1` allocation is reused; prior consumption stays
+spent. Development mock gates remain disabled in production. No paid AI call
+is necessary to provision or verify the credit.
+
+Focused backend tests cover concurrent initialization, one granted unit,
+failure release and replay, successful consumption and replay, refresh after
+consumption, existing provider/mock grants, legacy consumed buckets, missing/
+wrong/cross-environment service credentials, signed foreign account/membership
+and revoked sessions. TableCards transport/action checks run with its mock gate
+disabled. Hosted desktop/mobile account/reload/save checks and publication
+results follow; authenticated production Google flows remain credential-limited.
+
+Local verification passed: **85 shared BFF backend tests**, **86 TableCards
+backend tests**, **4 affected contract tests**, **5 affected SDK tests** and
+**16 production smoke-tool tests**, including rejection of an unprotected
+default initializer. All six affected projects' lint/type checks, changed-source
+format/secret checks, repository ownership boundaries and added local-doc links
+passed. Both changed backends were pushed to their existing development targets,
+shared BFF first, without republishing unchanged web/auth/gateway/AI services.
+
+Final hosted development checks passed **2/2 (51.3s)** in desktop Chromium and
+mobile WebKit. Fresh sign-in without choosing a mock offer shows Free / Default
+access / one lifetime batch; reload and saving a project preserve that unit.
+Generating four choices with the explicitly selected development image fixture
+exercises the real BFF reserve/commit path and leaves zero after another reload.
+No paid provider calls occurred. Account screenshots were inspected in both
+viewports. An initial extended mobile test missed its editor step during route
+loading; the test now waits for the editor and explicitly chooses the mobile
+Design step, without force-clicking or changing product behavior. Commit and
+production publication follow.

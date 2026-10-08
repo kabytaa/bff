@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  defaultProductAccessGrantRequestSchema,
   developmentProductAccessGrantRequestSchema,
   productAccessIdempotencyKeySchema,
   productAccessProjectionSchema,
@@ -8,6 +9,46 @@ import {
 } from './productAccess';
 
 describe('product access contracts', () => {
+  it('accepts fixed default units but rejects renewable, duplicate or extra grant inputs', () => {
+    const input = {
+      offerKey: 'free',
+      offerRevision: 1,
+      featureFlags: [],
+      numericLimits: [],
+      unitGrants: [
+        {
+          unitType: 'ai_background_batch',
+          periodKey: 'welcome-lifetime-v1',
+          allowance: 1,
+        },
+      ],
+    };
+    expect(defaultProductAccessGrantRequestSchema.parse(input)).toEqual(input);
+    for (const invalid of [
+      { ...input, source: 'provider' },
+      {
+        ...input,
+        unitGrants: [
+          {
+            ...input.unitGrants[0],
+            renewal: { cadence: 'monthly', anchorAt: 1 },
+          },
+        ],
+      },
+      { ...input, unitGrants: [{ ...input.unitGrants[0], allowance: -1 }] },
+      {
+        ...input,
+        unitGrants: [
+          input.unitGrants[0],
+          { ...input.unitGrants[0], periodKey: 'other-lifetime' },
+        ],
+      },
+    ]) {
+      expect(
+        defaultProductAccessGrantRequestSchema.safeParse(invalid).success,
+      ).toBe(false);
+    }
+  });
   it('accepts a bounded provider-independent access projection', () => {
     expect(
       productAccessProjectionSchema.parse({

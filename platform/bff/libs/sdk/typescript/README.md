@@ -134,6 +134,22 @@ workspace action, not a Business/operator configuration method.
 The same-account refresh does not clear authentication or remount the app;
 late responses cannot restore a context after switching accounts or signing out.
 
+## Default product access
+
+The server-only `createBffProductAccessClient().ensureDefaultAccess(context, definition)`
+initializes a Business's code-owned default offer once per account. `context`
+must carry the live customer `contextToken` and the environment-scoped backend
+`serviceToken` already used for shared checkout. The bounded definition includes
+an offer key/revision, flags, numeric limits and fixed unit grants. Do not accept
+this definition or the credential from browser input.
+
+BFF requires both credentials, derives account scope from the verified context,
+and atomically returns any existing grant unchanged. Source `default` is not
+payment evidence. Initialization does not write/reset usage buckets; repeated
+calls cannot replenish consumption. The returned grant can reflect an upgrade
+that won a race, so use its offer rather than the proposed default. Ordinary
+access/balance/reservation requests do not send the service credential.
+
 ## Convex native authentication
 
 Nest `BffConvexProvider` inside `BffAuthProvider`. It supplies the current

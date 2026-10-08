@@ -18,6 +18,85 @@ import {
   expectExampleNameLayout,
 } from './support/name-layout';
 
+test('review regression: fresh Free access grants one lifetime AI batch without choosing a mock offer', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('free-welcome', info.project.name),
+  );
+  await page.goto('/settings');
+  await expect(
+    page.getByRole('heading', { name: 'Account and usage' }),
+  ).toBeVisible();
+  const summary = page.locator('.usage-summary-grid');
+  await expect(summary.getByText('Free', { exact: true })).toBeVisible();
+  await expect(
+    summary.getByText('Default access', { exact: true }),
+  ).toBeVisible();
+  await expect(summary.getByText('1 remaining', { exact: true })).toBeVisible();
+  await expect(summary.getByText('lifetime', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await page.reload();
+  await expect(summary.getByText('1 remaining', { exact: true })).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+  await page.screenshot({
+    path: info.outputPath('free-welcome-account.png'),
+    fullPage: true,
+  });
+  await page.goto('/create');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  const designStep = page.getByRole('button', { name: 'Design', exact: true });
+  if (await designStep.isVisible()) await designStep.click();
+  const reviewStep = page.getByRole('button', { name: 'Review', exact: true });
+  if (await reviewStep.isVisible()) await reviewStep.click();
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(/\/projects\/project_/u);
+  const savedProjectUrl = page.url();
+  await page.goto('/settings');
+  await expect(
+    summary.getByText('1 / 1', { exact: true }).first(),
+  ).toBeVisible();
+  await expect(summary.getByText('1 remaining', { exact: true })).toBeVisible();
+  await expect(
+    summary.getByText('Default access', { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  // Exercise the real BFF reservation/commit path without spending provider
+  // credits. The explicitly selected image fixture is development-only.
+  await page.goto(savedProjectUrl);
+  await expect(
+    page.getByRole('heading', { name: 'Edit your sheet' }),
+  ).toBeVisible();
+  if (info.project.use.isMobile) {
+    await page.getByRole('button', { name: 'Design', exact: true }).click();
+  }
+  await page.getByLabel('AI engine (development)').selectOption('mock');
+  await page
+    .getByLabel('AI background description')
+    .fill('Simple watercolor foliage');
+  await page
+    .getByRole('button', { name: 'Generate four choices', exact: true })
+    .click();
+  await expect(
+    page.getByText(
+      'Four background choices are ready. Choose one for this event.',
+    ),
+  ).toBeVisible({ timeout: 90_000 });
+  await expect(
+    page
+      .locator('[aria-label="AI background choices"]')
+      .getByRole('button', { name: /Use AI choice/u }),
+  ).toHaveCount(4);
+  await page.goto('/settings');
+  await expect(summary.getByText('0 remaining', { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(summary.getByText('0 remaining', { exact: true })).toBeVisible();
+  await expect(
+    summary.getByText('Default access', { exact: true }),
+  ).toBeVisible();
+});
+
 async function step(page: Page, name: 'Design' | 'Guests' | 'Review') {
   const button = page.getByRole('button', { name, exact: true });
   if (await button.isVisible()) await button.click();

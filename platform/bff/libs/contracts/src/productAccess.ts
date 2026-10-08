@@ -153,6 +153,26 @@ export type DevelopmentProductAccessGrantRequest = z.infer<
   typeof developmentProductAccessGrantRequestSchema
 >;
 
+// Trusted Business backends initialize fixed Free allocations. This is not
+// a browser-selected offer, a renewable subscription or an access replacement.
+export const defaultProductAccessGrantRequestSchema = z
+  .object({
+    offerKey: productAccessKeySchema,
+    offerRevision: z.number().int().positive().max(1_000_000),
+    featureFlags: featureFlagsSchema,
+    numericLimits: numericLimitsSchema,
+    unitGrants: unitGrantsSchema.refine(
+      (entries) =>
+        new Set(entries.map((entry) => entry.unitType)).size === entries.length,
+      { message: 'Default unit grants must be unique by unit type' },
+    ),
+  })
+  .strict();
+
+export type DefaultProductAccessGrantRequest = z.infer<
+  typeof defaultProductAccessGrantRequestSchema
+>;
+
 export const unitBalanceRequestSchema = z
   .object({
     unitType: productAccessKeySchema,

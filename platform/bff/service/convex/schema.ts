@@ -156,7 +156,11 @@ export default defineSchema({
     accountId: v.id('accounts'),
     offerKey: v.string(),
     offerRevision: v.number(),
-    source: v.union(v.literal('development_mock'), v.literal('provider')),
+    source: v.union(
+      v.literal('default'),
+      v.literal('development_mock'),
+      v.literal('provider'),
+    ),
     featureFlags: v.array(v.object({ key: v.string(), enabled: v.boolean() })),
     numericLimits: v.array(v.object({ key: v.string(), value: v.number() })),
     unitGrants: v.array(

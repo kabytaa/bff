@@ -1,6 +1,6 @@
 # Shared BFF Data Model
 
-Updated: 2026-09-29.
+Updated: 2026-10-08.
 
 This document explains the currently implemented shared BFF data model. The
 authoritative schema remains
@@ -150,11 +150,22 @@ erDiagram
 
 The account's current effective product-access projection: an offer key and
 revision, feature flags, numeric limits and unit-allocation policies. In Build
-3 the shared no-charge checkout is its customer-facing writer. Monthly mock allocations
+3 the shared no-charge checkout is its customer-facing writer. A trusted Business
+backend can also initialize its code-owned Free definition through
+`POST /v1/product-access/default`, requiring a live customer account context and
+the environment-matched service credential. The atomic initializer inserts only
+when this account has no grant; it never replaces an upgrade or resets buckets.
+Its source is `default`, not simulated payment or verified provider access.
+Monthly mock allocations
 are anchored to activation and BFF resolves the effective billing cycle; fixed
 allocations cover lifetime and event grants. It is not a payment transaction,
 subscription history or registered plan definition. Real billing can later
 derive the same provider-neutral projection from verified provider state.
+
+Andrew approved adding `default` to the existing `source` enum on 2026-10-08.
+Existing rows remain valid; no table, field, index or data migration is required.
+TableCards provisions missing Free grants on the next authorized product-access
+request, using the existing lifetime allocation key so prior usage stays spent.
 
 ### `checkoutAttempts`
 

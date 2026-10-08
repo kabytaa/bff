@@ -14,7 +14,7 @@ Required public deployment values mirror the retained Example Business:
 - `BFF_CUSTOMER_WEB_ORIGINS_JSON`
 - `BFF_CUSTOMER_SESSION_ADAPTER_BASE_URL`
 - `BFF_CUSTOMER_DEFAULT_POST_LOGIN_PATH`
-- `BFF_CHECKOUT_SERVICE_TOKEN` (secret; checkout creation only)
+- `BFF_CHECKOUT_SERVICE_TOKEN` (secret; shared checkout and once-only default-access initialization)
 - `TABLECARDS_BUILD_VERSION`
 - `TABLECARDS_AI_PROVIDER` (`cloudflare` for real artwork; `development` only for fixtures)
 - `TABLECARDS_AI_DAILY_BUDGET_USD` (separate `1` budgets in development and production; `0` or unset disables new real AI batches)

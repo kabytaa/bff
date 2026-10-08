@@ -1,4 +1,5 @@
 import {
+  defaultProductAccessGrantRequestSchema,
   developmentProductAccessGrantRequestSchema,
   productAccessErrorResponseSchema,
   productAccessProjectionSchema,
@@ -8,6 +9,7 @@ import {
   unitBalanceSchema,
   unitReservationResultSchema,
   type DevelopmentProductAccessGrantRequest,
+  type DefaultProductAccessGrantRequest,
   type ProductAccessErrorCode,
   type ProductAccessProjection,
   type ReserveUnitsRequest,
@@ -34,6 +36,10 @@ export interface BffProductAccessRequestContext {
 }
 
 export interface BffProductAccessClient {
+  ensureDefaultAccess(
+    context: BffProductAccessRequestContext & { readonly serviceToken: string },
+    request: DefaultProductAccessGrantRequest,
+  ): Promise<ProductAccessProjection>;
   getAccess(
     context: BffProductAccessRequestContext,
   ): Promise<ProductAccessProjection>;
@@ -151,12 +157,14 @@ export function createBffProductAccessClient(
     method = 'GET',
     body,
     responseSchema,
+    serviceToken,
   }: {
     readonly context: BffProductAccessRequestContext;
     readonly path: string;
     readonly method?: 'GET' | 'POST';
     readonly body?: unknown;
     readonly responseSchema: ZodType<T>;
+    readonly serviceToken?: string;
   }): Promise<T> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), timeoutMilliseconds);
@@ -168,6 +176,9 @@ export function createBffProductAccessClient(
           accept: 'application/json',
           authorization: `Bearer ${contextToken(context)}`,
           'x-tofler-environment': environment,
+          ...(serviceToken === undefined
+            ? {}
+            : { 'x-tofler-service-authorization': `Bearer ${serviceToken}` }),
           ...(body === undefined
             ? {}
             : { 'content-type': 'application/json; charset=utf-8' }),
@@ -204,6 +215,19 @@ export function createBffProductAccessClient(
   }
 
   return {
+    ensureDefaultAccess: async (context, input) => {
+      if (!/^[\x21-\x7e]{32,256}$/u.test(context.serviceToken)) {
+        throw new Error('serviceToken is invalid');
+      }
+      return await request({
+        context,
+        path: '/v1/product-access/default',
+        method: 'POST',
+        body: defaultProductAccessGrantRequestSchema.parse(input),
+        responseSchema: productAccessProjectionSchema,
+        serviceToken: context.serviceToken,
+      });
+    },
     getAccess: async (context) =>
       await request({
         context,

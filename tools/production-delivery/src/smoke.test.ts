@@ -149,6 +149,10 @@ function routes(): Map<string, RouteResponder> {
     ],
     [`${config.bffConvexSiteUrl}/v1/health`, () => healthy()],
     [
+      `${config.bffConvexSiteUrl}/v1/product-access/default`,
+      () => new Response(null, { status: 401 }),
+    ],
+    [
       `${config.bffConvexSiteUrl}/v1/auth/jwks`,
       () =>
         Response.json({
@@ -372,6 +376,11 @@ describe('production smoke', () => {
       'wrong BFF health version',
       `${config.bffConvexSiteUrl}/v1/health`,
       () => healthy('old-version'),
+    ],
+    [
+      'unprotected default grant initialization',
+      `${config.bffConvexSiteUrl}/v1/product-access/default`,
+      () => Response.json({ source: 'default' }),
     ],
     [
       'private signing key in JWKS',

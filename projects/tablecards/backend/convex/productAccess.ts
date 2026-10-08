@@ -17,7 +17,6 @@ import {
   tablecardsCustomerAuth,
   tablecardsCheckoutServiceToken,
   tablecardsCustomerSession,
-  tablecardsDevelopmentMocksEnabled,
 } from './environment';
 import { fail } from './lib/productErrors';
 
@@ -77,7 +76,7 @@ function fixedAllocationKey(offer: OfferDefinition): string {
   return 'welcome-lifetime-v1';
 }
 
-function developmentGrant(offer: OfferDefinition) {
+function accessDefinition(offer: OfferDefinition) {
   return {
     offerKey: offer.id,
     offerRevision: offer.offerRevision,
@@ -89,6 +88,12 @@ function developmentGrant(offer: OfferDefinition) {
       key,
       value,
     })),
+  };
+}
+
+function developmentGrant(offer: OfferDefinition) {
+  return {
+    ...accessDefinition(offer),
     unitGrants: [
       {
         unitType: offer.aiUnitPolicy.unitType,
@@ -138,17 +143,33 @@ async function effectiveOffer(accessToken: string, accountId: string) {
   if (access.accountId !== accountId) {
     fail('FORBIDDEN', 'The account context does not match');
   }
+  if (access.source === 'default' && access.unitGrants.length === 0) {
+    const free = getOfferDefinition('free');
+    access = await client.ensureDefaultAccess(
+      {
+        contextToken: accessToken,
+        serviceToken: tablecardsCheckoutServiceToken,
+      },
+      {
+        ...accessDefinition(free),
+        unitGrants: [
+          {
+            unitType: free.aiUnitPolicy.unitType,
+            allowance: free.aiUnitPolicy.allowance,
+            periodKey: fixedAllocationKey(free),
+          },
+        ],
+      },
+    );
+  }
+  // An upgrade can win the initialization race. Use the returned current offer.
+  if (access.accountId !== accountId) {
+    fail('FORBIDDEN', 'The account context does not match');
+  }
   if (!isOfferId(access.offerKey)) {
     fail('ENTITLEMENT_REQUIRED', 'The account offer is not supported');
   }
-  const offer = getOfferDefinition(access.offerKey);
-  if (access.source === 'default' && tablecardsDevelopmentMocksEnabled()) {
-    access = await client.setDevelopmentAccess(
-      { contextToken: accessToken },
-      developmentGrant(offer),
-    );
-  }
-  return { access, offer };
+  return { access, offer: getOfferDefinition(access.offerKey) };
 }
 
 const saveAuthorizedReference = makeFunctionReference<

@@ -210,6 +210,16 @@ export async function checkProductionOnce(
   assertPublicJwks(await jwksResponse.json());
   await assertExpectedStatus(
     fetcher,
+    new URL('/v1/product-access/default', config.bffConvexSiteUrl).href,
+    401,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    },
+  );
+  await assertExpectedStatus(
+    fetcher,
     new URL('/v1/auth/transactions/development', config.bffConvexSiteUrl).href,
     404,
     {

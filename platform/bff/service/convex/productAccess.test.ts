@@ -24,6 +24,19 @@ import schema from './schema';
 const modules = import.meta.glob('./**/*.ts');
 type TestBackend = TestConvex<typeof schema>;
 const BILLING_CYCLE_START = Date.UTC(2026, 8, 10, 12);
+const freeDefaultGrant = {
+  offerKey: 'free',
+  offerRevision: 1,
+  featureFlags: [{ key: 'ai_backgrounds', enabled: true }],
+  numericLimits: [{ key: 'maximum_active_projects', value: 1 }],
+  unitGrants: [
+    {
+      unitType: 'ai_background_batch',
+      periodKey: 'welcome-lifetime-v1',
+      allowance: 1,
+    },
+  ],
+};
 
 function configuration(
   developmentAutomationEnabled = true,
@@ -181,6 +194,296 @@ function grantArgs(context: Awaited<ReturnType<typeof fixture>>) {
 afterEach(() => vi.unstubAllEnvs());
 
 describe('product access projection and unit ledger', () => {
+  it('grants Free exactly once, releases failed usage and never replenishes a consumed lifetime batch', async () => {
+    vi.stubEnv(DEVELOPMENT_PRODUCT_ACCESS_ENVIRONMENT.enabled, 'disabled');
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    const context = await fixture(t, false);
+    const input = { ...context, ...freeDefaultGrant, now: BILLING_CYCLE_START };
+    const [first, concurrent] = await Promise.all([
+      t.mutation(internal.productAccess.ensureDefaultForAccount, input),
+      t.mutation(internal.productAccess.ensureDefaultForAccount, input),
+    ]);
+    expect(first).toEqual(concurrent);
+    expect(first).toMatchObject({
+      source: 'default',
+      unitGrants: freeDefaultGrant.unitGrants,
+    });
+    const balance = () =>
+      t.query(internal.unitLedger.balanceForAccount, {
+        ...context,
+        unitType: 'ai_background_batch',
+        now: BILLING_CYCLE_START,
+      });
+    await expect(balance()).resolves.toMatchObject({
+      allowance: 1,
+      available: 1,
+    });
+    await t.run(async (ctx) => {
+      expect(await ctx.db.query('accountAccessGrants').take(2)).toHaveLength(1);
+      expect(await ctx.db.query('accountUnitBuckets').take(1)).toEqual([]);
+    });
+    const request = {
+      ...context,
+      unitType: 'ai_background_batch',
+      amount: 1,
+      idempotencyKey: 'welcome_default_request01',
+      reservationPublicId: 'unit_reservation_welcome01',
+      now: BILLING_CYCLE_START,
+    };
+    const held = await t.mutation(
+      internal.unitLedger.reserveForAccount,
+      request,
+    );
+    if (held.kind !== 'ok') throw new Error('Expected welcome reservation');
+    await expect(
+      t.mutation(internal.unitLedger.reserveForAccount, {
+        ...request,
+        idempotencyKey: 'welcome_default_request02',
+        reservationPublicId: 'unit_reservation_welcome02',
+      }),
+    ).rejects.toThrow('UNIT_EXHAUSTED');
+    const release = {
+      ...context,
+      reservationId: held.result.reservation.id,
+      idempotencyKey: request.idempotencyKey,
+      now: request.now,
+    };
+    await expect(
+      t.mutation(internal.unitLedger.releaseForAccount, release),
+    ).resolves.toMatchObject({ balance: { available: 1 } });
+    await expect(
+      t.mutation(internal.unitLedger.releaseForAccount, release),
+    ).resolves.toMatchObject({ balance: { available: 1 } });
+    const spent = await t.mutation(internal.unitLedger.reserveForAccount, {
+      ...request,
+      idempotencyKey: 'welcome_default_request03',
+      reservationPublicId: 'unit_reservation_welcome03',
+    });
+    if (spent.kind !== 'ok') throw new Error('Expected welcome reservation');
+    const commit = {
+      ...context,
+      reservationId: spent.result.reservation.id,
+      idempotencyKey: 'welcome_default_request03',
+      now: request.now,
+    };
+    await t.mutation(internal.unitLedger.commitForAccount, commit);
+    await t.mutation(internal.unitLedger.commitForAccount, commit);
+    await expect(
+      t.mutation(internal.productAccess.ensureDefaultForAccount, {
+        ...input,
+        now: BILLING_CYCLE_START + 40 * 86_400_000,
+      }),
+    ).resolves.toEqual(first);
+    await expect(balance()).resolves.toMatchObject({
+      allowance: 1,
+      consumed: 1,
+      reserved: 0,
+      available: 0,
+    });
+    await expect(
+      t.mutation(internal.unitLedger.reserveForAccount, {
+        ...request,
+        idempotencyKey: 'welcome_default_request04',
+        reservationPublicId: 'unit_reservation_welcome04',
+      }),
+    ).rejects.toThrow('UNIT_EXHAUSTED');
+  });
+
+  it.each(['provider', 'development_mock'] as const)(
+    'never replaces existing %s access with a Free grant',
+    async (source) => {
+      const t = convexTest({ schema, modules, transactionLimits: true });
+      const context = await fixture(t, false);
+      await t.mutation(internal.productAccess.ensureDefaultForAccount, {
+        ...context,
+        ...freeDefaultGrant,
+        now: BILLING_CYCLE_START,
+      });
+      const before = await t.run(async (ctx) => {
+        const row = await ctx.db.query('accountAccessGrants').take(1);
+        await ctx.db.patch(row[0]!._id, {
+          source,
+          offerKey: 'studio',
+          offerRevision: 2,
+          unitGrants: [
+            {
+              unitType: 'ai_background_batch',
+              allowance: 30,
+              periodKey: 'billing-cycle:1:2',
+            },
+          ],
+        });
+        return await ctx.db.get(row[0]!._id);
+      });
+      await expect(
+        t.mutation(internal.productAccess.ensureDefaultForAccount, {
+          ...context,
+          ...freeDefaultGrant,
+          now: BILLING_CYCLE_START + 1,
+        }),
+      ).resolves.toMatchObject({
+        source,
+        offerKey: 'studio',
+        offerRevision: 2,
+        unitGrants: [{ allowance: 30 }],
+      });
+      await t.run(async (ctx) => {
+        expect(await ctx.db.get(before!._id)).toEqual(before);
+      });
+    },
+  );
+
+  it('preserves a legacy lifetime bucket even if its access grant is missing', async () => {
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    const context = await fixture(t, false);
+    await t.run(async (ctx) => {
+      const environment = await ctx.db
+        .query('businessEnvironments')
+        .withIndex('by_key', (q) => q.eq('key', context.environmentKey))
+        .unique();
+      const account = await ctx.db
+        .query('accounts')
+        .withIndex('by_environment_public_id', (q) =>
+          q
+            .eq('environmentId', environment!._id)
+            .eq('publicId', context.accountPublicId),
+        )
+        .unique();
+      await ctx.db.insert('accountUnitBuckets', {
+        environmentId: environment!._id,
+        accountId: account!._id,
+        unitType: 'ai_background_batch',
+        periodKey: 'welcome-lifetime-v1',
+        allowance: 1,
+        reserved: 0,
+        consumed: 1,
+        createdAt: 1,
+        updatedAt: 2,
+      });
+    });
+    await t.mutation(internal.productAccess.ensureDefaultForAccount, {
+      ...context,
+      ...freeDefaultGrant,
+      now: BILLING_CYCLE_START,
+    });
+    await expect(
+      t.query(internal.unitLedger.balanceForAccount, {
+        ...context,
+        unitType: 'ai_background_batch',
+        now: BILLING_CYCLE_START,
+      }),
+    ).resolves.toMatchObject({ consumed: 1, available: 0, updatedAt: 2 });
+  });
+
+  it('requires the live customer context and matching Business service credential for default initialization', async () => {
+    vi.stubEnv(DEVELOPMENT_PRODUCT_ACCESS_ENVIRONMENT.enabled, 'disabled');
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    const context = await fixture(t, false);
+    const signing = await installSigningConfiguration();
+    const now = Math.floor(Date.now() / 1_000);
+    const claims = {
+      contextType: 'account' as const,
+      ...context,
+      sessionPublicId: 'session_product_access1',
+      tokenPublicId: 'token_default_access001',
+      role: 'owner' as const,
+      permissions: ['account:read'] as const,
+      authorizedAt: now,
+      expiresAt: now + 600,
+    };
+    const token = await signCustomerContextToken(signing, claims);
+    const service = 'synthetic_default_service_secret_001';
+    vi.stubEnv(
+      'BFF_CHECKOUT_SERVICE_SECRETS_JSON',
+      JSON.stringify({ [context.environmentKey]: service }),
+    );
+    const post = (
+      bearer: string,
+      credential?: string,
+      body: unknown = freeDefaultGrant,
+    ) =>
+      t.fetch('/v1/product-access/default', {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${bearer}`,
+          'x-tofler-environment': context.environmentKey,
+          'content-type': 'application/json',
+          ...(credential === undefined
+            ? {}
+            : { 'x-tofler-service-authorization': `Bearer ${credential}` }),
+        },
+        body: JSON.stringify(body),
+      });
+    expect((await post('', service)).status).toBe(401);
+    expect((await post(token)).status).toBe(401);
+    expect((await post(token, 'wrong_service_secret_00000000001')).status).toBe(
+      401,
+    );
+    vi.stubEnv(
+      'BFF_CHECKOUT_SERVICE_SECRETS_JSON',
+      JSON.stringify({ 'tablecards-production': service }),
+    );
+    expect((await post(token, service)).status).toBe(401);
+    vi.stubEnv(
+      'BFF_CHECKOUT_SERVICE_SECRETS_JSON',
+      JSON.stringify({ [context.environmentKey]: service }),
+    );
+    expect(
+      (
+        await post(token, service, {
+          ...freeDefaultGrant,
+          accountPublicId: 'account_other_customer01',
+        })
+      ).status,
+    ).toBe(400);
+    const wrongMember = await signCustomerContextToken(signing, {
+      ...claims,
+      membershipPublicId: 'membership_other_user01',
+    });
+    expect((await post(wrongMember, service)).status).toBe(403);
+    const second = await t.mutation(internal.customerAuth.bootstrapCustomer, {
+      environmentKey: context.environmentKey,
+      provider: 'google',
+      issuer: 'https://accounts.google.com',
+      subject: 'other-default-test-user',
+      profile: {
+        verifiedEmail: 'other-planner@example.com',
+        displayName: 'Other planner',
+      },
+      candidates: {
+        userPublicId: 'user_default_other001',
+        accountPublicId: 'account_default_other001',
+        membershipPublicId: 'membership_default_other01',
+      },
+      now: Date.now(),
+    });
+    if (second.kind !== 'ok') throw new Error('Expected second customer');
+    const wrongAccount = await signCustomerContextToken(signing, {
+      ...claims,
+      accountPublicId: second.customer.accounts[0]!.id,
+    });
+    expect((await post(wrongAccount, service)).status).toBe(403);
+    await t.run(async (ctx) => {
+      expect(await ctx.db.query('accountAccessGrants').take(1)).toEqual([]);
+    });
+    const success = await post(token, service);
+    expect(success.status).toBe(200);
+    expect(await success.json()).toMatchObject({
+      source: 'default',
+      accountId: context.accountPublicId,
+      unitGrants: freeDefaultGrant.unitGrants,
+    });
+    await t.run(async (ctx) => {
+      expect(await ctx.db.query('accountAccessGrants').take(2)).toHaveLength(1);
+    });
+    await t.mutation(internal.sessions.logout, {
+      environmentKey: context.environmentKey,
+      handleHash: 'a'.repeat(43),
+      now: Date.now(),
+    });
+    expect((await post(token, service)).status).toBe(401);
+  });
+
   it('loads a fresh Free account with no allocation while still refusing unit spending', async () => {
     vi.stubEnv(DEVELOPMENT_PRODUCT_ACCESS_ENVIRONMENT.enabled, 'disabled');
     const t = convexTest({ schema, modules, transactionLimits: true });

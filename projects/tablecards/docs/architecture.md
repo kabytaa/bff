@@ -1,7 +1,7 @@
 # TableCards architecture and data model
 
 Created: 2026-10-06
-Updated: 2026-10-07
+Updated: 2026-10-08
 Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
 Scope: implemented Build 3 architecture; deployment evidence is separate from architecture approval
 
@@ -233,6 +233,17 @@ accepted; remaining combining marks fail preflight instead of entering unsafe
 font shaping. The server applies the same boundary before drawing any text.
 
 ### AI usage and payment boundary
+
+On the next authorized product-access request, a Free account without a grant
+is initialized through BFF's server-only `POST /v1/product-access/default`.
+TableCards supplies its code-owned Free definition and environment service
+credential alongside the signed-in account context. BFF inserts once with
+source `default`, allowance `1` and fixed `welcome-lifetime-v1` allocation. This
+works with production development controls disabled. Existing grants/upgrades
+and bucket consumption are never overwritten; accounts already using that
+lifetime allocation cannot earn it again. No payment or provider call is involved.
+The compatible `accountAccessGrants.source` enum expansion was approved on
+2026-10-08; no TableCards schema change or data migration is required.
 
 TableCards asks BFF to reserve `ai_background_batch`, amount `1`, and an
 idempotency key. It never chooses a bucket or billing period. BFF resolves a

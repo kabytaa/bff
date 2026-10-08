@@ -1,4 +1,5 @@
 import {
+  defaultProductAccessGrantRequestSchema,
   developmentProductAccessGrantRequestSchema,
   reserveUnitsRequestSchema,
   transitionUnitReservationRequestSchema,
@@ -7,6 +8,7 @@ import {
 
 import type { ActionCtx } from '../_generated/server';
 import { internal } from '../_generated/api';
+import { verifyCheckoutServiceAuthorization } from '../checkoutServiceAuth';
 import { randomPublicIdentifier } from './customerCrypto';
 import {
   accountContext,
@@ -66,6 +68,45 @@ export async function currentUnitBalanceHandler(
       });
       return jsonResponse(
         await ctx.runQuery(internal.unitLedger.balanceForAccount, {
+          ...contextArguments(accountContext(claims)),
+          ...input,
+          now: Date.now(),
+        }),
+        200,
+        headers,
+      );
+    },
+  );
+}
+
+export async function ensureDefaultProductAccessHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return await withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (claims, headers) => {
+      if (
+        !(await verifyCheckoutServiceAuthorization(
+          claims.environmentKey,
+          request.headers.get('x-tofler-service-authorization'),
+        ))
+      ) {
+        return mapError({ data: { code: 'UNAUTHENTICATED' } }, headers);
+      }
+      await ctx.runQuery(internal.sessions.validateContext, {
+        environmentKey: claims.environmentKey,
+        userPublicId: claims.sub,
+        sessionPublicId: claims.sessionId,
+        now: Date.now(),
+      });
+      const input = parseInput(
+        defaultProductAccessGrantRequestSchema,
+        await readBoundedJson(request),
+      );
+      return jsonResponse(
+        await ctx.runMutation(internal.productAccess.ensureDefaultForAccount, {
           ...contextArguments(accountContext(claims)),
           ...input,
           now: Date.now(),

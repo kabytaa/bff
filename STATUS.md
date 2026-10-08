@@ -1,6 +1,6 @@
 # Business Factory Handoff
 
-Updated: 2026-10-07.
+Updated: 2026-10-08.
 
 ## Current state
 
@@ -21,9 +21,12 @@ Updated: 2026-10-07.
 
 ## Immediate next work
 
-- Resolve production-safe Free welcome-credit provisioning separately; do not
-  enable development mocks or fabricate paid grants. Any schema change needs
-  Andrew's confirmation.
+- Andrew authorized fixing/deploying Free welcome-credit provisioning.
+  He approved the compatible `accountAccessGrants.source` enum addition
+  `default`. Both changed development backends are deployed; 196 local tests,
+  focused lint/type/secret/boundary checks and 2 desktop/mobile hosted checks
+  pass. Production publication is next. Existing rows remain valid; no migration
+  or deletion. See the [welcome-credit evidence](projects/tablecards/docs/reviews/261007-build-3-production-release.md#free-welcome-credit-provisioning--2026-10-08).
 - Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
   read-only scope, helper permissions and essential customer/activity views.
   Give options, trade-offs and a recommendation; no implementation is approved yet.

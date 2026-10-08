@@ -39,6 +39,7 @@ import {
   commitUnitsHandler,
   currentProductAccessHandler,
   currentUnitBalanceHandler,
+  ensureDefaultProductAccessHandler,
   releaseUnitsHandler,
   reserveUnitsHandler,
   setDevelopmentProductAccessHandler,
@@ -144,6 +145,12 @@ http.route({
   path: '/v1/product-access',
   method: 'GET',
   handler: httpAction(currentProductAccessHandler),
+});
+
+http.route({
+  path: '/v1/product-access/default',
+  method: 'POST',
+  handler: httpAction(ensureDefaultProductAccessHandler),
 });
 
 http.route({

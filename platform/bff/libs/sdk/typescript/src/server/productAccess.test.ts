@@ -30,6 +30,58 @@ function access() {
 }
 
 describe('createBffProductAccessClient', () => {
+  it('initializes default access only with a bounded server credential, never sending it on ordinary reads', async () => {
+    const calls: Array<{ url: string; init?: RequestInit }> = [];
+    const client = createBffProductAccessClient({
+      bffBaseUrl: baseUrl,
+      environmentKey,
+      fetch: async (input, init) => {
+        calls.push({ url: String(input), init });
+        return response(access());
+      },
+    });
+    const input = {
+      offerKey: 'free',
+      offerRevision: 1,
+      featureFlags: [],
+      numericLimits: [],
+      unitGrants: [
+        {
+          unitType: 'ai_background_batch',
+          periodKey: 'welcome-lifetime-v1',
+          allowance: 1,
+        },
+      ],
+    };
+    for (const serviceToken of [
+      '',
+      'too-short',
+      's'.repeat(257),
+      's'.repeat(32) + '\n',
+    ]) {
+      await expect(
+        client.ensureDefaultAccess({ ...context, serviceToken }, input),
+      ).rejects.toThrow('serviceToken');
+    }
+    expect(calls).toEqual([]);
+    const serviceToken = 'synthetic_default_service_token_001';
+    await client.ensureDefaultAccess({ ...context, serviceToken }, input);
+    expect(calls[0]?.url).toBe(`${baseUrl}/v1/product-access/default`);
+    expect(calls[0]?.init?.method).toBe('POST');
+    expect(
+      new Headers(calls[0]?.init?.headers).get(
+        'x-tofler-service-authorization',
+      ),
+    ).toBe(`Bearer ${serviceToken}`);
+    expect(JSON.parse(String(calls[0]?.init?.body))).toEqual(input);
+    await client.getAccess(context);
+    expect(
+      new Headers(calls[1]?.init?.headers).has(
+        'x-tofler-service-authorization',
+      ),
+    ).toBe(false);
+    expect(calls.every(({ url }) => !url.includes(serviceToken))).toBe(true);
+  });
   it('forwards only the short context and environment to the BFF', async () => {
     const calls: Array<{ url: string; init?: RequestInit }> = [];
     const client = createBffProductAccessClient({

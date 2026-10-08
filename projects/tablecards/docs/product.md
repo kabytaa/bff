@@ -1,6 +1,6 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-10-07.
+Updated: 2026-10-08.
 
 Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
@@ -28,12 +28,13 @@ truth. Build 4 owns real billing and commercial lifecycle, Build 5 two-way
 support, Build 6 operational visibility, and Build 7 customer-launch acceptance.
 Missing implementation does not remove an accepted promise below.
 
-The 2026-10-07 fresh-account investigation found a production gap in the promised
-one lifetime welcome AI batch: default Free access has no persisted unit grant.
-The narrow login/Projects fix makes an unallocated balance readable as zero; it
-does not provision that credit or change the accepted offer. Production-safe
-welcome-credit provisioning remains open, separately from this no-schema crash
-fix. See the [follow-up evidence](reviews/261007-build-3-production-release.md#follow-up-production-default-access-failure--2026-10-07).
+The 2026-10-07 investigation found missing Free welcome grants, separate from
+the fixed login/Projects crash. The 2026-10-08 fix initializes the promised one
+lifetime batch through the trusted Business backend on the next authorized
+access request, including for existing default accounts. Refreshing does not
+replenish used credits or replace an upgraded offer; production mocks stay
+disabled. Publication and verification are recorded in the
+[welcome-credit evidence](reviews/261007-build-3-production-release.md#free-welcome-credit-provisioning--2026-10-08).
 
 The [initial 2026-10-06 independent review](reviews/261006-build-3-documentation-and-readiness.md)
 found consequential export and upload defects beyond the passing story suite.

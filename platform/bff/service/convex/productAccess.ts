@@ -1,5 +1,6 @@
 import {
   PRODUCT_ACCESS_VERSION,
+  defaultProductAccessGrantRequestSchema,
   developmentProductAccessGrantRequestSchema,
   productAccessKeySchema,
   productAccessPeriodKeySchema,
@@ -249,6 +250,58 @@ export const currentForAccount = internalQuery({
       await findAccessGrant(ctx, context.environment._id, context.account._id),
       args.now,
     );
+  },
+});
+
+export const ensureDefaultForAccount = internalMutation({
+  args: {
+    ...accountContextArgs,
+    offerKey: v.string(),
+    offerRevision: v.number(),
+    featureFlags: v.array(productFeatureFlagValidator),
+    numericLimits: v.array(productNumericLimitValidator),
+    unitGrants: v.array(
+      v.object({
+        unitType: v.string(),
+        periodKey: v.string(),
+        allowance: v.number(),
+      }),
+    ),
+    now: v.number(),
+  },
+  returns: productAccessProjectionValidator,
+  handler: async (ctx, args) => {
+    const input = defaultProductAccessGrantRequestSchema.parse({
+      offerKey: args.offerKey,
+      offerRevision: args.offerRevision,
+      featureFlags: args.featureFlags,
+      numericLimits: args.numericLimits,
+      unitGrants: args.unitGrants,
+    });
+    const context = await resolveAccountContext(ctx, args);
+    const existing = await findAccessGrant(
+      ctx,
+      context.environment._id,
+      context.account._id,
+    );
+    // Check and insert are one transaction: concurrent reads cannot grant
+    // twice, overwrite an upgrade, or reset any existing allocation counters.
+    if (existing) return projection(context, existing, args.now);
+    const grantId = await ctx.db.insert('accountAccessGrants', {
+      ...input,
+      environmentId: context.environment._id,
+      accountId: context.account._id,
+      source: 'default',
+      updatedByUserId: context.user._id,
+      effectiveAt: args.now,
+      createdAt: args.now,
+      updatedAt: args.now,
+    });
+    const grant = await ctx.db.get(grantId);
+    if (!grant)
+      return fail('CONFIGURATION_ERROR', 'Default access was not stored');
+    // Buckets stay lazy; a pre-existing lifetime bucket retains consumption.
+    return projection(context, grant, args.now);
   },
 });
 
