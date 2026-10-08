@@ -240,7 +240,7 @@ test.describe('Free and Event Pass project promises', () => {
     await page.getByRole('link', { name: 'Projects', exact: true }).click();
     await expect(page).toHaveURL(/\/projects$/u);
 
-    await page.getByRole('button', { name: 'Duplicate' }).click();
+    await page.getByRole('button', { name: 'Make a copy' }).click();
     await expect(page.getByRole('alert')).toContainText(/project limit/u);
     page.once('dialog', (dialog) => void dialog.accept());
     await page.getByRole('button', { name: 'Archive', exact: true }).click();

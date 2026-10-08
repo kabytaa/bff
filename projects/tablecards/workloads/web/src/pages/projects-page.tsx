@@ -206,7 +206,7 @@ export function Component() {
                         })
                       }
                     >
-                      Duplicate
+                      Make a copy
                     </button>
                     <button
                       className="secondary-button"

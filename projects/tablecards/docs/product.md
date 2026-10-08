@@ -92,8 +92,9 @@ Saved presets, uploaded artwork, AI generation/remaining batches, project limits
 
 Users can name a new draft and rename an existing project through the same
 Project name field above the editor steps. Changes persist on Save or Export;
-renaming does not create another project. Duplicate and Archive remain available
-in Projects rather than taking space above the editor.
+renaming does not create another project. Make a copy and Archive remain available
+in Projects rather than taking space above the editor. Make a copy creates a new
+editable project; it does not mark the original as a duplicate.
 
 ## Print contract
 

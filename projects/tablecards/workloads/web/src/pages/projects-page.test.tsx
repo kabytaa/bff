@@ -17,6 +17,7 @@ const mocks = vi.hoisted(() => ({
     listProjectPage: vi.fn(),
     getCurrentAccess: vi.fn(),
     restoreProject: vi.fn(),
+    duplicateProject: vi.fn(),
   },
 }));
 vi.mock('@tofler/bff-auth/react', () => ({
@@ -52,6 +53,25 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 describe('complete archived project discovery', () => {
+  it('labels copying explicitly and opens a separate project', async () => {
+    mocks.backend.duplicateProject.mockResolvedValue(
+      project('Event copy', 'active'),
+    );
+    const router = mount();
+    const copy = await screen.findByRole('button', { name: 'Make a copy' });
+    expect(screen.queryByRole('button', { name: 'Duplicate' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Archive' })).toBeTruthy();
+    fireEvent.click(copy);
+    await waitFor(() =>
+      expect(mocks.backend.duplicateProject).toHaveBeenCalledWith(
+        'Active event',
+      ),
+    );
+    await waitFor(() =>
+      expect(router.state.location.pathname).toBe('/projects/Event copy'),
+    );
+  });
+
   it('shows a fresh signed-in Free workspace without requiring a project or AI allocation', async () => {
     mocks.backend.listProjects.mockResolvedValue([]);
     mocks.backend.getCurrentAccess.mockResolvedValue({

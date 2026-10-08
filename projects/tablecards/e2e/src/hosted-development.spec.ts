@@ -370,7 +370,7 @@ test('professional project, preset and AI workflows use authenticated access', a
   await expect(authenticated.getByText('Reusable preset saved.')).toBeVisible();
 
   await authenticated.goto('/projects');
-  await authenticated.getByRole('button', { name: 'Duplicate' }).click();
+  await authenticated.getByRole('button', { name: 'Make a copy' }).click();
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
   authenticated.once('dialog', (dialog) => void dialog.accept());
   await authenticated

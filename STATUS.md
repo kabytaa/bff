@@ -26,6 +26,8 @@ Updated: 2026-10-08.
 
 ## Immediate next work
 
+- In progress: Andrew approved relabelling Duplicate as Make a copy. Behavior
+  and schemas stay unchanged; focused tests and both deployments pending.
 - Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
   read-only scope, helper permissions and essential customer/activity views.
   Give options, trade-offs and a recommendation; no implementation is approved yet.

@@ -102,6 +102,64 @@ async function step(page: Page, name: 'Design' | 'Guests' | 'Review') {
   if (await button.isVisible()) await button.click();
 }
 
+test('review regression: Make a copy creates a separate editable project without archiving the original', async ({
+  page,
+}, info) => {
+  await logInFromLanding(page, uniquePersona('make-copy', info.project.name));
+  await chooseDevelopmentOffer(page, 'Planner Pro');
+  await page.goto('/create');
+  await page.getByLabel('Project name').fill('Reusable event');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  const guests = await page.getByLabel(/Paste one name per line/u).inputValue();
+  if (info.project.use.isMobile) {
+    await page.getByRole('button', { name: 'Review', exact: true }).click();
+  }
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(/\/projects\/project_/u);
+  const originalUrl = page.url();
+  await expect(page.locator('.save-state')).toHaveText(
+    'Saved to this workspace',
+  );
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: 'Duplicate', exact: true }),
+  ).toHaveCount(0);
+  const copyButton = page.getByRole('button', {
+    name: 'Make a copy',
+    exact: true,
+  });
+  await expect(copyButton).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Archive', exact: true }),
+  ).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+  await page.screenshot({
+    path: info.outputPath('make-a-copy-project-actions.png'),
+    fullPage: true,
+  });
+  await copyButton.click();
+  await page.waitForURL(/\/projects\/project_/u);
+  expect(page.url()).not.toBe(originalUrl);
+  await expect(page.getByLabel('Project name')).toHaveValue(
+    'Reusable event copy',
+  );
+  if (info.project.use.isMobile) {
+    await page.getByRole('button', { name: 'Guests', exact: true }).click();
+  }
+  await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(guests);
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Reusable event', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Reusable event copy', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText('2 of 25 active projects', { exact: true }),
+  ).toBeVisible();
+  await expectNoHorizontalPageOverflow(page);
+});
+
 test('review regression: project names persist before and after saving while lifecycle actions stay in Projects', async ({
   page,
 }, info) => {
@@ -127,7 +185,7 @@ test('review regression: project names persist before and after saving while lif
     page.getByRole('region', { name: 'Project actions' }),
   ).toHaveCount(0);
   await expect(
-    page.getByRole('button', { name: 'Duplicate', exact: true }),
+    page.getByRole('button', { name: 'Make a copy', exact: true }),
   ).toHaveCount(0);
   await expect(
     page.getByRole('button', { name: 'Archive', exact: true }),
@@ -173,7 +231,7 @@ test('review regression: project names persist before and after saving while lif
   await expect(
     page.getByRole('heading', { name: 'Renamed saved project', exact: true }),
   ).toBeVisible();
-  await page.getByRole('button', { name: 'Duplicate', exact: true }).click();
+  await page.getByRole('button', { name: 'Make a copy', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText(/project limit/u);
   page.once('dialog', async (dialog) => {
     expect(dialog.message()).toContain('Renamed saved project');

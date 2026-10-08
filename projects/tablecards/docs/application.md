@@ -394,10 +394,11 @@ enforce the same project/card/design limits as an ordinary save.
 responsive project cards, Active/Archived buttons, counts, empty-state Create
 actions and a loading line. Cards show title, card count, design kind and update
 date; predefined cards currently say Included design even for premium artwork.
-Open is available for active projects. Duplicate opens the new copy; Archive
+Open is available for active projects. Make a copy creates and opens a new
+editable project; it does not mark the original as a duplicate. Archive
 requires a browser confirmation and reloads the current filter; Restore opens
 the restored project. Pending actions disable that project's buttons. Capacity
-denials come from the server and appear as an alert; Create and Duplicate are
+denials come from the server and appear as an alert; Create and Make a copy are
 not disabled proactively at the limit. Errors are safely normalized and have a
 dedicated Retry projects control. Active lists stay within the accepted
 100-project cap. Archived lists use account-scoped 24-row metadata pages with
@@ -420,9 +421,9 @@ and returns to the new account's project home rather than rendering stale
 project data.
 
 **Delivered:** [Saved Project](../workloads/web/src/pages/project-page.tsx)
-loads the same creator without a separate lifecycle-action banner. Duplicate
+loads the same creator without a separate lifecycle-action banner. Make a copy
 and Archive belong on Projects cards, with Restore in the Archived list.
-Duplicate makes a reusable copy subject to active-project limits; Archive
+Make a copy creates a reusable copy subject to active-project limits; Archive
 preserves the saved project while freeing active capacity. Leaving an unsaved
 editor for Projects retains the discard confirmation. Naming is available
 above every creator step, including before the first save and after reopening.

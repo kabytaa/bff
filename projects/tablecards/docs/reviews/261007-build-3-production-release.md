@@ -814,3 +814,17 @@ the existing project title and explicit save semantics, with no new dialog,
 autosave, schema or migration. Agent-owned scoped review found no remaining
 blocking issue; Andrew's further review is optional. This evidence-only
 Markdown follow-up skips CI/deployment.
+
+### Make a copy terminology — 2026-10-08
+
+Baseline: repository `50b483d`, production/runtime `c16df8d`. Andrew interpreted
+Duplicate as marking a duplicate issue rather than creating a project. He
+approved Make a copy and development/production publication. This is a label-only
+change on Projects; the existing copying API, limits, destination, Archive and
+Restore are unchanged. No schema/migration or paid provider call is needed.
+
+The current product/application contracts and browser selectors are updated;
+historical review evidence retains its original labels. A focused component test
+asserts the new action opens a separate project, and the hosted desktop/mobile
+case checks the original stays active and guest contents are preserved. Tests
+and publication are pending.
