@@ -375,7 +375,7 @@ export function SheetPreview({
               <li key={index}>
                 {issue.message}{' '}
                 {issue.field === 'title'
-                  ? 'Shorten the event name or use supported characters.'
+                  ? 'Shorten the project name or use supported characters.'
                   : 'Shorten this field or choose a smaller name size.'}
               </li>
             ))}
@@ -483,18 +483,12 @@ export function Creator({
   developmentControlsEnabled,
   initialProjectId,
   onProjectSaved,
-  onDraftStateChange,
   initialStep = 1,
 }: {
   readonly developmentControlsEnabled: boolean;
   readonly initialProjectId?: string;
   readonly initialStep?: 1 | 2 | 3;
   readonly onProjectSaved?: (project: SavedProject) => void;
-  readonly onDraftStateChange?: (state: {
-    dirty: boolean;
-    unavailable: boolean;
-    loading: boolean;
-  }) => void;
 }) {
   const { client, snapshot, state } = useBffAuth();
   const backend = useTableCardsBackend();
@@ -656,13 +650,6 @@ export function Creator({
     return () => window.removeEventListener(ACCOUNT_CHANGE_EVENT, beforeSwitch);
   }, [dirty, draftStore]);
 
-  useEffect(() => {
-    onDraftStateChange?.({
-      dirty,
-      unavailable: projectUnavailable,
-      loading: projectLoading,
-    });
-  }, [dirty, onDraftStateChange, projectLoading, projectUnavailable]);
   useEffect(() => {
     if (dirty) setDownloadUrl(null);
   }, [dirty, pastedText, title, designId, customDesign, layoutId]);
@@ -1269,7 +1256,7 @@ export function Creator({
     if (currentFitIssues.length) {
       setNotice({
         kind: 'error',
-        message: `${currentFitIssues[0]?.message ?? 'A field does not fit.'} ${currentFitIssues[0]?.field === 'title' ? 'Shorten the event name or use supported characters.' : 'Shorten it or choose a smaller name size.'}`,
+        message: `${currentFitIssues[0]?.message ?? 'A field does not fit.'} ${currentFitIssues[0]?.field === 'title' ? 'Shorten the project name or use supported characters.' : 'Shorten it or choose a smaller name size.'}`,
       });
       return null;
     }
@@ -1334,9 +1321,15 @@ export function Creator({
         kind: 'success',
         message: 'Project saved securely to your account.',
       });
-      if (navigateAfterSave) {
+      if (
+        navigateAfterSave &&
+        onProjectSaved &&
+        (!initialProjectId || project.id !== initialProjectId)
+      ) {
+        // Bypass departure protection only for the intended route change.
+        // Saving this same project stays here; later edits still need a warning.
         allowNavigation.current = true;
-        onProjectSaved?.(project);
+        onProjectSaved(project);
       }
       return project;
     } catch (error) {
@@ -1547,6 +1540,19 @@ export function Creator({
               ? 'Create your place cards'
               : 'Build your first sheet'}
         </h2>
+        <div className="project-name-field">
+          <label htmlFor="project-title">Project name</label>
+          <input
+            id="project-title"
+            value={title}
+            maxLength={120}
+            disabled={projectLoading || projectUnavailable || busy !== null}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              setDirty(true);
+            }}
+          />
+        </div>
         <p>
           {initialProjectId || savedProject
             ? 'Changes stay in this tab until you save or export an updated PDF.'
@@ -1605,7 +1611,7 @@ export function Creator({
         <p className="notice error creator-feedback" role="alert">
           {fitIssues[0]?.message}{' '}
           {fitIssues[0]?.field === 'title'
-            ? 'Shorten the event name or use supported characters before saving or exporting.'
+            ? 'Shorten the project name or use supported characters before saving or exporting.'
             : 'Shorten this field or choose a smaller name size before saving or exporting.'}
         </p>
       ) : null}
@@ -1762,16 +1768,6 @@ export function Creator({
               <h3 tabIndex={-1}>Choose the look</h3>
               <span>three designs are free</span>
             </div>
-            <label htmlFor="project-title">Event name</label>
-            <input
-              id="project-title"
-              value={title}
-              maxLength={120}
-              onChange={(event) => {
-                setTitle(event.target.value);
-                setDirty(true);
-              }}
-            />
             <DesignPicker
               selected={designId}
               onSelect={(nextDesignId) => {

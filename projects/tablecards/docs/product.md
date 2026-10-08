@@ -90,6 +90,11 @@ TableCards must feel like a working application rather than one landing page con
 
 Saved presets, uploaded artwork, AI generation/remaining batches, project limits and Studio team controls must have discoverable product workflows when the current offer advertises them. A pricing claim cannot rely only on a backend contract or hidden development fixture: either expose and browser-test the capability or remove the claim before launch. Business-wide policy/configuration remains in the validated operator CLI, while the backoffice remains an operator evidence and remediation surface rather than a customer settings substitute.
 
+Users can name a new draft and rename an existing project through the same
+Project name field above the editor steps. Changes persist on Save or Export;
+renaming does not create another project. Duplicate and Archive remain available
+in Projects rather than taking space above the editor.
+
 ## Print contract
 
 Version one supports exactly one physical output:

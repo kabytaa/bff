@@ -61,7 +61,7 @@ async function createSavedProject(
   } else {
     await page.getByRole('button', { name: 'Preview names' }).click();
   }
-  await page.getByLabel('Event name').fill(title);
+  await page.getByLabel('Project name').fill(title);
   await openCreatorReview(page);
   await page.getByRole('button', { name: 'Save project' }).click();
   await page.waitForURL(/\/projects\/project_/u);
@@ -115,6 +115,7 @@ test.describe('public creation, import, authentication and navigation', () => {
     await page.getByRole('link', { name: 'Create free PDF' }).click();
     await expect(page).toHaveURL(/\/create$/u);
     await expectNoHorizontalPageOverflow(page);
+    await page.getByLabel('Project name').fill('Named before sign-in');
 
     await page.getByRole('button', { name: 'Try an example list' }).click();
     await expect(page.getByLabel(/Paste one name per line/u)).toHaveValue(
@@ -131,13 +132,16 @@ test.describe('public creation, import, authentication and navigation', () => {
       page.getByRole('region', { name: 'Column mapping' }),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Use these columns' }).click();
-    await expect(page.getByLabel('Event name')).toBeVisible();
+    await expect(page.getByLabel('Project name')).toBeVisible();
     await openCreatorStep(page, 'Review');
     await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
     await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
     await page.waitForURL(`${TABLECARDS_AUTH_URL}/**`);
     await completeDevelopmentLogin(page, persona);
     await expect(page.getByText(/guest list was restored/u)).toBeVisible();
+    await expect(page.getByLabel('Project name')).toHaveValue(
+      'Named before sign-in',
+    );
     await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
     await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
     await expect(page.getByRole('link', { name: 'Download PDF' })).toBeVisible({
@@ -502,7 +506,7 @@ test('CSV upload remains readable by the hosted browser bundle', async ({
     page.getByRole('region', { name: 'Column mapping' }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Use these columns' }).click();
-  await expect(page.getByLabel('Event name')).toBeVisible();
+  await expect(page.getByLabel('Project name')).toBeVisible();
   await openCreatorStep(page, 'Review');
   await expect(page.getByText(/2 cards · 1 PDF pages/u)).toBeVisible();
   const completePreview = page.getByRole('button', {

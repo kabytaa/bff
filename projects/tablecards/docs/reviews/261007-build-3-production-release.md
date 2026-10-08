@@ -749,3 +749,37 @@ approved compatible enum expansion was deployed; no data migration was needed.
 Fresh private production Google journeys remain unverified as documented above;
 the production smoke is anonymous and distinct from the hosted development
 credit/generation checks. This evidence-only Markdown follow-up skips CI/deploy.
+
+### Project naming and editor actions — 2026-10-08
+
+Scope: focused app/UI review and authorized implementation. Repository baseline
+`10acc40`, preceding production runtime `ca30bb9`. Andrew requested simpler
+saved-project actions and editable naming before/after saving; Astra independently
+recommended keeping Duplicate/Archive only in Projects, with Restore under
+Archived, rather than creating another editor menu.
+
+The editor's large lifecycle-action banner is removed. Existing `title` now
+appears as Project name directly below the creator heading, above every phone
+step and the desktop workspace. A name-only edit marks the draft unsaved,
+invalidates a previous PDF download and uses the existing explicit Save/Export
+flow on the same project. The header input preserves load, unavailable and
+busy guards formerly supplied by the controls' inert wrapper. Draft restoration
+and departure confirmation remain unchanged. No schema, migration, backend/API
+change, production customer-data repair or paid AI call is involved.
+
+Verification/publication is in progress. Focused component tests cover first
+save, name-only saved edits, stale PDF hiding and header loading/unavailable/busy
+guards. Hosted phone/desktop checks cover persistence, all steps, dirty departure,
+duplicate capacity, confirmed archive/restore and sign-in draft retention.
+Unrelated payment/team/provider logic is unchanged and uses the preceding
+valid evidence rather than another full hosted suite. Private production Google
+journeys remain unverified without personal credentials; public production
+checks and development authenticated checks are separate evidence.
+
+Astra's diff review also found a pre-existing departure-bypass bug: saving an
+existing project left a navigation bypass enabled even though no navigation
+occurred. The bypass now applies only to the intended route change after saving
+a new project. A second name edit after Save is protected without a reload.
+All **115 web component/unit tests**, web/e2e lint/type checks, changed-file
+format checks and the development web build pass. Hosted/publication evidence
+follows after the development UI release.

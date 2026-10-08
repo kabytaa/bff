@@ -503,6 +503,11 @@ footer > a:hover {
   text-align: center;
 }
 
+.project-name-field {
+  max-width: 30rem;
+  margin: 1rem 0;
+}
+
 .creator-layout {
   display: grid;
   grid-template-columns: minmax(23rem, 0.85fr) minmax(29rem, 1.15fr);
@@ -569,6 +574,7 @@ footer > a:hover {
   font-weight: 700;
 }
 
+.project-name-field > label,
 .step-card > label,
 .guest-list-heading label,
 .mapping-grid label,
@@ -1607,29 +1613,6 @@ footer p {
   gap: 1.5rem;
 }
 
-.saved-project-actions {
-  width: min(100%, 72rem);
-  margin: 0 auto 1rem;
-  border: 1px solid var(--line);
-  border-radius: 1rem;
-  padding: 1rem;
-  background: var(--paper);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.saved-project-actions > div:first-child {
-  display: grid;
-  gap: 0.2rem;
-}
-
-.saved-project-actions span {
-  color: var(--ink-soft);
-  font-size: 0.8rem;
-}
-
 .page-header {
   display: flex;
   align-items: flex-start;
@@ -2192,11 +2175,6 @@ summary {
 
   .page-header {
     display: grid;
-  }
-
-  .saved-project-actions {
-    align-items: flex-start;
-    flex-direction: column;
   }
 
   .creator-step-navigation {

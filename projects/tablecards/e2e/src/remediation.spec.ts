@@ -102,6 +102,96 @@ async function step(page: Page, name: 'Design' | 'Guests' | 'Review') {
   if (await button.isVisible()) await button.click();
 }
 
+test('review regression: project names persist before and after saving while lifecycle actions stay in Projects', async ({
+  page,
+}, info) => {
+  await logInFromLanding(
+    page,
+    uniquePersona('project-naming', info.project.name),
+  );
+  await page.goto('/create');
+  const name = page.getByLabel('Project name');
+  await expect(name).toBeVisible();
+  await name.fill('First named project');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  for (const currentStep of ['Guests', 'Design', 'Review'] as const) {
+    await step(page, currentStep);
+    await expect(name).toBeVisible();
+    await expect(name).toHaveValue('First named project');
+  }
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await page.waitForURL(/\/projects\/project_/u);
+  const savedUrl = page.url();
+  await expect(name).toHaveValue('First named project');
+  await expect(
+    page.getByRole('region', { name: 'Project actions' }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole('button', { name: 'Duplicate', exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole('button', { name: 'Archive', exact: true }),
+  ).toHaveCount(0);
+  await page.reload();
+  await expect(name).toHaveValue('First named project');
+  await name.fill('Renamed saved project');
+  await expect(page.locator('.save-state')).toContainText('Unsaved changes');
+  page.once('dialog', async (dialog) => {
+    expect(dialog.message()).toMatch(/Discard the unsaved changes/u);
+    await dialog.dismiss();
+  });
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await expect(page).toHaveURL(savedUrl);
+  await expect(name).toHaveValue('Renamed saved project');
+  await step(page, 'Review');
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await expect(page.locator('.save-state')).toHaveText(
+    'Saved to this workspace',
+  );
+  await expect(page).toHaveURL(savedUrl);
+  await name.fill('Second unsaved rename');
+  page.once('dialog', async (dialog) => {
+    expect(dialog.message()).toMatch(/Discard the unsaved changes/u);
+    await dialog.dismiss();
+  });
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await expect(page).toHaveURL(savedUrl);
+  await expect(name).toHaveValue('Second unsaved rename');
+  await name.fill('Renamed saved project');
+  await page.getByRole('button', { name: 'Save project' }).click();
+  await expect(page.locator('.save-state')).toHaveText(
+    'Saved to this workspace',
+  );
+  await page.reload();
+  await expect(name).toHaveValue('Renamed saved project');
+  await expectNoHorizontalPageOverflow(page);
+  await page.screenshot({
+    path: info.outputPath('named-project-editor.png'),
+    fullPage: true,
+  });
+  await page.getByRole('link', { name: 'Projects', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Renamed saved project', exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Duplicate', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText(/project limit/u);
+  page.once('dialog', async (dialog) => {
+    expect(dialog.message()).toContain('Renamed saved project');
+    await dialog.accept();
+  });
+  await page.getByRole('button', { name: 'Archive', exact: true }).click();
+  await expect(
+    page.getByText('Create your first project', { exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Archived', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Renamed saved project', exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Restore', exact: true }).click();
+  await page.waitForURL(savedUrl);
+  await expect(name).toHaveValue('Renamed saved project');
+});
+
 async function importNames(page: Page, text: string) {
   await step(page, 'Guests');
   await page.getByLabel(/Paste one name per line/u).fill(text);
@@ -149,7 +239,7 @@ test('review regression: mixed examples wrap long names consistently in preview 
   );
   await step(page, 'Design');
   await page.getByRole('button', { name: /Garden Sage/u }).click();
-  await page.getByLabel('Event name').fill('Mixed name review');
+  await page.getByLabel('Project name').fill('Mixed name review');
   await page.getByRole('button', { name: 'Open complete preview' }).click();
   const preview = page.getByRole('dialog', { name: 'Complete print preview' });
   await expect(preview).toBeVisible();
@@ -227,7 +317,7 @@ test('review regression: creator actions stay in their cards and Sign out appear
     });
   }
   await importNames(page, 'Ada Lovelace\nAlexandra Catherine Montgomery');
-  await page.getByLabel('Event name').fill('Inline action review');
+  await page.getByLabel('Project name').fill('Inline action review');
   if (info.project.use.isMobile) {
     const review = page.getByRole('button', { name: 'Review and export' });
     await expectInlineAction(
@@ -331,7 +421,7 @@ test('review regression: Create shares application navigation, preserves drafts 
     await expect(stepHeading).toBeFocused();
     await expect(stepHeading).toHaveCSS('outline-style', 'none');
   }
-  await page.getByLabel('Event name').fill('Navigation review');
+  await page.getByLabel('Project name').fill('Navigation review');
   await page.reload();
   if (info.project.use.isMobile) {
     await expect(
@@ -357,7 +447,9 @@ test('review regression: Create shares application navigation, preserves drafts 
     fullPage: true,
   });
   await step(page, 'Design');
-  await expect(page.getByLabel('Event name')).toHaveValue('Navigation review');
+  await expect(page.getByLabel('Project name')).toHaveValue(
+    'Navigation review',
+  );
   await step(page, 'Review');
   if (info.project.use.isMobile) {
     await page
@@ -405,7 +497,7 @@ test('review regression: edited saved project exports the actual current names, 
   );
   await page.goto('/create');
   await importNames(page, 'Old Guest\nOriginal Guest\nRemoved Guest');
-  await page.getByLabel('Event name').fill('Original event');
+  await page.getByLabel('Project name').fill('Original event');
   await step(page, 'Review');
   await page.getByRole('button', { name: 'Save project' }).click();
   await page.waitForURL(/\/projects\/project_/u);
@@ -414,7 +506,7 @@ test('review regression: edited saved project exports the actual current names, 
     'Old Guest\nOriginal Guest\nRemoved Guest',
   );
   await importNames(page, 'Łukasz Dvořák\nŁukasz Dvořák');
-  await page.getByLabel('Event name').fill('Reviewed current event');
+  await page.getByLabel('Project name').fill('Reviewed current event');
   await step(page, 'Review');
   await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
   const download = page.getByRole('link', { name: 'Download PDF' });
@@ -430,7 +522,7 @@ test('review regression: edited saved project exports the actual current names, 
   expect(parsed.text.match(/Łukasz Dvořák/gu)).toHaveLength(4);
   expect(parsed.text).not.toMatch(/Old Guest|Original Guest|Removed Guest/u);
   await step(page, 'Design');
-  await page.getByLabel('Event name').fill('Not yet exported');
+  await page.getByLabel('Project name').fill('Not yet exported');
   await step(page, 'Review');
   await expect(download).toHaveCount(0);
   await expectNoHorizontalPageOverflow(page);
@@ -532,7 +624,7 @@ test('review regression: the paid 500-card ceiling renders and downloads with em
     page,
     Array.from({ length: 500 }, () => 'Łukasz Dvořák').join('\n'),
   );
-  await page.getByLabel('Event name').fill('Maximum supported event');
+  await page.getByLabel('Project name').fill('Maximum supported event');
   await step(page, 'Review');
   await page.getByRole('button', { name: 'Create print-ready PDF' }).click();
   const download = page.getByRole('link', { name: 'Download PDF' });

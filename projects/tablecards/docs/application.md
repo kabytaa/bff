@@ -1,7 +1,7 @@
 # TableCards Application
 
 Created: 2026-09-28
-Updated: 2026-10-07
+Updated: 2026-10-08
 Status: Accepted — Build 3 no-charge preview deployed in development and production
 
 This document defines the customer-facing TableCards application experience:
@@ -281,6 +281,13 @@ guidance; authenticated new projects show creation guidance, and saved projects
 show an edit heading with unsaved-change guidance. The phone's compact brand
 link retains an accessible destination label even when its wordmark is hidden.
 
+Project name is an editable field directly below the creator heading, before
+the steps, on phone and desktop. It names both new drafts and saved projects;
+it stays visible in Guests, Design and Review. It uses the existing project
+title, not a separate event name. Changes mark the draft unsaved; Save project
+persists them, and PDF export saves current changes first. The field is disabled
+while the project loads, is unavailable or a save/export operation is running.
+
 #### Step 1 — Guests
 
 - Paste lines or a spreadsheet grid, or upload CSV/XLSX.
@@ -358,7 +365,8 @@ and blocks Save/Export with a correction, rather than showing an empty-input
 placeholder. Custom event artwork exposes the accepted constrained name font,
 size, position and color controls, including Event Pass.
 The first preview is the first card sheet, not a calibration page. The event
-name remains project metadata/PDF title and is validated before save/export.
+name, labelled Project name, remains project metadata/PDF title and is validated
+before save/export; it is not added to the printed cards.
 The separate development print-test download retains its calibration guide.
 An interrupted AI operation is recovered from the server on mount and retried
 with its original prompt/key, even after its unit is reserved; a new operation
@@ -402,7 +410,7 @@ failed loads never masquerade as an empty workspace.
 This route uses the creator workspace with the saved project loaded. It adds:
 
 - project title and saved/unsaved state;
-- Save, Duplicate, Archive and Export actions as permitted;
+- an editable Project name plus Save and Export actions as permitted;
 - recent export status and download action;
 - a safe not-found/wrong-account state that never reveals another account's
   project.
@@ -412,8 +420,12 @@ and returns to the new account's project home rather than rendering stale
 project data.
 
 **Delivered:** [Saved Project](../workloads/web/src/pages/project-page.tsx)
-adds a supporting action strip above the same creator. Duplicate/Archive are
-disabled while loading, unavailable or dirty; Archive still requires confirmation.
+loads the same creator without a separate lifecycle-action banner. Duplicate
+and Archive belong on Projects cards, with Restore in the Archived list.
+Duplicate makes a reusable copy subject to active-project limits; Archive
+preserves the saved project while freeing active capacity. Leaving an unsaved
+editor for Projects retains the discard confirmation. Naming is available
+above every creator step, including before the first save and after reopening.
 Missing/wrong-account loads show a safe notice and Return to Projects, with
 editor/lifecycle actions unavailable. Saved/unsaved state is visible. Export
 validates and saves the current input before requesting its PDF. Download PDF
@@ -651,6 +663,8 @@ in the release review; real paid/subscription state is not claimed.
   without losing guest order or duplicate names.
 - **US-07:** As a project editor, I can distinguish saved from unsaved changes
   and download only a successfully generated export of the current revision.
+  I can name a new draft or rename a saved project above any editor step;
+  Save updates that same project, and reload preserves its name.
 - **US-08:** As a Free user over 25 cards or at the active-project limit, I see
   a precise denial and can reduce the project or choose an upgrade path.
 
@@ -972,3 +986,4 @@ settings.
 | 2026-10-06 | Accepted — reconciled with development      | Retained this document as the Business-local application source; inspected `b5aeae3` routes, components, styles, server guards and existing test assertions. Recorded actual navigation/composition/design choices and consequential gaps without changing accepted offers, runtime code or production.                                                                                               |
 | 2026-10-06 | Accepted — remediation source implemented   | Implemented the authorized review plan from `3a948ad`: current-input saves/export, dirty downloads, drafts/auth return, unkeyed account-switch navigation, phone actions/preview/exit, artwork parity, safe notices/retries, Event Pass styling, Owner workspace naming and preview policies/fonts. Local component/type/lint gates passed; deployment and independent hosted review remain separate. |
 | 2026-10-06 | Accepted — development remediation verified | Runtime `a914da0` deployed with exact health/font evidence. Fresh hosted acceptance passed 27 cases (17 Chromium, 10 mobile WebKit); independent app/security/readiness review and focused 92 web/57 SDK/40 core checks are recorded in the remediation evidence. Earlier failed reviews remain history; production is unchanged and user usability review is optional.                               |
+| 2026-10-08 | Accepted — editor simplification            | Andrew requested clear project naming and Astra reviewed lifecycle placement. Keep Duplicate/Archive on Projects cards, remove the editor banner, and expose the existing title as Project name above all steps with explicit saving and load/busy guards. No schema or API changes.                                                                                                                  |

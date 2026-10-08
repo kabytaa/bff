@@ -388,7 +388,7 @@ describe('restored current private artwork', () => {
       expect(
         document.querySelector('.creator-preview .paper-preview'),
       ).toBeNull();
-      fireEvent.change(screen.getByLabelText('Event name'), {
+      fireEvent.change(screen.getByLabelText('Project name'), {
         target: { value: 'Edited while artwork loads' },
       });
       fireEvent.change(screen.getByLabelText(/Paste one name/), {
@@ -530,7 +530,7 @@ describe('restored current private artwork', () => {
         ).toBe(false),
       );
       expect(
-        (screen.getByLabelText('Event name') as HTMLInputElement).value,
+        (screen.getByLabelText('Project name') as HTMLInputElement).value,
       ).toBe('Unsaved artwork event');
       expect(
         (screen.getByLabelText(/Paste one name/) as HTMLTextAreaElement).value,
@@ -587,6 +587,119 @@ describe('restored current private artwork', () => {
 });
 
 describe('current creator input and export', () => {
+  it('offers project naming above every step before the first save', async () => {
+    mocks.backend.listProjects.mockResolvedValue([]);
+    mount(null);
+    const name = screen.getByLabelText('Project name');
+    expect(name.closest('.section-intro')).not.toBeNull();
+    expect(name.closest('.creator-controls')).toBeNull();
+    fireEvent.change(name, { target: { value: 'First named project' } });
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Try an example list' }),
+    );
+    for (const step of ['Guests', 'Design', 'Review']) {
+      fireEvent.click(screen.getByRole('button', { name: step }));
+      expect(screen.getByLabelText('Project name')).toBe(name);
+    }
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await waitFor(() => expect(mocks.backend.saveProject).toHaveBeenCalled());
+    expect(mocks.backend.saveProject).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'First named project',
+      }),
+    );
+    expect(
+      mocks.backend.saveProject.mock.calls[0]?.[0].projectId,
+    ).toBeUndefined();
+  });
+
+  it('saves a name-only edit on the existing project and hides the stale PDF', async () => {
+    mount();
+    await screen.findByDisplayValue('Original event');
+    await screen.findByRole('link', { name: 'Download PDF' });
+    fireEvent.change(screen.getByLabelText('Project name'), {
+      target: { value: 'Renamed saved project' },
+    });
+    expect(screen.getByText(/Unsaved changes/)).toBeTruthy();
+    expect(screen.queryByRole('link', { name: 'Download PDF' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await screen.findByText('Saved to this workspace');
+    expect(mocks.backend.saveProject).toHaveBeenCalledWith(
+      expect.objectContaining({
+        projectId: 'project-one',
+        title: 'Renamed saved project',
+        guests: originalProject.guests,
+      }),
+    );
+    expect(mocks.backend.requestExport).not.toHaveBeenCalled();
+  });
+
+  it('disables the header name while loading and when the saved project is unavailable', async () => {
+    let completeLoad!: (project: null) => void;
+    mocks.backend.getProject.mockReturnValue(
+      new Promise((resolve) => {
+        completeLoad = resolve;
+      }),
+    );
+    mount();
+    expect(screen.getByLabelText('Project name').hasAttribute('disabled')).toBe(
+      true,
+    );
+    await act(async () => completeLoad(null));
+    await screen.findByText('Project unavailable in this workspace');
+    expect(screen.getByLabelText('Project name').hasAttribute('disabled')).toBe(
+      true,
+    );
+    expect(mocks.backend.saveProject).not.toHaveBeenCalled();
+  });
+
+  it('still protects a second name edit after saving on the same route without reloading', async () => {
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    try {
+      const { router } = mount();
+      await screen.findByDisplayValue('Original event');
+      fireEvent.change(screen.getByLabelText('Project name'), {
+        target: { value: 'Saved rename' },
+      });
+      fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+      await screen.findByText('Saved to this workspace');
+      fireEvent.change(screen.getByLabelText('Project name'), {
+        target: { value: 'Second unsaved rename' },
+      });
+      await act(async () => router.navigate('/projects'));
+      await waitFor(() =>
+        expect(confirm).toHaveBeenCalledWith(
+          'Discard the unsaved changes to this project?',
+        ),
+      );
+      expect(router.state.location.pathname).toBe('/projects/project-one');
+      expect(screen.getByDisplayValue('Second unsaved rename')).toBeTruthy();
+    } finally {
+      confirm.mockRestore();
+    }
+  });
+
+  it('disables the header name during saving and enables it after completion', async () => {
+    let completeSave!: (project: typeof originalProject) => void;
+    mocks.backend.saveProject.mockReturnValue(
+      new Promise((resolve) => {
+        completeSave = resolve;
+      }),
+    );
+    mount();
+    await screen.findByDisplayValue('Original event');
+    fireEvent.click(screen.getByRole('button', { name: 'Save project' }));
+    await waitFor(() => expect(mocks.backend.saveProject).toHaveBeenCalled());
+    expect(screen.getByLabelText('Project name').hasAttribute('disabled')).toBe(
+      true,
+    );
+    await act(async () => completeSave(originalProject));
+    await screen.findByText('Saved to this workspace');
+    expect(screen.getByLabelText('Project name').hasAttribute('disabled')).toBe(
+      false,
+    );
+  });
+
   it('saves newly typed input before exporting and hides the previous download while dirty', async () => {
     mount();
     await screen.findByDisplayValue('Original event');
@@ -594,7 +707,7 @@ describe('current creator input and export', () => {
     fireEvent.change(screen.getByLabelText(/Paste one name/), {
       target: { value: 'Zelda Corrected\nNew Guest' },
     });
-    fireEvent.change(screen.getByLabelText('Event name'), {
+    fireEvent.change(screen.getByLabelText('Project name'), {
       target: { value: 'Changed event' },
     });
     expect(screen.queryByRole('link', { name: 'Download PDF' })).toBeNull();
@@ -735,7 +848,7 @@ describe('current creator input and export', () => {
       },
     });
     mount(null);
-    expect(screen.getByLabelText('Event name').getAttribute('value')).toBe(
+    expect(screen.getByLabelText('Project name').getAttribute('value')).toBe(
       'Retained draft',
     );
     expect(
@@ -878,13 +991,15 @@ describe('preview and guest-column fidelity', () => {
   it('shows card sheets immediately and preserves the event title without a print-check page', async () => {
     mount();
     await screen.findByDisplayValue('Original event');
-    fireEvent.change(screen.getByLabelText('Event name'), {
-      target: { value: 'Current edited event name' },
+    fireEvent.change(screen.getByLabelText('Project name'), {
+      target: { value: 'Current edited project name' },
     });
     expect(
       document.querySelector('.creator-preview .paper-preview')?.textContent,
     ).toContain('Ada Original');
-    expect(screen.getByDisplayValue('Current edited event name')).toBeTruthy();
+    expect(
+      screen.getByDisplayValue('Current edited project name'),
+    ).toBeTruthy();
     expect(document.querySelector('.preview-count')?.textContent).toMatch(
       /1 cards · 1 PDF pages/,
     );
@@ -899,15 +1014,15 @@ describe('preview and guest-column fidelity', () => {
     );
   });
   it.each(['W'.repeat(120), 'Unsupported 🦄 event'])(
-    'blocks save and export when the actual event name cannot render: %s',
+    'blocks save and export when the actual project name cannot render: %s',
     async (title) => {
       mount();
       await screen.findByDisplayValue('Original event');
-      fireEvent.change(screen.getByLabelText('Event name'), {
+      fireEvent.change(screen.getByLabelText('Project name'), {
         target: { value: title },
       });
       expect(screen.getByRole('alert').textContent).toMatch(
-        /title|event name/i,
+        /title|project name/i,
       );
       expect(
         screen

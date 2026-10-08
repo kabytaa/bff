@@ -46,6 +46,25 @@ async function openStep(page: Page, name: 'Design' | 'Review') {
   if (await button.isVisible()) await button.click();
 }
 
+test('project naming is visible above every public creator step and survives draft reload', async ({
+  page,
+}) => {
+  await page.goto('/create');
+  const name = page.getByLabel('Project name');
+  await expect(name).toBeVisible();
+  await name.fill('Public naming smoke');
+  await page.getByRole('button', { name: 'Try an example list' }).click();
+  for (const currentStep of ['Design', 'Review'] as const) {
+    await openStep(page, currentStep);
+    await expect(name).toBeVisible();
+    await expect(name).toHaveValue('Public naming smoke');
+  }
+  await page.reload();
+  await expect(name).toHaveValue('Public naming smoke');
+  await expect(name).toBeVisible();
+  await expectContained(page);
+});
+
 async function prepareCards(page: Page) {
   await page.goto('/create');
   await page
@@ -58,7 +77,7 @@ async function prepareCards(page: Page) {
   else await page.getByRole('button', { name: 'Preview names' }).click();
   await openStep(page, 'Design');
   await page
-    .getByLabel('Event name')
+    .getByLabel('Project name')
     .fill('Production smoke — synthetic names');
   await openStep(page, 'Review');
 }

@@ -22,6 +22,10 @@ Updated: 2026-10-08.
 
 ## Immediate next work
 
+- In progress: simplify the saved editor with Astra's review. Keep lifecycle
+  actions in Projects and expose Project name above every creator step using
+  the existing title field. Local/development/production verification pending;
+  no schema/API change.
 - Continue the [backoffice choices in the single MVP roadmap](docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice):
   read-only scope, helper permissions and essential customer/activity views.
   Give options, trade-offs and a recommendation; no implementation is approved yet.
