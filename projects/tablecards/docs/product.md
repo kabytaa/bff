@@ -4,7 +4,8 @@ Updated: 2026-10-08.
 
 Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
-Current release: the 2026-10-07 merged Build 3 preview on `main`; the
+Current release: the Build 3 preview on `main`, including the 2026-10-08
+welcome-credit fix; the
 [production release review](reviews/261007-build-3-production-release.md)
 records exact versions, production smoke and verification limits. The earlier
 PDF/session/Cloudflare [delta review](reviews/261007-pdf-session-and-live-ai-fixes.md),

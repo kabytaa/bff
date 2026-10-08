@@ -2,7 +2,7 @@
 
 Created: 2026-10-07
 Updated: 2026-10-08
-Status: Released no-charge preview; welcome-credit fix approved and implemented, publication in progress; not customer launch
+Status: Released no-charge preview; welcome-credit fix deployed and verified; not customer launch
 Baseline: `14de403d14362229e6809a770f21be049b168b05` on `feat/tablecards-application`; PR #1
 Scope: authorized Build 3 no-charge production preview and final development refresh, not paying-customer launch
 
@@ -730,3 +730,22 @@ viewports. An initial extended mobile test missed its editor step during route
 loading; the test now waits for the editor and explicitly chooses the mobile
 Design step, without force-clicking or changing product behavior. Commit and
 production publication follow.
+
+Final runtime **`ca30bb925aa25614b23b6069b8aec405b689fa9f`** was committed/pushed
+to main. [CI 37725959669](https://github.com/kabytaa/bff/actions/runs/37725959669)
+passed full repository validation **3m10s** and guarded production
+deployment/smoke **2m23s**. Live shared BFF and TableCards production health and
+TableCards web metadata all match this release. Both changed development
+backends also identify this commit; unchanged development services were not
+republished or restamped. Anonymous production default initialization returns
+`401`; development product-access and dummy-auth routes still return `404`.
+
+**Outcome:** the Free welcome batch is provisioned in both environments without
+simulated payment, resetting consumption or changing existing upgraded access.
+Existing default accounts are repaired on their next authorized product-access
+request, not through an unscoped backfill. Refresh Account and usage to see one
+remaining batch if the lifetime unit has not already been consumed. Only the
+approved compatible enum expansion was deployed; no data migration was needed.
+Fresh private production Google journeys remain unverified as documented above;
+the production smoke is anonymous and distinct from the hosted development
+credit/generation checks. This evidence-only Markdown follow-up skips CI/deploy.
