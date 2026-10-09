@@ -1,8 +1,64 @@
 # Provider accounts, access and secrets
 
-Updated: 2026-09-26.
+Updated: 2026-10-09.
 
 This is the manual handoff for [ADR 0001 — Convex-first BFF stack](../architecture/adr/0001-convex-first-bff-stack.md). It records which accounts are needed, when they are needed and how access should be supplied. It must never contain credential values.
+
+## Operator work development access — 2026-10-09
+
+The accepted [Operator work design](../../.agent/brainstorms/261008-customer-operations-backoffice.md)
+is ready for planning, not implemented. This dated check supersedes earlier
+Foundation-only assumptions about missing providers or an empty production setup.
+No provider settings, email sends, model calls or deployments were performed.
+
+- **Available:** Convex dev access, Wrangler login/Worker deployment scopes, active
+  `tofler.app` zone visibility, the Resend Full-access key, and Andrew's separate
+  Cloudflare setup token supplied through Nirvana. Token verification reports
+  active; DNS-record and AI Gateway list requests succeed (HTTP 200), with no
+  gateways registered. These checks do not exercise write permissions. The token
+  was not displayed or persisted locally, and task notes were not changed. Read-only settings
+  retrieval for `business-factory-tablecards-ai-dev` succeeds and shows the AI
+  binding and a secret binding, not an Images binding. No secret values were read
+  from that response or logged.
+- **Branded email setup:** use zone-scoped DNS write access for `tofler.app`
+  (`DNS Write` in the [permission catalog](https://developers.cloudflare.com/fundamentals/api/reference/permissions/)),
+  during authorized setup, or have Andrew add the reviewed Resend TXT/MX records. Resend currently has no
+  registered domains. Preserve existing DNS/mail records; do not replace root MX
+  records when adding a Business subdomain.
+- **AI caps:** use account-scoped `AI Gateway - Read` and `AI Gateway - Edit`
+  for provisioning, per [gateway setup](https://developers.cloudflare.com/ai-gateway/configuration/manage-gateway/).
+  Existing Wrangler OAuth returned HTTP 403; the supplied setup token now lists
+  gateways successfully, without changing that OAuth grant. Gateway permissions cannot
+  be restricted to one gateway; keep this setup credential separate from runtime
+  credentials and the existing CI token. During authorized setup, route all live
+  helper/support text through the selected capped gateway and verify both the
+  $3/day and $30/month rules; no uncapped or expensive fallback. Provider
+  [spend-limit accounting](https://developers.cloudflare.com/ai-gateway/features/spend-limits/)
+  is eventually consistent, not an exact application reservation system.
+- **Native alerts:** Andrew can use Billing > Billable Usage > Create budget
+  alert under a Billing/Administrator/Super Administrator role. These are
+  [account-wide billing-period threshold emails](https://developers.cloudflare.com/billing/manage/budget-alerts/),
+  not AI-only daily reports; the [changelog](https://developers.cloudflare.com/changelog/post/2026-06-15-budget-alerts-default-on/)
+  documents prior-day processing. Do not request broad billing API rights merely
+  to automate this small dashboard step or build a custom alert system.
+- **Screenshot conversion:** the [Images binding](https://developers.cloudflare.com/images/optimization/binding/)
+  handles private bytes without public originals or Images storage. Adding it to
+  the new shared processor is build/configuration work. The default
+  [Images Free plan](https://developers.cloudflare.com/images/pricing/) supports
+  up to 5,000 unique monthly transformations; no paid Images subscription is
+  expected for the initial development volume. Actual conversion remains untested.
+
+Use a secure credential channel for long-term secret handling, not task notes,
+chat or tracked files. Andrew's Nirvana handoff enabled this read-only check; it
+is not a long-term secret-store recommendation. Prefer separate short-lived DNS
+and gateway setup tokens; a single setup
+token may carry both reviewed scopes if needed. Existing Worker deployment access
+does not need widening for these separate API operations.
+Checked the installed Wrangler 4.141.0 `login --scopes-list`: it offers Workers AI
+but no DNS-write or explicit AI Gateway management scope. Reauthorization of this
+client is therefore not an established replacement for the scoped setup token;
+no login/grant was changed. Cloudflare documents
+[API tokens for granular Wrangler authorization](https://developers.cloudflare.com/workers/authorization/).
 
 ## Immediate answer
 
@@ -36,7 +92,7 @@ Do not register Clerk, Apple Developer, PostHog, Resend, Sentry or a helpdesk fo
 | Cloudflare | Interactive Wrangler access is connected; `ops-dev.tofler.tech` is live; both Tofler zones are owned in Cloudflare | Create shared `tofler-github-ci` with Workers Scripts Edit and Workers Routes Edit for both Tofler zones | Production and future Tofler CI/CD |
 | Paddle | Seller status not verified here | Continue seller onboarding; create sandbox credentials first, live credentials after approval | Billing implementation and launch |
 | PostHog | Not confirmed and optional | Do not register yet; create a project only if the first product outgrows canonical BFF events | High-volume product analytics/funnels |
-| Resend | Not confirmed and optional | Do not register yet; Google/Apple social login needs no authentication email | First separate transactional email flow |
+| Resend | Account/key provided; 2026-10-09 read-only domain request succeeds (HTTP 200), no registered domains | Domain verification/receiving/callback setup still needed during authorized work | BFF-owned support send/receive |
 | Support mailbox | Existing address may be used | Confirm one monitored public address; a branded mailbox can wait | Before first public launch |
 | Sentry | Not confirmed and optional | Defer until Convex logs are insufficient | After observed monitoring need |
 | GitHub | Repository, Actions validation and authenticated CLI access exist | Create the `production` environment, branch restriction, public variables and two environment secrets | Production CI/CD |
@@ -116,7 +172,7 @@ The shared Tofler CI token does not need general-purpose DNS-write access. In Cl
 | `RESEND_API_KEY` | Secret, Convex environment | Sends transactional email |
 | `RESEND_WEBHOOK_SECRET` | Secret, Convex environment | Verifies delivery events when used |
 
-Domain ownership and DNS verification are manual prerequisites. Resend is not required for the MVP support inbox: users read operator responses in-product and the operator may reply manually from the monitored support mailbox when necessary.
+Domain ownership/DNS verification and scoped signed callbacks are prerequisites for live support email. Operator work selects Resend send/receive with BFF-owned ticket history and email follow-up, not an in-product customer inbox. Synthetic/no-send development can precede provider setup; no account, key, domain or callback configuration is established by this selection.
 
 ## Secret placement
 

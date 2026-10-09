@@ -2,6 +2,37 @@
 
 At the start of work in this repository, read [STATUS.md](STATUS.md). Then read only the canonical document it points to for the active work.
 
+During continuous work, reuse documents already read and still available in
+context. Refresh relevant sections when files change, context is missing,
+contradictions arise, or exact current content is needed. Quality takes priority
+over speed; required sourcing, skill instructions, authorization and validation
+remain unchanged.
+
+Delegate research and source/data collection when there is useful parallel work:
+the primary agent can keep talking with Andrew or progress other agreed work
+while research runs. Do not delegate merely to wait for the result. Handle quick
+lookups and small checks directly when delegation adds no meaningful time benefit.
+Choose a model proportionate to the task: the current model or a faster model
+for routine factual collection. Consult a stronger reasoning model, such as Astra,
+when deeper judgment is worth the added cost: genuinely difficult, consequential
+trade-offs, substantial user-experience design or important independent reviews
+of existing work. For UX work, consider complete user journeys, confusing states,
+mobile behavior and accessibility. Do not consult a stronger model for every
+small question, routine check or minor UI tweak. Stronger-model advice does not
+replace checking the actual interface/behavior and appropriate tests. Give bounded
+questions and return requirements rather than duplicating the delegated research.
+
+When starting a sub-agent or giving an existing sub-agent new work, tell Andrew
+briefly what it will do and why delegation is useful. Mention the selected model
+when relevant, especially for a stronger-model consultation. This is a progress
+update, not an extra approval request; existing authorization rules still apply.
+
+The primary agent owns synthesis, source quality and consistency with repository
+decisions, and makes targeted verification checks where needed. Required reads of
+repository/skill instructions remain the primary agent's responsibility. Delegation
+does not expand authorization for edits, configuration or external actions. If
+useful delegation is unavailable, explain the limitation and continue the necessary work.
+
 Use these sources in this order:
 
 1. `STATUS.md` — short current handoff: last completed work, immediate next moves and blockers.

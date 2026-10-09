@@ -1,7 +1,7 @@
 # TableCards Application
 
 Created: 2026-09-28
-Updated: 2026-10-08
+Updated: 2026-10-09
 Status: Accepted — Build 3 no-charge preview deployed in development and production
 
 This document defines the customer-facing TableCards application experience:
@@ -144,13 +144,18 @@ incomplete workflow; a scope change requires product direction.
 | `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell                |
 | `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell         |
 | `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered          |
-| `/support`                       | Public/signed-in ticket submission only; ongoing customer conversation is by email                         | Planned Build 5; not registered          |
+| `/support`                       | Signed-in submission form; signed-out Sign in / Send us an email choices; conversation continues by email | Planned Operator work; not registered    |
 
 On 2026-10-08 Andrew confirmed the [support boundary](product.md#support-feedback-and-operations):
 customers open tickets through the website or email, then continue by email.
 Ticket history, status and operator replies belong to the shared backoffice;
-no customer conversation/history page is planned for MVP. The exact submission
-form and signed-in/public behavior remain to design.
+no customer conversation/history page is planned for MVP. On 2026-10-09 Andrew
+settles the intake boundary: signed-in users have the shared form; signed-out
+visitors can Sign in or Send us an email through a public mail link. The link
+opens a draft in the configured mail client rather than sending automatically;
+show the address for visitors without a configured client. No anonymous form
+or extra contact-verification/recovery flow is required. Detailed form states
+remain to design; none of this is claimed as delivered UI.
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
@@ -958,9 +963,56 @@ Build 4 keeps the checkout interface but adds Paddle selection, verified
 webhooks, paid-through renewal, subscription status and billing remediation
 without redesigning these pages. Development may select Paddle or mock;
 production returns Paddle directly. Build 5 adds Support to the existing
-application shell. Build 6 expands the separate operator backoffice and
-monitoring rather than mixing operator controls into TableCards customer
-settings.
+application shell and groups the shared operator backoffice's business/customer
+visibility with helper/support assistance. Build 6 separately adds technical
+monitoring and alerts. Operator controls stay out of TableCards customer settings.
+
+### Site-wide Q&A helper — accepted direction, not implemented
+
+On 2026-10-09 Andrew selects a helper available across TableCards pages, not only
+the Create flow; see [the product contract](product.md#support-feedback-and-operations).
+It answers from approved on-demand skills and suggests relevant, clickable page
+links. Clicking uses normal app navigation, including authentication and existing
+unsaved-change safeguards; a model response does not automatically change pages
+or execute project/account writes. Validate destinations against known app routes,
+not arbitrary model-generated URLs. Do not claim an answer to every question;
+unknown answers should remain clear with an appropriate next step.
+
+Supply minimal validated context: signed-in/out state and the plan of the active
+account/workspace in the current Business/environment. Do not trust plan claims
+in the chat; when context is loading, unavailable or stale, avoid guessing or
+describing preview/mock access as payment. Suggest normal Google sign-in for
+account-only actions without blocking general Q&A. Prefer answering with approved
+guidance, but offer contact when unresolved, when human handling is needed or
+when requested. "Help" is the proposed entry label; contact is not restricted
+to technical problems or a required support/sales department selection.
+Signed-in customers can open the planned ticket form, review a prepared summary
+if supplied and explicitly submit. Signed-out customers retain sign-in or the
+configured email link, which opens the mail composer rather than sending.
+Make feedback easy to find without first using the helper. For problems, prefer
+helper guidance and show escalation inside Help, not a prominent Contact us
+entry. Keep direct/fallback contact discoverable; no silent ticket creation or
+forced chatbot loop. General feedback uses existing signed-in form/public-email
+choices and is distinct from optional answer ratings or the closing-ticket survey.
+Questions, feedback/suggestions and product/offer enquiries use the same channel.
+Support messages can be branded TableCards rather than labelled as drafting-bot
+output, but remain operator-approved and do not impersonate a human author.
+
+Record bounded helper-interaction outcomes through shared BFF bot measurement:
+questions/topics and answer references, explicit usefulness feedback where
+provided, actual navigation/contact stages and known errors, distinguishing facts
+from AI labels. A clicked link or closed chat is not proof the question was solved;
+opening an email composer does not confirm an email was sent. An unobtrusive
+optional usefulness control is proposed, not a survey after every message.
+Question/answer sampling, disclosure/retention and exact signals remain open;
+this is not general clickstream tracking or a delivered analytics/feedback UI.
+
+Use the shared themed helper component, with usable phone/desktop composition;
+placement, additional context, conversation state and limits remain design
+choices. Maintain baseline instructions for approved knowledge, login/plan-aware
+guidance, honest unknowns and support referral; no project/account writes or
+unapproved disclosure. This is accepted customer behavior, not a delivered route/component,
+test result or approval to implement.
 
 ## Explicit non-goals
 

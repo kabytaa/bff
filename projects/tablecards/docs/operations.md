@@ -230,7 +230,8 @@ therefore not persistent across a later deployment: prevent pending publication
 or review that desired configuration before allowing CI to reopen generation.
 Disabling AI is not a rollback of ordinary
 predefined/uploaded designs or PDF export. Real billing, public support,
-observability and physical launch certification remain Builds 4–7.
+observability and physical launch certification remain separate Payments,
+Operator work, Monitoring and Launch requirements in the single roadmap.
 
 The no-charge preview remains unindexed. TableCards HTML routes, including
 project, invitation and team deep links, send `no-store`; CSP blocks embedding
@@ -601,5 +602,6 @@ exact independent targets, configure credentials outside Git, validate that
 development identity/AI entries are absent, verify truthful no-charge checkout
 when enabled for the accepted Build 3 demo, and run live production product
 smoke. Build 4 replaces simulated activation with verified provider state;
-Build 5 owns support and Build 6 owns monitoring/operator visibility. These
+Build 5 owns support and business/customer operator visibility; Build 6 owns
+technical monitoring/alerts separately. These
 later-stage obligations must not be reported as completed by development mocks.

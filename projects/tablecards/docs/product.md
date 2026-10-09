@@ -1,6 +1,6 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-10-08.
+Updated: 2026-10-09.
 
 Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
@@ -25,8 +25,11 @@ The explicitly no-charge Build 3 production preview is published at
 Production target/security smoke and public desktop/mobile journeys pass;
 fresh authenticated production checkout/export/team round-trips remain
 unverified without personal Google credentials. Mock access is not payment
-truth. Build 4 owns real billing and commercial lifecycle, Build 5 two-way
-support, Build 6 operational visibility, and Build 7 customer-launch acceptance.
+truth. Build 4 owns real billing and commercial lifecycle; Build 5 now groups
+operator work (support plus business/customer visibility and helper/support);
+Monitoring (Build 6) separately owns technical health/errors/alerts. Marketing,
+Legal and Maintenance have distinct final outcomes; Launch (Build 10) owns final
+customer-launch acceptance. Short names identify scope, not a fixed execution order.
 Missing implementation does not remove an accepted promise below.
 
 The 2026-10-07 investigation found missing Free welcome grants, separate from
@@ -71,7 +74,7 @@ Initial acquisition uses direct planner/stationer and print-shop discovery, obse
 4. The user selects a predefined design or, when entitled, uploads artwork. Event Pass artwork belongs to its event; Planner Pro and Studio can save and reuse constrained custom presets. Optional AI generation produces four background choices without receiving guest-list data.
 5. Google sign-in is required to save a project, export a PDF, generate AI backgrounds or purchase an entitlement.
 6. TableCards generates a deterministic PDF containing only card sheets with the chosen names, cut marks and fold marks. Calibration belongs in the separate print-test download, not an extra customer-export page. Free projects contain at most 25 cards; paid projects contain at most 500.
-7. The user can start a support conversation for feedback, a question or a problem, receive operator replies by email and reply by email or from the product.
+7. Signed-in users can submit feedback, a question or a problem through the shared form; signed-out visitors can use the public support-email link. Operator replies and customer follow-up use email, not an in-product ticket conversation portal.
 
 TableCards is not the system of record for an agency's guest list. A corrected or partial CSV follows the same generation workflow; there is no separate “correction printing” feature.
 
@@ -224,11 +227,13 @@ creates the next allowance.
 
 ## Support, feedback and operations
 
-Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Customers can open `feedback` (including suggestions and missing-feature requests), `problem` or `question` cases through a shared website submission form, available without signing in or an upfront email-confirmation gate, or by emailing support. Accept public messages immediately with spam controls and send the initial receipt. General help may proceed; private support requires appropriate authenticated account authority. Signed-in submissions carry authenticated Business/user/account context; public form/email intake does not establish account authority. Operators view the conversation/history, manage status and reply in the shared backoffice. Substantive replies are as needed; ticket AI suggests drafts for an operator to review and send, not autonomous replies. Customer follow-up is by email, with replies joining the same case. There are no customer ticket-history or conversation/reply pages in the product for MVP. A public monitored support address remains available to people who cannot sign in; authenticated private-support continuation and detailed form behavior remain to define. Receiving a suggestion does not promise its implementation.
+Support and feedback are launch requirements, not post-launch polish, but they are delivered as a separate MVP slice after the shared authentication/accounts work. Signed-in customers can open `feedback` (including suggestions and missing-feature requests), `problem` or `question` cases through a shared website form, and anyone can email support. Signed-out visitors see Sign in and Send us an email options, using a public email link and visible support address rather than an anonymous form. The link opens a draft in the visitor's configured mail client, not an automatic send. Receive email messages without a contact-verification ceremony, apply spam controls and send the initial receipt. General help may proceed; private support requires appropriate authenticated account authority. Signed-in submissions carry authenticated Business/user/account context; public email intake does not establish account authority. Operators view the conversation/history, manage status and reply in the shared backoffice. Substantive replies are as needed; ticket AI suggests drafts for an operator to review and send, not autonomous replies. Customer follow-up is by email, with replies joining the same case. There are no customer ticket-history or conversation/reply pages in the product for MVP. A public monitored support address remains available to people who cannot sign in; authenticated private-support continuation and detailed form behavior remain to define. Receiving a suggestion does not promise its implementation.
 
-The signed-out website form is now under renewed scope review, not silently
-removed. [Build 5](../../../docs/factory/mvp-delivery-plan.md#build-5--customer-support-conversation)
-records the pending channel decision and the second Astra recommendation.
+On 2026-10-09 Andrew accepts the signed-in form plus public email-link boundary,
+after Astra's simplicity review. This supersedes the earlier anonymous-form
+scope; dated reasoning remains in the [Operator work brainstorm](../../../.agent/brainstorms/261008-customer-operations-backoffice.md#signed-out-contact--resolved-2026-10-09).
+A public form can be reconsidered if observed friction justifies it. These are
+accepted requirements, not implemented support capabilities.
 
 Support emails use Business-configured styling and a logo through shared BFF
 rendering, not a TableCards-only delivery implementation. Reuse the existing
@@ -248,8 +253,8 @@ Andrew accepted this channel/UI boundary on 2026-10-08, replacing the earlier
 in-product reply-thread promise while retaining website ticket submission.
 [Build 5](../../../docs/factory/mvp-delivery-plan.md#build-5--customer-support-conversation)
 owns the shared workflow. Andrew subsequently chooses BFF as the authoritative
-home for tickets and conversations, with email as transport. The email provider
-and detailed design remain open, and support remains unimplemented.
+home for tickets and conversations, with Resend selected as email transport.
+Exact integration/schema still require review; support remains unimplemented.
 
 Both deployments have linked privacy, terms and contact pages that explicitly explain the no-charge preview and actual data/file limitations. They do not invent seller details or a monitored support mailbox. Support conversations, a monitored public contact channel and final commercial disclosures remain launch requirements, not completed capabilities. Build 5 owns conversation/email support; merchant/legal verification remains a separate later gate.
 
@@ -257,7 +262,7 @@ On 2026-10-07 Andrew requested that legal-document applicability and user
 agreement be included in the remaining delivery work, not implemented now.
 [Build 4](../../../docs/factory/mvp-delivery-plan.md#build-4--paidteam-flow-and-operations)
 owns real-purchase disclosures and any required checkout agreement;
-[Build 7](../../../docs/factory/mvp-delivery-plan.md#legal-documents-and-agreement-readiness)
+[Legal](../../../docs/factory/mvp-delivery-plan.md#legal-documents-and-agreement-readiness)
 verifies the complete published-document/interaction boundary. Relevant privacy
 notices/consent precede collection or processing. Assess processing contracts,
 negotiated agreements and insurance by applicability, not as six universal
@@ -268,15 +273,27 @@ Support may expose bounded account, subscription and payment-status context so A
 
 On 2026-10-08 Andrew chooses an in-app knowledge helper plus ticket auto-suggest:
 operators approve/send substantive ticket replies; automatic receipts are separate.
-Andrew subsequently requires approval for all permitted support-bot tool calls,
-including reads; wider automation requires a separately reviewed policy change.
+The final 2026-10-09 policy permits scoped read-only tools and assigned skill
+loading automatically; every substantive reply requires the exact operator Send
+decision. Earlier all-tool approval is superseded; wider automation needs separate review.
 Share suitable Business knowledge/procedures, not every permission. Evaluate
 answer correctness and approved disclosure, including confidential business and
 implementation information. Supply only approved knowledge, not the raw repository.
 An on-demand Codex review/improvement workflow should inspect bounded questions,
 answers and drafts, test improvements and report evidence rather than require
 Andrew to do routine analysis. [The customer-operations brainstorm](../../../.agent/brainstorms/261008-customer-operations-backoffice.md#approved-knowledge-and-an-on-demand-codex-improvement-workflow--2026-10-08)
-owns its design. Exact helper/ticket context, tools, model, cost/data limits and
+owns its design. On 2026-10-09 Andrew adds shared bot-interaction/outcome
+measurement for helpers, support and other configured variants: useful questions/
+topics, observed actions/handoffs, explicit usefulness feedback and operator
+draft acceptance/edits, with optional AI topic/possible-frustration labels kept
+separate from facts. Do not require a customer survey for every bot or infer
+success from silence, clicks or lack of a ticket. Useful bounded/redacted examples
+and effective bot/skill versions support operator and evaluation review; exact
+signals, feedback placement, classification and retention/privacy remain open.
+Reuse shared BFF measurement contracts rather than Business-only instrumentation
+or a separate analytics platform. The accepted ticket survey remains unchanged;
+these measurements grant no automatic improvement, marketing or bot authority.
+Exact helper/ticket context, tools, model, cost/data limits and
 skill/command remain open. Autonomous ticket sending/actions/resolution are not
 approved; neither passing evaluation nor a helper's success grants those powers.
 Shared BFF bot controls and selective event context are now under exploration:
@@ -285,9 +302,38 @@ Raw event records, human-operator privilege and direct product-data access are
 not granted to bots. Andrew prefers small file-assigned instructions/evaluation
 questions, a BFF/backoffice-owned support assistant and a shared themed helper
 component that TableCards can place without reimplementing chat logic. A large
-bot-management console is deferred. Exact helper placement, public/signed-in
-availability, integration and source contracts remain open; no helper is yet
-implemented. Support configuration requires at least one bot; helpers may be
+bot-management console is deferred. On 2026-10-09 Andrew chooses a site-wide
+TableCards Q&A helper, rather than the proposed Create-only launch configuration.
+It explains approved product behavior and offers clickable links to relevant
+pages. The customer chooses navigation; this does not authorize project/account
+changes, broader private-data access or loading all knowledge into each request.
+Andrew also selects signed-in/out awareness and the active account's current
+plan through minimal validated BFF context. The helper can explain relevant
+documented limits, suggest existing Google sign-in when useful, and direct
+unresolved issues to the configured support email through a customer-clicked
+mail link or offer the planned signed-in ticket form. Prefer resolving questions
+and issues in the helper, not creating unnecessary tickets, while retaining
+direct contact and offering it when the customer asks or the helper cannot help.
+Contact includes questions, problems, feedback, suggestions/missing features and
+product/offer enquiries; customers need not choose support versus sales. "Help"
+is a proposed customer-facing label, not a new sales workflow. Ticket submission
+remains the customer's explicit action; signed-out sign-in/email choices remain.
+Andrew wants giving feedback prominent and independent of chatbot assistance;
+problems start with helper guidance and support escalation is inside Help rather
+than a prominent Contact us action. Preserve a discoverable direct/fallback path
+and the existing intake channels, not an anonymous form. General feedback is
+distinct from optional answer ratings and the accepted ticket closing survey.
+Support replies may use the TableCards name without describing the internal
+drafting bot on every message; they remain operator-approved and must not invent
+a human sender or falsely claim human authorship/review. Fully automatic reply
+authority and its disclosure are not approved by this branding choice.
+General Q&A does not require login; no automatic email or ticket creation follows.
+Ground rules require approved guidance, explicit unknowns,
+no invented plan/payment/offer claims and no internal/private disclosures.
+Missing context stays unknown; preview/mock access is not verified payment.
+Exact placement, additional context, integration/source contracts and limits
+remain open; no helper is yet implemented.
+Support configuration requires at least one bot; shared-system helpers may be
 absent or multiple, with no automatically created default pair. Helper/support
 use a small extensible bot definition with name/main
 instructions and assigned skill metadata; full skill content loads on demand,
@@ -295,27 +341,35 @@ not all product knowledge on every invocation. TableCards may supply approved
 page context and code-registered UI/backend tools through the shared interface;
 for UI tools, the page declares capabilities and executes its own registered
 handlers for structured tool requests returned by BFF; no generated code is run.
-Exact results/continuation, approval, authorization, payload and cost boundaries
-remain to design.
+On 2026-10-09 Andrew's final typed clarification narrows initial support tools to
+read-only: permitted scoped reads and assigned skill loading run without approval.
+The bot suggests a reply; an operator may edit, send or reject it. Every substantive
+support reply requires approval of the exact recipient/content before sending.
+Refunds, credit grants and other
+account/project writes remain excluded. Policies apply per action within one
+agent, with data-access, rate and spending controls still enforced. Exact tool
+names/fields, results/continuation, authorization, payload and cost contracts
+remain to review; this is not implemented support functionality.
 This revises fixed-tools-only scope, not existing account rules. Helpers
 are optional and may have page-specific definitions; a Business need not embed one.
-Support starts in draft mode; multiple named definitions may serve different
-categories/cases, such as payment questions or print-document problems, within
-one shared runtime/case history. Initial specialists/routing and future automatic
-replies remain open; no auto-send activation or billing-action powers are implied.
-Preserve future current-page, signed-in BFF facts and product-owned saved-project context
+Support starts in draft mode on the same model/tool foundation as the helper,
+with its own ticket workflow and one authoritative history. Initial specialist
+routing is excluded; future named definitions or automatic reply policies require
+separately accepted scope. No auto-send activation or billing-action powers are implied.
+Preserve future additional current-page, signed-in BFF facts and product-owned saved-project context
 through approved bounded adapters, without copying TableCards data into BFF or
 automatically supplying guest lists/files. These extensions do not approve
-initial live-data access or change the backoffice's no-product-read boundary.
+broader initial live-data access beyond the helper's selected sign-in/plan facts,
+or change the backoffice's no-product-read boundary.
 MCP is a later possibility, not an MVP dependency.
 
-Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. A dedicated later MVP slice must make these capabilities operational before launch rather than leaving them as post-launch polish. The support slice selects a concrete outbound/inbound email mechanism for BFF-owned tickets and conversations; the operational-visibility slice selects the smallest analytics and error-monitoring arrangement after defining exact events, privacy limits, actionable alerts and operator questions. No vendor is preselected.
+Operational readiness includes focused product/business events, basic traffic and conversion visibility, billing truth, support visibility, health/error monitoring, a deployment procedure and recovery notes. Dedicated MVP slices must make these capabilities operational before launch rather than leaving them as post-launch polish. Operator work selects Resend for BFF-owned email tickets, private Cloudflare-regenerated screenshot previews, and sparse meaningful save/export/AI/blocked outcomes plus existing BFF facts. The broader acquisition/conversion measurement promise remains in Marketing/Launch, not an extra current event platform. Monitoring separately selects technical health/error tools after defining privacy, redaction, costs and actionable thresholds; no monitoring provider is selected. Selected directions are not implemented services; the [final architecture review](../../../.agent/brainstorms/261008-customer-operations-backoffice.md#proposed-erd) remains a proposal.
 
 Canonical analytics should answer a bounded launch funnel: where a visitor came from, whether they signed up, reached first successful preview/export, started checkout, became paid and later needed support. High-volume UI clicks are collected only when they answer a named product question. Analytics must not contain guest names/lists, card contents, credentials, payment details or unnecessary customer profile data.
 
 Monitoring covers public/product/BFF health, unexpected application errors, PDF-generation failures and failed or delayed payment/support delivery. Events include environment, deployed version and safe correlation evidence; expected authentication denials and rate limits are excluded from error alerts. Sampling, redaction, retention and spend limits are required, and alerts exist only for conditions an operator can act on.
 
-The launch backoffice must be usable, not merely a database viewer. Andrew needs an environment-aware overview; safe global customer/account/project/payment/support search; joined customer/account views for memberships, sessions, subscription/entitlements, projects/exports, support and audit history; queues for unresolved support and failed delivery/webhook/job work; and basic acquisition/conversion trends. It needs clear mobile/desktop navigation, filters, pagination and error/empty/loading states. It is not a general analytics product, configuration editor or unrestricted administrative console; repeatable configuration stays in the validated CLI, and sensitive actions require separately designed authorization, confirmation and audit controls.
+The backoffice must be usable, not merely a database viewer: Business/environment-scoped customer/account investigation, all-Business summaries without merged profiles, joined safe BFF account/access/session/support evidence, reported product outcomes and unresolved-support/delivery queues. Operator work does not query the TableCards project/export database or promise global product-record search. Broader acquisition/conversion evidence remains a separate Marketing/Launch requirement. Mobile/desktop navigation, filters, pagination and truthful error/empty/loading states are required. It is not a general analytics product or configuration editor; repeatable configuration stays in the validated CLI, and sensitive actions require their own authority and audit controls.
 
 Andrew clarified on 2026-10-07 that his phone will initially be his main operator
 tool: essential lookup, triage and support handling must be mobile-first as well
@@ -351,7 +405,7 @@ Every advertised capability must have an understandable workflow, authoritative 
 | Event artwork and reusable/shared presets                      | Saved event artwork and professional Designs workflow                             | [Asset validation](../backend/convex/assets.ts), [project/preset tests](../backend/convex/projects.test.ts), hosted Event/Planner/Studio journeys                                                    | Deployed to both; full development workflows verified; Event artwork remains event-scoped                                                               |
 | Four AI choices, no guest contents, correct balance/refund     | Authenticated generation and live remaining-batch state                           | [AI orchestration](../backend/convex/ai.ts), [BFF unit tests](../../../platform/bff/service/convex/productAccess.test.ts), hosted AI success/failure journeys                                        | Fixtures plus sampled real Cloudflare checks; estimated cost/budget verified, not universal quality or confirmed per-user spend                         |
 | Five-person Studio, roles and protected ownership transfer     | Team, copied invitations, recipient acceptance and reauthentication               | Shared BFF account authority, [auth ADR](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md), hosted Studio journeys                                                         | Real APIs with no-charge commercial access; development round-trips pass; fresh authenticated production recipient/transfer evidence remains unverified |
-| Retention, real billing, two-way support and observable launch | Billing/remediation, support and operator workflows required by the delivery plan | Verified provider events/lifecycle tests, correlated email round-trip, operational/production smoke and human print/live acceptance                                                                  | Accepted requirements, not delivered launch capabilities; Builds 4–7                                                                                    |
+| Retention, real billing, two-way support and observable launch | Billing/remediation, support and operator workflows required by the delivery plan | Verified provider events/lifecycle tests, correlated email round-trip, operational/production smoke and human print/live acceptance                                                                  | Accepted requirements, not delivered launch capabilities; remaining Payments-to-Launch outcomes                                                                                    |
 
 ## Assumptions and learning gates
 

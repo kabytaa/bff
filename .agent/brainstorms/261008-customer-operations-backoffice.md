@@ -1,2415 +1,2279 @@
 # Brainstorm: Customer operations and a usable backoffice
 
-> **Status**: Active — operating/data boundaries agreed below; remaining feature design and implementation unapproved
-> **Created**: 2026-10-08
-> **Last updated**: 2026-10-08
-> **Repository baseline**: `872a96f84551eb81f682c554feb7af58cf9ded52`
-
-## Context Snapshot
-
-- STATUS records Builds 1–3 deployed as a no-charge preview. Real billing is
-  pending; support, analytics and monitoring are not completed launch capabilities.
-- The [single MVP roadmap](../../docs/factory/mvp-delivery-plan.md#build-6--analytics-monitoring-and-usable-backoffice)
-  owns delivery scope. This is a focused discussion record, not another roadmap.
-- The earlier [remaining-priorities record](261007-remaining-mvp-priorities.md)
-  is inactive history. This distinct feature discussion does not reopen it.
-- Andrew requests customer/user monitoring, such as feedback, rather than
-  technical monitoring. First discuss what problems to solve, then explore how.
-- An unrelated VPN follow-up is already recorded in STATUS; preserve it.
-
-## The Idea
-
-Make it possible to run customer-facing operations from a phone or desktop:
-understand who needs help, what happened, what remains unresolved and what
-Andrew should do next. Avoid making him reconstruct a customer's story from
-separate entity lists. Shared operating needs span Businesses; TableCards is
-the current concrete example, not a universal product-domain template. Andrew
-subsequently confirms Business-scoped customer work in one shared backoffice;
-cross-Business customer correlation is not part of the initial scope.
-
-### Discussion scope clarified by Andrew — 2026-10-08
-
-Explore these together because they contribute to one usable operating workspace:
-
-This preserves the initial umbrella. The later accepted
-[Business-first boundary](#business-first-operating-context--accepted-direction-2026-10-08)
-narrows customer investigation; cross-Business customer linkage is no longer an
-initial requirement.
-
-- **Business visibility:** understand what happens within one product and across
-  products, with relevant customer/product outcomes rather than infrastructure logs.
-  Business/product projects and a customer's saved TableCards project are distinct;
-  make those contexts clear rather than silently treating them as the same entity.
-- **Customer visibility:** find a person and inspect their separate product/account
-  contexts, including records with the same email across Businesses. Correlation
-  and presentation need discussion; account/identity merging is not requested.
-- **Backoffice design:** a substantially nicer, consistent, task-oriented experience,
-  usable on phone and desktop, not only a cosmetic refresh of the existing lists.
-- **Tickets and conversations:** customers can submit from product UI; a person
-  unable to sign in also needs a contact path. Collecting email, verifying contact,
-  viewing replies and safely associating a public ticket with an account remain open.
-- **Customer handling:** inspect which human actions are genuinely needed and
-  distinguish case handling from sensitive changes to users, accounts or billing.
-- **AI support assistance — added 2026-10-08:** Andrew proposes including this
-  in the MVP so routine help does not depend on his availability. The guiding
-  outcome is self-managing Businesses with minimal manual operator work. He
-  subsequently chooses a knowledge helper plus ticket suggestions first, rather
-  than autonomous ticket sending. Explore evidence, handoff and cost; no provider
-  or implementation is selected.
-
-Recommended additions for discussion, not new accepted implementation requirements:
-what needs attention and what is waiting on whom; customer/private-data boundaries;
-and the history of operator actions. Technical telemetry, marketing automation
-and a general-purpose CRM are not silently included. Customer-facing AI support
-is now explicitly under discussion, not yet approved for implementation.
-
-## Codebase Context
-
-### What We Have
-
-- The backoffice [App](../../platform/bff/backoffice/src/app.tsx) currently
-  selects an environment and loads users, accounts, memberships, sessions and
-  security events, with exact user lookup and pagination.
-- [Dashboard](../../platform/bff/backoffice/src/dashboard.tsx) presents these
-  mainly as separate lists, not a joined customer/support journey.
-- The existing [operator gate](../../platform/bff/service/convex/lib/authorization.ts)
-  admits approved operators without granular backoffice roles. Retain this
-  simple model; no operator-role or permissions table is proposed.
-- The [implemented shared data model](../../docs/architecture/shared-bff-data-model.md)
-  covers profiles, accounts, memberships/invitations, sessions, access, units,
-  checkout attempts and security/ownership evidence. Its `securityEvents` table
-  has a narrow authentication/ownership enum; there is no product-activity store.
-  It must not be presented as an existing generic event-ingestion capability.
-- The roadmap already requires customer investigation, mobile/desktop usability
-  and, in Build 5, two-way feedback/problem/question conversations plus a public
-  support path. Those support capabilities are planned, not present in this app.
-- [ADR 0004](../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md#authority-and-isolation)
-  defines environment-local users/accounts and provider identity by issuer/subject;
-  matching email never merges identities. The current dashboard selects one
-  environment; the initially discussed cross-Business customer view is neither
-  implemented nor part of the later accepted initial scope.
-
-### Constraints
-
-- Do not claim real billing facts from the no-charge mock, or infer customer
-  intent from missing activity. Missing, stale and unknown evidence must be clear.
-- Preserve product/environment isolation and minimum necessary customer data.
-- An email supplied on a public ticket is contact information, not proof of
-  ownership or authority to expose an account's private data. Verification and
-  ticket-access behavior must be discussed before accepting a solution.
-- Adding a person to the approved operator list remains a separate access grant;
-  everyone admitted gets the same full backoffice access. AI assistance and its
-  authority remain unapproved capabilities; see
-  [the relevant future idea](../../docs/architecture/future-ideas.md#permission-bounded-ai-operations-and-helper-assistance).
-- Andrew's AI-support addition reopens the previous blanket MVP exclusion. The
-  later selected helper/ticket-drafting boundary narrows it; autonomous ticket
-  sending and account remedies remain excluded. Final feature design and
-  implementation approval remain open.
-- Technical telemetry, vendor selection, infrastructure alerts and automatic
-  incident investigation remain outside this conversation for now, not removed
-  from their later MVP acceptance requirements.
-
-### Opportunities
-
-Use meaningful existing BFF customer/account records plus selected business
-milestones to ground investigation. Andrew's later data-boundary decision below
-replaces the earlier proposal to read product operation records directly.
-Give feedback and support a clear purpose without prescribing a helpdesk or bot.
-
-## Initial scope alternatives — historical starting point, 2026-10-08
-
-Andrew subsequently requested combined exploration of business/customer visibility,
-design, tickets and user handling, as recorded above. These narrower alternatives
-preserve the initial trade-offs; they are no longer the opening choice to ask again.
-
-### Option A: Customer investigation only
-
-**Approach**: Find a customer/account and understand access and relevant recent
-activity when someone reports a problem.
-**Leverages**: Existing lookup, identity/account data and product operations.
-**Constraints**: Does not itself provide feedback intake or a reply lifecycle.
-**Effort**: Lower relative scope.
-**Risk**: Improves diagnosis but leaves support work fragmented elsewhere.
-
-### Option B: Investigation plus feedback and support handling
-
-**Approach**: Also receive questions/problems/ideas, understand their context,
-follow up with the customer and know which cases still need attention.
-**Leverages**: Existing account context and the roadmap's required Build 5 support.
-**Constraints**: Two-way support is new work, not merely a dashboard reskin;
-its delivery dependency and customer-facing behavior must be discussed later.
-**Effort**: Medium to high relative scope.
-**Risk**: Expanding into a full CRM/helpdesk unless the operating outcomes stay bounded.
-
-### Option C: Option B plus proactive customer-outcome monitoring
-
-**Approach**: Also discover customers with confirmed unsuccessful outcomes and
-recognize recurring customer problems before receiving a complaint.
-**Leverages**: Available operation outcomes and, later, meaningful product events.
-**Constraints**: Signals and evidence coverage need definition; inactivity alone
-does not prove a customer is stuck. No automatic outreach is implied.
-**Effort**: Higher relative scope.
-**Risk**: False alarms, unnecessary tracking and premature analytics complexity.
-
-These alternatives scope the first discussion/slice; they do not remove required
-support or monitoring from the authoritative launch roadmap.
-
-## Two AI roles — clarified by Andrew, 2026-10-08
-
-- **On-site knowledge helper:** a conversational guide for questions about the
-  product, its features and how to use it. It answers autonomously from approved
-  knowledge; this is not approval to modify accounts or perform arbitrary actions.
-  Small personal/context awareness is undecided, not an assumed requirement.
-- **Ticket support agent:** works on submitted support cases rather than merely
-  chatting on the current page. It can investigate permitted customer/operation
-  facts, reply within the case and potentially perform specifically approved
-  support actions. Data scope, authority, progress and handoff need separate decisions.
-
-These are distinct responsibilities and experiences, not a requirement for two
-models, vendors, deployments or separate conversation databases. Do not turn every
-helper chat into a ticket by default; a useful escalation path is an open question.
-Product knowledge may be shared, but privileged ticket tools must not automatically
-become available to the helper. Keep humans able to inspect and handle cases.
-
-For the helper, compare public product knowledge only with public knowledge plus
-current-page context or a few explicitly authorized customer facts. Recommend
-public knowledge/current-page context first; add personal facts only for a useful
-question that needs them. For the ticket agent, use the action-level alternatives
-below. Overall MVP inclusion and the final autonomy boundaries remain under discussion.
-
-### Smallest useful starting scope — historical recommendation, 2026-10-08
-
-The recommendation below preceded Andrew's later choice of ticket auto-suggest,
-recorded after the alternatives. It does not authorize automatic ticket replies.
-
-Andrew asks Codex to propose this rather than make him invent the minimum:
-
-- **Knowledge helper:** answer product/how-to questions from maintained approved
-  knowledge, optionally using the current page. For TableCards: importing names,
-  choosing designs, printing and offer limits. No private account history or
-  account-changing tools initially. If it cannot help, offer a ticket/human path;
-  transferring chat context and the user's agreement to do so remain design choices.
-- **Ticket agent:** work on a submitted case, ask for missing details, inspect the
-  minimum authorized account/operation facts needed, and send grounded routine
-  replies without waiting for Andrew. For example, investigate a failed export
-  or explain an observed allowance balance, rather than guessing its cause.
-  It may classify/summarize/escalate the case; exact lifecycle actions need agreement.
-  Give Andrew a concise summary and the unresolved decision when human help is needed.
-- **Initial boundary:** no refunds, access overrides, membership/ownership changes,
-  deletion, engineering repair or deployment. Public/email-only cases receive
-  general help until the required identity/account authority is established.
-- **Useful completion evidence:** a customer can get a documented how-to answer
-  without Andrew; a routine case receives an evidence-backed response without him;
-  an unsupported/sensitive case reaches him with preserved context. Do not equate
-  an AI reply, silence or an uncertain inference with confirmed resolution.
-
-Draft-only ticket assistance is the smaller alternative but still makes Andrew
-handle every reply. Account-remediation automation is the larger alternative and
-needs separate action policies. Recommend the middle boundary above; providers,
-models, data/API design, costs and implementation sequencing remain open.
-
-## AI support alternatives — proposed MVP scope
-
-These began as a combined assistant comparison. Andrew's clarification above
-separates the knowledge helper from the ticket agent; the alternatives below now
-concern the **ticket agent's authority**, not whether the helper needs Andrew to
-approve ordinary product explanations.
-
-### AI Option 1: Operator copilot — selected initial boundary, 2026-10-08
-
-**Approach**: Summarize tickets, collect permitted context and draft replies;
-Andrew reviews and sends them.
-**Leverages**: The planned ticket conversation and customer investigation.
-**Constraints**: Every customer reply still waits for a human.
-**Effort**: Low to Medium relative to the alternatives.
-**Risk**: Less autonomy risk, but may not satisfy Andrew's main goal of less work.
-
-### AI Option 2: Bounded autonomous first-line support — earlier recommendation, deferred
-
-**Approach**: Investigate a ticket, answer routine cases and explain verified facts
-available to the requesting customer without waiting for Andrew.
-When evidence, permission or policy is insufficient, preserve the conversation
-and hand off a useful summary with the unresolved question.
-**Leverages**: Product documentation, the planned support case and scoped
-customer/account facts; human case handling remains independently usable.
-**Constraints**: Allowed answers/actions, source freshness, identity/data scope,
-escalation, truthful resolution evidence, fallback and spend limits need decisions.
-No guessed account linkage, forced case closure, refund, entitlement override,
-role/ownership change, data deletion or deployment authority is implied.
-**Effort**: Medium to High.
-**Risk**: Incorrect replies, private-data exposure, malicious ticket instructions
-and unexpected cost; permissions must be enforced outside the model's prompt.
-
-### AI Option 3: Autonomous support plus account remediation
-
-**Approach**: Also let the assistant perform separately chosen account or billing
-remedies instead of handing them to an operator.
-**Leverages**: Only actual secured remediation workflows, not raw database access.
-**Constraints**: Requires exact per-action policy, authentication, audit,
-confirmation where appropriate and recovery design. Those workflows are not approved.
-**Effort**: High.
-**Risk**: Financial/access/data harm and greater operating complexity; do not
-make broad administrator powers the default just to reduce manual work.
-
-The recommendation is an outcome boundary, not a particular chatbot, UI,
-provider, model, integration or implementation plan. The earlier Option 2 may include
-safe, specifically approved routine actions later; it is not a blanket read-only
-restriction or permission for sensitive operations.
-
-### Helper first, ticket suggestions and shared answer checks — 2026-10-08
-
-Andrew chooses an in-app knowledge helper and **auto-suggest** for tickets,
-not automatic substantive ticket replies. An operator reviews/edits and sends
-each suggested reply; the accepted automatic initial receipt remains separate.
-Autonomous ticket sending may be reconsidered after evidence, not enabled by
-passing a test or by the helper answering successfully. Ticket tools/customer
-facts, helper context, provider/model and final MVP implementation scope remain open.
-
-The two roles may share Business-scoped approved product knowledge and reusable
-answering procedures, without sharing every tool or permission. This is application
-capability reuse, not a requirement to install Codex skills in the customer app.
-Do not supply the raw repository, private operational notes or another Business's
-knowledge to a public helper. Their separate chat/case experiences remain useful
-even if one provider/model supplies both.
-
-Andrew also requests answer-quality evaluation for both roles. Recommend a small
-versioned suite of questions, relevant source facts and expected behavior rather
-than a new evaluation product. Codex can derive initial cases from canonical
-product behavior before real customers exist. Include normal how-to/offer questions,
-paraphrases, unknown or unsupported features, incorrect assumptions, and attempts
-to obtain private data or make unauthorized changes. Check factual correctness,
-grounding, useful uncertainty/fallback and role boundaries, not exact wording or
-the model's own confidence. Preserve failed examples and corrections; later add
-representative real questions with appropriate data minimization. Tests cannot
-establish that every future answer is correct.
-
-Run affected checks when knowledge, prompts, permissions or models change; routine
-unrelated Markdown changes do not require paid AI runs. Compare versions, including
-latency/cost, and inspect sampled outputs; an AI grader is assistance, not sole proof.
-The [official evaluation guidance](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests)
-supports task-specific criteria, edge cases and automated checks, not a requirement
-to select that vendor or adopt a separate platform.
-
-If a queue means pending ticket drafting, the case inbox supplies the conceptual
-work queue; delivery/retry/concurrency design remains open. The in-app helper needs
-an interactive response, not necessarily a separate queue service. No queue,
-knowledge/vector database, evaluator service or structural schema is approved.
-
-### Approved knowledge and an on-demand Codex improvement workflow — 2026-10-08
-
-Andrew requires review of what both assistants may know and disclose. This
-includes confidential business/implementation information, internal plans and
-commercial facts, not merely credentials or other customers' data. Supply only
-approved Business knowledge for each role; do not ingest the entire repository
-then rely on a prompt to keep internal material secret. Reading a source and
-disclosing its contents are separate permissions. Any later internal ticket
-context needs a specific purpose and disclosure boundary, not inherited full
-operator access. Models already have general pretrained knowledge; the system
-controls supplied sources/tools and supported answers, not erasure of that knowledge.
-
-Review source provenance, permitted use, customer-shareability and freshness;
-flag uncertain rights/policy rather than claiming legal clearance. Test normal
-answers and attempts to expose internal information, override instructions,
-mix Businesses or use unapproved tools. Use harmless synthetic confidential
-fixtures, not real secrets in test artifacts. [OWASP guidance](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#least-privilege)
-supports restricted data/tool access and layered testing, not prompt-only guarantees.
-
-Andrew also wants a skill/command he can invoke periodically for Codex to
-inspect real helper questions/answers and ticket suggestions, find gaps and
-improve the assistant. Recommend one reusable **review-and-improve** workflow
-with review-only and explicitly requested improvement modes, rather than separate
-training/review services. It should use a bounded Business/environment sample,
-compare answers with approved facts and outcomes, preserve failures as regression
-cases, and test candidate knowledge/prompt/retrieval changes against the baseline.
-Passing familiar examples alone does not establish improvement: include unseen
-paraphrases, unknown questions and disclosure tests. Operator edits are evidence,
-not automatically correct labels; user messages are not trusted instructions or
-automatically published knowledge.
-
-Codex owns the analysis and repeatable checks, then reports observed failures,
-changes, comparison evidence and remaining uncertainty. Andrew's manual review
-is optional unless a genuinely new policy/authority decision is needed. Do not
-assume model fine-tuning, automatic retraining, broader permissions, a scheduler,
-a new dashboard or deployment authority. Exact skill/command, sample retention,
-privacy/provider processing, cost bounds and release criteria still need design.
-This invocation belongs in Codex/operator automation; the backoffice exposes
-the existing conversation/draft evidence, not a mandatory AI-training console.
-
-### Shared bot controls and event access — exploration, 2026-10-08
-
-Andrew proposes shared BFF bot-management responsibilities, including suitable
-event access, with later MCP interfaces as a possibility. Keep three boundaries
-distinct: BFF runtime configuration/data policies; Codex's repository review and
-evaluation workflow; and a potential future tool interface. No management
-console, large general agent platform, MCP server, component install or schema is approved.
-The backend currently installs a rate limiter, not an agent/knowledge component.
-
-**File-based defaults and an embeddable helper — clarified, 2026-10-08:** Andrew
-defers a large management console and prefers small version-controlled instruction
-modules and evaluation questions, with selected approved files assigned to each
-bot. Shared modules cover suitable common answering procedures; Business-only
-knowledge/examples stay beside that Business's code. Do not duplicate a product
-specification or automatically make internal docs bot knowledge. Exact file
-locations, assignment format, source preparation and deployment/versioning remain
-to design; no new configuration tables or file-upload/editor UI are assumed.
-
-**Codex-managed configuration, read-oriented visibility — accepted, 2026-10-08:**
-Andrew wants Codex to maintain bot definitions, assigned skills/knowledge and
-evaluation cases and run the review/improvement workflow, rather than expecting
-him to author these through a web interface. If a bot overview is useful, make
-it mostly read-only: which bots exist, their role/mode, assigned skills, and test
-questions with expected facts/behavior and dated results. Read effective versions
-from the same configuration/evidence, not a separately maintained UI copy.
-This is operator visibility, not a required management console or customer-facing
-disclosure of internal instructions/test cases. Exact initial overview remains
-open; no editor, additional permission system or implementation is approved.
-
-**Configured roles, not default bots — clarified, 2026-10-08:** support
-configuration requires at least one named support bot; a Business may configure
-zero, one or several helpers. Neither role implies an automatically created or
-enabled default bot. Codex maintains the selected definitions and assignments.
-Earlier default-pair wording in the decision history is superseded by this rule.
-
-The **support assistant** is BFF-owned,
-working within cases/backoffice and suggesting replies for operator review/send,
-not an application-triggered general bot. It still uses the selected Business's
-knowledge/context; it is not ignorant of product differences. The **helper** is
-product-facing and configurable per Business, delivered as a ready-to-use styled
-chat/text component. A Business places it and supplies the necessary configuration
-and theme rather than reimplementing chat, provider calls, error states or usage
-controls. A small integration is still necessary; placement/layout freedom and
-desktop/mobile accessibility must remain, without forcing one universal app UI.
-
-**Optional/page-specific helpers and support modes — clarification, 2026-10-08:**
-Andrew clarifies that a Business may omit the helper entirely or bind different
-helper definitions to different pages, with different approved knowledge and
-capabilities. Do not require one global helper for every product or page. Browser
-selection of a helper never grants access to an internal support bot or broader tools.
-
-Use the name **support bot**, not "suggestion bot": draft/auto-suggest is its
-initial reply mode while quality is being established, not a separate bot identity.
-Keep a future automatic-reply mode possible within the same definition, but do
-not enable it now or grant account-changing powers by turning it on. The automatic
-initial receipt is independent of that substantive-reply mode. Andrew also proposes
-later category-specific support bots, for example payment questions. Route cases
-to suitable approved definitions without separate runtimes; exact categories,
-selection, unknown/mixed-case fallback and rollout criteria remain to design.
-A payment-question bot is not implicitly a refund/billing-action agent.
-
-Andrew reinforces the multiple-definition requirement: helper/support are roles,
-not a two-bot limit. A Business may assign different named support definitions
-to categories or individual cases, for example payment questions versus printed-
-document problems, each with its own instructions, permitted skills and tools.
-Keep one authoritative case/transcript across selection or reassignment; this
-does not request parallel bot conversations, a swarm or one runtime per category.
-The earlier recommendation was a configured category-to-bot starting point,
-scope checking and bounded handoff/fallback rather than treating the category
-as conclusive; Andrew subsequently proposes a support coordinator below.
-user category selection, automated classification and operator case override
-remain choices, not an approved AI routing layer or mandatory new management UI.
-Per-case selection must preserve Business/context boundaries and the initial
-draft reply mode. Defining the capability does not require every specialist bot
-to be authored before the first release.
-
-**Category routing alternatives — proposed, 2026-10-08:** Andrew asks how
-categories and support-bot rules should relate. Separate the category (what the
-case concerns) from the assigned bot (which configured assistant handles it).
-Several categories may share one bot; categories need not each create a bot.
-
-- **Option A: one configured bot for all categories.** Approach: categories
-  organize operator work without changing the assistant. Leverages: the required
-  single support definition and lazy skill selection. Constraints: all relevant
-  answering behavior shares one definition. Effort: Low. Risk: broad instructions
-  become harder to evaluate as distinct support needs grow.
-- **Option B: configured mapping with scope check/handoff — earlier recommendation.**
-  Approach: Business-scoped categories suggest a named support bot;
-  unknown/unmapped cases go to an explicitly configured fallback, which may be
-  the same sole support bot used everywhere initially. The bot checks the actual
-  message against its configured remit and can request a permitted handoff rather
-  than inventing an out-of-scope answer. Leverages: named definitions, assigned
-  skills and Codex-owned configuration. Constraints: scope assessment can be wrong;
-  category/handoff alone grants no data or payment authority. Effort: Medium when
-  multiple bots are used. Risk: missed mismatches or handoff loops; bound transfers,
-  validate targets and evaluate deliberately miscategorized/mixed-topic cases.
-- **Option C: AI classification/routing.** Approach: an AI chooses the category
-  and permitted bot from the message. Leverages: the shared AI runtime proposal.
-  Constraints: requires additional routing evaluation, bounded execution and
-  ambiguity handling. Effort: Medium–High. Risk: misrouting and extra latency/cost
-  before demonstrated need; not recommended for the initial slice.
-
-For B, illustrative TableCards categories are printing help, payment questions
-and feedback; these are examples, not an accepted universal list or new payment
-authority. A printing specialist can serve printing cases while other categories
-share the configured general support bot. Codex maintains categories/mapping;
-correcting a case's category/bot is a proposed direct operator backoffice action,
-not a bot-configuration editor. Keep the same ticket history and draft-only reply
-mode across changes. A customer form may offer a category and uncategorized email
-can use the fallback, but exact intake controls remain open. Routing choice and
-initial categories are still awaiting Andrew's decision; no schema is selected.
-
-**Wrong category — concern and revised proposal, 2026-10-08:** Andrew points out
-that a customer may choose an unrelated category, leading an unsuitable bot to
-answer. The category is a hint, not proof of the question's subject. For option B,
-give each configured bot a concise remit and allow it to request reassignment
-only to configured eligible support definitions within the same Business/context.
-This need not be a separate AI classifier on every message. A printing bot given
-a billing question should request the permitted billing bot or fall back to
-operator attention/clarification, not fabricate a billing answer.
-
-Recommend bounded handoff without bot-to-bot loops, preserving the same case
-history while rebuilding the next bot's permitted context rather than forwarding
-all internal context. Evaluate wrong categories, no suitable target, mixed topics
-and topic changes on later replies. Initial drafts still require operator send;
-that is not a substitute for testing routing or a claim that mismatch detection
-is guaranteed. Option A (one bot selecting approved skills) avoids specialist
-misassignment initially; option C (separate AI triage) adds a routing step but can
-still err. Scope-check/handoff was the revised recommendation before Andrew's
-coordinator suggestion below, still awaiting acceptance,
-not an approved routing service, schema or autonomous reply capability.
-
-**Support coordinator ("master bot") — proposed by Andrew, 2026-10-08:** a
-content-aware support entry point could reduce dependence on the customer's
-selected category. Compare two materially different meanings before adopting it:
-
-- **Thin coordinator — recommended if specialist bots are used.** Approach:
-  inspect the message/conversation and category hint alongside a compact catalog
-  of configured support bots and their remits; select one eligible handler for
-  the case. Leverages: named bot definitions, metadata-first loading and one
-  BFF-owned case/runtime. Constraints: adds a routing step when multiple handlers
-  exist, can still misclassify and needs bounded ambiguity/fallback behavior.
-  Effort: Medium. Risk: incorrect selection or redundant calls; evaluate wrong
-  categories and later topic changes. When one handler is configured, dispatch
-  directly rather than force a separate AI routing call.
-- **Coordinator consulting multiple specialists and combining answers.** Approach:
-  ask multiple bots for inputs and synthesize a draft for mixed questions.
-  Leverages: the same named definitions. Constraints: adds coordination,
-  result/disclosure review and more model calls. Effort: High. Risk: conflicting
-  or compounded errors, context leakage and higher latency/spend. Defer until
-  mixed-case evidence establishes a need, rather than assume a bot swarm for MVP.
-
-The thin version knows approved bot descriptions, not all specialist knowledge
-or their internal context. BFF validates selected targets and supplies only the
-selected bot's permitted Business/customer context and skills. Unclear/no-match
-cases need clarification or operator attention rather than arbitrary dispatch.
-Keep one ticket history and the existing draft-only substantive reply mode;
-coordinator selection does not grant account powers or permission to send.
-Codex configures entry/routing definitions, with routing evidence inspectable in
-the backoffice if useful. A coordinator is not a compulsory built-in default,
-global cross-Business supervisor or separate configuration service. Andrew's
-"maybe" is a proposal, not acceptance; exact coordinator behavior remains open.
-
-**Separate runs versus separate services — exploration, 2026-10-08:** Andrew
-asks whether bots with different tools/data should run separately. Distinguish:
-
-- One bot selecting skills is simplest when those tasks have the same permitted
-  data/tools. It does not establish separation between confidential domains.
-- Separate model invocations with per-bot instructions, skill assignments, tool
-  allowlists and filtered context can reuse one BFF execution engine and provider.
-  Recommend this when bot capabilities/data boundaries differ. Relative effort:
-  Medium; risk: inadvertently including another bot's history/tool results.
-- Separate deployed services/credentials offer stronger infrastructure isolation
-  where warranted, but increase operating/configuration burden. Relative effort:
-  High; not justified by the current examples alone.
-
-One authoritative ticket does not require every bot to see all stored messages
-or internal results. Build each invocation's permitted view server-side; a
-coordinator gets bot metadata and approved routing facts, not the union of all
-specialist tools/data. Any result returned to it must itself be approved for
-that recipient/disclosure purpose. Separate model calls are not an automatic
-security boundary: execution code must validate tool names, arguments, target
-Business/environment/account and allowed action, even if the model requests more.
-Bot labels/prompts and lazy knowledge loading do not enforce these permissions.
-
-[Convex's context controls](https://docs.convex.dev/agents/context#full-context-control)
-allow filtering the model's messages; its [tool guidance](https://docs.convex.dev/agents/tools#using-an-llm-or-agent-as-a-tool)
-describes independent agent invocations. These support this design option, not
-proof of installed isolation: the repository currently has no agent component.
-[OWASP's agent defenses](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#agent-specific-defenses)
-support tool permissions/parameter checks outside model decisions. Test denied
-cross-bot tools, hidden-context leakage and handoff outputs with synthetic data.
-No separate deployment, new operator role system, specialist authority or schema
-change is approved; the exact permitted capabilities remain to decide.
-
-**Resumable specialist sessions — proposed, 2026-10-08:** Andrew asks whether
-the coordinator can invoke specialists as sub-agents and continue with them,
-rather than restart their conversations. Separate scoped runs do not require
-stateless specialists or separate always-running services. Compare:
-
-- Fresh calls with a bounded approved case summary: less specialist-session
-  state, but reconstruct context each time and risk losing useful prior details.
-- Reusable specialist threads scoped to the same case, Business/environment and
-  bot definition: retain permitted messages/tool outcomes and resume that
-  specialist on follow-up. Recommend this for ongoing specialist work. Effort:
-  Medium; adds session lifecycle, concurrency and retention handling. Risk: stale
-  facts/permissions, duplicate actions or leaking an internal result on handoff.
-
-Example: the coordinator asks the printing specialist about a case, receives an
-approved result, then resumes the same specialist after a relevant clarification.
-This refines the thin coordinator into bounded invocation/continuation of a
-selected handler, not unrestricted multi-specialist synthesis or parallel swarms.
-Keep one authoritative support case; internal specialist threads are execution
-state, not new customer tickets or product-facing conversations. Revalidate
-access and refresh changeable facts on each run; saved history never grants
-current authority. Pass only approved results to the coordinator and do not
-replay completed actions just to reconstruct conversation context.
-
-[Convex thread continuation](https://docs.convex.dev/agents/threads#continuing-a-thread-using-the-thread-object-from-agentcontinuethread)
-and [agents-as-tools](https://docs.convex.dev/agents/tools#using-an-agent-as-a-tool)
-support the building blocks, not an installed feature or automatic parent-child
-authorization. Reuse saved context for each new model request; this is not free,
-unlimited memory or a guarantee of lower total tokens. Exact storage/component,
-context/retention limits and safe resume/version behavior remain to design;
-no schema change or whole-brainstorm implementation is approved.
-
-**Saved wait for operator approval — requested capability, 2026-10-08:** Andrew
-extends continuity to a support flow that needs an operator decision before an
-action. Save both the conversation and an explicit pending action/continuation;
-chat history alone is not an execution checkpoint. Two options: let the operator
-perform the action manually and record its outcome (less automation), or let an
-allowed tool resume after an authenticated approval (recommended capability for
-approved actions, with more execution/lifecycle handling).
-
-Proposed flow: bot requests a precisely described allowed action; case waits for
-operator approval; backoffice shows the actual target/arguments and permits
-approve/reject; execution rechecks current authority/state and guards against
-duplicate effects; specialist/coordinator continues from the saved point using
-the actual result or denial. No model process must run continuously while waiting.
-Approval applies only to that request, not future actions or changed parameters.
-Rejection, expiry/cancellation, changed facts and retries must not become silent
-approval. All admitted operators still use the existing full-access model; this
-does not introduce granular human roles or delegate their authority to bots.
-
-[Convex tool approval](https://docs.convex.dev/agents/tool-approval#server-side-flow)
-persists pending requests and supports later approval/denial and continuation.
-Its documented default denies unresolved approvals when a new generation starts;
-incoming customer replies while waiting therefore need deliberate queue/update
-handling, not blind continuation or replay of a stale approval. This is a
-candidate building block, not an installed support workflow. Approvals belong
-in direct operator backoffice work; Codex configures the per-action policy.
-Specific first actions, expiry/new-message behavior and schema remain open.
-Initial support replies remain drafts for human send; discussing resumable
-approval does not authorize refunds, account changes or automatic ticket replies.
-
-**Independent reply/tool policies in code — direction clarified, 2026-10-08:**
-Andrew wants automation configurable per action, with optional operator approval
-and deterministic rules over meaningful customer facts/events. Separate two axes:
-
-- Reply handling: disabled, draft for human review/send, or conditional automatic
-  send where explicitly enabled. This is separate from the automatic initial receipt.
-- Tool execution: disabled, automatic within the allowed scope, always require
-  approval, or require approval according to a code-owned predicate.
-
-Recommend small registered policy functions plus validated configuration
-parameters (for example a reviewed threshold), returning **block**, **needs
-approval** or **allow** with an inspectable reason. The bot proposes a request;
-trusted execution code resolves facts and evaluates policy. Missing/error/stale
-facts must not silently allow automatic execution. Mandatory tool/recipient,
-Business/account authorization and input validation precede this decision;
-"no approval needed" is not "no restrictions," and approval cannot override a
-hard access denial. A read-only tool still needs scoped data/disclosure checks.
-Enforce the reply policy at actual send time too, so a draft-only bot cannot
-bypass it by invoking a generic email tool. Recheck relevant facts/policy when
-resuming an approved action; materially changed requests need a new decision.
-
-**Implementation alternatives, not an implementation request:** a small set of
-code-defined predicates with configuration reuses reviewed TypeScript/operator
-patterns (Low–Medium relative effort; risks are incorrect/missing facts or buggy
-rules, addressed through boundary tests). A stored arbitrary condition tree or
-visual builder provides more editing flexibility but requires expression
-semantics, validation/versioning and UI maintenance (High relative effort;
-overengineering risk). Andrew explicitly rejects a conditioning engine; recommend
-the first, maintained by Codex, with optional read-oriented policy/result visibility.
-Shared code owns gating/resume mechanics; Business/action-owned code chooses its
-domain facts and rules instead of imposing TableCards-specific refund behavior.
-
-Account age and past refunds are Andrew's hypothetical examples, not accepted
-refund criteria or approved financial actions. Sparse product activity can inform
-rules only within its documented trust/completeness bounds; missing events do
-not prove no previous refunds. Money/access decisions require current verified
-billing/entitlement facts and applicable terms, not a bot-supplied count or
-claimed identity. Rule inputs/configuration remain outside user/model control.
-Code-enforced authorization prevents prompt text from directly changing the
-rules, but is not blanket prompt-injection immunity: a bot may still propose bad
-arguments or disclose supplied information. Test attempted overrides, poisoned
-inputs/results, unknown facts, thresholds and send/tool bypasses with harmless
-fixtures, alongside approved normal cases.
-
-[Convex conditional tool approval](https://docs.convex.dev/agents/tool-approval#defining-tools-with-approval)
-provides a boolean/function approval hook, not the complete authorization policy.
-[OWASP execution-boundary guidance](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#secure-implementation-pipeline)
-supports permission/argument enforcement outside the model. This accepts the
-desired configurable, code-protected policy capability; exact predicates,
-initial auto-send/tool settings and schema remain to design. Existing draft-only
-support scope is unchanged until explicitly revised; no refund tool or autonomous
-send is enabled or approved by these examples.
-
-### Business automation and commercial advisors — exploration, 2026-10-08
-
-Andrew proposes multiple configurable internal advisory roles, distinct from live
-customer helpers/support. His subsequent refinement places these reviews outside
-the BFF bot runtime, initially considering Codex CLI and then OpenAI dots. They
-inspect bounded Business evidence and propose improvements, but cannot approve
-or apply their own recommendations. Initially discussed specialist roles:
-
-- **Business automation advisor:** reviews tickets, approved/denied actions and
-  meaningful outcomes over a selected period; recommends keeping manual handling,
-  permitting an action automatically or applying a tested conditional rule.
-  It also identifies new places to automate, including missing tools or integration
-  points, rather than only adjusting automation that already exists. New capability
-  proposals require engineering review; discovery does not install them. This is
-  policy/workflow improvement, not infrastructure repair or general code
-  maintenance. A weekly batch is subsequently proposed; exact cadence and
-  execution provider remain open, and no schedule is enabled.
-- **Monetization advisor:** suggests an eligible-person offer or a broader offer
-  hypothesis from scoped usage/conversion evidence. Offer creation, sending,
-  discount application and price changes are separate authorized actions, not
-  effects of generating a recommendation. Promotions remain a deferred capability;
-  no promotion engine or financial action is added to the MVP by this idea.
-- **Marketing/acquisition advisor:** suggests acquisition/conversion experiments
-  and relevant messaging/channels. It does not itself create traffic, authorize
-  paid ads, contact prospects or turn visitor data into identified leads. Evidence,
-  permitted targeting/contact and budgets remain to define.
-
-**Stricter initial support baseline — accepted refinement:** Andrew now specifies
-that support-bot substantive replies and every permitted support-tool invocation,
-including read-only tools, initially require operator approval. This replaces
-earlier suggestions to let scoped reads run automatically at the outset.
-"Blocked" here means automation is off/pending approval for otherwise allowed
-actions; unavailable/forbidden actions stay hard-denied, not enabled by approving
-a bot request. The previously accepted non-bot initial receipt remains automatic.
-Helpers and advisor evidence-read approval are separate unsettled policies; do
-not silently extend or relax the support rule for those roles.
-
-The advisor proposes a precise policy difference and rationale, affected scope,
-representative examples/exceptions, replay/test evidence and rollback/stop path.
-An operator can approve/reject a reviewed candidate, not an unrestricted right
-for a bot to rewrite its own instructions, tools, policy or data access. Repeated
-human approvals are useful evidence, not proof the same action is safe forever.
-Sparse/no customers means initial patterns are hypotheses; synthetic cases test
-behavior but cannot establish customer demand, profitability or real failure rates.
-
-Recommend a small **proposal → evaluation → approval → validated activation**
-loop against the reviewed policy contracts, separate from the live bot runtime.
-Code predicates stay reviewed
-and configuration stays validated/versioned. An AI-proposed new predicate requires
-Codex implementation/review and tests; an Approve button must not dynamically
-execute generated code. Hard authorization/disclosure/financial constraints remain
-outside the learned rules. Proposals/results should explain why and show evidence,
-not only "the AI recommends this." Operator judgment/approval belongs in the
-backoffice; configuration/code changes and verification remain Codex-owned.
-
-**External review batch and proposal inbox — refinement, 2026-10-08:** Andrew
-clarifies that the advisory roles need not be implemented as live BFF agents.
-He proposes one periodic review over the configured Businesses, delegating the
-relevant analyses and producing separately selectable proposals, potentially JSON.
-He then suggests OpenAI dots rather than a custom subscription-backed Codex CLI
-runner; this is a candidate, not a confirmed provider or installation request.
-One batch may contain several scoped reviews/model calls; it does not require
-one giant prompt, merged customer identities or pooled private Business evidence.
-
-Recommend a small validated proposal envelope, rendered as readable cards in the
-shared backoffice: Business/environment, review period, advisory role, proposed
-change, rationale/evidence, limitations and the effect of approval. BFF should
-own the operator decision and actual application outcome, not a second copy in
-an editable JSON document. Import may create pending proposals only; it must not
-send offers, change policy or treat generated claims as verified facts. Exact
-format, transport, persistence, deduplication and lifecycle remain to design;
-there is no proposal inbox/import API in the inspected backoffice today.
-Customer-bearing evidence/proposals must not be committed to repository files.
-
-Approval must distinguish a known validated configuration action from a proposal
-requiring new code: the former can apply only an explicitly reviewed supported
-change after current-state checks; the latter authorizes bounded follow-up Codex
-work, not arbitrary generated-code execution or an implied production release.
-Rejecting or deferring is not applying. BFF-enforced decision/action boundaries
-remain independent of the external reviewer's prompts or product safeguards.
-
-**Relative scope options:** on-demand Codex review (Lower effort; useful first
-trial, manual invocation); dots-coordinated recurring review (Medium effort;
-could reuse scheduling/delegation, but account availability, bounded BFF evidence
-access, reliable proposal delivery and usage require validation); a private
-scheduled Codex CLI runner (Medium–High effort; more control over structured
-output/transport, but hosting, authentication and scheduling are ours to operate).
-Andrew now leans toward dots; recommend validating one proposal-only trial before
-enabling a recurrence. Earlier BFF-hosted advisor runs are not the current proposed
-location. Autonomous activation or a general campaign/rule builder remains excluded.
-No built-in advisory trio, schedule or implementation is approved.
-
-Official checks: [dots tasks and memory](https://learn.chatgpt.com/docs/dots/tasks-and-memory)
-documents recurring work and delegation; [computers and apps](https://learn.chatgpt.com/docs/dots/computers-and-apps)
-distinguishes cloud work from connected local files/skills and existing app access.
-[Meet dots](https://learn.chatgpt.com/docs/dots#access) states rollout/eligibility
-conditions and that delegated Work/Codex tasks use those products' allowances.
-Andrew's actual enabled access is unverified. No built-in Convex connector,
-guaranteed JSON delivery or approval synchronization with our backoffice is
-established by these sources. [Codex non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode)
-supports scripted execution and schema-shaped final output; CLI JSONL progress
-events are not the proposal document. Subscription sign-in exists, but the
-[authentication guidance](https://learn.chatgpt.com/docs/auth) recommends API auth
-for programmatic workflows; do not promise unlimited or unattended subscription
-capacity. No account/credentials/connection changes were made.
-
-One key unresolved boundary: an advisor cannot examine data without receiving
-it. Options are operator-approved bounded evidence per review (recommended initial
-choice), approval for every read (strict but interruptive), or an explicitly
-pre-approved recurring read scope (less manual work, new authority). These are
-not implied by approval of support actions. Analysis approval is also not policy
-change approval. No automatic customer outreach, schedule, schema or wider data
-access is authorized; MVP inclusion remains a separate decision.
-
-**Manager and project-prioritization roles — proposal, 2026-10-08:** Andrew
-extends the external advisory idea to a manager/CEO-like coordinator that checks
-marketing, support, monetization and other relevant work, plus a product/project
-manager that identifies what genuinely needs Andrew's scarce time. The desired
-outcome is verified useful work and a short decision/blocker list, not managing
-Andrew's personal life or adding mandatory management layers. The combined-role
-recommendation below is historical: Andrew subsequently clarifies the separate
-COO and independent CTO-assistant responsibilities in the next subsection.
-
-Recommend initially one coordinator with these two responsibilities, delegating
-bounded specialist tasks when useful. It inspects actual results, evidence,
-failures and waiting decisions; an agent's "done" report is not proof of success.
-It reconciles conflicting proposals, checks dependencies, removes duplicates and
-distinguishes work within existing authority from new scope or decisions needing
-Andrew. New strategy/features may be proposed, not silently added to the accepted
-MVP. Ranking should explain expected impact, uncertainty, effort and what a delay
-would affect; sparse evidence must be labelled rather than turned into a precise
-sales/ROI forecast. Sales/SDR is a possible role, not assumed necessary for every
-Business.
-
-The operator output should say what was verified, what remains unverified, which
-few decisions require Andrew and why, the recommendation/options for each, and
-what approved work can continue without him. Use the single delivery roadmap and
-accepted work records as inputs, not another competing live plan. Cross-Business
-prioritization may use approved summaries; it does not reopen cross-Business
-customer merging or unrestricted private-data pooling.
-
-Options: **one coordinator plus delegated roles** (Lower–Medium relative effort;
-reuses dots' documented task coordination but may mix responsibilities);
-**separate business-oversight and project-management agents** (Medium–High;
-clearer focus, but more handoffs, shared-state reconciliation and usage);
-**an independently scheduled hierarchy per Business/function** (High;
-potentially useful at larger scale, but duplicated reviews, conflicting tasks and
-coordination costs need evidence). Recommend the first until distinct workloads
-justify separation. These are architectural roles, not a verified ability to
-create multiple independently addressable dots or one dot managing another.
-[Official dots guidance](https://learn.chatgpt.com/docs/dots/tasks-and-memory)
-supports task delegation and follow-up, not our complete proposed hierarchy or
-an already-connected BFF integration.
-
-Andrew suggests MCP for evidence/proposal access. Treat this as an interface
-candidate: approved reads and pending-proposal submission are distinct from
-policy activation. Exact dots connector support, credentials and scoped APIs are
-unverified; no MCP server is approved or created. The manager cannot approve its
-own proposals, expand another bot's capabilities, bypass initial support approval
-or authorize code/schema/production work merely by assigning it. Routine bounded
-research/drafting may run only within separately approved access/budgets.
-Configuration/engineering stays Codex/operator-owned; human approval belongs in
-backoffice; this adds no product-facing manager UI or Nirvana tasks. Cadence,
-evidence/quality checks, coordinator autonomy and MVP inclusion remain open.
-
-**COO and independent CTO assistant — clarified direction, 2026-10-08:** Andrew
-is the CTO and ultimate decision-maker, also acting as the company's head; no
-separate CEO role is required. He distinguishes two responsibilities rather than
-the previously recommended combined coordinator:
-
-- **COO:** oversees day-to-day Business operations and the relevant support,
-  monetization, marketing, sales/SDR and possible analytics roles. Checks actual
-  outcomes, coordinates dependencies and follows up when work is ineffective,
-  blocked or awaiting an authorized decision. The exact specialist set is not
-  fixed, and an analytics role means permitted business-outcome understanding,
-  not silently adding technical telemetry or new production-data access.
-- **CTO's assistant:** reports directly to Andrew, not to the COO. Prioritizes
-  requests according to Andrew's goals, available time and explicit preferences.
-  Every configured bot may raise a request directly with this assistant without
-  requiring COO approval. The assistant decides what merits Andrew's attention;
-  an incoming bot request is evidence/a proposal, not an instruction overriding
-  Andrew's priorities or approval rules.
-
-This separation is a clarified operating direction, not permission to install
-agents or build an organization-management platform. COO oversight and access
-to Andrew are separate paths: the assistant may consult the COO's context but
-does not become its subordinate or transfer control of Andrew's queue to it.
-Recommend a short request with Business/context, actual evidence, why Andrew is
-needed, options/recommendation and consequences of waiting. Deduplicate related
-requests and distinguish urgent attention from ordinary digest/deferred work;
-exact interruption thresholds and response promises remain open.
-
-**Searchable working context — Andrew's clarification, 2026-10-08:** The
-assistant's primary concern is Andrew's well-being, preferences and available
-attention, not maximizing the COO's activity or business growth at any cost.
-Andrew wants it able to search every configured bot's working context and
-understand what it is doing and why, rather than depend only on the COO's
-selected summaries. Relevant context includes assigned goals/instructions,
-ongoing work, evidence, outputs, decisions, dependencies and documented rationale.
-This is a desired internal read capability, not a claim that dots exposes all
-task memory or a requirement to retrieve private model reasoning.
-
-Recommend searchable, attributable context with targeted retrieval, not loading
-every bot's entire history into each request. The deliberate wider internal
-assistant scope is separate from customer-facing helper knowledge and does not
-transfer another bot's tools, write authority or customer-disclosure rights.
-Exact sources, sensitive-field exclusions, retention and search integration
-remain open; credentials do not belong in this context. Business-scoped customer
-work and the exclusion of customer-profile merging remain unchanged. Andrew's
-later analyst-sharing refinement below adds three protected workspaces; the
-earlier "every context" wording must not be read as silently overriding them.
-
-**Stage-aware attention — Andrew's preference, 2026-10-08:** Importance depends
-on each Business's scale, not a permanent notify-on-every-event rule. Early on,
-Andrew wants visibility into the first customer, first complaint, useful customer
-suggestions and interesting evidence-backed analytical findings. The exact
-"first customer" milestone remains to define; do not assume real paid billing
-exists in the current no-charge preview. Visibility does not automatically mean
-every item requires an urgent interruption.
-
-As a Business grows, recurring routine signals may become summaries, while
-novel issues, meaningful changes or decisions needing Andrew remain eligible
-for direct attention. A new small Business should not inherit another mature
-Business's quieter policy merely because the factory has grown. The assistant
-and Andrew can agree on rules and revisit them: propose tightening or relaxing
-thresholds with examples of what would be surfaced or grouped. Recommend this
-collaborative tuning over either permanent fixed thresholds (simpler but can
-become noisy) or unrestricted self-tuning (less manual work but can suppress
-important information). Any discretion to adjust within pre-approved bounds,
-review cadence, interruption channel and precise criteria remain undecided.
-Attention filtering is not action permission: fewer notifications never imply
-approval of pending tools/replies, deletion of unresolved work or broader bot
-authority. The assistant's agreed role is protecting Andrew's time while keeping
-important business learning visible, not launching technical monitoring now.
-
-**SWOT attention lens — accepted refinement, 2026-10-08:** Andrew explicitly
-agrees that the assistant should understand strengths, weaknesses, opportunities
-and threats as a way to identify what deserves his attention. Apply this lens to
-the evidence and each Business's stage, while respecting Andrew's priorities:
-
-- **Strengths:** what is working and might usefully be reused or expanded.
-- **Weaknesses:** internal limitations or recurring friction worth addressing.
-- **Opportunities:** a credible improvement, such as a useful new model integration
-  or a new place to automate work that currently consumes Andrew's time.
-- **Threats:** a meaningful risk or change that needs a decision or timely response.
-
-A SWOT label alone does not make an item important or urgent. Recommend surfacing
-material, timely findings with evidence versus hypothesis, likely impact,
-cost/effort and uncertainty, why Andrew is needed, options/recommendation and the
-consequence of waiting. Routine findings can remain searchable or in summaries;
-neither a mandatory four-quadrant report for every event nor a numerical scoring
-engine is required. This attention lens grants no action approval and adds no
-independent roadmap, monitoring setup or management console.
-
-**Automation-opportunity discovery — Andrew's refinement, 2026-10-08:** The
-automation advisor should suggest further places where work could be automated,
-not only which existing approval rules to relax. The assistant includes these
-possibilities in its SWOT opportunity assessment and can identify a candidate
-from searchable work context for the advisor to investigate. Distinguish a
-supported configuration change from a missing capability that Andrew and Codex
-would need to develop. A useful proposal explains the recurring work, evidence,
-expected manual effort removed, implementation/ongoing maintenance costs, risks
-and the specific decision needed. Potential time saved is a hypothesis until
-measured, not proof that building the automation is worthwhile. The assistant
-prioritizes against Andrew's current goals; neither role activates its own proposal
-or silently adds it to the MVP. This extends the existing advisor/assistant roles,
-not a request for another bot, plan or automatic engineering workflow.
-
-Approval-required actions remain pending until an authorized human decides.
-Neither role gains Andrew's authority from its title, may self-approve proposals,
-expand bot/data permissions or authorize code/schema/production changes merely
-by delegating. The assistant presents choices and carries explicit decisions
-back through validated flows; it does not manufacture Andrew's consent. Keep the
-existing single roadmap authoritative. The assistant's clarified internal
-working-context access does not merge customer profiles across Businesses or
-grant arbitrary production-data access.
-
-Preserve separate role definitions even if they share scheduling/task tooling
-(Lower–Medium relative effort; less integration, but routing and scope still need
-validation). Independently scheduled bot instances are another option
-(Medium–High; clearer execution ownership, but more handoffs, duplicate reviews
-and usage). Recommend the former initially without combining responsibilities.
-Actual multi-dot availability, communication/identity, execution placement,
-approved data/skills, cadence/budgets, interruption rules and MVP inclusion remain
-undecided. This is not a verified native dot-to-dot management capability.
-Configuration/engineering belongs in Codex/operator automation; human decisions
-remain operator/backoffice work, not product-facing controls or new Nirvana tasks.
-
-**Analytics research and future model integration — exploration, 2026-10-08:**
-Andrew wants the analyst able to investigate meaningful Business data and query
-results, research useful models and potentially create/test models for marketing,
-sales or offer selection. Multi-armed and contextual bandits are example future
-ideas, not a selected algorithm or approved customer experiment. His constraint
-is CPU-only work; the analyst must establish data needs, evaluation, runtime
-feasibility and costs rather than assume any model fits the deployed services.
-No unrestricted production queries, training jobs or data export are authorized.
-
-The desired proposal loop is: analyst studies a candidate and its evidence →
-assistant judges whether it merits Andrew's attention → Andrew chooses whether
-to pursue it → Codex develops a reviewed integration point → analyst gains a
-bounded model/configuration surface to evaluate and tune. New integrations,
-data sources or code changes are engineering decisions, not effects of a bot
-having a tunable parameter. Which later parameter changes may run autonomously
-within approved ranges, and which require another approval, remains open.
-Models do not replace the code-protected authorization/approval rules.
-
-Relative scope options:
-
-- **Research and proposals first (recommended now):** reuse meaningful events
-  and the proposed evidence/proposal flow. Lower relative effort; useful for
-  identifying what data and integration are missing. Without customers, findings
-  are hypotheses; synthetic evaluation does not prove commercial benefit.
-- **A bounded experiment at one approved integration:** reuse a Codex-built
-  interface with explicit alternatives, objective, exposure/cost limits and a
-  stop/rollback path. Medium–High relative effort; requires suitable data and
-  validation. CPU-only does not make a customer-facing experiment low-risk.
-- **A general autonomous modeling platform:** flexible across many integrations,
-  but High relative effort and new maintenance, permission and experiment risk.
-  Not recommended for the present stage or included in the initial MVP scope.
-
-Andrew explicitly does not want all of this at once. Record it in this active
-exploration, not as a new MVP commitment or separate plan. Research/configuration
-and model integration remain Codex/operator workflows; Andrew's decisions belong
-in the operator proposal/attention flow. No model dashboard or customer-facing
-ML control is required merely by discussing the idea.
-
-**Security/legal roles and dedicated analysts — Andrew's refinement, 2026-10-08:**
-Andrew adds security and legal to the operating concept, then clarifies that each
-role directly under him with its own responsibility should have its own analyst.
-The initial four peer responsibilities are below; Andrew subsequently adds product
-manager, project manager and architect with the same dedicated-analyst pattern:
-
-| Responsible role | Dedicated analytical counterpart | Proposed focus |
-| --- | --- | --- |
-| COO | Operations analyst | Business outcomes, specialist effectiveness, dependencies and operational improvements |
-| CTO personal assistant | Assistant analyst | Evidence for attention priorities, SWOT and opportunities to reduce Andrew's burden |
-| Security | Security analyst | Security exposure, access/disclosure boundaries and evidence for mitigations |
-| Legal | Legal analyst | Applicable obligations, policy/behavior mismatches and source-grounded questions for review |
-| Product manager | Product analyst | Customer needs, product opportunities, prioritization evidence and accepted-roadmap status |
-| Project manager | Delivery analyst | Progress evidence, dependencies, blockers, delivery coordination and completion checks for agreed work |
-| Architect | Architecture analyst | Technical feasibility, reuse boundaries, maintainability, operating costs and design trade-offs |
-
-Security and legal are peers of the COO and personal assistant here, not silently
-placed beneath the COO. These are desired responsibilities, not newly granted
-production permissions or a requirement for a separately deployed service per role.
-The assigned analyst is a dedicated counterpart with its own work context, not
-a shared analyst conversation that accumulates all roles' data. This revises
-the earlier suggestion that one analyst might serve several responsibilities.
-Other future decision-owning roles can use this pattern; it does not require
-an analyst for every customer-facing helper or ticket specialist.
-
-Reuse analytical code, procedures and approved skill files without automatically
-sharing conversation history, retrieved records, legal material or tool access.
-Cross-role requests/results should be deliberate and attributable; delegation
-does not transfer the sender's authority. The assistant's earlier requirement
-to search other bots' work remains a distinct, intentionally approved read path,
-not automatic analyst-context pooling. Exact searchable sources and disclosure
-boundaries, especially sensitive legal/security evidence, still need definition.
-Do not claim a separate named bot alone provides enforced data isolation or that
-the selected external provider already supports this complete arrangement.
-
-Recommended starting responsibilities, not final scope or implementation:
-
-- **Security bot:** inspect approved code/configuration and relevant evidence;
-  identify possible vulnerabilities, excess access, confidential-data exposure
-  and unsafe automation proposals; recommend bounded fixes and verification.
-  Findings distinguish confirmed issues from untested hypotheses. It does not
-  certify safety, attack/scan live systems, rotate credentials, revoke access or
-  deploy fixes merely because it has the security title.
-- **Legal bot:** research applicability against the Business's real operator,
-  markets, data use and commercial promises; compare policy wording with actual
-  behavior and review proposed changes. Cite current primary sources and flag
-  missing facts, jurisdictional uncertainty and matters needing qualified advice.
-  It can prepare questions/drafts, not declare legal clearance, sign agreements,
-  publish binding terms or make representations to customers on its own.
-
-Use the existing [legal launch gates](../../docs/factory/mvp-delivery-plan.md#legal-documents-and-agreement-readiness)
-and the deferred [edge-security discussion](../../docs/architecture/future-ideas.md#custom-domain-edge-protection-and-security-monitoring)
-as context, not a new document pack or permission to implement their backlog.
-Both roles can raise evidenced concerns directly with Andrew's assistant; a
-security/legal concern does not need COO permission to be heard. Whether they
-only advise or also participate in a specific mandatory review gate is open;
-existing code-enforced authorization/safety controls are not optional meanwhile.
-Review cadence, incident authority, approved inputs and final MVP inclusion remain
-open. Codex/operator workflows own configuration and authorized engineering;
-human decisions belong in the backoffice/attention flow. No customer-facing
-security/legal chatbot or legal-management console is requested.
-
-Earlier scope alternatives: on-demand/proposal review (Lower relative
-effort; reuses the proposed evidence flow, but misses changes between reviews),
-periodic operating review (Medium; needs a scoped schedule and reliable inputs),
-or both (Medium–High; wider coverage but more duplicate work and usage).
-**Accepted starting mode, 2026-10-08:** Andrew agrees to advisory reviews of
-proposed changes first; periodic business checks can be considered later, not
-scheduled now. Sensitive changes still require approval. This settles the
-initial review mode, not precise inputs, mandatory gates or implementation.
-
-Source checks: [OWASP Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
-supports limited tools, downstream authorization and approval for high-impact
-actions. [NIST AI RMF Core](https://airc.nist.gov/airmf-resources/airmf/5-sec-core/)
-calls for clear human/AI responsibilities, legal-risk context and leadership
-accountability. These support the advisory boundaries, not a legal determination
-for Andrew's Businesses or proof that this proposed architecture is secure.
-
-**Product manager and architect — requested roles, 2026-10-08:** Andrew adds
-these to the roles under him, applying the dedicated-analyst/separate-context
-pattern. Proposed responsibility boundaries:
-
-- **Product manager:** understand customer problems and meaningful feedback,
-  compare product opportunities and recommend priorities/scope with evidence.
-  Use the existing canonical product documents and single MVP roadmap; do not
-  create a competing live backlog. The product analyst supports this research.
-- **Project manager — added by Andrew, 2026-10-08:** coordinate delivery of
-  already-agreed work, examine verified progress/dependencies/blockers and prepare
-  useful follow-ups. Its dedicated delivery analyst checks evidence, rather than
-  treating another bot's "done" as proof. Reuse the accepted roadmap and work
-  records; coordinating delivery does not authorize new scope, launch claims,
-  engineering execution or deadlines Andrew has not agreed. This is separate
-  from product-value decisions and the personal assistant's attention priorities.
-- **Architect:** examine technical feasibility, shared versus Business-owned
-  behavior, reuse without imposing one product's domain model on another,
-  maintainability and operational/cost trade-offs. The architecture analyst
-  researches these choices against current code and applicable primary sources.
-  Proposed designs/ADR drafts are not accepted architecture or permission to
-  change schemas, implement refactors or deploy. Andrew subsequently clarifies
-  that the architect should also help implement approved work through Codex,
-  not remain a design-only advisor; the collaboration refinement below owns that
-  distinction, without granting general execution authority.
-- **Personal assistant:** assess which findings and decisions merit Andrew's
-  attention under his goals, SWOT and well-being. It does not replace product
-  reasoning or technical design; those roles can raise requests directly to it.
-
-These are responsibilities, not a request to start role instances or assume every
-role must run on every change. Codex remains the authorized engineering/configuration
-workflow; human scope/approval decisions remain in the operator/attention flow.
-No extra product-management or architecture console is required by these additions.
-Andrew explicitly asks for project manager, product manager and architect as
-distinct roles, not a single combined manager. Precise handoff and task-dispatch
-powers remain open; no additional planning artifact or operational queue is created.
-
-Next product-manager authority alternatives, not yet accepted:
-
-- **A — recommendations only:** use the proposed evidence/proposal flow to
-  suggest priorities; Codex/Andrew separately maintain accepted status. Lower
-  relative effort; limited write authority, but extra handoffs and stale status
-  are possible.
-- **B — maintain the accepted roadmap and propose changes (recommended):** keep
-  verified outcomes, blockers and already-approved work current in the same
-  canonical records; ask Andrew before changing agreed product scope or priorities.
-  Medium relative effort; needs clear accepted inputs and conflict handling so
-  record maintenance does not become unapproved strategy or duplicate plans.
-
-Recommend B to reduce manual coordination while preserving Andrew's decisions.
-The exact supported write surface and product/architecture access are still open;
-this recommendation does not grant roadmap editing or deployment authority now.
-
-**First common authority boundary — options and accepted refinement, 2026-10-08:** Andrew is unsure
-which boundaries to define now. Recommend settling internal-advisor research
-versus action authority before detailed tools, schedules or per-role write
-controls. This is distinct from the live support bot's already-agreed approval
-for every permitted tool invocation and substantive reply.
-
-- **1 — approve every advisory step:** review each allowed data/tool request and
-  suggested action. Lower policy-design effort, but substantial operator handoffs.
-- **2 — pre-approved research, approval for effects (recommended):** advisors can
-  inspect explicitly approved sources, collaborate through scoped handoffs and
-  prepare proposals without asking at each step; consequential writes, customer
-  communications and new authority still need a separate approved execution path.
-  Medium effort; requires concrete read/disclosure scopes and budgets, not an
-  unrestricted production read grant or automatic deployment.
-- **3 — automatic effects within approved rules:** permit selected changes under
-  tested code-backed rules. Higher effort; precise actions, limits and evaluation
-  are needed. Preserve this later possibility, not initial blanket authorization.
-
-**Accepted refinement, 2026-10-08:** Andrew initially restates approval for
-everything, then asks for a clearer explanation of option 2 and agrees with it.
-For the internal advisors, bounded research on approved information, scoped
-consultation and proposal/draft preparation need not interrupt him at each step;
-consequential effects still require approval. This does not relax the live support
-bot's approval for every permitted tool call and substantive reply. Concrete
-read/disclosure scopes and budgets are still to define; approval of the design
-does not connect data sources, enable jobs or grant unrestricted production reads.
-
-Security/legal/architecture review should be relevant to a proposal's risks, not every role
-reviewing every message or clerical change. Exact review triggers and whether any
-review is a mandatory gate remain open; bot recommendations cannot weaken existing
-hard controls. No runtime write permissions or implementation are enabled here.
-
-**Collaborative feature lifecycle and Andrew's involvement — clarified direction, 2026-10-08:**
-Andrew describes the product manager receiving suggestions from customers,
-operators and any relevant bot, then assessing product/business value, risks and
-opportunities through SWOT. This is distinct from the personal assistant's SWOT
-question of whether something deserves Andrew's time. Worthwhile prioritized
-ideas proceed to shared brainstorming: architect develops technical options,
-legal/security assess relevant implications, and other roles contribute when
-needed. Relevant review does not mean invoking every role for every small change.
-
-Once the chosen feature direction is agreed, the architect prepares an
-implementation-ready plan informed by that collaboration. The project manager
-coordinates agreed delivery and evidence; Andrew and the architect can work
-together through Codex on authorized implementation. The architect is therefore
-not permanently limited to recommendations, but planning approval is not blanket
-permission for code, structural schema changes or production publication. This
-describes the proposed future workflow; it does not accept this entire brainstorm,
-create an implementation plan now or start building these roles.
-
-Andrew expects involvement in nearly every substantive decision initially.
-Approved-source research/drafting can still proceed under option 2; independent
-analysis is not agreement to product priorities, designs or consequential actions.
-Later, evaluate whether the assistant's attention recommendations match Andrew's
-judgment, including unnecessary interruptions and important missed items, then
-tune the agreed criteria together. Reduced participation in particular decisions
-requires an explicit later boundary, not a SWOT score silently removing approvals.
-
-For Codex placement, retain an open choice: an interactive repository-connected
-Codex task with Andrew (recommended initial lower-integration approach), or a
-later validated dot-to-Codex task handoff. [Official prompting guidance](https://learn.chatgpt.com/docs/prompting)
-describes reviewing plans and delegated implementation; [dots tasks and memory](https://learn.chatgpt.com/docs/dots/tasks-and-memory)
-describes local connected-computer tasks and configured cloud coding tasks, each
-with its own conversation. This establishes possible work surfaces, not the
-architect role's setup, Andrew's available account/environment, native cross-role
-context search or an installed BFF integration. Exact workspace, handoff and
-approved context package remain to define; no task or provider setup is activated.
-
-**Separate workspaces versus readable context — Andrew's refinement, 2026-10-08:**
-Every responsible role still has its own analyst, after Andrew considers and
-rejects sharing one analyst among project manager, product manager and architect.
-Separate working conversations are not a blanket requirement that all other
-analysts' work be unreadable. Andrew now wants ordinary working context available
-across the relevant internal analysts, with no context automatically copied into
-every prompt. This revises the earlier broad default-isolation suggestion:
-distinguish who owns/writes a workspace from who may intentionally read it.
-Internal work-context access is not a new right to arbitrary customer records,
-merged customer identities, credentials or another role's execution tools.
-
-Andrew identifies three specially protected analyst contexts: **security, legal
-and personal assistant**. Their private working context should not be accessible
-to other bots merely through broad context search. He also describes the personal
-assistant's analyst as unusually broad, able to inspect everyone's context.
-These statements leave one explicit unresolved exception: does that analyst read
-security/legal private work too, or receive deliberately shared findings only?
-Also clarify access for each paired responsible role before implementing any
-private-workspace contract; do not assume title, sibling status or oversight
-automatically bypasses the protection.
-
-Options for the assistant-analyst exception:
-
-- **A — protected contexts stay private; share findings explicitly (recommended):**
-  reuse intentional handoffs and ordinary-context search, with no automatic raw
-  access to the three protected workspaces. Medium relative effort; preserves
-  Andrew's stated privacy boundary, but the assistant may need follow-up evidence.
-- **B — assistant analyst has an explicit security/legal exception:** broader
-  raw read access supports its overview, while ordinary analysts remain excluded.
-  Medium–High relative effort; expands the most sensitive read scope and requires
-  precise read/disclosure controls. This is a new exception, not implied by A.
-
-Both retain a private assistant-analyst workspace. Recommend A pending Andrew's
-clarification, not as an accepted restriction on his desired broad overview.
-Searchable work records, separately approved findings and provider-private task
-memory are different sources; the exact supported access mechanism remains open.
-No confidential bot histories or customer evidence are copied into the repository.
-
-**Per-secret rules and derived disclosure — Andrew's clarification, 2026-10-08:**
-Andrew makes the access decision depend on subsequent communication: a bot that
-knows confidential information should not freely discuss it with other bots.
-He wants each secret brought to him so **he sets its rule**. This replaces the
-earlier global A/B choice with per-secret operator judgment, not blanket raw
-access for the assistant analyst. Knowing a fact does not authorize forwarding
-it, and a bot cannot widen its own rule. Pending a rule, preserve the existing
-private scope rather than disclosing it to a new reader or recipient.
-
-Illustrative small rules, not yet approved individual grants:
-
-- A particular security report is retrievable only by Andrew and the security
-  role; other bots cannot retrieve the original.
-- A private analyst allowed to read confidential sources has no free-form
-  bot-to-bot send tool or shared output destination; its findings go only to
-  Andrew or another explicitly approved private recipient.
-- A specific operator-approved summary is a separate shareable artifact with
-  named readers; approval of that summary does not expose its private source.
-
-Recommend reusing Andrew's recorded decision for the same secret and approved
-scope rather than asking on every identical access; a new recipient or wider
-scope needs him again. Whether related secrets may share one rule remains open.
-Rules are source/recipient access checks and narrow communication capabilities,
-not a general condition-builder or an assumption that a prompt can enforce
-confidentiality. The existing operator allowlist is a code-level access-check
-pattern, not an implemented bot identity or secret-policy system.
-
-Andrew then points out that information can be copied or carried elsewhere.
-Agree with the limitation: controlled direct reads/transfers can be audited,
-but matching text or attaching a source label cannot reliably detect every
-paraphrase, inference or derivative disclosure. [OWASP Sensitive Information Disclosure](https://genai.owasp.org/llmrisk/llm022025-sensitive-information-disclosure/)
-warns that model outputs can expose confidential information and prompt
-restrictions can be bypassed. Recommend constraining the entire secret-bearing
-execution context's outbound channels, not allowing unrestricted messages on
-the promise that an output filter will recognize each secret. A shareable summary
-should be deliberately approved before a separate context reads it; source
-approval is not approval of every generated summary. Actual provider context,
-memory, retrieval and communication enforcement remain to verify. This is a
-design requirement, not a guarantee or a newly enabled permission system.
-
-Codex/operator automation maintains validated configuration; Andrew decides
-confidentiality exceptions in a private approval surface. No confidential content,
-credentials or real private conversation transcripts are written to repository
-examples. No schema, new bot, connector or rule-management UI is implemented.
-
-**External organization platform: Dots and Paperclip — Andrew's correction and research, 2026-10-08:**
-Andrew explicitly corrects the layer under discussion: the company/analyst bots
-would most likely use OpenAI Dots, not run as a Convex bot organization. He asks
-to investigate Paperclip because the proposed reporting structure resembles it.
-The BFF allowlist example above is only a generic access-check analogy; it does
-not establish control over an external agent's memory, context or communication.
-Keep these company advisors separate from the proposed live BFF helper/support
-runtime. No external platform is selected or connected by this discussion.
-
-Primary-source findings, inspected 2026-10-08:
-
-- [Paperclip's repository README](https://github.com/paperclipai/paperclip) describes
-  an open-source, self-hosted agent-organization platform, with reporting lines,
-  delegated tasks, schedules, budgets, approvals and adapters including Codex.
-  It is an organizational control plane, not a model or a library to add to Convex.
-  Its credential-secret storage is not evidence that arbitrary confidential
-  business facts remain isolated after a model reads them.
-- [Official OpenAI Dots controls](https://learn.chatgpt.com/docs/dots/controls)
-  describe action review and custom rules for asking before an action, acting on
-  request or handing work to the user. The documentation explicitly says custom
-  rules are instructions the dot tries to follow and can make mistakes; they are
-  not a proof of enforced per-secret information-flow isolation.
-- [Paperclip connector access](https://docs.paperclip.ing/connectors/access-model/)
-  provides selected-agent connection access and Allowed/Ask first/Off for calls
-  through its tool gateway. These controls do not apply identically to messaging
-  channels, and per-tool Ask first does not govern an agent's shell. Thus a rule
-  such as "this managed action asks before every call" is concrete, but does not
-  establish "all ways to send this confidential information require approval."
-
-Candidate approaches, not an accepted provider decision:
-
-| Approach | Reuse and likely effort | Main unresolved constraint |
-| --- | --- | --- |
-| Dots-led small advisory setup | Reuse managed tasks and action review; Lower initial integration effort if available to Andrew | Exact multi-role context/search, confidentiality boundaries and BFF evidence/proposal handoff remain unverified |
-| Paperclip-led organization | Reuse explicit organization/delegation/budget/approval concepts; Medium–High setup and operational effort | Hosting and agent runtimes need operation; private context and all outward paths require verification beyond gateway controls |
-| Custom organization layer in BFF | Reuse existing Business/operator facts; High implementation and maintenance effort | Rebuilds orchestration and does not itself control externally running bots; not recommended now |
-
-Recommend evaluating Paperclip's existing organization model before designing
-custom company-management infrastructure, while retaining Dots as Andrew's likely
-candidate. Do not assume Dots has a Paperclip adapter or that the two are a proven
-combined solution. Record the desired confidentiality rules separately from
-what either provider can enforce; source access, execution context, shared files,
-memory and non-gateway communication all matter. A bounded approved-information
-review is a possible later experiment, not authority to install, connect accounts,
-create agents, schedule work or give them real private material now.
-
-**Architect's engineering staff and company visibility — Andrew's refinement, 2026-10-08:**
-The architect is also an engineering supervisor, analogous to the COO's
-operational oversight: understand what its staff are doing, check their results
-and quality, and answer technical questions about worthwhile features. Andrew
-requests these specialist responsibilities beneath the architect, alongside its
-already separate architecture analyst, not three more CTO-level peers:
-
-| Engineering specialist | Desired responsibility | Useful evidence for the architect |
-| --- | --- | --- |
-| NOC-style technical watcher | Examine technical issues, logs and metrics; identify individual versus wider production problems | Affected environment/release, observed symptoms, scope, evidence and uncertainty; investigation or escalation needed |
-| QA/regression | Reproduce reported problems, examine what failed and check that approved changes do not break relevant journeys | Reproduction, affected checks, actual results and remaining gaps, rather than an unsupported "tested" status |
-| Developer | Implement authorized work and address approved findings with the architect | Reviewed changes and proportionate test/release evidence; implementation is not finished merely because code was written |
-
-These are proposed roles, not running agents or additional deployment units.
-Recommend starting with these three engineering responsibilities rather than
-inventing a separate release, reliability or code-review bot before a distinct
-need appears; the architect and existing delivery/QA workflows can cover those
-concerns initially. Staffing, execution grants and final MVP inclusion remain open.
-
-For the NOC role, "always monitoring" describes desired coverage, not a
-requirement for nonstop model calls. Recommend external monitoring collection
-and detection, with scoped AI investigation of supported incident notifications
-and bounded periodic checks. Technical telemetry stays in the monitoring tool,
-not copied into BFF's business-event records or the backoffice. Preserve a direct
-critical-alert path if AI investigation fails; a technical watcher does not
-automatically repair production. [Official dots tasks guidance](https://learn.chatgpt.com/docs/dots/tasks-and-memory#event-monitoring)
-describes event monitoring where the connected service supports it; a connection
-alone does not create a monitoring task. Native access to our chosen log/metrics
-service, coverage, cadence, budgets and failure delivery are unverified. Monitoring
-remains later MVP work under the existing roadmap, with no provider, schedule or
-subscription activated by this role discussion.
-
-Andrew clarifies the coordination responsibilities: the product manager connects
-COO/business needs with architectural options and relevant security/legal
-validation, then hands agreed work and outstanding decisions to delivery
-coordination. The COO's dedicated analyst helps it understand business outcomes;
-the architecture analyst supports technical judgment. The project manager's
-**primary output is a trustworthy company-wide picture** of what is happening,
-what agreed work is actually progressing, what is blocked and what evidence is
-missing. It consults the relevant analysts, supports Andrew's prioritization and
-follows up on commitments, rather than independently implementing changes or
-changing product priorities. This broadens the earlier delivery-only description,
-not the personal assistant's independent responsibility for Andrew's attention
-and well-being. Use the existing roadmap/work records, not a second plan.
-
-Consulting "all analysts" does not silently settle the private-context exception:
-security/legal/assistant analysts can provide deliberately shared findings while
-their protected workspaces remain unresolved as described above. Operational
-placement stays Codex/operator automation for configuration and approved
-engineering, read-oriented backoffice for progress/evidence, and human judgment
-in the existing approval/attention flow. No new customer-facing engineering UI
-or company-management console is requested. QA effort should follow the affected
-behavior and release boundary; this does not reinstate full CI, browser or AI
-checks for every Markdown edit.
-
-The existing TypeScript SDK already provides React auth bindings/controls, not
-a helper component. That is a reuse pattern, not evidence chat exists. Prefer
-shared runtime behavior with themed defaults. Andrew subsequently requires a
-small configurable custom-bot definition, not two hardcoded-only bots: common
-instructions, assigned knowledge and a selected subset of fixed reviewed tools
-(the later on-demand/programmatic refinement below revises this fixed-only boundary).
-Helper/support are configurable roles using that definition, not built-in defaults.
-Additional bots using the same
-capabilities should be configuration, not a separate runtime; new tools/data
-sources still require implementation and review. Do not build dynamic tool upload,
-a workflow builder or a separate provider per role.
-Application instruction modules are distinct from the Codex review/improvement
-skill. Assigning instructions never grants tool/data authority. Runtime knowledge
-or instruction Markdown is behavior-affecting input: classify its changes for
-affected evaluation/release checks, unlike unrelated documentation-only Markdown.
-Neither file edits nor evaluations authorize automatic production publication.
-
-**Allocated knowledge, fixed tools and progressive helper context — earlier refinement, 2026-10-08:**
-Andrew separates a bot's main instructions, additional knowledge and tools.
-Approved product explanations and FAQ Q&A can be assigned as knowledge. Fixed
-tools may expose explicitly permitted user/account facts; saying "tools can wait"
-must not silently remove that possibility or imply a dynamic plugin registry.
-FAQ examples supplied as knowledge and held-out evaluation cases serve different
-purposes; do not supply all evaluation answers as context and claim independent
-quality evidence. Dynamic customer records are scoped runtime context/tool results,
-not a shared knowledge file containing everyone's data.
-
-Andrew wants the helper able to grow to understand the signed-in customer and
-current product/page, and later relevant saved work. Distinguish the TableCards
-Business, a saved event/project (for example a wedding), and recorded activity
-events (for example PDF export completed). They are not interchangeable records.
-Recommend progressive context rather than implementing every integration now:
-approved product knowledge and a small page identifier/description first; selected
-authenticated BFF-held customer/account/event facts when explicitly enabled; and
-later product-owned read tools/context adapters for saved-project facts that BFF
-does not hold. A page/project identifier from the browser never grants record
-access. Backend checks still bind reads to the current Business/environment,
-user/account and role, and prevent stale context crossing sign-out/account changes.
-
-The shared component/runtime supplies a stable context boundary; each Business
-decides its domain facts and approved fields. Do not impose a TableCards project
-schema on other products, copy their databases into BFF, automatically send guest
-lists/files, or expose internal implementation information. The initial backoffice
-decision of no custom Business pages/direct product reads is unchanged; a future
-customer-helper adapter is a separate scope decision. This accepts extensibility
-as a design requirement, not those live-data integrations for the initial MVP.
-
-**On-demand skills and programmatic Business extensions — latest direction, 2026-10-08:**
-Andrew rejects loading all product knowledge into every invocation, particularly
-for frequently used customer-facing helpers. Each bot has a name, its own main
-instructions and explicitly assigned skills. Each skill has a title/identifier,
-a concise purpose and when/why to use it, plus full content. Initially supply
-only the small index of that bot's permitted skills; the bot requests relevant
-content on demand. FAQ/how-to material can be a skill, with a small product
-introduction only where useful. Shared skills are reusable across appropriate
-bots; Business-only knowledge stays scoped. This is the application bot's skill
-mechanism, separate from the Codex evaluation/review skill.
-
-The [Agent Skills specification](https://agentskills.io/specification#progressive-disclosure)
-supports metadata first and full content on activation. Its complete directory,
-script execution and tooling conventions are not automatically requirements for
-this runtime. Resolve only assigned/approved skill identifiers; do not expose
-arbitrary repository paths or automatically follow an internal source reference.
-Bound loaded content, skill reads, model/tool steps and cost; evaluate whether
-the bot selects the right skills, avoids unassigned knowledge and answers well.
-Lazy loading avoids unused context but may add calls/latency; benchmark rather
-than guarantee lower total spend. No search/vector database is assumed necessary.
-
-Andrew also wants a **programmatic context and tool extension interface**:
-the Business chooses current-page data and may supply code-registered capabilities
-for a helper invocation, such as navigation or a specific update. This revises
-the earlier fixed-shared-tools-only proposal; fixed BFF tools can still be defaults.
-No web tool editor, dynamic arbitrary-code upload or MCP prerequisite is requested.
-The same extensible bot contract supports these code-owned additions; exact
-registration/validation and result/continuation details remain open; Andrew
-subsequently settles UI execution through the round trip below.
-
-Distinguish local UI callbacks from authenticated backend actions. Browser data,
-tool metadata and model arguments do not create authority or prove paid access.
-Business backends keep existing user/account checks for reads/writes; local UI
-tools validate arguments/destinations and do not acquire BFF administrator powers.
-A frontend function is not executable code sent to the BFF server. Tools operate within the supplied approved
-capabilities and relevant user context, with confirmation/recovery appropriate
-to impact rather than a universal extra prompt for harmless actions. Treat
-context/tool results as data, not instructions that override the bot's policy.
-
-**UI tool round trip — accepted direction, 2026-10-08:** the Business page declares
-the tool names/descriptions and argument shapes it supports for that helper
-invocation; registered handler code remains in the page/application. BFF/the bot
-returns a structured request naming one of those tools with arguments, not
-JavaScript, shell commands or arbitrary URLs to execute. The page checks the
-request against its registered handlers/current context and executes its own
-code. Recommend returning success/failure/decline to the same conversation so
-the bot does not claim an update happened merely because it requested one.
-Exact message schemas, call correlation/retry behavior and continuation need design.
-
-Some actions may need user approval; Andrew does not require an extra approval
-for every tool invocation. Let code-owned action policy/local UI handle approval
-appropriate to impact, alongside existing backend authorization for persistent
-effects. Stale requests after route/account changes, invalid arguments, duplicate
-calls and tool failures belong in evaluation. This settles the execution boundary,
-not the first write actions, their approval policy or permission to implement/deploy.
-
-The Business chooses what suitable context it shares; do not automatically send
-whole pages, every customer record, guest lists or files. Exact domain fields,
-privacy/disclosure policy, payload limits, state changes and first allowed actions
-remain to decide. Programmatic extensibility is accepted as direction, not
-permission for all possible write actions or an implementation request.
-
-Recommend a small common foundation: a Business/environment-scoped role, approved
-knowledge/context, allowed operations, version, bounded usage and an ability to
-stop a failing assistant. Keep repeatable configuration in validated operator
-automation and expose essential state/evidence in the backoffice; add management
-buttons only for a demonstrated direct operator task. Business knowledge and
-domain behavior remain product-owned, not one universal shared bot personality.
-
-For event reads, authorize the user/account scope and select allowed **fields**
-server-side before supplying model context. A meaningful event can contain a
-customer-safe outcome and internal-only explanation; showing one does not authorize
-the other. Customer-safe means permitted for that customer, not public to anyone.
-Unknown/unclassified properties are withheld by default. BFF must not return a
-raw event and ask the model to conceal fields, nor infer authority from a claimed
-email. Exact event contracts and classifications remain open, not new schema.
-The helper and ticket assistant need different approved views; full access for
-human operators does not confer the same access on either bot. Events are
-evidence, not current entitlement/payment authority, and missing events are unknown.
-
-**A — knowledge-only for both initially:** lower effort and less private context,
-but ticket suggestions cannot explain recorded customer-specific failures.
-**B — knowledge/page-context helper plus filtered event/customer summaries for ticket
-drafting (recommended):** uses the accepted BFF-held meaningful facts/events;
-medium relative effort because read/disclosure rules and tests are needed.
-It improves investigation without direct product-database access, account changes
-or raw history dumps. This capability remains a proposal for Andrew's choice.
-
-MCP may later expose those same bounded tools to a permitted agent; it is an
-interface, not an access grant or prerequisite. Reuse server-side policy rather
-than create a second source of permissions for each connector. Evaluation must
-test these filtered views, cross-Business/account denials and disclosed answers,
-not just a bot's wording. Deferred MCP scope is linked from the existing AI idea.
-
-## Business-first operating context — accepted direction, 2026-10-08
-
-Andrew confirms one shared backoffice for all Businesses, with customer work
-inside the selected Business. Whether the same person uses another Business is
-usually irrelevant to that investigation: TableCards and Content Chaser may
-serve unrelated needs. Do not require cross-Business customer lookup, combined
-person profiles or matching-email associations in the initial scope. This
-accepts the context boundary, not the whole feature or an implementation.
-Distinguish **where an operator works** from **where reusable logic lives**.
-
-### Context Option 1: Shared backoffice, Business-first workspace — accepted
-
-**Approach**: Select a Business and its environment, then investigate its customers,
-accounts, relevant product activity and support cases. For example, TableCards →
-customer → meaningful BFF details, recorded product milestones and tickets.
-Keep reusable support/conversation and authorization mechanisms shared where
-they genuinely fit; product knowledge, domain data and allowed actions stay scoped
-to that Business. This does not approve any particular new tables or tools.
-**Leverages**: The existing environment-selected backoffice and environment-scoped
-customer queries; replaces disconnected lists with useful journeys rather than
-starting from a new global customer model.
-**Constraints**: Switching Businesses may initially be necessary to inspect another
-product. Production/development must remain visibly distinct. Activity ingestion
-and support workflows are still new capabilities, not present integrations.
-**Effort**: Lower than a global-first workspace for this context decision; the
-broader support/AI scope retains its own implementation complexity.
-**Risk**: Reusable mechanisms could become TableCards-specific unless their
-contracts preserve Business scope and product-owned facts/behavior.
-
-### Context Option 2: Separate backoffice and support implementation per Business
-
-**Approach**: Each product independently owns the complete operator/support system.
-**Leverages**: Maximum freedom for each product's workflows and presentation.
-**Constraints**: Common capabilities and fixes must be maintained repeatedly.
-**Effort**: Medium to High as more Businesses are added.
-**Risk**: Duplicated support, permission and delivery logic recreates Andrew's
-maintenance concern; later aggregation is more difficult.
-
-Andrew accepts Option 1. Cross-Business customer discovery can be reconsidered
-later if a concrete need appears; it is not a queued requirement. Sharing
-mechanisms does not require sharing a customer's context between Businesses.
-This changes neither the underlying identity model nor the ban on email-based
-identity merges. The single roadmap is reconciled to this boundary.
-The visibility options below describe information **inside the selected Business**
-under this decision, not an automatic combined customer dossier.
-
-### Operator access — accepted simplification, 2026-10-08
-
-Andrew says no permissions system is needed now: everyone has all permissions.
-In this backoffice discussion, interpret everyone as **approved backoffice
-operators**, not public visitors or product customers. All operators can select
-any Business/environment and use every implemented backoffice feature. Do not
-design separate admin/support/read-only roles, per-Business operator grants,
-custom permissions screens or operator-role tables for this scope.
-
-Keep sign-in and the existing approved-operator gate. Business selection is an
-operating context, not a restriction between operators. This does not change
-customer account/membership rules, grant access to new people, expose credentials
-or add raw database controls. Which actions the backoffice offers is still a
-feature-scope decision; full access means access to those agreed features.
-The knowledge helper and ticket assistant never inherit the human operator's
-full access. Ticket replies start as operator-approved suggestions; data/tool
-scope remains open.
-
-## Customer visibility — earlier alternatives, 2026-10-08
-
-These preserve the earlier comparison. Andrew subsequently selects meaningful
-BFF information plus business-reported events below, not direct product-backend
-reads or custom backoffice pages for each Business.
-
-Andrew asks for options with an explanation and a recommendation on each question,
-not an open-ended request to invent the scope. Start with what an operator should
-see when opening a customer:
-
-### Visibility Option 1: Basic customer record
-
-**Approach**: Show the customer's accounts in the selected Business, current
-access/offer, allowance and memberships. Cross-product correlation is a separate
-choice, not required for opening this record.
-**Leverages**: Existing shared identity/account/access records and backoffice lookup.
-**Constraints**: Does not explain whether a product task succeeded or failed.
-**Effort**: Low to Medium relative to the alternatives.
-**Risk**: Andrew still has to investigate elsewhere when someone needs help.
-
-### Visibility Option 2: Customer record plus useful activity and support — recommendation
-
-**Approach**: Add a bounded recent-activity summary for the selected Business and
-the customer's support cases there. For TableCards, proposed examples are saved-project
-summaries, PDF export outcomes and AI-generation outcomes. Show confirmed failures
-and unknown/missing evidence explicitly, without collecting every click.
-**Leverages**: Shared account context and existing product-owned project, export
-and AI-batch records; the proposed support workflow would supply case history.
-**Constraints**: Product-summary access and tickets are not built yet. Private
-guest lists, PDF contents and raw AI prompts are not copied into the overview.
-**Effort**: Medium to High.
-**Risk**: Excessive data exposure or confusing stale evidence unless summaries
-are permission-scoped, bounded and clearly labelled.
-
-### Visibility Option 3: Detailed behavioral analytics too
-
-**Approach**: Also track page visits, interaction sequences and abandonment to
-understand behavior within the Business, not just recorded work and support.
-Cross-product analytics would require an additional scope decision.
-**Leverages**: The later analytics discussion, not an existing click-history store.
-**Constraints**: Adds new tracking, privacy, retention, cost and signal-quality decisions.
-**Effort**: High.
-**Risk**: A larger tracking system with noisy conclusions before the operating
-need is demonstrated; inactivity does not establish that someone is stuck.
-
-Recommend Option 2: enough context for Andrew or a permission-bounded ticket agent
-to investigate routine problems, without turning the backoffice into an analytics
-platform. That earlier recommendation is refined by the accepted boundary below;
-the proposed direct product-summary integration is not part of the current slice.
-
-## BFF customer information and business events — accepted direction, 2026-10-08
-
-Andrew wants the shared customer page to show the meaningful information BFF
-holds about a customer in the selected Business. It is not a raw table browser
-or every internal authentication field. Initial backoffice pages are generic:
-no custom pages per Business and no direct queries into product-owned databases.
-Product-specific backoffice extensions are a [future idea](../../docs/architecture/future-ideas.md#product-specific-backoffice-extensions),
-not a dependency of this feature.
-
-Useful existing information to present includes:
-
-- Profile and safe public identifiers, email/name and registration time.
-- Accounts, memberships/roles and relevant invitation status.
-- Current access/offer, feature limits and remaining/reserved/consumed units.
-- Session state and relevant login/logout, revocation and ownership history.
-- Checkout status with its actual source: Build 3 is a no-charge mock, not paid
-  subscription evidence. Real payment history appears only when implemented.
-- Support cases/conversations once built. Secrets, session handles/token hashes,
-  provider subjects and temporary auth proofs are not operator information.
-
-Businesses report **important events**, not technical logs or every interaction.
-For example: project saved, PDF created or failed, AI generation completed, or a
-customer blocked by an offer limit. Candidate metadata is small structured facts,
-such as a public operation reference, card count, outcome and safe reason code;
-not guest names, document contents, raw prompts, stack traces or arbitrary JSON.
-The exact event catalog and payloads remain proposals.
-
-### Proposed ownership and storage, not an approved schema
-
-- **Business:** decides meaningful domain milestones and reports them through a
-  shared contract; retains product records and files. It need not implement a
-  custom backoffice page or a remotely queried diagnostic adapter.
-- **BFF:** owns the customer context, scoped event ingestion/validation, bounded
-  activity history and generic backoffice presentation. Reuse existing BFF
-  records for current state rather than copying customer/account tables.
-- **Backoffice:** reads BFF only for this slice. Event names/structured properties
-  may vary by Business; a readable label and shared presentation are not custom
-  product pages. Missing event evidence remains unknown, not proof of inactivity.
-  The ticket agent must likewise distinguish recorded outcomes from unavailable
-  current product details and hand off questions that require evidence it lacks;
-  it does not gain a hidden direct product-data integration.
-- **Potential new table:** a sparse `businessActivityEvents` store, separate from
-  `securityEvents`. Conceptual fields are Business/environment, optional verified
-  user/account association, event name/version, occurrence/receipt time, event
-  reference for deduplication, source and bounded properties. Name, validators,
-  indexes, retention and migration impact need an explicit schema proposal and
-  Andrew's confirmation before implementation. Do not create a new person table.
-- **Ingestion boundary:** trusted Business backends report completed operations;
-  BFF validates environment and user/account relationships. Any browser-observed
-  intent is labelled separately and cannot establish payment, access or an
-  authoritative operation outcome. BFF-owned lifecycle facts can reuse existing
-  records or emit their own events; do not duplicate every security event.
-- **Cost/reliability:** propose a small catalog, bounded payloads/rates, retry
-  deduplication, retention and paginated per-Business/customer reads. Convex
-  [indexes](https://docs.convex.dev/database/reading-data/indexes/) support scoped
-  chronological access; they do not make storing unlimited activity free.
-  Events are investigation evidence, not entitlement/billing truth. Missing or
-  delayed reports must not break a successful product operation or alter access;
-  delivery/retry behavior remains a design choice.
-
-### Reuse for analytics and future offers
-
-Andrew suggests the same meaningful facts might later inform marketing pixels
-or special-offer eligibility. Keep the internal event distinct from the policy
-that consumes it. The [existing offers idea](../../docs/architecture/future-ideas.md#shared-promotions-personal-offers-and-repeat-purchase-campaigns)
-owns future discount scope; this does not add an offer engine to the current work.
-Examples to evaluate later are reaching a feature limit, returning after a
-previous purchase, or verified eligibility for a first paid offer.
-
-Export only specifically mapped, appropriate event fields to a chosen external
-provider, not the operator's complete customer record or every support/failure
-event. Providers use their own conventions: Google Analytics documents
-[recommended events](https://developers.google.com/analytics/devguides/collection/ga4/reference/events)
-and [PII restrictions](https://support.google.com/analytics/answer/6366371?hl=en-SD).
-These are reference examples, not a provider selection. Attribution, required
-notices/consent, retention and delivery deduplication need review before enabling
-marketing export. An event never itself applies a discount or charges a customer;
-future offer eligibility must also consult current verified account/billing state.
-
-### Event-scope alternatives — B accepted, 2026-10-08
-
-- **A — successful milestones only:** fewer events, but misses meaningful blocked
-  customer outcomes. Lower relative effort; incomplete support context is the risk.
-- **B — milestones plus important blocked/failed outcomes (recommended):** useful
-  support and future eligibility evidence without recording technical noise.
-  Medium relative effort; payloads and repeated-failure deduplication need limits.
-- **C — detailed interaction history too:** adds visits/clicks and abandonment
-  tracking. Higher relative effort, volume and privacy complexity; not implied
-  by the accepted operator-event direction.
-
-Andrew accepts B: successful milestones plus important blocked/failed outcomes,
-without detailed click tracking or technical logs. Define a small initial catalog
-rather than ask every Business to send everything. Exact event names/payloads,
-schema and marketing/offer integrations are not yet approved; this choice is not
-acceptance of the whole brainstorm or an instruction to implement.
-
-## Ticket system and email-first conversations — exploration, 2026-10-08
-
-Andrew first asks to understand the ticket system before choosing access links,
-then clarifies the accepted channel/UI boundary: **customers can open a ticket
-on the website or by emailing support; ongoing replies use email; history and
-conversation management are in the shared backoffice only**. No customer
-ticket-history, conversation/reply page or secure-link portal is required in
-the Business website for MVP. The website submission form remains in scope;
-"no ticket-history UI" does not mean "no ticket-opening UI".
-Andrew subsequently accepts **BFF as the authoritative home for tickets and
-their conversations**, rather than an external helpdesk. Email is transport,
-not a second case-management system. These decisions settle channels,
-presentation and storage ownership, not the email provider, exact schema,
-AI authority or approval of the whole feature.
-
-Separate three responsibilities:
-
-| Responsibility | Purpose | Accepted ownership / role |
-| --- | --- | --- |
-| Ticket/case | Business context, contact, trusted customer/account association where available, subject, status and who needs to respond | Shared BFF workflow |
-| Conversation | Ordered customer and human/AI support messages belonging to that case | BFF-owned durable transcript, not independent threads per product; AI participation remains undecided |
-| Email transport | Deliver outgoing replies and receive/correlate customer replies | Email provider integrated with that workflow |
-
-An illustrative email-first journey is: customer emails support (or submits a
-shared website submission form) → a Business-scoped case is opened → an operator,
-or the ticket agent within its separately agreed scope, replies → the customer
-receives email and replies normally → that message joins the same case. The
-operator sees the full conversation, status and relevant BFF facts/events in the
-shared backoffice. The customer needs no login or ticket-history page to continue
-the email conversation. Website submission and email intake are both required
-channels under this decision. Andrew also accepts website submission without
-sign-in, while raising the risk of unverified contacts. Exact form fields,
-verification behavior, contact trust and routing remain design choices. Operators reply/manage cases
-in the backoffice; customer emails and operator replies belong to the same case.
-
-### Ticket Option 1: Ordinary shared mailbox only
-
-Historical comparison: a standalone mailbox does not satisfy the subsequently
-accepted backoffice history/handling requirement without additional integration.
-
-**Approach**: Customers and operators exchange email in an ordinary mailbox;
-there is no BFF-owned case workflow.
-**Leverages**: Basic email tools without a new customer portal or custom case UI.
-**Constraints**: Joined BFF customer/event context, consistent case status and
-human/AI coordination are not provided automatically. The public/signed-in
-support promise needs reconciliation if this replaces structured ticket intake.
-**Effort**: Low for initial email exchange, not for later integrations.
-**Risk**: Unanswered cases and fragmented context as volume or automation grows.
-
-### Ticket Option 2: Shared BFF cases; email-only customer conversation — accepted, 2026-10-08
-
-**Approach**: Cases/transcripts have a durable home in the shared BFF workflow;
-customers correspond through email, and operators handle cases in the backoffice.
-**Leverages**: Existing Business/user/account context, the accepted generic
-backoffice boundary and planned meaningful events; future ticket-agent support
-can operate on the same cases instead of maintaining a separate inbox.
-**Constraints**: Reliable inbound/outbound email, case correlation, spam controls,
-delivery state and duplicate handling are real new backend work. Evaluate reusable
-thread/storage components before proposing a schema; do not build a bespoke AI
-conversation engine or claim email integration already exists.
-**Effort**: Medium to High, with less customer UI than a portal but not trivial.
-**Risk**: Lost/misrouted or duplicate replies and replies that appear sent when
-delivery failed; those states must remain visible and not resolve a case.
-
-### Ticket Option 3: External helpdesk owns cases and conversations
-
-Historical alternative, not selected: Andrew chooses BFF-owned records.
-
-**Approach**: A helpdesk receives email and owns the case/transcript; BFF supplies
-bounded context or references through a separately designed integration.
-**Leverages**: An existing case/email workflow rather than implementing that core.
-**Constraints**: Select and research a provider first. Operating in its UI rather
-than our backoffice is a different experience; replying from the shared
-backoffice and giving AI relevant case context require additional integration.
-Choose one authoritative transcript home, not two independently editable copies.
-**Effort**: Low to Medium for standalone setup; shared-backoffice integration can
-be Medium to High depending on provider capabilities.
-**Risk**: Vendor cost/dependency and an awkward split operating surface.
-
-Andrew accepts Option 2 for the joined backoffice/customer workflow. Keep the
-external-helpdesk alternative above as discussion history, not an open storage
-choice. Evaluate suitable reusable components without selecting a vendor or
-claiming email integration exists.
-Email follow-up removes a customer portal, not the website submission form or
-the backoffice responsibility to manage cases. The email provider sends and
-receives messages; BFF keeps the authoritative case and conversation.
-Submitted email addresses or inbound text do not establish account authority;
-routing and private-data disclosure still need a defined trust boundary.
-The knowledge helper's separate on-site chat remains an open discussion, not
-silently removed by this ticket-channel proposal.
-
-### Public submissions and contact trust — exploration, 2026-10-08
-
-Accepted: a person can submit the website form without signing in. Andrew's
-concern is that the supplied identity/email is unverified. After Astra's review,
-he accepts immediate intake plus the initial receipt, without an upfront
-email-confirmation gate. General help can proceed; private support requires
-appropriate authenticated identity/account authority. No email claim, receipt
-or contact confirmation associates the request with an account automatically.
-
-Andrew subsequently challenges mandatory email confirmation: requiring the
-sender to open email undermines the low-friction website/contact-us concept,
-even though it is not technically a login. He asks Astra for an independent
-review of this dilemma and wants to continue other questions meanwhile. The
-verification choice was parked pending that review and further discussion;
-the earlier recommendation below is not an accepted requirement.
-
-Keep three facts separate: submission, confirmed access to a contact mailbox,
-and authenticated authority over a Business account. A public submission may
-claim an email but must not disclose matching account details or be treated as
-an authenticated customer. Existing [identity rules](../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md#authority-and-isolation)
-use provider issuer/subject; email equality never merges identities.
-
-**Option A — confirm email before normal handling (historical recommendation):** save the
-submission as pending contact confirmation, send a neutral confirmation link,
-then admit the confirmed request to the normal support queue. This adds a step
-and may strand genuine requests when delivery fails, but reduces processing of
-requests made using someone else's address, especially before future AI handling.
-Relative effort: Medium; delivery, expiration and recovery need design.
-
-**Option B — accept immediately, visibly unverified (accepted, 2026-10-08):** handle the request without
-an upfront email challenge; limit any response to non-private help until adequate
-proof is obtained. Less friction and lower relative effort, but more false/junk
-cases and a greater risk of operators or future AI over-trusting the contact.
-
-In either option, contact confirmation is not a product login, membership proof
-or authority for private-data disclosure/account changes. Email checks also do
-not stop all bots: rate limits and appropriate anti-abuse controls must cover
-submission and outgoing confirmation, not only the support queue. A proposed
-confirmation email must not repeat arbitrary submitted content, reveal whether
-an account exists or become an unlimited email-sending endpoint.
-
-[OWASP email verification guidance](https://cheatsheetseries.owasp.org/cheatsheets/Email_Validation_and_Verification_Cheat_Sheet.html)
-supports limited-use/expiring verification tokens, avoiding account enumeration
-and not treating email alone as strong account security. Applying a confirmation
-gate to public support was our earlier recommendation, now challenged by Andrew,
-not a universal rule from OWASP or an accepted requirement.
-Direct inbound email and signed-in submissions need their own trusted intake
-rules; a `From` address alone is not proof. Exact inbound correlation,
-authenticated private-support continuation/recovery, abuse limits, retention
-and provider remain to design. No pending-confirmation gate is required for
-ordinary public submissions.
-
-#### Independent Astra review — 2026-10-08
-
-Astra recommends Option B and considers the earlier mandatory-confirmation
-recommendation too strict for this MVP. Receiving a suggestion or answering a
-public how-to question does not require account proof. Requiring everyone to
-open email adds friction without establishing product-account authority.
-Andrew accepts this intake policy after the review: receive immediately and
-send the initial receipt, with no mandatory email confirmation. This does not
-approve sensitive actions, AI autonomy, schema or the whole brainstorm.
-
-The third alternative is immediate intake with human screening before the
-first substantive outbound reply. It can reduce initial automation risk but
-conflicts with minimizing Andrew's routine work. No option needs a portal,
-new operator roles or an independent identity framework.
-
-Keep requests visible with their origin and unconfirmed account identity.
-Spam/volume controls, mailbox reachability, evidence of mailbox access and
-product-account authority are different concerns. Provider delivery acceptance
-does not prove a person read an email. A securely correlated reply can provide
-limited evidence of contact for that conversation; neither `From`, an email
-match nor a guessed reference authorizes private case/account access. Exact
-inbound correlation and authenticated private-support continuation remain open.
-
-Example boundaries: accept "Please add X" immediately; answer "How do I print?"
-with public instructions; do not expose team members or earlier tickets to
-someone claiming a customer's email. Signed-in context must not authorize
-private disclosures to an arbitrary replacement contact address. A future AI
-responder must not gain private customer data by matching the public request's
-claimed email. Enforce tool authority outside the model; see
-[OWASP agent defenses](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#agent-specific-defenses).
-The email-verification source above concerns identity/account use; it does not
-make confirmation mandatory for ordinary contact forms.
-
-#### MVP simplicity boundary — accepted, 2026-10-08
-
-Andrew rejects overengineering contact verification for the MVP. Keep Google as
-the only product authentication method; support does not introduce email/Apple
-login, a second identity system, custom verification tiers or an account-recovery
-workflow. A person unable to complete Google sign-in can still contact us for
-general help/feedback, but support does not grant alternative product access.
-Requests such as "Please add Apple/email login" are suggestions, not a commitment
-to add those providers. Existing public/guest product behavior is unchanged.
-
-Use existing signed-in Google/Business context when it is available; otherwise
-receive the contact, send the initial receipt and continue ordinary email replies
-without a separate verification ceremony. Keep basic spam/duplicate/loop controls
-and existing account permissions. Simply typing another person's address does
-not let the submitter read replies sent only to that address; do not describe it
-as automatic account takeover. Extra verification/recovery machinery is not a
-required MVP deliverable. Ticket replies subsequently start as auto-suggest;
-helper context and ticket tools remain separate open questions.
-
-#### Intake scope reopened — 2026-10-08
-
-Andrew asks a second independent Astra reviewer to reconsider whether this
-Google-only, simple MVP needs a signed-out website form at all, public support
-email alone, or signed-in support only. Separate contact channels from BFF case
-ownership and email follow-up; removing a form does not remove the email workflow.
-The earlier public-intake acceptance is under review, not silently withdrawn.
-Continue independent questions while the review runs; no implementation is authorized.
-
-The second Astra review recommends a signed-in form plus a public support email,
-deferring the signed-out form until observed friction justifies it. Email-only
-intake still needs the BFF/email workflow; removing a public form is a modest
-saving, not elimination of ticket infrastructure. A mailbox-only pilot would be
-a materially smaller but separately reopened ownership decision. These are
-recommendations awaiting Andrew's choice, not changed accepted channels.
-
-### Contact purposes and reply expectations — exploration, 2026-10-08
-
-Andrew clarifies that submissions also include feedback, suggestions and missing
-capabilities ("I am missing X"), not just support incidents. Treat these as
-meaningful contact purposes; a suggestion does not promise implementation, and
-negative feedback is not automatically a technical incident. Exact categories
-and whether the customer chooses one remain open. The existing `feedback`
-product scope can cover suggestions without implying a new schema enum/table.
-
-From the customer's perspective this can be a contact-us entry. The ticket
-record adds operator history, follow-up and context behind the scenes; it does
-not require the sender to use a ticket portal or prove account ownership merely
-to express an opinion.
-
-**Option 1 — a substantive reply to every message (historical alternative):** each submission has a response
-expectation, including pure suggestions. Leverages one consistent case workflow;
-adds routine response work and risks empty acknowledgements or an unrealistic
-promise. Relative effort: Medium; delivery/automation are still unapproved.
-
-**Option 2 — substantive replies as needed (accepted, 2026-10-08):** use the
-same intake and backoffice history, but distinguish requests for help/answers
-from feedback that only needs recording. Questions/problems and explicitly
-requested responses need follow-up; suggestions may receive a reply when useful,
-not an automatic promise. Relative effort: Low to Medium; intent can be ambiguous,
-so operators must be able to correct how a message is handled. This does not
-approve an AI classifier, response SLA or unsolicited automatic email.
-
-Andrew accepts human or AI replies **as needed** and separately requires an
-automatic **initial receipt email**, including for feedback/suggestions. A
-receipt is not a substantive answer, verified identity, resolution or a feature
-delivery promise. The human/AI responder role is accepted; ticket AI subsequently
-starts as suggestions for operator approval, not automatic replies. Private-data
-tools, provider/model, budget and escalation still require decisions.
-
-Proposed receipt behavior: after the initial message is durably accepted, send
-one neutral Business-branded acknowledgement for that case. Do not resend it
-for each conversation reply or webhook retry. It may identify the Business and
-give a non-secret case reference, but must not echo arbitrary submitted content
-or expose matching account facts. Sending/delivery failure stays visible to
-operators and does not discard the original message. Avoid autoreply loops and
-bound sending per destination/source so the public form cannot spam another
-person. These protections preserve the required normal-customer receipt;
-provider-specific mechanics and exact limits remain to design. Receipt delivery
-does not force a separate customer verification click.
-
-Andrew asks how unanswered/unverified contacts are handled and proposes receipt
-wording such as "If you did not send this request, report it here." Unconfirmed
-requests remain visible and useful for feedback/general help; they do not need
-to earn product-account authority to exist. Delivery alone is not verification.
-A securely correlated reply can provide evidence of contact for this case,
-not authenticated product-account ownership or access to older conversations.
-
-Wrong-recipient report alternatives, optional proposals rather than required
-MVP verification machinery; neither is accepted implementation:
-
-- **Case-specific report link (recommended):** after deliberate confirmation,
-  mark the contact disputed and stop further mail for that case/address pair,
-  preserving the record for operator review. Low customer effort, Medium relative
-  implementation effort; requires a limited-purpose capability and safe handling
-  of automated link fetching. It grants no history access, deletes no record,
-  affects no other ticket/account and must not trigger another receipt.
-- **Reply "not me":** no report page, but the same case must recognize the report
-  and stop further mail; handling may require human attention or narrow automation.
-  Low initial UI effort; slower or mistaken handling is the risk.
-
-Anti-spam bounds intake and outgoing traffic, repeated submissions/receipts and
-auto-responder loops. Account trust instead governs what facts may be disclosed
-or which actions are authorized. Neither anti-bot success nor mail delivery
-proves account authority. Exact limits, report mechanism and contact-evidence
-semantics remain open; the AI reply-autonomy question is still unanswered.
-
-### Business email appearance — accepted goal, design open, 2026-10-08
-
-Andrew requires Business-configured email styling and a logo, analogous to the
-shared auth page. Current [auth presentation](../../platform/bff/libs/contracts/src/auth.ts)
-supports product name, light/dark/system theme and accent color, not a logo.
-[TableCards defaults](../../projects/tablecards/customer-auth.defaults.ts)
-provide reviewed values; the [operator configuration workflow](../../tools/bff-operator/README.md)
-previews/applies them, and the backoffice displays the effective presentation.
-Support emails/receipt templates are not implemented.
-
-Recommend one reusable Business brand identity (name, logo and accent), rendered
-appropriately for auth and email instead of maintaining divergent copies. An
-email-safe shared template and readable plain-text/image-blocked fallback are
-preferable to a per-Business email editor or importing web-page CSS. Sender and
-reply-address verification are transport settings, not branding proof.
-
-Operational placement proposal: configure/apply approved branding via the
-existing validated Codex/operator pattern; show effective settings and an email
-preview in the backoffice. Whether direct brand editing belongs in its settings
-UI remains a design question, not a new editing control already approved.
-Shared BFF owns rendering/delivery; each Business supplies its brand choices.
-The logo/configuration contract, asset ownership and any structural changes need
-explicit confirmation before implementation; no schema or migration is approved.
+> **Status:** Accepted — presented design/schema approved 2026-10-09; ready for planning, not implemented
+> **Created:** 2026-10-08
+> **Last updated:** 2026-10-09
+> **Repository baseline:** 872a96f84551eb81f682c554feb7af58cf9ded52
+> **Scope-update baseline:** 7e0433c624eb945f35f5841a3488cd1211ab78a3 (2026-10-09)
+
+## Reading this record
+
+This is the accepted **Operator work** direction, not a second roadmap.
+Each topic holds its current decisions, outstanding details and relevant dated
+alternatives once. **Accepted** means Andrew agreed to that particular direction;
+**proposed** means a recommendation, not authorization. Delegated UX defaults
+may evolve within accepted scope. Historical alternatives do not reopen decisions.
+The dated research records what was checked then, not guaranteed current prices,
+account access, installed capabilities or legal clearance.
+
+The 2026-10-09 consolidation removes duplicate descriptions and stale open
+questions while retaining distinct constraints, alternatives, sources and decision
+changes. The immutable artifact date and historical baselines remain unchanged.
+
+## Scope and repository snapshot
+
+Operate customer-facing Businesses from a phone or desktop: understand the
+business, investigate customers even before they complain, handle questions,
+problems and feedback, and see what needs human attention without reconstructing
+a story from separate lists. TableCards is the concrete example, not a universal
+product-domain template.
+
+- The [single roadmap](../../docs/factory/mvp-delivery-plan.md#build-5--operator-work)
+  owns build outcomes and launch acceptance. Builds 1–3 were released at their
+  authorized boundaries; TableCards is a **no-charge preview**, not real billing
+  or customer launch. Payments is on hold for Paddle, not completed or removed.
+- Operator work combines customer support, nontechnical Business/customer
+  visibility, meaningful events, a usable backoffice, helper/support runtime and
+  useful operating/evaluation skills. This combines the former Build 5 support
+  and Business-visibility portion of Build 6.
+- **Monitoring** separately owns technical logs, metrics, traces, uptime,
+  infrastructure alerts and technical incident investigation: later MVP, required
+  before launch. Customer email-delivery exceptions still belong in Operator work.
+- **Marketing, Legal, Maintenance and Launch** are separate roadmap outcomes.
+  The accepted short names identify scope; numbers are references, not mandatory
+  execution order. Maintenance's code/reuse review is not a maintenance-bot system.
+  Substantial independent additions need explicit build/sub-build outcomes and
+  acceptance in this one roadmap, rather than disappearing in an existing group;
+  small cohesive refinements need not each become a build.
+- Company-wide Paperclip/Dots managers, analysts, security/legal advisers, sales,
+  monetization, marketing, NOC, developer and QA organization are
+  [post-MVP future ideas](../../docs/architecture/future-ideas.md#post-mvp-ai-company-organization),
+  not this runtime's required bots. The [earlier priorities brainstorm](261007-remaining-mvp-priorities.md)
+  remains inactive history, not a competing plan. The unrelated VPN follow-up
+  stays in STATUS.
+
+**Dated repository evidence (2026-10-08/09):** the shared backoffice
+[App](../../platform/bff/backoffice/src/app.tsx) selects an environment, provides
+exact customer lookup and paginated users/accounts/memberships/sessions/security
+lists; [Dashboard](../../platform/bff/backoffice/src/dashboard.tsx) mostly shows
+separate lists, not a joined case journey. Loaded-page counts are **not totals**.
+The [shared data model](../../docs/architecture/shared-bff-data-model.md) already
+has profiles, accounts, memberships/invitations, sessions, access/units, checkout
+attempts and security/ownership evidence. Its narrow authentication/ownership
+security-event enum is not a generic Business-activity store.
+
+Tickets, Business-event ingestion, shared text bots, operator queue skills and
+survey are not implemented. Root dependencies include Convex 1.46.0 and the
+registered rate limiter; inspected manifests/components contain no Convex Agent,
+AI SDK, OpenAI Agents SDK or Resend integration. The existing
+[TableCards image adapter](../../projects/tablecards/ai-provider/README.md)
+calls a fixed Workers AI image model from Convex; it is not text-chat/session/
+queue infrastructure. These are baseline findings, not fresh deployment evidence.
+
+## Current direction
+
+Andrew confirmed the operating boundary by readback on 2026-10-09; later topic
+revisions below refine it. This index points to the full details rather than
+repeating them.
+
+| Accepted direction | Detailed home |
+| --- | --- |
+| One shared backoffice; Business/environment-scoped investigation and all-Business summaries, without merged customer profiles | [Visibility](#business-scope-and-visibility) |
+| Full access for admitted operators, no new granular roles; bots receive separate capabilities | [Visibility](#business-scope-and-visibility), [bot boundaries](#bot-definitions-skills-and-data-boundaries) |
+| BFF-owned cases/transcripts; signed-in form, signed-out email link, email follow-up, no customer conversation portal | [Cases and contact](#cases-contact-and-email-trust) |
+| Automatic initial branded receipt and permitted scoped read-only support tools/skill loading; every substantive support reply is a suggestion requiring operator approval to send; helper ordinary answers remain automatic | [Cases](#cases-contact-and-email-trust), [approvals](#support-authority-and-approval-continuation) |
+| Open / Waiting for customer / Resolved; explicit resolution, automatic return to Open on customer replies | [Lifecycle](#ticket-lifecycle-and-history) |
+| Shared queue without owners or priority labels; attributed internal notes/actions; structured requests and explicit bounded-group approvals | [Lifecycle](#ticket-lifecycle-and-history), [operator workflow](#conversational-operator-workflow) |
+| At least one configured support bot; zero or more optional helpers, assigned skills loaded on demand, registered page tools | [Bot definitions](#bot-definitions-skills-and-data-boundaries), [tools](#programmatic-context-and-registered-tools) |
+| TableCards site-wide Q&A helper; clickable navigation, validated sign-in/current-account plan context, helper-first help and reachable escalation | [Helper](#tablecards-helper-and-contact-handoff) |
+| Shared bot evidence separates observed outcomes, explicit feedback and inferred labels; short outcome survey and contextual review | [Measurement](#shared-bot-measurement), [survey](#customer-feedback-survey) |
+| Distinct contact addresses per Business; development should not consume a custom-domain slot merely for testing | [Email research](#shared-email-research--recommendation-not-selected-2026-10-09) |
+| Cheap live models only, no Sol/expensive fallback or customer model selector; realistic evaluations later, not now | [AI choices](#ai-runtime-and-model-choices), [evaluation](#evaluation-and-improvement-workflow) |
+| Provider-side live-text safety caps only; native daily/delayed alerts acceptable, no spending table/dashboard or custom budget alerts; cost attribution deferred | [Spending limits](#quality-gates-and-spending-limits), [provider alerts](#budget-alerts-and-mock-delivery) |
+| Shared AI SDK model/tool foundation with existing Convex storage/jobs; AI SDK UI for helper chat, optional visual components, no HarnessAgent or specialist-routing framework | [AI choices](#ai-runtime-and-model-choices) |
+| No Business-specific executable code or hardcoded product content in shared service/libraries; Business code stays with the Business, and shared runtime consumes registered data/settings | [Ownership](#shared-service-libraries-and-business-ownership), [Business settings](#business-settings-and-registration--review-proposal) |
+| Repeatable realistic synthetic development data; Astra helps author it during later implementation/testing, not brainstorming | [Development seed](#realistic-development-seed) |
+| Overview-first dashboards; detailed UX delegated to Codex/Astra, Andrew's visual feedback optional | [Dashboard](#dashboard-and-delegated-ux) |
+| Detailed retention/cleanup discussion deferred; necessary purpose-specific privacy/security/abuse controls precede real collection | [Data lifecycle](#data-lifecycle--detailed-discussion-deferred-2026-10-09) |
+| Finish current design questions, then agree ERD, exact structural changes and shared/library/Business ownership | [Final reviews](#final-architecture-reviews) |
 
 ## Open Questions
 
-1. What context should the knowledge helper have: public product knowledge only,
-   current-page context too, or a small approved set of customer facts?
-   Recommend knowledge/current-page context first, without account-changing powers.
-2. What knowledge and permitted context should ticket auto-suggest use? Andrew
-   selects operator-approved drafts, not autonomous sending. Any later autonomy
-   requires a separate decision, not merely passing evaluation.
-3. What does customer handling include: investigation only, investigation plus
-   case actions, or also sensitive account/billing actions? Recommend the middle
-   option first; discuss sensitive operations only for demonstrated needs.
-4. Which specific milestones and blocked/failed outcomes belong in the initial
-   catalog, and what small meaningful properties should each carry? The level
-   is settled as B, without click tracking/logs. Customer detail uses meaningful
-   BFF facts plus reported events, not live product-data reads or custom Business pages.
-5. How should a customer's accounts and memberships within the chosen Business
-   be presented without mixing production/development or exposing another
-   account's data? Cross-Business customer linkage is outside the initial scope.
-6. How should a public request safely continue when private account support is
-   needed? Use existing signed-in Google/Business authority, with no new
-   identity/verification-tier or support-managed account-recovery system.
-   Whether signed-out intake needs a website form, public email alone or neither
-   is reopened for a second Astra scope review. Earlier acceptance is not revoked.
-   BFF ownership and receipt/email/backoffice remain accepted; inbound correlation,
-   provider, routing and lifecycle still need design.
-7. Which people should later be admitted as operators? All admitted people have
-   full backoffice access under the accepted decision; no restricted-helper role
-   design is required. Adding actual identities is not authorized by this discussion.
-8. What constitutes a nicer design and an effective phone/desktop workflow?
-9. Which evidence, channels and notification cadence implement Andrew's
-   stage-aware attention preference? Early firsts/feedback/findings matter; later
-   routine signals may be grouped. Define criteria per Business and how Andrew
-   agrees revisions, including any bounded assistant discretion, while preserving
-   unresolved work and distinguishing confirmed problems from missing evidence.
-   SWOT is the agreed attention lens, not an automatic urgency or scoring rule.
-10. What knowledge, safe customer facts, reply/disclosure policy, escalation,
-   failure fallback and usage budget would make the chosen assistant effective?
-   Reply automation and tool execution are independent code-protected policies;
-   choose initial modes/predicates/trusted facts without a condition-builder engine.
-   Initial support replies and all permitted support-tool calls now require
-   approval, including reads. Decide external advisor evidence scope/cadence
-   separately; dots is now a candidate instead of a custom CLI runner. Proposal
-   format/import, operator decision versus activation and reliable delivery remain
-   open; automation/monetization/marketing proposals cannot self-activate. COO
-   operations oversight and Andrew's independent CTO assistant are now separate
-   responsibilities; every configured bot can raise an assistant request. Decide
-   execution/communication, success evidence, interruption thresholds and allowed
-   delegation without creating a second roadmap or expanding action authority.
-   Andrew wants the assistant to search all bots' working context; determine
-   concrete sources/search scope without relying only on COO summaries or
-   transferring other bots' execution permissions. For future CPU-only model
-   research, what evidence would justify the first integration and what bounded
-   tuning authority could follow? No algorithm, experiment or ML platform is chosen.
-   COO, personal assistant, security, legal, product manager, project manager and
-   architect each have a dedicated analytical
-   counterpart in the desired structure. Define separate evidence/tool scopes,
-   intentional cross-role handoffs and assistant search, not shared analyst memory.
-   Security/legal start with advisory proposed-change reviews; exact inputs and
-   gate authority remain open, and periodic checking is later. Should the product
-   manager only recommend priorities, or also maintain verified accepted-roadmap
-   state while proposing scope/priority changes for approval? Recommend the latter.
-   What delivery coordination/handoff powers should the distinct project manager
-   have over already-agreed work, without authorizing implementation or new scope?
-   The common advisor research-versus-effect boundary is accepted as option 2;
-   exact read scopes, budgets and execution contracts remain open.
-   Andrew now distinguishes ordinary readable analyst workspaces from protected
-   security/legal/assistant-analyst contexts. Andrew now wants to set each secret's
-   rule; no global assistant exception is selected. What source/recipient rules
-   and private approval surface express those decisions? Which paired-role readers
-   and outward communication paths are approved? Entire secret-bearing contexts
-   need constrained output paths; derivative-disclosure detection is not guaranteed.
-   These company-bot boundaries concern the external platform, not Convex.
-   Compare Dots versus Paperclip's actual context/read/communication controls and
-   operating burden before choosing one; no native joint integration is established.
-   How should agreed brainstorming become an architect-led plan and approved
-   Codex work, with Andrew involved in substantive decisions initially and
-   attention/approval discretion changed only through later agreement?
-   For the architect's NOC, QA/regression and developer specialists, which
-   approved inputs and result evidence support supervision? How should external
-   monitoring trigger bounded investigation and preserve alert delivery when AI
-   fails? Monitoring remains later MVP; exact integration/cadence/budgets are open.
-   What shared analyst findings make the project manager's company-wide progress
-   picture trustworthy without duplicating the roadmap or exposing private context?
-   All these role implementations and final MVP inclusion remain open.
-11. When should helper chat become a support case, and what context may carry over?
-12. What bounded event payload, writer trust, deduplication, retention and delivery
-    contract supports the chosen catalog? How should future analytics/offer
-    consumers receive only the appropriate facts without becoming this slice's scope?
-13. How should Business email styling/logo share configuration with auth?
-    Recommend one common brand identity with channel-appropriate rendering.
-    Branding and the initial receipt are accepted goals; exact contracts,
-    configuration controls and send/delivery mechanics remain open. Substantive
-    human replies are as needed; ticket AI suggests drafts for an operator to send.
-14. Which answer-quality criteria/cases, source freshness and bounded evaluation
-    runs establish a useful initial helper and ticket-draft baseline? Shared
-    Business knowledge and evaluation are requested; tooling/storage are open.
-15. What bounded samples and permitted improvements should the on-demand Codex
-    review-and-improve skill use? Approved knowledge/disclosure checks are required;
-    exact workflow, retention, cost and promotion rules remain open.
-16. Should initial ticket drafts use knowledge alone or also filtered meaningful
-    BFF customer/event summaries? Recommend the latter, while the helper starts
-    knowledge/page-scoped. Shared bot controls, context classifications and any future
-    MCP interface need design, not a generic bot-management platform by default.
-    Later helper data access must remain possible through the same small bot
-    definition; adding it to the first release remains a separate decision.
-17. Should the embeddable helper be available before sign-in or only after Google
-    authentication? Public knowledge-only help serves guests/prospects but needs
-    abuse/spend controls; signed-in-only reuse is simpler but misses that journey.
-    File assignment, supported styling and integration contracts remain to design.
-18. Which signed-in BFF facts, if any, belong in the initial helper rather than
-    a later extension? Current-page context, code-registered tools and future saved-work
-    access need precise boundaries; extensibility is accepted, not blanket data access.
-19. Which initial support categories/definitions and selection rule are useful?
-    Multiple named support bots per category/case are required as a capability;
-    Andrew now proposes a support coordinator after challenging category-only
-    routing. Recommend thin content-aware selection rather than multi-specialist
-    synthesis when specialists exist; dispatch directly when only one bot exists.
-    Category-as-hint mapping/scope checks and one bot with assigned skills remain
-    alternatives; selection can still err and needs bounded fallback/evaluation.
-    Andrew asks for resumable specialist sub-agent conversations; recommend
-    case-scoped specialist threads rather than restarting each follow-up, with
-    current authorization and bounded context. Saved operator-approval waits are
-    requested too; exact actions, lifecycle/new-message behavior remain open.
-    Several categories can use the same bot. User selection,
-    operator override and ambiguous-case handling remain open. Automatic replies
-    are a separate mode/rollout choice, not implied by specialization.
-20. How should approved skill metadata/content and programmatic context/tool
-    registration be scoped and bounded? On-demand loading is chosen; exact format,
-    UI executes its own registered handlers after BFF tool requests; exact
-    result/continuation protocol, first read/navigation/write capabilities and
-    evaluation/cost limits remain open. No management console is required.
+**Decision audit, 2026-10-09:** no additional business-scope questions remain.
+The six earlier tracks are coverage, not six pending votes. Their current homes:
 
-Discuss one choice at a time with options, trade-offs and a recommendation.
-Andrew now explicitly requests conceptual technical exploration too: existing
-data, possible tables, shared-service versus product ownership and exclusions.
-These may be discussed alongside behavior; no schema change, provider selection
-or implementation sequence is authorized by that request.
+| Area | Status / remaining work |
+| --- | --- |
+| Events and evidence | Initial sparse outcomes accepted; exact registrations and collection safeguards need design |
+| AI and email | AI SDK + Convex and Resend selected; cheap-model winner follows later authorized evaluations |
+| Support structure | One bounded drafting workflow; no specialists, coordinator or competing history |
+| Approvals | Automatic permitted reads, exact operator Send, one draft/pending ID and new-message invalidation selected |
+| Email reliability | Same-payload bounded retries and private regenerated screenshots selected; transport/size defaults need testing |
+| Quality and cost | Repository-owned evaluations and provider caps selected; exact release gates and provider setup need verification |
 
-## Current Direction
+Andrew requested three bounded Astra consultations across these tracks; later
+decisions supersede their unaccepted alternatives, which remain in the topic
+sections and dated ledger. Earlier seven-track, nine-topic and 32-row lists are
+historical discussion indexes. Do not reopen settled choices or invent pilot/
+identity questions while waiting for research.
 
-Andrew confirmed the combined topics to explore above, rather than choosing only
-one narrow track. Start with required operating outcomes, then discuss alternatives
-one question at a time. The accepted context boundary is one shared backoffice
-with Business-scoped workspaces and no initial cross-Business customer
-correlation. This does not prescribe every product's domain model or require
-separate support implementations.
-Customer detail uses meaningful BFF-held information and sparse important events
-reported by Businesses: successful milestones plus important blocked/failed
-outcomes, without detailed click tracking or logs. No custom Business backoffice pages or direct reads from
-their databases are required initially. Event reuse for marketing or future
-offers is a potential later consumer, not an approved integration or discount engine.
-All approved human operators have the same full backoffice access; no granular
-operator roles/permission system is in scope. Customer access and AI authority
-remain separate from that decision.
-Recommend inspection plus support-case handling as the first
-customer-action boundary; no sensitive account/payment powers are assumed.
-AI support is now a proposed MVP discussion track because reducing Andrew's
-routine work is a primary goal. Andrew chooses the in-app knowledge helper and
-ticket auto-suggest: operators approve/send substantive ticket replies. Share
-Business-scoped knowledge and reusable procedures with separate role boundaries,
-and evaluate answers with a small repeatable suite before extending autonomy.
-Keep supplied knowledge intentionally approved, including business confidentiality
-and content rights; an on-demand Codex review/improvement workflow is required
-as a capability, with its precise skill/command and authority still to design.
-Andrew selects small file-based instructions/evaluation questions and configured
-roles, not a default bot pair: at least one BFF/backoffice support bot, initially
-suggesting replies, and zero or more optional embeddable themed Business helpers.
-They use a common extensible custom-bot definition: a name and main
-instructions, an assigned skill index with full content loaded only when needed,
-and programmatic context/tools supplied by the Business. Shared fixed tools remain
-defaults, not the only extension mechanism. For UI tools, the page declares
-capabilities and executes matching structured requests returned by BFF; handler
-code stays in the application. The helper may later use page,
-authenticated customer and product-owned saved-work context; initial access is
-not settled. Helpers are optional and may differ by page. The support bot starts
-in draft mode; multiple named definitions can serve different categories/cases
-within the same shared engine/ticket, with separately scoped model runs when
-tools/data differ; that execution boundary is a proposal, not implemented
-isolation. Andrew proposes a support coordinator;
-thin content-aware selection versus multi-specialist synthesis remains undecided.
-Reply sending and tool execution have independent code-protected configuration;
-recommend small tested policy predicates, not a condition-builder engine.
-Andrew tightens the initial support baseline to operator approval for every
-permitted tool call, including reads, and every substantive reply. External
-automation/monetization/marketing reviews are proposed, not accepted MVP
-implementations. Andrew considers a periodic all-Business batch with selectable
-structured proposals in backoffice, now leaning toward dots instead of a custom
-Codex CLI runner. They cannot apply their own changes; access, transport, cadence,
-decision/activation lifecycle and actual account availability remain open.
-Andrew clarifies separate COO operations oversight and an independent assistant
-reporting only to him as CTO/final decision-maker. Every configured bot may bring
-requests directly to the assistant, which protects his time according to his
-priorities and well-being, with searchable bot working context rather than only
-COO summaries. SWOT is the accepted attention lens, not a mandatory report or
-permission to act. Automation opportunities include new capabilities, not only
-tuning existing rules; the assistant weighs their value to Andrew's time against
-engineering/maintenance cost and risk. Attention rules should evolve with each Business: early customer/
-complaint milestones, useful feedback and analytical findings are visible;
-routine signals may later be grouped, with rule adjustments agreed with Andrew.
-Exact thresholds, channels and adjustment discretion remain open.
-This supersedes the combined-coordinator recommendation, not the
-existing approval rules. Shared task tooling may support distinct roles; exact
-communication/execution and MVP inclusion remain open, with no second roadmap.
-Security, legal, product manager, project manager and architect are additional peer roles under
-Andrew; all seven responsible roles have their own analysts and separate working
-contexts. Shared analytical procedures do not mean shared histories or authority.
-Andrew agrees security/legal start with advisory proposed-change reviews, not
-periodic checks yet; exact inputs, gate powers and implementation remain open.
-Product-manager roadmap maintenance versus recommendations-only and the exact
-architecture access/editing powers remain open. Andrew clarifies the collaborative
-feature lifecycle: product manager evaluates suggestions with business SWOT,
-relevant roles brainstorm, architect prepares the agreed feature's plan and may
-help implement through authorized Codex work. Andrew participates in substantive
-decisions initially; later attention tuning does not silently waive approvals.
-Project manager is distinct: delivery coordination and evidence for agreed work,
-with company-wide visibility from relevant analyst findings as its primary output,
-not independent implementation, product scope or the assistant's attention role.
-The architect supervises proposed NOC, QA/regression and developer specialists,
-checking work and quality as the COO oversees operational staff. Technical
-monitoring stays external and later in MVP; continuous coverage does not require
-continuous model execution. Specialist connections, scopes and schedules are open.
-Andrew accepts option 2 for
-internal advisors: bounded approved-source research, scoped consultation and
-proposal preparation without approval at every step, but approval for consequential
-effects. Exact sources/access/budgets remain open; the support-bot approval rule
-is unchanged and no jobs or permissions are activated.
-Separate analyst conversations remain required, but ordinary work context can
-be intentionally read across roles. Security, legal and assistant-analyst private
-workspaces are protected. Andrew sets each secret's access/sharing rule; no blanket
-assistant exception is granted. Pending rules preserve private scope. Simple
-source/recipient checks and approved summaries are proposed; unrestricted outward
-conversation cannot be made safe merely by detecting copied secret text. Exact
-context/communication enforcement and individual grants remain open.
-Andrew corrects the company-agent platform boundary: Dots is the likely candidate,
-with Paperclip now a researched alternative matching the organizational concept.
-Do not treat BFF/Convex authorization as enforcement of external bot context or
-claim provider rules guarantee confidential data cannot be carried onward. Reuse
-existing organization tooling where suitable rather than presume a custom BFF
-management layer; platform selection, verification and setup remain open.
-Andrew also explores analyst-led CPU-only model research, with useful integration
-proposals reaching him through the assistant. Codex would build approved
-integration points; subsequent tuning must stay within an explicitly agreed
-surface. This is a future capability, not initial ML implementation or unrestricted
-production access; model choice, experiment evidence and tuning discretion remain open.
-Exact initial modes/predicates and specialists/routing are open,
-and automatic replies remain unenabled. Codex owns configuration and evaluation
-maintenance; any bot overview is read-oriented, not an authoring requirement for
-Andrew. A large management console is deferred. Exact contracts and
-server-filtered event views remain under exploration; MCP is a later possibility,
-not a required integration or access grant.
-Ticket channels/UI are agreed: website or
-email submission, ongoing customer replies by email, and history/handling only
-in the shared backoffice. BFF owns the authoritative tickets and conversations.
-Public website submission without sign-in was accepted and is now under renewed
-scope review, not removed. Andrew accepts immediate
-intake and the initial receipt, without mandatory email confirmation, after
-Astra's review. Unverified contacts may receive general help but do not gain
-private account authority; authenticated private-support continuation remains
-to design using existing Google/Business context, not a new recovery or
-verification system. No alternative product login is added through support.
-Intake includes feedback, suggestions and missing-feature requests as well as
-problems/questions. An automatic initial receipt email and Business styling/logo
-are required; human or AI substantive replies are as needed. Those accepted
-goals do not settle helper context, ticket tools, evaluation implementation,
-email-provider selection, schema, remaining form details or lifecycle.
-There is no customer ticket portal.
-Remaining scope, design and implementation
-are unaccepted; no technical monitoring provider, customer-tracking scheme,
-assistant runtime or AI action authority is selected.
+Andrew approved the presented design and schema on 2026-10-09, including the
+eight workflow tables, additive data impact and shared/Business direction. These
+reviews and whole-design acceptance are no longer blockers. Planning/build/dev
+deployment have not started; the latest deployment question was hypothetical.
+Adjustable metrics, pass thresholds, per-request limits, backoff, expiry,
+transport and UX details are engineering proposals—not silently accepted policy
+or another product questionnaire. Necessary actual-data privacy checks precede
+collection; detailed retention/cleanup stays deferred. No queue, vector database,
+MCP server, hosted eval service or configuration console is assumed necessary.
 
-## Operational Placement
+### Final architecture reviews
 
-- Customers initiate tickets through a shared website submission capability or
-  email and continue by email. Do not add customer ticket-history/reply pages.
-  Operators view history and handle BFF-owned cases in the shared backoffice;
-  the email provider is transport, not the authoritative ticket store.
-- Shared BFF sends the initial Business-branded receipt automatically; AI suggests
-  substantive follow-up for an operator to review/send as needed. Brand
-  configuration belongs to validated operator workflows with essential state
-  and proposed preview in the backoffice, not duplicated product email code.
-- Human lookup, investigation and case handling belong in the secured operator
-  workflow/backoffice within the selected Business. All approved operators have
-  full access to its features; which actions to build remains open. A shared
-  operator login does not require combining customer data across Businesses.
-- Configuration and engineering repairs remain in validated Codex/operator
-  workflows. This scope discussion grants no billing, access or database-editing powers.
-- Businesses produce meaningful activity facts; BFF owns the shared ingestion and
-  history proposal. Operators/AI consume the relevant scoped facts. Future offer
-  rules belong to shared server-side eligibility logic, with Business-specific
-  campaigns, not unvalidated event-triggered account or payment changes.
-- The proposed knowledge helper belongs in product UI; the ticket assistant drafts
-  through the support-case workflow with bounded tools and customer evidence,
-  not the operator's full cross-Business privilege. Escalations reach the human
-  operator workflow; AI availability must not be the only route to help.
-- Businesses place/theme the shared helper component; BFF owns support-assistant
-  invocation within its case workflow. Instruction/evaluation file maintenance
-  belongs in reviewed Codex/operator work, not a required bot-management console.
-  Any backoffice bot overview shows effective definitions, assigned skills and
-  evaluation questions/results read-only by default; Andrew need not author them.
-- Businesses register helper context and tools in code; local UI actions remain
-  product-owned, backend actions retain existing account authorization. The
-  runtime opens only assigned skill content on demand, not the whole knowledge base.
-- Codex owns the initial repeatable answer checks and evidence. The backoffice
-  should make actual suggested answers/corrections inspectable; a new evaluation
-  dashboard or mandatory Andrew test checklist is not required by this decision.
-- Pending action approval/rejection, where separately authorized, is a direct
-  operator judgment in the backoffice; bot configuration stays Codex-owned.
-  Resume only the approved request, with current execution checks and recorded
-  outcome, not unrestricted operator authority delegated to the model.
+The requested final review sequence was to finish the decision groups, then
+explain and agree the following. Andrew subsequently approved the presented
+design/schema on 2026-10-09:
 
-## Decision Log
+| Review | Required explanation |
+| --- | --- |
+| ERD and relationships | Relevant reused/new entities and relationships; Business/environment/customer/account isolation; avoid duplicating existing identities |
+| Exact structural changes | Tables, fields/types/requiredness, relationships and indexes, including component-managed storage; rationale, compatibility, existing-data/migration impact and verification |
+| Shared versus Business ownership | Shared BFF service versus reusable embedded libraries/SDK versus each Business's server/UI/domain records/tool handlers; public contracts and practical runtime portability |
 
-| Date | Decision | Context |
+These are proposal reviews, not three prompts to invent infrastructure. UX
+delegation does not waive them. A general diagram is not approval for unspecified
+schema changes; repository structural-change confirmation remains required.
+Acceptance covers the presented contracts, not unspecified additional structural
+changes. No planning, coding or deployment has started.
+
+### Final consistency and gap review — 2026-10-09
+
+**Document/design review only, not implementation or release verification.**
+Primary checks and Andrew's bounded independent Astra extra-high reviews found
+**no additional business-scope questions**. Current sections correct stale read
+approval, routing/runtime/provider status and portal/product-read wording.
+Historical alternatives stay dated; initial support is bounded drafting with
+automatic permitted reads and exact operator Send, one authoritative history/
+draft, no specialist router or monetary ledger. Selected sparse Operator outcomes
+do not erase the broader later Marketing/Launch funnel promise.
+
+Remaining review/proof points, not a new questionnaire:
+
+| Item | Boundary |
+| --- | --- |
+| Exact schema/configuration storage and migrations | Presented eight workflow tables and additive impact are approved. Planning must specify remaining Business settings persistence and explain any additional structural changes before edits |
+| Private account facts in email support | Prove authenticated association, current eligibility, filtered reads/disclosure and the exact recipient; no same-email identity merging or new login workflow |
+| Runtime/browser/email/attachment safety | Prove supported checkpoints and stale-result rejection, immutable sends/retries, scoped access and private bounded raster conversion |
+| Real-data collection and provider setup | Minimum actual-data privacy safeguards and verified capped model routing/native alerts before live use; detailed retention remains deferred |
+
+**Implementation/development preflight, 2026-10-09:** presented design/schema
+approval is resolved; Andrew asks what practical access would block a future
+instruction to build/deploy, not to start that work now. Read-only checks confirm
+Convex development access and Cloudflare Wrangler login with existing Worker
+deployment scopes. `tofler.app` zone lookup succeeds (HTTP 200). Current OAuth
+scopes do not include DNS write; AI Gateway list returns HTTP 403. Branded-mail
+DNS automation and gateway/cap management initially needed suitable scoped access.
+Andrew subsequently supplied a separate setup token through Nirvana: verification
+reports active, and DNS-record/gateway list requests succeed (HTTP 200), with no
+gateways configured yet. No write permissions were exercised; existing Wrangler
+login is unchanged. Existing image-generation access does not prove screenshot
+conversion. Node 24 is available
+through the documented pnpm wrapper; default Node 20 is not a user blocker.
+Resend's Full-access key check succeeds (HTTP 200), with no registered domains.
+Synthetic/mock development can proceed first. A real-mail development path can
+use the [restricted test sender](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain)
+to the Resend account email and the account's
+[managed receiving domain](https://resend.com/docs/dashboard/receiving/introduction),
+once its address/webhook are retrieved/configured; neither is an end-to-end test
+performed here. Branded multi-recipient testing needs custom-domain verification.
+The [development access checklist](../../docs/operations/provider-accounts-and-secrets.md#operator-work-development-access--2026-10-09)
+records the exact DNS/gateway setup scopes and native-alert dashboard boundary.
+Read-only settings retrieval for the existing dev image Worker succeeds and shows
+AI generation, not an Images binding. Current Images documentation supports
+private-byte conversion on the default Free allowance; no new subscription is
+expected for initial development, but conversion has not been tested. Seed
+capability, SDK/email integration, capped routes and private screenshot
+conversion still need implementation/setup/proof. No provider/DNS write,
+credential persistence, email send, model call or deployment occurred.
+
+Hands-on app/readiness skills cannot verify an unbuilt interface. Andrew's AI SDK
+choice supersedes the Convex skill's default Agent recommendation. Relevant prose/
+path checks do not substitute for later runtime/phone/desktop tests.
+
+### Proposed ERD
+
+For the requested short diagram view, see
+[Operator work architecture](../../docs/architecture/operator-work.md).
+The detailed field/index and authority contracts below are the approved review
+source; the schema has not been changed.
+
+Reuse [existing BFF identities/accounts](../../platform/bff/service/convex/schema.ts)
+and [TableCards domain tables](../../projects/tablecards/backend/convex/schema.ts).
+Approve eight new shared tables, not eight new services. The 2026-10-09 provider-only
+cap revision removes the earlier `botBudgetPeriods` proposal. One discriminated
+`conversations` table represents helper chats or support tickets; support-only
+fields contain ticket status and its one draft. This avoids an unnecessary
+one-to-one ticket wrapper while keeping the public workflows distinct.
+
+```text
+businessEnvironments ──< conversations >── businessUsers / accounts (optional)
+                          ├──< conversationEntries ──< supportAttachments
+                          │            ├──< emailDeliveries
+                          │            └──< feedbackRecords
+                          └──< botRuns
+businessEnvironments ──< businessEvents >── businessUsers / accounts (optional)
+emailWebhookReceipts ──> matched entry/delivery (optional until safely correlated)
+```
+
+`──<` means one-to-many. Existing customer/account links are optional for general
+email help and anonymous helper chats, and present only after verified association.
+All conversation children must match the parent's environment; an ID alone grants
+no access. Native Convex IDs stay inside BFF. Product references are bounded public
+IDs/strings across separate deployments, not foreign keys into TableCards' database.
+Indexes are lookup mechanisms, not SQL uniqueness/foreign-key constraints;
+mutations enforce scoped relationships, deduplication and atomic transitions.
+
+### Proposed table changes and indexes
+
+Notation: `ID(T)` = native Convex ID; `string?` = optional; times are numeric UTC
+milliseconds; states/kinds are explicit validator unions, not arbitrary strings.
+Content/arrays are size-bounded. Every environment-scoped table has required
+`environmentId: ID(businessEnvironments)`, checked against related records.
+These are the presented field/index contracts approved on 2026-10-09, not a schema
+already changed. Additional unpresented structural changes still need explanation.
+
+The bounded follow-up Astra review checked this proposal against Andrew's final
+typed policy. Its five corrections are incorporated below: complete immutable
+email envelope, draft-write concurrency/unstarted-delivery reference, explicit
+reply-token lookup, normalized webhook ordering evidence, and declared index
+fields. Its earlier application-budget settlement proposal is superseded by
+Andrew's later provider-only cap decision. This is an independent design check,
+not proof that unimplemented code passes those invariants.
+
+| New shared table | Proposed fields and requiredness | Indexes driven by the initial reads |
 | --- | --- | --- |
-| 2026-10-08 | Define customer-operations problems and scope before solution brainstorming | Andrew distinguishes feedback/user monitoring from technical monitoring; no implementation request |
-| 2026-10-08 | Explore business/cross-business visibility, related customer context, improved design, tickets and user handling together | Andrew supplies the umbrella scope and asks for missing needs; action permissions, guest-ticket trust and final solution remain open |
-| 2026-10-08 | Reopen AI customer support as a proposed MVP capability | Andrew prioritizes minimizing manual work from the beginning; autonomy level and revision of the earlier exclusion are not yet accepted |
-| 2026-10-08 | Distinguish on-site knowledge helper from data-capable ticket support agent | Andrew wants chat guidance separate from case-based investigation/actions; small helper context and ticket permissions remain undecided |
-| 2026-10-08 | Codex must propose the smallest useful scope for both roles | Andrew requests a concrete recommendation; the knowledge/current-page helper plus bounded autonomous ticket handling is proposed, not accepted |
-| 2026-10-08 | Include conceptual data-model and shared/product ownership alternatives in this brainstorm | Andrew requests technical trade-offs alongside in/out scope; this does not approve implementation or structural changes |
-| 2026-10-08 | Give concrete options and an explained recommendation for every discussion question | Andrew repeats this preference after an overly open-ended visibility question; customer records plus activity/support is the next proposed choice |
-| 2026-10-08 | Explore Business-first investigation before a separate cross-Business surface | Andrew offers a tentative refinement; Codex recommends scoped workspaces in the shared backoffice, not separate implementations. Final scope and data ownership remain unaccepted |
-| 2026-10-08 | Accept one shared backoffice with Business-scoped customer investigation | Andrew confirms that the same person's use of unrelated Businesses is usually irrelevant. Initial scope excludes cross-Business customer linkage/profiles; remaining feature and implementation choices are open |
-| 2026-10-08 | All approved backoffice operators have full access; no granular operator roles now | Andrew removes permissions-system complexity. Existing sign-in/operator gate and customer isolation remain; no new person or AI receives authority through this scope decision |
-| 2026-10-08 | Show meaningful BFF-held customer information plus important Business-reported events | Andrew excludes custom Business pages/direct product-data access initially. Events are meaningful usage/operator facts, not logs; catalog and structural schema remain unapproved |
-| 2026-10-08 | Preserve event reuse for future marketing measurement and offer eligibility | Andrew suggests pixels and special discounts as possible consumers. No provider, campaign, discount engine or automatic charge is approved; the existing future-offers entry owns that deferred idea |
-| 2026-10-08 | Accept event scope B: milestones plus important blocked/failed outcomes | Andrew agrees to option 2. Exact catalog/payloads, schema and integrations remain open; no full-brainstorm acceptance or implementation approval |
-| 2026-10-08 | Explore the whole ticket system and an email-only customer channel before portal design | Andrew prioritizes understanding where the conversation lives and avoiding per-Business ticket UI for MVP. BFF cases plus email transport is recommended, not accepted; the secure-link proposal was never approved |
-| 2026-10-08 | Accept website/email ticket intake, email follow-up and backoffice-only conversation history | Andrew clarifies that customers can open from the website or email, but cannot view/reply to a ticket thread on the Business website. Shared backoffice handling is required; storage/provider/schema and AI authority remain open |
-| 2026-10-08 | Keep authoritative ticket records and conversations in the shared BFF | Andrew chooses BFF-owned cases over an external helpdesk. Email remains transport; provider, schema, routing/lifecycle and AI authority remain open. This is a storage-ownership decision, not implementation or whole-brainstorm approval |
-| 2026-10-08 | Accept website ticket submission without sign-in, with an unresolved verification concern | Andrew chooses the public form but flags unverified contacts. Confirmation-before-handling versus visibly unverified intake is the next choice; neither policy, account linkage, schema nor implementation is approved |
-| 2026-10-08 | Park contact-verification policy for an independent Astra review | Andrew objects that email approval undermines the contact-us/website submission experience. The earlier confirmation recommendation is challenged, not accepted; continue other questions while the review runs |
-| 2026-10-08 | Include feedback, suggestions and missing-feature requests in contact intake | Andrew clarifies this is not only a support-incident flow. Exact categories, reply expectations, automation and schema remain undecided; receiving a suggestion does not promise building it |
-| 2026-10-08 | Review recommends immediate public intake, without mandatory email confirmation | Astra finds the previous recommendation too strict for contact-us/feedback. Protect private support separately; proposal awaits Andrew's acceptance, and no provider/schema/implementation is authorized |
-| 2026-10-08 | Send an automatic initial receipt; human or AI substantive replies are as needed | Andrew settles reply expectations, including feedback/suggestions. A receipt is not verification or resolution; AI autonomy/tools and exact delivery/abuse behavior remain open |
-| 2026-10-08 | Business email styling and logo belong in shared configuration | Andrew wants branding analogous to auth. Existing auth fields have no logo; common brand reuse is recommended, not a settled schema/editing UI or migration |
-| 2026-10-08 | Accept immediate public intake and initial receipt, without an upfront email-confirmation gate | Andrew accepts option 1 after Astra's review. Apply spam controls; general help may proceed, but private support still requires appropriate authenticated account authority. No schema, AI autonomy or whole-brainstorm implementation approval |
-| 2026-10-08 | Explore wrong-recipient reporting and distinguish anti-spam from account trust | Andrew proposes "I did not send this" in the receipt and asks whether a reply establishes verification. A case-specific report/pause is recommended, not approved; reply evidence is contact-only, with no automatic account authority |
-| 2026-10-08 | Keep MVP support simple and reuse Google-only product authentication | Andrew rejects verification overengineering. Public contact/email conversations remain available, but no support-managed recovery, alternative login or custom verification-tier system is required. Basic spam/loop controls and existing permissions remain; requests for Apple/email login are feedback, not new scope |
-| 2026-10-08 | Reopen the minimum signed-out contact scope with a second Astra review | Andrew asks whether any public form/contact intake is needed for a simple Google-only MVP. Review channels and their actual maintenance cost; earlier acceptance remains visible pending a new decision. Continue other questions, not implementation |
-| 2026-10-08 | Second Astra recommends signed-in form plus public support email | Deferring signed-out forms saves modest scope while retaining a login-failure/guest contact route; BFF cases/email transport remain the substantial work. Recommendation awaits Andrew's choice |
-| 2026-10-08 | Start with an in-app helper and ticket auto-suggest, not autonomous ticket replies | Andrew wants useful assistance before real user evidence. Operators review/send suggested replies; automatic initial receipts remain. Later autonomy is a new decision, not inferred approval |
-| 2026-10-08 | Share suitable knowledge/procedures and evaluate both AI roles | Andrew requests question/answer quality checks. Recommend a small versioned test suite with source-grounded expected behavior, separate role boundaries and Codex-owned initial cases; no extra queue/evaluation service or schema is approved |
-| 2026-10-08 | Review approved knowledge and disclosure, including internal business information | Andrew wants assistants supplied only with permitted knowledge, not merely credential/PII filtering. Review provenance, rights, confidentiality and actual access boundaries; no prompt-only secrecy guarantee or raw repository ingestion |
-| 2026-10-08 | Add an on-demand Codex evaluation/improvement capability | Andrew wants to invoke a skill/command to analyze real questions/answers and ticket drafts and optimize behavior without doing routine analysis himself. A combined review-and-improve workflow is proposed; exact skill, data/cost scope, changes and release authority are not yet settled |
-| 2026-10-08 | Explore shared BFF bot controls and selective event access, with MCP later | Andrew distinguishes internal/secret event data from shareable facts. Recommend scoped server-filtered fields and small shared controls; no raw-record access, operator privilege inheritance, generic management console, MCP server or schema is approved |
-| 2026-10-08 | Prefer small file-based instruction/evaluation assignments over a management console | Andrew proposes reusable instruction files and evaluation questions selected per bot. Business knowledge stays scoped; exact assignments/source preparation/contracts are not settled, and no new tables or editing UI are approved |
-| 2026-10-08 | Use BFF-owned support suggestions and a configurable embeddable helper as default roles | Support runs within cases/backoffice, not product-owned bot logic. Businesses place/theme a shared helper component instead of rewriting chat behavior. Existing SDK React auth controls provide a reuse pattern, not an implemented helper |
-| 2026-10-08 | Require a small extensible custom-bot definition with instructions, allocated knowledge and fixed tools | Andrew wants future custom bots without replacing the runtime. Helper/support are defaults, not hardcoded-only types. FAQ knowledge differs from held-out evaluation; new tools or data sources still require review/code |
-| 2026-10-08 | Preserve helper growth to page, signed-in customer and saved-work context | Andrew proposes knowing the current product/page and relevant TableCards event/projects. Keep scope/fields checked, product data owned by the Business and internal information excluded; no initial product-data integration or schema is approved |
-| 2026-10-08 | Helpers are optional and may vary by page; support identity is separate from reply mode | Andrew wants different helper knowledge/capabilities by page or no helper. The support bot starts with suggestions because trust is not established, with future automatic replies/category-specific bots possible; no auto-send activation, refund authority or initial routing scheme is approved |
-| 2026-10-08 | Load assigned bot skills on demand rather than all knowledge on every call | Andrew defines skill title/purpose/use guidance plus content, with per-bot name/instructions/assigned skills. Small metadata index precedes selective loading. Cost/selection/disclosure evaluation is needed; no arbitrary file access or new search store is approved |
-| 2026-10-08 | Allow programmatic Business context and tools, revising fixed-tools-only scope | Businesses may pass approved page data and register UI/backend capabilities in code, not a console. Exact execution/authorization bridge and first actions remain open; no arbitrary remote code, account powers or implementation approval |
-| 2026-10-08 | Support multiple named helper/support definitions, including category- or case-specific support | Andrew reinforces payment versus print-document support examples. Roles are not a two-bot limit; preserve one runtime/transcript and initial draft mode. Mapping/selection/override/fallback and initial specialist set remain open; no swarm or AI router is approved |
-| 2026-10-08 | UI declares tools; BFF returns requests; UI executes registered handlers | Andrew chooses programmatic page-tool execution. Structured names/arguments, not model-generated code; some actions may need user approval. Exact schemas/results/retries, first write actions and implementation approval remain open |
-| 2026-10-08 | Codex maintains bot configuration and evaluations; any overview is mostly read-only | Andrew wants visibility into bots, assigned knowledge and test questions/expected answers without manually authoring them. Reuse effective configuration/evidence, not another source of truth; no editor, console implementation or publication authority is approved |
-| 2026-10-08 | Require configured support bots, not a default pair; helpers may be absent | Andrew specifies at least one support bot and zero or more helpers according to Business configuration. This supersedes earlier default-bot wording; initial draft mode, Codex-owned configuration and remaining implementation boundaries are unchanged |
-| 2026-10-08 | Explore category-to-bot rules without requiring a bot per category | Andrew asks for a recommendation. Configured Business-scoped mapping plus an explicitly chosen fallback is recommended over one undifferentiated bot or AI routing; category list, routing choice and case override remain unaccepted |
-| 2026-10-08 | Treat category as a hint; address incorrect customer selections before answering | Andrew challenges category-only routing. Revised recommendation adds bot scope assessment and bounded permitted handoff/fallback, without a separate classifier on every case. Detection is not guaranteed; test wrong-category/topic-change cases. Routing choice and implementation remain unapproved |
-| 2026-10-08 | Explore a support coordinator rather than trust the customer's category | Andrew suggests a "master bot." Recommend thin content-aware selection among configured eligible handlers, not multi-specialist answer synthesis; one-handler cases need no extra AI routing call. No coordinator, runtime/schema change or auto-send is approved |
-| 2026-10-08 | Distinguish separate bot execution scopes from separate deployed services | Andrew asks about differing tools/data. Recommend per-bot model context and code-enforced capabilities on a shared engine; same ticket does not imply shared private context or coordinator-wide authority. Separate services are not justified yet; concrete boundaries and implementation remain unapproved |
-| 2026-10-08 | Explore resuming specialist sub-agents within the same support case | Andrew wants the coordinator to continue specialist conversations rather than restart. Recommend scoped reusable threads with revalidated tools/data and approved return results; no always-running service or extra customer ticket is needed. Storage/lifecycle and implementation remain undecided |
-| 2026-10-08 | Preserve conversation and pending action while awaiting operator approval | Andrew requests long-running continuity across human decisions. Recommend explicit persisted approval/continuation, approve/reject UI and safe execution/resume for allowed actions; first actions, schema and new-message/expiry handling remain open. No expanded bot authority or implementation approval |
-| 2026-10-08 | Separate reply automation from tool execution; enforce configurable rules in code | Andrew requests optional/always/conditional approval and rules over meaningful trusted facts/events, without a conditioning engine. Recommend small tested predicates returning allow/review/block; prompts cannot alter configuration. Refunds are hypothetical, draft-only support remains initial scope and exact rules/actions/schema are unapproved |
-| 2026-10-08 | Start support with approval for every permitted tool call and substantive reply | Andrew strengthens the baseline while describing gradual automation. Reads also require approval; forbidden actions stay denied. Automatic non-bot initial receipts are unchanged. Helper/advisor read policies remain separate open choices |
-| 2026-10-08 | Explore configurable automation, monetization and marketing advisors with operator-controlled activation | Andrew wants bots to analyze periods of evidence and propose rules/offers/acquisition improvements. They cannot apply their own changes; recommend a small evaluated proposal loop, not a new builder or default trio. Cadence, evidence access, MVP inclusion, schema and implementation remain unapproved |
-| 2026-10-08 | Place periodic advisory review outside live BFF helper/support bots | Andrew proposes a weekly Codex CLI batch over Businesses with relevant delegated reviews and separately selectable structured proposals in backoffice. Preserve Business-scoped evidence and operator-controlled effects; exact data/format/import and implementation remain open |
-| 2026-10-08 | Consider OpenAI dots instead of a custom scheduled Codex CLI runner | Andrew offers a tentative alternative. Official guidance supports recurring/delegated work, not an already-connected BFF proposal workflow or confirmed account access. Validate proposal-only review/delivery before recurrence; no schedule, connector, schema, action powers or new MVP build is approved |
-| 2026-10-08 | Explore manager/business oversight and product/project prioritization to protect Andrew's time | Andrew proposes checking specialist outcomes and surfacing what genuinely needs him. Recommend one coordinator with bounded delegated roles initially; verify results rather than trusting agent status, reuse the single roadmap, and keep new scope/approval authority explicit. MCP, multiple independent dots, scheduling, implementation and MVP inclusion remain unapproved |
-| 2026-10-08 | Separate COO operations oversight from Andrew's independent CTO assistant | Andrew is CTO/final company decision-maker, with no separate CEO needed. COO coordinates operational specialists; the assistant reports only to Andrew and prioritizes requests from any configured bot without a COO gate. This supersedes the combined-role recommendation; shared tooling may retain distinct responsibilities. Exact execution/communication, access, budgets, MVP inclusion and implementation remain unapproved |
-| 2026-10-08 | Make assistant attention rules adapt to each Business's scale through agreed revisions | Andrew wants early first-customer/complaint milestones, useful suggestions and analytical findings surfaced, with routine signals becoming less individually important as a Business grows. Revisit rules together; thresholds/channels and any discretion to self-adjust within approved bounds remain open. Attention filtering never grants action approval or expands implementation/MVP scope |
-| 2026-10-08 | Give Andrew's assistant searchable bot working context, not only COO summaries | Andrew prioritizes his well-being and wants to understand each bot's work and reasons. Record desired access to goals, work, evidence and documented rationale; exact integration/data scope remains open and grants no other bot's tool authority or customer disclosure rights |
-| 2026-10-08 | Explore CPU-only analyst research and approved model integration points | Andrew proposes models and possible bandits for marketing/sales/offers, explicitly not all at once. Analyst researches evidence/data/runtime needs; assistant surfaces worthwhile proposals; Andrew and Codex establish approved integrations. Subsequent bounded tuning authority remains undecided; no training, rollout, schema or new MVP commitment is approved |
-| 2026-10-08 | Use SWOT as the assistant's attention lens | Andrew confirms strengths, weaknesses, opportunities and threats should help identify what deserves his time. Consider evidence, materiality, timing and personal priorities; do not interrupt for every finding or treat a SWOT label as action approval |
-| 2026-10-08 | Discover new automation opportunities as well as improve existing rules | Andrew wants further places to automate included in the assistant's SWOT opportunity assessment. The advisor investigates candidates; the assistant prioritizes potential time saved against engineering/maintenance effort and risk. Missing capabilities require Andrew/Codex decisions, not self-activation or automatic MVP expansion |
-| 2026-10-08 | Add security and legal as proposed peer responsibilities under Andrew | Andrew requests these bots alongside COO and personal assistant. Recommend evidence-backed security concerns and source-grounded legal research/drafts, not autonomous remediation, contracts or legal clearance. Specific scope, review/gate powers, cadence and MVP implementation remain open |
-| 2026-10-08 | Give each CTO-level responsible role its own analyst and separate context | Andrew clarifies that COO, personal assistant, security and legal each need a dedicated analytical counterpart. This revises the shared-analyst suggestion. Shared skills/code are possible without pooling histories/data/tools; intentional handoffs and assistant search must be separately defined. No new instances, permissions, schema or implementation are approved |
-| 2026-10-08 | Start security/legal with advisory proposed-change reviews | Andrew agrees with the narrower starting mode rather than periodic business checking now. Sensitive changes still need approval; exact inputs/gates, role implementation and future cadence remain open |
-| 2026-10-08 | Add product manager and architect to the desired role structure | Andrew requests both, following the dedicated-analyst/separate-context pattern. Propose product/customer-priority work versus technical-design/reuse work, distinct from the assistant's attention role. Recommend maintaining accepted roadmap state while seeking scope/priority approval; that authority choice remains open. No new plan, runtime, schema or deployment is approved |
-| 2026-10-08 | Propose research-versus-action authority as the first common boundary to resolve | Andrew is unsure which boundaries to choose. Recommend pre-approved scoped advisory research and proposals with separately approved effects; retain all-support-tool/reply approval. Options and selective review triggers are proposals, not new access or accepted automation |
-| 2026-10-08 | Accept option 2 for internal-advisor research versus effects | After initially asking for approval for everything, Andrew asks for clarification and agrees that scoped approved-information research, consultation and drafts can proceed without per-step interruption, while consequential changes require approval. Support tool/reply approval remains unchanged; concrete data/cost scopes and runtime setup are unapproved |
-| 2026-10-08 | Require distinct project manager, product manager and architect roles | Andrew explicitly requests all three. Apply the dedicated-analyst/separate-context pattern; propose delivery coordination versus customer/product priorities versus technical design. Precise task/write/engineering authority remains open; reuse existing roadmap/work records, not a new plan or management platform |
-| 2026-10-08 | Shape a collaborative feature lifecycle, not design-only architecture advice | Andrew wants suggestions assessed by product/business SWOT, relevant-role brainstorming, architect-led planning and approved implementation with him through Codex. He expects broad initial decision involvement and later evidence-based attention tuning. This does not accept the whole brainstorm, create a plan or authorize runtime/schema/deployment work |
-| 2026-10-08 | Separate workspace ownership from read access; protect three analyst contexts | Andrew retains distinct analysts but allows ordinary internal work context to be read across analysts. Security, legal and personal-assistant analyst workspaces are private. His assistant analyst also has a desired broad overview, so its possible private-context exception and paired-role readers require clarification. No access grant or copied private histories |
-| 2026-10-08 | Give the architect NOC, QA/regression and developer staff; make project-manager visibility primary | Andrew wants technical-staff supervision, quality evidence and production-issue awareness, while product coordinates business/technical/review needs. Project manager consults analysts to show actual company progress and support his priorities, not execute independently. External monitoring remains later MVP; private-context access, integrations, schedules and implementation are unresolved |
-| 2026-10-08 | Let Andrew set each secret's rule; distinguish access from onward disclosure | Andrew conditions private access on whether its holder can communicate with others, asks to choose rules per secret and identifies copying/indirect disclosure risk. Preserve private scope pending his decision; illustrate source allowlists, restricted outbound channels and approved summaries. No blanket assistant exception, reliable derivative-content detection, implemented rules or runtime grants |
-| 2026-10-08 | Evaluate external Dots/Paperclip organization controls, not Convex rules for company bots | Andrew identifies Dots as likely and asks to look up Paperclip. Official sources support organizational reuse and concrete action controls, not guaranteed per-secret disclosure prevention: Dots custom rules can err; Paperclip gateway gates do not cover every channel or shell path. No platform selection, installation or integration is approved |
+| `conversations` | Required public ID, `kind: helper/support`, bot key, created/updated times; optional verified user/account IDs and active run ID. Helper has a hashed anonymous handle only when needed. Support requires subject, contact/channel and status; optional waiting-since time, unstarted-delivery ID and one current-draft object with recipient/body, source-run ID, editor/time, exact fingerprint and pending ID/state | environment/public ID; environment/kind/updated time; environment/kind/status/waiting time; environment/user/updated time; environment/account/updated time; environment/anonymous-handle hash |
+| `conversationEntries` | Required conversation ID, typed kind, explicit visibility, server-attributed actor, timestamp and bounded text/typed parts; optional referenced message ID, source-run ID and provider inbound-message ID. Outgoing kind requires one immutable envelope: from/to/reply identity, subject, rendered text/HTML, threading headers and any feedback link/approved attachment references. Operator notes are internal; delivery state is separate | conversation/time; environment/provider inbound-message ID for deduplication; environment/actor/time for operator action history |
+| `botRuns` | Required conversation/trigger-entry IDs, bot/config/skill/model identifiers, state, start/update times and captured draft ID if one existed. Bounded attempt records have required attempt ID, provider/model and execution outcome; optional token usage, result references, completion/error and pending client-tool checkpoint. No second full transcript, chain-of-thought archive, monetary reservations or per-customer cost attribution | conversation/start time; environment/start time; environment/state/update time; conversation/trigger-entry ID |
+| `emailDeliveries` | Required conversation/outgoing-entry IDs, provider, purpose, exact payload fingerprint, stable idempotency key, state, attempt count and created/updated times. Substantive replies require authenticated approver/time/pending ID; fixed receipts use a system actor. Required reply-correlation token hash for ticket emails; optional provider message ID, attempt/next-attempt times and safe error | environment/entry ID; provider/message ID; reply-token hash; state/next-attempt time; environment/state/update time |
+| `emailWebhookReceipts` | Required provider/event ID, verified event type, provider occurrence time, received time, processing state and bounded normalized correlation/outcome fields. Optional matched environment/entry/delivery, provider message ID, relevant addresses/thread identifiers and safe error according to event type. No full raw MIME/HTML or attachment bytes | provider/event ID; processing state/received time; provider/message ID |
+| `supportAttachments` | Required parent-entry/conversation IDs, provider attachment ID, claimed name/type/size, processing state and created/updated times; optional block reason and regenerated private `ID(_storage)`, verified PNG/JPEG type, byte size and dimensions. No durable original-download URL | entry/provider attachment ID; conversation/entry ID; environment/processing state/update time |
+| `feedbackRecords` | Required answer-entry/conversation IDs, question version, evidence kind and created time. Support invitation requires invitation time, token hash/expiry and activation/send evidence; optional submitted Yes/Partly/No, comment and submitted time. Helper feedback uses authorized answer scope. One current explicit response, not an invitation/click/rating/comment table bundle | answer-entry/evidence kind; invitation-token hash; environment/submitted time; environment/invitation time |
+| `businessEvents` | Required environment, deduplication ID, registered event name/version, occurrence/receipt times and bounded validated safe properties; optional verified user/account IDs and public product-operation reference. Only meaningful Business-reported outcomes, not duplicated bot/security/delivery logs | environment/deduplication ID; environment/occurrence time; environment/user/time; environment/account/time; environment/event name/time |
 
-## Notes
+`emailWebhookReceipts` may have no environment until registered addressing or a
+known delivery safely establishes it; unresolved records are operator-only and
+never model context. Spending caps are provider/gateway configuration, not a BFF
+table, per-Business allowance or customer-selectable budget scope.
+Business-specific bot/skill content, event definitions and templates are owned
+under `projects/<business>/` or as reviewed per-environment configuration data.
+Shared libraries own only their generic types, loaders/renderers and protocol;
+they do not import Business files or executable validators. BFF may retain
+registered content/settings or private content references as data, without a
+second editable management console. Exact configuration storage/field changes
+remain a structural review item; do not imply this registration exists.
 
-- Earlier requirements remain: phone is Andrew's primary operating tool; desktop
-  must work too. Investigation matters even when a customer has not complained.
-- Consulted the [Agency Agents Support Responder](https://github.com/msitarzewski/agency-agents/blob/main/support/support-support-responder.md)
-  as a customer-context, follow-up and feedback lens only. Its staffing targets,
-  response-time promises, channel bundle and automation are not adopted.
-- Consulted the [Agency Agents Growth Hacker](https://github.com/msitarzewski/agency-agents/blob/main/marketing/marketing-growth-hacker.md)
-  as an experimentation/evidence lens for marketing and monetization proposals,
-  not authority or justification for growth targets, paid campaigns or tracking.
-- [OWASP Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/)
-  supports limiting tools/permissions and enforcing authorization outside the
-  model. Use this as a safety constraint, not a rule that every routine reply
-  must wait for Andrew; Andrew subsequently chooses operator approval for ticket
-  replies while the in-app helper answers ordinary knowledge questions directly.
-- No new runtime diagnostics, code, schema, permissions, provider setup or deployment
-  performed. Documentation checks alone are appropriate for this discussion.
+**Minimal support run:** customer message → bounded model/automatic allowed reads
+→ save one draft → stop. Operator edits update that one draft, never a historical
+body-version list. Choosing **Send** is the operator's approval; do not require
+two separate approval/send decisions for one reply. Group review may use the same
+secured send contract for each explicitly displayed item. Approval checks the
+exact current pending ID/fingerprint and
+freezes the complete email envelope once on an outgoing entry, plus a delivery
+record referencing it. Preview the exact recipient/content and sender/subject
+identity; retries must not rerender from later branding/configuration or draft
+edits. The conversation points to its unstarted delivery for atomic invalidation;
+a genuine new customer message
+revokes unstarted send authority and preserves the draft for fresh review; edits
+do not silently replace an already approved payload. Atomically claim before
+provider dispatch. Retries use that immutable entry/key, never the newly edited
+draft; accepted/uncertain/delivered are distinct. No original-draft body snapshot
+per edit is implied. Compact acceptance/edit/rejection signals and final sent
+answer still support honest operator/evaluation review.
+
+A completing model run must match its active-run ID, captured customer-message
+input and captured current-draft ID before saving. It cannot overwrite an
+operator edit or a newer draft/message. New edits replace the pending ID; no
+version counter/history. A stale result is recorded without silently applying it.
+Claiming dispatch clears the unstarted-delivery reference atomically; already
+started mail cannot be recalled or resubmitted as a fresh message.
+
+Reviewed registered mailbox/domain identities map incoming recipients to a
+Business/environment. The opaque reply-address token hashes to the known delivery
+and its conversation; multiple deliveries may refer to the same ticket. Validate
+that relationship and registered addressing together. Thread identifiers are
+bounded correlation evidence, not an alternate customer identity or permission.
+The complete outgoing reply address is already frozen in its email envelope;
+the token's lookup hash grants no account access. Unknown/mismatched input stays
+operator-only for review. Verified webhook facts preserve event occurrence time
+and relevant outcome evidence; duplicate/older events cannot regress a delivery
+state, and a later complaint remains a sending prohibition, not another retry.
+
+**Helper integration:** AI SDK UI consumes a projection of the same stored
+entries, not a second conversation database. Tool-call/result checkpoints belong
+to the bounded run. Server validates allowed tools/current customer; the page
+executes only its registered client handler and reports the correlated result.
+Private notes/diagnostics and runtime-only tool data are excluded from customer
+projections. Resume only actual pending work; no recurring case poller.
+
+**Private attachment path:** bounded Resend retrieval → authenticated shared
+Cloudflare image-processing Worker → regenerated raster bytes → existing BFF
+Convex private file storage → authorized operator preview endpoint. The existing
+TableCards AI-image Worker is not that processor. Validate content and size/count/
+pixel limits; conversion failure blocks preview with no original fallback, public
+source URL, raw HTML rendering or automatic AI-image ingestion. No R2/new storage
+vendor is required by this proposal. Image rewriting reduces exposure, not an
+antivirus verdict or complete safety guarantee; local rejection cannot undo
+provider inbound quota.
+
+**Provider caps/alerts:** the $3/day and $30/month live-text safety ceilings remain
+selected, but enforcement belongs to provider/gateway configuration only. Every
+live model request must take the capped route; no direct or fallback bypass.
+Handle cap rejection as temporary AI unavailability while preserving tickets,
+drafts and direct support contact. Native daily/delayed alerts are acceptable;
+their exact scope/reset windows are setup proof points, not an app alert system.
+No budget-period table, application money reservations, spending dashboard or
+per-customer cost ledger. Each later evaluation run still needs a separately
+bounded authorized allowance; no paid runs or provider setup here.
+
+### Existing-data and migration impact
+
+The eight workflow-table proposal is **additive**, with no rename/removal or
+required-field change on existing identity/account records. Reuse existing
+`businessUsers`, `accounts`, memberships/access/unit records and narrow `securityEvents` unchanged;
+do not turn security history or image-credit reservations into text billing.
+`businessEnvironments` stores customer-auth configuration, not the new bot/event/
+email definitions. Registering those as data needs an explained storage proposal:
+optional environment-settings fields and/or private content references are
+candidates, not approved changes or an assumed ninth table. Existing environments
+must work without new optional settings; helper/support activation requires a
+validated complete configuration. No configuration migration is selected here.
+TableCards keeps `projects`, `projectContents`, `designAssets`, `designPresets`,
+`projectExports` and `aiBatches` unchanged. Adding safe outcome-reporting code need
+not change those tables; there is no copy/migration of guest lists, PDFs or images.
+
+New tables start empty. No historical-ticket/event invention or customer-data
+backfill; old periods show unavailable evidence, not zero activity. Configure
+verified email identities separately from customer identities. A later Business
+domain change maps addresses to the same environment/case IDs; it does not rewrite
+ticket ownership or consent/preferences. Optional brand/logo/config fields are
+not implicitly approved on `businessEnvironments`; any later proposed structural
+change requires its own exact explanation/confirmation.
+
+Before activation, verify development fixtures and deterministic tests for
+cross-Business/account denial, email-only lack of account authority, private-note
+projections, stale/repeated approval, callback deduplication/order, uncertain send,
+attachment refusal/private preview, capped provider routing and graceful cap
+rejection. Provider configuration and native alerts need setup verification;
+application budget-reservation tests are no longer in scope.
+Synthetic records and realistic held-out model evaluations happen during the
+later authorized build, with Astra assisting dataset realism then. Minimum
+actual-data collection/privacy/deletion safeguards precede real customer storage;
+no detailed retention system or blanket abuse-retention exception is added.
+
+### Shared service, libraries and Business ownership
+
+| Home | Owns | Does not own |
+| --- | --- | --- |
+| Shared BFF service (`platform/bff/service`) | All eight approved workflow tables; generic scope/authentication, helper/support workflows, history, filtered reads, exact send approval, email/callbacks, private attachment orchestration, capped model routing and graceful rejection, feedback/event ingestion; validated Business settings as data and operator endpoints | Hardcoded product event catalogs, FAQs, routes, templates or policies; imported/executed Business product code, guest/card contents, PDF generation, product database queries, unapproved remedies, a spending ledger/dashboard or application monetary cap counters |
+| Shared TypeScript contracts/runtime and helper UI library (`platform/bff/libs/`) | Generic bot/skill/event/configuration contracts, provider adapters/AI SDK model and tool protocol, typed page capabilities/results, safe knowledge loading, shared helper component/AI SDK UI integration and evaluation/seed machinery with generic boundary fixtures | Business-specific bot content, knowledge, event schemas, branded templates or realistic product fixtures; separate conversation/approval stores, trusted identity from browser claims, a general agent platform or automatic send authority |
+| Shared backoffice + operator automation (`platform/bff/backoffice`, `tools/bff-operator`) | Overview/queues/customer views and judgment controls; queue/feedback/evaluation skills and repeatable validated configuration using the same authenticated BFF contracts | Direct-database bypass, raw provider credentials for ordinary operators, duplicated access/approval systems |
+| Shared Cloudflare image processor (new platform capability) | Authenticated bounded decode/reencode of permitted screenshots, returning only generated bytes | Email/case ownership, customer authorization, public original storage or TableCards AI generation |
+| Provider/gateway configuration | Shared live-text safety ceilings and available native alerts; verify capped routes, time windows and delayed/account-wide notification behavior at setup | Ticket history, customer identity, application spending tables or guaranteed advance warning |
+| Each Business (`projects/tablecards/` initially) | Executable domain validators/rules and page/backend handlers deployed to that Business; product knowledge/ground rules, bot/skill content, branding/templates, event definitions, approved routes and realistic evaluation/seed content supplied as Business-owned data/configuration; meaningful outcome reporting and all existing card/project/export/image data | Product code imported into BFF/shared libraries; its own helpdesk, mail-provider integration, new budget/approval engine, generic bot runner or copy of shared identity tables |
+
+Favor shared reusable mechanisms, with small explicit Business registrations—not
+product-specific branches throughout shared code or a configurable platform for
+imaginary needs. Keep a shared conversation/helper package alongside the existing
+`@tofler/bff-auth` SDK rather than putting AI/backend dependencies in auth-core or
+browser entry points. Exact Nx packaging belongs to the subsequent plan.
+
+**Ownership clarification accepted 2026-10-09:** no Business-specific executable
+code, hardcoded product schemas/content or `if Business === TableCards` branches
+in shared service/libraries. Business-only code is deployed with the Business.
+Business records/settings/content may live in BFF as scoped **data**, never supplied
+executable validators/handlers. Generic ingestion, validation, rendering, knowledge
+loading and evaluation consume the same contracts for every Business. TableCards
+examples in this brainstorm illustrate registrations, not shared-code constants.
+
+### Business settings and registration — review proposal
+
+The audit found ambiguous ownership and three real integration gaps: runtime
+configuration delivery/storage, server-approved event/tool definitions, and
+mailbox/presentation bindings. None is already implemented by customer-auth setup.
+
+| Business-owned material | Shared runtime consumes | Code/content owner |
+| --- | --- | --- |
+| Bot instructions and assigned knowledge/skills | Scoped IDs, versions and reviewed content/references as data | Business product content; shared generic bot/skill contracts and loader |
+| Event names/labels and property structures | Versioned declarative field names/types/requiredness/allowed values/bounds, including permitted free text | Business domain checks/reporting; shared generic envelope/descriptor validation |
+| Page tools and navigation | Approved names/descriptions, argument/result descriptions and destination data | Business UI handlers; shared generic client bridge and scoped allowlists |
+| Support identity and presentation | Environment-bound recipient/sender/reply identities and branding/template settings | Business values/copy; shared generic rendering/delivery |
+| Realistic Q&A and seed scenarios | Development/test data, never runtime answer keys | Business fixtures/references; shared generic evaluation/seed runners |
+
+Reviewed Business source may publish serialized settings through an authenticated
+validated operator/Business configuration path. BFF does not import Business
+TypeScript/Zod validators or evaluate uploaded code. Page-advertised tools are
+matched to server-approved capabilities; browser declarations cannot register
+permissions. A stored event's environment/name/version selects its registered
+data definition, so BFF can check the shape without knowing PDF/game/card rules.
+Keep relevant versions interpretable after updates; do not silently validate old
+records against a changed definition. Backoffice renders generic views using
+registered labels/references, not product-specific shared components.
+
+The [existing Business auth defaults](../../projects/tablecards/customer-auth.defaults.ts)
+are a useful Business-local-to-shared-settings pattern, not a ready bot/event/mail
+registry. Exact new settings storage, fields/types/indexes and migration impact
+remain for structural review; no new configuration table, console or general plugin
+framework is selected. Common statuses, send approval, survey defaults, provider
+caps and security bounds do not each need a mandatory per-Business switch.
+
+Ordinary TypeScript bot/skill/evaluation/provider logic can move to Node later;
+Convex database transactions, authorization, jobs, subscriptions and private file
+delivery still need migration/replacement. That is practical reuse, not a drop-in
+backend swap or generic portability framework now. The Codex queue skill must
+authenticate as an admitted operator through equivalent BFF checks; the existing
+configuration CLI is not proof that ticket commands/authentication already exist.
+Resolve that concrete path in planning without giving Mum Codex or service secrets.
+
+**Review checkpoint:** agree the proposed entities/fields/indexes, additive data
+impact and ownership with Andrew. Whole-brainstorm acceptance and permission to
+create an implementation plan remain explicit later decisions; no ADR may present
+these proposed tables as accepted or implemented yet.
+
+## Operational placement
+
+| Work | Home and authority |
+| --- | --- |
+| Customer Q&A, submission and feedback | Product-facing helper/shared signed-in form/public email link; customer controls navigation/submission |
+| Customer conversation | Email, not a product ticket-history/reply portal |
+| Lookup, evidence, case handling and approvals | Secured backoffice and validated Codex/operator workflow using the same scoped BFF contracts |
+| Authoritative cases, delivery workflow and bounded bot execution | Shared BFF; email provider is transport, not case owner |
+| Business milestones and page tool handlers | Business-owned server/UI; shared BFF ingestion/access and SDK contracts |
+| Repeatable bot/brand configuration, knowledge review and evaluation | Validated Codex/operator automation; dashboard reads effective state rather than owning a second editable copy |
+| Technical monitoring / company-role orchestration | Monitoring build / post-MVP future ideas respectively |
+
+Human support actions proposed for MVP are reply, request information, resolve/
+reopen, add notes, approve/reject and retry eligible failed sends. Exact controls
+remain to design. Placement grants no refund, access override, membership/
+ownership change, customer deletion, database repair or deployment power.
+
+<a id="business-first-operating-context--accepted-direction-2026-10-08"></a>
+<a id="operator-access--accepted-simplification-2026-10-08"></a>
+
+## Business scope and visibility
+
+**Accepted 2026-10-08, confirmed/refined 2026-10-09.** One shared backoffice,
+scoped to the chosen Business/environment, joins customer/account evidence and
+cases. TableCards and ContentChaser can serve unrelated people; the same email
+does not justify a cross-Business dossier, global customer join or identity merge.
+All-Business summaries aggregate scoped Business evidence, not unique people
+across products. Under [ADR 0004](../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md#authority-and-isolation),
+customer identity remains environment-local and provider issuer/subject based.
+
+All **admitted** backoffice operators have the same full access. Keep the existing
+[operator gate](../../platform/bff/service/convex/lib/authorization.ts); no role/
+permissions table or granular grants are needed now. Adding a person is still an
+access grant, not implicit authorization from this brainstorm. Full backoffice
+access is not public access, raw engineering administration or bot inheritance.
+Andrew and his mum should be able to operate without managing unnecessary roles.
+
+Show meaningful, safe BFF-held facts rather than every raw field:
+
+| Existing evidence | Useful proposed presentation / limit |
+| --- | --- |
+| User profile | Safe identity reference, contact/name and registration facts; no credentials/provider subjects or internal auth material |
+| Accounts/memberships/invitations | Customer overview with selectable account/workspace details, not one blended entitlement |
+| Access/offers/units | Current verified offer/limits and remaining/reserved/consumed units; distinguish unknown/stale evidence |
+| Sessions/security/ownership | Useful login/logout/revocation or ownership state, not tokens, hashes, proofs or complete raw session records |
+| Checkout | Actual recorded attempt/source/outcome; no-charge preview is not paid subscription evidence |
+| Planned cases/events | Related support history and selected meaningful activity, not an existing implemented integration |
+
+Investigation must work without an existing complaint. Missing activity does not
+prove inactivity, failure or customer intent. Account-specific facts follow the
+selected account; unknown/stale facts are not guessed. Initial scope excludes
+custom Business backoffice pages, direct product-database reads, a new person
+table, CRM/helpdesk breadth and a cross-Business customer-correlation system.
+
+**Historical alternatives, 2026-10-08:** customer investigation only was the
+lower-effort slice but left feedback/replies fragmented. Investigation plus
+support was medium/high effort and chosen for combined exploration, with a CRM
+scope risk. Proactive outcome discovery added higher effort/false-positive risk;
+only evidence-backed milestones/failures are retained, not inactivity inference
+or automatic outreach. Business-specific backoffices would duplicate shared
+work; a shared Business workspace was selected over cross-Business customer
+investigation. Profile-only versus meaningful BFF context and records-only versus
+activity/support views were resolved toward the latter, within the limits above.
+
+<a id="bff-customer-information-and-business-events--accepted-direction-2026-10-08"></a>
+
+## Meaningful Business events
+
+**Accepted event breadth, 2026-10-08:** milestones plus important blocked/failed
+outcomes, not every click or technical logs. BFF-owned auth/access evidence should
+be reused rather than redundantly emitted as product activity. Exact catalog,
+validators, integrations and structural changes remain **open**.
+
+**Initial set accepted 2026-10-09:** project saved; PDF availability/failure;
+AI-batch outcomes; meaningful blocked actions and bot outcomes such as draft
+created, approval invalidated or send uncertain. Exact names/payloads/schema and
+collection rules remain unapproved. “Business” means the
+product/company, not a TableCards saved project or a customer's wedding/event.
+A readable customer timeline, last meaningful activity and scoped Business
+summary are proposed; begin with operator review, not extra notifications.
+
+**Astra batch proposal, 2026-10-09:** begin with small typed outcomes and on-demand
+counts/review. Precomputed trends add reconciliation/late-event/deletion work;
+longitudinal customer journeys add collection and attribution risk. Neither is
+needed merely to show the overview. These are **TableCards registration examples**,
+not a PDF/card-specific event enum or schema to compile into shared BFF:
+
+| Outcome | Meaning / bounded safe evidence |
+| --- | --- |
+| `project.saved` | Successful explicit create/save, with created/updated/copied subtype and safe reference/card count; not keystrokes, guest names or autosave noise |
+| `pdf.export_completed` / `pdf.export_failed` | Server-validated PDF made available, or terminal failure; safe project/export reference and counts/reason. Not proof of download, saving or printing |
+| `ai.batch_completed` / `ai.batch_failed` | One terminal outcome per four-choice batch, with completed-choice count; not four successes or stored prompts/images |
+| `action.blocked` | One meaningful attempted save/export/generation denied by a named limit, entitlement or unit reason; not every disabled-control render |
+
+Reuse verified BFF auth/access/checkout facts. No-charge preview must not become
+a paid-conversion event. Catalog names/payloads are proposals, not approved schema.
+
+**Internal recording clarification, 2026-10-09:** shared code should automatically
+record meaningful outcomes of actions it owns; Businesses should not have to
+re-emit BFF or shared bot-workflow events. Existing code records successful login,
+logout and session revocation in security evidence, and holds access, checkout
+attempt and unit-reservation facts. Reuse those sources rather than inventing an
+equivalent activity stream or presenting current state as complete history.
+Shared support/helper workflow would record actual draft/approval/tool/send outcomes
+and usage as part of execution; that new workflow is not built yet. Business server
+code still reports its own product operations. Automatic recording is not automatic
+bot access/disclosure: enforce scoped filtered views; permitted support reads are automatic.
+It does not collect every internal function/denial or move technical logs from
+Monitoring into Operator work.
+
+Business server code should report trusted completed-operation facts. BFF checks
+Business/environment and any verified customer/account relationship. Browser
+intent/context is separately untrusted: it cannot establish authentication,
+payment or successful completion. Proposed payloads contain safe references,
+counts, outcomes/reasons and stable deduplication IDs, not guest lists, documents,
+raw prompts, stack traces or arbitrary unrestricted JSON.
+
+**Structure/content clarification, 2026-10-09:** the Business owns executable
+domain validation and reports outcomes; BFF uses generic checks against a trusted
+versioned **data descriptor** registered for that environment/event name. That
+descriptor lists permitted fields/types/bounds and any display labels, not code
+imported from the Business. Unknown/mismatched definitions are not guessed from
+free text. Exact metadata storage is in the
+[Business settings review](#business-settings-and-registration--review-proposal).
+`safeProperties` does not prohibit useful text or certify privacy: a description
+may be explicitly permitted and bounded. Customer explanations remain messages;
+approved product references can connect them with the corresponding event timeline.
+Code can check allowed fields/types/lengths, not guarantee that arbitrary text has
+no personal information or that a customer-reported issue actually occurred.
+
+A conceptual Business-activity record would have Business/environment, optional
+verified user/account, named/versioned event, occurrence and receipt time,
+deduplication/source reference and bounded safe properties. This is **not an
+approved table**. Do not extend the narrow security-event enum into a catch-all.
+Schema/indexes, ordering/pagination, payload/rate limits and migration belong in
+the final review; [Convex index guidance](https://docs.convex.dev/database/reading-data/indexes/)
+is a design reference, not a selected schema.
+
+Recording should tolerate bounded retries/deduplication and delayed/missing
+evidence without breaking a successful product operation or changing access.
+Reads remain scoped/bounded/paginated; show coverage and freshness. Historical
+events are not current entitlement, billing, refund eligibility or an authority
+source merely because an AI can read them. Missing events mean unknown, not
+proof an operation/refund never happened.
+
+**Historical event alternatives:** milestones only was lowest tracking burden
+but missed meaningful failures; milestones plus important failures was selected;
+full clickstream was rejected as noisy, costlier and disproportionate. Detailed
+product-operation reads were an early investigation proposal, superseded by
+meaningful BFF facts plus reported safe events.
+
+<a id="reuse-for-analytics-and-future-offers"></a>
+
+### Future reuse, not present automation
+
+Selected events may later support analytics, marketing measurement or offer
+eligibility. Reuse safe named facts with explicit field mapping, consent/privacy
+checks and deduplication; do not forward all payloads to pixels or infer
+eligibility from unreliable history. [GA4 event definitions](https://developers.google.com/analytics/devguides/collection/ga4/reference/events)
+and [PII restrictions](https://support.google.com/analytics/answer/6366371?hl=en-SD)
+were references, not selected providers. Promotions/discounts/automatic charges
+remain in [future offers](../../docs/architecture/future-ideas.md#shared-promotions-personal-offers-and-repeat-purchase-campaigns),
+not accepted workflows. Product records remain Business-owned; see also
+[future Business extensions](../../docs/architecture/future-ideas.md#product-specific-backoffice-extensions).
+
+<a id="ticket-system-and-email-first-conversations--exploration-2026-10-08"></a>
+<a id="signed-out-contact--resolved-2026-10-09"></a>
+
+## Cases, contact and email trust
+
+**Ownership/channel decisions accepted 2026-10-08; signed-out refinement
+2026-10-09.** BFF owns the case and authoritative conversation. Email sends/
+receives messages for it; changing transport must not lose history. Customers
+submit from the shared signed-in website form or direct email, then continue by
+email. History/replies are in backoffice, **not** a customer ticket portal.
+
+Signed-out visitors see **Sign in** and **Send us an email**. A mail link opens
+their mail app/draft, not an automatic send; display the address for customers
+without a configured client. There is no anonymous web form initially. Product
+login remains Google-only: no support-managed recovery, alternative Apple/email
+login, contact-verification tiers or a separate identity framework. People unable
+to use Google can contact us, but contact is not alternative product access.
+
+The same intake accepts issues, how-to questions, feedback, suggestions, missing
+features and general product/offer enquiries. It is broader than incident support,
+not a required department selector or sales workflow. Receiving a suggestion
+does not promise implementation. Substantive responses are **as needed**, not
+mandatory for every suggestion and not a response-time/SLA promise.
+
+### Initial receipt and anti-spam
+
+Send one automatic, neutral, Business-branded initial receipt after durable
+acceptance of a new case. Do not send another for every reply, webhook replay or
+retry. Receipt delivery is not email/account verification, resolution or a
+feature promise. Do not echo arbitrary submitted bodies or reveal matched private
+account facts to a claimed contact address. Failed receipt/send delivery remains
+visible without losing the original accepted case.
+
+Bound submissions/outgoing mail by relevant source and destination, prevent
+duplicate messages and autoresponder loops, and distinguish abuse/transport
+handling from account authority. Exact limits, retry/backoff and loop mechanisms
+are open. Receiving email is not inherently spam-free; provider suppressions/
+quotas are not our full anti-abuse design.
+
+### Contact is not account authority
+
+A typed address, matching From header, receipt or successful delivery proves no
+account authority. A properly correlated reply can support mailbox/contact
+evidence, not automatic entitlement to private account information or account
+changes. Existing Google/BFF authorization governs sensitive support. A signed-in
+submission also does not justify sending private facts to an arbitrary replacement
+contact address. Email equality never merges customer identities.
+
+The earlier risk explanation overstated that entering someone else's address
+lets an attacker read responses sent only to that mailbox: it does not. Remaining
+risks include spam, spoofing, incorrect correlation and account authority.
+[OWASP email validation guidance](https://cheatsheetseries.owasp.org/cheatsheets/Email_Validation_and_Verification_Cheat_Sheet.html)
+informs the distinction, not a requirement to build another login system.
+
+**Historical channel/trust alternatives, 2026-10-08/09:**
+
+| Alternative | Reasoning and outcome |
+| --- | --- |
+| Ordinary shared mailbox | Lowest initial application work, but case state, approvals and joined evidence fragment outside BFF; not selected as case owner |
+| BFF cases with email transport | More integration work; selected to preserve authoritative history and shared handling |
+| External helpdesk | Broader ready-made workflow but extra ownership/integration/dependency; not selected |
+| Customer web history/reply portal or secure-link thread | Extra customer UI/access lifecycle; never accepted, excluded initially |
+| Mandatory contact confirmation before handling | Earlier recommendation; too much friction for contact/feedback, challenged by Andrew |
+| Immediate public form with visibly unverified contact | First Astra review recommended general help without confirmation and separate private-account checks; Andrew accepted on October 8 |
+| Human-first screening | Another control option, with extra manual work; not selected |
+| Signed-in form plus public email, no anonymous form | Second Astra review recommended smaller Google-only MVP scope; Andrew accepted October 9, superseding public-form inclusion |
+| No signed-out contact | Saves a channel but blocks login-problem/guest feedback; not selected |
+
+Removing the anonymous form saves modest scope, not the substantial case/two-way
+email work. A public form is not inherently overengineering; it can be reconsidered
+if the email route proves inadequate.
+
+### Wrong-recipient reporting — still proposed
+
+Andrew suggested “I didn't send this.” Option A: a case-specific link opening an
+explicit confirmation that pauses further mail for that case/address, preserving
+history; option B: reply “not me” for operator handling or narrowly bounded
+automation. Neither is accepted. A link must grant no account/history access,
+delete nothing, affect no other cases or emit another receipt. Opening alone is
+not authorization; forwarding, retries and abuse require review.
+The 2026-10-09 Astra batch favors option A's explicit, narrowly scoped confirmation;
+it remains unaccepted, not an account-deletion or universal unsubscribe mechanism.
+
+## Ticket lifecycle and history
+
+<a id="initial-case-states--recommendation-not-accepted-2026-10-09"></a>
+
+**Accepted 2026-10-09:**
+
+| Case status | Meaning and transition |
+| --- | --- |
+| Open | Work/review remains for us. “We're investigating” can leave it Open |
+| Waiting for customer | We need their answer/material, e.g. a screenshot; not simply every outgoing reply |
+| Resolved | An operator explicitly closes it; no timeout, silence-based or AI-inferred closure |
+
+Sending email alone chooses no status. The bot may suggest the appropriate
+transition but does not approve its own work. A correlated customer reply returns
+**both Waiting for customer and Resolved to Open**, in the same history, even a
+“thanks”; this known noise trade-off was preferred to keeping a state with a
+new-message flag. Do not create a new case or initial receipt. Transport replay,
+duplicates and automated loops are separate safeguards, not genuine replies.
+
+**Pending bot approval is an indicator, not a fourth case status.** Delivery
+state is also separate: an undelivered reply cannot falsely signify resolution.
+Exact transition controls and failure presentation remain to design.
+
+A **shared queue without ticket-owner assignment or priority labels** is accepted.
+Andrew and his mum need to see who acted, not maintain assignment state. Internal
+notes can coordinate; add owners/labels later only if real operating friction
+justifies them. On-demand AI queue review can group and recommend handling order
+with reasons; Andrew's “50 tickets” example is illustrative, not a runtime cap.
+
+Internal notes appear in the **same case history**, clearly labelled internal,
+with author/time, alongside customer messages. They are not customer emails or
+action approvals and do not automatically grant bots access. Meaningful action
+history shows who did what and when: bot execution and approving operator remain
+distinct actors. Proposed coverage includes sends, approvals, status changes and
+failures; exact event coverage/editing rules remain open. Prefer additional
+correction notes over silently rewriting history. AI/model names cannot stand
+in for an authenticated human approval identity.
+
+**Andrew's simpler direction, 2026-10-09:** one current outgoing reply draft per
+ticket, not a separate draft for each incoming message, AI suggestion, bot or
+operator. AI suggestions and operator edits work on that one draft; sent replies
+remain in the normal history and later replies can have a new current draft.
+Internal notes may refer to a specific message, still private, labelled and
+attributed; they are optional, not a note required on every message. Existing
+case-level notes remain useful. No customer portal, extra note conversation or
+ticket owner follows. Draft replacement/edit protection and exact send-state
+details remain to settle; this is behavior, not an approved table/field change.
+
+**Historical choices:** two versus three statuses resolved to three; automatic
+timeout closure versus explicit operator closure resolved to the latter; always
+Waiting after sending versus only awaiting a needed response resolved to the
+latter. Optional ownership was initially recommended; Normal–Urgent labels were
+an unselected alternative. Both were omitted for the small shared team.
+Plain-text-only approval summaries were
+replaced by structured requests below. These are not fresh questions.
+
+<a id="approved-knowledge-and-an-on-demand-codex-improvement-workflow--2026-10-08"></a>
+<a id="shared-bot-controls-and-event-access--exploration-2026-10-08"></a>
+
+## Bot definitions, skills and data boundaries
+
+**Accepted refinements 2026-10-08/09:** use extensible named configurations:
+name/identifier, main instructions, assigned skills, permitted context/tools and
+role. Helper/support are responsibilities, **not** a hardcoded two-bot limit or
+required default pair. Each Business configures at least one support bot; it can
+have no helpers or several page-specific helpers. Adding future custom bots
+should reuse the contract, not break the runtime. New tools/data sources still
+need explicit code/review; this is not plugin upload or arbitrary agent code.
+
+Support is the bot's role, while **suggest/draft** is its initial reply mode
+because it is not trusted to send autonomously. It is not a separate “suggestion
+bot” product. Future auto-send is a new authority decision, not inferred from
+configuration extensibility, successful tests or category names.
+
+Codex maintains definitions, knowledge and test cases as reviewed/versioned
+configuration. Shared procedures can be reused; Business-only knowledge stays
+beside the Business or in registered BFF data/settings, not shared runtime source.
+Shared code owns the definition contract/loader, not TableCards prompts/content.
+A mostly read-oriented Bots overview may show configured
+roles/modes, assigned skills, test questions/expected behavior and dated/versioned
+results from the same effective source—not a second configuration editor.
+Exact config/files/storage/contracts remain open.
+
+Proposed common controls include effective definition/policy versions, bounded
+usage and an ability to stop a failing assistant. Add management buttons only
+for a demonstrated direct operator task; domain behavior stays Business-owned,
+not one universal bot personality.
+
+### Runtime skills
+
+Each allowed skill needs a **name**, a short **when to use it** description and
+its **content**. Stable IDs/versions are internal tracing details where needed,
+not extra authoring questions. Supply the bot a small metadata index, then let it open only relevant
+assigned content. Product FAQ/how-to knowledge may be reused as assigned **data**
+by permitted bots, not bundled as Business-specific shared-library code;
+do not preload the entire knowledge base on each call. Held-out questions and
+grading answer keys are not runtime knowledge.
+
+[Agent Skills progressive disclosure](https://agentskills.io/specification#progressive-disclosure)
+matches this shape; adopting metadata/content conventions does not imply script
+execution, arbitrary paths, internal reference traversal or an MCP dependency.
+Lazy loading can add calls/latency; savings and relevance need evaluation, not
+assumption. Bound loads, steps, payloads and context. Assigned skill loading and
+permitted read-only tools are automatic for both support and helper.
+
+Runtime instructions affect behavior/release evaluation even when stored as
+Markdown; unrelated prose edits do not justify paid AI tests. Shared skills/code
+do not imply shared private conversations or automatic data access.
+
+### Approved knowledge and filtered customer facts
+
+Review provenance, rights/authorized use, confidentiality, customer shareability
+and freshness. Andrew means internal implementation/business secrets as well as
+credentials/PII. Do not ingest a raw internal repository and ask the model not to
+repeat secrets. Uncertain rights/disclosure need review, not a bot's declaration
+of legal clearance. Approved supplied knowledge is not erasure of model pretraining.
+
+BFF supplies role-specific field-filtered views; unknown classifications default
+to **withheld**. Read permission and disclosure permission are distinct, and
+“customer-safe” does not mean public or safe to another customer. Full operator
+access never transfers to a bot. No raw complete customer/event record by default;
+instructions alone are not an access-control boundary.
+
+Historical choices compared knowledge-only bots (lower integration) with selected
+BFF customer/event facts (more useful investigation, more authorization work).
+Sign-in/current-account plan context is now accepted for the TableCards helper;
+**additional helper facts and saved-product access remain future scope; exact
+initial support read contracts are proposed in the final review**.
+Business-owned projects/export/AI/files are not copied into BFF as a new
+product database. Further product adapters remain future scope.
+
+**Astra batch proposal:** choose a few named filtered support reads over knowledge
+alone or deep product adapters: case conversation, verified contact/account
+association status, selected-account access/offer/unit summary and bounded relevant
+milestones/failures. Andrew's final typed clarification permits these scoped
+read-only calls without operator approval; unknown
+association never becomes account access by matching email. Exclude credentials,
+session material, provider identifiers, raw documents and unbounded histories.
+Permitted reads are not permission to disclose all returned fields to customers.
+
+Sources: [OWASP least privilege](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#least-privilege),
+[Convex full context control](https://docs.convex.dev/agents/context#full-context-control)
+and [agent-specific defenses](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#agent-specific-defenses).
+These support code-enforced boundaries, not claims that all indirect disclosure
+can be detected after information is copied.
+
+<a id="support-routing-and-specialist-continuity--open"></a>
+
+## Support workflow — selected; routing alternatives historical
+
+**Current direction, 2026-10-09:** one bounded support-drafting workflow on the
+shared AI SDK foundation. No specialist selection, routing graph, handoff or
+separate specialist histories are needed. Permitted reads run automatically within
+that bounded run; saving the one draft ends it. Reply approval triggers deterministic
+delivery of the exact payload, not another model call. The alternatives below
+preserve earlier reasoning and are not active implementation requirements.
+
+**Historical premise check, 2026-10-09:** Andrew challenged whether support needs
+a bot architecture at all. Astra found no demonstrated need for selection,
+specialists or a master; tiny reviewed identity/version/instructions/skills/
+capability settings support plain bounded drafting. Categories or a longer skill
+list do not justify orchestration. This recommendation was initially parked and
+subsequently resolved by the accepted shared foundation. Cheap-model adequacy
+still needs later evaluations; operators handle missing data/authority.
+
+| Historical alternative | Value / effort / risk |
+| --- | --- |
+| One broad configured handler | Lowest routing overhead; sufficient starting point if bounded knowledge/capabilities fit |
+| Category-to-bot mapping with fallback | Medium configuration; categories can share a handler, but wrong category/topic changes misroute |
+| Separate AI classifier | Extra latency/cost, ambiguity policy and routing tests; not selected |
+| Thin content-aware coordinator | Medium/higher cost; eligible handlers and operator override, categories only hints |
+| Multiple specialists synthesizing | Highest coordination/cost/private-context risk; not selected |
+
+Andrew's Printing-but-payment or mixed-topic examples show why categories cannot
+grant authority. Any future handoff would need a remit check, bounded eligible
+targets/fallback, loop/step/cost limits and scoped useful results; detection is
+not guaranteed. A coordinator would receive compact capability metadata, not all
+private specialist context. Rebuild the next handler's permitted context rather
+than forwarding another bot's complete history/tool results.
+
+Separately scoped model invocations can isolate distinct tools/data without
+separate deployed services. Labels/thread IDs alone are no security boundary;
+separate credentials/infrastructure may provide stronger isolation at greater
+operational cost. Add handlers only for genuinely distinct capabilities or
+repeatable evaluation failures; add a coordinator only for demonstrated benefit.
+
+Saved scoped specialist threads versus fresh bounded summaries trade continuity
+against storage/lifecycle/context cost and lost detail. Both belong to one case,
+not more tickets or an always-running model. Resume would revalidate Business/
+environment/case/bot, current capabilities/authority and relevant facts; never
+replay effects to reconstruct context. This remains historical, not initial scope.
+The selected workflow reconstructs bounded permitted case context and records
+actual results; private notes are not automatically included. Test isolation/
+hidden-context leakage if future handoffs are separately accepted.
+
+References: [LLM/agent as a tool](https://docs.convex.dev/agents/tools#using-an-llm-or-agent-as-a-tool),
+[agent-as-tool pattern](https://docs.convex.dev/agents/tools#using-an-agent-as-a-tool)
+and [continuing a thread](https://docs.convex.dev/agents/threads#continuing-a-thread-using-the-thread-object-from-agentcontinuethread).
+
+## Support authority and approval continuation
+
+**Final typed policy, 2026-10-09:** permitted scoped read-only support tools and
+assigned skill loading are automatic. Every substantive reply is a suggestion:
+operator edits/rejects or chooses **Send**, approving the exact email. Fixed initial
+receipts and helper ordinary answers stay automatic; no refunds, credit grants,
+account/project writes or autonomous reply-type permission.
+
+Reads enforce trusted Business/environment/current-customer/account scope,
+filtered fields/disclosure and bounded call/rate/spend limits. Initial input:
+new message, permitted customer-message history, case scope and reviewed
+instructions/tool/skill metadata. Internal notes/operator history are not automatic
+context. Missing verified linkage grants no private account lookup. Exact read
+names/fields and permitted disclosure to an email recipient need design/testing.
+
+Requests explain **who / what / why**, not operator-facing JSON. Proposed preview:
+Business/environment, customer/account, bot/action, exact recipient/content/
+attachments, sender/subject, reason/risk, evidence times/versions, expiry and retry
+envelope; a suggested status change is separate. Exact schema/presentation is
+review work; [table contracts](#proposed-table-changes-and-indexes) explain storage.
+
+**One current draft and one opaque pending ID; no draft-version archive.** Edits/
+replacement invalidate the old ID and bind a new one to that exact payload.
+Obsolete, withdrawn or already-handled approval explains “nothing pending” / “reply
+changed” and refreshes without sending another draft, executing twice or losing
+unsent edits. No silent AI replacement; stale completion cannot overwrite operator
+edits or newer customer context.
+
+A genuine correlated customer message invalidates pending/approved-but-unstarted
+send authority, preserves draft/edits and requires fresh review/ID. Do not
+auto-regenerate, delete messages or recall dispatched mail. No semantic dependency
+or crossed-message engine; changed authority/eligibility still needs safe checks.
+
+Send rechecks current scope/eligibility, atomically claims and freezes the complete
+email envelope. Retries use that immutable payload/key, not a newly edited draft or
+changed branding. Support model work ends when its draft is saved; sending is
+deterministic, not another model call. Only actual helper browser-tool waits need
+bounded checkpoints and actual-result continuation. Saving chat alone is not safe
+resumption; no model runs during hours/days of operator waiting.
+
+**Bounded-group approval accepted:** explicitly displayed exact requests only;
+separate unusual cases and allow individual review. No unseen/preselected group
+or blanket future authority. Record authenticated per-item validation/decision
+and success/skipped/stale/denied/failure outcomes, not a false all-or-nothing result.
+Already-successful items do not replay.
+
+**Retry envelope accepted:** a few spaced same-email provider-submission retries
+within valid authority and provider deduplication window. Stop on permanent
+rejection, complaints/suppression, exhaustion or unsafe uncertainty; no recurring
+fresh sends, extra bot tools or future permission. Attempt/backoff defaults are
+engineering details; provider semantics live in
+[email reliability](#threading-attachments-and-branding--outstanding-contracts).
+
+Expiry (24 hours is an unaccepted starting proposal), rejection, cancellation,
+error and retry never grant/renew approval. Waiting does not reset bounded run
+counters. Resume only with actual results; no replay or dependent work after failed
+prerequisites. Human approval cannot override hard capability/eligibility denials.
+
+**History:** Astra initially proposed conservative invalidation. Andrew questioned
+brief review/send overlap; notice-only was offered, then he chose invalidation
+after simplifying to one draft/pending ID. Codex's added ID-plus-version approach
+was rejected. See the ledger; no generic read-approval store/framework follows.
+
+Unselected Convex [approval flow](https://docs.convex.dev/agents/tool-approval#server-side-flow)
+and [opt-in tools](https://docs.convex.dev/agents/tool-approval#defining-tools-with-approval)
+illustrate persisted requests, not BFF authority/substantive-send guarantees.
+Model-context denial alone cannot durably revoke our pending send ID.
+
+### Configurable code policy — future; initial support approvals fixed
+
+**Future requirement, not an initial rules engine:** per-Business/per-tool policy
+and eventually different approval rules for reply types. One agent can use distinct
+policies; separate agents are unnecessary. Initial allowed reads and exact Send
+gating follow the previous section.
+
+| Future outcome | Meaning |
+| --- | --- |
+| Deny | Disable a capability; human approval cannot override hard scope/eligibility |
+| Ask an operator | Authenticated exact decision, not model-decided “auto approval” |
+| Allow automatically | Separately accepted rule, retaining scope, eligibility, usage and budget bounds |
+| Custom code | Reviewed Business/tool predicates run in the Business deployment; generic shared code enforces their scoped decision, never uploaded/model-authored rules |
+
+Andrew's examples: trusted event occurrence/nonoccurrence, count within a period,
+time since occurrence, and per-customer or whole-Business action allowances.
+Thresholds can switch auto to ask; hard limits deny. No selected numbers, new
+collection or access to other customers. Check current trusted state and atomically
+reserve/count scarce allowances where needed. Missing/stale facts fail safely;
+events alone are not payment/access truth. Exact counters/periods are future
+action-specific design, not current schema requirements.
+
+Routine how-to might eventually auto-send while payment/sensitive/mixed/uncertain
+answers require review. An AI topic/intent label cannot authorize arbitrary
+content. A conservative proposal is a reviewed answer-recipe catalog with safe
+parameters/known links checked at dispatch; generated auto-send needs separately
+accepted scope/evaluations. Successful tests never activate authority.
+
+**TableCards need check, 2026-10-09; proposed examples, not accepted tools:**
+[printing/import/how-to](../../projects/tablecards/docs/product.md#core-workflow)
+mainly need knowledge. Export/missing-project diagnosis may use reported BFF
+outcomes, not product-database/guest-list reads. AI failures/allowance and workspace
+invitations may use filtered BFF unit/account/access facts. Exact availability,
+fields and private disclosure need review. Failed generation already releases its
+reserved unit; do not invent a second credit-restoration action. No cash-refund tool
+is justified in the no-charge preview. Later Payments may justify verified payment
+status/human handling, not automatic refunds, credits, membership or account repair.
+
+Enforce policy at actual tool/email dispatch, including generic send routes;
+prompts cannot alter protected rules or turn guesses into trusted facts. Future
+rule previews/results are read-oriented: no arbitrary expressions, visual builder,
+scripting or autonomous optimization. Shared gating consumes registered data;
+Business predicates stay Business-local code. Small predicates have low/medium
+effort and fact/implementation risks; the rejected arbitrary editor has high effort.
+Code checks are not prompt-injection immunity: test poisoned arguments/results,
+unknown facts, thresholds and tool/send bypasses with safe fixtures.
+
+Sources: [OWASP secure enforcement](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html#secure-implementation-pipeline)
+and [Excessive Agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/).
+They support external capability limits, not approval of every helper answer.
+
+<a id="helper-first-ticket-suggestions-and-shared-answer-checks--2026-10-08"></a>
+
+## TableCards helper and contact handoff
+
+**Accepted 2026-10-09:** site-wide/cross-page Q&A, not Create-only. Answer from
+assigned approved product knowledge/FAQ skills; offer relevant **customer-clicked
+links** to known pages. The customer controls navigation; preserve auth, route
+and unsaved-change safeguards. No guaranteed answer, project/account write,
+automatic navigation or broad private lookup follows.
+
+Provide minimal **BFF-validated sign-in state and current-account plan context**.
+Use the selected account for multi-account users; stale/unknown remains unknown.
+No-charge preview must not be presented as paid access. Browser claims of plan/
+identity are not authority. No credentials, full sessions or private histories.
+Suggest normal Google sign-in when relevant, not a new login method or gate for
+general public Q&A.
+
+**Help-first, not contact-first:** prefer a useful helper answer before a ticket.
+Keep escalation/direct human request discoverable inside Help when the helper
+cannot help or a user wants support; do not force a chatbot loop. Feedback should
+be prominent and available **without using the helper**. “Help” is a reversible
+public label, not a new department architecture or renaming requirement.
+Business-branded support replies remain operator-approved and must not invent
+a particular human author or falsely claim human review. A bot label is not
+required on each operator-approved message. Future autonomous disclosure remains
+an open issue, not permission to impersonate a human.
+
+Proposed handoff prepares a short summary the customer can review. Signed-in
+customers explicitly submit the shared form; signed-out customers choose the
+configured support mail link and send their own draft. A click is not sent email;
+opening a form is not a case. No silent ticket creation, automatic customer mail
+or resolution claim. First contact still accepts broader questions/suggestions.
+
+General product feedback, optional helper-answer usefulness and the closing
+ticket survey are **different flows**. Exact helper feedback placement, page
+facts/step/count summaries and additional context remain open. Prominent feedback
+does not add an anonymous form; preserve the accepted intake channels.
+Further saved TableCards project/product access is a possible later adapter,
+not authorized merely by accepting sign-in/plan context.
+
+Reuse a themed shared helper component/SDK so Businesses place/style it rather
+than rewrite chat, provider access, errors, conversation handling and usage controls.
+The existing React auth controls are a pattern, **not** an implemented helper.
+Businesses still integrate the component and approved context; “drop in” does not
+mean no setup or arbitrary automatic access. Other Businesses may choose no helper
+or distinct per-page bots.
+
+**Historical AI scope, 2026-10-08/09:** the earlier blanket MVP AI exclusion was
+reopened. A minimal knowledge/current-page helper plus bounded automatic routine
+ticket replies was Codex's initial middle recommendation (less manual work but
+greater reliability/authority risk). Andrew instead chose helper answers plus
+ticket **auto-suggest/drafts**, briefly requiring approval for every support tool/reply. The final typed
+clarification makes permitted reads automatic and keeps only substantive replies
+approval-gated. Account remedies remained excluded. Create-only TableCards exposure,
+product-knowledge-only context and a required default helper/support pair were
+superseded by site-wide Q&A, selected sign-in/plan facts and configurable roles.
+
+<a id="ai-support-alternatives--proposed-mvp-scope"></a>
+
+### Historical autonomy alternatives
+
+| Alternative | Trade-off and outcome |
+| --- | --- |
+| Helper plus draft-only ticket assistance | Lower authority/risk but every substantive case reply needs an operator; selected |
+| Helper plus bounded autonomous routine replies | More manual-work reduction, more accuracy/permission/send safeguards; initial recommendation withdrawn |
+| Account/payment remediation automation | Highest authority/implementation burden; refunds, access overrides, membership/ownership/deletion/repair/deployment excluded |
+
+Useful eventual evidence is a grounded answer or an appropriate handoff with
+preserved context, not merely an AI reply, silence or guessed satisfaction.
+
+## Programmatic context and registered tools
+
+**Accepted 2026-10-08:** Businesses may supply context and tools **through code**,
+not a management console. This revises an earlier fixed-tools-only proposal.
+
+**Runtime comparison clarification, 2026-10-09:** evaluate the helper's backend
+tools (permitted current-customer facts and assigned skill loading) together with
+Business-provided client tools and their returned results, not chat storage alone.
+Identity/plan facts may be supplied as trusted filtered context or retrieved by an
+allowed server tool; a separate lookup every turn is not required. Runtime/library
+convenience must preserve the registered client-handler bridge and server scope.
+The completed runtime comparison incorporated this client/server distinction.
+
+The page advertises available typed tool names/descriptions/argument schemas for
+the current invocation; registered handlers stay in Business UI code. BFF/model
+returns a structured request; the page validates its current allowlist/context,
+executes its own handler and reports actual success/failure/decline, correlated
+to the request. It executes **no generated JavaScript, shell or arbitrary code**.
+Navigation uses permitted known destinations, not arbitrary generated URLs.
+
+A backend action remains server-authorized for the actual user/account regardless
+of what the page declares. Browser page/project IDs, context, tool descriptions
+and claimed plans are hints, not trust grants. Sign-out/account/route changes must
+not leave stale private context/tools available. Do not automatically send the
+whole page, guest files, records or confidential implementation details.
+
+Some tool actions may need customer confirmation depending on impact. Harmless
+permitted helper reads/links need not inherit every support gate; first helper
+write actions are **not selected** and TableCards's initial helper has none.
+Typed call/result contracts, correlation, retries, duplicate/stale execution and
+continuation need design/testing. Test invalid arguments, unregistered tools,
+failure/decline, duplicate calls and route/account changes; never pretend success
+because the model requested it.
+
+Product data/tools remain Business-owned; shared SDK/runtime provides the protocol
+rather than unrestricted remote execution or a plugin editor. Extensibility is
+not approval for new backend permissions. Product-specific server handlers, if
+later authorized, execute in the Business deployment, not through BFF imports;
+current backend tools for scoped BFF facts/skill loading remain generic. Tool/schema/
+route descriptions are Business-supplied data, checked against trusted approved
+settings rather than accepting a browser's declaration as authority.
+[Agent Skills conventions](https://agentskills.io/specification#progressive-disclosure)
+do not supersede the handler/authorization rules.
+
+<a id="conversational-operator-queue--accepted-capability-2026-10-09"></a>
+<a id="current-build-operating-skills--scope-refinement-2026-10-09"></a>
+
+## Conversational operator workflow
+
+**Accepted capability, 2026-10-09; not built or run.** Andrew wants to say
+“Review support” to Codex and receive a bounded queue overview: grouped similar
+open cases, what bots are waiting to read/do/send, exceptions, recommended order
+and concrete proposed decisions. Grouping never merges customer cases. Explain
+scope/coverage, missing evidence, reasoning and who needs action rather than
+dumping every record.
+
+After explicit individual/bounded-group decisions, apply only the exact authorized
+requests and report attributed per-item outcomes. This workflow uses the **same
+secured BFF case/approval contracts as backoffice**, not direct database bypass,
+another approval store or implicit approval because the skill inspected records.
+Operator queue inspection is not permission for a bot to read operator-only data. Preview freshness,
+stale requests and partial results follow the approval section.
+
+The same skill reviews ratings/comments and participation alongside actual sent
+answers, finds recurring topics/problems and recommends follow-up or content,
+bot or product improvements. A resolved case with Partly/No can still require
+review attention without automatically reopening. Deeper bot issues go into the
+evaluation workflow. Low participation prompts review, not automatic discounts.
+
+Andrew can use Codex; another operator, e.g. his mum, must **not** need Codex,
+repository/terminal access or his engineering credentials. Backoffice remains
+independently usable. A later conversational operator surface, possibly Dots
+before Paperclip, could reuse these contracts/instructions under its own operator
+identity. Integration/authentication and skill portability are unverified;
+SKILL.md files are not automatically executable across products.
+Conversational operator assistants cannot approve their own proposals or acquire
+arbitrary shell/code/deployment tools. Reviews inspect effective bot, knowledge
+and **policy** versions, not only a displayed name or stale configuration.
+
+Useful operating/evaluation skills belong in the current build. Assess each
+build's actual repeatable need and reuse existing workflows; do not create one
+skill per build/bot mechanically. Runtime bot skills and Codex/operator skills
+serve different users/authority. The
+[operator CLI](../../tools/bff-operator/README.md) supplies a validated workflow
+pattern, not existing ticket commands. No skill is created by this brainstorm,
+nor a scheduler, new operator bot or company hierarchy required.
+
+## Shared bot measurement
+
+**Goal accepted 2026-10-09; exact signals/contracts open:** learn what all runtime
+helpers/support/custom bots handle and how assistance can improve, without asking
+for feedback everywhere or building a full analytics platform.
+
+**Cost attribution deferred, 2026-10-09:** per-user/account/anonymous monetary
+reporting returns to [Future Ideas](../../docs/architecture/future-ideas.md#per-user-and-per-account-provider-cost-attribution).
+Existing account credit buckets/reservations and image jobs are not provider-dollar
+ledgers. Keep diagnostic token/attempt evidence and bounded evaluation cost
+comparisons, not live attribution. Provider-only limits and native-alert caveats
+have one home in [spending limits](#quality-gates-and-spending-limits) and
+[alerts](#budget-alerts-and-mock-delivery).
+
+| Evidence class | Useful proposed signals | Do not infer |
+| --- | --- | --- |
+| Observed runtime/actions | Conversation/turn counts, permitted skill/tool use, actual tool outcomes, links offered/clicked, handoff stages, errors/latency/tokens, approved execution; cost comparisons in bounded evaluations, not a live spending report | Click ≠ mail sent; form opened ≠ case created; request ≠ tool success; no handoff ≠ resolution |
+| Explicit customer/operator evidence | Choice/comment, user's actual stated agreement, draft accepted unchanged/edited/rejected, approval decision | Operator approval ≠ satisfaction/correctness; feedback on a human rewrite ≠ correct original draft |
+| Inferred AI labels | Topic/category, possible confusion/frustration, recurring content gap, with unknown/uncertain/versioned labels | Inference is not a fact, entitlement, offer eligibility or permission |
+
+Distinguish messages, conversations, cases and bounded bot runs; avoid double-counting
+one customer outcome across retries/handoffs/bots. Keep Business/environment/bot/
+version scope, measurement definitions, denominators, coverage/time and missing/
+unknown evidence. All-Business summaries do not merge people. Tiny samples should
+show counts/examples, not confident satisfaction trends.
+
+Use actual runtime evidence and existing inexpensive calls or bounded review for
+optional labels. Do not require an extra classifier call on every message or
+give it extra data access. A quote can capture explicit agreement; detecting
+frustration/acceptance from text remains fallible. Optional quiet helper feedback
+may belong after an answer/exchange; exact question, placement and timing remain
+open, not compulsory popups or every-message surveys.
+
+The Astra batch proposes quiet feedback on the latest helper exchange, dismissed
+when the next begins, as an adjustable UX default. Report positive feedback among
+respondents **and** respondents per feedback opportunity; draft acceptance among
+reviewed drafts; tool success among executed attempts; case creation among relevant
+handoffs. Include unknowns/coverage and distinguish active latency from operator
+waiting. Ratings/edits must identify the actual answer/version seen, not credit an
+original bot draft for a human rewrite. Approval pauses and denied admission are
+observations too, not merely successful model calls.
+
+Review a bounded authorized/redacted sample of Q&A, actual answers and outcomes
+with sources/config versions. No indiscriminate raw prompts/tool results/traces,
+guest documents or copied private conversations in repo. Exact collection,
+notices, lifetimes/access/deletion must pass the minimum privacy boundary.
+Hosted trace upload and automatic knowledge publication are not accepted.
+
+Operator review connects counts/themes/feedback/edits/rejections to concrete
+examples, then recommends changes; evaluation checks improvements against known
+facts and boundaries. Product shortcomings despite an accurate answer differ
+from bot error. Evidence should guide collaboration, not automatically train,
+change permissions, send offers or declare users satisfied.
+
+<a id="customer-feedback--goal-accepted-format-open-2026-10-09"></a>
+<a id="astra-feedback-review--proposed-2026-10-09"></a>
+
+## Customer feedback survey
+
+**Accepted 2026-10-09 after Astra consultation:** balance useful learning with
+likelihood customers respond—not merely easy implementation. Ask **“Did you get
+the help you needed?”** with **Yes / Partly / No**. One tap from the email opens
+a tiny Business-branded page with the choice preselected and changeable; a second
+explicit **Send feedback** action submits it. No login/required typing; optional
+comment, especially “What was missing?” for Partly/No. Do not add another required
+question or a new survey platform.
+
+Include an invitation in **each operator-approved closing reply initially**.
+A closing reply after reopening may invite again. This supersedes Astra's earlier
+once-per-case proposal. Do not invite in receipts, holding updates or information
+requests; resolving without a closing reply does not add a survey-only email.
+No reminders, incentive experiment, discounts or automatic follow-up are accepted.
+
+Submitted ratings/comments create **review signals**, not status changes.
+Actual customer email replies still reopen by the normal rule. Silence is unknown,
+not satisfaction; rating is not proof the answer was correct. Link feedback to
+the actual **sent** answer and invitation, not just a case or earlier bot draft.
+
+Proposed record details: Business/environment/case/invitation/sent-message,
+question/config version, chosen answer, optional comment and time. Prefer one
+current response per invitation with explicit updates/deduplication; exact fields,
+expiration, replay/update policy and storage remain open. Old links must refer
+to the old answer, not accidentally rate a later response. Forwarded links are
+not verified customer identity; do not award authority from them.
+
+Opening a link/GET must not submit/consume feedback, reopen the case or mutate
+state. Email scanners can open URLs: count only an explicit submission, not link
+opens. [HTTP safe-method semantics](https://www.rfc-editor.org/rfc/rfc9110.html#section-9.2.1)
+and [Safe Links behavior](https://learn.microsoft.com/en-us/defender-office-365/safe-links-about)
+support this design; confirmation does not prove every scanner incapable of
+submitting. A narrowly scoped invitation token grants no account/history access;
+URL/page reveal no email, private case text or internal notes. Comments are
+untrusted customer content, not instructions or automatically approved knowledge.
+
+Show responses against invitations with delivery-failure context. Low **response
+rate** differs from low ratings; neither silence nor tiny sample percentages
+justify a confident conclusion. Inspect concrete Partly/No/comments, unexpected
+positive answers, edits and cases with no response as appropriate. The operator
+skill groups feedback/recurring issues and recommends follow-up; deeper failures
+become sanitized eval cases. Any send/reopen/change still needs its own authority.
+
+**Historical alternatives:** “Was this helpful?” via email reply was simple but
+required typing and
+reopened the case; two Helpful/Not helpful buttons had lower input friction but
+less nuance. Astra's selected Yes/Partly/No outcome plus optional comment better
+captures partial help and actionable gaps. The accepted flow counts explicit
+submissions, not opens. Frequency and status were subsequently settled as above,
+not left open.
+
+The original Astra proposal also suggested skipping spam/duplicates and
+acknowledgement-only suggestion exchanges, applying eligibility equally to
+difficult and positive outcomes rather than seeking praise. These remain dated
+proposal considerations, not added accepted eligibility rules; the once-per-case
+cap was superseded. A genuine “Did that work?” request can use ordinary
+conversation/Waiting for customer, but do not manufacture support messages just
+to obtain survey data.
+
+## AI runtime and model choices
+
+**Research checked 2026-10-09; AI SDK direction accepted, models not selected;
+nothing installed or tested.**
+Separate model/provider inference, agent runtime/state and evaluation. Existing
+Cloudflare image use selects none of the text/runtime alternatives.
+
+**Current accepted direction, 2026-10-09:** Andrew accepts the shared AI SDK
+model/tool layer with existing Convex storage and event-triggered jobs, separate
+helper-chat and support-ticket workflows, and AI SDK UI for helper chat. Keep
+generic configuration/knowledge-loading/tool/evaluation machinery and application
+authority shared, while Business-specific definitions/content/fixtures are
+Business-owned data/settings or Business-local code. Keep provider caps in provider
+configuration without introducing a
+general-purpose bot or specialist-routing framework. Support history remains
+the canonical ticket record. This supersedes the unaccepted recommendations and
+reopened runtime preferences below; it does not approve implementation or schema.
+
+The concrete UI fit is `useChat` message/stream/loading/error state plus typed
+tool-call/result handling: server executes permitted backend tools; the browser
+runs registered handlers and returns correlated results. Visual **AI Elements**
+components are optional, not a fixed interface or a required wholesale adoption.
+Convex transport/persistence, reconnect behavior, scoped authorization and durable
+operator approval remain our integration responsibilities; browser history or
+approval messages do not become server authority. LangChain also offers client
+tools, so this is useful ready-made functionality versus hand-building it, not a
+demonstrated unique advantage over every alternative or a performance benchmark.
+
+Do not use **HarnessAgent** for these customer bots. That optional abstraction
+integrates complete runtimes such as coding agents with their own sessions,
+workspace/tools and permissions; it is not required by AI SDK Core or UI.
+Sources: [chat tool handling](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage),
+[UI state](https://ai-sdk.dev/docs/ai-sdk-ui/overview),
+[transport integration](https://ai-sdk.dev/docs/ai-sdk-ui/transport),
+[optional visual components](https://elements.ai-sdk.dev/),
+[harness distinction](https://ai-sdk.dev/docs/ai-sdk-harnesses/overview).
+
+### Historical runtime comparisons — resolved direction, untested integrations
+
+Andrew briefly preferred Convex Agent, then questioned whether conversation/
+streaming savings justify its coupling; avoiding a table is not enough. The
+focused Astra review recommended AI SDK + Convex; the LangChain/LangGraph extension
+reached the same narrow maintenance judgment. Andrew subsequently accepted AI SDK.
+These are not benchmarks or new selection questions.
+
+| Candidate | Distinct benefit and integration trade-off |
+| --- | --- |
+| Convex Agent | Ordered intermediate messages, persisted approvals/continuation and reconnectable database streams. Internal execution records need not duplicate the ticket history. Configuration, scope, bounded work, draft ownership and reliable mail remain ours; Agent is not Workpool/Workflow durability. Reconsider if continuation or firm reconnectable streaming outweighs coupling |
+| AI SDK + application-owned state | Narrow shared model/tool and UI bridge; our restricted durable checkpoints/continuation and Convex transport need implementation. Same bot definitions/evaluations for helper/support; no generic agent engine or hybrid by default |
+| LangChain/LangGraph | Real durable interrupts and headless browser tools without mandatory LangSmith hosting; custom frontend transport possible. Needs a conforming Convex checkpointer (none official found), not a JSON field. Interrupts restart their node: claims/idempotency still needed. Reconsider if a dependable saver or substantial recoverable branching changes the trade-off |
+
+Both libraries need current authority, capped work, stale page/account and
+request/result binding. Preference assumes our restricted continuation stays
+smaller than a general checkpointer; no proven performance/context-management or
+universal ease advantage. The first review compared Convex Agent, not every JS
+library. No established need for RAG, specialists or complex autonomous workflows.
+
+Agent 0.7.7 source at commit `3fa5ad7` was checked; examples/APIs still need
+implementation reconciliation. Thread/message APIs support investigation but do
+not own Business/environment/session permissions. Model-context denial cannot
+replace durable pending-ID revocation or exact BFF send authority. Every option
+needs supported tool-call/result checkpoints, not visible chat alone.
+
+Sources: [AI SDK overview](https://ai-sdk.dev/docs/agents/overview),
+[Convex pricing](https://www.convex.dev/pricing),
+[pinned approvals](https://github.com/get-convex/agent/blob/3fa5ad77e12323b8b82e64fb36a86c1d951cf237/src/approvals.ts),
+[continuation](https://github.com/get-convex/agent/blob/3fa5ad77e12323b8b82e64fb36a86c1d951cf237/src/vercel/client/prepareApprovalContext.ts),
+[context mapping](https://github.com/get-convex/agent/blob/3fa5ad77e12323b8b82e64fb36a86c1d951cf237/src/vercel/mapping.ts),
+[Agent workflows](https://docs.convex.dev/agents/workflows),
+[AI SDK tools](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling),
+[LangChain overview](https://docs.langchain.com/oss/javascript/langchain/overview),
+[checkpointers](https://docs.langchain.com/oss/javascript/langgraph/checkpointers),
+[interrupts](https://docs.langchain.com/oss/javascript/langgraph/interrupts),
+[headless client tools](https://docs.langchain.com/oss/javascript/langchain/frontend/headless-tools),
+[AI SDK client tools](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage).
+
+Future Node tooling is not a drop-in replacement for Convex persistence,
+scheduling, subscriptions or authority; those adapters/records need migration.
+Direct inference and Convex resources are separate charges; its optional gateway
+is not required. No Node migration, installation or setup follows.
+
+**Execution clarification, 2026-10-09:** Andrew is concerned about an always-running
+loop or recurring schedule that scans for pending work. The proposed processing
+pattern is event-driven: persist a message and dispatch a bounded drafting run;
+save its reply suggestion and stop. An approved reply dispatches deterministic
+email work, not another support model run. Helper client-tool results may resume
+bounded helper work. No
+regular polling of pending cases is assumed. Helper Q&A and ticket support remain
+separate roles; the spoken phrase “helper handling a ticket” was incorrect.
+
+Convex's [durable scheduler](https://docs.convex.dev/scheduling/scheduled-functions)
+already supports queued one-time work. [Workpool](https://www.convex.dev/components/workpool)
+adds pooled concurrency limits and configurable retries; [Workflow](https://www.convex.dev/components/workflow)
+is a separate candidate for durable multi-step orchestration. Neither is installed
+in the inspected BFF configuration. Consider native primitives/components before
+inventing a polling queue or adding external infrastructure; no component selected.
+Queued actions are not automatically retried by the native scheduler, scheduling
+does not propagate caller authentication, and a queue does not provide approval,
+exactly-once email or spend safety: validate scoped current authority and apply the
+separately agreed retry/idempotency policies at execution. “Small loop” refers only
+to bounded model/tool steps inside a run, not an indefinitely executing process.
+
+| Runtime candidate | Capability / repository fit | Work and risk still to validate |
+| --- | --- | --- |
+| Application-owned TypeScript loop + AI SDK in existing BFF | Shared model/tool interface; BFF owns durable actions, history, scheduling and approval authority | Medium application work for pause/history/streaming/checkpoints; risk of rebuilding a framework. Portable logic does not make future storage/auth migration free |
+| Convex Agent + AI SDK | Saved threads/messages, streaming, opt-in persisted tool approval; convenience near existing BFF | Business authorization, substantive-send gate, exact preview, frontend tool bridge and adapters are ours; compare storage/runtime coupling |
+| Cloudflare Agents | Durable Object state/chat, human-in-the-loop/client-tool patterns | Another hosting/state boundary beside BFF cases; identity/thread consistency and ownership; Workers AI inference does not require it |
+| OpenAI Agents SDK | Application-run tools/handoffs with deployment/integration control | Persistence/approval integration still needed; not synonymous with OpenAI's separate hosted Agents API |
+
+Sources: [Convex overview](https://docs.convex.dev/agents/overview),
+[threads](https://docs.convex.dev/agents/threads),
+[tool approval](https://docs.convex.dev/agents/tool-approval),
+[Cloudflare state](https://developers.cloudflare.com/agents/runtime/lifecycle/state/),
+[human-in-the-loop patterns](https://github.com/cloudflare/agents/blob/main/docs/agents/human-in-the-loop.md)
+and [OpenAI runtime choices](https://developers.openai.com/api/docs/guides/agents).
+Relative integration effort is our repository-specific inference, not a vendor
+benchmark. Package/model/tool/structured-output compatibility remains to test.
+
+**2026-10-09 Astra batch recommendation:** prefer the small application-owned loop
+for Andrew's coupling boundary, conditional on exact pause/resume/provider support;
+Convex Agent remains a credible convenience alternative if it removes substantial
+maintenance. This refines the earlier unselected Convex-convenience recommendation,
+not an accepted runtime switch. OpenAI Agents SDK is an alternative loop library,
+not another required platform. Cloudflare inference needs no Cloudflare agent store.
+
+[AI SDK approval documentation](https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling)
+uses `toolApproval` in current guidance; provider-executed tools bypass its local
+approval flow. Support therefore needs allowlisted tools under server-enforced
+scope and policy, not a hosted tool that bypasses those controls. Initial permitted support reads are automatic under scoped authorization;
+every substantive reply still needs the exact operator send decision. Later action
+tools need separately accepted authority.
+Saved state/approval facilities in the [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents/guardrails-approvals)
+are possibilities to validate, not substitutes for BFF authorization/send gates.
+
+**Accepted cheap-model constraints:** live helper/support use inexpensive
+models only. **Sol and expensive escalation/fallback are excluded**, including
+fallback caused by customer text, bot difficulty or errors. Customers simply
+chat: no model/provider/reasoning-tier selector or override; trusted per-bot
+configuration selects allowed inexpensive candidates. No automatic provider
+switch/multi-provider fallback is approved. Failed quality/limits should produce
+an honest limited/unavailable answer or existing handoff, not expensive inference.
+
+Dated standard short-context text rates, USD per million tokens:
+
+| Model | Uncached input | Output | Status |
+| --- | --- | --- | --- |
+| GPT-6 Luna | $0.10 | $0.50 | Cheap first eval candidate, not winner |
+| Cloudflare GLM-4.7-Flash | $0.0605 | $0.400 | Hosted candidate, compatibility/quality open; individual model-page precision, central pricing rounds to $0.060 |
+| Cloudflare GPT-OSS-20B | $0.200 | $0.300 | Hosted candidate, compatibility/quality open |
+| GPT-6.1 Sol | $2.00 | $10.00 | Excluded live model; comparison only |
+| GPT-6 Astra | $10.00 | $50.00 | Excluded from cheap live direction; separate Codex consultations are not customer runtime |
+| GPT-5.6 Terra | $2.00 | $12.00 | Andrew raised it; price does not fit cheap shortlist when Sol is already too expensive; not selected/tested |
+
+Sources: [OpenAI catalog](https://developers.openai.com/api/docs/models),
+[pricing](https://developers.openai.com/api/docs/pricing),
+[Terra page](https://developers.openai.com/api/docs/models/gpt-5.6-terra)
+and [Workers AI pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/).
+Recheck before choosing/configuring; account access is not established. Cached
+input/cache writes, long context and other modes may differ; not a monthly
+subscription or measured bill. Cheap hosted open-weight models remain candidates,
+not a requirement to self-host or use the strongest model.
+
+The Astra batch favors a later comparison of Luna and GLM first, adding GPT-OSS-20B
+only if useful. [Luna's model documentation](https://developers.openai.com/api/docs/models/gpt-6-luna)
+specifies Responses for the tool path; Chat Completions function calling requires
+`reasoning_effort=none`, while default reasoning is medium. Explicit compatibility/
+reasoning settings and billed usage matter even for cheap models. The more precise
+GLM rate above comes from its [individual model page](https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/);
+neither pricing nor advertised function support establishes a quality winner.
+
+Input includes instructions, tool definitions, history, skills and tool results;
+output includes answers, arguments and billed reasoning even when hidden.
+Multiple calls/steps/retries contribute to one customer turn. See
+[usage/cost observability](https://developers.openai.com/api/docs/guides/agents-api/observability).
+Illustration: 5,000 uncached input + 500 total billed output costs $0.00075 on
+Luna or $0.015 on excluded Sol; 10,000 such **calls** cost $7.50/$150. This
+excludes cache writes, extra calls, tools, hosting and other fees; it is not
+10,000 conversations or a guarantee of 500 reasoning/output tokens.
+
+Workers AI's server-authenticated REST endpoint can be called from Convex without
+Cloudflare Agents/Durable Object conversations; the image adapter cannot be used
+unchanged as text inference. See [GPT-OSS example](https://developers.cloudflare.com/workers-ai/models/gpt-oss-20b/).
+The account's 10,000 free Neurons/day are not tokens or a per-Business allowance,
+and existing images consume allowance. Workers Paid above it is $0.011/1,000
+Neurons. Nominal price is not cost per successful task or a hard abuse cap.
+[AI Gateway routing](https://developers.cloudflare.com/changelog/post/2026-05-21-rest-api/)
+to third-party models is different from Cloudflare hosting, not inherently cheaper.
+
+**Accepted practical portability:** Andrew values Convex convenience now but
+may prefer ordinary Node.js later if justified. Keep bot definitions, skills,
+evaluation fixtures and provider-facing logic separate where practical from
+Convex persistence/scheduling/approval APIs. Evaluate coupling before component
+selection. Do not build a generic portability framework, parallel database or
+replacement transaction engine. No Node migration, backend replacement or
+runtime choice follows. Explain actual boundaries in the final review.
+
+## Evaluation and improvement workflow
+
+**Capability proposed/accepted through refinements 2026-10-08/09; execution
+explicitly deferred by Andrew:** run during later agreed build work, **not now**.
+Codex authors/maintains/tests the bots so Andrew need not do routine analysis.
+This is an on-demand review-and-improve workflow, not automatic retraining,
+fine-tuning, publishing, new management system or a scheduled company analyst.
+
+Keep approved TableCards factual Q&A/reference sources separate from test
+questions/expectations. Hold out cases from tuning; never give runtime bots the
+answer key. Grade meaning/required behavior, not exact sentence matching.
+The runner and generic security/state tests are shared; Business Q&A, product
+expectations and realistic fixtures live with that Business and are supplied as
+test data, not TableCards branches/answer keys in shared runtime code.
+Repeat representative shared-boundary and per-bot cases across cheap candidates:
+
+- Normal documented questions and useful unknown-answer/clarification cases;
+  unsupported features and wrong assumptions must not be invented away.
+- Human everyday language, relevant customer language, paraphrases, typos and
+  follow-ups without our entity names/jargon: e.g. “I have all the names in a
+  spreadsheet—what do I do next?”
+- Ambiguous, rambling, contradictory, frustrated and mixed/multi-issue requests.
+  A clarification or honest “I don't know” can be the good answer.
+- Permitted skill selection/loading, sign-in/selected-account plan/preview truth,
+  correct handoff and structured registered tools with actual results.
+- Business/account/bot isolation, internal/other-customer disclosure attempts,
+  fake identity/plan claims and instructions to bypass approval.
+- Approval pause/deny/expire/resume, changed requests, duplicate execution,
+  unregistered/invalid tools, stale page/account context and send-time gates.
+- Repeated/oversized requests, all-call token/step/retry/concurrency/admission
+  spend controls and controlled failure with no costly escalation.
+
+### Production failures and regression results
+
+**Accepted 2026-10-09; connect during planning, execute during authorized build:**
+an observed production miss can become a sanitized, reproducible Business-owned
+test with expected behavior and synthetic context/tool fixtures. Preserve the
+failure signal without copying private customer conversations into the repository.
+Reproduce the old behavior when practical; model variability can prevent an exact replay.
+After an authorized fix, test the new case and **rerun all saved evaluation sets**,
+including helper/support cases and shared boundary tests—not just the failing case.
+Report improvements and regressions, tested model/config/skill versions, case
+counts and incomplete runs honestly; a budget-limited run is not a full pass.
+Known regression/tuning cases remain distinct from genuinely held-out questions.
+No automatic retraining, publishing, permission expansion or deployment follows.
+
+**Storage proposal, not a selected service/schema:** versioned Business test cases
+and dated Markdown summaries plus machine-readable JSON results; the runner is
+shared. Planning defines integration, locations and report fields. No extra
+evaluation table, hosted service, paid tests or dataset creation is authorized now.
+
+### Realistic development seed
+
+**Decision accepted 2026-10-09; create during later agreed implementation/testing,
+not now:** provide repeatable synthetic customers/accounts, tickets/conversations
+and meaningful events saved in the development environment. Andrew should be
+able to browse a realistically populated backoffice; applicable integration tests
+and bot evaluations should exercise actual scoped records and relationships,
+not only static screen mocks or isolated Q&A strings. Use the existing validated
+development provisioning patterns where applicable; new support/event seeding
+is not an existing capability or an approved schema change.
+
+Ask **Astra during that implementation/testing work** to help author realistic
+histories and natural customer messages, including messy follow-ups and varied
+outcomes, grounded in actual TableCards features and account/plan behavior.
+Believable chronology and linked records matter, not just filling every field.
+Realistic Business scenarios/fixtures remain Business-owned; a shared seed runner
+accepts validated development data rather than hardcoding product stories.
+Keep evaluation expectations separate from the context supplied to runtime bots;
+use both representative seeded cases and independent held-out questions.
+
+Use clearly identified synthetic data, not production customer copies or real
+credentials. Development-only setup must avoid unintended external mail or paid
+AI calls. Intentional model evaluations still need their separately bounded,
+authorized run budget. Keep seeding repeatable and scoped without replacing
+unrelated development data. No dataset authoring, Astra consultation, database
+write, evaluation run or new seed tool is started by this decision.
+
+### Quality gates and spending limits
+
+Behavioral grading complements **deterministic authorization/state assertions**.
+A good answer score or LLM grader cannot prove boundaries or future correctness.
+Report important failures, latency and **whole-task cost** including retries/tool
+steps/reasoning, not just averages or nominal token rates. Exact pass thresholds,
+caps, release criteria and compatibility checks remain open.
+
+Enforce model allowlists and request/input/context/generated/reasoning/output/
+tool-step/retry/rate/concurrency limits in code, including signed-out use. Route
+every live call through the configured provider/gateway safety caps; native alerts
+inform Andrew but do not enforce limits. No application monetary reservation
+system or expensive fallback. The following per-request numbers remain unaccepted
+engineering proposals, not permission to spend or run evaluations now.
+
+**Astra batch quality/cost proposal:** repository-owned local tests plus bounded
+Codex review, using existing test tools. A local eval framework can help if repeated
+comparisons justify another dependency; hosted eval/tracing adds vendor/data/cost
+boundaries. Do not begin a new dependency on OpenAI's hosted Evals platform: official
+[deprecation guidance](https://developers.openai.com/api/docs/deprecations#2026-06-03-evals-platform)
+states read-only on 2026-10-31 and shutdown on 2026-11-30. This does not prevent
+our own evaluation runner from calling an allowed model later.
+
+Proposed starter suite: 60 held-out cases (20 ordinary, 20 messy/multi-turn/unknown,
+20 adversarial), plus repeat 10 sensitive cases three times. Approved reference
+facts, tuning cases and held-out cases remain separate. Once a held-out failure is
+used for tuning, add fresh independent cases. These small samples do not prove
+production correctness or statistically reliable satisfaction.
+
+Proposed release thresholds: all deterministic authorization/state/cap assertions
+pass; **zero observed critical privacy, unauthorized action/send, invented authority
+or expensive-fallback failures**; at least 95% acceptable answers overall and 90%
+in each noncritical cohort, listing residual failures. Honest relevant clarification
+can pass; blanket refusal cannot inflate quality. Compare whole-task cost and active
+latency/tails with the prior version. Better scores never enable autonomy.
+
+| Adjustable starting cap — not selected | Helper turn | Support draft job |
+| --- | --- | --- |
+| New-message characters; no silent factual truncation | 4,000 | 12,000 |
+| Full input per model call, including history/skills/results | 8,000 tokens | 12,000 tokens |
+| Billed generated tokens per call, including reasoning | 2,000 | 3,000 |
+| Total provider attempts, including at most one transient retry | 4 | 6 |
+| Permitted read-only skill/tool operations; no operator pause | 4 | 6 |
+| Concurrent jobs per conversation/case | 1 | 1 |
+| Evaluation target for estimated complete turn/job cost, not an app dollar counter | $0.01 | $0.03 |
+
+Counters survive approval waits/resumes. Proposed admission defaults: anonymous
+6 turns/minute and 20/hour/session; authenticated 10/minute and 60/hour/user, with
+account/Business aggregate gates. Sessions are bypassable; cautiously bound network
+bursts without treating shared networks as one person or adding a fingerprint store.
+
+**Live text spending boundary selected 2026-10-09:** Andrew asks for round caps
+of **$3/day and $30/month**, combined across all Businesses' live helper/support
+text-model calls, not separately per Business or provider. **Later revision:**
+enforce those safety caps through provider/gateway settings, not new application
+tables or a spending dashboard. Route all calls/retries through that boundary and
+handle rejection without losing messages, drafts or ordinary support contact.
+[Cloudflare AI Gateway limits](https://developers.cloudflare.com/ai-gateway/features/spend-limits/)
+cover routed known-price requests and are eventually consistent: concurrent calls
+may exceed the threshold before usage records settle, and direct calls bypass it.
+Verify supported prices/reset windows at setup; no exact application reservation
+or provider-invoice accounting is promised.
+This replaces Codex's unaccepted $1/day–$20/month and $1.50/day–$25/month proposals;
+the briefly mentioned $5/day was discarded. Images, email, hosting and evaluations
+are separate charges, not implicitly included or newly authorized by these caps.
+
+Andrew allows a **separate, higher bounded budget for deliberately started testing/
+evaluation**, since comparison suites can need more calls. No exact evaluation
+allowance is selected here: establish a run-specific limit before an authorized
+run and report actual usage. Customer requests cannot select that mode or consume
+its allowance. This does not authorize evaluations now, unlimited testing or
+expensive live fallback. The existing image budget is not a text-bot allowance.
+
+The former atomic application money-reservation proposal is superseded. Verify
+the chosen provider/gateway actually blocks further model requests, rather than
+mistaking an alert setting for a cap. Keep bounded calls/concurrency and no bypass;
+provider enforcement can lag concurrent requests. At a limit, preserve submitted
+messages, explain limited availability and keep direct support intake reachable;
+do not auto-send, auto-raise the cap or escalate to an expensive model. No separate
+live monetary accounting/reporting system is included.
+
+On demand, review a **bounded, authorized, sanitized** sample of real Q&A/ticket
+drafts/outcomes once collected; compare versions, costs/latency and relevant
+failure examples. Separate review-only from an explicitly requested improvement
+run, record changes and apply the [full regression workflow](#production-failures-and-regression-results)
+before authorized release. The new production-failure case and all saved evaluation
+sets must be rerun; unrelated documentation edits need only prose/link checks. Use harmless synthetic confidential fixtures for disclosure tests and
+poisoned tool inputs/results, unknown facts and policy thresholds for enforcement.
+Do not silently broaden knowledge/tools, activate auto-send or copy private chats
+to repo. Accepted/edited drafts and ratings are evidence, not proof of correctness.
+Generalized guidance and sanitized tests are safer durable learning than copied
+customer conversations.
+
+Sources: [agent eval guidance](https://developers.openai.com/api/docs/guides/agent-evals),
+[evaluation best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices)
+and [developing tests](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests).
+Vendor example thresholds, hosted private trace upload and a paid eval service are
+not selected. No separate search/vector/MCP infrastructure by default.
+Unrelated documentation changes need prose/link checks, not paid model runs.
+
+### Budget alerts and mock delivery
+
+**Current revision 2026-10-09 — provider configuration only:** Andrew removes the
+earlier current-build mock budget-alert delivery requirement along with application
+spending counters/dashboard. Native provider notifications are sufficient; after
+briefly declining billing alerts, he confirms that a daily alert is fine. Do not
+build a custom poller, notification transport, alert table or Telegram integration
+to reproduce provider billing functionality. General Telegram delivery remains
+separate [Monitoring](../../docs/factory/mvp-delivery-plan.md#build-6--technical-monitoring-and-alert-delivery)
+scope, not a dependency for these provider-native notices.
+
+**Purpose and desired thresholds:** the existing $3/day/$30/month caps guard
+against runaway bugs, not normal spending targets. Andrew wants awareness around
+50% and 80% so he can investigate before AI becomes unavailable. Configure native
+alerts where their supported scope/windows fit; daily/delayed notices are acceptable
+and are not guaranteed to arrive before the daily cap. Do not silently add an
+application system to achieve exact thresholds. Never auto-raise caps.
+
+**Official-source check 2026-10-09:** Cloudflare's
+[native billing budget alerts](https://developers.cloudflare.com/billing/manage/budget-alerts/)
+are account-wide usage-based dollar thresholds over its billing period, email
+notifications, not caps or AI-only daily gateway rules. Its
+[billing alert changelog](https://developers.cloudflare.com/changelog/post/2026-06-15-budget-alerts-default-on/)
+describes prior-day processing. These alerts cannot be represented as an exact
+50/80% live-text early-warning service. Verify the account's actual supported
+options and distinguish billing alerts from gateway caps at later setup. No
+provider settings, recipients or paid tests have been changed.
+
+<a id="shared-email-research--recommendation-not-selected-2026-10-09"></a>
+
+## Email identities, provider research and responsibilities
+
+**2026-10-09:** distinct public contact addresses per Business and avoiding a
+custom-domain slot solely for development are accepted. **Resend send/receive and
+Cloudflare-regenerated image-only previews selected 2026-10-09**, after security
+and cost discussion and Andrew's request to record and continue. No original
+downloads or unsupported file access. This is a design decision, not setup,
+purchase, tested security or production permission. Exact subdomain address shape
+remains recommended; exact format/size/processing contracts belong in final review.
+
+**Preference reaffirmed 2026-10-09:** one email provider for sending and receiving,
+not Resend outbound plus another inbound merely for scanning. Cloudflare image
+processing, if chosen, is not another email provider. SES for all mail is an
+alternative, not an assumed two-provider hybrid.
+
+Recommend one managed production provider account initially for our own small
+Businesses, with BFF routing/limits and retained case ownership. Shared provider
+accounts share quotas/reputation, not full isolation; leave a path to split
+accounts when volume/risk/ownership warrants. Keep credentials from customers/
+bots. [Resend multi-tenant guidance](https://resend.com/docs/knowledge-base/setting-up-resend-for-multi-tenants)
+is the source, not a provider-neutral isolation guarantee.
+
+### Provider alternatives and dated capacity
+
+| Provider / plan | Price and allowance checked 2026-10-09 | Relative work / constraint |
+| --- | --- | --- |
+| Resend Free | $0; 3,000 sent+received emails/month, 100/day, 3 verified domains, 1 webhook, 30-day provider retention | Lowest relative integration effort; domain/day/callback limits may bind before monthly volume |
+| Resend Pro | $20/month; 50,000 emails, 10 domains, 5 webhooks, no daily quota cap | Shared account limits; no upgrade authorized |
+| Pro + domain add-on | Additional $20/month adds 100 slots: **$40 total**, 110 domains, still 50,000 emails | More domain slots do not add email allowance |
+| Resend Scale | $90/month; 100,000 emails, 1,000 domains; add-on also available | Growth option, not a purchase |
+| Postmark Pro at 10,000-email tier | $16.50/month; inbound processing, 10 sending domains; Free 100/month testing | Medium integration work; do not assume $15 Basic includes inbound |
+| AWS SES à-la-carte | $0.10/1,000 outbound + $0.10/1,000 inbound, plus data/chunks/other services | Higher setup/operations; region-limited receiving/receipt rules, not separate Mail Manager pricing |
+
+Sources: [Resend prices](https://resend.com/pricing),
+[sent/received quotas](https://resend.com/docs/knowledge-base/account-quotas-and-limits),
+[Postmark prices](https://postmarkapp.com/pricing),
+[SES prices](https://aws.amazon.com/ses/pricing/) and
+[SES receiving](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html).
+No evidence here proves one vendor's superior deliverability for our audience.
+Provider history/retention is not BFF's lifetime policy. Validate account approval,
+current limits, overage settings and account defaults; public prices do not prove
+default overage behavior. Inbound junk consumes quota even if BFF drops it.
+Exceeding a domain limit does not automatically change a plan.
+
+Resend is selected for one send/receive API with BFF-owned cases:
+[custom-domain receiving](https://resend.com/docs/dashboard/receiving/custom-domains)
+and [receiving webhook setup](https://resend.com/docs/dashboard/receiving/create-receiving-webhook).
+Postmark can feed the same architecture. The earlier cost-only recommendation
+against SES is qualified by the later malware requirement: its verdicts may
+justify additional operations, but Andrew has not chosen it.
+
+### Historical whole-provider comparison — returned 2026-10-09
+
+Six candidates were researched against domains, sending/receiving, attachments,
+retries, development, privacy and total maintenance. No verified candidate combines
+a simple/free pilot, trustworthy malware verdicts and negligible integration work.
+
+| Candidate | Distinct findings beyond the capacity table |
+| --- | --- |
+| Resend | 24-hour exact-key retry protection; receiving AV verdict unconfirmed. Metadata/renewable downloads fit bounded ingestion; shared-team suppressions |
+| Postmark | Platform $18/10,000 adds unlimited sending domains. Explicitly no send idempotency key; SpamAssassin does not inspect attachments. Inbound base64 must be captured reliably; later API content can truncate |
+| Mailgun | Free one domain/one route; Basic $15/10,000 still one domain; Foundation $35/50,000 supports 1,000 domains. US/EU service regions. AV verdict/general send deduplication not established; complete receiving bill treatment needs confirmation |
+| Brevo | Free 300 sends/day; Starter from $9/5,000. Different receiving domain required from sending. Complete inbound price/limits and AV verdict unqualified; batch duplicate protection 30 minutes, not Resend's replay contract |
+| SES | One send/receive provider with default-enabled scan and PASS/FAIL/GRAY/PROCESSING_FAILED notifications; app enforces access. Private S3/event adapter/MIME processing required; general send idempotency not established. New account/region default Essentials differs from explicitly chosen à-la-carte pricing |
+| Forward Email | Advertised $3/month, unlimited domains and included ClamAV are promising, not qualified: trusted scan/error verdict, hosted fail-closed behavior and applicable service/privacy contract need verification. Scanner source can continue without AV when unavailable |
+
+Sources: [Postmark prices](https://postmarkapp.com/pricing),
+[no idempotency](https://postmarkapp.com/support/article/what-is-an-idempotency-key),
+[spam-filter limitations](https://postmarkapp.com/support/article/understanding-spamassassin-and-inbound-spam-filtering-in-postmark),
+[Mailgun prices](https://www.mailgun.com/pricing/),
+[Brevo inbound](https://developers.brevo.com/docs/inbound-parse-webhooks),
+[Brevo batch keys](https://developers.brevo.com/docs/heterogenous-versions-batch-emails),
+[SES verdicts](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-notifications-contents.html),
+[Forward Email](https://forwardemail.net/en/private-business-email),
+[scanner caveats](https://github.com/spamscanner/spamscanner).
+CloudMailin's integrated scanning price is unpublished; standalone AttachmentScanner
+starts at $99/month, not a verified cheap included feature.
+[Scan contract](https://docs.cloudmailin.com/features/virus_scanning/),
+[scanner prices](https://www.attachmentscanner.com/plans-and-pricing).
+
+**Historical finalists, before the later Resend selection:** Resend for all mail with bounded freshly regenerated
+PNG/JPEG previews via managed Cloudflare Images and no original access; or SES for
+all mail with trusted malware verdicts and restricted file handling. First favors
+integration simplicity, not an antivirus guarantee; second favors scan evidence
+but adds AWS operations. Missing/error scan results withhold files, and clean scans
+still do not authorize arbitrary document rendering/downloads. Andrew subsequently chose the first protection/maintenance trade-off; it is not
+an outstanding choice or a two-email-provider requirement.
+
+Illustrative SES à-la-carte subtotal: 300 outbound + 200 inbound/month averaging
+four billed chunks each is $0.122 before outbound data, S3/events/compute/transfer/
+logging—not an all-in quote or Mail Manager's separate $50/month ingress.
+Cloudflare transformation is unconfigured and has execution/storage costs.
+
+**Image-preview costs checked 2026-10-09:** Images Free includes 5,000 unique
+transformations/month; exceeding it fails new transformations rather than charging
+or exposing originals. Paid overage is $0.50/1,000 after the first 5,000: one size
+for 1,000 images is $0 transformation usage, 10,000 is $2.50 on Paid. Worker Free
+allows 100,000 requests/day with 10 ms CPU/invocation; Paid starts at $5/month.
+The processing design must fit the free limits before promising a free Worker.
+Storage/operations remain separate: if R2 Standard is chosen, 10 GB-month storage
+plus bounded operations are included; existing account usage consumes allowances.
+This does not select R2 or Cloudflare-hosted Images storage. A small pilot may fit
+free tiers, not a guaranteed all-in $0 quote. No upgrades or configuration authorized.
+Sources: [Images pricing](https://developers.cloudflare.com/images/pricing/),
+[Worker pricing](https://developers.cloudflare.com/workers/platform/pricing/),
+[R2 pricing](https://developers.cloudflare.com/r2/pricing/).
+
+Provider retention/residency differ from BFF policy: Resend documents US storage
+and 30 days despite selectable sending region; Postmark US/45 days; Mailgun US/EU
+regions; Brevo EU database locations. Confirm actual terms at selection.
+[Resend security](https://resend.com/security),
+[Postmark retention](https://postmarkapp.com/support/article/how-long-are-inbound-and-outbound-messages-stored-in-activity),
+[Brevo storage](https://help.brevo.com/hc/en-us/articles/360001005510-Data-storage-location).
+Prefer no-send development fixtures; vendor sandbox modes can still consume quota.
+Preserve ingested messages while blocking files, but an entire oversized email
+rejected upstream may never reach BFF. Precise Resend inbound size/Brevo receiving
+limits remain unestablished; do not infer them from outbound allowances.
+
+### Addresses, subdomains and future moves
+
+Address = purpose@domain; multiple local names are not separately paid staff
+mailboxes. A subdomain needs no separately purchased registered domain, but each
+**verified subdomain counts as a provider domain slot**. Three Business subdomains
+can exhaust Free's three slots. Multiple sender names on one verified domain are
+supported; [sender/domain explanation](https://resend.com/docs/knowledge-base/how-do-I-create-an-email-address-or-sender-in-resend).
+Sending verification alone does not configure receiving.
+
+| Shape | Trade-off |
+| --- | --- |
+| tablecards-help@tofler.app | Valid few-domain alternative; Business encoded in local name, shared email domain |
+| help@tablecards.tofler.app | Recommended clear Business/purpose identity; each verified Business subdomain uses capacity |
+| help@future-business-domain | Later standalone branding; verify new DNS and transition the **same** Business |
+
+Start help@… for issues/questions/feedback/suggestions. Add notifications@… only
+for an actual distinct system-message need; aliases may feed one scoped queue.
+Do not create sales/billing/feedback departments/mailboxes merely because the
+provider allows many local names. **Sales mail/bots and promotional workflows
+are post-MVP**, in [future offers](../../docs/architecture/future-ideas.md#shared-promotions-personal-offers-and-repeat-purchase-campaigns).
+No requirement for a separate marketing provider yet.
+
+Website and sender domain can match or use different approved subdomains.
+Protect existing office mail: receiving MX must not compete with an existing
+inbox service; use a reviewed mail subdomain/forwarding where needed. Public
+tablecards.tofler.app MX query on 2026-10-09 returned NOERROR/no answer, not a
+provider-account/DNS audit or configured receiving evidence.
+
+Identity must survive domain changes: retain cases, historical sender identities,
+reply correlation and Business-scoped preferences. Verify new sender before
+switching; keep old addresses receivable for an agreed transition. Do not rewrite
+old messages or turn replies to old threads into a different Business. Migration/
+transition mechanisms remain unselected, not a zero-downtime guarantee.
+
+### Development, receiving and mailbox distinction
+
+A development website hostname does not dictate a separate email domain.
+Recommend no-send/mock transport for most tests and explicitly invoked bounded
+provider tests. [Synthetic recipients](https://resend.com/docs/dashboard/emails/send-test-emails)
+simulate delivery/bounce/complaint/suppression, still using quota.
+[A documented example](https://resend.com/features/email-api) uses
+onboarding@resend.dev without a custom domain; the
+[default sender's restrictions](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain)
+do not allow arbitrary real-customer mail. A provider-managed id.resend.app
+receiving address supports inbound tests without a custom receiving domain; see
+[receiving overview](https://resend.com/docs/dashboard/receiving/introduction).
+
+This does not prove separate development/production isolation. Do not reuse
+production data/credentials or route production callbacks into development to
+avoid a one-webhook limit. Validate key/callback/environment isolation. No new
+provider account/domain/test mode is configured here.
+
+Resend can receive/store email and its
+[Receiving dashboard](https://resend.com/docs/dashboard/receiving/manage-emails)
+shows previews/text/HTML/raw content with API retrieval. It is **not** a Gmail-
+style personal inbox/login for every address. Planned BFF handling presents
+cases for operators to read/reply in backoffice/CLI; that inbox is not built.
+A separate staff-mailbox service is optional, not required; revisit MX/forwarding
+if it later becomes necessary.
+
+### Delivery, spam and future promotional consent
+
+Authenticate correct sender identity with SPF/DKIM/DMARC as applicable, maintain
+consistent Business branding and legitimate volume/recipient practices.
+[Google sender guidance](https://support.google.com/mail/answer/81126?hl=en)
+supports deliverability practices, not guaranteed inbox delivery. Subdomains
+help organization but do not fully isolate shared account/IP/parent reputation.
+
+BFF still verifies callbacks, routes only approved recipient identities,
+retrieves content safely, deduplicates, bounds payloads/retries/loops and shows
+delivery exceptions. Receiving may accept arbitrary local names under a domain;
+that is not permission to create cases for any name. Treat bodies/HTML/
+attachments/headers as hostile input, not bot instructions or authenticated
+account evidence. Delivery is not a read or resolution signal.
+
+[Hard-bounce/complaint suppressions](https://resend.com/docs/dashboard/emails/email-suppressions)
+can affect transactional domains across the team; do not bypass them by changing
+sender. Future marketing has distinct consent/preferences/unsubscribe rules:
+login, product use or a support ticket is not promotional consent. Keep support/
+system mail distinct from offers and do not hide promotions in a support email.
+Proposed future product policy is explicit promotional permission **per Business**;
+opting out of offers must not disable requested support or essential service mail.
+Optional updates need their own clear expectations. These are future recommendations,
+not approved campaign functionality.
+
+[Resend global unsubscribe](https://resend.com/docs/dashboard/contacts/managing-unsubscribe-list)
+applies across the team's Broadcasts/Automations. [Topics](https://resend.com/docs/dashboard/contacts/manage-topics)
+narrow subscription preferences but do not override global unsubscribe; separate
+Business campaigns do not automatically isolate it. Never resubscribe a global
+opt-out just to send another Business's promotion. Future promotional sending
+needs appropriate visible/one-click unsubscribe and Business-purpose preferences.
+
+Provider “transactional” labeling is not legal permission; commercial primary
+purpose can matter even for individually sent mail. [FTC CAN-SPAM guidance](https://www.ftc.gov/business-guidance/resources/can-spam-act-compliance-guide-business)
+and [Resend unsubscribe guidance](https://resend.com/docs/knowledge-base/should-i-add-an-unsubscribe-link)
+were researched, not a clearance for every jurisdiction or a selected marketing
+system. A closing support survey is not a newsletter-consent mechanism.
+
+### Maintenance and responsibility boundary
+
+Provider infrastructure handles transport/storage and mechanisms we configure;
+it does **not** transfer lawful sending, privacy or security duties away from us.
+BFF/operator automation owns domain renewal/DNS review, credential/callback
+security, allowed identities, recipient preferences/consent, suppression handling,
+correlation/deduplication/failure recovery, access/content protection and required
+notices/data lifecycle. Provider terms,
+[security information](https://resend.com/security) and [DPA](https://resend.com/legal/dpa)
+are inputs, not a liability shield or complete compliance answer.
+
+Use validated Codex/operator configuration for repeatable setup; backoffice shows
+delivery issues/state and meaningful actions. No campaign/template editor,
+technical monitoring platform or mandatory staffed mailbox follows. Selected-provider
+setup still needs applicable-purpose/privacy/account validation; no purchase,
+credentials, DNS mutation or provider setup is authorized.
+
+### Threading, attachments and branding — outstanding contracts
+
+Recommend opaque case-specific reply addresses plus message threading identifiers,
+not subject or matching-email-only joins. Ambiguous/mismatched input should go
+to review, not silent customer/case merging. Correlation permits email continuity,
+not private-account authority. Exact reply identity, receipt
+replay, webhook verification/retrieval, backoff/limits and provider/domain migration
+remain open in the reliability area.
+
+**Current-customer boundary reaffirmed 2026-10-09:** Andrew declines another
+identity-matching questionnaire or special cross-email handling system. Never
+automatically merge emails/customer identities. Bot data access is limited to
+the verified current customer/account by server authorization; customer wording,
+reply metadata or a thread identifier cannot grant access to another customer.
+When trustworthy account linkage is absent, no private account lookup is granted.
+Preserve unexpected messages without inventing account authority; unusual cases
+can be investigated manually if they arise. Ordinary transport correlation and
+authorization checks remain required, not a new identity-verification workflow.
+
+**Attachment direction accepted 2026-10-09:** preserve incoming messages and show
+attachment metadata/status on their ticket. Operators see only authenticated,
+freshly regenerated PNG/JPEG raster previews; no original downloads, unsupported
+formats (SVG/documents/archives), remote HTML images, arbitrary attachment URLs or
+automatic AI analysis. Text-only was the smaller alternative. Actual-byte/type/
+size/dimension checks and managed isolated decoding reduce device/backend exposure,
+not antivirus assurance or a guarantee against decoder vulnerabilities.
+The [private byte path](#proposed-table-changes-and-indexes) defines retrieval,
+conversion, storage and access; failure has no original fallback.
+
+Unsupported/oversized/blocked files have clear reasons rather than disappearing
+or discarding the message. Exact PNG/JPEG/count/size limits remain adjustable review
+defaults, not a new general file platform.
+
+**Attachment-size requirement added 2026-10-09:** bound per-file and total image
+bytes, file count and decoded dimensions before conversion; do not download
+unbounded bytes based solely on metadata or a claimed Content-Length. The existing
+three PNG/JPEG files at 5 MiB each (15 MiB total) remain adjustable starting defaults,
+not another product vote. Unsupported/oversized files stay unavailable; keep the
+ingested message and clear reason. Verify provider-side rejection controls during
+implementation; current Resend receiving docs do not establish a configurable
+lower inbound limit. A BFF processing limit cannot prevent quota use before intake.
+Resend [counts each received email](https://resend.com/docs/knowledge-base/account-quotas-and-limits)
+against daily/monthly quotas; size limits mainly bound processing/storage, not
+incoming-email count. No provider setting or purchase changed by this discussion.
+
+**Provider attachment retrieval:** Resend
+[download URLs](https://resend.com/docs/dashboard/receiving/attachments) expire after
+one hour and can be renewed; never make them durable transcript links.
+
+**Historical cheap-security research, 2026-10-09:** Andrew requested Astra to
+address viruses compromising his device/backend without an expensive subscription.
+Cloudflare [web-upload malware detection](https://developers.cloudflare.com/waf/detections/malicious-uploads/)
+is an Enterprise paid add-on for applicable request bodies, not automatically
+Resend attachments. [Email Security](https://developers.cloudflare.com/use-cases/company-security/email-security/)
+is separate. Resend docs did not establish included antivirus; absence of verified
+guarantee is not proof of no scanning. [OWASP file guidance](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
+informed restricted handling; extension checks, warnings or clean scans are not
+absolute safety. Do not upload private files to public/shared scanners.
+
+SES inbound verdicts had cheap usage but added storage, permissions, MIME processing
+and integration. Andrew rejected adding AWS solely for scanning beside current
+vendors and requested a whole-provider extra-high Astra comparison while other
+questions continued. It covered identities/domains, send/receive, correlation,
+attachments, dev tests, privacy, quotas/prices and total maintenance—not scan fees
+alone. See the [historical comparison](#historical-whole-provider-comparison--returned-2026-10-09).
+He subsequently selected Resend plus managed image regeneration, not an antivirus
+verdict requirement. Existing TableCards image generation does not implement this.
+Sources: [SES receiving](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html),
+[Cloudflare Images binding](https://developers.cloudflare.com/images/optimization/binding/).
+No scanner, vendor setup, upload, subscription, purchase or paid test occurred.
+
+Proposed transport/correlation contract:
+
+- Registered recipient identity establishes Business/environment; opaque case reply
+  token plus [message threading identifiers](https://www.rfc-editor.org/rfc/rfc5322.html#section-3.6.4)
+  correlates the conversation, not account authority. Unexpected contact on a known
+  case goes to review; uncorrelated mail to an approved public address opens a new
+  case. No subject-only join, automatic CC participants or incoming `Reply-To`
+  redirection of private material.
+- [Verify callbacks](https://resend.com/docs/webhooks/verify-webhooks-requests),
+  durably record before acknowledging, retrieve bounded content and deduplicate by
+  provider/event identities, not identical text. Unknown outbound IDs and reordered
+  events must not create authority or overwrite newer delivery state.
+- One fixed branded initial receipt per genuine new case, not replies/replays/
+  surveys/bounces/list/autoresponses. Apply bounded [automatic-response safeguards](https://datatracker.ietf.org/doc/html/rfc3834);
+  uncertain automated intake can wait for review without a receipt.
+- Persist immutable approved payload, operation/key and provider ID. Distinguish
+  queued/sending/provider-accepted/delivered/failed/**unknown**. Acceptance is not
+  delivery, reading or resolution; a timeout after dispatch is not proof of failure.
+  After acceptance, track the provider's delivery outcome instead of submitting
+  another email merely because delivery is delayed or the customer has not replied.
+  Resend distinguishes [accepted, delayed and delivered events](https://resend.com/docs/webhooks/event-types).
+- Resend's [idempotency keys last 24 hours](https://resend.com/docs/dashboard/emails/idempotency-keys).
+  Retry the same payload/key only inside a safe approved envelope/window. Reconcile
+  ambiguous outcomes; outside the safe window stop for operator review of possible
+  duplicates before a fresh send. Never change keys merely to evade uncertainty;
+  do not promise end-to-end exactly-once email.
+- Bounded transient backoff differs from [webhook retry/replay](https://resend.com/docs/webhooks/retries-and-replays).
+  Its [API error guidance](https://resend.com/docs/api-reference/errors) recommends
+  retrying temporary 500/503 errors later and slowing requests for rate limiting;
+  invalid configuration/recipients or exhausted quota are not rapid-retry cases.
+  Hard bounces, complaints/suppression and invalid recipients stop sending; exhausted
+  or disabled callbacks surface for validated operator reconciliation, not endless
+  retries. Provider inbound junk can consume billable quota before BFF rejection.
+  Continuing after a hard bounce or complaint damages sending reputation;
+  respect [provider suppressions](https://resend.com/docs/dashboard/emails/email-suppressions),
+  including their shared-team scope, without automatically removing them to retry.
+- Bind survey invitation to the immutable approved closing message and actual send
+  evidence. A retry keeps the same invitation; abandoned sends never activate it.
+  Old links refer to the answer originally rated; explicit feedback updates are not
+  case-status transitions.
+
+**Retry/spam concern researched and bounded policy accepted 2026-10-09:** Andrew asks
+whether recurring retries could make us behave like a spammer. Distinguish a
+bounded retry of the provider submission from generating fresh duplicate emails
+or repeatedly overriding recipient rejection. Recommend a few spaced, bounded
+submission retries with the same exact approved payload and original idempotency
+key, within the provider's 24-hour protection window and applicable authority.
+For an ambiguous timeout, the same-key request can recover the original result
+without a new email within that window; if safe deduplication/reconciliation is
+unavailable, stop for review rather than invent a new key. No delivery-delay,
+unread/no-reply, bounce or complaint trigger for automatic fresh sends; no infinite
+retry loop or guarantee of inbox placement. Exact attempt/backoff defaults can be
+chosen during implementation within the selected envelope; no sending or
+configuration now.
+
+**Business branding goal accepted 2026-10-08:** name/logo/accent like auth, with
+shared configuration and effective-state visibility. Current
+[auth contracts](../../platform/bff/libs/contracts/src/auth.ts) and
+[TableCards defaults](../../projects/tablecards/customer-auth.defaults.ts)
+include name/theme (light/dark/system)/accent, **not logo**. Reusing a small common
+brand for auth/email is proposed, not an approved logo field/migration/editor.
+Email needs safe HTML/plain-text templates and image-blocked fallback, not web
+CSS copied into mail. Codex configuration and a read-oriented preview are proposed;
+sender/reply DNS identity is separate from presentation. No template editor.
+Business-specific names, links, artwork and email copy reach the generic shared
+renderer as registered data/settings; no product-branded templates embedded in
+shared source. Provider credentials remain deployment secrets, not Business
+registration data. The current auth settings do not already bind support mailboxes.
+
+<a id="data-lifecycle--detailed-discussion-deferred-2026-10-09"></a>
+
+## Data lifecycle and minimum collection boundary
+
+**Detailed discussion deferred by Andrew, 2026-10-09.** Do not build cleanup/
+retention tooling for hypothetical volume. The consulted 12-month resolved-case
+and 30-day raw-helper proposals are **not accepted policy or legal requirements**.
+
+Before collecting real customer conversations/events, resolve only necessary
+purpose-specific storage, access, notices, lifetime/deletion and privacy/security
+expectations for the actual audience/flow and applicable rules. This is the
+[roadmap collection boundary](../../docs/factory/mvp-delivery-plan.md#execution-order),
+not indefinite storage permission or a broad retention platform.
+
+Andrew's delete-and-return-for-free example motivates assessing abuse-prevention
+needs separately from capacity and support learning. It grants no blanket
+anti-fraud exception, deletion bypass, new identity matching or fraud engine.
+Current once-only welcome-credit provisioning does not prove deletion/
+re-registration cannot reset eligibility.
+
+The [FTC data-security guidance](https://www.ftc.gov/business-guidance/resources/protecting-personal-information-guide-business)
+supports necessary collection/access/disposal, not universal periods or permission
+to retain every abuse marker after a deletion request. Review necessity/applicable
+rules before any exception. Never commit credentials, tokens, identity/payment
+documents or private conversations to repo; durable learning should use authorized
+generalized guidance/sanitized cases, not copied customer content.
+
+Later lifecycle review belongs in
+[future maintenance ideas](../../docs/architecture/future-ideas.md#data-lifecycle-maintenance-review--refinement-2026-10-09):
+inspect actual needs/volume/cost/privacy and propose proportionate changes.
+Codex/operator workflows can do this; a future maintenance bot is not a prerequisite
+for minimum privacy controls or current build completion.
+
+## Dashboard and delegated UX
+
+**Accepted 2026-10-09:** an all-Business dashboard and a dashboard inside each
+Business, **Business overview first**, with relevant links into work/customer/
+activity details. “Latest ticket” was clarified to **longest waiting**, not newest.
+Delegated default: measure the current uninterrupted wait for **our next action**,
+not creation age; another unanswered message must not reset that outstanding wait.
+Waiting for customer is a different state. Do not reopen this microchoice.
+
+Astra's **Business briefing** is the delegated working composition: three levels
+of information—concise Business facts, visible attention, one-tap complete scoped
+detail. Same meaning/authority on mobile and desktop; width changes composition.
+Phone is Andrew's primary tool, but desktop must be intentionally useful too.
+
+Historical alternatives:
+
+| Choice | Trade-off / outcome |
+| --- | --- |
+| Work-first entry | Faster case handling but less overall picture; Codex's original recommendation replaced by Andrew's overview-first choice |
+| Business overview-first | Adds a step to work but shows what happens now; selected |
+| Customer-search-first | Useful investigation, but operators must separately discover work; not selected |
+| Business briefing | Medium presentation effort; concise facts plus visible work, risk of crowding if all metrics equal; working default |
+| Per-Business scorecards | Medium effort; desktop comparison but long/repetitive on phones, risk of shrinking/hiding detail |
+| Topic tabs | Medium effort; quiet views but urgent items can hide behind tabs unless attention stays visible |
+
+### Comprehension and evidence rules
+
+- Keep explicit Business/environment scope, update time and material coverage.
+  All-Business links open properly filtered scoped views, not merged people.
+- Summary candidates: meaningful activity/outcomes; Open/Waiting; longest waiting
+  for us; pending approvals; failed sends; feedback responses/invitations.
+  Exact fields/periods depend on accepted evidence—not new metrics merely because
+  an illustrative wireframe showed invented counts.
+- Historical activity periods and current work counts are different. Open cases,
+  approvals and failed sends overlap; never sum them into a fake task total.
+- Consequential delivery warnings stay visible **above** ordinary summaries;
+  links reach the relevant filtered queue/exact case. Do not hide warnings solely
+  in a folded section, inactive tab or long scroll.
+- Only complete successful evidence supports zero/all-clear. Distinguish loading,
+  empty, not connected, unavailable, stale and partial coverage; keep unaffected
+  sections useful. Current loaded-page counts are not totals.
+- Use sparse facts/counts, not invented trend charts or confident percentages from
+  tiny samples. Feedback shows response/invitation counts; bot observations,
+  explicit feedback and inferred themes remain separate.
+- A case connects conversation, meaningful customer/account facts, events,
+  internal notes, delivery and exact approvals rather than disconnected lists.
+  Reusable Inbox/Support, Customers and Activity destinations plus optional
+  read-oriented Bots view are proposed—not a configuration/analytics console.
+
+### Concrete delegated visual/interaction defaults
+
+These are editable design defaults, **not rendered/tested UI evidence**:
+
+| Element | Working direction |
+| --- | --- |
+| Visual character | Quiet business desk; warm neutral canvas #F6F5F1, white surfaces, dark #1B2825 text, muted #5F6D68, #E0E5DF borders, evergreen #176F62 accent |
+| Status cues | Amber for review, red for failure; text/icons as well as color |
+| Typography | Inter with system fallback; 28px phone / 32px desktop title, 19–20px sections, 16px body/rows, 14px secondary; semibold tabular counts, not giant metric tiles |
+| Rhythm | 8px spacing system; 16px phone gutters, 24–32px desktop/section spacing, 12px corners, fine borders; almost no shadows except menu/dialog |
+| Phone | Labelled Overview / Support / Customers / More navigation, safe areas/touch targets; full-page queue → case → exact review journeys |
+| Desktop | Approximately 224px rail, 1200px content ceiling, two-thirds overview / one-third attention; deliberate split views rather than stretched mobile |
+| Continuity | Back preserves Business/environment/filter/scroll; stable rows, no live reordering under a finger; no hover-only controls/help or nested/giant clickable cards |
+| Approval entry | “Review requests” opens exact proposals; no swipe, unseen-card or preselected-group approval |
+
+Avoid tiny captions, uppercase technical headings and sideways carousels. Use
+aligned rows/dividers, restrained transitions and local refresh progress. Sparse
+data gets an intentional empty panel with a relevant next link, not decorative
+charts. On desktop, overview/attention and then queue/conversation are deliberate
+side-by-side compositions; do not fill extra width with obligations or metrics.
+
+Codex/Astra choose detailed components/layout/interactions **within agreed scope**
+without asking Andrew every design question. His later visual review is optional
+feedback, not a prerequisite/sign-off gate. Our own actual phone/desktop rendered
+checks, journey testing, enlarged-text readability, keyboard/focus/status behavior
+and accessibility verification remain necessary. No preview has been built here.
+Design delegation does not authorize code, broader data, cost/privacy/authority
+changes, schema or deployment; escalate those consequential boundaries.
+
+<a id="post-mvp-organization-scope-split--2026-10-09"></a>
+
+## Deferred organization and operating-skill distinction
+
+On 2026-10-09 Andrew moved the Paperclip/Dots company organization—including its
+reporting lines, isolated analysts, confidentiality rules, proposals, SWOT,
+business/engineering advisers and model/bandit ideas—to the
+[post-MVP entry](../../docs/architecture/future-ideas.md#post-mvp-ai-company-organization).
+Its dated reasoning is preserved there, not an active backlog copied into this
+build. Security/legal advisers do not supply current compliance clearance.
+NOC/regression/developer organization is different from the Monitoring build.
+
+Keep only useful **manually invoked operating/evaluation capabilities for current
+helper/support work** here. Andrew corrected “Build 4” to “current build”; operating
+skills are not Payments scope. Dots remains optional/unverified, no external-client
+credentials or integration granted. Future company bots cannot be prerequisites
+for operating a simple MVP.
+
+The [permission-bounded AI future idea](../../docs/architecture/future-ideas.md#permission-bounded-ai-operations-and-helper-assistance)
+was an earlier prompt; Andrew reopened AI scope, then narrowed it through explicit
+helper/drafting/approval choices. It is not accepted autonomous authority.
+
+## Dated decision evolution
+
+This ledger records **changes and provenance**, not a second copy of all current
+requirements. Detailed constraints and alternatives live in their topic above.
+
+| Date | Discussion / decision evolution |
+| --- | --- |
+| 2026-10-08 | Begin with problems before solutions; broaden from investigation to visibility, tickets, design and user handling. Discuss conceptual data/ownership alternatives without accepting schema |
+| 2026-10-08 | Andrew repeats the preference for concrete options and an explained recommendation for every discussion question, not a request that he invent scope |
+| 2026-10-08 | Select one shared Business-scoped backoffice and full admitted-operator access; meaningful BFF information plus milestones/important failures replace raw product reads and cross-Business customer correlation |
+| 2026-10-08 | Keep future analytics/pixel/offer reuse as deferred possibility, not a campaign/discount provider or authority |
+| 2026-10-08 | Choose website/email intake, email follow-up, backoffice-only history and BFF-owned cases over mailbox/helpdesk/portal ownership |
+| 2026-10-08 | Initially accept anonymous website intake; park verification for Astra, include feedback/ideas, accept neutral initial receipt and as-needed substantive replies. Mandatory confirmation gives way to immediate general contact without account authority |
+| 2026-10-08 | Request shared email branding, wrong-recipient reporting exploration and Google-only simplicity; second Astra review proposes signed-in form plus public email, awaiting later choice |
+| 2026-10-08 | Reopen AI MVP exclusion, distinguish helper from case support, request concrete options. Initial bounded auto-reply recommendation gives way to helper answers and ticket auto-suggest |
+| 2026-10-08 | Add approved-knowledge review and on-demand Codex evaluation/improvement; prefer small file-based shared instructions/skills/tests over a management console |
+| 2026-10-08 | Require custom named bots; optional/page-specific helpers and multiple support cases/categories replace hardcoded/default-pair assumptions. Support role is distinct from draft/send mode |
+| 2026-10-08 | Select metadata-first assigned skills loaded on demand; programmatic context/tools revise fixed-tools-only proposal. UI executes registered handlers and reports real results |
+| 2026-10-08 | Challenge category-only routing; discuss thin coordinator, separate scoped invocations versus services, resumable specialists and persisted pending actions. Those architecture choices remain open |
+| 2026-10-08 | Explore small code-enforced conditional action rules; strengthen initial support policy to approval for every permitted tool/read/skill and substantive reply. Refund examples grant no power |
+| 2026-10-09 | Move company organization to future ideas; keep relevant operating/eval skills in current build. Combine support/nontechnical visibility as Operator work, isolate Monitoring |
+| 2026-10-09 | Agree short roadmap names and split bundled Marketing/Legal/Maintenance/Launch; numbers not sequence, Payments still on hold |
+| 2026-10-09 | Confirm operating boundary by readback. Accept signed-in form/public mail link, superseding anonymous form. Consolidate overlapping questions; later nine-topic/32-row presentations become supporting detail, not required votes |
+| 2026-10-09 | Accept resolved replies reopening, conversational operator queue, bounded group approvals and no engineering access requirement for other operators |
+| 2026-10-09 | Accept three statuses, explicit resolution, same-history internal notes, structured requests, attributed shared queue without owners/priority labels; Waiting replies also return Open |
+| 2026-10-09 | Require easy-to-answer **and useful** feedback; Astra reviews participation/actionable learning. Accept Yes/Partly/No, two-tap explicit submission/comment and actual-answer review |
+| 2026-10-09 | Choose each approved closing reply over once-per-case invitations; ratings review-only; operator skill reviews responses/participation. Low response-rate discussion does not accept incentives |
+| 2026-10-09 | Choose overview-first with longest waiting and all-Business scope; delegate routine defaults. Select site-wide Q&A over Create-only, sign-in/plan facts, customer-controlled links/handoff |
+| 2026-10-09 | Require shared bot evidence; prominent feedback, helper-first issues and discoverable Help escalation; Business-branded approved support, no invented human author |
+| 2026-10-09 | Research email/provider/domains/spam/unsubscribe; accept distinct Business addresses and no development-only domain slot, defer sales mail/bots. Record growth/mailbox/maintenance explanation; Resend still proposed |
+| 2026-10-09 | Defer detailed retention/cleanup; distinguish minimum privacy/security/abuse needs from capacity and blanket deletion exceptions |
+| 2026-10-09 | Request Astra responsive-dashboard design; adopt layered briefing as delegated default, add concrete visual/check criteria, make Andrew's visual feedback optional while keeping our testing |
+| 2026-10-09 | Reserve ERD, exact structural changes/migrations and shared/library/Business ownership for the end, after current design questions |
+| 2026-10-09 | Include Cloudflare Agents/text and evaluations in runtime comparison. Require cheap live models, no Sol/fallback/customer selection, realistic separate held-out/messy/adversarial tests **later**, and practical Convex portability |
+| 2026-10-09 | Request full consistency/deduplication review. Codex consolidates by topic; Astra independently compares original and rewrite for omissions/status changes. Restore distinct details/history/sources, fix stale Waiting-reply/helper-context open claims and blanket matrix status; verify local links without selecting new contracts |
+| 2026-10-09 | Request Astra options/recommendations for all six remaining areas. Three read-only consultations are synthesized into the batch review and topic proposals; distinguish substantive decisions from adjustable defaults, preserve runtime/continuity alternatives and flag retry-envelope/spend approval. Await Andrew's review; no selections, planning, schema changes or evaluations |
+| 2026-10-09 | Park support architecture until the other five areas are discussed. Request a new Astra premise check: do we need this architecture at all, versus a plain bounded drafting workflow? One bot is tentative; previously proposed routing/registry/delegation is not assumed required. Keep final architecture reviews afterward |
+| 2026-10-09 | Accept initial product/bot outcome set; clarify automatic meaningful internal recording by the owning shared code and reuse of existing BFF evidence, not automatic bot access or a generic log stream. Follow-up Astra proposes one bounded support-drafting workflow; keep its architecture recommendation parked and unaccepted |
+| 2026-10-09 | Clarify bounded model/tool steps versus durable event-triggered job dispatch; record Andrew's concern about recurring polling. Verify native scheduler and optional Workpool/Workflow capabilities, not installed or selected; preserve support approval/retry/current-authority boundaries and correct the spoken helper/ticket conflation |
+| 2026-10-09 | Andrew challenges automatic cancellation/reapproval for a customer reply arriving during brief operator review as possible overengineering. Propose a nonblocking new-message notice with preserved draft/approval for ordinary replies; exact payload/current authority/tool eligibility stay enforced. Preserve earlier conservative alternative as history; lighter policy awaits confirmation |
+| 2026-10-09 | Andrew proposes one current reply draft per ticket and optional message-linked internal notes, with ID-based approval feedback/refresh. Codex adds an ID-plus-version explanation. Preserve history/unsent edits and separate tool/send records; no automatic draft replacement or new-message-only cancellation assumed, schema review remains last |
+| 2026-10-09 | Andrew finds message versions too messy. Revise to one current draft and a single opaque pending-reply ID bound to the exact payload; a changed proposal gets a new pending ID, obsolete/already-handled approval refreshes state. No separate message version counter/history/UI; atomic pending-state and exact-payload safety remain |
+| 2026-10-09 | Andrew selects the original new-customer-message invalidation rule as simpler after the draft/ID discussion. Invalidate unsent reply authority, keep draft/edits and require fresh review/pending ID; no version history, automatic regeneration, message deletion or recall. Notice-only alternative is unselected; tool continuation/expiry/retry details remain open |
+| 2026-10-09 | Select round live-text caps of $3/day and $30/month across Businesses combined, both enforced; supersede Codex's lower proposals. Allow separately bounded, higher budgets for intentional evaluations, exact run cap still unspecified. No spending/configuration/tests now and no customer access to evaluation allowance |
+| 2026-10-09 | Require near-budget/reached alerts and clarify “mock” as alert transport/test integration for later Telegram, not dashboard mock-up or invented values. Proposed 80%/100% deduplicated thresholds remain adjustable; actual dashboard figures only, no new monitoring platform or setup now |
+| 2026-10-09 | Select warnings at 50% and 80% of either live-text cap, retaining cap-reached notification and hard enforcement. Caps are protective ceilings, not expected spending: even half the allowance warrants attention. Supersede the earlier 80%-only warning proposal; notify once per threshold/period, do not automatically raise the cap |
+| 2026-10-09 | Require realistic, repeatable synthetic development seed data for a populated backoffice and record-grounded testing/evaluations. Ask Astra to help author believable histories/messages during later implementation/testing, explicitly not during brainstorming; no agent, seed data or paid tests started now |
+| 2026-10-09 | Research Andrew's recurring-retry/spam concern using Resend's API, idempotency, delivery-event and suppression guidance. Recommend bounded same-payload/key submission retries, tracking accepted delivery rather than creating new emails; stop on permanent rejection/complaints, unsafe uncertainty or exhaustion. Retry envelope remains proposed, not selected |
+| 2026-10-09 | Accept bounded, spaced retries of the exact approved email submission using duplicate protection and applicable authority; track delivery after provider acceptance and stop on rejection/complaints, exhaustion or unsafe uncertainty. No recurring fresh emails or extra bot authority |
+| 2026-10-09 | Require operator visibility of incoming email attachments, not unrestricted access. Andrew raises malware/device/server compromise and explicitly requests Astra to investigate genuinely cheap protection; scanner/file-handling selection remains pending, no setup or uploads |
+| 2026-10-09 | Reaffirm no automatic email/identity merging and server-enforced current-customer bot access. Decline extra identity-matching machinery/questions; investigate unusual cases manually if needed, without treating message text or reply correlation as account authority |
+| 2026-10-09 | Audit remaining questions after redundant runtime/pilot/identity prompts. Only email/attachment handling and shared helper/support foundation remain consequential decision groups; technical defaults belong in the final reviews, not another questionnaire. Runtime Astra recommends a minimal shared AI SDK service, not yet accepted; vendor comparison remains running |
+| 2026-10-09 | Select Resend for all mail plus Cloudflare-regenerated image-only previews after protection/cost discussion; no originals or unsupported files. Add attachment-size/count/dimension bounds and investigate provider-side limit controls; BFF rejection does not undo received-email quota. No setup/purchase; shared bot foundation is the last direction choice before final reviews |
+| 2026-10-09 | Accept shared AI SDK model/tool foundation with existing Convex state/jobs and separate helper/support workflows, including helper chat state/tool handling via AI SDK UI. Visual components optional; exclude HarnessAgent and a specialist-routing framework. All substantive direction choices are settled; ERD, exact structural changes/migrations and ownership reviews remain before whole-design/planning approval. No installation, implementation or paid tests |
+| 2026-10-09 | Clarify configurable approval policy per Business and tool: deny, ask an operator, automatic allow within protected limits, or reviewed custom code returning those outcomes. Event occurrence/count/recency and customer/Business period limits are conditional-rule examples, not selected thresholds or new powers. Keep initial support approval-every-time default; enabling particular automatic rules requires explicit agreement |
+| 2026-10-09 | Revise initial support tools to read-only and remove manual approval for permitted scoped reads/assigned skill loading; retain exact substantive-reply approval, forbidden-action denial and data/rate/budget controls. Rules attach to actions, not separate agents. General threshold-engine deferral is a simplification proposal; no new remediation or automatic reply authority, exact read contracts await review |
+| 2026-10-09 | Correct the reply-policy misunderstanding: Andrew wants eventual automatic routine answers but operator review for other answer types, e.g. payment, within the same support agent. Record future per-Business reply policy; do not treat an AI topic label as send authority or enable automatic replies now |
+| 2026-10-09 | Final review requested: independent consistency/gap review and explanation of ERD, structural changes/migrations and shared-versus-Business ownership, preferring shared machinery. An ambiguous voice readback briefly restored read approvals; superseded by the final typed clarification below, not an enabled policy |
+| 2026-10-09 | Final typed clarification: all permitted read-only support tools and assigned skill loading need no approval. Only substantive outgoing replies require the operator's exact send decision; the bot proposes, the operator edits/sends/rejects. No generic tool-approval table or threshold engine initially; helper policy unchanged. No implementation/schema approval |
+| 2026-10-09 | Complete primary and independent Astra final design reviews; reconcile current policies, historical routing and sparse Operator work versus later launch-funnel scope. Present a nine-table additive shared ERD, field/index and migration/ownership proposal, with follow-up safeguards incorporated. Await Andrew's architecture/whole-design review; no code, schema, configuration, seed data or paid tests |
+| 2026-10-09 | Accept estimated AI cost visibility, totalled by verified customer or opaque scoped anonymous ID; anonymous usage also counts globally. Reusing per-operation evidence rather than a new per-user spent table remains the recommendation. Investigate Cloudflare Gateway caps as an unselected alternative to exact app counters; no configuration/schema implementation or spending |
+| 2026-10-09 | Later superseding revision: defer per-user/account/anonymous spending attribution back to Future Ideas; choose provider/gateway settings for the existing $3/day/$30/month live-text safety caps. Remove proposed `botBudgetPeriods`, application monetary reservations, spending dashboard and custom/mock budget-alert transport. Native daily/delayed alerts are acceptable; their scope differs from exact AI-only threshold warnings. Goal is runaway-bug protection and awareness of AI availability, not a live financial ledger. ERD now has eight new shared tables; existing credit/image safeguards unchanged. No configuration or implementation |
+| 2026-10-09 | Clarify Business/shared ownership after ERD discussion: shared service/libraries contain generic machinery only, no imported Business executable code or hardcoded product knowledge/event schemas/templates/fixtures. Business code stays in its deployment; reviewed Business-specific material can be stored/registered as scoped non-executable data/settings in BFF. Preserve useful bounded free text. Primary and read-only independent audit identify real gaps in runtime configuration storage/delivery, approved event/page-capability definitions and mailbox/branding bindings. Current auth setup is only a precedent; exact optional configuration fields/storage/migration remain structural review, not an assumed new registry table or implementation approval |
+| 2026-10-09 | Confirm minimal runtime skill metadata (name, when to use it, content) and production-miss regression capability: sanitize a real failure into a Business-owned case, test the fix and rerun all saved evaluation sets. Planning defines wiring/results; versioned Markdown/JSON report storage remains proposed. No tests now |
+| 2026-10-09 | Request another important-gaps/consistency and deduplication review, not more microquestions or documents. Primary and bounded independent Astra review find no additional business-scope votes; correct contradictory read gates, selected providers/runtime, portal/product-read and historical-status wording. Preserve decisions/sources while consolidating repeated explanations; exact architecture/schema acceptance remains pending |
+| 2026-10-09 | Check potential implementation/dev blockers read-only: existing dev targets/tooling support synthetic/no-send development; exact schema/configuration approval and build/deploy authority remain gates. Live provider setup/capped routing and the new screenshot deployment path still require verification. No credential absence, readiness pass or deployment is claimed |
+| 2026-10-09 | Andrew reports opening Resend and providing a key in the named Nirvana task. Read-only lookup confirms key presence without exposing or persisting it; permissions/domains still need verification. No account setup or integration is performed |
+| 2026-10-09 | At Andrew's request, test Resend access read-only: GET domains returns HTTP 401 `restricted_api_key`, documented as sending-only permission. Full-access key needed for management; domains could not be inspected. No emails, API writes or credential persistence. No Resend MCP tools connected in this session |
+| 2026-10-09 | Andrew changes the key to Full access; requested read-only retry succeeds (HTTP 200). Account has no registered domains, so domain/receiving setup remains. Permission blocker resolved; no emails, API writes, deployment or credential persistence |
+| 2026-10-09 | Andrew approves the presented design/schema and asks for practical blockers to a hypothetical fully working development deployment. Whole-design/presented-schema approval is resolved; no implementation/deployment instruction yet. Remaining configuration persistence details belong to planning, not a reopened product questionnaire |
+| 2026-10-09 | Read-only preflight confirms Convex dev access, Wrangler login/Worker scopes and active `tofler.app` zone visibility. Current OAuth has no DNS-write scope; AI Gateway list returns HTTP 403. Need scoped access or dashboard setup for email DNS/caps; screenshot conversion remains unverified. Node 24 wrapper works. Document Resend test-sender/managed-inbound path without sending or configuring anything |
+| 2026-10-09 | Continue read-only access preflight with a bounded faster fact-checking agent. Existing dev image Worker settings are readable and expose binding names/types only: AI plus a secret binding, no Images. Record DNS write on `tofler.app`, account AI Gateway Read/Edit setup rights and optional Billing-role dashboard alert step in the existing provider runbook. Private-byte conversion fits the default Images Free allowance; no paid subscription is expected at dev volume. Native billing-period/account-wide alerts have documented prior-day processing, not scheduled daily AI reports. No provider/code/schema changes or deployment |
+| 2026-10-09 | Andrew supplies a Cloudflare setup token in the existing Nirvana blocker task; no access to the workspace computer is required. Read-only verification reports active, DNS-record and AI Gateway list calls return HTTP 200, and no gateways exist yet. Token used in memory without displaying or persisting it locally; task notes and provider settings unchanged. Write permissions and runtime integration remain untested |
+
+## Review lenses and handoff limits
+
+The [Agency Agents Support Responder](https://github.com/msitarzewski/agency-agents/blob/main/support/support-support-responder.md)
+was a customer-context/follow-up/feedback lens, not an authoritative source.
+Its staffing targets, response-time promises, channel bundle and automation were
+not adopted. Company-organization/Growth Hacker exploration remains in future
+ideas. Repository decisions and official primary sources take precedence.
+
+This consolidation preserves settled decisions, unaccepted candidates and real
+gaps; it does not claim a gap-free implementation design. No code, schema,
+permissions changes, paid AI tests, provider configuration or deployment was
+performed. Read-only access preflight is recorded above, not runtime verification.
+Documentation verification means relevant prose,
+local path/anchor and diff checks—not a special documentation test suite.
