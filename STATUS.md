@@ -5,8 +5,8 @@ Updated: 2026-10-12.
 ## Current checkpoint
 
 - **Operator work:** follow the [execution plan](.agent/plans/261009-operator-work.md).
-  Approved baseline/schema: `41ba411`; the build is development-verified on
-  `build/operator-work-dev`, with the cleaned commit/push being finalized.
+  Approved baseline/schema: `41ba411`; development implementation/evidence
+  checkpoint **`fa9b2bc` is committed and pushed** to `build/operator-work-dev`.
   Authorized scope is **development only**. Do not
   push implementation to main: that triggers production publication.
 - Shared support/helper/events, AI SDK/UI, email, private PNG/JPEG conversion,
@@ -68,7 +68,8 @@ Updated: 2026-10-12.
   Actual-payload preflight, resumed-run evidence and registered navigation facts
   are fixed and development-tested. Reviewed source/tests/docs and useful paid
   evidence are retained; generated status/caches/credentials/private state are
-  excluded. Next: finish the requested commit/push to `build/operator-work-dev`.
+  excluded. The checkpoint is closed; quality tuning or a main/production release
+  needs a new request. No PR or merge was created.
   Do not push/merge main or deploy production. Jev has no proven quality win.
   Keep quality first, cost second, speed third; do not silently retune frozen
   tests/grades or claim readiness from survivor-selected/five-language samples.

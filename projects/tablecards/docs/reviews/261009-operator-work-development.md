@@ -1,7 +1,7 @@
 # Operator work — development review
 
 Created: 2026-10-09; updated: 2026-10-12
-Baseline: `41ba411`; uncommitted implementation on `build/operator-work-dev`
+Baseline: `41ba411`; implementation/evidence checkpoint `fa9b2bc` pushed on `build/operator-work-dev`
 Scope: shared Operator work and TableCards integration, development only
 Status: Gemma/Jev development checkpoint verified; broad comparison complete, 90–95% target unmet/deferred by Andrew
 
@@ -80,7 +80,9 @@ mistakes remain improvement work. API-judge calibration/human-ground-truth,
 production/launch, native alert setup and credential rotation remain separate.
 Cleanup removes only generated `.last-run.json` and excludes ignored caches,
 credentials/private state; paid comparison evidence is useful provenance, not
-disposable garbage. The requested commit/push targets only `build/operator-work-dev`.
+disposable garbage. Implementation/evidence commit `fa9b2bc` is pushed only to
+`build/operator-work-dev`; the final documentation handoff adds no source or
+deployment change. No main push, PR or merge was made.
 
 The eight additive shared workflow tables and optional environment configuration
 are implemented. Missing configuration remains disabled/revision zero: no

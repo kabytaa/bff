@@ -351,7 +351,8 @@ production change or unchanged-frontend restamp. Registered destinations are now
 included as generic trusted tool metadata after a phone reply invented a URL;
 the UI had correctly blocked it. This specific integration fix is not a new
 semantic-quality score. Dated failures/rechecks and limitations remain in the
-existing development review. Commit/push is the final checkpoint operation.
+existing development review. Implementation/evidence checkpoint `fa9b2bc` is
+committed and pushed to `build/operator-work-dev`; no PR, merge or main push.
 
 **2026-10-11 — Quality target and judge challenge:** Andrew wants more than 90%
 good answers, preferably 95%; a cheap model is not acceptable merely because it
