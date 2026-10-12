@@ -1,7 +1,7 @@
 # TableCards Application
 
 Created: 2026-09-28
-Updated: 2026-10-09
+Updated: 2026-10-11
 Status: Accepted — Build 3 no-charge preview deployed in development and production
 
 This document defines the customer-facing TableCards application experience:
@@ -132,19 +132,20 @@ incomplete workflow; a scope change requires product direction.
 
 ### Routes
 
-| Route                            | Entry condition and purpose                                                                                | Current delivery                         |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `/`                              | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                              |
-| `/create`                        | Public import/design/preview; save, export and AI require a selected account                               | Public guest header; signed-in app shell |
-| `/projects`                      | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                              |
-| `/projects/:projectId`           | Selected active membership; load one scoped project into the creator                                       | Development                              |
-| `/designs`                       | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                              |
-| `/settings`                      | Selected active membership; account, role, offer, usage and checkout return                                | Development                              |
-| `/settings/team`                 | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                              |
-| `/invite/:invitationToken`       | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell                |
-| `/privacy`, `/terms`, `/contact` | Public, factual development-preview disclosures and operator-contact boundary                              | Remediation source, public shell         |
-| `/settings/billing`              | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered          |
-| `/support`                       | Signed-in submission form; signed-out Sign in / Send us an email choices; conversation continues by email | Planned Operator work; not registered    |
+| Route                      | Entry condition and purpose                                                                                | Current delivery                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| `/`                        | Public landing, examples, pricing and FAQ; signed-in visitors can return here                              | Development                                     |
+| `/create`                  | Public import/design/preview; save, export and AI require a selected account                               | Public guest header; signed-in app shell        |
+| `/projects`                | Selected active membership; project home, active/archived filters and lifecycle actions                    | Development                                     |
+| `/projects/:projectId`     | Selected active membership; load one scoped project into the creator                                       | Development                                     |
+| `/designs`                 | Selected active membership; predefined library, entitled artwork/AI and reusable presets                   | Development                                     |
+| `/settings`                | Selected active membership; account, role, offer, usage and checkout return                                | Development                                     |
+| `/settings/team`           | Selected active membership; Studio roster and authorized management; other offers see a Studio requirement | Development                                     |
+| `/invite/:invitationToken` | Public token inspection, then recipient authentication and acceptance                                      | Development, public shell                       |
+| `/privacy`, `/terms`       | Public, factual development-preview disclosures                                                            | Delivered public shell                          |
+| `/contact`                 | Signed-in contact/feedback form; signed-out sign-in/email choices                                          | Operator work development; live mail            |
+| `/support/feedback`        | Capability-scoped closing survey with explicit submission                                                  | Development; actual emailed invitation verified |
+| `/settings/billing`        | Owner billing and subscription remediation                                                                 | Planned Build 4; not registered                 |
 
 On 2026-10-08 Andrew confirmed the [support boundary](product.md#support-feedback-and-operations):
 customers open tickets through the website or email, then continue by email.
@@ -154,8 +155,12 @@ settles the intake boundary: signed-in users have the shared form; signed-out
 visitors can Sign in or Send us an email through a public mail link. The link
 opens a draft in the configured mail client rather than sending automatically;
 show the address for visitors without a configured client. No anonymous form
-or extra contact-verification/recovery flow is required. Detailed form states
-remain to design; none of this is claimed as delivered UI.
+or extra contact-verification/recovery flow is required. The delivered development
+form lives at `/contact` and inside Help; `/support` is not a separate route.
+Help and Feedback are available across pages. Loading, validation, submission,
+confirmation and signed-out fallback states are tested with synthetic data.
+Actual development website/email intake, operator-approved follow-up and emailed
+survey submission also pass; production Operator work remains undeployed.
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
@@ -962,12 +967,29 @@ actual SVG artwork references; they are not rendered-browser or PDF-content proo
 Build 4 keeps the checkout interface but adds Paddle selection, verified
 webhooks, paid-through renewal, subscription status and billing remediation
 without redesigning these pages. Development may select Paddle or mock;
-production returns Paddle directly. Build 5 adds Support to the existing
-application shell and groups the shared operator backoffice's business/customer
-visibility with helper/support assistance. Build 6 separately adds technical
+production returns Paddle directly. Build 5's development implementation adds
+Help/Feedback and contact to the existing application shell, with shared
+operator business/customer evidence. Its real development email gate passes;
+the capped live helper integration passes, but full model-quality evaluation is
+still pending. Build 6 separately adds technical
 monitoring and alerts. Operator controls stay out of TableCards customer settings.
 
-### Site-wide Q&A helper — accepted direction, not implemented
+### Site-wide Q&A helper — development implementation
+
+As of 2026-10-09, the shared Help dialog and contact/feedback routes are deployed
+to development only. Public questions, explicit answer ratings, customer-clicked
+registered links and signed-in submissions passed with labelled mock AI/email.
+The initial synthetic mailbox was explicitly labelled unavailable; revision 3
+now supplies the branded Business address. Domain verification passed 2026-10-10
+16:37 UTC and development email is live. Actual email/website intake, receipts,
+operator-approved reply, correlated follow-up, private PNG/JPEG previews and
+survey submission pass, including private browser preview rendering. Live text
+was enabled on 2026-10-10 after provider caps and actual integration were proved;
+that connectivity smoke does not establish full answer quality.
+Identity/account changes clear private helper state without
+remounting the product editor. Mock journeys alone do not prove live model or
+email behavior; real email has separate evidence in the development review.
+Production still has its earlier no-charge-preview UI.
 
 On 2026-10-09 Andrew selects a helper available across TableCards pages, not only
 the Create flow; see [the product contract](product.md#support-feedback-and-operations).
@@ -986,7 +1008,7 @@ account-only actions without blocking general Q&A. Prefer answering with approve
 guidance, but offer contact when unresolved, when human handling is needed or
 when requested. "Help" is the proposed entry label; contact is not restricted
 to technical problems or a required support/sales department selection.
-Signed-in customers can open the planned ticket form, review a prepared summary
+Signed-in customers can open the ticket form, review a prepared summary
 if supplied and explicitly submit. Signed-out customers retain sign-in or the
 configured email link, which opens the mail composer rather than sending.
 Make feedback easy to find without first using the helper. For problems, prefer
@@ -1003,16 +1025,60 @@ questions/topics and answer references, explicit usefulness feedback where
 provided, actual navigation/contact stages and known errors, distinguishing facts
 from AI labels. A clicked link or closed chat is not proof the question was solved;
 opening an email composer does not confirm an email was sent. An unobtrusive
-optional usefulness control is proposed, not a survey after every message.
-Question/answer sampling, disclosure/retention and exact signals remain open;
-this is not general clickstream tracking or a delivered analytics/feedback UI.
+optional usefulness control is delivered, not a mandatory survey after every
+message. Saved questions/answers, explicit ratings and run outcomes support
+bounded authorized investigation; this is not general clickstream tracking.
+Detailed retention automation remains deferred, with privacy requirements tied
+to actual collection. Inferred topic/frustration analysis is not delivered.
 
-Use the shared themed helper component, with usable phone/desktop composition;
-placement, additional context, conversation state and limits remain design
-choices. Maintain baseline instructions for approved knowledge, login/plan-aware
+On 2026-10-10, the shared persistent **Help bubble** replaces the header Help
+button. It is mounted once at the route root, including signed-out workspace and
+setup states; prominent Feedback remains in the header. It opens a desktop panel
+or full-height phone sheet with native modal focus, Escape/Close and focus return.
+Closing preserves unsent questions; identity/account changes still clear private
+state. TableCards raises the bubble above its authenticated mobile navigation.
+No answer request, support submission or navigation occurs merely by opening it.
+
+The 2026-10-10 chat refinement replaces the form-like question layout with a
+compact header, customer/assistant message bubbles, an independently scrolling
+conversation and a pinned composer with an icon Send button. The composer grows
+from one to five lines; Enter sends, Shift+Enter adds a line and IME composition
+does not accidentally send. New typing survives an earlier answer finishing.
+Welcome questions disappear after the conversation starts; static links remain
+under Browse help links. Contact and Feedback remain directly available below
+the composer. Retry keeps one copy of the failed question, and Stop is explicit.
+New answers follow only when already reading at the bottom; scrolling back
+shows Jump to latest instead of moving the reader. Phone layout uses the full
+available visual viewport, accounting for keyboard-driven resizing/panning
+without refitting pinch zoom. Opening focuses Close rather than summoning the
+keyboard; Help/contact transitions focus the updated heading. Physical-device
+keyboard behavior remains outside browser-emulation proof.
+
+The 2026-10-11 refinement renders assistant Markdown as readable emphasis,
+numbered/bullet lists, code and tables; customer questions remain literal text.
+Tool continuations and their final reply appear in one bubble, with each
+registered destination linked once rather than repeated pricing links. Raw HTML,
+remote images and unregistered navigation links are not enabled by formatting.
+Hebrew and mixed-language paragraphs now use right-to-left layout where
+appropriate, including Latin product names at the start; English blocks and
+code retain their own direction. The composer selects direction automatically.
+TableCards owns the customer-language instructions and Hebrew knowledge wording;
+shared UI owns generic direction/isolation. Repeated live testing still finds
+garbled Hebrew from the current cheap model, so Hebrew answer quality is **not
+accepted** merely because the layout passes. This does not change the separate
+documented PDF script-support restrictions.
+
+The shared themed helper component supplies phone/desktop composition, saved
+conversation state and bounded turns. Additional product-private context is not
+automatically granted by embedding it. Shared component styles now provide the
+reusable defaults; TableCards owns its `--bff-support-*` branding tokens and the
+contact form's additional private-guest-list notice. Other Businesses reuse the
+same components with their own theme and wording, rather than copying TableCards CSS.
+Maintain instructions for approved knowledge, login/plan-aware
 guidance, honest unknowns and support referral; no project/account writes or
-unapproved disclosure. This is accepted customer behavior, not a delivered route/component,
-test result or approval to implement.
+unapproved disclosure. The accepted behavior is implemented in development;
+the linked implementation plan/evidence distinguishes mock tests from live
+provider verification and production delivery.
 
 ## Explicit non-goals
 

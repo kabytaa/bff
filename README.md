@@ -7,6 +7,8 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 - [Current handoff and next moves](STATUS.md)
 - [MVP architecture](docs/architecture/bff-mvp-architecture.md)
 - [Shared BFF data model and table purposes](docs/architecture/shared-bff-data-model.md)
+- [Operator work — shared workflows, fields and ownership](docs/architecture/operator-work.md)
+- [Backoffice — views and development commands](platform/bff/backoffice/README.md)
 - [Future architecture ideas (non-authoritative)](docs/architecture/future-ideas.md)
 - [ADR 0001 — Convex-first BFF stack](docs/architecture/adr/0001-convex-first-bff-stack.md)
 - [ADR 0002 — Business environments and operator authentication](docs/architecture/adr/0002-business-environments-and-operator-auth.md)
@@ -29,7 +31,7 @@ BFF means **Business Factory Foundation**: the shared business service, public c
 
 The architecture is the supplied source document. The TableCards specification is the canonical product scope, and the delivery plan describes implementation. Nirvana is reserved for short personal blockers that Andrew must complete away from the conversation; Codex work and decisions that can be resolved together stay out of Nirvana.
 
-The BFF MVP stack is now decided: Nx/pnpm/TypeScript, Convex for the BFF server and database, Cloudflare for static web hosting/DNS and Paddle when real billing begins. The operator dashboard uses direct Google OIDC and a fixed server-side operator allowlist. Business customer authentication uses the delivered provider-neutral BFF session/account protocol and technology-first SDK described in ADR 0004. An email-capable customer-support conversation is a later required MVP slice. Implementations include executable validation and focused browser regression. Apple login and specific analytics, email and monitoring vendors are optional integrations selected only when their owning workflow requires them. Businesses remain free to choose different product-specific technology.
+The BFF MVP stack is Nx/pnpm/TypeScript, Convex for the BFF server and database, Cloudflare for web hosting/DNS and Paddle when real billing begins. The operator dashboard uses direct Google OIDC and a server-side operator allowlist. Business customer authentication uses the provider-neutral session/account protocol in ADR 0004. Operator work now adds shared support, events, Business-defined KPIs and an AI SDK helper in **development only**. Resend is selected for mail; development mail is explicitly mocked and live text inference stays disabled until provider caps are verified. Apple login, analytics and monitoring remain conditional integrations. Businesses own their product-specific content, definitions and code; shared code provides generic machinery.
 
 Deployment-invariant, non-secret BFF identifiers live in the internal `bff-static-config` library. Credentials and values that actually vary by deployment remain external configuration.
 

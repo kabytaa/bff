@@ -1,0 +1,906 @@
+{
+  "version": 1,
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-003",
+  "reviewer": "gpt-6-astra",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It extends draft continuity beyond the reviewed boundary by including browser switches.",
+            "evidenceId": "A4"
+          },
+          "grounding": {
+            "reason": "It treats switching browsers as protected navigation despite the explicit cross-browser recovery limit.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "It promises draft protection across browser switches, which the reviewed knowledge forbids.",
+            "evidenceId": "A4"
+          },
+          "clarity": {
+            "reason": "It adds an unexplained active-status confirmation as a saving requirement.",
+            "evidenceId": "A11"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidenceId": "A4",
+            "referenceId": "R3",
+            "reason": "It promises protection of an unsaved draft when switching browsers beyond the supported recovery boundary."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers that names and preview can be prepared before sign-in.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "It conflates returning to an unsaved draft with accessing a saved workspace project.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It leaves unclear whether a later sign-in preserves the existing draft or only opens a previously saved project.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It gives the wrong answer about needing to start over when signing in later.",
+            "evidenceId": "A4"
+          },
+          "grounding": {
+            "reason": "It says later sign-in requires re-entry unless already saved, contradicting protected sign-in continuity.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It requires prior saving to avoid re-entry while also saying saving requires sign-in.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A4",
+            "referenceId": "R3",
+            "reason": "It invents mandatory re-entry at later sign-in despite the reviewed protection of unsaved changes during sign-in."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains public name entry followed by signed-in workspace saving.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "It states that closing the page necessarily loses names, which the bounded-draft reference does not establish.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The sign-in and saving steps are understandable.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-011",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-012",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains direct one-name-per-line pasting and optional column mapping.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The listed text, grid and file import forms match the reviewed capabilities.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The earlier import-section context makes the paste instruction usable.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-013",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-014",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-015",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-016",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It does not give a coherent account of preserving the draft through later sign-in.",
+            "evidenceId": "A4"
+          },
+          "grounding": {
+            "reason": "The categorical statement about browser storage beyond the current session is not established by the reference.",
+            "evidenceId": "A7"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It tells an unsigned user to save while also stating that saving requires Google sign-in.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-017",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It incorrectly implies normal navigation before sign-in forces the customer to start over.",
+            "evidenceId": "A3"
+          },
+          "grounding": {
+            "reason": "Mandatory re-entry after navigation contradicts the reviewed protection of unsaved changes during normal navigation.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The navigation-loss warning undermines the initial assurance that the customer can continue later.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A3",
+            "referenceId": "R3",
+            "reason": "It invents mandatory loss and re-entry on navigation despite protected normal navigation for unsaved drafts."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-019",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains that the customer can enter names first, then sign in and save to a workspace.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Its blanket claim that unsaved data is not retained contradicts the reviewed temporary draft protection.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The sign-in and workspace-saving sequence is understandable.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A4",
+            "referenceId": "R3",
+            "reason": "It denies retention before saving even though unsaved changes have bounded draft protection."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-021",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-022",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-023",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly answers that plain-text name lists can be pasted without a spreadsheet.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "It falsely requires CSV/XLSX for tables or markers despite support for pasted tabular grids.",
+            "evidenceId": "A12"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The one-name-per-line example makes the requested import clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A12",
+            "referenceId": "R3",
+            "reason": "It invents a spreadsheet-file requirement for optional columns that can also be imported through pasted grids."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains public import, bounded unsaved progress and later signed-in saving.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The ordinary-navigation protection, possible loss outside it and workspace saving follow the reviewed facts.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The sequence and cautions are understandable without a universal recovery guarantee.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete answer is comprehensible English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

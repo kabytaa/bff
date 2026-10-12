@@ -2,6 +2,19 @@ import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { storedCustomerAuthConfigurationValidator } from './lib/customerConfiguration';
+import {
+  actorValidator,
+  attachmentStateValidator,
+  deliveryStateValidator,
+  draftValidator,
+  emailEnvelopeValidator,
+  entryKindValidator,
+  feedbackRatingValidator,
+  operatorWorkConfigurationValidator,
+  runStateValidator,
+  safePropertiesValidator,
+  supportStatusValidator,
+} from './lib/operatorWorkConfiguration';
 
 const accountRole = v.union(
   v.literal('owner'),
@@ -23,8 +36,298 @@ export default defineSchema({
     customerAuth: v.optional(storedCustomerAuthConfigurationValidator),
     customerAuthConfigurationRevision: v.optional(v.number()),
     accountPolicyStateRevision: v.optional(v.number()),
+    operatorWork: v.optional(operatorWorkConfigurationValidator),
+    operatorWorkConfigurationRevision: v.optional(v.number()),
     updatedAt: v.number(),
-  }).index('by_key', ['key']),
+  })
+    .index('by_key', ['key'])
+    .index('by_support_receiving_address', [
+      'operatorWork.support.receivingAddress',
+    ])
+    .index('by_support_reply_domain', ['operatorWork.support.replyDomain']),
+  conversations: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    publicId: v.string(),
+    kind: v.union(v.literal('helper'), v.literal('support')),
+    botKey: v.string(),
+    userId: v.optional(v.id('businessUsers')),
+    accountId: v.optional(v.id('accounts')),
+    anonymousHandleHash: v.optional(v.string()),
+    subject: v.optional(v.string()),
+    contactEmail: v.optional(v.string()),
+    channel: v.optional(
+      v.union(v.literal('web'), v.literal('email'), v.literal('seed')),
+    ),
+    status: v.optional(supportStatusValidator),
+    waitingSince: v.optional(v.number()),
+    currentDraft: v.optional(draftValidator),
+    activeRunId: v.optional(v.id('botRuns')),
+    latestCustomerEntryId: v.optional(v.id('conversationEntries')),
+    unstartedDeliveryId: v.optional(v.id('emailDeliveries')),
+    sendingProhibitedAt: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_environment_public_id', ['environmentId', 'publicId'])
+    .index('by_environment_kind_updated_at', [
+      'environmentId',
+      'kind',
+      'updatedAt',
+    ])
+    .index('by_kind_updated_at', ['kind', 'updatedAt'])
+    .index('by_environment_kind_status_waiting', [
+      'environmentId',
+      'kind',
+      'status',
+      'waitingSince',
+    ])
+    .index('by_kind_status_updated_at', ['kind', 'status', 'updatedAt'])
+    .index('by_kind_status_waiting', ['kind', 'status', 'waitingSince'])
+    .index('by_environment_user_updated_at', [
+      'environmentId',
+      'userId',
+      'updatedAt',
+    ])
+    .index('by_environment_account_updated_at', [
+      'environmentId',
+      'accountId',
+      'updatedAt',
+    ])
+    .index('by_environment_anonymous_hash', [
+      'environmentId',
+      'anonymousHandleHash',
+    ]),
+  conversationEntries: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    conversationId: v.id('conversations'),
+    publicId: v.string(),
+    kind: entryKindValidator,
+    visibility: v.union(v.literal('customer'), v.literal('internal')),
+    actor: actorValidator,
+    actorKey: v.string(),
+    text: v.string(),
+    createdAt: v.number(),
+    idempotencyKey: v.optional(v.string()),
+    referencedEntryId: v.optional(v.id('conversationEntries')),
+    sourceRunId: v.optional(v.id('botRuns')),
+    providerInboundMessageId: v.optional(v.string()),
+    internetMessageId: v.optional(v.string()),
+    envelope: v.optional(emailEnvelopeValidator),
+  })
+    .index('by_conversation_created_at', ['conversationId', 'createdAt'])
+    .index('by_environment_inbound_message', [
+      'environmentId',
+      'providerInboundMessageId',
+    ])
+    .index('by_conversation_idempotency', ['conversationId', 'idempotencyKey'])
+    .index('by_environment_actor_created_at', [
+      'environmentId',
+      'actorKey',
+      'createdAt',
+    ]),
+  botRuns: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    conversationId: v.id('conversations'),
+    triggerEntryId: v.id('conversationEntries'),
+    publicId: v.string(),
+    botKey: v.string(),
+    botVersion: v.number(),
+    configurationRevision: v.number(),
+    skillVersions: v.array(v.object({ key: v.string(), version: v.number() })),
+    model: v.string(),
+    state: runStateValidator,
+    capturedDraftId: v.optional(v.string()),
+    pageContext: v.optional(safePropertiesValidator),
+    pageContextFingerprint: v.optional(v.string()),
+    pendingClientTool: v.optional(
+      v.object({
+        callId: v.string(),
+        name: v.string(),
+        arguments: safePropertiesValidator,
+        pageContextFingerprint: v.string(),
+      }),
+    ),
+    clientToolResult: v.optional(safePropertiesValidator),
+    attempts: v.array(
+      v.object({
+        id: v.string(),
+        provider: v.string(),
+        model: v.string(),
+        outcome: v.union(
+          v.literal('running'),
+          v.literal('completed'),
+          v.literal('failed'),
+        ),
+        startedAt: v.number(),
+        completedAt: v.optional(v.number()),
+        inputTokens: v.optional(v.number()),
+        outputTokens: v.optional(v.number()),
+        error: v.optional(v.string()),
+      }),
+    ),
+    toolUsage: v.optional(v.array(v.string())),
+    error: v.optional(v.string()),
+    resultEntryId: v.optional(v.id('conversationEntries')),
+    resultPendingId: v.optional(v.string()),
+    startedAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_conversation_started_at', ['conversationId', 'startedAt'])
+    .index('by_environment_started_at', ['environmentId', 'startedAt'])
+    .index('by_started_at', ['startedAt'])
+    .index('by_environment_state_updated_at', [
+      'environmentId',
+      'state',
+      'updatedAt',
+    ])
+    .index('by_conversation_trigger', ['conversationId', 'triggerEntryId'])
+    .index('by_environment_public_id', ['environmentId', 'publicId']),
+  emailDeliveries: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    conversationId: v.id('conversations'),
+    entryId: v.id('conversationEntries'),
+    provider: v.literal('resend'),
+    purpose: v.union(v.literal('reply'), v.literal('receipt')),
+    payloadFingerprint: v.string(),
+    idempotencyKey: v.string(),
+    state: deliveryStateValidator,
+    attemptCount: v.number(),
+    approver: actorValidator,
+    approvedAt: v.number(),
+    pendingId: v.optional(v.string()),
+    triggerEntryId: v.optional(v.id('conversationEntries')),
+    replyTokenHash: v.string(),
+    providerMessageId: v.optional(v.string()),
+    attemptedAt: v.optional(v.number()),
+    nextAttemptAt: v.optional(v.number()),
+    providerOccurredAt: v.optional(v.number()),
+    mocked: v.optional(v.boolean()),
+    retryable: v.optional(v.boolean()),
+    error: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_environment_entry', ['environmentId', 'entryId'])
+    .index('by_conversation_created_at', ['conversationId', 'createdAt'])
+    .index('by_provider_message', ['provider', 'providerMessageId'])
+    .index('by_reply_token_hash', ['replyTokenHash'])
+    .index('by_state_next_attempt_at', ['state', 'nextAttemptAt'])
+    .index('by_environment_state_updated_at', [
+      'environmentId',
+      'state',
+      'updatedAt',
+    ])
+    .index('by_environment_pending_id', ['environmentId', 'pendingId']),
+  emailWebhookReceipts: defineTable({
+    provider: v.literal('resend'),
+    eventId: v.string(),
+    eventType: v.string(),
+    occurredAt: v.number(),
+    receivedAt: v.number(),
+    state: v.union(
+      v.literal('pending'),
+      v.literal('processed'),
+      v.literal('unmatched'),
+      v.literal('failed'),
+    ),
+    environmentId: v.optional(v.id('businessEnvironments')),
+    conversationId: v.optional(v.id('conversations')),
+    entryId: v.optional(v.id('conversationEntries')),
+    deliveryId: v.optional(v.id('emailDeliveries')),
+    providerMessageId: v.optional(v.string()),
+    sender: v.optional(v.string()),
+    recipients: v.array(v.string()),
+    threadIds: v.array(v.string()),
+    outcome: v.optional(v.string()),
+    error: v.optional(v.string()),
+    processingAttempts: v.optional(v.number()),
+  })
+    .index('by_provider_event', ['provider', 'eventId'])
+    .index('by_state_received_at', ['state', 'receivedAt'])
+    .index('by_provider_message', ['provider', 'providerMessageId']),
+  supportAttachments: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    conversationId: v.id('conversations'),
+    entryId: v.id('conversationEntries'),
+    providerAttachmentId: v.string(),
+    claimedName: v.string(),
+    claimedType: v.string(),
+    claimedBytes: v.number(),
+    state: attachmentStateValidator,
+    blockReason: v.optional(v.string()),
+    storageId: v.optional(v.id('_storage')),
+    verifiedType: v.optional(
+      v.union(v.literal('image/png'), v.literal('image/jpeg')),
+    ),
+    byteSize: v.optional(v.number()),
+    width: v.optional(v.number()),
+    height: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index('by_entry_provider_attachment', ['entryId', 'providerAttachmentId'])
+    .index('by_conversation_entry', ['conversationId', 'entryId'])
+    .index('by_environment_state_updated_at', [
+      'environmentId',
+      'state',
+      'updatedAt',
+    ]),
+  feedbackRecords: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    conversationId: v.id('conversations'),
+    answerEntryId: v.id('conversationEntries'),
+    questionVersion: v.number(),
+    question: v.string(),
+    evidenceKind: v.union(
+      v.literal('support'),
+      v.literal('helper'),
+      v.literal('general'),
+    ),
+    createdAt: v.number(),
+    invitedAt: v.optional(v.number()),
+    tokenHash: v.optional(v.string()),
+    expiresAt: v.optional(v.number()),
+    activatedAt: v.optional(v.number()),
+    deliveryId: v.optional(v.id('emailDeliveries')),
+    rating: v.optional(feedbackRatingValidator),
+    comment: v.optional(v.string()),
+    submittedAt: v.optional(v.number()),
+  })
+    .index('by_answer_evidence_kind', ['answerEntryId', 'evidenceKind'])
+    .index('by_token_hash', ['tokenHash'])
+    .index('by_environment_submitted_at', ['environmentId', 'submittedAt'])
+    .index('by_environment_invited_at', ['environmentId', 'invitedAt'])
+    .index('by_delivery', ['deliveryId']),
+  businessEvents: defineTable({
+    environmentId: v.id('businessEnvironments'),
+    deduplicationId: v.string(),
+    name: v.string(),
+    version: v.number(),
+    occurredAt: v.number(),
+    receivedAt: v.number(),
+    properties: safePropertiesValidator,
+    userId: v.optional(v.id('businessUsers')),
+    accountId: v.optional(v.id('accounts')),
+    productReference: v.optional(v.string()),
+  })
+    .index('by_environment_deduplication', ['environmentId', 'deduplicationId'])
+    .index('by_environment_occurred_at', ['environmentId', 'occurredAt'])
+    .index('by_occurred_at', ['occurredAt'])
+    .index('by_environment_user_occurred_at', [
+      'environmentId',
+      'userId',
+      'occurredAt',
+    ])
+    .index('by_environment_account_occurred_at', [
+      'environmentId',
+      'accountId',
+      'occurredAt',
+    ])
+    .index('by_environment_name_occurred_at', [
+      'environmentId',
+      'name',
+      'occurredAt',
+    ]),
   customerConfigurationPreflights: defineTable({
     environmentId: v.id('businessEnvironments'),
     publicId: v.string(),

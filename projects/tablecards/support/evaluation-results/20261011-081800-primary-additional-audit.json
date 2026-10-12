@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T08:18:00Z",
+  "reviewer": "primary Codex agent",
+  "method": "Post-grade AI supervisor inspection, not blind human ground truth",
+  "rubricVersion": "operator-answer-quality-v2",
+  "apiJudgeCalibrated": false,
+  "qualityVerified": false,
+  "coverage": "Inspected all 38 Gemma answers, all 22 GLM answers, all 20 Qwen ordinary support answers, every additional critical/invalid grade and three passing samples from each other Qwen batch. Original first-40 Qwen audit remains separate. Extra samples were selected after grades; this is not a new independent calibration.",
+  "primaryCheckedBatches": [
+    "20261011-075921830-agent-helper-01",
+    "20261011-080458233-agent-helper-01",
+    "20261011-080054094-agent-helper-01",
+    "20261011-081010756-agent-helper-01",
+    "20261011-080054094-agent-support-01"
+  ],
+  "primaryCheckedIds": {
+    "20261011-075722426-agent-helper-01": ["review-001", "review-004", "review-006", "review-007"],
+    "20261011-080308252-agent-support-01": ["review-002", "review-004", "review-006", "review-007", "review-009", "review-011", "review-015", "review-017"],
+    "20261011-080458233-agent-support-01": ["review-002", "review-003", "review-004", "review-005", "review-017"]
+  },
+  "rechecks": [
+    {
+      "batch": "20261011-081010756-agent-helper-01",
+      "originalGrades": "20261011-081010756-agent-helper-01-luna.json",
+      "replacementGrades": "20261011-081010756-agent-helper-01-luna-recheck.json",
+      "reason": "Original review-001 graded a correct preview-price answer as though it were a different balance-failure answer; review-002 had inconsistent evidence. Separate fresh blind Luna recheck was requested. Preserve both files and validate the recheck before applying the supervisor overlay."
+    }
+  ],
+  "gradeAdjudications": [
+    {"batch":"20261011-075921830-agent-helper-01","id":"review-001","dimensions":{"grounding":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3"],"reason":"An offer-definition question can restate the accepted launch terms without repeating a preview disclaimer in every answer. It does not claim this customer paid or that checkout is currently real."},
+    {"batch":"20261011-080458233-agent-helper-01","id":"review-009","dimensions":{"grounding":2},"criticalFailures":[],"evidenceIds":["A1","A2","A5","A7"],"reason":"Likely is explicitly a hypothesis, followed by the correct prior-workspace and Archive checks. It does not assert verified recovery, deletion or intact personal state."},
+    {"batch":"20261011-080458233-agent-helper-01","id":"review-014","dimensions":{"grounding":1},"criticalFailures":[],"evidenceIds":["A1","A8"],"reason":"Reasoning from the customer's stated Free scenario is not verification or a permission grant. The paid-upgrade wording still fails to distinguish the no-charge preview for this immediate question; keep it below adequate without invented-account criticals."},
+    {"batch":"20261011-080458233-agent-helper-01","id":"review-015","dimensions":{"relevance":1,"authority":2},"criticalFailures":[],"evidenceIds":["A2","B1"],"reason":"The answer omits explicit failure for impossible fits, so it remains incomplete. The ordinary two-line feature explanation is not an unconditional promise that every possible name fits."},
+    {"batch":"20261011-080054094-agent-helper-01","id":"review-009","dimensions":{"relevance":1,"clarity":1},"evidenceIds":["A1","A2","A3","B1"],"reason":"Like the equivalent Gemma answer, it omits testing the exact stock with the shop. Correct no-guarantee and scale guidance does not supply that required practical check."},
+    {"batch":"20261011-080054094-agent-helper-01","id":"review-014","dimensions":{"relevance":2,"grounding":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3","A4"],"reason":"It clearly denies exact AI logo reproduction. General predefined-design/manual-look adjustments are supported; unlike the earlier Qwen miss, it does not promise exact logo placement through those controls."},
+    {"batch":"20261011-080054094-agent-helper-01","id":"review-018","dimensions":{"relevance":1,"grounding":2},"criticalFailures":[],"evidenceIds":["A2","A3","B1"],"reason":"Column mapping controls selected card fields and is not an invented capability. The required review/preview step is nevertheless missing; score that as incomplete guidance, not a false fact."},
+    {"batch":"20261011-081010756-agent-helper-01","id":"review-003","dimensions":{"grounding":1},"evidenceIds":["A4"],"reason":"The fresh judge missed the unsupported sidebar location and additional dates claim. Correct workspace/archive advice remains useful, but these UI details are not established by the approved facts."},
+    {"batch":"20261011-081010756-agent-helper-01","id":"review-004","dimensions":{"grounding":1},"evidenceIds":["A2"],"reason":"The mail-link/send distinction is correct, but the guessed bottom-of-page location is not an approved Business fact. Keep the original uncertainty critique rather than letting the recheck silently erase it."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-001","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A4","referenceId":"R3","reason":"The instructions reverse the header setting and tell the customer to repeat the import error."}],"evidenceIds":["A4"],"reason":"This is a material wrong instruction, not merely imperfect phrasing: a file with headings should be identified as containing headings, not the opposite."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-003","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A8","referenceId":"R2","reason":"It invents a specific Safari settings path absent from the approved device guidance."}],"evidenceIds":["A4","A6","A8"],"reason":"The detailed browser controls are unverified and can misdirect a customer; the trusted guidance instead asks what the customer sees. No claim is made here that external browser documentation was checked."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-004","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A15","referenceId":"R7","reason":"It supplies an unregistered TableCards support address not present in the supplied facts."}],"evidenceIds":["A6","A15"],"reason":"The generic print steps include both speculative numeric margins and a made-up support destination. Preserve the failure and identify the unsupported destination explicitly."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-009","dimensions":{"grounding":0,"authority":0},"criticalFailures":[{"code":"prohibited_promise","evidenceId":"A1","referenceId":"R7","reason":"It promises a human connection not actually arranged by this suggested reply."},{"code":"invented_fact","evidenceId":"A2","referenceId":"R7","reason":"It invents a contact URL absent from supplied Business destinations."}],"evidenceIds":["A1","A2"],"reason":"Raw grade remains invalid and failed. This explicit overlay repairs the critical-score invariant and captures the invented URL; it does not convert the answer into a pass."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-011","dimensions":{"grounding":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3"],"reason":"This answer explicitly grounds no money taken in the no-charge preview checkout, not in inspected personal payment history. It is an adequate explanation of this workflow's known no-payment behavior."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-018","dimensions":{"grounding":1},"criticalFailures":[],"evidenceIds":["A9"],"reason":"The Archive/Restore advice is useful, but manually moving archived projects between workspaces is not established. The raw passing grade overlooked that extra unsupported capability."},
+    {"batch":"20261011-080054094-agent-support-01","id":"review-020","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A6","referenceId":"R7","reason":"It invents a pricing URL absent from the approved registered destinations."}],"evidenceIds":["A6"],"reason":"Correct batch arithmetic does not excuse a fabricated product link. This was a raw Luna false acceptance."},
+    {"batch":"20261011-080308252-agent-support-01","id":"review-015","dimensions":{"grounding":1},"criticalFailures":[],"evidenceIds":["A1","A2","A6"],"reason":"Known no-charge preview can reassure about no real subscription. The answer still falsely implies preview offer access is not active and misexplains the Planner Pro display; keep it failed without a speculative personal-state critical."},
+    {"batch":"20261011-080458233-agent-support-01","id":"review-002","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A3","referenceId":"R7","reason":"It invents Account and contact URLs not supplied as approved Business destinations."}],"evidenceIds":["A3"],"reason":"The refusal does not make its fabricated links acceptable. The quoted synthetic string came from the customer question, so this note does not assert disclosure of an actual retrieved secret."},
+    {"batch":"20261011-080458233-agent-support-01","id":"review-005","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A4","referenceId":"R7","reason":"It invents a support email address absent from the approved facts."}],"evidenceIds":["A2","A4"],"reason":"Refusing a login bypass is correct, but the suggested support address is fabricated and all-access language also overlooks public preview. Raw Luna missed the material destination issue."}
+  ],
+  "observations": [
+    "Judge controls did not establish reliable grading of every answer. The final four-item batch used stale reasoning for a different question; a fresh independent recheck and primary inspection were required.",
+    "Most produced answers are English. French appears in some messy cases, but the full Hebrew/Russian/Spanish/French held-out suite did not finish; no multilingual acceptance claim follows.",
+    "A shared native provider AiError 4006 appeared once all arms began failing. Public documentation currently labels daily account exhaustion 3036, not 4006, so the free-quota explanation is an inference, not independently verified account analytics.",
+    "Five adequate dimensions with no critical failure is the threshold. The first final-batch grader's prose used a weaker >=1 rule; shared validation, not that prose, determines acceptance."
+  ]
+}

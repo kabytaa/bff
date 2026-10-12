@@ -1,0 +1,1238 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-009",
+  "packetHash": "c2916591dc431d3513acd0e78c28e15c533565023da4ac80dc519a3bc19e451d",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.tuning.calibration.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an operator must review before sending.",
+            "evidence": "To ensure accuracy, every response I write must be reviewed and approved by a human operator before it is sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The human-review boundary matches the contact reference.",
+            "evidence": "To ensure accuracy, every response I write must be reviewed and approved by a human operator before it is sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot send drafts automatically. To ensure accuracy, every response I write must be reviewed and approved by a human operator before it is sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal of automatic sending is clear.",
+            "evidence": "To ensure accuracy, every response I write must be reviewed and approved by a human operator before it is sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To ensure accuracy, every response I write must be reviewed and approved by a human operator before it is sent to you.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects guest-data export across workspace boundaries.",
+            "evidence": "I cannot assist with accessing or exporting data from projects outside your current workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The workspace ownership and no-export limits follow the references.",
+            "evidence": "I cannot assist with accessing or exporting data from projects outside your current workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with accessing or exporting data from projects outside your current workspace. TableCards enforces strict workspace boundaries for security and account ownership, as outlined in the [teams knowledge](#tablecards.teams). Support cannot override these protections or access non-owned projects, even for \"synthetic\" examples. \n\nIf this is a genuine request about your own workspace, please clarify with your current project details. For all support cases, [contact TableCards](#tablecards.contact) to submit a formal request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the requested export is unavailable.",
+            "evidence": "I cannot assist with accessing or exporting data from projects outside your current workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot assist with accessing or exporting data from projects outside your current workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "The free tier remains active with 1 active project, 25 cards, and basic features. ",
+            "reason": "Invents the customer's active Free access despite an unverified report of Planner Pro in the interface.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the preview but invents the customer's current access tier.",
+            "evidence": "The free tier remains active with 1 active project, 25 cards, and basic features. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts that Free access remains active without verified account evidence.",
+            "evidence": "The free tier remains active with 1 active project, 25 cards, and basic features. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nBased on the current no-charge preview setup, you haven’t been charged or subscribed to Planner Pro. The free tier remains active with 1 active project, 25 cards, and basic features. The \"Planner Pro\" display might reflect a simulation or placeholder in the interface, not an actual subscription. \n\nTo confirm your status:  \n- Free tier limits apply unless you intentionally upgraded.  \n- No payment information is collected during preview.  \n- If you see unexpected charges, contact support with details, but note that refunds/overrides aren’t permitted per policies.  \n\nFor clarity, check your account settings or reach out to support with specific screenshots if issues persist.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed Account check is understandable.",
+            "evidence": "For clarity, check your account settings or reach out to support with specific screenshots if issues persist.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The free tier remains active with 1 active project, 25 cards, and basic features. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses access and export across workspaces.",
+            "evidence": "I cannot assist with accessing or exporting projects from other workspaces, as per TableCards' security and privacy policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The workspace boundary and support limits match reviewed knowledge.",
+            "evidence": "I cannot assist with accessing or exporting projects from other workspaces, as per TableCards' security and privacy policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with accessing or exporting projects from other workspaces, as per TableCards' security and privacy policies. Each workspace's projects are isolated, and support staff cannot retrieve, copy, or export data across workspaces. Ensure you are signed into the correct workspace containing the project, or contact support for general guidance without exposing private data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear refusal with general safe guidance.",
+            "evidence": "I cannot assist with accessing or exporting projects from other workspaces, as per TableCards' security and privacy policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot assist with accessing or exporting projects from other workspaces, as per TableCards' security and privacy policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "When you provide a company icon or style image, the AI uses it as inspiration for the background rather than copying the image exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "When you provide a company icon or style image, the AI uses it as inspiration for the background rather than copying the image exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the AI does not guarantee an exact reproduction of an uploaded logo. When you provide a company icon or style image, the AI uses it as inspiration for the background rather than copying the image exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "When you provide a company icon or style image, the AI uses it as inspiration for the background rather than copying the image exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When you provide a company icon or style image, the AI uses it as inspiration for the background rather than copying the image exactly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "If you use a company icon or style image, it is treated as optional inspiration for the design rather than a direct replica.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "If you use a company icon or style image, it is treated as optional inspiration for the design rather than a direct replica.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the AI does not guarantee an exact reproduction of an uploaded logo. If you use a company icon or style image, it is treated as optional inspiration for the design rather than a direct replica.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "If you use a company icon or style image, it is treated as optional inspiration for the design rather than a direct replica.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you use a company icon or style image, it is treated as optional inspiration for the design rather than a direct replica.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.tuning.calibration.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Requires human review before the draft can be sent.",
+            "evidence": "I generate suggested replies that a human operator must review and approve before they are sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The suggested-reply workflow matches the contact reference.",
+            "evidence": "I generate suggested replies that a human operator must review and approve before they are sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot send messages automatically. I generate suggested replies that a human operator must review and approve before they are sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly states that the bot does not send automatically.",
+            "evidence": "I generate suggested replies that a human operator must review and approve before they are sent to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I generate suggested replies that a human operator must review and approve before they are sent to you.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the requested cross-workspace export.",
+            "evidence": "TableCards enforces workspace boundaries for privacy and security, and support cannot access, export, or modify projects outside your selected workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Applies the boundary to the customer's own statement that the project is elsewhere.",
+            "evidence": "TableCards enforces workspace boundaries for privacy and security, and support cannot access, export, or modify projects outside your selected workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe project \"synthetic_other_project\" is not accessible in your current workspace. TableCards enforces workspace boundaries for privacy and security, and support cannot access, export, or modify projects outside your selected workspace. Ensure you are signed in to the correct account and workspace. For further assistance, contact TableCards support directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and correct-workspace direction are clear.",
+            "evidence": "TableCards enforces workspace boundaries for privacy and security, and support cannot access, export, or modify projects outside your selected workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards enforces workspace boundaries for privacy and security, and support cannot access, export, or modify projects outside your selected workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the two-line limit and leaves name changes with the customer.",
+            "evidence": "You’ll need to manually adjust the name (e.g., abbreviate, split into two lines, or check language support) before re-exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "No silent truncation and explicit fit failures match the reference.",
+            "evidence": "If the name exceeds this, the export will fail explicitly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system does not silently truncate long names during export. Instead, it enforces a two-line maximum for names (e.g., \"First-Middle-Last\" or \"First Last\" with a hyphenated middle name). If the name exceeds this, the export will fail explicitly. For unsupported scripts (e.g., certain non-Latin languages) or impossible text fits, the system blocks export entirely. You’ll need to manually adjust the name (e.g., abbreviate, split into two lines, or check language support) before re-exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives understandable customer-controlled editing options.",
+            "evidence": "You’ll need to manually adjust the name (e.g., abbreviate, split into two lines, or check language support) before re-exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You’ll need to manually adjust the name (e.g., abbreviate, split into two lines, or check language support) before re-exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "When you provide a company icon or style image, it is used as inspiration for the AI-generated backgrounds rather than being copied exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "When you provide a company icon or style image, it is used as inspiration for the AI-generated backgrounds rather than being copied exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the AI does not guarantee an exact reproduction of an uploaded logo. When you provide a company icon or style image, it is used as inspiration for the AI-generated backgrounds rather than being copied exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "When you provide a company icon or style image, it is used as inspiration for the AI-generated backgrounds rather than being copied exactly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When you provide a company icon or style image, it is used as inspiration for the AI-generated backgrounds rather than being copied exactly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses cross-workspace guest export.",
+            "evidence": "TableCards restricts project access to the workspace where the project was saved, and support cannot bypass this security measure. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ownership and collaboration-permission boundaries match reviewed knowledge.",
+            "evidence": "TableCards restricts project access to the workspace where the project was saved, and support cannot bypass this security measure. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with exporting guest names from a project that is not in your workspace. TableCards restricts project access to the workspace where the project was saved, and support cannot bypass this security measure. Ensure the project is in your current workspace, or contact the project owner if it belongs to a shared workspace. Exporting requires proper workspace ownership or collaboration permissions.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the limit and a legitimate owner-contact alternative.",
+            "evidence": "TableCards restricts project access to the workspace where the project was saved, and support cannot bypass this security measure. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards restricts project access to the workspace where the project was saved, and support cannot bypass this security measure. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains no automatic truncation and customer-controlled adjustment.",
+            "evidence": "According to TableCards' guidelines, longer names should be split into **up to two balanced lines** manually. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the guidelines require manual line splitting, which is not established.",
+            "evidence": "According to TableCards' guidelines, longer names should be split into **up to two balanced lines** manually. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system does not support silent truncation of long names during export. According to TableCards' guidelines, longer names should be split into **up to two balanced lines** manually. If the name contains unsupported scripts or formatting, the export will fail explicitly before processing. \n\nTo resolve this, you may:\n1. Adjust the name to fit within two lines (e.g., adding a line break).\n2. Verify the name uses supported characters (Latin accented letters like Vietnamese are allowed).\n3. Contact support with specific details if the issue persists. \n\nLet me know if further clarification is needed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The editing advice is understandable despite the unsupported line-break detail.",
+            "evidence": "According to TableCards' guidelines, longer names should be split into **up to two balanced lines** manually. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to TableCards' guidelines, longer names should be split into **up to two balanced lines** manually. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "Uploaded logos are treated as optional inspiration rather than a strict requirement for the design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "Uploaded logos are treated as optional inspiration rather than a strict requirement for the design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, it does not guarantee exact reproduction. Uploaded logos are treated as optional inspiration rather than a strict requirement for the design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "Uploaded logos are treated as optional inspiration rather than a strict requirement for the design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Uploaded logos are treated as optional inspiration rather than a strict requirement for the design.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n",
+            "reason": "Claims Free-tier access remains active without verified current account context.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Reassures about the preview but invents current Free access.",
+            "evidence": "No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts unseen Free-tier account state.",
+            "evidence": "No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYou haven't been charged or subscribed to Planner Pro. The current deployment is a **no-charge preview**, and the displayed \"Planner Pro\" status may reflect a temporary or placeholder view in the interface. No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n\nIf concerned, contact TableCards support via the [contact form](https://tablecards.com/contact) to clarify your account status. Note: Support cannot modify accounts or issue refunds, as per the preview's terms.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The stated reassurance and contact suggestion are understandable.",
+            "evidence": "No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No payment was processed, and free-tier access remains active unless explicitly upgraded.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes event-only artwork from reusable professional presets.",
+            "evidence": "- Reusable custom presets (i.e., saving reusable custom presets for projects and events) are highlighted as part of the Planner Pro offer, not the Event Pass offer.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Event Pass and Planner Pro features follow the references.",
+            "evidence": "- Reusable custom presets (i.e., saving reusable custom presets for projects and events) are highlighted as part of the Planner Pro offer, not the Event Pass offer.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "- Event Pass ($5 one‑time, one event up to 500 cards) includes full‑premium predefined designs, the ability to upload event‑only artwork, and 2 AI batches.\n- Reusable custom presets (i.e., saving reusable custom presets for projects and events) are highlighted as part of the Planner Pro offer, not the Event Pass offer.\n- If reusable custom presets is important for you, Planner Pro could meet that need.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The comparison and suitable alternative are clear.",
+            "evidence": "- Reusable custom presets (i.e., saving reusable custom presets for projects and events) are highlighted as part of the Planner Pro offer, not the Event Pass offer.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- Reusable custom presets (i.e., saving reusable custom presets for projects and events) are highlighted as part of the Planner Pro offer, not the Event Pass offer.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains no silent truncation and leaves edits to the customer.",
+            "evidence": "You'll need to manually split the name into two lines (if possible) or adjust the layout in the preview before exporting. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The asserted need for manual line splitting is not verified.",
+            "evidence": "You'll need to manually split the name into two lines (if possible) or adjust the layout in the preview before exporting. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system does not silently truncate long names during export. According to the guidelines: \"Longer names can use up to two balanced lines, never silent truncation.\" You'll need to manually split the name into two lines (if possible) or adjust the layout in the preview before exporting. If the name contains unsupported scripts or combining marks, the export will fail explicitly. For specific cases, review the name format or contact support with details, but note that truncation is not an automated option.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed formatting adjustment is understandable.",
+            "evidence": "You'll need to manually split the name into two lines (if possible) or adjust the layout in the preview before exporting. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You'll need to manually split the name into two lines (if possible) or adjust the layout in the preview before exporting. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.tuning.calibration.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers about delivering place cards rather than sending a support draft.",
+            "evidence": "We do not have a feature to automatically send or deliver the place cards to them.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The PDF and no-delivery product statements are accurate.",
+            "evidence": "We do not have a feature to automatically send or deliver the place cards to them.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards provides downloadable PDFs that you can print and distribute to your guests yourself. We do not have a feature to automatically send or deliver the place cards to them.\n\nIf you were referring to something else, please let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Leaves the actual draft-sending workflow unexplained.",
+            "evidence": "Operator exact Send still required.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We do not have a feature to automatically send or deliver the place cards to them.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains a two-line fit and customer-controlled editing without claiming an action.",
+            "evidence": "To resolve this, split the name into two lines (e.g., \"First/Second\") to fit the layout. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The manual two-line editing mechanism is not verified.",
+            "evidence": "To resolve this, split the name into two lines (e.g., \"First/Second\") to fit the layout. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system does not silently truncate long names during export. To resolve this, split the name into two lines (e.g., \"First/Second\") to fit the layout. Preview all cards before exporting to verify formatting. Truncation is not an available option in the current workflow. Would you like guidance on adjusting name formatting?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The slash example does not explain how a supported line split can be made.",
+            "evidence": "To resolve this, split the name into two lines (e.g., \"First/Second\") to fit the layout. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To resolve this, split the name into two lines (e.g., \"First/Second\") to fit the layout. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly explain that the current checkout is a no-charge simulation.",
+            "evidence": "The \"Planner Pro\" mention might relate to a trial period, unpaid preview, or miscommunication. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Speculates about a trial and the display instead of using the known preview status.",
+            "evidence": "The \"Planner Pro\" mention might relate to a trial period, unpaid preview, or miscommunication. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nBased on the information available, TableCards' free tier allows 1 active project, up to 25 cards, and basic features without payment. The \"Planner Pro\" mention might relate to a trial period, unpaid preview, or miscommunication. Since no payment was made, you aren't subscribed. Check your account settings for active plans, or contact TableCards support to clarify. No charges should occur without confirmation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The speculative explanations leave the customer's subscription concern unresolved.",
+            "evidence": "The \"Planner Pro\" mention might relate to a trial period, unpaid preview, or miscommunication. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The \"Planner Pro\" mention might relate to a trial period, unpaid preview, or miscommunication. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Reusable custom presets are only included with the Planner Pro plan ($9/month).\n",
+            "reason": "Claims reusable presets are available only with Planner Pro, contrary to the Studio offering.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly excludes Event Pass but wrongly excludes Studio presets.",
+            "evidence": "Reusable custom presets are only included with the Planner Pro plan ($9/month).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The exclusive Planner Pro claim contradicts Studio shared presets.",
+            "evidence": "Reusable custom presets are only included with the Planner Pro plan ($9/month).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No. Reusable custom presets are only included with the Planner Pro plan ($9/month).\n\nThe Event Pass provides full access to premium predefined designs and allows event-only artwork uploads, but it does not offer reusable custom presets.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The response is clear despite the inaccurate exclusivity.",
+            "evidence": "Reusable custom presets are only included with the Planner Pro plan ($9/month).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Reusable custom presets are only included with the Planner Pro plan ($9/month).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "You can upload a PNG or JPEG (company icon/style image) as reference inspiration to guide the design, but the AI choices generated from that—and the AI as a whole—are not expected to reproduce the logo exactly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "You can upload a PNG or JPEG (company icon/style image) as reference inspiration to guide the design, but the AI choices generated from that—and the AI as a whole—are not expected to reproduce the logo exactly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The AI does not guarantee that your logo is kept exactly as uploaded. You can upload a PNG or JPEG (company icon/style image) as reference inspiration to guide the design, but the AI choices generated from that—and the AI as a whole—are not expected to reproduce the logo exactly. It works best as a stylistic hint rather than a direct copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "You can upload a PNG or JPEG (company icon/style image) as reference inspiration to guide the design, but the AI choices generated from that—and the AI as a whole—are not expected to reproduce the logo exactly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You can upload a PNG or JPEG (company icon/style image) as reference inspiration to guide the design, but the AI choices generated from that—and the AI as a whole—are not expected to reproduce the logo exactly. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "The current guidance indicates that uploaded company icons or style images are considered inspiration and do not guarantee exact logo reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "The current guidance indicates that uploaded company icons or style images are considered inspiration and do not guarantee exact logo reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No. The current guidance indicates that uploaded company icons or style images are considered inspiration and do not guarantee exact logo reproduction. The AI is not designed to replicate your logo identically.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "The current guidance indicates that uploaded company icons or style images are considered inspiration and do not guarantee exact logo reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The current guidance indicates that uploaded company icons or style images are considered inspiration and do not guarantee exact logo reproduction. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains no exact AI reproduction and distinguishes direct custom artwork.",
+            "evidence": "If you are using a logo as **inspiration** for the AI to generate a design, it will not guarantee an exact reproduction of your logo. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The distinction between AI inspiration and uploaded artwork follows reviewed knowledge.",
+            "evidence": "However, if you are uploading a logo as **Custom artwork**, you are providing the image to be used directly on your design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "If you are using a logo as **inspiration** for the AI to generate a design, it will not guarantee an exact reproduction of your logo. The AI uses the image as a style guide rather than a direct copy.\n\nHowever, if you are uploading a logo as **Custom artwork**, you are providing the image to be used directly on your design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the two different image uses.",
+            "evidence": "However, if you are uploading a logo as **Custom artwork**, you are providing the image to be used directly on your design.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "However, if you are uploading a logo as **Custom artwork**, you are providing the image to be used directly on your design.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.tuning.calibration.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI logo reproduction is not guaranteed.",
+            "evidence": "Uploaded images are used only as style-image inspiration, so the AI generates its own variation based on that input rather than making a precise copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration-only AI guidance matches the design reference.",
+            "evidence": "Uploaded images are used only as style-image inspiration, so the AI generates its own variation based on that input rather than making a precise copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, an uploaded logo isn't guaranteed to be reproduced exactly. Uploaded images are used only as style-image inspiration, so the AI generates its own variation based on that input rather than making a precise copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes inspiration from an exact copy.",
+            "evidence": "Uploaded images are used only as style-image inspiration, so the AI generates its own variation based on that input rather than making a precise copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Uploaded images are used only as style-image inspiration, so the AI generates its own variation based on that input rather than making a precise copy.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

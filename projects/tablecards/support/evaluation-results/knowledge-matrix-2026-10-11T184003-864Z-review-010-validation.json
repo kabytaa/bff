@@ -1,0 +1,1251 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-010",
+  "packetHash": "aff9e15ace04222fe0b95f1182ea16af020b3c7dbf232df587b0971a0ecb7de5",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "The TableCards support bot cannot reopen cases, issue discounts, or bypass established policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "The TableCards support bot cannot reopen cases, issue discounts, or bypass established policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe TableCards support bot cannot reopen cases, issue discounts, or bypass established policies. For feedback, please use the official submission form (signed-in users) or support mail link (signed-out visitors). Requests for discounts, refunds, or account changes require review by a human agent, not automated systems. No promises of resolution time, financial adjustments, or policy exceptions can be made.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "For feedback, please use the official submission form (signed-in users) or support mail link (signed-out visitors). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The TableCards support bot cannot reopen cases, issue discounts, or bypass established policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends transliteration despite the customer's explicit request to preserve the names.",
+            "evidence": "For specific cases, you may need to simplify or transliterate Arabic names into Latin characters to ensure proper display. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Offers testing against current capabilities without evidence of a testing facility or verified run.",
+            "evidence": "If you share a sample name (without private data), I can test it against our current capabilities.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards supports Latin-based scripts with accents (like Vietnamese) but may encounter issues with Arabic script due to limited character set compatibility. Unsupported scripts or combining marks can fail explicitly during processing. For specific cases, you may need to simplify or transliterate Arabic names into Latin characters to ensure proper display. If you share a sample name (without private data), I can test it against our current capabilities.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The supported-script limitation is understandable.",
+            "evidence": "Unsupported scripts or combining marks can fail explicitly during processing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "TableCards supports Latin-based scripts with accents (like Vietnamese) but may encounter issues with Arabic script due to limited character set compatibility. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- Cases require verified account association and explicit operator review, not automated actions.  \n",
+            "reason": "General email support does not require verified account association; verification gates private account information.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly declines automatic reopening and discounts.",
+            "evidence": "The TableCards support process does not allow automatic case reopens or discount offers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly says cases require verified account association rather than reserving that requirement for private facts.",
+            "evidence": "- Cases require verified account association and explicit operator review, not automated actions.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe TableCards support process does not allow automatic case reopens or discount offers. According to our guidelines:  \n- No promises of refunds, discounts, or account modifications can be made.  \n- Cases require verified account association and explicit operator review, not automated actions.  \n- Feedback submissions are non-binding and follow-up occurs via email, not ticket portals.  \n\nTo proceed, please clarify:  \n1. Do you have a specific issue needing resolution?  \n2. Are you signed in with the account associated with the feedback?  \n\nThis ensures we handle your request within verified support boundaries.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Conflates general case handling with account verification, making the next steps unnecessarily restrictive.",
+            "evidence": "- Cases require verified account association and explicit operator review, not automated actions.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The TableCards support process does not allow automatic case reopens or discount offers. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the customer can continue using included predefined designs.",
+            "evidence": "Puedes sacar las tarjetas usando cualquiera de los diseños **predefinidos**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says those backgrounds do not require a new AI generation.",
+            "evidence": "Los fondos ya vienen incluidos y la herramienta aplica esos fondos automáticamente sin necesidad de la IA. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Hola. No tienes que esperar. Puedes sacar las tarjetas usando cualquiera de los diseños **predefinidos**. Los fondos ya vienen incluidos y la herramienta aplica esos fondos automáticamente sin necesidad de la IA. \n\nSolo asegúrate de revisar los nombres en la vista previa antes de exportar el PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear optional preview step before PDF export.",
+            "evidence": "Solo asegúrate de revisar los nombres en la vista previa antes de exportar el PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Spanish.",
+            "evidence": "No tienes que esperar. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "You can use the [support form](https://tablecards.com/contact) (if signed in) or the configured support email link. ",
+            "reason": "Fabricates a support-form URL instead of using the configured contact form or mail link.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain the documented supported-script boundary.",
+            "evidence": "Explain supported-script boundary and preserve customer text; no transliteration.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a contact URL not supplied by the reviewed contact routes.",
+            "evidence": "You can use the [support form](https://tablecards.com/contact) (if signed in) or the configured support email link. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe issue with Arabic names not being handled correctly while Vietnamese names with accents work fine seems to relate to language-specific character processing. However, the available information doesn't include technical details about name handling or language support in TableCards. \n\nTo address this, I recommend contacting TableCards support directly for tailored assistance. You can use the [support form](https://tablecards.com/contact) (if signed in) or the configured support email link. Be sure to mention the specific concern about preserving non-anglicized names for accurate follow-up. \n\nLet me know if you'd like help drafting a support message!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly preserves the customer's request against anglicization.",
+            "evidence": "Be sure to mention the specific concern about preserving non-anglicized names for accurate follow-up. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The issue with Arabic names not being handled correctly while Vietnamese names with accents work fine seems to relate to language-specific character processing. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that unsupported names fail rather than being changed or anglicized.",
+            "evidence": "Please be assured that the system does not attempt to \"anglicize\" or modify your names; if a script is unsupported, the process will simply result in an error rather than changing the text.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Broadly declares other scripts unsupported without a reviewed inventory of supported scripts.",
+            "evidence": "Currently, TableCards supports Latin-accented names (such as Vietnamese), but other scripts, including Arabic, are not yet supported and will fail explicitly before you can export. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you're experiencing errors with Arabic names while Vietnamese accents are working correctly.\n\nCurrently, TableCards supports Latin-accented names (such as Vietnamese), but other scripts, including Arabic, are not yet supported and will fail explicitly before you can export. Please be assured that the system does not attempt to \"anglicize\" or modify your names; if a script is unsupported, the process will simply result in an error rather than changing the text.\n\nTo help me look into this further, could you describe the specific error message you are seeing?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused question about the exact error.",
+            "evidence": "To help me look into this further, could you describe the specific error message you are seeing?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I understand you're experiencing errors with Arabic names while Vietnamese accents are working correctly.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the script boundary while preserving the customer's original text.",
+            "evidence": "Arabic is a non-Latin script; when the system encounters unsupported scripts or marks, it is designed to fail explicitly before export rather than attempting to convert or \"anglicize\" the text.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states accented-Latin support without claiming every script works.",
+            "evidence": "The reason for this is that our current support includes many Latin-based characters and accents (like those used in Vietnamese), but not all scripts are supported. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand that you're seeing errors with Arabic names while Vietnamese accents are working as expected.\n\nThe reason for this is that our current support includes many Latin-based characters and accents (like those used in Vietnamese), but not all scripts are supported. Arabic is a non-Latin script; when the system encounters unsupported scripts or marks, it is designed to fail explicitly before export rather than attempting to convert or \"anglicize\" the text.\n\nTo help me investigate further, are you seeing a specific error message when you attempt to export your project?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused question about the export error.",
+            "evidence": "To help me investigate further, are you seeing a specific error message when you attempt to export your project?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I understand that you're seeing errors with Arabic names while Vietnamese accents are working as expected.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs and PDF export remain available without more AI units.",
+            "evidence": "Aunque se te hayan agotado los créditos para generar fondos con IA, los diseños predefinidos (las plantillas que ya vienen incluidas en TableCards) siguen estando disponibles para que los uses y puedas exportar tus tarjetas para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes predefined designs from AI background generation.",
+            "evidence": "Aunque se te hayan agotado los créditos para generar fondos con IA, los diseños predefinidos (las plantillas que ya vienen incluidas en TableCards) siguen estando disponibles para que los uses y puedas exportar tus tarjetas para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Sí, puedes seguir trabajando sin esperar. Aunque se te hayan agotado los créditos para generar fondos con IA, los diseños predefinidos (las plantillas que ya vienen incluidas en TableCards) siguen estando disponibles para que los uses y puedas exportar tus tarjetas para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly answers that the customer need not wait.",
+            "evidence": "Sí, puedes seguir trabajando sin esperar. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Spanish.",
+            "evidence": "Aunque se te hayan agotado los créditos para generar fondos con IA, los diseños predefinidos (las plantillas que ya vienen incluidas en TableCards) siguen estando disponibles para que los uses y puedas exportar tus tarjetas para imprimir.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that included predefined designs can be used after AI units run out.",
+            "evidence": "Aunque se te hayan agotado los usos de la IA, puedes usar los diseños predefinidos que ya vienen incluidos en TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes new AI generation from exporting predefined designs.",
+            "evidence": "La IA es una función para generar fondos nuevos, pero los diseños de la biblioteca siempre están disponibles para que los uses en tus proyectos y puedas exportar tus PDFs para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Hola. Sí, puedes seguir adelante sin esperar. \n\nAunque se te hayan agotado los usos de la IA, puedes usar los diseños predefinidos que ya vienen incluidos en TableCards. La IA es una función para generar fondos nuevos, pero los diseños de la biblioteca siempre están disponibles para que los uses en tus proyectos y puedas exportar tus PDFs para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly answers that the customer can proceed.",
+            "evidence": "Sí, puedes seguir adelante sin esperar. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Spanish.",
+            "evidence": "Aunque se te hayan agotado los usos de la IA, puedes usar los diseños predefinidos que ya vienen incluidos en TableCards. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not provide the documented supported-script explanation.",
+            "evidence": "Explain supported-script boundary and preserve customer text; no transliteration.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Speculates about normalization as the likely cause without evidence.",
+            "evidence": "Because the issue happens in Arabic specifically but not for Vietnamese accents, it’s likely tied to how those strings are normalized or converted before the PDF is generated.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thanks for the note. I’ve checked the basics for TableCards but nothing in our knowledge today covers how names are processed for languages like Arabic or how diacritics are handled.\n\nThat said, here are a few likely contributors you could try:\n\n- Ensure you paste or import Arabic names as plain Latin/Unicode text (no conversion or manual fixes). If your content is being converted to unaccented text before loading into TableCards, that may override proper tone marks or diacritics.\n- If importing from CSV/XLSX, verify the column with the names doesn’t have a trim or accent removal step anywhere upstream.\n\nBecause the issue happens in Arabic specifically but not for Vietnamese accents, it’s likely tied to how those strings are normalized or converted before the PDF is generated.\n\nWhat I’m not sure of:\n- How accents are preserved or removed during export/import in your account.\n- Whether your file format introduces steps that strip diacritics.\n\nTo proceed, could you confirm:\n1) Are you importing the names directly into TableCards (CSV/XLSX, pasted list) or are they added elsewhere and then brought in?\n2) If you import, is the Arabic text already in the spreadsheet/file before you upload, or are you typing/ pasting into TableCards?\n\nOnce I have that, I can guide you further or help locate the source if there’s a known setting not yet documented. If you prefer, we can also flag this to our support line.\n\n— TableCards Support",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Conflates Latin and Unicode text when instructing the customer to preserve Arabic names.",
+            "evidence": "- Ensure you paste or import Arabic names as plain Latin/Unicode text (no conversion or manual fixes). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Thanks for the note. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic compensation and explains that further help needs review.",
+            "evidence": "- Compensation or discounts: The system never issues refunds, compensation, or discounts on behalf of any case. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Conflates the negative feedback-rating link with the general contact form.",
+            "evidence": "- What the Feedback link does: It’s intended for you to submit a Problem, Question, or Feedback via the shared form (members are signed‑in when they open it). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Feedback matters to us, but this request cannot be fulfilled by the feedback link or support flow itself. Here’s what the feedback system can and cannot do:\n\n- What the Feedback link does: It’s intended for you to submit a Problem, Question, or Feedback via the shared form (members are signed‑in when they open it). For visitors, the configured support mail link is provided.\n- What it doesn’t do: Opening the form does not reopen a prior support case. Opening a mail link (without a form submission) sends nothing. There is no ticket‑history reply portal within the support flow; follow‑up happens by email and a fixed receipt confirms intake, not resolution.\n- Compensation or discounts: The system never issues refunds, compensation, or discounts on behalf of any case. No response time, compensation, or compensation guarantees are provided.\n\nIf you’d like another way to reach human support, I can help you copy evidence (if you have a case number or details) into a concise handoff summary for an admitted operator to review, or send you to the correct curated knowledge sections. For policies on compensation, allowances, or discounts, you can also review the “Offers and limits” content in the TableCards support catalog.\n\nWhat would you prefer?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Introduces internal operator and knowledge-catalog terminology into customer next steps.",
+            "evidence": "If you’d like another way to reach human support, I can help you copy evidence (if you have a case number or details) into a concise handoff summary for an admitted operator to review, or send you to the correct curated knowledge sections. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Feedback matters to us, but this request cannot be fulfilled by the feedback link or support flow itself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined backgrounds can be used immediately for printing.",
+            "evidence": "Si generaste las tarjetas con uno de los fondos predefinidos, puedes sacarlas a imprimir en cuanto termines. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says the customer does not need to wait for another AI allowance.",
+            "evidence": "No tienes que esperar a nuevas sesiones de la IA. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "¡Claro que sí! Si generaste las tarjetas con uno de los fondos predefinidos, puedes sacarlas a imprimir en cuanto termines. No tienes que esperar a nuevas sesiones de la IA. Solo asegúrate de descargar el PDF de las tarjetas (mucho ojo con la opción de “ajustar a página”: imprinted en tamaño real, no en “ajustar a página”). Revisa una réplica de impresión para comprobar el tamaño y las cargas de nombres justo antes de imprimirlo.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instruction about an impression replica and name loads is materially unclear.",
+            "evidence": "Revisa una réplica de impresión para comprobar el tamaño y las cargas de nombres justo antes de imprimirlo.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "An unrelated English verb interrupts the Spanish printing instruction.",
+            "evidence": "Solo asegúrate de descargar el PDF de las tarjetas (mucho ojo con la opción de “ajustar a página”: imprinted en tamaño real, no en “ajustar a página”). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "The system cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "The system cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system cannot automatically reopen cases or issue discounts. Feedback submissions require using the designated form (signed-in users) or support mail link (signed-out visitors). For assistance, please describe your specific issue, and we'll provide guidance based on verified procedures. No guarantees of outcomes can be made through automated responses.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "For assistance, please describe your specific issue, and we'll provide guidance based on verified procedures. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The system cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. To follow up on a previous issue or submit a formal request, please use the contact form on our site (if signed in) or reach out via the support email link. This will ensure your request is reviewed by our team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "To follow up on a previous issue or submit a formal request, please use the contact form on our site (if signed in) or reach out via the support email link. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines reopening or sending a discount.",
+            "evidence": "I cannot reopen the case or send a discount. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents an unverified read-only form-status meaning for the feedback link.",
+            "evidence": "The feedback link shows a read-only status for a submitted form, and I am not authorized to modify cases or process refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot reopen the case or send a discount. The feedback link shows a read-only status for a submitted form, and I am not authorized to modify cases or process refunds. Please submit a new request via the contact form for further assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear next step for further assistance.",
+            "evidence": "Please submit a new request via the contact form for further assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot reopen the case or send a discount. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. To ensure your feedback or issue is officially recorded and reviewed by our team, please submit a formal request through the support form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "To ensure your feedback or issue is officially recorded and reviewed by our team, please submit a formal request through the support form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot automatically reopen cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that the customer can use predefined backgrounds without waiting.",
+            "evidence": "Puedes generar las tarjetas para imprimir usando los fondos y plantillas predefinidos que ya vienen en el producto. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Confusingly describes the predefined designs as disabled rather than the AI feature.",
+            "evidence": "La exportación en PDF funciona igual con esos diseños desactivados; no necesitas créditos de IA activos para usar",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No tienes que esperar. Puedes generar las tarjetas para imprimir usando los fondos y plantillas predefinidos que ya vienen en el producto. La exportación en PDF funciona igual con esos diseños desactivados; no necesitas créditos de IA activos para usar",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Ends mid-instruction after a confusing statement about disabled designs.",
+            "evidence": "La exportación en PDF funciona igual con esos diseños desactivados; no necesitas créditos de IA activos para usar",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The wrong object and unfinished sentence materially impair the Spanish explanation.",
+            "evidence": "La exportación en PDF funciona igual con esos diseños desactivados; no necesitas créditos de IA activos para usar",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "However, Arabic names may encounter issues if the script or combining marks are unsupported, potentially leading to anglicization or rendering errors. \n",
+            "reason": "Unsupported scripts fail explicitly before export rather than being automatically anglicized.",
+            "referenceKey": "tablecards.printing"
+          },
+          {
+            "code": "privacy_or_identity_violation",
+            "evidence": "**Contact Support**: For specific cases, share the exact names (or a sample) with support for tailored guidance.\n",
+            "reason": "Requests exact guest contents for support instead of a synthetic or sanitized example.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends transliteration despite the customer's explicit request not to anglicize names.",
+            "evidence": "**Simplify if Needed**: If Arabic names fail, consider transliterating them into a supported script (e.g., Latin-based) for accurate display.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims unsupported scripts can lead to anglicization instead of explicit failure.",
+            "evidence": "However, Arabic names may encounter issues if the script or combining marks are unsupported, potentially leading to anglicization or rendering errors. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Requests actual guest names rather than a sanitized example.",
+            "evidence": "**Contact Support**: For specific cases, share the exact names (or a sample) with support for tailored guidance.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preview instruction is understandable.",
+            "evidence": "**Verify in Preview**: Check the name display in the live preview before exporting.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The system handles Latin-based accents (e.g., Vietnamese names with diacritics) correctly, as confirmed by the printing guidelines. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "Human review is required for any adjustments, and automated case reopening or discounts are not permitted under current policies.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "Human review is required for any adjustments, and automated case reopening or discounts are not permitted under current policies.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYour request cannot be processed automatically. For feedback, issues, or discount considerations, please use the official TableCards contact form (available via the \"Contact\" section) or support email. Human review is required for any adjustments, and automated case reopening or discounts are not permitted under current policies.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "For feedback, issues, or discount considerations, please use the official TableCards contact form (available via the \"Contact\" section) or support email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Your request cannot be processed automatically. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic reopening and discounts while leaving the request for human review.",
+            "evidence": "I cannot reopen support cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat feedback as authority for status changes or compensation.",
+            "evidence": "I cannot reopen support cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot reopen support cases or issue discounts. If you have a specific problem or feedback you would like our team to review, please submit it through the official Question, Problem, or Feedback form or via our support email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable way to request further help.",
+            "evidence": "If you have a specific problem or feedback you would like our team to review, please submit it through the official Question, Problem, or Feedback form or via our support email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot reopen support cases or issue discounts. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers in terms of cards and guest names rather than whether the team is full.",
+            "evidence": "As long as your account’s offer supports at least 5 cards (e.g., the Free plan allows up to 25), you are within allowed capacity and can simply add 5 names to your export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The conditional Free card limit is accurate but does not establish team capacity.",
+            "evidence": "As long as your account’s offer supports at least 5 cards (e.g., the Free plan allows up to 25), you are within allowed capacity and can simply add 5 names to your export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "That equals 5 people total (4 guests + you). This would fill exactly 5 spots.\n\nAs long as your account’s offer supports at least 5 cards (e.g., the Free plan allows up to 25), you are within allowed capacity and can simply add 5 names to your export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Conflating card capacity with team places makes the answer misleading.",
+            "evidence": "As long as your account’s offer supports at least 5 cards (e.g., the Free plan allows up to 25), you are within allowed capacity and can simply add 5 names to your export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "That equals 5 people total (4 guests + you). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "While Vietnamese accented names are handled, Arabic scripts might not render correctly, potentially leading to anglicization. \n",
+            "reason": "Unsupported scripts produce explicit failures before export, not automatic anglicization.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Tells the customer to replace Arabic with Latin despite the request not to anglicize names.",
+            "evidence": "**Simplify if Needed**: Use standard Latin characters for Arabic names if rendering fails.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly suggests unsupported Arabic may be automatically anglicized.",
+            "evidence": "While Vietnamese accented names are handled, Arabic scripts might not render correctly, potentially leading to anglicization. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nArabic names may encounter issues if the script or combining marks are unsupported, as per TableCards' current capabilities. While Vietnamese accented names are handled, Arabic scripts might not render correctly, potentially leading to anglicization. \n\nTo address this:\n1. **Verify in Preview**: Check the name display in the project preview before exporting.\n2. **Simplify if Needed**: Use standard Latin characters for Arabic names if rendering fails.\n3. **Contact Support**: If the issue persists, share a specific example (without private data) for investigation.\n\nTableCards prioritizes supported scripts (e.g., Latin with accents) but cannot guarantee all international scripts. Let me know how you'd like to proceed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The request for a non-private example is understandable.",
+            "evidence": "**Contact Support**: If the issue persists, share a specific example (without private data) for investigation.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Arabic names may encounter issues if the script or combining marks are unsupported, as per TableCards' current capabilities. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards preserves the entered names rather than anglicizing them.",
+            "evidence": "TableCards does not translate or Anglicise names; it exports the exact text you paste. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assigns the unverified error specifically to the preview layout engine.",
+            "evidence": "If Arabic names are triggering a hard error while Vietnamese accents pass, it means the layout engine in the preview cannot render that specific Arabic script or character combination.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards does not translate or Anglicise names; it exports the exact text you paste. If Arabic names are triggering a hard error while Vietnamese accents pass, it means the layout engine in the preview cannot render that specific Arabic script or character combination.\n\nHere are some steps to verify where the issue occurs:\n\n1.  **Plain Text Check:** Copy your Arabic names",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Starts a copying instruction but stops before saying what to do with the text.",
+            "evidence": "**Plain Text Check:** Copy your Arabic names",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "TableCards does not translate or Anglicise names; it exports the exact text you paste. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the supported-script boundary without suggesting transliteration.",
+            "evidence": "While TableCards supports Latin-based accented characters (which is why Vietnamese names work correctly), we do not currently support all writing systems, and Arabic may be one of the scripts that is not yet supported.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps the precise Arabic failure uncertain while correctly identifying accented-Latin support.",
+            "evidence": "While TableCards supports Latin-based accented characters (which is why Vietnamese names work correctly), we do not currently support all writing systems, and Arabic may be one of the scripts that is not yet supported.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "While TableCards supports Latin-based accented characters (which is why Vietnamese names work correctly), we do not currently support all writing systems, and Arabic may be one of the scripts that is not yet supported.\n\nTo help us investigate, could you please describe the exact error message you receive or how the names appear when they fail?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused question about the actual error.",
+            "evidence": "To help us investigate, could you please describe the exact error message you receive or how the names appear when they fail?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "While TableCards supports Latin-based accented characters (which is why Vietnamese names work correctly), we do not currently support all writing systems, and Arabic may be one of the scripts that is not yet supported.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 11,
+  "invalid": 0,
+  "unsure": 0
+}

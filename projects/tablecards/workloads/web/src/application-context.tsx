@@ -1,15 +1,24 @@
 import { createContext, useContext, type PropsWithChildren } from 'react';
 
-const ApplicationContext = createContext({
+const ApplicationContext = createContext<{
+  developmentControlsEnabled: boolean;
+  operations?: { apiBaseUrl: string; environmentKey: string };
+}>({
   developmentControlsEnabled: false,
 });
 
 export function TableCardsApplicationProvider({
   developmentControlsEnabled,
+  operations,
   children,
-}: PropsWithChildren<{ readonly developmentControlsEnabled: boolean }>) {
+}: PropsWithChildren<{
+  readonly developmentControlsEnabled: boolean;
+  readonly operations?: { apiBaseUrl: string; environmentKey: string };
+}>) {
   return (
-    <ApplicationContext.Provider value={{ developmentControlsEnabled }}>
+    <ApplicationContext.Provider
+      value={{ developmentControlsEnabled, operations }}
+    >
       {children}
     </ApplicationContext.Provider>
   );

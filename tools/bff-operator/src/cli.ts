@@ -1,12 +1,16 @@
 import { parseArgs } from 'node:util';
 import { randomBytes } from 'node:crypto';
+import { SUPPORT_HELP } from './supportOperations';
 
 import {
   accountPolicyOverridesSchema,
   customerAuthConfigurationSchema,
   publicIdentifierSchema,
+  operatorWorkConfigurationSchema,
+  operatorWorkSeedSchema,
   type AccountPolicyOverrides,
   type CustomerAuthConfiguration,
+  type OperatorWorkConfiguration,
 } from '@bff/contracts';
 
 interface CommandTarget {
@@ -16,6 +20,25 @@ interface CommandTarget {
 }
 
 export type OperatorCommand =
+  | (CommandTarget & {
+      name: 'preview-operator-work';
+      args: {
+        environmentKey: string;
+        configuration: OperatorWorkConfiguration;
+      };
+    })
+  | (CommandTarget & {
+      name: 'configure-operator-work';
+      args: {
+        environmentKey: string;
+        expectedRevision: number;
+        configuration: OperatorWorkConfiguration;
+      };
+    })
+  | (CommandTarget & {
+      name: 'seed-operator-work';
+      args: { environmentKey: string; payload: string };
+    })
   | (CommandTarget & {
       name: 'create';
       args: {
@@ -101,6 +124,12 @@ export class CliError extends Error {
 }
 
 export const HELP = `Usage:
+  pnpm bff:environment -- preview-operator-work --deployment <local|reference> --key <key> (--configuration-json <json> | --operator-defaults-module <path> [--configuration-overrides-json <json>]) [--confirm-cloud]
+  pnpm bff:environment -- configure-operator-work --deployment <local|reference> --key <key> --expected-revision <revision> (--configuration-json <json> | --operator-defaults-module <path> [--configuration-overrides-json <json>]) [--confirm-cloud]
+  pnpm bff:environment -- seed-operator-work --deployment <local|dev> --key <development-key> (--seed-json <json> | --seed-module <path>) [--confirm-cloud]
+  pnpm bff:environment -- evaluate-operator-work --fixture-module <path> --operator-defaults-module <path> --report-directory <projects/business/...> [--live --confirm-model-cost (--judge-calibration-module <path> | --capture-only)]
+  pnpm bff:environment -- experiment-operator-knowledge --fixture-module <path> --operator-defaults-module <path> --compact-defaults-module <path> --mandatory-skill <key> --report-directory <projects/business/...> [--case-id <id>] [--live --confirm-model-cost]
+  pnpm bff:environment -- experiment-generation-control --fixture-module <path> --operator-defaults-module <path> --compact-defaults-module <path> --report-directory <projects/business/...> --live --confirm-model-cost [--order-seed <seed>]
   pnpm bff:environment -- create --deployment <local|reference> --key <key> --business-name <name> --environment-name <name> [--confirm-cloud]
   pnpm bff:environment -- inspect --deployment <local|reference> --key <key> [--confirm-cloud]
   pnpm bff:environment -- list --deployment <local|reference> [--confirm-cloud]
@@ -114,9 +143,14 @@ export const HELP = `Usage:
   pnpm bff:environment -- revoke-customer-session --deployment <local|reference> --key <key> --session-id <id> [--confirm-cloud]
 
 Customer auth must be previewed before apply. Code-owned defaults plus environment JSON are composed into the same validated effective snapshot. Neither form contains credentials.
-Cloud targets are refused unless --confirm-cloud is present. Production writes additionally require --confirm-production with the exact deployment reference.`;
+Cloud targets are refused unless --confirm-cloud is present. Production writes additionally require --confirm-production with the exact deployment reference.
+
+${SUPPORT_HELP}`;
 
 const commandNames = [
+  'preview-operator-work',
+  'configure-operator-work',
+  'seed-operator-work',
   'create',
   'inspect',
   'list',
@@ -232,6 +266,7 @@ function isProductionDeployment(deployment: string): boolean {
 }
 
 const productionWriteCommands = new Set<CommandName>([
+  'configure-operator-work',
   'create',
   'update',
   'preview-customer-auth',
@@ -262,6 +297,7 @@ export function parseCommand(argv: string[]): OperatorCommand {
       'confirm-cloud': { type: 'boolean', default: false },
       'confirm-production': { type: 'string' },
       'configuration-json': { type: 'string' },
+      'seed-json': { type: 'string' },
       cursor: { type: 'string' },
       deployment: { type: 'string' },
       'display-name': { type: 'string' },
@@ -298,7 +334,13 @@ export function parseCommand(argv: string[]): OperatorCommand {
     );
   }
   if (
-    isProductionDeployment(deployment) &&
+    // Only the new configuration command treats an unknown concrete deployment
+    // as production; retain historical target handling for existing commands.
+    (name === 'configure-operator-work'
+      ? !['local', 'dev', 'development', 'compassionate-buffalo-689'].includes(
+          deployment,
+        )
+      : isProductionDeployment(deployment)) &&
     productionWriteCommands.has(name) &&
     confirmProduction !== deployment
   ) {
@@ -317,6 +359,64 @@ export function parseCommand(argv: string[]): OperatorCommand {
   }
 
   const key = validKey(required(values.key, '--key'));
+  if (name === 'preview-operator-work' || name === 'configure-operator-work') {
+    let configuration: OperatorWorkConfiguration;
+    try {
+      configuration = operatorWorkConfigurationSchema.parse(
+        JSON.parse(
+          required(values['configuration-json'], '--configuration-json'),
+        ),
+      );
+    } catch {
+      throw new CliError(
+        '--configuration-json must be valid Operator work configuration JSON',
+      );
+    }
+    if (name === 'preview-operator-work')
+      return { name, ...target, args: { environmentKey: key, configuration } };
+    return {
+      name,
+      ...target,
+      args: {
+        environmentKey: key,
+        expectedRevision: validRevision(
+          values['expected-revision'],
+          '--expected-revision',
+        ),
+        configuration,
+      },
+    };
+  }
+  if (name === 'seed-operator-work') {
+    if (
+      !key.endsWith('-development') ||
+      !['local', 'dev', 'development', 'compassionate-buffalo-689'].includes(
+        deployment,
+      )
+    )
+      throw new CliError(
+        'Synthetic Operator seed requires an explicit development deployment and development environment key',
+      );
+    let payload: string;
+    try {
+      const parsed = operatorWorkSeedSchema.parse(
+        JSON.parse(required(values['seed-json'], '--seed-json')),
+      );
+      if (
+        parsed.cases.some(
+          (item) => !item.contactEmail.endsWith('.example.invalid'),
+        )
+      )
+        throw new Error('Synthetic recipients required');
+      payload = JSON.stringify(parsed);
+      if (payload.length > 500_000) throw new Error('Seed too large');
+    } catch {
+      throw new CliError(
+        '--seed-json must be bounded synthetic Operator work JSON using .example.invalid recipients',
+      );
+    }
+    return { name, ...target, args: { environmentKey: key, payload } };
+  }
   if (name === 'inspect') {
     return { name, ...target, args: { key } };
   }
@@ -513,6 +613,15 @@ export function buildConvexInvocation(
   let functionReference: string;
   let args: Record<string, unknown> = command.args;
   switch (command.name) {
+    case 'preview-operator-work':
+      functionReference = 'operations:previewConfiguration';
+      break;
+    case 'configure-operator-work':
+      functionReference = 'operations:configure';
+      break;
+    case 'seed-operator-work':
+      functionReference = 'operations:seedDevelopment';
+      break;
     case 'preview-customer-auth':
       functionReference = 'customerOperations:previewCustomerConfiguration';
       break;

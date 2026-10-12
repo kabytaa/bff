@@ -1,0 +1,885 @@
+{
+  "version": 1,
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-016",
+  "reviewer": "Astra xhigh blind",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not accept spousal relationship or urgency as permission.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "Implies support can remove members after verification despite the documented no-removal boundary.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "Leaves support authority after ownership verification ambiguous.",
+            "evidenceId": "A2"
+          },
+          "clarity": {
+            "reason": "Directs the customer to request a support action that support cannot perform.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Contradicts release of failed-generation reservations.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "Falsely says a failed attempt normally consumes the reserved unit.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "Does not claim to have changed credits or verified the actual balance.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Recommends another attempt based on an incorrect consumption and reset explanation.",
+            "evidenceId": "A9"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A2",
+            "referenceId": "R4",
+            "reason": "A failed AI generation releases its reserved unit rather than consuming it as standard behavior."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Says failed generations consume units instead of explaining reservation release.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "Directly contradicts the failed-generation release rule.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "Claims no performed credit change or account access.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Says the same unit is both used and released, leaving the customer confused.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A2",
+            "referenceId": "R4",
+            "reason": "Failed generations release their reserved units; they are not counted as permanently used."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Mistakes mobile accessibility feedback for a card-design or PDF issue.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The font and color controls exist, but do not establish which page the customer means.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No modification or unsupported commitment is claimed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Design-export advice does not address pale app text with the phone font enlarged.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Directs the request to authorized account handling.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains that Google is the only available login method.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The answer is concise and clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains that Google is the only available login method.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The answer is concise and clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-011",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains that Google is the only available login method.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The answer is concise and clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-012",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-013",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains manual saving but does not ask for the visible PDF or download state.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The explicit support URL is not established by the references.",
+            "evidenceId": "A10"
+          },
+          "authority": {
+            "reason": "No send, export or account change is claimed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The unverified contact link weakens the troubleshooting next step.",
+            "evidenceId": "A10"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-014",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-015",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Directs the request to authorized account handling.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-016",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Distinguishes generated availability from manual saving and asks the customer to check the visible prompt.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The advice does not claim that the PDF was already saved.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The prompt and Files checks give understandable next steps.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-017",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Distinguishes availability from saving but omits a focused current-state question.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The claimed Download Files permission switch is unverified.",
+            "evidenceId": "A6"
+          },
+          "authority": {
+            "reason": "No action is performed or claimed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Points the customer to an unestablished Safari permission control.",
+            "evidenceId": "A6"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-018",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains manual saving but gives a broad checklist instead of asking what is visible.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The specified site download-permission route is unverified.",
+            "evidenceId": "A5"
+          },
+          "authority": {
+            "reason": "No action is performed or claimed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The permission instructions may send the customer to nonexistent controls.",
+            "evidenceId": "A5"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-019",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Directs the request to authorized account handling.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-020",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-021",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains failed-unit release and explicitly keeps the actual balance unknown.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The failure reservation rule matches reviewed knowledge.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The general rule and account-data limitation are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-022",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-023",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains that Google is the only available login method.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The answer is concise and clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-024",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly explains the lack of download proof.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

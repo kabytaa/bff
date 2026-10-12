@@ -5,7 +5,11 @@ export const TABLECARDS_WEB_URL = 'https://tablecards-dev.tofler.app';
 
 export default defineConfig({
   testDir: './src',
-  testIgnore: '**/production-smoke.spec.ts',
+  testIgnore: [
+    '**/production-smoke.spec.ts',
+    '**/operator-work.spec.ts',
+    '**/operator-live.spec.ts',
+  ],
   // Keep hosted artifacts separate from the repository's local browser suites.
   outputDir: './test-results',
   fullyParallel: false,
@@ -18,8 +22,9 @@ export default defineConfig({
   use: {
     actionTimeout: 20_000,
     baseURL: TABLECARDS_WEB_URL,
-    screenshot: 'only-on-failure',
-    trace: 'retain-on-failure',
+    // Hosted synthetic authorization grants must never be retained in traces.
+    screenshot: 'off',
+    trace: 'off',
     video: 'off',
   },
   projects: [

@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-027",
+  "packetHash": "5d84da2c08b7493c5e472c771fef482bb1b4506828e9c0231a0dcf64296e9e91",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "If you want to include the \"Meal\" information, you can map that column to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "If you want to include the \"Meal\" information, you can map that column to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can choose which columns to use during the import process. \n\nWhen you upload your CSV or XLSX file, you will be asked to map your columns to the specific fields TableCards uses:\n\n* **Guest Name**\n* **Table** (optional)\n* **Short Marker** (optional)\n\nIn your case, you can map your \"Name\" and \"Table\" columns directly. If you want to include the \"Meal\" information, you can map that column to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "If you want to include the \"Meal\" information, you can map that column to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you want to include the \"Meal\" information, you can map that column to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot role changes and directs the request to workspace authority.",
+            "evidence": "These changes must be handled by the **Owner** of your workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and owner-controlled Admin-role direction follow reviewed rules.",
+            "evidence": "These changes must be handled by the **Owner** of your workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot change your role to Admin, and the support team is also unable to change roles, transfer ownership, or manage permissions for you. \n\nThese changes must be handled by the **Owner** of your workspace. If you need different permissions, please contact them directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission boundary and next step are clear.",
+            "evidence": "These changes must be handled by the **Owner** of your workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "These changes must be handled by the **Owner** of your workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "If you want the information from your \"Meal\" column to appear on the card, you can map it to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "If you want the information from your \"Meal\" column to appear on the card, you can map it to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can choose how your columns map to the information on the cards.\n\nDuring the import process, you will map your spreadsheet columns to these specific fields:\n* **Guest Name**\n* **Table** (optional)\n* **Short Marker** (optional)\n\nIf you want the information from your \"Meal\" column to appear on the card, you can map it to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "If you want the information from your \"Meal\" column to appear on the card, you can map it to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you want the information from your \"Meal\" column to appear on the card, you can map it to the **Short Marker** field.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recognizes the reported scaling setting and suggests actual-size printing.",
+            "evidence": "**Scale:** Change the scaling option to **100%** or **Actual Size**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling correction and matching paper requirement follow the printing reference.",
+            "evidence": "**Scale:** Change the scaling option to **100%** or **Actual Size**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "That \"shrink oversized pages\" message means the browser is automatically scaling down the PDF to fit your paper size (like Letter vs. A4), which makes the cards appear smaller.\n\nTo fix it:\n\n1.  **Paper Size:** In the printer settings (usually under \"Destination\" or \"Paper Size\"), check the dropdown and select the size that matches your export (e.g., A4, tabloid).\n2.  **Scale:** Change the scaling option to **100%** or **Actual Size**. Do not use \"Fit to page.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives usable print-setting instructions.",
+            "evidence": "**Scale:** Change the scaling option to **100%** or **Actual Size**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Scale:** Change the scaling option to **100%** or **Actual Size**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot role changes and directs the request to workspace authority.",
+            "evidence": "Only the Owner can assign Admin rights. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and owner-controlled Admin-role direction follow reviewed rules.",
+            "evidence": "Only the Owner can assign Admin rights. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I can’t make you an Admin or change roles. Only the Owner can assign Admin rights. If you need Admin access, please ask the Owner in your workspace to add you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission boundary and next step are clear.",
+            "evidence": "Only the Owner can assign Admin rights. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Only the Owner can assign Admin rights. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not promise a refund or printer compatibility.",
+            "evidence": "\"We cannot offer refunds for printer-specific issues, as TableCards provides digital PDFs for customer-controlled printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a blanket product refund policy from the bot's lack of refund authority.",
+            "evidence": "TableCards does not offer refunds for PDF printing issues, as our service provides digital files for customer-controlled printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not offer refunds for PDF printing issues, as our service provides digital files for customer-controlled printing. Per our policies:  \n\n- \"Digital PDFs only; customers arrange printing.\" (tablecards.printing)  \n- \"Neither helper nor support bot may grant units, override access, refund or change accounts.\" (tablecards.contact)  \n\nWe recommend verifying your PDF export and printer settings. For further assistance, contact support with details of what you're experiencing.  \n\n**Suggested reply:**  \n\"We cannot offer refunds for printer-specific issues, as TableCards provides digital PDFs for customer-controlled printing. Please verify your export and printer settings. Contact support with specifics if further help is needed.\"  \n\nLet me know if you'd like to refine this.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general troubleshooting advice are understandable.",
+            "evidence": "\"We cannot offer refunds for printer-specific issues, as TableCards provides digital PDFs for customer-controlled printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "\"We cannot offer refunds for printer-specific issues, as TableCards provides digital PDFs for customer-controlled printing. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recognizes the reported scaling setting and suggests actual-size printing.",
+            "evidence": "Change your printer settings to **\"Actual Size\"** or **\"100%\"** instead. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling correction and matching paper requirement follow the printing reference.",
+            "evidence": "Change your printer settings to **\"Actual Size\"** or **\"100%\"** instead. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The printer is trying to shrink the layout to fit a standard paper size (like Letter), making the cards tiny. **\"Shrink oversized pages\" is the printer's way of saying \"Fit to page.\"**\n\nChange your printer settings to **\"Actual Size\"** or **\"100%\"** instead. This will print the full page layout without it shrinking down.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives usable print-setting instructions.",
+            "evidence": "Change your printer settings to **\"Actual Size\"** or **\"100%\"** instead. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Change your printer settings to **\"Actual Size\"** or **\"100%\"** instead. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains support limits without clearly explaining why an Admin cannot remove another Admin.",
+            "evidence": "Admins can manage invitations and ordinary members, but removing another Admin or altering roles is not permitted via support. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated support restriction and ordinary-member powers are accurate.",
+            "evidence": "Admins can manage invitations and ordinary members, but removing another Admin or altering roles is not permitted via support. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nAccording to TableCards' current policies, **support cannot remove members, change roles, or transfer ownership**. Admins can manage invitations and ordinary members, but removing another Admin or altering roles is not permitted via support. \n\nIf this is a critical issue, we can escalate it to our team for review, but no direct action is available here. Would you like us to proceed with an escalation?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Shifts the question to escalation instead of stating the caller's role boundary.",
+            "evidence": "Admins can manage invitations and ordinary members, but removing another Admin or altering roles is not permitted via support. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Admins can manage invitations and ordinary members, but removing another Admin or altering roles is not permitted via support. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot role changes and directs the request to workspace authority.",
+            "evidence": "If you need to be upgraded to an Admin, please contact your team's Owner to request the change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and owner-controlled Admin-role direction follow reviewed rules.",
+            "evidence": "If you need to be upgraded to an Admin, please contact your team's Owner to request the change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot change your role or grant administrative permissions. \n\nIn TableCards, only the **Workspace Owner** has the authority to manage roles or transfer ownership. If you need to be upgraded to an Admin, please contact your team's Owner to request the change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission boundary and next step are clear.",
+            "evidence": "If you need to be upgraded to an Admin, please contact your team's Owner to request the change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you need to be upgraded to an Admin, please contact your team's Owner to request the change.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not accept the requested refund or compatibility promise.",
+            "evidence": "However, our support process does not establish contractual obligations via email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The blanket statement about email contractual obligations is not supported by reviewed policy.",
+            "evidence": "However, our support process does not establish contractual obligations via email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\n<reply>\nWe appreciate your feedback. However, our support process does not establish contractual obligations via email. For assistance, please use the dedicated support form (available after signing in) or contact us through the configured support mail link. Refund policies are governed by our terms of service, and individual cases are reviewed according to applicable guidelines. \n</reply>",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and support-route suggestion are understandable.",
+            "evidence": "However, our support process does not establish contractual obligations via email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "However, our support process does not establish contractual obligations via email. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recognizes the reported scaling setting and suggests actual-size printing.",
+            "evidence": "Change the **Scale** to **100%** or select **\"Actual Size.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling correction and matching paper requirement follow the printing reference.",
+            "evidence": "Change the **Scale** to **100%** or select **\"Actual Size.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The message means your printer is automatically resizing your PDF to fit the paper, making the cards smaller than their full size.\n\nTo fix it:\n1.  Open your **Printer Properties** (usually by clicking **Properties** or **Preferences** inside the print dialog).\n2.  Change the **Scale** to **100%** or select **\"Actual Size.\"**\n3.  Make sure the paper size you selected in TableCards matches the physical paper you are loading (e.g., do not export an 8.5x11 PDF to A4 paper without selecting A4 in the app first).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives usable print-setting instructions.",
+            "evidence": "Change the **Scale** to **100%** or select **\"Actual Size.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Change the **Scale** to **100%** or select **\"Actual Size.\"",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot promotion and points to workspace roles.",
+            "evidence": "Only the Owner of the Team or another existing Admin can make you a member of the Admin role. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claim that another Admin can grant Admin status is not established by the limited ordinary-member powers.",
+            "evidence": "Only the Owner of the Team or another existing Admin can make you a member of the Admin role. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The proposed Admin-to-Admin promotion path leaves the privilege boundary materially ambiguous.",
+            "evidence": "Only the Owner of the Team or another existing Admin can make you a member of the Admin role. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed next step is understandable.",
+            "evidence": "Only the Owner of the Team or another existing Admin can make you a member of the Admin role. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Only the Owner of the Team or another existing Admin can make you a member of the Admin role. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "You can map your \"Name\" and \"Table\" columns directly, and you can use the \"Meal\" column as a \"short marker.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "You can map your \"Name\" and \"Table\" columns directly, and you can use the \"Meal\" column as a \"short marker.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can. During the import process, you will be asked to map your spreadsheet columns to TableCards' fields. \n\nYou can map your \"Name\" and \"Table\" columns directly, and you can use the \"Meal\" column as a \"short marker.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "You can map your \"Name\" and \"Table\" columns directly, and you can use the \"Meal\" column as a \"short marker.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You can map your \"Name\" and \"Table\" columns directly, and you can use the \"Meal\" column as a \"short marker.\"",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Columns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. ",
+            "reason": "Denies display support for the Meal column even though it can be mapped to the optional short-marker field.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts the valid mapping of Meal to the optional short marker.",
+            "evidence": "Columns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely treats Meal as unsupported after naming it as a valid marker example.",
+            "evidence": "Columns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYes, during import, you can choose which columns appear. The process allows mapping:\n\n- **Required**: Guest name (from any column)\n- **Optional**: Table number and a short marker (e.g., \"Meal\" or \"Special Request\")\n\nColumns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. The import tool focuses on name, table, and a single additional identifier. You'd need to ensure your spreadsheet only includes these mapped columns for optimal results.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The contradictory inclusion and exclusion statements confuse the mapping choice.",
+            "evidence": "Columns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Columns beyond these (like \"Meal\" in your case) aren't explicitly supported for display in the final card preview. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 0,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Why on‑screen = normal but tiny on paper: The default layout is 12\" × 12\" (true A4). ",
+            "reason": "Invents a twelve-by-twelve-inch default layout and falsely calls it A4.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Buries the relevant scale setting in invented layouts and invalid paper advice.",
+            "evidence": "Why on‑screen = normal but tiny on paper: The default layout is 12\" × 12\" (true A4). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely identifies a twelve-inch square as A4 and invents export geometry.",
+            "evidence": "Why on‑screen = normal but tiny on paper: The default layout is 12\" × 12\" (true A4). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thanks for telling me — it’s super frustrating when cards look tiny on paper even if they look normal on the screen.\n\nWhy on‑screen = normal but tiny on paper: The default layout is 12\" × 12\" (true A4). The PDF is sized correctly at 12\" × 12\". Many browsers/PDF viewers show the page at a visual zoom (often around 50–70%) for convenience, so they look fine on screen. When sent to a real paper size the actual size reveals itself — this is why many printers/print‑shops flag “shrink oversized pages” for a 12\" × 12\" layout.\n\nQuick checks and fixes:\n\n- Print at 100% / “Actual Size,” not “Fit to page”\n  - Choose 100% or Actual Size in the print dialog (not “Fit to page,” which can make everything tiny).\n- Paper size must match the export layout\n  - The PDF should be sized for A4 (210 × 297 mm). If you chose 10 × 10\"/A4 Mixed the OS print settings may need to match the sheet being printed.\n- Printer margins/mode\n  - Set margins to 10 mm or ¼\" and avoid “Resize to fit” or “Auto Fit.” Leave extra margin if your printer driver or print shop needs it to avoid clipping.\n- Reduce to a smaller true size (if A4 limits are still an issue)\n  - Re‑export from TableCards at 10\" × 10\" (10×10_A4_Mix). It still prints on A4 but uses a smaller true footprint, giving you a little more breathing room around the edges for borders/prints.\n- Verify before printing\n  - Preview the card sheet one more time. If everything still looks tiny on the preview or real paper, please tell me:\n    - The exact layout you chose (e.g., A4 / 12×12\" / 10×10\" / Nhật Bàn / Custom size)\n    - The paper size and whether you’re printing at home or sending the file to a print shop\n    - The exact printer driver or print‑shop workflow you’re using (e.g., “HP OfficeJet, A4, Fit to page engaged”)\n\nWith those details I can give closer guidance. In the meantime, usually printing at 100% with A4 margins fixes it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Multiple conflicting paper dimensions and unsupported export controls make the instructions unusable.",
+            "evidence": "  - Re‑export from TableCards at 10\" × 10\" (10×10_A4_Mix). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Why on‑screen = normal but tiny on paper: The default layout is 12\" × 12\" (true A4). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "You could also map your \"Meal\" column to the \"short marker\" field if you want that information to appear on the card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "You could also map your \"Meal\" column to the \"short marker\" field if you want that information to appear on the card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can choose how your columns are used during the import process. When you upload your CSV or XLSX file, you will be asked to map your columns to these specific fields:\n\n*   **Guest name**\n*   **Table** (optional)\n*   **Short marker** (optional)\n\nFor your specific spreadsheet, you can map \"Name\" to the guest name and \"Table\" to the table field. You could also map your \"Meal\" column to the \"short marker\" field if you want that information to appear on the card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "You could also map your \"Meal\" column to the \"short marker\" field if you want that information to appear on the card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You could also map your \"Meal\" column to the \"short marker\" field if you want that information to appear on the card.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot role changes and directs the request to workspace authority.",
+            "evidence": "According to TableCards team management rules: **Admins cannot remove other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and owner-controlled Admin-role direction follow reviewed rules.",
+            "evidence": "According to TableCards team management rules: **Admins cannot remove other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe control is not broken. According to TableCards team management rules: **Admins cannot remove other Admins**. Only the **Owner** of the workspace can manage Admin roles (add/remove). \n\nSupport cannot override this restriction. If you need to adjust Admin permissions, the Owner must handle it directly via their account. Let me know if you'd like guidance on contacting the Owner. \n\n(No action taken by support; this is a system-design limitation.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission boundary and next step are clear.",
+            "evidence": "According to TableCards team management rules: **Admins cannot remove other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to TableCards team management rules: **Admins cannot remove other Admins**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "For example, you could map \"Meal\" to the \"marker\" field if needed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "For example, you could map \"Meal\" to the \"marker\" field if needed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYes, during the import process, you can choose which columns from your spreadsheet are used. The system allows you to map the **guest name** (required), **optional table**, and **optional short marker** (e.g., \"Meal\" in your case). When importing, you’ll select which spreadsheet columns correspond to these fields. For example, you could map \"Meal\" to the \"marker\" field if needed. However, only these three types of data are supported in the import mapping.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "For example, you could map \"Meal\" to the \"marker\" field if needed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For example, you could map \"Meal\" to the \"marker\" field if needed. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses bot role changes and directs the request to workspace authority.",
+            "evidence": "According to TableCards' team management rules, **Admins cannot remove or modify other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and owner-controlled Admin-role direction follow reviewed rules.",
+            "evidence": "According to TableCards' team management rules, **Admins cannot remove or modify other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe control is not broken. According to TableCards' team management rules, **Admins cannot remove or modify other Admins**. Only the **Owner** of the workspace has the authority to transfer ownership or adjust administrative roles. \n\nTo resolve this, the Owner must manually handle role changes. Support cannot intervene in workspace permissions or role assignments. For further assistance, the Owner should review the workspace's team settings or contact TableCards support with their specific scenario. \n\nWould you like guidance on how to contact support?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission boundary and next step are clear.",
+            "evidence": "According to TableCards' team management rules, **Admins cannot remove or modify other Admins**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to TableCards' team management rules, **Admins cannot remove or modify other Admins**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses financial and compatibility guarantees.",
+            "evidence": "Our [printing help](#) explains that we cannot guarantee compatibility with specific printers or print shops. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a blanket refund exclusion not established by the references.",
+            "evidence": "TableCards does not offer refunds for PDF printing issues, as the service provides digital files for customers to print themselves. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not offer refunds for PDF printing issues, as the service provides digital files for customers to print themselves. Our [printing help](#) explains that we cannot guarantee compatibility with specific printers or print shops. While we aim to resolve technical issues, we cannot honor contract-like promises via email. For assistance, please contact [support](#) with details of the problem.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The no-guarantee message is understandable.",
+            "evidence": "Our [printing help](#) explains that we cannot guarantee compatibility with specific printers or print shops. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Our [printing help](#) explains that we cannot guarantee compatibility with specific printers or print shops. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the preview and refuses compatibility or financial guarantees.",
+            "evidence": "- PDFs are customer-responsible for printing; we cannot guarantee compatibility with specific printers/print shops.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims all contractual obligations are inapplicable without reviewed support.",
+            "evidence": "- Refunds or contractual obligations are not applicable to the current free preview.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards is a no-charge preview service that provides downloadable PDFs for self-printing. According to our terms:  \n- We **do not sell printing** or offer refunds for printer compatibility issues.  \n- PDFs are customer-responsible for printing; we cannot guarantee compatibility with specific printers/print shops.  \n- Refunds or contractual obligations are not applicable to the current free preview.  \n\nFor printing guidance, ensure you:  \n1. Use **actual size (100%)** and check the **print-test PDF** first.  \n2. Confirm paper size/margins match your layout.  \n3. Review all names/labels in the preview.  \n\nIf you need further help, contact support via [this form](https://tablecards.com/contact) (no refund policy applies).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing recommendations and refusal are understandable.",
+            "evidence": "- PDFs are customer-responsible for printing; we cannot guarantee compatibility with specific printers/print shops.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- PDFs are customer-responsible for printing; we cannot guarantee compatibility with specific printers/print shops.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains name mapping and optional table or meal-marker fields.",
+            "evidence": "If your \"Meal\" column fits as a short marker, it can be included. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping options match the import reference.",
+            "evidence": "If your \"Meal\" column fits as a short marker, it can be included. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYes, during import, you can choose which columns to include by mapping them. TableCards allows mapping **Name** (required), **Table** (optional), and an optional **short marker** (e.g., for meal preferences). If your \"Meal\" column fits as a short marker, it can be included. However, only these specific fields are supported for mapping. Ensure your spreadsheet aligns with these categories.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer how to include the Meal column.",
+            "evidence": "If your \"Meal\" column fits as a short marker, it can be included. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If your \"Meal\" column fits as a short marker, it can be included. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Leaves Meal mapping uncertain despite the available short-marker field.",
+            "evidence": "**Meal** is not explicitly supported as an optional column in the import process (based on current documentation).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The initial exclusion conflicts with the later short-marker suggestion.",
+            "evidence": "**Meal** is not explicitly supported as an optional column in the import process (based on current documentation).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYes, during import, you can choose which columns to include by mapping them. For a spreadsheet with **Name**, **Table**, and **Meal** columns:\n\n1. **Name** must be mapped as the guest name (required).\n2. **Table** can be mapped as an optional table column (if desired).\n3. **Meal** is not explicitly supported as an optional column in the import process (based on current documentation).\n\nYou’ll need to:\n- Confirm if your spreadsheet’s first row contains headers.\n- Map columns during import (e.g., \"Name\" to guest name, \"Table\" to the optional table column).\n- Review imported rows to ensure accuracy.\n\nIf \"Meal\" is critical, check if it can be added as a \"short marker\" (if applicable). Otherwise, it may not be included in the final card data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer receives an ambiguous answer about including Meal.",
+            "evidence": "If \"Meal\" is critical, check if it can be added as a \"short marker\" (if applicable). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Meal** is not explicitly supported as an optional column in the import process (based on current documentation).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly identifies the Owner-level boundary for removing an Admin.",
+            "evidence": "Admins can manage invitations and ordinary Members, but removing another Admin requires Owner-level permissions. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says contacting support is necessary even though the action belongs to the Owner.",
+            "evidence": "You'll need to contact TableCards Support to resolve this, though they cannot perform the action directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe ability to remove another Admin is restricted. According to Studio team management rules: \"Support cannot remove members, change roles, transfer ownership or join for someone.\" Admins can manage invitations and ordinary Members, but removing another Admin requires Owner-level permissions. You'll need to contact TableCards Support to resolve this, though they cannot perform the action directly. Ensure you're using the correct account with Owner privileges for such changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The mandatory-support direction obscures the legitimate Owner next step.",
+            "evidence": "You'll need to contact TableCards Support to resolve this, though they cannot perform the action directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Admins can manage invitations and ordinary Members, but removing another Admin requires Owner-level permissions. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 14,
+  "invalid": 0,
+  "unsure": 0
+}

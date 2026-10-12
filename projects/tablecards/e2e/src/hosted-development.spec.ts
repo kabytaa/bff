@@ -372,15 +372,39 @@ test('professional project, preset and AI workflows use authenticated access', a
   await authenticated.goto('/projects');
   await authenticated.getByRole('button', { name: 'Make a copy' }).click();
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
-  authenticated.once('dialog', (dialog) => void dialog.accept());
+  const copiedProjectUrl = authenticated.url();
+  await expect(authenticated.getByLabel('Project name')).toHaveValue(
+    'My event copy',
+  );
   await authenticated
+    .getByRole('link', { name: 'Projects', exact: true })
+    .click();
+  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects`);
+  const copiedProject = authenticated.getByRole('article').filter({
+    has: authenticated.getByRole('heading', {
+      name: 'My event copy',
+      exact: true,
+    }),
+  });
+  await expect(copiedProject).toHaveCount(1);
+  await expect(
+    copiedProject.getByRole('link', { name: 'Open', exact: true }),
+  ).toHaveAttribute('href', new URL(copiedProjectUrl).pathname);
+  authenticated.once('dialog', (dialog) => void dialog.accept());
+  await copiedProject
     .getByRole('button', { name: 'Archive', exact: true })
     .click();
+  await expect(copiedProject).toHaveCount(0);
   await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects`);
   await authenticated.getByRole('button', { name: 'Archived' }).click();
   await expect(authenticated.getByText('My event copy')).toBeVisible();
-  await authenticated.getByRole('button', { name: 'Restore' }).click();
-  await authenticated.waitForURL(`${TABLECARDS_WEB_URL}/projects/**`);
+  await copiedProject
+    .getByRole('button', { name: 'Restore', exact: true })
+    .click();
+  await authenticated.waitForURL(copiedProjectUrl);
+  await expect(authenticated.getByLabel('Project name')).toHaveValue(
+    'My event copy',
+  );
   await context.close();
 });
 

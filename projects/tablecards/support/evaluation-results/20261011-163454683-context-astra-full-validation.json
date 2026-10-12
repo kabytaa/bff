@@ -1,0 +1,1590 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T18:18:22.599Z",
+  "capture": "20261011-163454683-knowledge-live.json",
+  "captureMode": "live",
+  "answerModel": "@cf/google/gemma-4-26b-a4b-it",
+  "reviewMethod": "blinded-subscription-astra-all-nonempty-answers",
+  "reviewer": "gpt-6-astra",
+  "reasoningEffort": "xhigh",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "subscriptionReviewCost": "unmeasured",
+  "newInferenceCalls": 0,
+  "denominatorPolicy": "All seven attempted questions per strategy, including empty/timeout failures. Five helper and two support, all already-seen English diagnostics; no general accuracy or strategy winner claim.",
+  "provenance": {
+    "caseVersion": "302dcd90f7cf14e7680b13d82c4fe6232ae98f1de9ebcbd43f5911686f33476c",
+    "fullConfigurationVersion": "95abb4d785bc2860366d88b3015542f172217f699e875f3769123709fc4e869d",
+    "compactConfigurationVersion": "d70598d4b231bf3da5f0e4e09516e2d131a65b219cd6b2ed9753c5554148cf48",
+    "knowledgeSnapshot": "Original full knowledge and compact v1; compact v2 is a separate subsequent correction."
+  },
+  "primaryCrossCheck": {
+    "completed": true,
+    "method": "Codex read the captured replies and the disputed/failed judgment reasons; AI supervision, not human ground truth.",
+    "materialCorrections": [],
+    "evidenceSensitiveCases": [
+      "compact-inline:diagnostic.known.synthetic.helper.held_out.messy.16",
+      "compact-inline:diagnostic.context.helper.multitopic"
+    ],
+    "notes": [
+      "The categorical Arabic statement and Planner Pro capacity are not established by the provided reference facts; these are grounding uncertainties, not proven false claims.",
+      "Full failed-unit wording is ambiguous/incomplete, not a definite invented-fact critical finding.",
+      "Generic optional review/test-print/navigation reminders are not mandatory when the actual customer question has been adequately answered."
+    ]
+  },
+  "batches": [
+    {
+      "version": 1,
+      "reviewMethod": "blinded-supervised-sub-agent",
+      "reviewer": "gpt-6-astra",
+      "batchId": "knowledge-bf2ef6bbd0466ad7",
+      "packetHash": "3e773341a8133dbee090a7e6b391a3a2179de8653b97240f053e73dc5d5d67d3",
+      "rubricVersion": "operator-answer-quality-v2",
+      "qualityVerified": false,
+      "apiJudgeCalibrated": false,
+      "primaryCrossCheckRequired": true,
+      "subscriptionReviewCost": "unmeasured",
+      "accepted": 7,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "version": 1,
+      "reviewMethod": "blinded-supervised-sub-agent",
+      "reviewer": "gpt-6-astra",
+      "batchId": "knowledge-aff6ab45a5f09089",
+      "packetHash": "124181f1648ab56638e6e0ac1c559c48dafe674a7b91a6e45d3dfef1a3a0521d",
+      "rubricVersion": "operator-answer-quality-v2",
+      "qualityVerified": false,
+      "apiJudgeCalibrated": false,
+      "primaryCrossCheckRequired": true,
+      "subscriptionReviewCost": "unmeasured",
+      "accepted": 4,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "version": 1,
+      "reviewMethod": "blinded-supervised-sub-agent",
+      "reviewer": "gpt-6-astra",
+      "batchId": "knowledge-77a7db83d39bc69b",
+      "packetHash": "c8e0af6386dbc8f1ecaa32f4e099eba2bc8191552266a51cad8a4c54583cbe22",
+      "rubricVersion": "operator-answer-quality-v2",
+      "qualityVerified": false,
+      "apiJudgeCalibrated": false,
+      "primaryCrossCheckRequired": true,
+      "subscriptionReviewCost": "unmeasured",
+      "accepted": 7,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "version": 1,
+      "reviewMethod": "blinded-supervised-sub-agent",
+      "reviewer": "gpt-6-astra",
+      "batchId": "knowledge-5a4212c38b0fa765",
+      "packetHash": "0d935828617c353953d8a1f3c7067c74228e6e3f89f43c50c14e93a012b6e7fb",
+      "rubricVersion": "operator-answer-quality-v2",
+      "qualityVerified": false,
+      "apiJudgeCalibrated": false,
+      "primaryCrossCheckRequired": true,
+      "subscriptionReviewCost": "unmeasured",
+      "accepted": 1,
+      "invalid": 0,
+      "unsure": 0
+    }
+  ],
+  "arms": [
+    {
+      "arm": "full-inline",
+      "attempted": 7,
+      "reviewed": 7,
+      "acceptable": 6,
+      "percent": 85.71428571428571,
+      "inadequate": 1,
+      "invalid": 0,
+      "unsure": 0,
+      "noAnswer": [],
+      "results": [
+        {
+          "sourceId": "full-inline:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It directly explains that switching workspaces does not move the saved project.",
+              "evidence": "No, projects do not move when you switch workspaces. ",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Ownership is correctly tied to the workspace selected when the project was saved.",
+              "evidence": "A project belongs to the specific workspace that was selected at the time it was saved.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, projects do not move when you switch workspaces. A project belongs to the specific workspace that was selected at the time it was saved.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The answer clearly identifies where the project stays.",
+              "evidence": "A project belongs to the specific workspace that was selected at the time it was saved.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, projects do not move when you switch workspaces. A project belongs to the specific workspace that was selected at the time it was saved.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers the choice question and maps Name, Table and Meal to the supported fields.",
+              "evidence": "Yes, you can choose which columns to use during the import process. \n\nWhen you upload your CSV or XLSX file, you will be asked to map your spreadsheet columns to TableCards fields. Based on your columns, you can map them as follows:\n\n*   **Name:** Map to the Guest Name column.\n*   **Table:** Map to the Table column.\n*   **Meal:** Map to a short marker column.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The three mappings follow the reviewed import contract.",
+              "evidence": "Yes, you can choose which columns to use during the import process. \n\nWhen you upload your CSV or XLSX file, you will be asked to map your spreadsheet columns to TableCards fields. Based on your columns, you can map them as follows:\n\n*   **Name:** Map to the Guest Name column.\n*   **Table:** Map to the Table column.\n*   **Meal:** Map to a short marker column.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "Yes, you can choose which columns to use during the import process. \n\nWhen you upload your CSV or XLSX file, you will be asked to map your spreadsheet columns to TableCards fields. Based on your columns, you can map them as follows:\n\n*   **Name:** Map to the Guest Name column.\n*   **Table:** Map to the Table column.\n*   **Meal:** Map to a short marker column.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The field-by-field instructions make the Meal mapping clear.",
+              "evidence": "*   **Meal:** Map to a short marker column.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "Yes, you can choose which columns to use during the import process. \n\nWhen you upload your CSV or XLSX file, you will be asked to map your spreadsheet columns to TableCards fields. Based on your columns, you can map them as follows:\n\n*   **Name:** Map to the Guest Name column.\n*   **Table:** Map to the Table column.\n*   **Meal:** Map to a short marker column.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It omits the material explanation that a failed generation releases its reservation.",
+              "evidence": "Failed reservation should release; current balance needs verified facts, no invented credit.",
+              "evidenceKind": "missing_behavior"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Saying a failed unit remains accounted for does not accurately specify the reviewed release behavior.",
+              "evidence": "When an AI generation attempt is made, a unit is reserved, and even if the generation fails, that unit is still accounted for in your balance.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I didn't take the credit. When an AI generation attempt is made, a unit is reserved, and even if the generation fails, that unit is still accounted for in your balance.\n\nI do not have the ability to grant or restore AI credits. If you are experiencing repeated failures, you can submit a \"Problem\" case through the contact form.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The balance wording leaves unclear whether a failed generation consumes or returns the unit.",
+              "evidence": "When an AI generation attempt is made, a unit is reserved, and even if the generation fails, that unit is still accounted for in your balance.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I didn't take the credit. When an AI generation attempt is made, a unit is reserved, and even if the generation fails, that unit is still accounted for in your balance.\n\nI do not have the ability to grant or restore AI credits. If you are experiencing repeated failures, you can submit a \"Problem\" case through the contact form.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers the computer concern with a qualified script-support explanation.",
+              "evidence": "It is likely not your computer. While TableCards supports Latin accented names (like Nguyễn), we do not support all scripts or languages yet, and Arabic may not be currently supported.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Latin accented names are supported, and Arabic is identified only as a possible unsupported script.",
+              "evidence": "While TableCards supports Latin accented names (like Nguyễn), we do not support all scripts or languages yet, and Arabic may not be currently supported.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "It is likely not your computer. While TableCards supports Latin accented names (like Nguyễn), we do not support all scripts or languages yet, and Arabic may not be currently supported.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The brief explanation is sufficient to understand the likely source of the problem.",
+              "evidence": "It is likely not your computer. While TableCards supports Latin accented names (like Nguyễn), we do not support all scripts or languages yet, and Arabic may not be currently supported.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "It is likely not your computer. While TableCards supports Latin accented names (like Nguyễn), we do not support all scripts or languages yet, and Arabic may not be currently supported.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers the restoration request, explains release and offers review of a suspected error.",
+              "evidence": "I cannot manually add or restore AI units to your account. When an AI generation fails, the system is designed to automatically release the reserved unit.\n\nIf you believe there is a technical error with your remaining units, please submit a case through our contact form so a support team member can review it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "It states the general failed-generation rule without claiming a verified personal balance.",
+              "evidence": "When an AI generation fails, the system is designed to automatically release the reserved unit.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I cannot manually add or restore AI units to your account. When an AI generation fails, the system is designed to automatically release the reserved unit.\n\nIf you believe there is a technical error with your remaining units, please submit a case through our contact form so a support team member can review it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The limitation and path to a support review are clear.",
+              "evidence": "I cannot manually add or restore AI units to your account. When an AI generation fails, the system is designed to automatically release the reserved unit.\n\nIf you believe there is a technical error with your remaining units, please submit a case through our contact form so a support team member can review it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I cannot manually add or restore AI units to your account. When an AI generation fails, the system is designed to automatically release the reserved unit.\n\nIf you believe there is a technical error with your remaining units, please submit a case through our contact form so a support team member can review it.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the 80-guest limit and explains how to check print size.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a group of that size, you would need an option like the Event Pass, which allows up to 500 cards.\n\nTo check the print size before printing your entire list, use the separate **print-test PDF** and check its calibration square. When you proceed with your final print, make sure your printer settings are set to **\"Actual size\"** or **\"100%\"** instead of \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The offer limits and separate calibration PDF with 100% printing follow the reviewed facts.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a group of that size, you would need an option like the Event Pass, which allows up to 500 cards.\n\nTo check the print size before printing your entire list, use the separate **print-test PDF** and check its calibration square. When you proceed with your final print, make sure your printer settings are set to **\"Actual size\"** or **\"100%\"** instead of \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a group of that size, you would need an option like the Event Pass, which allows up to 500 cards.\n\nTo check the print size before printing your entire list, use the separate **print-test PDF** and check its calibration square. When you proceed with your final print, make sure your printer settings are set to **\"Actual size\"** or **\"100%\"** instead of \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The customer has a suitable offer option and an actionable print-size check.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a group of that size, you would need an option like the Event Pass, which allows up to 500 cards.\n\nTo check the print size before printing your entire list, use the separate **print-test PDF** and check its calibration square. When you proceed with your final print, make sure your printer settings are set to **\"Actual size\"** or **\"100%\"** instead of \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a group of that size, you would need an option like the Event Pass, which allows up to 500 cards.\n\nTo check the print size before printing your entire list, use the separate **print-test PDF** and check its calibration square. When you proceed with your final print, make sure your printer settings are set to **\"Actual size\"** or **\"100%\"** instead of \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "full-inline:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the accidental heading row and the undersized printed cards.",
+              "evidence": "To fix the heading issue, you can either delete that extra name from your guest list or re-import your file and ensure you check the option confirming that the first row contains headings.\n\nFor the printing size, please check your printer settings to ensure you are using \"Actual size\" or \"100%\" scale rather than \"Fit to page.\" You should also verify that your printer paper size matches the layout you selected in TableCards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Removing the accidental entry or reimporting with headings and checking print settings is consistent with the facts.",
+              "evidence": "To fix the heading issue, you can either delete that extra name from your guest list or re-import your file and ensure you check the option confirming that the first row contains headings.\n\nFor the printing size, please check your printer settings to ensure you are using \"Actual size\" or \"100%\" scale rather than \"Fit to page.\" You should also verify that your printer paper size matches the layout you selected in TableCards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "To fix the heading issue, you can either delete that extra name from your guest list or re-import your file and ensure you check the option confirming that the first row contains headings.\n\nFor the printing size, please check your printer settings to ensure you are using \"Actual size\" or \"100%\" scale rather than \"Fit to page.\" You should also verify that your printer paper size matches the layout you selected in TableCards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The correction options and matching-paper reminder are clear.",
+              "evidence": "To fix the heading issue, you can either delete that extra name from your guest list or re-import your file and ensure you check the option confirming that the first row contains headings.\n\nFor the printing size, please check your printer settings to ensure you are using \"Actual size\" or \"100%\" scale rather than \"Fit to page.\" You should also verify that your printer paper size matches the layout you selected in TableCards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "To fix the heading issue, you can either delete that extra name from your guest list or re-import your file and ensure you check the option confirming that the first row contains headings.\n\nFor the printing size, please check your printer settings to ensure you are using \"Actual size\" or \"100%\" scale rather than \"Fit to page.\" You should also verify that your printer paper size matches the layout you selected in TableCards.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        }
+      ],
+      "label": "Full knowledge upfront",
+      "noAnswerCount": 0,
+      "roles": [
+        {
+          "cohort": "helper",
+          "attempted": 5,
+          "reviewed": 5,
+          "acceptable": 4
+        },
+        {
+          "cohort": "support",
+          "attempted": 2,
+          "reviewed": 2,
+          "acceptable": 2
+        }
+      ],
+      "dimensions": {
+        "relevance": {
+          "adequate": 6,
+          "scored": 7,
+          "mean": 1.8571428571428572
+        },
+        "grounding": {
+          "adequate": 6,
+          "scored": 7,
+          "mean": 1.8571428571428572
+        },
+        "authority": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        },
+        "clarity": {
+          "adequate": 6,
+          "scored": 7,
+          "mean": 1.8571428571428572
+        },
+        "language": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        }
+      }
+    },
+    {
+      "arm": "compact-inline",
+      "attempted": 7,
+      "reviewed": 6,
+      "acceptable": 4,
+      "percent": 57.142857142857146,
+      "inadequate": 2,
+      "invalid": 0,
+      "unsure": 0,
+      "noAnswer": [
+        {
+          "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+          "finishReason": "length",
+          "error": null
+        }
+      ],
+      "results": [
+        {
+          "sourceId": "compact-inline:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "The answer explains all three mappings, including Meal to the optional Short Marker.",
+              "evidence": "Yes, you can choose which columns are used during the import process. \n\nWhen you upload your CSV or XLSX file, you will be prompted to map your spreadsheet columns to the specific fields TableCards uses:\n\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nFor your specific spreadsheet, you would map \"Name\" to Guest Name and \"Table\" to Table. If you want the \"Meal\" information to appear on the place card, you can map that column to the **Short Marker**.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The supported name, table and short-marker fields match the reviewed import facts.",
+              "evidence": "Yes, you can choose which columns are used during the import process. \n\nWhen you upload your CSV or XLSX file, you will be prompted to map your spreadsheet columns to the specific fields TableCards uses:\n\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nFor your specific spreadsheet, you would map \"Name\" to Guest Name and \"Table\" to Table. If you want the \"Meal\" information to appear on the place card, you can map that column to the **Short Marker**.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "Yes, you can choose which columns are used during the import process. \n\nWhen you upload your CSV or XLSX file, you will be prompted to map your spreadsheet columns to the specific fields TableCards uses:\n\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nFor your specific spreadsheet, you would map \"Name\" to Guest Name and \"Table\" to Table. If you want the \"Meal\" information to appear on the place card, you can map that column to the **Short Marker**.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The mapping instructions directly answer which spreadsheet columns can appear.",
+              "evidence": "If you want the \"Meal\" information to appear on the place card, you can map that column to the **Short Marker**.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "Yes, you can choose which columns are used during the import process. \n\nWhen you upload your CSV or XLSX file, you will be prompted to map your spreadsheet columns to the specific fields TableCards uses:\n\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nFor your specific spreadsheet, you would map \"Name\" to Guest Name and \"Table\" to Table. If you want the \"Meal\" information to appear on the place card, you can map that column to the **Short Marker**.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-inline:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses both requested fixes and adds a relevant calibration check.",
+              "evidence": "To fix the heading issue, ensure you confirm whether the first row contains headings during the column mapping step when importing your Excel file. This will prevent the header from being treated as a guest name.\n\nFor the printing size, make sure your printer settings are set to **Actual Size** or **100%**. Do not use \"Fit to page,\" as this will shrink the cards. You should also ensure your paper size matches the layout you selected in TableCards.\n\nIf you want to verify the size before a full print run, I recommend using the separate print-test PDF to check the calibration square.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Heading handling, print scale, matching paper and the separate test PDF follow the reviewed facts.",
+              "evidence": "To fix the heading issue, ensure you confirm whether the first row contains headings during the column mapping step when importing your Excel file. This will prevent the header from being treated as a guest name.\n\nFor the printing size, make sure your printer settings are set to **Actual Size** or **100%**. Do not use \"Fit to page,\" as this will shrink the cards. You should also ensure your paper size matches the layout you selected in TableCards.\n\nIf you want to verify the size before a full print run, I recommend using the separate print-test PDF to check the calibration square.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "To fix the heading issue, ensure you confirm whether the first row contains headings during the column mapping step when importing your Excel file. This will prevent the header from being treated as a guest name.\n\nFor the printing size, make sure your printer settings are set to **Actual Size** or **100%**. Do not use \"Fit to page,\" as this will shrink the cards. You should also ensure your paper size matches the layout you selected in TableCards.\n\nIf you want to verify the size before a full print run, I recommend using the separate print-test PDF to check the calibration square.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The customer can apply the import and print changes and verify the scale.",
+              "evidence": "To fix the heading issue, ensure you confirm whether the first row contains headings during the column mapping step when importing your Excel file. This will prevent the header from being treated as a guest name.\n\nFor the printing size, make sure your printer settings are set to **Actual Size** or **100%**. Do not use \"Fit to page,\" as this will shrink the cards. You should also ensure your paper size matches the layout you selected in TableCards.\n\nIf you want to verify the size before a full print run, I recommend using the separate print-test PDF to check the calibration square.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "To fix the heading issue, ensure you confirm whether the first row contains headings during the column mapping step when importing your Excel file. This will prevent the header from being treated as a guest name.\n\nFor the printing size, make sure your printer settings are set to **Actual Size** or **100%**. Do not use \"Fit to page,\" as this will shrink the cards. You should also ensure your paper size matches the layout you selected in TableCards.\n\nIf you want to verify the size before a full print run, I recommend using the separate print-test PDF to check the calibration square.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-inline:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the computer concern and distinguishes Latin accents from script limitations.",
+              "evidence": "It is unlikely to be an issue with your computer. While TableCards supports Latin-accented names (such as Vietnamese), not all scripts, including Arabic, are currently supported.\n\nWhen a script is unsupported, the text may not display correctly. I recommend checking your preview carefully before exporting to see exactly how the names will appear on your final cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "It declares Arabic unsupported, but the references do not establish that script-specific fact.",
+              "evidence": "While TableCards supports Latin-accented names (such as Vietnamese), not all scripts, including Arabic, are currently supported.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "It is unlikely to be an issue with your computer. While TableCards supports Latin-accented names (such as Vietnamese), not all scripts, including Arabic, are currently supported.\n\nWhen a script is unsupported, the text may not display correctly. I recommend checking your preview carefully before exporting to see exactly how the names will appear on your final cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The explanation and preview recommendation are understandable.",
+              "evidence": "It is unlikely to be an issue with your computer. While TableCards supports Latin-accented names (such as Vietnamese), not all scripts, including Arabic, are currently supported.\n\nWhen a script is unsupported, the text may not display correctly. I recommend checking your preview carefully before exporting to see exactly how the names will appear on your final cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "It is unlikely to be an issue with your computer. While TableCards supports Latin-accented names (such as Vietnamese), not all scripts, including Arabic, are currently supported.\n\nWhen a script is unsupported, the text may not display correctly. I recommend checking your preview carefully before exporting to see exactly how the names will appear on your final cards.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-inline:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It directly answers that switching workspaces does not move the project.",
+              "evidence": "No, projects do not move when you switch workspaces. ",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The saved project's workspace is correctly determined at save time.",
+              "evidence": "A project belongs to the specific workspace that was selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, projects do not move when you switch workspaces. A project belongs to the specific workspace that was selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The answer clearly states where the saved project remains.",
+              "evidence": "No, projects do not move when you switch workspaces. A project belongs to the specific workspace that was selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, projects do not move when you switch workspaces. A project belongs to the specific workspace that was selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-inline:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers the unit-restoration request and explains that failed reservations release.",
+              "evidence": "I cannot restore or grant AI units. When an AI generation fails, the reserved unit is released, and I do not have the ability to manually add units or override access limits.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The release rule and bot's inability to add units match the reviewed facts.",
+              "evidence": "When an AI generation fails, the reserved unit is released, and I do not have the ability to manually add units or override access limits.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I cannot restore or grant AI units. When an AI generation fails, the reserved unit is released, and I do not have the ability to manually add units or override access limits.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The refusal and automatic release are clear without an optional generic navigation step.",
+              "evidence": "I cannot restore or grant AI units. When an AI generation fails, the reserved unit is released, and I do not have the ability to manually add units or override access limits.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I cannot restore or grant AI units. When an AI generation fails, the reserved unit is released, and I do not have the ability to manually add units or override access limits.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-inline:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the Free limit and the requested calibration test.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a guest list of that size, you would need to use an offer like the Event Pass (which covers up to 500 cards) or Planner Pro.\n\nTo check your print size before printing your full list, use the separate **print-test PDF** provided. This file includes a calibration square that allows you to verify the scale is correct. When you are ready to print, ensure your printer settings are set to **Actual Size** or **100%**, rather than \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Planner Pro is recommended for 80 cards, but its per-project card capacity is not established in these references.",
+              "evidence": "For a guest list of that size, you would need to use an offer like the Event Pass (which covers up to 500 cards) or Planner Pro.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a guest list of that size, you would need to use an offer like the Event Pass (which covers up to 500 cards) or Planner Pro.\n\nTo check your print size before printing your full list, use the separate **print-test PDF** provided. This file includes a calibration square that allows you to verify the scale is correct. When you are ready to print, ensure your printer settings are set to **Actual Size** or **100%**, rather than \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The supported Event Pass option and calibration instructions are clear.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a guest list of that size, you would need to use an offer like the Event Pass (which covers up to 500 cards) or Planner Pro.\n\nTo check your print size before printing your full list, use the separate **print-test PDF** provided. This file includes a calibration square that allows you to verify the scale is correct. When you are ready to print, ensure your printer settings are set to **Actual Size** or **100%**, rather than \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as it is limited to a maximum of 25 cards. For a guest list of that size, you would need to use an offer like the Event Pass (which covers up to 500 cards) or Planner Pro.\n\nTo check your print size before printing your full list, use the separate **print-test PDF** provided. This file includes a calibration square that allows you to verify the scale is correct. When you are ready to print, ensure your printer settings are set to **Actual Size** or **100%**, rather than \"Fit to page.\"",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        }
+      ],
+      "label": "Compressed knowledge upfront",
+      "noAnswerCount": 1,
+      "roles": [
+        {
+          "cohort": "helper",
+          "attempted": 5,
+          "reviewed": 4,
+          "acceptable": 2
+        },
+        {
+          "cohort": "support",
+          "attempted": 2,
+          "reviewed": 2,
+          "acceptable": 2
+        }
+      ],
+      "dimensions": {
+        "relevance": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        },
+        "grounding": {
+          "adequate": 4,
+          "scored": 6,
+          "mean": 1.6666666666666667
+        },
+        "authority": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        },
+        "clarity": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        },
+        "language": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        }
+      }
+    },
+    {
+      "arm": "compact-lazy",
+      "attempted": 7,
+      "reviewed": 6,
+      "acceptable": 4,
+      "percent": 57.142857142857146,
+      "inadequate": 2,
+      "invalid": 0,
+      "unsure": 0,
+      "noAnswer": [
+        {
+          "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+          "finishReason": null,
+          "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+        }
+      ],
+      "results": [
+        {
+          "sourceId": "compact-lazy:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers that the project stays in the private workspace and explains how to access it.",
+              "evidence": "No, the project doesn't move into the Studio workspace. While projects belong to your account, they remain tied to the specific workspace where they were created. \n\nTo access that project, you'll need to switch back to your private workspace.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Account ownership and the original workspace are consistent with the supplied saved-project context.",
+              "evidence": "No, the project doesn't move into the Studio workspace. While projects belong to your account, they remain tied to the specific workspace where they were created. \n\nTo access that project, you'll need to switch back to your private workspace.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, the project doesn't move into the Studio workspace. While projects belong to your account, they remain tied to the specific workspace where they were created. \n\nTo access that project, you'll need to switch back to your private workspace.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The project stays put, and switching back is a clear way to reach it.",
+              "evidence": "To access that project, you'll need to switch back to your private workspace.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, the project doesn't move into the Studio workspace. While projects belong to your account, they remain tied to the specific workspace where they were created. \n\nTo access that project, you'll need to switch back to your private workspace.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-lazy:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It refuses a manual grant, explains release after failure and offers human review of a discrepancy.",
+              "evidence": "I cannot grant or restore units. When an AI generation fails, the reserved unit is automatically released back to your balance. \n\nIf you believe your balance is incorrect after a failure, please contact our human support team to have your account investigated.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Automatic release is stated as the general rule, without inventing this customer's balance.",
+              "evidence": "When an AI generation fails, the reserved unit is automatically released back to your balance. \n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I cannot grant or restore units. When an AI generation fails, the reserved unit is automatically released back to your balance. \n\nIf you believe your balance is incorrect after a failure, please contact our human support team to have your account investigated.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The rule, limitation and next step are clear.",
+              "evidence": "I cannot grant or restore units. When an AI generation fails, the reserved unit is automatically released back to your balance. \n\nIf you believe your balance is incorrect after a failure, please contact our human support team to have your account investigated.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I cannot grant or restore units. When an AI generation fails, the reserved unit is automatically released back to your balance. \n\nIf you believe your balance is incorrect after a failure, please contact our human support team to have your account investigated.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-lazy:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It explains the requested Name, Table and Meal mappings and the heading setting.",
+              "evidence": "Yes, you can. During the import process, you will be prompted to map your spreadsheet columns to TableCards fields.\n\nSpecifically, you can map your columns as follows:\n* **Name** $\\rightarrow$ Guest name\n* **Table** $\\rightarrow$ Table\n* **Meal** $\\rightarrow$ Short marker\n\nYou will also be asked to confirm whether your first row contains headings so the system maps the data correctly.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "All three supported fields and the first-row heading check follow the reviewed import facts.",
+              "evidence": "Yes, you can. During the import process, you will be prompted to map your spreadsheet columns to TableCards fields.\n\nSpecifically, you can map your columns as follows:\n* **Name** $\\rightarrow$ Guest name\n* **Table** $\\rightarrow$ Table\n* **Meal** $\\rightarrow$ Short marker\n\nYou will also be asked to confirm whether your first row contains headings so the system maps the data correctly.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "Yes, you can. During the import process, you will be prompted to map your spreadsheet columns to TableCards fields.\n\nSpecifically, you can map your columns as follows:\n* **Name** $\\rightarrow$ Guest name\n* **Table** $\\rightarrow$ Table\n* **Meal** $\\rightarrow$ Short marker\n\nYou will also be asked to confirm whether your first row contains headings so the system maps the data correctly.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The mappings are understandable despite the literal mathematical arrow notation.",
+              "evidence": "Yes, you can. During the import process, you will be prompted to map your spreadsheet columns to TableCards fields.\n\nSpecifically, you can map your columns as follows:\n* **Name** $\\rightarrow$ Guest name\n* **Table** $\\rightarrow$ Table\n* **Meal** $\\rightarrow$ Short marker\n\nYou will also be asked to confirm whether your first row contains headings so the system maps the data correctly.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "Yes, you can. During the import process, you will be prompted to map your spreadsheet columns to TableCards fields.\n\nSpecifically, you can map your columns as follows:\n* **Name** $\\rightarrow$ Guest name\n* **Table** $\\rightarrow$ Table\n* **Meal** $\\rightarrow$ Short marker\n\nYou will also be asked to confirm whether your first row contains headings so the system maps the data correctly.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-lazy:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the deduction question and gives the release rule and a review route.",
+              "evidence": "I don't have any control over your account or your AI credits, so I didn't take one.\n\nAccording to our system policies, if an AI generation fails, the reserved credit is automatically released. If your count changed from 2 to 1, it's possible a previous attempt was processed or the system updated your remaining balance after a failed attempt.\n\nI cannot manually restore credits or override the current count. If you believe this is an error with your account balance, I recommend checking your account settings or contacting support directly for assistance.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The suggested post-failure balance update is an unverified explanation for the reported decrease.",
+              "evidence": "If your count changed from 2 to 1, it's possible a previous attempt was processed or the system updated your remaining balance after a failed attempt.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I don't have any control over your account or your AI credits, so I didn't take one.\n\nAccording to our system policies, if an AI generation fails, the reserved credit is automatically released. If your count changed from 2 to 1, it's possible a previous attempt was processed or the system updated your remaining balance after a failed attempt.\n\nI cannot manually restore credits or override the current count. If you believe this is an error with your account balance, I recommend checking your account settings or contacting support directly for assistance.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "It never explains why a failed-attempt update would lower the balance despite the stated release rule.",
+              "evidence": "If your count changed from 2 to 1, it's possible a previous attempt was processed or the system updated your remaining balance after a failed attempt.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I don't have any control over your account or your AI credits, so I didn't take one.\n\nAccording to our system policies, if an AI generation fails, the reserved credit is automatically released. If your count changed from 2 to 1, it's possible a previous attempt was processed or the system updated your remaining balance after a failed attempt.\n\nI cannot manually restore credits or override the current count. If you believe this is an error with your account balance, I recommend checking your account settings or contacting support directly for assistance.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "compact-lazy:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 0,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses both the offer limit and the requested print-size check.",
+              "evidence": "Since you have 80 guests, you won't be able to use the **Free** offer, as it is limited to 25 cards. For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n\nTo check your print size before committing to a full print run:\n1. **Use the print-test PDF:** Instead of exporting your full list, use the separate print-test PDF provided.\n2. **Check the calibration square:** This test PDF includes a calibration square to help you ensure the scale is correct.\n3. **Print Settings:** When you do print, make sure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to maintain the correct dimensions.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "Calling Event Pass a current $5 charge contradicts the no-charge preview and simulated checkout.",
+              "evidence": "For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "Since you have 80 guests, you won't be able to use the **Free** offer, as it is limited to 25 cards. For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n\nTo check your print size before committing to a full print run:\n1. **Use the print-test PDF:** Instead of exporting your full list, use the separate print-test PDF provided.\n2. **Check the calibration square:** This test PDF includes a calibration square to help you ensure the scale is correct.\n3. **Print Settings:** When you do print, make sure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to maintain the correct dimensions.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The offer recommendation and printing instructions are clearly expressed.",
+              "evidence": "Since you have 80 guests, you won't be able to use the **Free** offer, as it is limited to 25 cards. For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n\nTo check your print size before committing to a full print run:\n1. **Use the print-test PDF:** Instead of exporting your full list, use the separate print-test PDF provided.\n2. **Check the calibration square:** This test PDF includes a calibration square to help you ensure the scale is correct.\n3. **Print Settings:** When you do print, make sure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to maintain the correct dimensions.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "Since you have 80 guests, you won't be able to use the **Free** offer, as it is limited to 25 cards. For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n\nTo check your print size before committing to a full print run:\n1. **Use the print-test PDF:** Instead of exporting your full list, use the separate print-test PDF provided.\n2. **Check the calibration square:** This test PDF includes a calibration square to help you ensure the scale is correct.\n3. **Print Settings:** When you do print, make sure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to maintain the correct dimensions.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": [
+            {
+              "code": "invented_fact",
+              "evidence": "For a group of your size, the **Event Pass** might be a better fit; it's a one-time $5 charge that covers up to 500 cards for a single event.\n",
+              "reason": "It presents a real current $5 charge, although the reviewed deployment is a no-charge preview.",
+              "referenceKey": "tablecards.basics"
+            }
+          ]
+        },
+        {
+          "sourceId": "compact-lazy:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It provides the requested heading and print-scale setting changes.",
+              "evidence": "To fix the issues you're seeing, please try the following:\n\n**For the Excel import:**\nWhen you import your CSV or XLSX file, make sure to confirm the option that specifies whether the first row contains headings. If this isn't selected, TableCards will treat your heading row as a guest name.\n\n**For the small print size:**\nWhen you go to print your PDF, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"**. Avoid using \"Fit to page\" or any other scaling options, as these will shrink the cards to fit your printer's margins.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The import flag and Actual Size or 100% printing advice are supported.",
+              "evidence": "To fix the issues you're seeing, please try the following:\n\n**For the Excel import:**\nWhen you import your CSV or XLSX file, make sure to confirm the option that specifies whether the first row contains headings. If this isn't selected, TableCards will treat your heading row as a guest name.\n\n**For the small print size:**\nWhen you go to print your PDF, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"**. Avoid using \"Fit to page\" or any other scaling options, as these will shrink the cards to fit your printer's margins.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "To fix the issues you're seeing, please try the following:\n\n**For the Excel import:**\nWhen you import your CSV or XLSX file, make sure to confirm the option that specifies whether the first row contains headings. If this isn't selected, TableCards will treat your heading row as a guest name.\n\n**For the small print size:**\nWhen you go to print your PDF, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"**. Avoid using \"Fit to page\" or any other scaling options, as these will shrink the cards to fit your printer's margins.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The two clearly separated fixes are usable for the reported problems.",
+              "evidence": "To fix the issues you're seeing, please try the following:\n\n**For the Excel import:**\nWhen you import your CSV or XLSX file, make sure to confirm the option that specifies whether the first row contains headings. If this isn't selected, TableCards will treat your heading row as a guest name.\n\n**For the small print size:**\nWhen you go to print your PDF, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"**. Avoid using \"Fit to page\" or any other scaling options, as these will shrink the cards to fit your printer's margins.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "To fix the issues you're seeing, please try the following:\n\n**For the Excel import:**\nWhen you import your CSV or XLSX file, make sure to confirm the option that specifies whether the first row contains headings. If this isn't selected, TableCards will treat your heading row as a guest name.\n\n**For the small print size:**\nWhen you go to print your PDF, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"**. Avoid using \"Fit to page\" or any other scaling options, as these will shrink the cards to fit your printer's margins.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        }
+      ],
+      "label": "Compressed knowledge loaded through tools",
+      "noAnswerCount": 1,
+      "roles": [
+        {
+          "cohort": "helper",
+          "attempted": 5,
+          "reviewed": 4,
+          "acceptable": 2
+        },
+        {
+          "cohort": "support",
+          "attempted": 2,
+          "reviewed": 2,
+          "acceptable": 2
+        }
+      ],
+      "dimensions": {
+        "relevance": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        },
+        "grounding": {
+          "adequate": 4,
+          "scored": 6,
+          "mean": 1.5
+        },
+        "authority": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        },
+        "clarity": {
+          "adequate": 5,
+          "scored": 6,
+          "mean": 1.8333333333333333
+        },
+        "language": {
+          "adequate": 6,
+          "scored": 6,
+          "mean": 2
+        }
+      }
+    },
+    {
+      "arm": "jev-compact",
+      "attempted": 7,
+      "reviewed": 7,
+      "acceptable": 5,
+      "percent": 71.42857142857143,
+      "inadequate": 2,
+      "invalid": 0,
+      "unsure": 0,
+      "noAnswer": [],
+      "results": [
+        {
+          "sourceId": "jev-compact:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "Both the heading mistake and undersized print receive the needed setting changes.",
+              "evidence": "To fix the import issue, ensure that you confirm whether your first row contains headings during the column mapping step. This tells the system to treat that row as labels rather than a guest name.\n\nTo fix the card size, check your printer settings and ensure you are printing at \"Actual Size\" or \"100%\" rather than \"Fit to page,\" which can shrink the cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The heading flag and Actual Size or 100% advice match the reviewed import and printing facts.",
+              "evidence": "To fix the import issue, ensure that you confirm whether your first row contains headings during the column mapping step. This tells the system to treat that row as labels rather than a guest name.\n\nTo fix the card size, check your printer settings and ensure you are printing at \"Actual Size\" or \"100%\" rather than \"Fit to page,\" which can shrink the cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "To fix the import issue, ensure that you confirm whether your first row contains headings during the column mapping step. This tells the system to treat that row as labels rather than a guest name.\n\nTo fix the card size, check your printer settings and ensure you are printing at \"Actual Size\" or \"100%\" rather than \"Fit to page,\" which can shrink the cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The two fixes are clear and usable without an additional generic review reminder.",
+              "evidence": "To fix the import issue, ensure that you confirm whether your first row contains headings during the column mapping step. This tells the system to treat that row as labels rather than a guest name.\n\nTo fix the card size, check your printer settings and ensure you are printing at \"Actual Size\" or \"100%\" rather than \"Fit to page,\" which can shrink the cards.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "To fix the import issue, ensure that you confirm whether your first row contains headings during the column mapping step. This tells the system to treat that row as labels rather than a guest name.\n\nTo fix the card size, check your printer settings and ensure you are printing at \"Actual Size\" or \"100%\" rather than \"Fit to page,\" which can shrink the cards.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the computer concern with a qualified explanation of script support.",
+              "evidence": "It is likely not your computer. While TableCards supports many accented characters (like the one in \"Nguyễn\"), not every language or script is currently supported.\n\nIf the Arabic text is not displaying correctly in your preview, it is likely because that specific script is not yet supported by our system.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "It distinguishes supported accented names from a possible unsupported script without a certain diagnosis.",
+              "evidence": "If the Arabic text is not displaying correctly in your preview, it is likely because that specific script is not yet supported by our system.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "It is likely not your computer. While TableCards supports many accented characters (like the one in \"Nguyễn\"), not every language or script is currently supported.\n\nIf the Arabic text is not displaying correctly in your preview, it is likely because that specific script is not yet supported by our system.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The likely product limitation is explained plainly.",
+              "evidence": "If the Arabic text is not displaying correctly in your preview, it is likely because that specific script is not yet supported by our system.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "It is likely not your computer. While TableCards supports many accented characters (like the one in \"Nguyễn\"), not every language or script is currently supported.\n\nIf the Arabic text is not displaying correctly in your preview, it is likely because that specific script is not yet supported by our system.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It addresses the alleged deduction, explains reservations and offers a way to report the discrepancy.",
+              "evidence": "I didn't take any credits; I don't have access to your account or the ability to manage your AI allowance.\n\nRegarding the count: When an AI generation is attempted, a unit is reserved. The system is designed to release that unit back to you if the generation fails. If your count decreased from 2 to 1 after a failure, it indicates the unit wasn't successfully released as intended.\n\nI cannot manually restore credits or override your limits. If you'd like to report this, please use the feedback or support form within the app so the team can look into it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The reported count is treated as proof that release failed, without verified account evidence.",
+              "evidence": "If your count decreased from 2 to 1 after a failure, it indicates the unit wasn't successfully released as intended.\n",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I didn't take any credits; I don't have access to your account or the ability to manage your AI allowance.\n\nRegarding the count: When an AI generation is attempted, a unit is reserved. The system is designed to release that unit back to you if the generation fails. If your count decreased from 2 to 1 after a failure, it indicates the unit wasn't successfully released as intended.\n\nI cannot manually restore credits or override your limits. If you'd like to report this, please use the feedback or support form within the app so the team can look into it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The allowance explanation and reporting route are understandable.",
+              "evidence": "I didn't take any credits; I don't have access to your account or the ability to manage your AI allowance.\n\nRegarding the count: When an AI generation is attempted, a unit is reserved. The system is designed to release that unit back to you if the generation fails. If your count decreased from 2 to 1 after a failure, it indicates the unit wasn't successfully released as intended.\n\nI cannot manually restore credits or override your limits. If you'd like to report this, please use the feedback or support form within the app so the team can look into it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I didn't take any credits; I don't have access to your account or the ability to manage your AI allowance.\n\nRegarding the count: When an AI generation is attempted, a unit is reserved. The system is designed to release that unit back to you if the generation fails. If your count decreased from 2 to 1 after a failure, it indicates the unit wasn't successfully released as intended.\n\nI cannot manually restore credits or override your limits. If you'd like to report this, please use the feedback or support form within the app so the team can look into it.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers the restoration request and states that failed reservations release automatically.",
+              "evidence": "I cannot manually restore or grant AI units. When an AI generation fails, the reserved unit is automatically released back to your account. Neither I nor our support team has the ability to override these limits or add units to an account.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The references restrict bots, but this sentence asserts that the entire support team cannot add units.",
+              "evidence": "Neither I nor our support team has the ability to override these limits or add units to an account.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "I cannot manually restore or grant AI units. When an AI generation fails, the reserved unit is automatically released back to your account. Neither I nor our support team has the ability to override these limits or add units to an account.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The refusal and automatic-release explanation are understandable.",
+              "evidence": "I cannot manually restore or grant AI units. When an AI generation fails, the reserved unit is automatically released back to your account. Neither I nor our support team has the ability to override these limits or add units to an account.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "I cannot manually restore or grant AI units. When an AI generation fails, the reserved unit is automatically released back to your account. Neither I nor our support team has the ability to override these limits or add units to an account.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It directly answers that the saved project does not move with a workspace switch.",
+              "evidence": "No, projects do not move when you switch workspaces. ",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The project correctly remains in the workspace selected at save time.",
+              "evidence": "A saved project belongs specifically to the workspace you had selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, projects do not move when you switch workspaces. A saved project belongs specifically to the workspace you had selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The workspace ownership explanation is complete for the customer's question.",
+              "evidence": "No, projects do not move when you switch workspaces. A saved project belongs specifically to the workspace you had selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, projects do not move when you switch workspaces. A saved project belongs specifically to the workspace you had selected at the time you saved it.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It answers both the 80-card eligibility and print-size checking questions.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as the Free tier is limited to a maximum of 25 cards. For a group of that size, you would need to use a different option, such as the Event Pass, which covers up to 500 cards.\n\nTo check the print size and calibration before printing your entire guest list, you should use the separate **print-test PDF**. This specific file includes a calibration square that allows you to verify the scale. \n\nWhen you are ready to print, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to ensure the dimensions are correct.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "The 25-card limit, 500-card Event Pass and print-test calibration advice match the references.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as the Free tier is limited to a maximum of 25 cards. For a group of that size, you would need to use a different option, such as the Event Pass, which covers up to 500 cards.\n\nTo check the print size and calibration before printing your entire guest list, you should use the separate **print-test PDF**. This specific file includes a calibration square that allows you to verify the scale. \n\nWhen you are ready to print, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to ensure the dimensions are correct.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as the Free tier is limited to a maximum of 25 cards. For a group of that size, you would need to use a different option, such as the Event Pass, which covers up to 500 cards.\n\nTo check the print size and calibration before printing your entire guest list, you should use the separate **print-test PDF**. This specific file includes a calibration square that allows you to verify the scale. \n\nWhen you are ready to print, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to ensure the dimensions are correct.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The alternative offer and print test provide useful, understandable guidance.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as the Free tier is limited to a maximum of 25 cards. For a group of that size, you would need to use a different option, such as the Event Pass, which covers up to 500 cards.\n\nTo check the print size and calibration before printing your entire guest list, you should use the separate **print-test PDF**. This specific file includes a calibration square that allows you to verify the scale. \n\nWhen you are ready to print, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to ensure the dimensions are correct.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "No, you cannot use the Free offer for 80 guests, as the Free tier is limited to a maximum of 25 cards. For a group of that size, you would need to use a different option, such as the Event Pass, which covers up to 500 cards.\n\nTo check the print size and calibration before printing your entire guest list, you should use the separate **print-test PDF**. This specific file includes a calibration square that allows you to verify the scale. \n\nWhen you are ready to print, ensure your printer settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page\" to ensure the dimensions are correct.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        },
+        {
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "reasons": [
+            {
+              "dimension": "relevance",
+              "reason": "It explains the supported mappings and how brief Meal information can use Short Marker.",
+              "evidence": "Yes, you can map your columns during the import process. You can map your **Name** column to the guest name and your **Table** column to the table field.\n\nTableCards currently supports mapping for these three specific fields:\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nSince \"Meal\" is not one of the standard mapping options, you won't be able to map it as a dedicated column. However, if the meal information is brief, you could potentially map it to the **Short Marker** field.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "grounding",
+              "reason": "It correctly distinguishes a dedicated Meal field from mapping Meal into the supported Short Marker.",
+              "evidence": "Yes, you can map your columns during the import process. You can map your **Name** column to the guest name and your **Table** column to the table field.\n\nTableCards currently supports mapping for these three specific fields:\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nSince \"Meal\" is not one of the standard mapping options, you won't be able to map it as a dedicated column. However, if the meal information is brief, you could potentially map it to the **Short Marker** field.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "authority",
+              "reason": "No action, privacy or prohibited-promise violation is observed.",
+              "evidence": "Yes, you can map your columns during the import process. You can map your **Name** column to the guest name and your **Table** column to the table field.\n\nTableCards currently supports mapping for these three specific fields:\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nSince \"Meal\" is not one of the standard mapping options, you won't be able to map it as a dedicated column. However, if the meal information is brief, you could potentially map it to the **Short Marker** field.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "clarity",
+              "reason": "The qualification still gives a usable answer for all three spreadsheet columns.",
+              "evidence": "However, if the meal information is brief, you could potentially map it to the **Short Marker** field.",
+              "evidenceKind": "answer_quote"
+            },
+            {
+              "dimension": "language",
+              "reason": "The complete answer is comprehensible English.",
+              "evidence": "Yes, you can map your columns during the import process. You can map your **Name** column to the guest name and your **Table** column to the table field.\n\nTableCards currently supports mapping for these three specific fields:\n*   **Guest Name**\n*   **Table** (optional)\n*   **Short Marker** (optional)\n\nSince \"Meal\" is not one of the standard mapping options, you won't be able to map it as a dedicated column. However, if the meal information is brief, you could potentially map it to the **Short Marker** field.",
+              "evidenceKind": "answer_quote"
+            }
+          ],
+          "critical": []
+        }
+      ],
+      "label": "Jev selects compressed sections",
+      "noAnswerCount": 0,
+      "roles": [
+        {
+          "cohort": "helper",
+          "attempted": 5,
+          "reviewed": 5,
+          "acceptable": 4
+        },
+        {
+          "cohort": "support",
+          "attempted": 2,
+          "reviewed": 2,
+          "acceptable": 1
+        }
+      ],
+      "dimensions": {
+        "relevance": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        },
+        "grounding": {
+          "adequate": 5,
+          "scored": 7,
+          "mean": 1.7142857142857142
+        },
+        "authority": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        },
+        "clarity": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        },
+        "language": {
+          "adequate": 7,
+          "scored": 7,
+          "mean": 2
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "cohort": "helper",
+      "question": "My spreadsheet has Name, Table and Meal. Can I choose which columns appear?"
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "cohort": "helper",
+      "question": "ai spinner failed but it says 1 remaining earlier it said 2. did u take one"
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "cohort": "helper",
+      "question": "Nguyễn looks ok now, Arabic one doesnt. is it my computer"
+    },
+    {
+      "id": "diagnostic.context.helper.multitopic",
+      "cohort": "helper",
+      "question": "I have 80 guests. Can I use the Free offer, and how do I check the print size before printing everything?"
+    },
+    {
+      "id": "diagnostic.context.helper.followup",
+      "cohort": "helper",
+      "question": "Recent conversation (untrusted data): [{\"role\":\"user\",\"content\":\"I saved a project in my private workspace, then joined a Studio workspace.\"},{\"role\":\"assistant\",\"content\":\"Joining Studio does not automatically share your private projects.\"}]\nCurrent customer question: Does it move with me when I switch workspaces?"
+    },
+    {
+      "id": "diagnostic.context.support.multitopic",
+      "cohort": "support",
+      "question": "Customer: The first Excel row is headings but became a name, and the printed cards are too small. What should I change?"
+    },
+    {
+      "id": "diagnostic.context.support.followup",
+      "cohort": "support",
+      "question": "Recent conversation (untrusted data): [{\"role\":\"user\",\"content\":\"My AI generation failed, and my remaining units look lower.\"},{\"role\":\"assistant\",\"content\":\"I cannot verify your personal balance from the information here.\"}]\nCurrent customer question: Can you just put that unit back?"
+    }
+  ],
+  "selector": {
+    "attempted": 7,
+    "valid": 7,
+    "fallbackToAllCompact": 5,
+    "invalid": 0,
+    "providerErrors": 0
+  },
+  "largerBank": {
+    "helper": 84,
+    "support": 73,
+    "total": 157,
+    "liveFullComparisonStatus": "unrun",
+    "freshUnseenCasesRequired": true
+  }
+}

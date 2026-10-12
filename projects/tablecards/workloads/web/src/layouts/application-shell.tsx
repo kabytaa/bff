@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { WorkspaceSelector } from '../auth-navigation';
 import { RouteFocus } from '../route-focus';
+import { HelpActions } from '../help';
 
 const primaryNavigation = [
   { to: '/projects', label: 'Projects' },
@@ -133,6 +134,7 @@ export function ApplicationShell({ children }: { children?: ReactNode }) {
           <BffSignOutButton className="text-button mobile-sign-out">
             Sign out
           </BffSignOutButton>
+          <HelpActions />
         </header>
         <main
           className="application-content"

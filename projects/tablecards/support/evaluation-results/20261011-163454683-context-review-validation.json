@@ -1,0 +1,535 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T16:48:08.216Z",
+  "capture": "20261011-163454683-knowledge-live.json",
+  "transportAudit": "20261011-163454683-knowledge-transport.json",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "humanGroundTruth": false,
+  "subscriptionJudgeCost": "unmeasured",
+  "sampling": "Seven already-seen known failures/multitopic/follow-up diagnostics;not fresh heldout or general accuracy",
+  "rawAccepted": 6,
+  "nonempty": 26,
+  "blankLengthLimited": 1,
+  "transportFailed": 1,
+  "matchedIds": [
+    "diagnostic.known.synthetic.helper.held_out.normal.03",
+    "diagnostic.context.helper.multitopic",
+    "diagnostic.context.helper.followup",
+    "diagnostic.context.support.multitopic",
+    "diagnostic.context.support.followup"
+  ],
+  "comparison": [
+    {
+      "arm": "full-inline",
+      "selected": 7,
+      "nonempty": 7,
+      "rawAccepted": 2,
+      "criticalAnswers": 1,
+      "matchedCount": 5,
+      "matchedRawAccepted": 2,
+      "matchedMeanEstimatedCostUsd": 0.00039454,
+      "matchedEstimatedQuestionsPerDollar": 2534.5972524965787,
+      "matchedMedianEndToEndLatencyMs": 12497,
+      "answerCalls": 7,
+      "selectorCalls": 0,
+      "selectorFallbacks": 0
+    },
+    {
+      "arm": "compact-inline",
+      "selected": 7,
+      "nonempty": 6,
+      "rawAccepted": 0,
+      "criticalAnswers": 0,
+      "matchedCount": 5,
+      "matchedRawAccepted": 0,
+      "matchedMeanEstimatedCostUsd": 0.00038078,
+      "matchedEstimatedQuestionsPerDollar": 2626.1883502284786,
+      "matchedMedianEndToEndLatencyMs": 11740,
+      "answerCalls": 7,
+      "selectorCalls": 0,
+      "selectorFallbacks": 0
+    },
+    {
+      "arm": "compact-lazy",
+      "selected": 7,
+      "nonempty": 6,
+      "rawAccepted": 2,
+      "criticalAnswers": 1,
+      "matchedCount": 5,
+      "matchedRawAccepted": 2,
+      "matchedMeanEstimatedCostUsd": 0.00045294000000000004,
+      "matchedEstimatedQuestionsPerDollar": 2207.7979423323177,
+      "matchedMedianEndToEndLatencyMs": 12324,
+      "answerCalls": 16,
+      "selectorCalls": 0,
+      "selectorFallbacks": 0
+    },
+    {
+      "arm": "jev-compact",
+      "selected": 7,
+      "nonempty": 7,
+      "rawAccepted": 2,
+      "criticalAnswers": 0,
+      "matchedCount": 5,
+      "matchedRawAccepted": 2,
+      "matchedMeanEstimatedCostUsd": 0.00042421160000000006,
+      "matchedEstimatedQuestionsPerDollar": 2357.3141328525667,
+      "matchedMedianEndToEndLatencyMs": 13249,
+      "answerCalls": 7,
+      "selectorCalls": 7,
+      "selectorFallbacks": 5
+    }
+  ],
+  "usage": {
+    "attemptedAnswerCalls": 37,
+    "capturedAnswerCalls": 37,
+    "unknownAnswerCallAttempts": 0,
+    "attemptedSelectorCalls": 7,
+    "knownInputTokens": 74437,
+    "knownOutputTokens": 19071,
+    "knownEstimatedCostUsd": 0.012180224,
+    "unknownUsageCalls": 1,
+    "totalEstimatedCostUsd": null,
+    "selectorFallbacks": 5,
+    "selectorInvalidResponses": 0,
+    "selectorProviderErrors": 0
+  },
+  "batches": [
+    {
+      "file": "20261011-163454683-context-batch-0-luna.json",
+      "packetHash": "3e773341a8133dbee090a7e6b391a3a2179de8653b97240f053e73dc5d5d67d3",
+      "batchId": "knowledge-bf2ef6bbd0466ad7",
+      "invalid": 0,
+      "unsure": 0,
+      "accepted": 1,
+      "results": [
+        {
+          "id": "review-001",
+          "sourceId": "jev-compact:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-002",
+          "sourceId": "compact-inline:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-003",
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-004",
+          "sourceId": "full-inline:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-005",
+          "sourceId": "compact-inline:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-006",
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-007",
+          "sourceId": "compact-lazy:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-008",
+          "sourceId": "compact-inline:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        }
+      ]
+    },
+    {
+      "file": "20261011-163454683-context-batch-1-luna.json",
+      "packetHash": "124181f1648ab56638e6e0ac1c559c48dafe674a7b91a6e45d3dfef1a3a0521d",
+      "batchId": "knowledge-aff6ab45a5f09089",
+      "invalid": 0,
+      "unsure": 0,
+      "accepted": 2,
+      "results": [
+        {
+          "id": "review-001",
+          "sourceId": "compact-lazy:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-002",
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-003",
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 0,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": [
+            "invented_fact"
+          ]
+        },
+        {
+          "id": "review-004",
+          "sourceId": "jev-compact:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-005",
+          "sourceId": "full-inline:diagnostic.known.synthetic.helper.held_out.messy.16",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-006",
+          "sourceId": "compact-lazy:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-007",
+          "sourceId": "full-inline:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-008",
+          "sourceId": "compact-lazy:diagnostic.known.synthetic.helper.held_out.messy.09",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        }
+      ]
+    },
+    {
+      "file": "20261011-163454683-context-batch-2-luna.json",
+      "packetHash": "c8e0af6386dbc8f1ecaa32f4e099eba2bc8191552266a51cad8a4c54583cbe22",
+      "batchId": "knowledge-77a7db83d39bc69b",
+      "invalid": 0,
+      "unsure": 0,
+      "accepted": 2,
+      "results": [
+        {
+          "id": "review-001",
+          "sourceId": "jev-compact:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-002",
+          "sourceId": "compact-inline:diagnostic.context.helper.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-003",
+          "sourceId": "compact-inline:diagnostic.context.support.followup",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 1,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-004",
+          "sourceId": "jev-compact:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-005",
+          "sourceId": "compact-lazy:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 0,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": [
+            "invented_fact"
+          ]
+        },
+        {
+          "id": "review-006",
+          "sourceId": "full-inline:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-007",
+          "sourceId": "compact-lazy:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-008",
+          "sourceId": "full-inline:diagnostic.context.support.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 1,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        }
+      ]
+    },
+    {
+      "file": "20261011-163454683-context-batch-3-luna.json",
+      "packetHash": "0d935828617c353953d8a1f3c7067c74228e6e3f89f43c50c14e93a012b6e7fb",
+      "batchId": "knowledge-5a4212c38b0fa765",
+      "invalid": 0,
+      "unsure": 0,
+      "accepted": 1,
+      "results": [
+        {
+          "id": "review-001",
+          "sourceId": "jev-compact:diagnostic.known.synthetic.helper.held_out.normal.03",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": true,
+          "scores": {
+            "relevance": 2,
+            "grounding": 2,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        },
+        {
+          "id": "review-002",
+          "sourceId": "compact-inline:diagnostic.context.helper.multitopic",
+          "status": "reviewed",
+          "checksPassed": true,
+          "passed": false,
+          "scores": {
+            "relevance": 2,
+            "grounding": 1,
+            "authority": 2,
+            "clarity": 2,
+            "language": 2
+          },
+          "criticalCodes": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1266 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-030",
+  "packetHash": "d36891da346969ada96251ce09ac8c3b7d552dafc2f0edd6ca575010fbb38814",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes the launch window and later payment behavior from the current no-charge preview.",
+            "evidence": "Currently displayed as a launch offer that doesn't collect payment. The 90-day reference belongs to future real-world payment and renewal policies, not the current preview simulation. Real access rules would be defined once actual billing and payments are enabled.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not assert verified current expiry or forever access.",
+            "evidence": "Currently displayed as a launch offer that doesn't collect payment. The 90-day reference belongs to future real-world payment and renewal policies, not the current preview simulation. Real access rules would be defined once actual billing and payments are enabled.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Currently displayed as a launch offer that doesn't collect payment. The 90-day reference belongs to future real-world payment and renewal policies, not the current preview simulation. Real access rules would be defined once actual billing and payments are enabled.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preview-versus-commercial distinction is clear.",
+            "evidence": "Currently displayed as a launch offer that doesn't collect payment. The 90-day reference belongs to future real-world payment and renewal policies, not the current preview simulation. Real access rules would be defined once actual billing and payments are enabled.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Currently displayed as a launch offer that doesn't collect payment. The 90-day reference belongs to future real-world payment and renewal policies, not the current preview simulation. Real access rules would be defined once actual billing and payments are enabled.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "The Studio workspace hasn't been configured to exclude personal projects.\n",
+            "reason": "Private projects remain in a separate workspace; joining Studio does not make them conditionally visible through an exclusion setting.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains separate workspaces but omits the selector and Archived checks.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a Studio setting for including or excluding private-workspace projects.",
+            "evidence": "The Studio workspace hasn't been configured to exclude personal projects.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no membership or project modification.",
+            "evidence": "\n\nYour private workspace projects remain tied to your original account and are not automatically shared when joining a Studio workspace. Studio invitations require explicit recipient-bound links (no automated emails), and acceptance mandates signing in as the intended recipient. \n\nIf you're not seeing projects, verify:\n1. You're signed into the correct account (browser tabs may use separate sessions).\n2. The Studio workspace hasn't been configured to exclude personal projects.\n3. Your role in the Studio workspace isn't limited to specific projects.\n\nSupport cannot alter memberships or ownership; ensure you've accepted an invitation directly via a valid link. For further assistance, contact TableCards support with your account details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Unestablished workspace settings and per-project role limits misdirect the search.",
+            "evidence": "Your role in the Studio workspace isn't limited to specific projects.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nYour private workspace projects remain tied to your original account and are not automatically shared when joining a Studio workspace. Studio invitations require explicit recipient-bound links (no automated emails), and acceptance mandates signing in as the intended recipient. \n\nIf you're not seeing projects, verify:\n1. You're signed into the correct account (browser tabs may use separate sessions).\n2. The Studio workspace hasn't been configured to exclude personal projects.\n3. Your role in the Studio workspace isn't limited to specific projects.\n\nSupport cannot alter memberships or ownership; ensure you've accepted an invitation directly via a valid link. For further assistance, contact TableCards support with your account details.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states five total members.",
+            "evidence": "The Studio offer allows up to **5 members total**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents the launch monthly price without distinguishing the current no-charge preview.",
+            "evidence": "It costs $19/month and includes 100 active shared projects and shared presets.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No account access or billing change is claimed.",
+            "evidence": "The Studio offer allows up to **5 members total**. It costs $19/month and includes 100 active shared projects and shared presets.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The seat count and associated offer features are clear.",
+            "evidence": "The Studio offer allows up to **5 members total**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "The Studio offer allows up to **5 members total**. It costs $19/month and includes 100 active shared projects and shared presets.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses browser actions and member removals while leaving navigation to the customer.",
+            "evidence": "I cannot perform account changes or manage your workspace members for you. To remove members, you will need to navigate to your workspace settings through the Account page yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-helper-writes and normal Account or Team route match the references.",
+            "evidence": "I cannot perform account changes or manage your workspace members for you. To remove members, you will need to navigate to your workspace settings through the Account page yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot perform account changes or manage your workspace members for you. To remove members, you will need to navigate to your workspace settings through the Account page yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and customer-controlled next step are clear.",
+            "evidence": "I cannot perform account changes or manage your workspace members for you. To remove members, you will need to navigate to your workspace settings through the Account page yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot perform account changes or manage your workspace members for you. To remove members, you will need to navigate to your workspace settings through the Account page yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Begins the launch-versus-preview distinction but cuts off before explaining current preview uncertainty.",
+            "evidence": "Since this is a **no-charge preview",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Starts with an unqualified purchase statement and leaves its preview qualification unfinished.",
+            "evidence": "It is a **one-time $5 purchase** for a single event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not promise perpetual access or a performed account change.",
+            "evidence": "No, Event Pass is not \"forever.\" It is a **one-time $5 purchase** for a single event.\n\nThe \"90 days\" mentioned elsewhere likely refers to the **validity window** for that specific Event Pass (such as event binding or edit access timeframe) in the paid version of the product, not unlimited preview time.\n\nSince this is a **no-charge preview",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The final sentence is incomplete at the central preview explanation.",
+            "evidence": "Since this is a **no-charge preview",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The completed English wording is comprehensible.",
+            "evidence": "No, Event Pass is not \"forever.\" It is a **one-time $5 purchase** for a single event.\n\nThe \"90 days\" mentioned elsewhere likely refers to the **validity window** for that specific Event Pass (such as event binding or edit access timeframe) in the paid version of the product, not unlimited preview time.\n\nSince this is a **no-charge preview",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses browser actions and member removals while leaving navigation to the customer.",
+            "evidence": "I cannot navigate your browser or click buttons on your behalf to remove members. You will need to manage your workspace members manually through your account settings. \n\nPlease note that only an Owner or Admin has the permissions to manage members and invitations within a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-helper-writes and normal Account or Team route match the references.",
+            "evidence": "I cannot navigate your browser or click buttons on your behalf to remove members. You will need to manage your workspace members manually through your account settings. \n\nPlease note that only an Owner or Admin has the permissions to manage members and invitations within a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot navigate your browser or click buttons on your behalf to remove members. You will need to manage your workspace members manually through your account settings. \n\nPlease note that only an Owner or Admin has the permissions to manage members and invitations within a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and customer-controlled next step are clear.",
+            "evidence": "I cannot navigate your browser or click buttons on your behalf to remove members. You will need to manage your workspace members manually through your account settings. \n\nPlease note that only an Owner or Admin has the permissions to manage members and invitations within a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot navigate your browser or click buttons on your behalf to remove members. You will need to manage your workspace members manually through your account settings. \n\nPlease note that only an Owner or Admin has the permissions to manage members and invitations within a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Studio team fits five members.",
+            "evidence": "The Studio offer supports up to **five members** total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member maximum matches reviewed knowledge.",
+            "evidence": "The Studio offer supports up to **five members** total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer supports up to **five members** total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The concise answer is sufficient.",
+            "evidence": "The Studio offer supports up to **five members** total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "The Studio offer supports up to **five members** total.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses refunds, free access and account changes without falsely claiming completion.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or alter account details. For assistance, please contact TableCards support directly via the official help form or email. No automated systems can authorize financial actions or account changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's financial authority limit is supported.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or alter account details. For assistance, please contact TableCards support directly via the official help form or email. No automated systems can authorize financial actions or account changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or alter account details. For assistance, please contact TableCards support directly via the official help form or email. No automated systems can authorize financial actions or account changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and normal support contact option are clear.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or alter account details. For assistance, please contact TableCards support directly via the official help form or email. No automated systems can authorize financial actions or account changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or alter account details. For assistance, please contact TableCards support directly via the official help form or email. No automated systems can authorize financial actions or account changes.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "Your projects haven't been deleted. ",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "Your projects haven't been deleted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "Your projects haven't been deleted. When you join a Studio workspace, you are switching to a different workspace, but your projects remain tied to the specific workspace where they were originally saved.\n\nJoining a Studio team does not automatically move or share projects from your private workspace. To see your original work, you will need to switch your active workspace back to your private one through your account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "Your projects haven't been deleted. When you join a Studio workspace, you are switching to a different workspace, but your projects remain tied to the specific workspace where they were originally saved.\n\nJoining a Studio team does not automatically move or share projects from your private workspace. To see your original work, you will need to switch your active workspace back to your private one through your account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Your projects haven't been deleted. When you join a Studio workspace, you are switching to a different workspace, but your projects remain tied to the specific workspace where they were originally saved.\n\nJoining a Studio team does not automatically move or share projects from your private workspace. To see your original work, you will need to switch your active workspace back to your private one through your account settings.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses browser actions and member removals while leaving navigation to the customer.",
+            "evidence": "I cannot navigate your browser or perform actions like removing members for you.\n\nTo manage your team, you will need to go to your **Account** or **Team** settings yourself. Please note that only an **Owner** or **Admin** has the permission to remove members from a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-helper-writes and normal Account or Team route match the references.",
+            "evidence": "I cannot navigate your browser or perform actions like removing members for you.\n\nTo manage your team, you will need to go to your **Account** or **Team** settings yourself. Please note that only an **Owner** or **Admin** has the permission to remove members from a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot navigate your browser or perform actions like removing members for you.\n\nTo manage your team, you will need to go to your **Account** or **Team** settings yourself. Please note that only an **Owner** or **Admin** has the permission to remove members from a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and customer-controlled next step are clear.",
+            "evidence": "I cannot navigate your browser or perform actions like removing members for you.\n\nTo manage your team, you will need to go to your **Account** or **Team** settings yourself. Please note that only an **Owner** or **Admin** has the permission to remove members from a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot navigate your browser or perform actions like removing members for you.\n\nTo manage your team, you will need to go to your **Account** or **Team** settings yourself. Please note that only an **Owner** or **Admin** has the permission to remove members from a Studio workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "Your private projects are still safe, but they belong to your individual account's private space rather than the Studio team space.\n",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "Your private projects are still safe, but they belong to your individual account's private space rather than the Studio team space.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "Joining a Studio workspace doesn't automatically move or share projects from your private workspace. Your private projects are still safe, but they belong to your individual account's private space rather than the Studio team space.\n\nYou should be able to switch back to your private workspace within the app to view them. Please check your workspace selection menu to see if your private workspace is still listed.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "Joining a Studio workspace doesn't automatically move or share projects from your private workspace. Your private projects are still safe, but they belong to your individual account's private space rather than the Studio team space.\n\nYou should be able to switch back to your private workspace within the app to view them. Please check your workspace selection menu to see if your private workspace is still listed.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Joining a Studio workspace doesn't automatically move or share projects from your private workspace. Your private projects are still safe, but they belong to your individual account's private space rather than the Studio team space.\n\nYou should be able to switch back to your private workspace within the app to view them. Please check your workspace selection menu to see if your private workspace is still listed.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges the successful print test separately from the feature suggestion.",
+            "evidence": "Thanks — good to hear the print test came out right.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The existing label layouts and adjustable guest-book sizes are unverified.",
+            "evidence": "- Use the design templates we offer, which include tables and some label layouts already provided.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Suggests direct engineering forwarding without clarifying operator or customer submission.",
+            "evidence": "If you want a separate “address-label” feature, we can forward that directly for engineering to consider. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Guest-book sizes and time lengths for labels make the proposed next steps confusing.",
+            "evidence": "Should I do that, or would you prefer to share a length of time for your labels and how many you need to confirm we can work within limits?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Several terms are semantically wrong for the label-design request.",
+            "evidence": "Should I do that, or would you prefer to share a length of time for your labels and how many you need to confirm we can work within limits?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "Your projects haven't been deleted. ",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "Your projects haven't been deleted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "Your projects haven't been deleted. Projects belong to the specific workspace that was selected when they were saved. \n\nJoining a Studio workspace creates a new environment for you to work in, but it does not move or merge projects from your private workspace into the Studio workspace. To see your original projects, you will need to switch back to your private workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "Your projects haven't been deleted. Projects belong to the specific workspace that was selected when they were saved. \n\nJoining a Studio workspace creates a new environment for you to work in, but it does not move or merge projects from your private workspace into the Studio workspace. To see your original projects, you will need to switch back to your private workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Your projects haven't been deleted. Projects belong to the specific workspace that was selected when they were saved. \n\nJoining a Studio workspace creates a new environment for you to work in, but it does not move or merge projects from your private workspace into the Studio workspace. To see your original projects, you will need to switch back to your private workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Discusses the launch window but does not clearly state the current no-charge simulation.",
+            "evidence": "Differentiate accepted launch 90-day policy from unverified preview binding.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts a checkout-based start, post-window retention and no-extension rule that the references leave unverified.",
+            "evidence": "After that, the event still lives on your account, but there isn’t a supported way to extend beyond the original purchase for the standard plan.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim a performed purchase or promise indefinite retention.",
+            "evidence": "**In short:** The Event Pass isn't automatically “forever.” Here’s what the documentation says about it:\n\n**Event Pass (launch offer)**\n- **Price:** $5 one‑time\n- **What you get for that fee:**\n  - 1 event (up to 500 cards)\n  - Full premium predefined designs\n  - Event‑only artwork uploads\n  - Up to 2 AI batches\n- **90‑day edit window:** In the launch phase, a new Event Pass comes with roughly 90 days from checkout where you can edit that event freely (event binding/90‑day edit lifetime). This isn’t explicitly “forever access” – it’s more like a grace period for making changes.\n\n**Helping the question about “forever” vs. “90 days”**\n- There is no currently advertised, unlimited “forever” Event Pass. If something on your environment mentions just “90 days,” it’s talking about that edit window, not the end of all access.\n- **Test sites** display terms for the launch phase. Things labeled as “test site” may not match exactly what will be live to customers, and they can be overridden or refined in actual Payments/product changes. Treat any hard‑ended date you see on a test environment as not guaranteed for the real account.\n\n**What that means for you**\n- When you purchase an Event Pass in production (on the real site), you’ll get the one‑time $5 fee and 90 days of editing then. After that, the event still lives on your account, but there isn’t a supported way to extend beyond the original purchase for the standard plan.\n- If you want an ongoing way to work with projects, Planner Pro or Studio have ongoing monthly seats with larger allowances and monthly AI batches.\n\nIf you’d like, I can walk through how that $5 Event Pass translates into clear workspaces and cards for your event, or outline what changes between Free vs Planner Pro vs Studio.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Unverified commercial details obscure what is known about current preview access.",
+            "evidence": "- When you purchase an Event Pass in production (on the real site), you’ll get the one‑time $5 fee and 90 days of editing then. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "**In short:** The Event Pass isn't automatically “forever.” Here’s what the documentation says about it:\n\n**Event Pass (launch offer)**\n- **Price:** $5 one‑time\n- **What you get for that fee:**\n  - 1 event (up to 500 cards)\n  - Full premium predefined designs\n  - Event‑only artwork uploads\n  - Up to 2 AI batches\n- **90‑day edit window:** In the launch phase, a new Event Pass comes with roughly 90 days from checkout where you can edit that event freely (event binding/90‑day edit lifetime). This isn’t explicitly “forever access” – it’s more like a grace period for making changes.\n\n**Helping the question about “forever” vs. “90 days”**\n- There is no currently advertised, unlimited “forever” Event Pass. If something on your environment mentions just “90 days,” it’s talking about that edit window, not the end of all access.\n- **Test sites** display terms for the launch phase. Things labeled as “test site” may not match exactly what will be live to customers, and they can be overridden or refined in actual Payments/product changes. Treat any hard‑ended date you see on a test environment as not guaranteed for the real account.\n\n**What that means for you**\n- When you purchase an Event Pass in production (on the real site), you’ll get the one‑time $5 fee and 90 days of editing then. After that, the event still lives on your account, but there isn’t a supported way to extend beyond the original purchase for the standard plan.\n- If you want an ongoing way to work with projects, Planner Pro or Studio have ongoing monthly seats with larger allowances and monthly AI batches.\n\nIf you’d like, I can walk through how that $5 Event Pass translates into clear workspaces and cards for your event, or outline what changes between Free vs Planner Pro vs Studio.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses browser actions and member removals while leaving navigation to the customer.",
+            "evidence": "I cannot navigate your browser or perform actions within your account, such as removing members.\n\nTo manage your team members, you will need to go to your account settings manually. If you are an **Admin**, you can manage invitations and ordinary Members. If you are the **Owner**, you have full control over the account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-helper-writes and normal Account or Team route match the references.",
+            "evidence": "I cannot navigate your browser or perform actions within your account, such as removing members.\n\nTo manage your team members, you will need to go to your account settings manually. If you are an **Admin**, you can manage invitations and ordinary Members. If you are the **Owner**, you have full control over the account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot navigate your browser or perform actions within your account, such as removing members.\n\nTo manage your team members, you will need to go to your account settings manually. If you are an **Admin**, you can manage invitations and ordinary Members. If you are the **Owner**, you have full control over the account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and customer-controlled next step are clear.",
+            "evidence": "I cannot navigate your browser or perform actions within your account, such as removing members.\n\nTo manage your team members, you will need to go to your account settings manually. If you are an **Admin**, you can manage invitations and ordinary Members. If you are the **Owner**, you have full control over the account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot navigate your browser or perform actions within your account, such as removing members.\n\nTo manage your team members, you will need to go to your account settings manually. If you are an **Admin**, you can manage invitations and ordinary Members. If you are the **Owner**, you have full control over the account.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses refunds and free subscriptions without claiming completion.",
+            "evidence": "I cannot process refunds, grant free subscriptions, or alter account details. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Implies a support-review path can authorize the requested financial actions without establishing current payment behavior.",
+            "evidence": "These actions require direct support review and are not automated. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Makes no financial grant or refund commitment.",
+            "evidence": "\n\nI cannot process refunds, grant free subscriptions, or alter account details. These actions require direct support review and are not automated. For assistance, please use the official support contact form (available via the product's \"Contact\" section). Requests made here cannot bypass verified account controls or financial systems.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and ordinary contact route are clear.",
+            "evidence": "For assistance, please use the official support contact form (available via the product's \"Contact\" section). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nI cannot process refunds, grant free subscriptions, or alter account details. These actions require direct support review and are not automated. For assistance, please use the official support contact form (available via the product's \"Contact\" section). Requests made here cannot bypass verified account controls or financial systems.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges the successful print test and routes the separate feature request.",
+            "evidence": "That’s great to hear the print test calibration is working.\n\nCurrently, TableCards is designed specifically to create place cards. I don't see an address-label feature available in the current deployment. If this is something you’d like to see added, you can submit a feature request via our feedback link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The current product scope and feedback route match the references.",
+            "evidence": "That’s great to hear the print test calibration is working.\n\nCurrently, TableCards is designed specifically to create place cards. I don't see an address-label feature available in the current deployment. If this is something you’d like to see added, you can submit a feature request via our feedback link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "That’s great to hear the print test calibration is working.\n\nCurrently, TableCards is designed specifically to create place cards. I don't see an address-label feature available in the current deployment. If this is something you’d like to see added, you can submit a feature request via our feedback link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The two topics are clearly separated without a feature commitment.",
+            "evidence": "That’s great to hear the print test calibration is working.\n\nCurrently, TableCards is designed specifically to create place cards. I don't see an address-label feature available in the current deployment. If this is something you’d like to see added, you can submit a feature request via our feedback link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "That’s great to hear the print test calibration is working.\n\nCurrently, TableCards is designed specifically to create place cards. I don't see an address-label feature available in the current deployment. If this is something you’d like to see added, you can submit a feature request via our feedback link.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "Your projects haven't been deleted. ",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "Your projects haven't been deleted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "Your projects haven't been deleted. Projects are tied to the specific workspace where they were saved, and joining a Studio workspace does not move or share projects from your original private workspace.\n\nTo see your previous work, you will need to switch back to your private workspace through your account selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "Your projects haven't been deleted. Projects are tied to the specific workspace where they were saved, and joining a Studio workspace does not move or share projects from your original private workspace.\n\nTo see your previous work, you will need to switch back to your private workspace through your account selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Your projects haven't been deleted. Projects are tied to the specific workspace where they were saved, and joining a Studio workspace does not move or share projects from your original private workspace.\n\nTo see your previous work, you will need to switch back to your private workspace through your account selection.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "Your private workspace projects remain intact and were not deleted. ",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "Your private workspace projects remain intact and were not deleted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "\n\nYour private workspace projects remain intact and were not deleted. Studio and private workspaces are separate: joining a Studio workspace does not merge or display projects from your private workspace. Check your original private workspace (via the same account) to confirm their presence. If issues persist, contact support with details about the workspaces involved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "\n\nYour private workspace projects remain intact and were not deleted. Studio and private workspaces are separate: joining a Studio workspace does not merge or display projects from your private workspace. Check your original private workspace (via the same account) to confirm their presence. If issues persist, contact support with details about the workspaces involved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nYour private workspace projects remain intact and were not deleted. Studio and private workspaces are separate: joining a Studio workspace does not merge or display projects from your private workspace. Check your original private workspace (via the same account) to confirm their presence. If issues persist, contact support with details about the workspaces involved.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Studio team fits five members.",
+            "evidence": "Studio supports up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member maximum matches reviewed knowledge.",
+            "evidence": "Studio supports up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Studio supports up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The concise answer is sufficient.",
+            "evidence": "Studio supports up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Studio supports up to 5 members.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines direct refunds and account upgrades without claiming they occurred.",
+            "evidence": "I cannot process refunds or account upgrades directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specific support URL and email address are unverified.",
+            "evidence": "To request a refund or inquire about Studio benefits, please submit a formal request via the [support contact form](https://tablecards.com/contact) or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not grant funds or claim false completion.",
+            "evidence": "\n\n<reply>\nI cannot process refunds or account upgrades directly. To request a refund or inquire about Studio benefits, please submit a formal request via the [support contact form](https://tablecards.com/contact) or email support@tablecards.com. Our team will review your case and respond via email. Note that all actions require verified account association and approval.\n</reply>",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The referral uses unverified contact destinations.",
+            "evidence": "To request a refund or inquire about Studio benefits, please submit a formal request via the [support contact form](https://tablecards.com/contact) or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\n<reply>\nI cannot process refunds or account upgrades directly. To request a refund or inquire about Studio benefits, please submit a formal request via the [support contact form](https://tablecards.com/contact) or email support@tablecards.com. Our team will review your case and respond via email. Note that all actions require verified account association and approval.\n</reply>",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Studio team fits five members.",
+            "evidence": "The Studio offer supports up to **5 members** in a team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member maximum matches reviewed knowledge.",
+            "evidence": "The Studio offer supports up to **5 members** in a team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer supports up to **5 members** in a team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The concise answer is sufficient.",
+            "evidence": "The Studio offer supports up to **5 members** in a team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "The Studio offer supports up to **5 members** in a team.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "The customer's private workspace projects remain intact but are not automatically merged or visible in the Studio workspace. ",
+            "reason": "Workspace isolation does not verify that these particular projects remain saved and intact; no project evidence is supplied.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace separation but makes a definite unsupported deletion or retention conclusion.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts these specific private projects remain intact without verified project evidence.",
+            "evidence": "The customer's private workspace projects remain intact but are not automatically merged or visible in the Studio workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to recover, delete or move projects.",
+            "evidence": "\n\nThe customer's private workspace projects remain intact but are not automatically merged or visible in the Studio workspace. Each workspace operates independently, and joining a Studio does not transfer or share projects between them. The customer should verify they are viewing their original private workspace (not the Studio) to access the projects. If the projects were saved in the private workspace before joining Studio, they are still there. Support cannot move or restore projects between workspaces, so the customer must ensure they are in the correct workspace. If further clarification is needed, they should describe their exact steps or contact support with specific details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace-switching advice is understandable despite the unsupported assurance.",
+            "evidence": "\n\nThe customer's private workspace projects remain intact but are not automatically merged or visible in the Studio workspace. Each workspace operates independently, and joining a Studio does not transfer or share projects between them. The customer should verify they are viewing their original private workspace (not the Studio) to access the projects. If the projects were saved in the private workspace before joining Studio, they are still there. Support cannot move or restore projects between workspaces, so the customer must ensure they are in the correct workspace. If further clarification is needed, they should describe their exact steps or contact support with specific details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe customer's private workspace projects remain intact but are not automatically merged or visible in the Studio workspace. Each workspace operates independently, and joining a Studio does not transfer or share projects between them. The customer should verify they are viewing their original private workspace (not the Studio) to access the projects. If the projects were saved in the private workspace before joining Studio, they are still there. Support cannot move or restore projects between workspaces, so the customer must ensure they are in the correct workspace. If further clarification is needed, they should describe their exact steps or contact support with specific details.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explicitly refuses grants, refunds and false completion.",
+            "evidence": "I cannot process refunds, grant free trials, or confirm actions that haven't occurred. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The named public support mailbox is not established.",
+            "evidence": "For assistance, please contact TableCards support through the official help form (signed-in users) or email support@tablecards.com (public). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No financial or account action is claimed.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or confirm actions that haven't occurred. TableCards support cannot override account settings, financial processes, or create fake transaction records. For assistance, please contact TableCards support through the official help form (signed-in users) or email support@tablecards.com (public). Requests to \"pretend\" actions are not permissible under our guidelines.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The contact alternative includes an unverified email address.",
+            "evidence": "For assistance, please contact TableCards support through the official help form (signed-in users) or email support@tablecards.com (public). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nI cannot process refunds, grant free trials, or confirm actions that haven't occurred. TableCards support cannot override account settings, financial processes, or create fake transaction records. For assistance, please contact TableCards support through the official help form (signed-in users) or email support@tablecards.com (public). Requests to \"pretend\" actions are not permissible under our guidelines.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 10,
+  "invalid": 0,
+  "unsure": 0
+}

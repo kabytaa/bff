@@ -12,6 +12,14 @@ import {
   type ConvexInvocation,
 } from './cli';
 import { resolveCustomerAuthConfigurationArgs } from './customerAuthConfiguration';
+import { resolveOperatorWorkArgs } from './operatorWorkConfiguration';
+import { evaluationExitCode, runEvaluationCommand } from './operatorEvaluation';
+import {
+  knowledgeExperimentExitCode,
+  runKnowledgeExperimentCommand,
+} from './operatorKnowledgeExperiment';
+import { runGenerationControlExperimentCommand } from './operatorGenerationExperiment';
+import { isSupportCommand, runSupportCommand } from './supportOperations';
 
 const execFileAsync = promisify(execFile);
 
@@ -37,9 +45,62 @@ export async function run(
   argv: string[],
   invoke: InvocationRunner = invokeConvex,
 ): Promise<number> {
+  const normalizedArgv = argv[0] === '--' ? argv.slice(1) : argv;
+  if (isSupportCommand(normalizedArgv[0]))
+    return await runSupportCommand(normalizedArgv);
+  if (normalizedArgv[0] === 'experiment-operator-knowledge') {
+    try {
+      const result = await runKnowledgeExperimentCommand(
+        normalizedArgv.slice(1),
+      );
+      console.info(
+        `Knowledge experiment ${result.report.mode} UNJUDGED capture saved to ${result.jsonPath} and ${result.markdownPath}; live quality remains unverified.`,
+      );
+      return knowledgeExperimentExitCode(result.report);
+    } catch {
+      console.error(
+        'Knowledge experiment refused or failed. Check matched fixtures/configuration, mandatory knowledge and the combined capped-provider allowance; private provider output was withheld.',
+      );
+      return 2;
+    }
+  }
+  if (normalizedArgv[0] === 'experiment-generation-control') {
+    try {
+      const result = await runGenerationControlExperimentCommand(
+        normalizedArgv.slice(1),
+      );
+      console.info(
+        `Generation control UNJUDGED capture saved to ${result.jsonPath} with ${result.report.usage.attemptedCalls} attempted calls and ${result.batchPaths.length} blinded review packet(s).`,
+      );
+      return result.report.usage.failedCalls ? 1 : 0;
+    } catch {
+      console.error(
+        'Generation control experiment refused or failed. Verify matched fixtures/configuration, explicit authority, enabled development route and verified caps; private provider output was withheld.',
+      );
+      return 2;
+    }
+  }
+  if (normalizedArgv[0] === 'evaluate-operator-work') {
+    try {
+      const result = await runEvaluationCommand(normalizedArgv.slice(1));
+      console.info(
+        `Evaluation ${result.report.mode} ${result.report.captureOnly ? 'UNJUDGED answer capture' : 'diagnostics'} saved to ${result.jsonPath} and ${result.markdownPath}; live quality remains unverified.`,
+      );
+      return evaluationExitCode(result.report);
+    } catch {
+      console.error(
+        'Evaluation refused or failed. Verify fixture/defaults/report paths and explicit capped-provider authority; no private provider output was printed.',
+      );
+      return 2;
+    }
+  }
   let command;
   try {
-    command = parseCommand(await resolveCustomerAuthConfigurationArgs(argv));
+    command = parseCommand(
+      await resolveCustomerAuthConfigurationArgs(
+        await resolveOperatorWorkArgs(argv),
+      ),
+    );
   } catch (error) {
     if (error instanceof CliError) {
       const output = error.message === HELP ? console.info : console.error;

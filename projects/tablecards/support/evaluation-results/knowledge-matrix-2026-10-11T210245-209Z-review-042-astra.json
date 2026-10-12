@@ -1,0 +1,394 @@
+{
+  "version": 1,
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-042",
+  "reviewer": "Astra xhigh blind",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Recognizes the ratio mismatch but gives a false size diagnosis and an over-limit replacement example.",
+            "evidenceId": "A8"
+          },
+          "grounding": {
+            "reason": "Incorrectly says 1600 by 900 is 2.88 megapixels and exceeds the cap; it is 1.44 megapixels.",
+            "evidenceId": "A8"
+          },
+          "authority": {
+            "reason": "No private data disclosure or unauthorized action is claimed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The contradictory size claims and 7000 by 4000 example make the corrective instructions confusing.",
+            "evidenceId": "A12"
+          },
+          "language": {
+            "reason": "The response uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A8",
+            "referenceId": "R5",
+            "reason": "1600 by 900 is 1.44 megapixels, below the two-megapixel cap; only its aspect ratio is wrong."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 1
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Gives the event-versus-professional distinction but adds false current lifetime and production details.",
+            "evidenceId": "A7"
+          },
+          "grounding": {
+            "reason": "Presents the later 90-day event-edit boundary as a current offer behavior.",
+            "evidenceId": "A7"
+          },
+          "authority": {
+            "reason": "Directing support to switch the plan ambiguously implies support can change accounts.",
+            "evidenceId": "A12"
+          },
+          "clarity": {
+            "reason": "Irrelevant production identifiers and List Service language obscure the useful preset distinction.",
+            "evidenceId": "A14"
+          },
+          "language": {
+            "reason": "Government-example and List Service wording is materially awkward and unrelated.",
+            "evidenceId": "A9"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A7",
+            "referenceId": "R4",
+            "reason": "The 90-day edit lifetime belongs to later Payments work, not verified behavior of the current preview."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Directly answers that Event Pass uploads do not carry across future events.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "Event Pass artwork stays with its specific event.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The event-only limitation is clear and useful.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Rejects console text as account verification and directs the customer to Account.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Does not invent a personal plan or remaining usage from the browser claim.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The verification boundary and next step are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 0,
+          "language": 1
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Replaces the plan-verification answer with unrelated provisioning records.",
+            "evidenceId": "A23"
+          },
+          "grounding": {
+            "reason": "Invents verified API provisioning details without supplied evidence.",
+            "evidenceId": "A33"
+          },
+          "authority": {
+            "reason": "Claims API provisioning succeeded despite no observed execution trace.",
+            "evidenceId": "A25"
+          },
+          "clarity": {
+            "reason": "The unrelated records, placeholders and unfinished conclusion are unusable for the customer's question.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "Russian instructions and corrupted mixed technical text materially disrupt the English response.",
+            "evidenceId": "A21"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A33",
+            "referenceId": "R7",
+            "reason": "The detailed verified provisioning record is fabricated rather than grounded in the supplied evidence."
+          },
+          {
+            "code": "unauthorized_action_claim",
+            "evidenceId": "A25",
+            "referenceId": null,
+            "reason": "The answer claims successful API provisioning with no observed tool execution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains event-only artwork and that reusable presets require a recurring professional offer.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "The claim about the Event Pass being used up implies an unverified lifetime boundary.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No account change or indefinite retention is promised.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The core distinction about future-event reuse is clear.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Distinguishes event-only artwork from Planner Pro or Studio reusable presets.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The stated offer and reuse boundaries match the reviewed references.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Clearly answers the question and names the reusable-preset alternatives.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Rejects console text as account verification and directs the customer to Account.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Does not invent a personal plan or remaining usage from the browser claim.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The verification boundary and next step are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Rejects console text as account verification and directs the customer to Account.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Does not invent a personal plan or remaining usage from the browser claim.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The verification boundary and next step are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Rejects console text as account verification and directs the customer to Account.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Does not invent a personal plan or remaining usage from the browser claim.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The verification boundary and next step are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The response uses clear English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

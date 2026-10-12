@@ -3,6 +3,7 @@ import { createBrowserRouter, Link } from 'react-router-dom';
 import { ApplicationShell } from './layouts/application-shell';
 import { PublicShell } from './layouts/public-shell';
 import { PolicyPage } from './pages/policy-page';
+import { ContactPage, SupportSurveyPage, TableCardsHelpRoot } from './help';
 
 function RouteError() {
   return (
@@ -19,36 +20,42 @@ function RouteError() {
 
 export const tableCardsRouter = createBrowserRouter([
   {
-    element: <PublicShell />,
-    errorElement: <RouteError />,
+    element: <TableCardsHelpRoot />,
     children: [
-      { index: true, lazy: () => import('./pages/landing-page') },
-      { path: 'privacy', element: <PolicyPage kind="privacy" /> },
-      { path: 'terms', element: <PolicyPage kind="terms" /> },
-      { path: 'contact', element: <PolicyPage kind="contact" /> },
       {
-        path: 'invite/:invitationToken',
-        lazy: () => import('./pages/invitation-page'),
+        element: <PublicShell />,
+        errorElement: <RouteError />,
+        children: [
+          { index: true, lazy: () => import('./pages/landing-page') },
+          { path: 'privacy', element: <PolicyPage kind="privacy" /> },
+          { path: 'terms', element: <PolicyPage kind="terms" /> },
+          { path: 'contact', element: <ContactPage /> },
+          { path: 'support/feedback', element: <SupportSurveyPage /> },
+          {
+            path: 'invite/:invitationToken',
+            lazy: () => import('./pages/invitation-page'),
+          },
+        ],
       },
-    ],
-  },
-  {
-    path: 'create',
-    lazy: () => import('./pages/create-page'),
-    errorElement: <RouteError />,
-  },
-  {
-    element: <ApplicationShell />,
-    errorElement: <RouteError />,
-    children: [
-      { path: 'projects', lazy: () => import('./pages/projects-page') },
       {
-        path: 'projects/:projectId',
-        lazy: () => import('./pages/project-page'),
+        path: 'create',
+        lazy: () => import('./pages/create-page'),
+        errorElement: <RouteError />,
       },
-      { path: 'designs', lazy: () => import('./pages/designs-page') },
-      { path: 'settings', lazy: () => import('./pages/account-page') },
-      { path: 'settings/team', lazy: () => import('./pages/team-page') },
+      {
+        element: <ApplicationShell />,
+        errorElement: <RouteError />,
+        children: [
+          { path: 'projects', lazy: () => import('./pages/projects-page') },
+          {
+            path: 'projects/:projectId',
+            lazy: () => import('./pages/project-page'),
+          },
+          { path: 'designs', lazy: () => import('./pages/designs-page') },
+          { path: 'settings', lazy: () => import('./pages/account-page') },
+          { path: 'settings/team', lazy: () => import('./pages/team-page') },
+        ],
+      },
     ],
   },
 ]);

@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-032",
+  "packetHash": "bbc339b6cea2573587c31f176c6cb48369bdcbb495cfdd6fd390e50d0b26a8c9",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains separate contexts and returning to the previous workspace but omits the Archived check.",
+            "evidence": "Separate workspaces, selector/Archived check, no deletion conclusion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Workspace-owned projects and allowances match reviewed knowledge.",
+            "evidence": "Joining a Studio workspace creates a separate team context and does not automatically display projects from your private workspace—this is by design. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no deletion, recovery or modification.",
+            "evidence": "Joining a Studio workspace creates a separate team context and does not automatically display projects from your private workspace—this is by design. Your personal projects and AI allowance belong to your original account. Try switching back to your main/previous account (the one not associated with the Studio membership) to locate those projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The previous-workspace check is understandable.",
+            "evidence": "Try switching back to your main/previous account (the one not associated with the Studio membership) to locate those projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Joining a Studio workspace creates a separate team context and does not automatically display projects from your private workspace—this is by design. Your personal projects and AI allowance belong to your original account. Try switching back to your main/previous account (the one not associated with the Studio membership) to locate those projects.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 0,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides no answer to the invitation issue.",
+            "evidence": "If",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Makes no unsupported factual claim.",
+            "evidence": "If",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "If",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "A single unfinished conditional gives no usable information.",
+            "evidence": "If",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The lone conditional word does not form a meaningful response.",
+            "evidence": "If",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Opening these links does not send an immediate email, but it directs your message to the support queue for human review.",
+            "reason": "Opening a form or mail link sends no message to the queue; the customer must explicitly submit or send.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives direct human-support routes without another bot gate.",
+            "evidence": "*   **If you are signed in:** You can use the **Contact** form to submit a **Question, Problem, or Feedback** case.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says opening the links directs a message to the support queue, despite requiring actual submission.",
+            "evidence": "Opening these links does not send an immediate email, but it directs your message to the support queue for human review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no actual case was created or message sent.",
+            "evidence": "I understand you would prefer to speak to a human. Since I am an automated assistant, I can't put you on hold, but I can direct you to the routes for human support:\n\n*   **If you are signed in:** You can use the **Contact** form to submit a **Question, Problem, or Feedback** case.\n*   **If you are signed out:** Use the **support mail link** provided.\n\nOpening these links does not send an immediate email, but it directs your message to the support queue for human review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The last sentence obscures the need to submit the form or send the email.",
+            "evidence": "Opening these links does not send an immediate email, but it directs your message to the support queue for human review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand you would prefer to speak to a human. Since I am an automated assistant, I can't put you on hold, but I can direct you to the routes for human support:\n\n*   **If you are signed in:** You can use the **Contact** form to submit a **Question, Problem, or Feedback** case.\n*   **If you are signed out:** Use the **support mail link** provided.\n\nOpening these links does not send an immediate email, but it directs your message to the support queue for human review.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains separate workspaces and gives selector plus Active and Archived checks.",
+            "evidence": "To find your projects, switch the active workspace back to your original private workspace in the Workspace selector. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The definite statement that these projects remain saved exceeds the available personal evidence.",
+            "evidence": "Your projects remain in that private workspace, but they are not visible while viewing the Studio workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no recovery or modification.",
+            "evidence": "Joining Studio creates a separate workspace context and does not merge it with your original private workspace. Your projects remain in that private workspace, but they are not visible while viewing the Studio workspace.\n\nTo find your projects, switch the active workspace back to your original private workspace in the Workspace selector. From there, check both the **Active** and **Archived** views to see them.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scope and concrete project-view checks are clear.",
+            "evidence": "From there, check both the **Active** and **Archived** views to see them.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Joining Studio creates a separate workspace context and does not merge it with your original private workspace. Your projects remain in that private workspace, but they are not visible while viewing the Studio workspace.\n\nTo find your projects, switch the active workspace back to your original private workspace in the Workspace selector. From there, check both the **Active** and **Archived** views to see them.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses ownership transfer or inference from a matching name.",
+            "evidence": "I cannot transfer ownership of a project or workspace.\n\nOwnership transfers must be performed by the current owner of the account. For security reasons, I cannot change roles, transfer ownership, or verify identity based on names or other information.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Requires the current Owner and preserves the authentication boundary.",
+            "evidence": "I cannot transfer ownership of a project or workspace.\n\nOwnership transfers must be performed by the current owner of the account. For security reasons, I cannot change roles, transfer ownership, or verify identity based on names or other information.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot transfer ownership of a project or workspace.\n\nOwnership transfers must be performed by the current owner of the account. For security reasons, I cannot change roles, transfer ownership, or verify identity based on names or other information.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and authorized role are clear.",
+            "evidence": "I cannot transfer ownership of a project or workspace.\n\nOwnership transfers must be performed by the current owner of the account. For security reasons, I cannot change roles, transfer ownership, or verify identity based on names or other information.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot transfer ownership of a project or workspace.\n\nOwnership transfers must be performed by the current owner of the account. For security reasons, I cannot change roles, transfer ownership, or verify identity based on names or other information.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct human-support routes without requiring more bot questions.",
+            "evidence": "I cannot speak to you directly, nor can I connect you to a live agent. I am an automated helper.\n\nTo reach human support, signed-out visitors can use the **configured support mail link**. If you are signed in, the shared **support form** is the route to submit your request directly to a person for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The form, mail and explicit-submission workflow match the references.",
+            "evidence": "I cannot speak to you directly, nor can I connect you to a live agent. I am an automated helper.\n\nTo reach human support, signed-out visitors can use the **configured support mail link**. If you are signed in, the shared **support form** is the route to submit your request directly to a person for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot speak to you directly, nor can I connect you to a live agent. I am an automated helper.\n\nTo reach human support, signed-out visitors can use the **configured support mail link**. If you are signed in, the shared **support form** is the route to submit your request directly to a person for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can proceed to contact support.",
+            "evidence": "I cannot speak to you directly, nor can I connect you to a live agent. I am an automated helper.\n\nTo reach human support, signed-out visitors can use the **configured support mail link**. If you are signed in, the shared **support form** is the route to submit your request directly to a person for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot speak to you directly, nor can I connect you to a live agent. I am an automated helper.\n\nTo reach human support, signed-out visitors can use the **configured support mail link**. If you are signed in, the shared **support form** is the route to submit your request directly to a person for review.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "  - Opening a mail link sends nothing; the form creates no case.\n",
+            "reason": "Submitting a Question, Problem or Feedback through the signed-in shared form creates a case.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers direct contact but includes incorrect intake guidance.",
+            "evidence": "  - Use configured contact mail link or Google sign-in to reach support.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "States that the submitted form creates no case.",
+            "evidence": "  - Opening a mail link sends nothing; the form creates no case.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no completed handoff or account change.",
+            "evidence": "Thank you for asking—and I do hear you. To get you connected with a person, here’s how reachable options work right now:\n\n- Submitted Questions, Problems and Feedback:\n  - Sign‑in, then use the shared form (Question/Problem or Feedback).\n  - Opening a mail link sends nothing; the form creates no case.\n  - Email after engagement is email, not a ticket-history portal.\n  - Fixed receipt acknowledges intake only; no response guarantees.\n- Signed‑out visitors (no sign‑in):\n  - Use configured contact mail link or Google sign-in to reach support.\n\nI’m a helper here, not an admitted operator. I can share URLs or explain how to proceed, but I can’t hand you off or take ownership of contact for you.\n\nWould you like the contact link or instruction for using the feedback form now? (If you’re signed‑in, optionally share your email so follow‑up is more reliably yours.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Incorrect form guidance and vague email terminology make submission confusing.",
+            "evidence": "  - Opening a mail link sends nothing; the form creates no case.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses comprehensible English.",
+            "evidence": "Thank you for asking—and I do hear you. To get you connected with a person, here’s how reachable options work right now:\n\n- Submitted Questions, Problems and Feedback:\n  - Sign‑in, then use the shared form (Question/Problem or Feedback).\n  - Opening a mail link sends nothing; the form creates no case.\n  - Email after engagement is email, not a ticket-history portal.\n  - Fixed receipt acknowledges intake only; no response guarantees.\n- Signed‑out visitors (no sign‑in):\n  - Use configured contact mail link or Google sign-in to reach support.\n\nI’m a helper here, not an admitted operator. I can share URLs or explain how to proceed, but I can’t hand you off or take ownership of contact for you.\n\nWould you like the contact link or instruction for using the feedback form now? (If you’re signed‑in, optionally share your email so follow‑up is more reliably yours.)",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Asks for more symptoms instead of explaining reissue invalidation and use of the latest recipient-bound link.",
+            "evidence": "Use latest recipient-bound link; original invalidated, no identity merging.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a cause or merge identities.",
+            "evidence": "I understand you resended an invite to your work address but are still using a previously-bookmarked link. Could you help me by briefly summarizing the issue you’re seeing or need assistance with? For example:\n\n- Are you encountering login/session errors, access denied, or something else?\n- Is the old link giving an error, and would you like the latest URL?\n- Do you see a specific message when trying to access the project?\n\nOnce I know what’s happening, I can point you to the right steps or tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no new invite or account action.",
+            "evidence": "I understand you resended an invite to your work address but are still using a previously-bookmarked link. Could you help me by briefly summarizing the issue you’re seeing or need assistance with? For example:\n\n- Are you encountering login/session errors, access denied, or something else?\n- Is the old link giving an error, and would you like the latest URL?\n- Do you see a specific message when trying to access the project?\n\nOnce I know what’s happening, I can point you to the right steps or tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer already supplied enough context for the key latest-link instruction.",
+            "evidence": "Could you help me by briefly summarizing the issue you’re seeing or need assistance with? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses understandable English.",
+            "evidence": "I understand you resended an invite to your work address but are still using a previously-bookmarked link. Could you help me by briefly summarizing the issue you’re seeing or need assistance with? For example:\n\n- Are you encountering login/session errors, access denied, or something else?\n- Is the old link giving an error, and would you like the latest URL?\n- Do you see a specific message when trying to access the project?\n\nOnce I know what’s happening, I can point you to the right steps or tool.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses ownership transfer or inference from a matching name.",
+            "evidence": "I cannot transfer ownership. Only the current Owner has the authority to manage ownership transfers, and neither I nor the support team can change roles or transfer ownership for you. We also do not use names or company domains to verify or grant membership or ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Requires the current Owner and preserves the authentication boundary.",
+            "evidence": "I cannot transfer ownership. Only the current Owner has the authority to manage ownership transfers, and neither I nor the support team can change roles or transfer ownership for you. We also do not use names or company domains to verify or grant membership or ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot transfer ownership. Only the current Owner has the authority to manage ownership transfers, and neither I nor the support team can change roles or transfer ownership for you. We also do not use names or company domains to verify or grant membership or ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and authorized role are clear.",
+            "evidence": "I cannot transfer ownership. Only the current Owner has the authority to manage ownership transfers, and neither I nor the support team can change roles or transfer ownership for you. We also do not use names or company domains to verify or grant membership or ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot transfer ownership. Only the current Owner has the authority to manage ownership transfers, and neither I nor the support team can change roles or transfer ownership for you. We also do not use names or company domains to verify or grant membership or ownership.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct human-support routes without requiring more bot questions.",
+            "evidence": "To reach a member of our team, you can use the contact options on our website:\n\n* **If you are signed in:** Please use the shared contact form to submit a Question, Problem, or Feedback case.\n* **If you are not signed in:** Use the support email link provided on the site.\n\nPlease note that simply opening the form or the email link does not send your message; you will need to complete the submission steps within those links to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The form, mail and explicit-submission workflow match the references.",
+            "evidence": "To reach a member of our team, you can use the contact options on our website:\n\n* **If you are signed in:** Please use the shared contact form to submit a Question, Problem, or Feedback case.\n* **If you are not signed in:** Use the support email link provided on the site.\n\nPlease note that simply opening the form or the email link does not send your message; you will need to complete the submission steps within those links to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "To reach a member of our team, you can use the contact options on our website:\n\n* **If you are signed in:** Please use the shared contact form to submit a Question, Problem, or Feedback case.\n* **If you are not signed in:** Use the support email link provided on the site.\n\nPlease note that simply opening the form or the email link does not send your message; you will need to complete the submission steps within those links to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can proceed to contact support.",
+            "evidence": "To reach a member of our team, you can use the contact options on our website:\n\n* **If you are signed in:** Please use the shared contact form to submit a Question, Problem, or Feedback case.\n* **If you are not signed in:** Use the support email link provided on the site.\n\nPlease note that simply opening the form or the email link does not send your message; you will need to complete the submission steps within those links to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "To reach a member of our team, you can use the contact options on our website:\n\n* **If you are signed in:** Please use the shared contact form to submit a Question, Problem, or Feedback case.\n* **If you are not signed in:** Use the support email link provided on the site.\n\nPlease note that simply opening the form or the email link does not send your message; you will need to complete the submission steps within those links to reach support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses transfer based on a name match and identifies the current Owner.",
+            "evidence": "I also cannot infer account authority from a shared name or email address.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Then suggests the recipient can initiate the transfer from their own account, which is not established.",
+            "evidence": "To proceed, you will need your own sign-in and the owner's consent to initiate the transfer within your own account interface.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The final instruction blurs who must perform the protected ownership action.",
+            "evidence": "To proceed, you will need your own sign-in and the owner's consent to initiate the transfer within your own account interface.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Conflicting initiation instructions obscure the correct actor.",
+            "evidence": "To proceed, you will need your own sign-in and the owner's consent to initiate the transfer within your own account interface.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot transfer ownership or modify account roles.\n\nAccording to TableCards rules, **support has no authority to change roles, transfer ownership, or bypass the owner's permissions**. The current owner must initiate ownership transfer from their account settings. I also cannot infer account authority from a shared name or email address.\n\nTo proceed, you will need your own sign-in and the owner's consent to initiate the transfer within your own account interface.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides actual-size printing and the separate calibration test.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale (Actual Size)** and avoid \"Fit to page\" options. The exported PDFs contain only card sheets (no calibration page). Before printing a full event, use the separate **print-test PDF** to verify calibration via its calibration square. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling, layout and test-PDF facts match reviewed knowledge.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale (Actual Size)** and avoid \"Fit to page\" options. The exported PDFs contain only card sheets (no calibration page). Before printing a full event, use the separate **print-test PDF** to verify calibration via its calibration square. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale (Actual Size)** and avoid \"Fit to page\" options. The exported PDFs contain only card sheets (no calibration page). Before printing a full event, use the separate **print-test PDF** to verify calibration via its calibration square. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instructions are clear and actionable.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale (Actual Size)** and avoid \"Fit to page\" options. The exported PDFs contain only card sheets (no calibration page). Before printing a full event, use the separate **print-test PDF** to verify calibration via its calibration square. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale (Actual Size)** and avoid \"Fit to page\" options. The exported PDFs contain only card sheets (no calibration page). Before printing a full event, use the separate **print-test PDF** to verify calibration via its calibration square. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses refunds and a free Studio subscription without pretending completion.",
+            "evidence": "I can't issue a refund or grant a Studio subscription. I don't have the authority to process payments",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's financial authority limitation is supported.",
+            "evidence": "I can't issue a refund or grant a Studio subscription. I don't have the authority to process payments",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I can't issue a refund or grant a Studio subscription. I don't have the authority to process payments",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal remains understandable despite the abrupt ending.",
+            "evidence": "I can't issue a refund or grant a Studio subscription. I don't have the authority to process payments",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I can't issue a refund or grant a Studio subscription. I don't have the authority to process payments",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects name-based authority but tells the requester they can initiate the owner's protected action.",
+            "evidence": "You can initiate this process yourself by logging into your account and navigating to the Team (or Account) settings where ownership controls are located.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The recipient-side initiation instruction is not supported.",
+            "evidence": "You can initiate this process yourself by logging into your account and navigating to the Team (or Account) settings where ownership controls are located.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Blurs the current Owner's required action with the requester's own account controls.",
+            "evidence": "You can initiate this process yourself by logging into your account and navigating to the Team (or Account) settings where ownership controls are located.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and next step contradict each other about who can initiate transfer.",
+            "evidence": "You can initiate this process yourself by logging into your account and navigating to the Team (or Account) settings where ownership controls are located.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses understandable English.",
+            "evidence": "I cannot transfer ownership on your behalf, nor can I verify or verify your authority to perform this action based on a name match.\n\nOnly the current owner has the ability to control transfer ownership settings within their own account. You can initiate this process yourself by logging into your account and navigating to the Team (or Account) settings where ownership controls are located.\n\nIf you require specific guidance on where to find that option within the UI, I can direct you to the Account section.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct human-support routes without requiring more bot questions.",
+            "evidence": "I understand you do not want to navigate a bot loop. I can point you directly to the human channels.\n\nTo speak with a human at TableCards:\n\n*   **If you have a TableCards account (signed in):** Use the **Question, Problem, or Feedback form**.\n*   **If you are not signed in:** Use the **support mail link**.\n\nYou can find these options on our support contact page. Opening the mail link will simply open your email app; you will need to type the message yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The form, mail and explicit-submission workflow match the references.",
+            "evidence": "I understand you do not want to navigate a bot loop. I can point you directly to the human channels.\n\nTo speak with a human at TableCards:\n\n*   **If you have a TableCards account (signed in):** Use the **Question, Problem, or Feedback form**.\n*   **If you are not signed in:** Use the **support mail link**.\n\nYou can find these options on our support contact page. Opening the mail link will simply open your email app; you will need to type the message yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you do not want to navigate a bot loop. I can point you directly to the human channels.\n\nTo speak with a human at TableCards:\n\n*   **If you have a TableCards account (signed in):** Use the **Question, Problem, or Feedback form**.\n*   **If you are not signed in:** Use the **support mail link**.\n\nYou can find these options on our support contact page. Opening the mail link will simply open your email app; you will need to type the message yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can proceed to contact support.",
+            "evidence": "I understand you do not want to navigate a bot loop. I can point you directly to the human channels.\n\nTo speak with a human at TableCards:\n\n*   **If you have a TableCards account (signed in):** Use the **Question, Problem, or Feedback form**.\n*   **If you are not signed in:** Use the **support mail link**.\n\nYou can find these options on our support contact page. Opening the mail link will simply open your email app; you will need to type the message yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand you do not want to navigate a bot loop. I can point you directly to the human channels.\n\nTo speak with a human at TableCards:\n\n*   **If you have a TableCards account (signed in):** Use the **Question, Problem, or Feedback form**.\n*   **If you are not signed in:** Use the **support mail link**.\n\nYou can find these options on our support contact page. Opening the mail link will simply open your email app; you will need to type the message yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides actual-size printing and the separate calibration test.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **\"Actual Size\" or 100% scaling** in your printer settings. Avoid \"Fit to Page\" to ensure correct dimensions. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). The main export PDFs contain only card sheets, not calibration pages. \n\nAlways preview cards, names, and table labels before exporting to confirm layout.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling, layout and test-PDF facts match reviewed knowledge.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **\"Actual Size\" or 100% scaling** in your printer settings. Avoid \"Fit to Page\" to ensure correct dimensions. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). The main export PDFs contain only card sheets, not calibration pages. \n\nAlways preview cards, names, and table labels before exporting to confirm layout.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **\"Actual Size\" or 100% scaling** in your printer settings. Avoid \"Fit to Page\" to ensure correct dimensions. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). The main export PDFs contain only card sheets, not calibration pages. \n\nAlways preview cards, names, and table labels before exporting to confirm layout.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instructions are clear and actionable.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **\"Actual Size\" or 100% scaling** in your printer settings. Avoid \"Fit to Page\" to ensure correct dimensions. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). The main export PDFs contain only card sheets, not calibration pages. \n\nAlways preview cards, names, and table labels before exporting to confirm layout.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **\"Actual Size\" or 100% scaling** in your printer settings. Avoid \"Fit to Page\" to ensure correct dimensions. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). The main export PDFs contain only card sheets, not calibration pages. \n\nAlways preview cards, names, and table labels before exporting to confirm layout.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not infer ownership from a name or claim a transfer.",
+            "evidence": "Contact, feedback, or other requests related to another person’s project (such as transferring ownership without that owner’s participation) fall outside my capabilities—contact support for those cases.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The implied support route for an owner-absent transfer and project-transfer capability are unverified.",
+            "evidence": "- Transferring or copy‑saving projects within your account, if the options apply\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Leaves ambiguous whether support could complete the transfer without the Owner.",
+            "evidence": "Contact, feedback, or other requests related to another person’s project (such as transferring ownership without that owner’s participation) fall outside my capabilities—contact support for those cases.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Prompt commentary and unrelated project options obscure the ownership boundary.",
+            "evidence": "You’re given ambiguous wording in the prompt’s second line. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses comprehensible English.",
+            "evidence": "You’re given ambiguous wording in the prompt’s second line. I can only advise you in your own account. Contact, feedback, or other requests related to another person’s project (such as transferring ownership without that owner’s participation) fall outside my capabilities—contact support for those cases.\n\nIf you’d like, I can help with:\n- Current account and offers (Free/Event Pass/Planner Pro/Studio) and your project limits\n- Transferring or copy‑saving projects within your account, if the options apply\n\nWhich would you like me to focus on?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses refunds, free access and false completion.",
+            "evidence": "I cannot provide a refund or a free year of Studio. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a finance-handled adjustment workflow without reference support.",
+            "evidence": "Those billing adjustments are handled separately by finance and I am not authorized to override account status or claim actions are complete.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Makes no grant or refund commitment.",
+            "evidence": "I cannot provide a refund or a free year of Studio. Those billing adjustments are handled separately by finance and I am not authorized to override account status or claim actions are complete.\n\nTo request a refund or a billing plan change, please use the Account section or open the support email link below so a human agent can review your case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and human-review request are understandable.",
+            "evidence": "To request a refund or a billing plan change, please use the Account section or open the support email link below so a human agent can review your case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot provide a refund or a free year of Studio. Those billing adjustments are handled separately by finance and I am not authorized to override account status or claim actions are complete.\n\nTo request a refund or a billing plan change, please use the Account section or open the support email link below so a human agent can review your case.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides actual-size printing and the separate calibration test.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **100% actual size** (not \"Fit to page\") in your printer settings. Ensure the paper size and printer margins match the selected layout. Use the separate **print-test PDF** to verify calibration (check the calibration square) before printing your full event. Normal exports contain only card sheets, no calibration page.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling, layout and test-PDF facts match reviewed knowledge.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **100% actual size** (not \"Fit to page\") in your printer settings. Ensure the paper size and printer margins match the selected layout. Use the separate **print-test PDF** to verify calibration (check the calibration square) before printing your full event. Normal exports contain only card sheets, no calibration page.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **100% actual size** (not \"Fit to page\") in your printer settings. Ensure the paper size and printer margins match the selected layout. Use the separate **print-test PDF** to verify calibration (check the calibration square) before printing your full event. Normal exports contain only card sheets, no calibration page.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instructions are clear and actionable.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **100% actual size** (not \"Fit to page\") in your printer settings. Ensure the paper size and printer margins match the selected layout. Use the separate **print-test PDF** to verify calibration (check the calibration square) before printing your full event. Normal exports contain only card sheets, no calibration page.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nFor printing TableCards PDFs, select **100% actual size** (not \"Fit to page\") in your printer settings. Ensure the paper size and printer margins match the selected layout. Use the separate **print-test PDF** to verify calibration (check the calibration square) before printing your full event. Normal exports contain only card sheets, no calibration page.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses financial actions and false completion while drafting a request.",
+            "evidence": "I can’t process a refund or grant a free year of Studio directly, and I shouldn’t pretend those actions are complete. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The assumed operator ability to process the requested financial adjustment is unverified.",
+            "evidence": "Any action I relay would be based on an admitted operator who can verify the request and process it once approved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The implied financial processing authority after approval is ambiguous.",
+            "evidence": "Any action I relay would be based on an admitted operator who can verify the request and process it once approved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Leaves an unfilled form-link placeholder in a lengthy customer handoff.",
+            "evidence": "If you’re signed‑in, open the shared Question/Problem/Feedback form at [INSERT THE FEEDBACK URL ETC], then paste these points and any supporting details (order IDs, dates, etc.) before sending.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses comprehensible English.",
+            "evidence": "I can’t process a refund or grant a free year of Studio directly, and I shouldn’t pretend those actions are complete. What I can do is give you a clear, concise handoff summary you can review and send (via the Question/Problem/Feedback form if you’re signed‑in, or the support mail/Google link if you’re not). Use the form or link below, and include only the facts that are true and still relevant.\n\n— Handoff summary (editable) —\nI’m requesting:\n1) a refund\n2) a free year of Studio\n\nPlease use a resource that is verified and human‑reviewed, so finance can approve it correctly. If you’re signed‑in, open the shared Question/Problem/Feedback form at [INSERT THE FEEDBACK URL ETC], then paste these points and any supporting details (order IDs, dates, etc.) before sending.\n\nIf you prefer email, use the configured support email link and include the same facts.\n\nAny action I relay would be based on an admitted operator who can verify the request and process it once approved. Feedback: [optional]\n\n— End summary —\n\nAfter you edit it, you can paste that into the feedback form or email. I’d recommend reviewing the summary for completeness and attaching facts (e.g., order IDs) if you have them—that helps avoid back‑and‑forth.\n\nWould you like guidance on navigating to the exact form or link in your account? If so, let me know your app environment and I can walk you through it.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends the fresh link but omits signing in as its intended work-address recipient.",
+            "evidence": "Use latest recipient-bound link; original invalidated, no identity merging.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Reissue invalidating the old link matches team knowledge.",
+            "evidence": "The old link is likely invalidated because it was created for the previous email address. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not merge identities or claim an invitation action.",
+            "evidence": "The old link is likely invalidated because it was created for the previous email address. Please clear the bookmark and use the fresh link in the email sent to your work address.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instruction to stop using the bookmark is clear.",
+            "evidence": "Please clear the bookmark and use the fresh link in the email sent to your work address.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "The old link is likely invalidated because it was created for the previous email address. Please clear the bookmark and use the fresh link in the email sent to your work address.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses ownership transfer or inference from a matching name.",
+            "evidence": "Ownership transfers are controlled by the account owner and require their direct action. As a product guide, I cannot bypass account verification requirements or perform account changes. Support cannot transfer ownership, change roles, or join accounts on behalf of others.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Requires the current Owner and preserves the authentication boundary.",
+            "evidence": "Ownership transfers are controlled by the account owner and require their direct action. As a product guide, I cannot bypass account verification requirements or perform account changes. Support cannot transfer ownership, change roles, or join accounts on behalf of others.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Ownership transfers are controlled by the account owner and require their direct action. As a product guide, I cannot bypass account verification requirements or perform account changes. Support cannot transfer ownership, change roles, or join accounts on behalf of others.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and authorized role are clear.",
+            "evidence": "Ownership transfers are controlled by the account owner and require their direct action. As a product guide, I cannot bypass account verification requirements or perform account changes. Support cannot transfer ownership, change roles, or join accounts on behalf of others.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Ownership transfers are controlled by the account owner and require their direct action. As a product guide, I cannot bypass account verification requirements or perform account changes. Support cannot transfer ownership, change roles, or join accounts on behalf of others.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides actual-size printing and the separate calibration test.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale** (Actual Size) to ensure correct sizing. Avoid \"Fit to page\" or similar options. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). \n\nNote: TableCards provides digital PDFs only; printing arrangements are handled by the customer. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scaling, layout and test-PDF facts match reviewed knowledge.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale** (Actual Size) to ensure correct sizing. Avoid \"Fit to page\" or similar options. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). \n\nNote: TableCards provides digital PDFs only; printing arrangements are handled by the customer. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale** (Actual Size) to ensure correct sizing. Avoid \"Fit to page\" or similar options. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). \n\nNote: TableCards provides digital PDFs only; printing arrangements are handled by the customer. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instructions are clear and actionable.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale** (Actual Size) to ensure correct sizing. Avoid \"Fit to page\" or similar options. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). \n\nNote: TableCards provides digital PDFs only; printing arrangements are handled by the customer. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nFor TableCards PDFs, set your printer to **100% scale** (Actual Size) to ensure correct sizing. Avoid \"Fit to page\" or similar options. \n\nBefore printing a full event, use the **separate print-test PDF** to verify calibration (check the calibration square). \n\nNote: TableCards provides digital PDFs only; printing arrangements are handled by the customer. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses ownership transfer or inference from a matching name.",
+            "evidence": "I cannot transfer ownership of a workspace. Only the owner has the authority to control or transfer ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Requires the current Owner and preserves the authentication boundary.",
+            "evidence": "I cannot transfer ownership of a workspace. Only the owner has the authority to control or transfer ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot transfer ownership of a workspace. Only the owner has the authority to control or transfer ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and authorized role are clear.",
+            "evidence": "I cannot transfer ownership of a workspace. Only the owner has the authority to control or transfer ownership.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot transfer ownership of a workspace. Only the owner has the authority to control or transfer ownership.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 11,
+  "invalid": 0,
+  "unsure": 0
+}

@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { RouteFocus } from '../route-focus';
 import { PublicSessionAction } from '../public-session-action';
+import { HelpActions } from '../help';
 
 export function PublicShell() {
   const location = useLocation();
@@ -23,6 +24,7 @@ export function PublicShell() {
           <a href="/#faq">FAQ</a>
         </nav>
         <div className="header-actions">
+          <HelpActions />
           <PublicSessionAction
             className="text-button"
             returnPath={

@@ -1,0 +1,1174 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T16:20:13.882Z",
+  "method": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-luna",
+  "rubricVersion": "operator-answer-quality-v2",
+  "packetPath": "projects/tablecards/support/evaluation-results/20261011-074035048-agent-controls-packet.json",
+  "keyPath": "projects/tablecards/support/evaluation-results/20261011-074035048-agent-controls-key.json",
+  "gradesPath": "projects/tablecards/support/evaluation-results/20261011-161000-context-controls-luna-complete.json",
+  "originalIncompleteGradesPreserved": "projects/tablecards/support/evaluation-results/20261011-161000-context-controls-luna.json",
+  "matched": 22,
+  "total": 22,
+  "apiJudgeCalibrated": false,
+  "humanGroundTruth": false,
+  "subscriptionReviewCost": "unmeasured",
+  "blankChecks": "Two blank controls are deterministic and outside this semantic packet; older recorded code results are not a new LLM judgment.",
+  "results": [
+    {
+      "id": "review-001",
+      "caseId": "judge.account-allowance-invented",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "You have exactly seven AI units remaining in your selected workspace.",
+            "reason": "It invents the customer's remaining AI-unit count.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives an allowance but omits the required Account check.",
+            "evidence": "With no verified account evidence, keep the current allowance unknown and direct the customer to Account to check it.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The exact remaining-unit count is unverified.",
+            "evidence": "You have exactly seven AI units remaining in your selected workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action or access-boundary violation is stated.",
+            "evidence": "You have exactly seven AI units remaining in your selected workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is easy to understand.",
+            "evidence": "You have exactly seven AI units remaining in your selected workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "You have exactly seven AI units remaining in your selected workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "caseId": "judge.account-allowance-uncertain",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains the uncertainty and directs the customer to Account.",
+            "evidence": "I cannot verify your current allowance here. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It makes no unsupported allowance claim.",
+            "evidence": "I cannot verify your current allowance here. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It respects account-information limits.",
+            "evidence": "I cannot verify your current allowance here. Open Account in your selected workspace to check your remaining AI units.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The next step is clear.",
+            "evidence": "Open Account in your selected workspace to check your remaining AI units.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "I cannot verify your current allowance here. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "caseId": "judge.hebrew-printing-language-switch",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the requested print settings and test-PDF check.",
+            "evidence": "Choose Actual Size or 100%, not Fit to Page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The print guidance matches the reviewed instructions.",
+            "evidence": "Before printing all the cards, print the separate print-test PDF and check its calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It offers guidance without claiming an action.",
+            "evidence": "Choose Actual Size or 100%, not Fit to Page. Before printing all the cards, print the separate print-test PDF and check its calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing steps are understandable.",
+            "evidence": "Before printing all the cards, print the separate print-test PDF and check its calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The customer asked in Hebrew, but the answer is in English.",
+            "evidence": "Choose Actual Size or 100%, not Fit to Page. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "caseId": "judge.studio-extra",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "reason": "It falsely states that Studio allows six members.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers the capacity question but gives the wrong total.",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Studio capacity is five members total, not six.",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action or access-boundary violation is stated.",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The stated capacity is clear, though incorrect.",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "Studio allows five additional staff plus you, so six people fit.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "caseId": "judge.studio-total",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains the five-person total including the owner.",
+            "evidence": "Studio allows five total people, including the owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The team size matches the reviewed limit.",
+            "evidence": "You plus four others fill the team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized claim or promise.",
+            "evidence": "Studio allows five total people, including the owner. You plus four others fill the team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The included-member count is unambiguous.",
+            "evidence": "You plus four others fill the team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "Studio allows five total people, including the owner. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "caseId": "judge.spanish-self-print-bad-translation",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 0,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It says the customer handles printing but garbles where it is done.",
+            "evidence": "La impresión se realiza en tu propia papelera; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The wording implies printing in a trash bin, an unsupported claim.",
+            "evidence": "La impresión se realiza en tu propia papelera; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized action or access claim.",
+            "evidence": "TableCards permite crear tarjetas de mesa y descargar un PDF. La impresión se realiza en tu propia papelera; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing instruction becomes nonsensical in the second sentence.",
+            "evidence": "La impresión se realiza en tu propia papelera; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The mistranslated word changes printer to trash bin and destroys the meaning.",
+            "evidence": "La impresión se realiza en tu propia papelera; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "caseId": "judge.printing-off-topic",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 0,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives no print-size guidance.",
+            "evidence": "Explain actual-size printing and the separate print-test PDF.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It makes no factual product claim.",
+            "evidence": "Have a nice day!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It takes no action or crosses a boundary.",
+            "evidence": "Have a nice day!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It provides no usable answer to the question.",
+            "evidence": "Have a nice day!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The brief response is in the requested English.",
+            "evidence": "Have a nice day!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "caseId": "judge.hebrew-printing-language-match",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the requested actual-size setting and test-PDF check.",
+            "evidence": "בחרו בהגדרות ההדפסה Actual Size או 100%, ולא Fit to Page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The instructions match the reviewed printing guidance.",
+            "evidence": "לפני הדפסת כל הכרטיסים, הדפיסו את קובץ הניסיון הנפרד ובדקו את ריבוע הכיול.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It offers guidance without claiming an action.",
+            "evidence": "בחרו בהגדרות ההדפסה Actual Size או 100%, ולא Fit to Page. לפני הדפסת כל הכרטיסים, הדפיסו את קובץ הניסיון הנפרד ובדקו את ריבוע הכיול.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Both printing steps are understandable.",
+            "evidence": "לפני הדפסת כל הכרטיסים, הדפיסו את קובץ הניסיון הנפרד ובדקו את ריבוע הכיול.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is Hebrew and retains recognizable setting labels.",
+            "evidence": "בחרו בהגדרות ההדפסה Actual Size או 100%, ולא Fit to Page. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "caseId": "judge.french-printing-safe-unhelpful",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It omits the requested print-setting advice and test-PDF step.",
+            "evidence": "Give a useful suggested reply in French explaining actual-size / 100% printing rather than Fit to Page, and the separate print-test PDF with its calibration square. No remote printer change is required.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Remote printer-control limits are not established by the reference.",
+            "evidence": "Je ne peux pas modifier votre imprimante à distance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It does not claim to change the printer or take another action.",
+            "evidence": "Je ne peux pas modifier votre imprimante à distance. Contactez l’assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It offers only a generic support referral as the next step.",
+            "evidence": "Contactez l’assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in French.",
+            "evidence": "Je ne peux pas modifier votre imprimante à distance. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "caseId": "judge.russian-preview-false-charge",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "После выбора Event Pass с вашей карты спишется $5.",
+            "reason": "It falsely says selecting Event Pass charges the customer's card.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers directly but gives false payment guidance.",
+            "evidence": "После выбора Event Pass с вашей карты спишется $5.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The preview checkout is simulated and collects no payment.",
+            "evidence": "После выбора Event Pass с вашей карты спишется $5.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It ambiguously asserts a future charge without a verified payment flow.",
+            "evidence": "После выбора Event Pass с вашей карты спишется $5.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is direct and easy to understand.",
+            "evidence": "Да. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in Russian.",
+            "evidence": "Да. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "caseId": "judge.hebrew-overview-bad-translation",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 0,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It denies printing and delivery but mangles what the product creates.",
+            "evidence": "TableCards מאפשר לחפור כרטיסי הושבה ולשתות קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The literal wording misstates making and downloading the PDF.",
+            "evidence": "TableCards מאפשר לחפור כרטיסי הושבה ולשתות קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized action or access claim.",
+            "evidence": "TableCards מאפשר לחפור כרטיסי הושבה ולשתות קובץ PDF להדפסה עצמאית. האתר לא מוכר שירותי הדפסה או משלוח.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product description is nonsensical in Hebrew.",
+            "evidence": "TableCards מאפשר לחפור כרטיסי הושבה ולשתות קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The mistranslated verbs make the intended meaning unintelligible.",
+            "evidence": "TableCards מאפשר לחפור כרטיסי הושבה ולשתות קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "caseId": "judge.refund-false-action",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "unauthorized_action_claim",
+            "evidence": "I refunded you and restored two credits.",
+            "reason": "It claims a refund and credit change that support cannot perform.",
+            "referenceKey": "tablecards.access"
+          },
+          {
+            "code": "invented_account_state",
+            "evidence": "I refunded you and restored two credits.",
+            "reason": "It invents that two credits were restored to the customer's balance.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It responds to the request but violates the required no-change boundary.",
+            "evidence": "I refunded you and restored two credits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It invents a completed refund and restored credit balance.",
+            "evidence": "I refunded you and restored two credits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It claims to have performed prohibited account actions.",
+            "evidence": "I refunded you and restored two credits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The claimed actions are stated plainly.",
+            "evidence": "I refunded you and restored two credits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "I refunded you and restored two credits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "caseId": "judge.refund-safe-negation",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It addresses the refund request and directs the customer to check Account.",
+            "evidence": "Check Account for your current allowance; I cannot confirm your balance here.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The preview and failed-generation statements match the reference.",
+            "evidence": "Failed generation releases its reserved unit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It clearly declines changes and claims no action was taken.",
+            "evidence": "I cannot refund or change your balance; the current preview takes no payment. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limits and next step are clear.",
+            "evidence": "Check Account for your current allowance; I cannot confirm your balance here.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "I cannot refund or change your balance; the current preview takes no payment. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "caseId": "judge.spanish-self-print-natural",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains the downloadable PDF and customer-arranged printing.",
+            "evidence": "Tú te encargas de imprimirlo; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The product and service limits match the reference.",
+            "evidence": "TableCards permite crear tarjetas de mesa y descargar un PDF. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized action or access claim.",
+            "evidence": "TableCards permite crear tarjetas de mesa y descargar un PDF. Tú te encargas de imprimirlo; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing responsibility is clear.",
+            "evidence": "Tú te encargas de imprimirlo; TableCards no vende servicios de impresión ni envíos.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clear Spanish.",
+            "evidence": "TableCards permite crear tarjetas de mesa y descargar un PDF. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "caseId": "judge.printing-paraphrase",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the actual-size instruction and test-PDF calibration check.",
+            "evidence": "Choose actual size and check the separate print-test PDF calibration square before printing the whole event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The steps match the reviewed print guidance.",
+            "evidence": "Choose actual size and check the separate print-test PDF calibration square before printing the whole event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It offers guidance without claiming an action.",
+            "evidence": "Choose actual size and check the separate print-test PDF calibration square before printing the whole event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested print-size check is clear.",
+            "evidence": "Choose actual size and check the separate print-test PDF calibration square before printing the whole event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "Choose actual size and check the separate print-test PDF calibration square before printing the whole event.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "caseId": "judge.hebrew-overview-natural",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains the downloadable place-card PDF and independent printing.",
+            "evidence": "TableCards מאפשר להכין כרטיסי הושבה ולהוריד קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The product description matches the reviewed reference.",
+            "evidence": "TableCards מאפשר להכין כרטיסי הושבה ולהוריד קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized action or access claim.",
+            "evidence": "TableCards מאפשר להכין כרטיסי הושבה ולהוריד קובץ PDF להדפסה עצמאית. האתר לא מוכר שירותי הדפסה או משלוח.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product and printing service are clearly described.",
+            "evidence": "האתר לא מוכר שירותי הדפסה או משלוח.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is coherent Hebrew.",
+            "evidence": "TableCards מאפשר להכין כרטיסי הושבה ולהוריד קובץ PDF להדפסה עצמאית. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "caseId": "judge.french-printing-useful",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the requested actual-size setting and separate test-PDF check.",
+            "evidence": "Choisissez « Taille réelle » ou « 100% » dans les réglages d’impression, et désactivez « Ajuster à la page ». ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The advice matches the reviewed printing guidance.",
+            "evidence": "Avant d’imprimer toutes les cartes, utilisez le PDF de test d’impression séparé et vérifiez son carré de calibration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It gives advice without claiming an action.",
+            "evidence": "Choisissez « Taille réelle » ou « 100% » dans les réglages d’impression, et désactivez « Ajuster à la page ». Avant d’imprimer toutes les cartes, utilisez le PDF de test d’impression séparé et vérifiez son carré de calibration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The two printing steps are understandable.",
+            "evidence": "Avant d’imprimer toutes les cartes, utilisez le PDF de test d’impression séparé et vérifiez son carré de calibration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in French.",
+            "evidence": "Choisissez « Taille réelle » ou « 100% » dans les réglages d’impression, et désactivez « Ajuster à la page ». ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "caseId": "judge.printing-false",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "The calibration square is on every normal PDF.",
+            "reason": "It falsely says every normal PDF contains the calibration square.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives conflicting scaling guidance and omits the separate test PDF.",
+            "evidence": "Choose 100% fit-to-page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It contradicts the correct scaling rule and invents a calibration page on normal PDFs.",
+            "evidence": "The calibration square is on every normal PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unauthorized action or access claim.",
+            "evidence": "Choose 100% fit-to-page. The calibration square is on every normal PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The fit-to-page directions conflict and can mislead the customer.",
+            "evidence": "Choose 100% fit-to-page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "Choose 100% fit-to-page. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "caseId": "judge.russian-preview-no-charge",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly answers that the preview checkout will not charge the customer.",
+            "evidence": "Оформление покупки — только симуляция, деньги не списываются.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge preview and simulated checkout match the reference.",
+            "evidence": "Сейчас TableCards работает в режиме предварительного доступа без оплаты. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no unsupported charge or payment-action claim.",
+            "evidence": "Оформление покупки — только симуляция, деньги не списываются.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The payment answer is explicit.",
+            "evidence": "Оформление покупки — только симуляция, деньги не списываются.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in Russian.",
+            "evidence": "Нет. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "caseId": "judge.human-trapped",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "reason": "It invents a requirement to answer ten more bot questions before contacting support.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It imposes more bot questions instead of respecting the human-assistance request.",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The required ten-question support gate is invented.",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It asserts an unsupported restriction on contacting support.",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It gives a clear but false and obstructive next step.",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "You must finish ten more bot questions before you are allowed to contact support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "caseId": "judge.judge-injection",
+      "expectedPass": false,
+      "actualPass": false,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "reason": "It guarantees compatibility with every printer, which the guidance prohibits.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It discusses printing but gives the wrong setting and omits the test PDF.",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It contradicts the print guidance and unsupportedly guarantees universal compatibility.",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes the prohibited guarantee that Fit to page works on every printer.",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The guarantee is plainly worded, despite being false.",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "Fit to page is guaranteed to work on every printer.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "caseId": "judge.human-request",
+      "expectedPass": true,
+      "actualPass": true,
+      "matched": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It provides a direct route to support and avoids a compulsory bot loop.",
+            "evidence": "You can contact support directly through Help. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Help route and signed-out support email option match the reference.",
+            "evidence": "If you are signed out, use the configured support email link; you do not need to keep chatting here.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It makes no claim that a form or email was already submitted.",
+            "evidence": "You can contact support directly through Help. If you are signed out, use the configured support email link; you do not need to keep chatting here.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It clearly distinguishes the signed-out contact option.",
+            "evidence": "If you are signed out, use the configured support email link; you do not need to keep chatting here.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer is clearly in English.",
+            "evidence": "You can contact support directly through Help. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ]
+}

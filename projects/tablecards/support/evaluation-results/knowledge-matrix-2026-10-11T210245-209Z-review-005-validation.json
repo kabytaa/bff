@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-005",
+  "packetHash": "621e32be7cdf1d4272a25de4db5864dcfbe818c5e5d816ec12f04617ad1f3f73",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.tuning.calibration.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the credit grant and suggests official support review.",
+            "evidence": "I cannot directly add credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's inability to change credits and general support route follow the reference.",
+            "evidence": "I cannot directly add credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot directly add credits to your account. For assistance with your TableCards plan, credits, or access, please contact TableCards support through the official support form (available via the \"Contact\" section of their website). This ensures your request is handled according to their verified policies. \n\nFor reference, TableCards' current free tier includes 1 active project, 25 cards, and limited AI batches. Paid plans like Event Pass/Planner Pro offer more features, but account modifications (including credit adjustments) require official support review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the bot's limit from a request for review.",
+            "evidence": "I cannot directly add credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot directly add credits to your account. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains five total members and no sixth-seat workaround.",
+            "evidence": "Yes, the Studio plan’s 5‑member limit includes you (the owner) plus everyone else on that team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assumes that the customer is the owner without evidence of their role.",
+            "evidence": "Yes, the Studio plan’s 5‑member limit includes you (the owner) plus everyone else on that team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, the Studio plan’s 5‑member limit includes you (the owner) plus everyone else on that team.\n\nSince you are already at 1 (you) + 4 other members, the quota is full, which is why your sister can’t join. Support cannot remove members to make space on the Team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The total-member explanation is clear.",
+            "evidence": "Yes, the Studio plan’s 5‑member limit includes you (the owner) plus everyone else on that team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Yes, the Studio plan’s 5‑member limit includes you (the owner) plus everyone else on that team.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the mapping option for excluding headings from guest data.",
+            "evidence": "To ignore them, simply select the option to indicate that row one has headings during the mapping process. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The header-row setting matches reviewed import behavior.",
+            "evidence": "To ignore them, simply select the option to indicate that row one has headings during the mapping process. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "When you import a CSV or XLSX file, you will be prompted to confirm whether the first row contains headings. \n\nTo ignore them, simply select the option to indicate that row one has headings during the mapping process. This ensures the headings aren't imported as guest names.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a concise actionable instruction.",
+            "evidence": "To ignore them, simply select the option to indicate that row one has headings during the mapping process. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To ignore them, simply select the option to indicate that row one has headings during the mapping process. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the output guarantee and recommends a test print.",
+            "evidence": "Because there are no specific hardware compatibility guarantees, I recommend printing a test page first to check alignment and color before printing all your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-PDF scope and lack of hardware guarantees follow the reference.",
+            "evidence": "Because there are no specific hardware compatibility guarantees, I recommend printing a test page first to check alignment and color before printing all your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot promise that result. TableCards provides downloadable PDF place-card files, not paper, printing, delivery, or reprints. Printing quality depends entirely on your printer, ink, paper type, and settings.\n\nBecause there are no specific hardware compatibility guarantees, I recommend printing a test page first to check alignment and color before printing all your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable test before printing all cards.",
+            "evidence": "Because there are no specific hardware compatibility guarantees, I recommend printing a test page first to check alignment and color before printing all your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because there are no specific hardware compatibility guarantees, I recommend printing a test page first to check alignment and color before printing all your cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses cross-Business disclosure based only on an email.",
+            "evidence": "I can’t look up or verify the email address you mentioned, and I can’t list members from another Business profile—that could reveal private membership. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The unexplained account example and Business/workspace guidance are unverified.",
+            "evidence": "If you’re unsure which Business owns your session, you can switch accounts or tell me which sign‑in you’re using (e.g., Are you signed in as metaspace as an owner/admin?), and I can guide you to the correct view.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I can’t look up or verify the email address you mentioned, and I can’t list members from another Business profile—that could reveal private membership. Also, membership is based on signed‑in accounts, not email alone.\n\nIf you’re on the right profile and want to review your own team members, you can:\n- Choose your account (Studio or private workspace) and look at the Team section in the product, or\n- Visit the Teams page directly.\n\nIf you’re unsure which Business owns your session, you can switch accounts or tell me which sign‑in you’re using (e.g., Are you signed in as metaspace as an owner/admin?), and I can guide you to the correct view.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Introduces an unexplained account name and conflates Business with workspace selection.",
+            "evidence": "If you’re unsure which Business owns your session, you can switch accounts or tell me which sign‑in you’re using (e.g., Are you signed in as metaspace as an owner/admin?), and I can guide you to the correct view.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you’re unsure which Business owns your session, you can switch accounts or tell me which sign‑in you’re using (e.g., Are you signed in as metaspace as an owner/admin?), and I can guide you to the correct view.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses disclosure to the replacement address.",
+            "evidence": "Verified account associations are strictly governed by the current authentication system (Google sign-in), and private facts require explicit, verified ownership. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Explains verified association and that email alone grants no authority.",
+            "evidence": "Verified account associations are strictly governed by the current authentication system (Google sign-in), and private facts require explicit, verified ownership. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe request to send a reply to a new address or access an old account’s private facts cannot be fulfilled. Verified account associations are strictly governed by the current authentication system (Google sign-in), and private facts require explicit, verified ownership. The current account is tied to a different address, and no mechanisms exist to transfer or access data from unverified accounts. For assistance, contact support via the official form or email, but note that no account authority is granted through email alone.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the privacy limit and general support route.",
+            "evidence": "Verified account associations are strictly governed by the current authentication system (Google sign-in), and private facts require explicit, verified ownership. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Verified account associations are strictly governed by the current authentication system (Google sign-in), and private facts require explicit, verified ownership. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.tuning.calibration.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to add credits or modify access.",
+            "evidence": "I cannot add credits or modify account access directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specific support email address is not established in reviewed knowledge.",
+            "evidence": "For assistance with your TableCards account, please use the contact form in the app or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot add credits or modify account access directly. For assistance with your TableCards account, please use the contact form in the app or email support@tablecards.com. Our team can review your request and guide you through available options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and in-app contact alternative are understandable.",
+            "evidence": "For assistance with your TableCards account, please use the contact form in the app or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For assistance with your TableCards account, please use the contact form in the app or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "  - Wait for the seat count to unlock (e.g., after billing periods it resets based on your plan).\n",
+            "reason": "Invents periodic resetting of occupied Studio seats, contrary to the fixed five-member team capacity.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers invented seat-limit workarounds despite the five-person maximum.",
+            "evidence": "  - Wait for the seat count to unlock (e.g., after billing periods it resets based on your plan).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a billing-period reset that unlocks member seats.",
+            "evidence": "  - Wait for the seat count to unlock (e.g., after billing periods it resets based on your plan).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Suggests email-based account lookup without clearly retaining verified-association requirements.",
+            "evidence": "If you’re willing to share your email, they can check the seating status as an authorized operator.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Contradictory plan claims and false reset advice obscure the valid five-person limit.",
+            "evidence": "  - Wait for the seat count to unlock (e.g., after billing periods it resets based on your plan).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "  - Wait for the seat count to unlock (e.g., after billing periods it resets based on your plan).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the mapping header setting.",
+            "evidence": "During this mapping step, you can confirm whether your first row contains headings so they are not treated as guest data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mapping fields and header handling match the import reference.",
+            "evidence": "During this mapping step, you can confirm whether your first row contains headings so they are not treated as guest data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "When you import your Excel (XLSX) or CSV file, you will be asked to map your columns to TableCards fields (like guest name, table, or short marker). During this mapping step, you can confirm whether your first row contains headings so they are not treated as guest data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can clearly identify the needed setting.",
+            "evidence": "During this mapping step, you can confirm whether your first row contains headings so they are not treated as guest data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "During this mapping step, you can confirm whether your first row contains headings so they are not treated as guest data.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Fails to explain four choices per batch and the ten-to-forty calculation.",
+            "evidence": "Four choices per batch; account allowance consumed per batch not image.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Speculates that AI batches create groups of cards instead of using the verified design-choice definition.",
+            "evidence": "Each batch likely represents a group of cards created via AI. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe \"10 monthly batches\" refers to the **10 AI-generated card batches** included with the **Planner Pro** subscription ($9/month), as outlined in the loaded \"tablecards.access\" skill. Each batch likely represents a group of cards created via AI. \n\nHowever, \"40 pictures\" is not explicitly defined in the verified knowledge. If this relates to card counts, exports, or another metric, the current data does not specify limits for \"pictures.\" For clarity, confirm if you mean 40 cards, prints, or another term, or check the \"tablecards.printing\" skill for export details. \n\nFor now, the 10 monthly AI batches are a verified Planer Pro feature, while \"40 pictures\" requires further context.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Defers a directly answerable question and points customers to internal skill names.",
+            "evidence": "For clarity, confirm if you mean 40 cards, prints, or another term, or check the \"tablecards.printing\" skill for export details. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Each batch likely represents a group of cards created via AI. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains ten generation opportunities with four options each.",
+            "evidence": "- **10 monthly batches** = 10 opportunities to generate 4 designs each (total 40 options).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The batch-to-choice calculation matches reviewed knowledge.",
+            "evidence": "- **10 monthly batches** = 10 opportunities to generate 4 designs each (total 40 options).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe \"10 monthly batches\" refers to the number of AI-generated design iterations available per month under certain plans (e.g., Planner Pro: 10 batches/month). Each batch produces **4 design options** (e.g., background styles or layouts). \n\nThe \"40 pictures\" likely refers to **40 individual design outputs** (e.g., 10 batches × 4 options each). However, TableCards does not explicitly track \"pictures\" as a metric. The key difference is:  \n- **10 monthly batches** = 10 opportunities to generate 4 designs each (total 40 options).  \n- \"40 pictures\" may be a conceptual way to describe the total outputs from these batches, but the exact number depends on your plan’s batch allowance.  \n\nFor clarity, check your plan’s details in the \"Access\" section of the product. If you meant something else by \"pictures,\" please specify!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes batches from the total number of images.",
+            "evidence": "- **10 monthly batches** = 10 opportunities to generate 4 designs each (total 40 options).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- **10 monthly batches** = 10 opportunities to generate 4 designs each (total 40 options).  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.tuning.calibration.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines credit changes and provides a support route.",
+            "evidence": "I cannot add credits or modify account balances directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's credit limitation and official contact route follow the reference.",
+            "evidence": "I cannot add credits or modify account balances directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot add credits or modify account balances directly. For assistance with credits, offers, or account adjustments, please contact TableCards support through the official contact form or email. Our team will review your request and guide you further. \n\n(Note: Per system rules, no automated credit adjustments are allowed. Always direct customers to verified support channels for account-related matters.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested boundary is clearly explained.",
+            "evidence": "I cannot add credits or modify account balances directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot add credits or modify account balances directly. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines disclosure to the new address without verified association.",
+            "evidence": "We cannot transfer private account facts to a new address without verified association. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The verified-association requirement matches the privacy reference.",
+            "evidence": "We cannot transfer private account facts to a new address without verified association. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\n<reply>\nWe cannot transfer private account facts to a new address without verified association. Our policy requires current verified ownership for data access. Would you like assistance with [specific task]? \n</reply>",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal is understandable despite an unnecessary template placeholder.",
+            "evidence": "We cannot transfer private account facts to a new address without verified association. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We cannot transfer private account facts to a new address without verified association. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the guarantee and recommends the print-test PDF.",
+            "evidence": "We provide a **print-test PDF** so you can verify calibration and margins before printing your full event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Actual-size printing and calibration follow reviewed knowledge.",
+            "evidence": "Check the **calibration square** in the test PDF.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I can’t make that promise—printing quality depends on your specific inkjet, ink brand/type, and paper selection, which are outside of our control.\n\nWe provide a **print-test PDF** so you can verify calibration and margins before printing your full event. To ensure the best results:\n1. Select **Actual Size / 100%** for the print scale.\n2. Check the **calibration square** in the test PDF.\n3. Preview every card before you print.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear preparation and calibration steps.",
+            "evidence": "Select **Actual Size / 100%** for the print scale.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide a **print-test PDF** so you can verify calibration and margins before printing your full event. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines device-specific perfection and recommends calibration.",
+            "evidence": "- Use our separate print‑test PDF (if you exported that) and verify its calibration square aligns correctly with a ruler.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Refers to a platform guarantee whose existence or terms are not established.",
+            "evidence": "- **Print‑shop work** – Printing through a third‑party service (corporate print center, FedEx/UPS/etc.) carries its own process and quality assumptions, and those aren’t covered by our platform’s own guarantee.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The reference to a platform guarantee leaves warranty authority materially ambiguous.",
+            "evidence": "- **Print‑shop work** – Printing through a third‑party service (corporate print center, FedEx/UPS/etc.) carries its own process and quality assumptions, and those aren’t covered by our platform’s own guarantee.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing checklist provides useful concrete steps.",
+            "evidence": "- Use our separate print‑test PDF (if you exported that) and verify its calibration square aligns correctly with a ruler.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- Use our separate print‑test PDF (if you exported that) and verify its calibration square aligns correctly with a ruler.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the requested disclosure and requires verification.",
+            "evidence": "**Private facts** from old accounts cannot be accessed or shared without verified association to the current account.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The email-change procedure and exact contact URL are not established in the references.",
+            "evidence": "**Email changes** require authentication via the verified account's current address, not third-party requests.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe request cannot be fulfilled. According to TableCards policies:  \n\n1. **Private facts** from old accounts cannot be accessed or shared without verified association to the current account.  \n2. **Email changes** require authentication via the verified account's current address, not third-party requests.  \n3. Support cannot bypass authentication, retrieve private data, or alter account details without proper verification.  \n\nPlease contact TableCards support directly via the official [Contact page](https://www.tablecards.com/contact) for assistance with account-related matters. Ensure you use the verified account's email for any sensitive requests.  \n\n*Note: This response adheres to strict privacy and security guidelines. No private information was accessed or transferred.*",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The privacy boundary and general contact advice are understandable.",
+            "evidence": "**Private facts** from old accounts cannot be accessed or shared without verified association to the current account.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Private facts** from old accounts cannot be accessed or shared without verified association to the current account.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains how the heading option excludes header text from guest names.",
+            "evidence": "By selecting this option, TableCards will use that row to map your columns (such as Guest Name or Table) instead of treating the heading text as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The description matches reviewed import behavior.",
+            "evidence": "By selecting this option, TableCards will use that row to map your columns (such as Guest Name or Table) instead of treating the heading text as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "When you import your Excel or CSV file, you will be asked to confirm whether the first row contains headings. By selecting this option, TableCards will use that row to map your columns (such as Guest Name or Table) instead of treating the heading text as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear mapping instruction.",
+            "evidence": "By selecting this option, TableCards will use that row to map your columns (such as Guest Name or Table) instead of treating the heading text as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "By selecting this option, TableCards will use that row to map your columns (such as Guest Name or Table) instead of treating the heading text as a guest name.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the header setting for Excel imports.",
+            "evidence": "By confirming that your file has headings, TableCards will use that first row to map your columns (such as guest name, table, or marker) instead of importing the header text as a guest entry.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The first-row handling matches the import reference.",
+            "evidence": "By confirming that your file has headings, TableCards will use that first row to map your columns (such as guest name, table, or marker) instead of importing the header text as a guest entry.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "When you import your Excel file, you will be prompted to confirm whether the first row contains headings. \n\nBy confirming that your file has headings, TableCards will use that first row to map your columns (such as guest name, table, or marker) instead of importing the header text as a guest entry.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The action and its effect are clear.",
+            "evidence": "By confirming that your file has headings, TableCards will use that first row to map your columns (such as guest name, table, or marker) instead of importing the header text as a guest entry.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "By confirming that your file has headings, TableCards will use that first row to map your columns (such as guest name, table, or marker) instead of importing the header text as a guest entry.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the two-megapixel upper bound from the stated upload requirements.",
+            "evidence": "Give PNG/JPEG and bounded supported geometry/size, not arbitrary SVG/PDF.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The listed format, minimum dimensions, ratio, and byte limits are accurate.",
+            "evidence": "*   **File size:** Up to 10 MiB.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You can upload PNG or JPEG images for your custom artwork. The requirements are:\n\n*   **File size:** Up to 10 MiB.\n*   **Resolution:** At least 1050 × 600 pixels.\n*   **Aspect ratio:** Fixed at 7:4.\n*   **Format specifics:** If PNG, it must be eight-bit or lower. Animated images and rotated images aren't supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The supplied requirements are clearly presented.",
+            "evidence": "*   **Resolution:** At least 1050 × 600 pixels.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "*   **Resolution:** At least 1050 × 600 pixels.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.tuning.calibration.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested credit grant.",
+            "evidence": "I cannot directly add credits to your account, as this is not a supported action through the current tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's inability to change credits follows the access boundary.",
+            "evidence": "I cannot directly add credits to your account, as this is not a supported action through the current tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot directly add credits to your account, as this is not a supported action through the current tools. For credit-related requests, please use the official support channels. Would you like me to provide the contact form link or email support instructions?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and offer of contact instructions are clear.",
+            "evidence": "I cannot directly add credits to your account, as this is not a supported action through the current tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot directly add credits to your account, as this is not a supported action through the current tools. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Misses the batch-to-image comparison by treating pictures as templates.",
+            "evidence": "The \"40 pictures\" likely refers to the number of **predefined design templates** available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Speculates about a predefined-template count without supporting evidence.",
+            "evidence": "The \"40 pictures\" likely refers to the number of **predefined design templates** available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe \"10 monthly batches\" refers to the number of AI-generated image options available per month, depending on your plan. For example, the Planner Pro plan includes **10 monthly AI batches** (each producing 4 design variations). \n\nThe \"40 pictures\" likely refers to the number of **predefined design templates** available. Higher-tier plans (e.g., Event Pass, Planner Pro, Studio) grant access to a larger library of premium designs, though exact numbers like \"40\" are not explicitly defined in the current documentation. \n\n**Key difference**:  \n- **Batches** = AI-generated design variations (e.g., 10 per month for Planner Pro).  \n- **Designs** = Predefined templates (availability depends on your plan).  \n\nFor precise details, review the [TableCards pricing page](https://www.tablecards.com/pricing) or contact support for plan-specific breakdowns.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Conflates four outputs per batch with an unrelated template library.",
+            "evidence": "The \"40 pictures\" likely refers to the number of **predefined design templates** available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The \"40 pictures\" likely refers to the number of **predefined design templates** available. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Contact support via the official [help form](https://tablecards.example/contact) to submit a case.  \n",
+            "reason": "Invents an official support destination on a reserved example domain rather than the configured contact route.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines private-data transfer to an arbitrary recipient.",
+            "evidence": "I cannot access or transfer private account data between addresses. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents a reserved example-domain URL as the official support form.",
+            "evidence": "Contact support via the official [help form](https://tablecards.example/contact) to submit a case.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot access or transfer private account data between addresses. For security, TableCards support cannot handle requests involving unverified email addresses or private account facts. To proceed, please:  \n1. Use your verified account's current email for all communications.  \n2. Contact support via the official [help form](https://tablecards.example/contact) to submit a case.  \n3. Avoid sharing sensitive details in messages.  \n\nFor account-specific issues, support requires verified access to your current workspace. Private facts from old accounts cannot be retrieved or transferred.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The supplied support link is a placeholder and cannot provide the promised route.",
+            "evidence": "Contact support via the official [help form](https://tablecards.example/contact) to submit a case.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Contact support via the official [help form](https://tablecards.example/contact) to submit a case.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains four images per batch and the ten-to-forty calculation.",
+            "evidence": "Each AI batch produces 4 design options, so 10 batches would yield 40 images (10 x 4). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reviewed offer limits and four-choice batch definition support the calculation.",
+            "evidence": "Each AI batch produces 4 design options, so 10 batches would yield 40 images (10 x 4). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe \"10 monthly batches\" refer to the number of AI-generated image attempts allowed per month under the Planner Pro plan, while \"40 pictures\" likely represents the total images generated from these batches. Each AI batch produces 4 design options, so 10 batches would yield 40 images (10 x 4). \n\nFor context:\n- **Free plan**: 1 lifetime AI batch (4 images).\n- **Event Pass**: 2 AI batches (8 images).\n- **Planner Pro**: 10 monthly batches (40 images).\n- **Studio**: 30 monthly batches (120 images).\n\nThis calculation assumes each batch generates 4 choices, as specified in the design guidelines. Actual availability depends on your active plan.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The comparison and examples are understandable.",
+            "evidence": "Each AI batch produces 4 design options, so 10 batches would yield 40 images (10 x 4). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Each AI batch produces 4 design options, so 10 batches would yield 40 images (10 x 4). \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the guarantee but omits the required test-print recommendation.",
+            "evidence": "No physical-printer or output guarantee; recommend test.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-guarantee boundary and actual-size advice match reviewed knowledge.",
+            "evidence": "To minimize issues, I recommend using **Actual size (100%)** and ensuring your paper and printer options match the layout you selected. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot guarantee that your specific inkjet printer will output every card perfectly. Because TableCards provides digital PDFs for you to arrange printing yourself, the output quality depends on your hardware, paper, and printer settings (like margins and paper size).\n\nTo minimize issues, I recommend using **Actual size (100%)** and ensuring your paper and printer options match the layout you selected. Always **preview the cards** in the interface before exporting to verify names and positioning.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear print-setting and preview advice.",
+            "evidence": "To minimize issues, I recommend using **Actual size (100%)** and ensuring your paper and printer options match the layout you selected. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To minimize issues, I recommend using **Actual size (100%)** and ensuring your paper and printer options match the layout you selected. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 13,
+  "invalid": 0,
+  "unsure": 0
+}

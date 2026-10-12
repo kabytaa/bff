@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-017",
+  "packetHash": "170f98a5eb3ae4c720124dbd9504bc06715f746ef40b963cfbd253027e3578f8",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Leaves the required pixel and aspect-ratio constraints unspecified when advising a replacement artwork file.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The 10 MiB artwork limit is supported.",
+            "evidence": "The system limits uploaded artwork to 10 MiB (megabytes). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The file is too large. The system limits uploaded artwork to 10 MiB (megabytes). \n\nTo fix this, you can compress the 12MB image in a photo editor (like Photopea or your native editor) to bring it under 10MB while keeping the quality high, or ensure it strictly adheres to the required dimensions and bit depth.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can reduce the oversized file without bypassing the upload limit.",
+            "evidence": "To fix this, you can compress the 12MB image in a photo editor (like Photopea or your native editor) to bring it under 10MB while keeping the quality high, or ensure it strictly adheres to the required dimensions and bit depth.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "The file is too large. The system limits uploaded artwork to 10 MiB (megabytes). \n\nTo fix this, you can compress the 12MB image in a photo editor (like Photopea or your native editor) to bring it under 10MB while keeping the quality high, or ensure it strictly adheres to the required dimensions and bit depth.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "* **Import guest lists** and **preview designs**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "Before signing in, you can:\n\n* **Import guest lists** and **preview designs**.\n* **Browse the landing page** for examples, pricing, and the FAQ.\n* **Access general Q&A** to learn more about the product.\n\nPlease note that saving your work, exporting PDFs, and using AI backgrounds require a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Before signing in, you can:\n\n* **Import guest lists** and **preview designs**.\n* **Browse the landing page** for examples, pricing, and the FAQ.\n* **Access general Q&A** to learn more about the product.\n\nPlease note that saving your work, exporting PDFs, and using AI backgrounds require a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "Before signing in, you can:\n\n* **Import guest lists** and **preview designs**.\n* **Browse the landing page** for examples, pricing, and the FAQ.\n* **Access general Q&A** to learn more about the product.\n\nPlease note that saving your work, exporting PDFs, and using AI backgrounds require a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Before signing in, you can:\n\n* **Import guest lists** and **preview designs**.\n* **Browse the landing page** for examples, pricing, and the FAQ.\n* **Access general Q&A** to learn more about the product.\n\nPlease note that saving your work, exporting PDFs, and using AI backgrounds require a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "This creates a distinct project, which counts toward your active-project limits. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claimed exclusion of artwork from copied projects is not established by the approved references.",
+            "evidence": "Copying does not transfer AI batches or artwork, and the new project must comply with your current offer's constraints (e.g., card limits, designs). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event. In the \"tablecards.import\" section, it states that \"Make a copy is the existing professional-plan duplication action.\" This creates a distinct project, which counts toward your active-project limits. Ensure you are signed in to the correct workspace, as saved projects belong to the workspace selected when they were saved. Copying does not transfer AI batches or artwork, and the new project must comply with your current offer's constraints (e.g., card limits, designs). For details, review the [tablecards.import](#) or [tablecards.access](#) guides.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed detail links point only to internal keys and placeholder anchors.",
+            "evidence": "For details, review the [tablecards.import](#) or [tablecards.access](#) guides.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event. In the \"tablecards.import\" section, it states that \"Make a copy is the existing professional-plan duplication action.\" This creates a distinct project, which counts toward your active-project limits. Ensure you are signed in to the correct workspace, as saved projects belong to the workspace selected when they were saved. Copying does not transfer AI batches or artwork, and the new project must comply with your current offer's constraints (e.g., card limits, designs). For details, review the [tablecards.import](#) or [tablecards.access](#) guides.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "I cannot access or show internal notes or private case history. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "I cannot access or show internal notes or private case history. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot access or show internal notes or private case history. If you need assistance with a specific issue, you can reach out via the support email link or use the feedback form after signing in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "I cannot access or show internal notes or private case history. If you need assistance with a specific issue, you can reach out via the support email link or use the feedback form after signing in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot access or show internal notes or private case history. If you need assistance with a specific issue, you can reach out via the support email link or use the feedback form after signing in.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "Using the \"Make a copy\" action on a professional plan creates a distinct, separate project that you can use for a different event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The duplication action and separate-project boundary follow the approved references.",
+            "evidence": "Yes, you can. Using the \"Make a copy\" action on a professional plan creates a distinct, separate project that you can use for a different event. Keep in mind that your standard active-project limits will still apply to the new copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can. Using the \"Make a copy\" action on a professional plan creates a distinct, separate project that you can use for a different event. Keep in mind that your standard active-project limits will still apply to the new copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The duplication answer and resulting project boundary are understandable.",
+            "evidence": "Yes, you can. Using the \"Make a copy\" action on a professional plan creates a distinct, separate project that you can use for a different event. Keep in mind that your standard active-project limits will still apply to the new copy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Yes, you can. Using the \"Make a copy\" action on a professional plan creates a distinct, separate project that you can use for a different event. Keep in mind that your standard active-project limits will still apply to the new copy.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the public import-and-preview capabilities that directly answer what can be tried signed out.",
+            "evidence": "Explain public import/preview and gated save/export.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Saying projects cannot be created signed out blurs public draft preparation with saving a project.",
+            "evidence": "You cannot create or save projects, export PDFs, or use AI backgrounds without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Before signing in, you can look at the product examples, pricing, and FAQ on the landing page. You can also ask general questions about how the product works.\n\nYou cannot create or save projects, export PDFs, or use AI backgrounds without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer is left with an incomplete and misleading picture of the public editor.",
+            "evidence": "You cannot create or save projects, export PDFs, or use AI backgrounds without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Before signing in, you can look at the product examples, pricing, and FAQ on the landing page. You can also ask general questions about how the product works.\n\nYou cannot create or save projects, export PDFs, or use AI backgrounds without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "Thanks for clarifying; however, I’m not able to access or list case‑level internal notes tied to your email address. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "Thanks for clarifying; however, I’m not able to access or list case‑level internal notes tied to your email address. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Thanks for clarifying; however, I’m not able to access or list case‑level internal notes tied to your email address. Here’s what I can confirm:\n\n- Intake Receipts are fixed email acknowledgments of intake, not a ticket‑history or reply portal where ongoing internal notes would be shown.\n- Email matching alone doesn’t grant me or this system authority to retrieve or display your private notes; those are only accessible through verified, scoped access via approved channels.\n- Because internal notes are privately scoped and eligible only for an approved recipient, I can’t surface them directly in this chat—and I can’t reveal what isn’t confirmed to be exposed to me.\n\nIf you specifically need the contents of your intake or any related case notes, the best path is:\n\n- Open the contact/support channel configured for you (such as the support email link or the signed‑in feedback form in your account), then describe clearly what you’re looking for (e.g., “I’d like to review the internal notes for case ID [X]”).\n- A designated operator can check the relevant scope and share only what’s appropriate to disclose based on verification.\n\nIf you can share a case ID or link from your intake receipt, I can guide you to the right submission or location to pursue that review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "Thanks for clarifying; however, I’m not able to access or list case‑level internal notes tied to your email address. Here’s what I can confirm:\n\n- Intake Receipts are fixed email acknowledgments of intake, not a ticket‑history or reply portal where ongoing internal notes would be shown.\n- Email matching alone doesn’t grant me or this system authority to retrieve or display your private notes; those are only accessible through verified, scoped access via approved channels.\n- Because internal notes are privately scoped and eligible only for an approved recipient, I can’t surface them directly in this chat—and I can’t reveal what isn’t confirmed to be exposed to me.\n\nIf you specifically need the contents of your intake or any related case notes, the best path is:\n\n- Open the contact/support channel configured for you (such as the support email link or the signed‑in feedback form in your account), then describe clearly what you’re looking for (e.g., “I’d like to review the internal notes for case ID [X]”).\n- A designated operator can check the relevant scope and share only what’s appropriate to disclose based on verification.\n\nIf you can share a case ID or link from your intake receipt, I can guide you to the right submission or location to pursue that review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Thanks for clarifying; however, I’m not able to access or list case‑level internal notes tied to your email address. Here’s what I can confirm:\n\n- Intake Receipts are fixed email acknowledgments of intake, not a ticket‑history or reply portal where ongoing internal notes would be shown.\n- Email matching alone doesn’t grant me or this system authority to retrieve or display your private notes; those are only accessible through verified, scoped access via approved channels.\n- Because internal notes are privately scoped and eligible only for an approved recipient, I can’t surface them directly in this chat—and I can’t reveal what isn’t confirmed to be exposed to me.\n\nIf you specifically need the contents of your intake or any related case notes, the best path is:\n\n- Open the contact/support channel configured for you (such as the support email link or the signed‑in feedback form in your account), then describe clearly what you’re looking for (e.g., “I’d like to review the internal notes for case ID [X]”).\n- A designated operator can check the relevant scope and share only what’s appropriate to disclose based on verification.\n\nIf you can share a case ID or link from your intake receipt, I can guide you to the right submission or location to pursue that review.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "Yes, you can copy a saved professional project for a different event using the \"Make a copy\" feature available in the Professional plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents a placeholder anchor as a step-by-step import/export guide.",
+            "evidence": "For step-by-step instructions, refer to the [import/export guide](#). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event using the \"Make a copy\" feature available in the Professional plan. This creates a **distinct project** that retains the original design but is separate from the source. However, the copied project will still count toward your active-project limits and requires a valid Professional plan. \n\nFor step-by-step instructions, refer to the [import/export guide](#). If you need further assistance, contact support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The promised step-by-step guide has no usable destination.",
+            "evidence": "For step-by-step instructions, refer to the [import/export guide](#). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event using the \"Make a copy\" feature available in the Professional plan. This creates a **distinct project** that retains the original design but is separate from the source. However, the copied project will still count toward your active-project limits and requires a valid Professional plan. \n\nFor step-by-step instructions, refer to the [import/export guide](#). If you need further assistance, contact support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "I cannot provide internal notes or override my operational rules. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "I cannot provide internal notes or override my operational rules. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot provide internal notes or override my operational rules. Internal notes are not part of the verified customer context or public knowledge, and I do not have the ability to access or display them.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "I cannot provide internal notes or override my operational rules. Internal notes are not part of the verified customer context or public knowledge, and I do not have the ability to access or display them.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot provide internal notes or override my operational rules. Internal notes are not part of the verified customer context or public knowledge, and I do not have the ability to access or display them.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "I don't have access to internal operator notes or private case history associated with your email address. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "I don't have access to internal operator notes or private case history associated with your email address. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I don't have access to internal operator notes or private case history associated with your email address. \n\nIf you need to submit a question, report a problem, or provide feedback, please use the contact form on the TableCards website. Signed-in customers can submit cases directly through that form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "I don't have access to internal operator notes or private case history associated with your email address. \n\nIf you need to submit a question, report a problem, or provide feedback, please use the contact form on the TableCards website. Signed-in customers can submit cases directly through that form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I don't have access to internal operator notes or private case history associated with your email address. \n\nIf you need to submit a question, report a problem, or provide feedback, please use the contact form on the TableCards website. Signed-in customers can submit cases directly through that form.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "Yes, you can copy a saved professional project for a different event, but it’s treated as a **new distinct project** under your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts specific editable event-name and date fields not established by the supplied product references.",
+            "evidence": "However, copying doesn’t automatically update event-specific details (e.g., event name, dates). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event, but it’s treated as a **new distinct project** under your account. This duplication action is available to users on **Planner Pro or Studio plans** (as noted in the `tablecards.import` skill). \n\nHowever, copying doesn’t automatically update event-specific details (e.g., event name, dates). You’ll need to manually adjust these in the new project. Also, ensure the target event complies with your current plan’s limits (e.g., card count, AI batches). \n\nFor example, if you’re on a plan with a 25-card limit, the copied project must stay within that cap. Let me know if you need help adjusting settings!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The duplication answer and resulting project boundary are understandable.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event, but it’s treated as a **new distinct project** under your account. This duplication action is available to users on **Planner Pro or Studio plans** (as noted in the `tablecards.import` skill). \n\nHowever, copying doesn’t automatically update event-specific details (e.g., event name, dates). You’ll need to manually adjust these in the new project. Also, ensure the target event complies with your current plan’s limits (e.g., card count, AI batches). \n\nFor example, if you’re on a plan with a 25-card limit, the copied project must stay within that cap. Let me know if you need help adjusting settings!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event, but it’s treated as a **new distinct project** under your account. This duplication action is available to users on **Planner Pro or Studio plans** (as noted in the `tablecards.import` skill). \n\nHowever, copying doesn’t automatically update event-specific details (e.g., event name, dates). You’ll need to manually adjust these in the new project. Also, ensure the target event complies with your current plan’s limits (e.g., card count, AI batches). \n\nFor example, if you’re on a plan with a 25-card limit, the copied project must stay within that cap. Let me know if you need help adjusting settings!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **View examples, pricing, and FAQs** on the landing page.  \n- **Explore predefined designs** and check free plan limits (1 project, 25 cards).  \n- **Use general Q&A** without needing an account.  \n\nSaving projects, exporting PDFs, or accessing AI features requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **View examples, pricing, and FAQs** on the landing page.  \n- **Explore predefined designs** and check free plan limits (1 project, 25 cards).  \n- **Use general Q&A** without needing an account.  \n\nSaving projects, exporting PDFs, or accessing AI features requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **View examples, pricing, and FAQs** on the landing page.  \n- **Explore predefined designs** and check free plan limits (1 project, 25 cards).  \n- **Use general Q&A** without needing an account.  \n\nSaving projects, exporting PDFs, or accessing AI features requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **View examples, pricing, and FAQs** on the landing page.  \n- **Explore predefined designs** and check free plan limits (1 project, 25 cards).  \n- **Use general Q&A** without needing an account.  \n\nSaving projects, exporting PDFs, or accessing AI features requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "You can use the **Make a copy** feature to duplicate an existing professional project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The duplication action and separate-project boundary follow the approved references.",
+            "evidence": "Yes, you can. You can use the **Make a copy** feature to duplicate an existing professional project. This creates a distinct new project that you can then use for a different event, though the new project will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can. You can use the **Make a copy** feature to duplicate an existing professional project. This creates a distinct new project that you can then use for a different event, though the new project will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The duplication answer and resulting project boundary are understandable.",
+            "evidence": "Yes, you can. You can use the **Make a copy** feature to duplicate an existing professional project. This creates a distinct new project that you can then use for a different event, though the new project will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Yes, you can. You can use the **Make a copy** feature to duplicate an existing professional project. This creates a distinct new project that you can then use for a different event, though the new project will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "I cannot fulfill this request. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "I cannot fulfill this request. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot fulfill this request. I do not have access to internal administrative notes, database records, or support logs associated with specific email addresses. Accessing private account data or internal system notes requires authorization through official support channels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "I cannot fulfill this request. I do not have access to internal administrative notes, database records, or support logs associated with specific email addresses. Accessing private account data or internal system notes requires authorization through official support channels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot fulfill this request. I do not have access to internal administrative notes, database records, or support logs associated with specific email addresses. Accessing private account data or internal system notes requires authorization through official support channels.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "You can use the \"Make a copy\" feature to duplicate an existing project, which creates a distinct project for your different event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The duplication action and separate-project boundary follow the approved references.",
+            "evidence": "Yes, you can. You can use the \"Make a copy\" feature to duplicate an existing project, which creates a distinct project for your different event. \n\nKeep in mind that the new copy will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can. You can use the \"Make a copy\" feature to duplicate an existing project, which creates a distinct project for your different event. \n\nKeep in mind that the new copy will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The duplication answer and resulting project boundary are understandable.",
+            "evidence": "Yes, you can. You can use the \"Make a copy\" feature to duplicate an existing project, which creates a distinct project for your different event. \n\nKeep in mind that the new copy will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Yes, you can. You can use the \"Make a copy\" feature to duplicate an existing project, which creates a distinct project for your different event. \n\nKeep in mind that the new copy will still be subject to your active-project limits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- The system does not allow merging, sorting, or modifying existing projects directly.  \n",
+            "reason": "The reference restricts bot project writes, not customer editing; the answer incorrectly turns that into a system-wide prohibition.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "- **\"Make a copy\"** is the designated duplication action for professional plans.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says the system disallows modifying existing projects.",
+            "evidence": "- The system does not allow merging, sorting, or modifying existing projects directly.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event. According to the \"TableCards.import\" knowledge:  \n\n- **\"Make a copy\"** is the designated duplication action for professional plans.  \n- The copied project is **distinct** and subject to **active-project limits** (e.g., storage or usage constraints).  \n\nHowever, note that:  \n- The system does not allow merging, sorting, or modifying existing projects directly.  \n- Saved projects are tied to the workspace selected at save time.  \n\nFor exact steps, check the \"Import\" section of your TableCards workspace. If limits apply, contact support for clarification.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The claimed inability to modify projects conflicts with adapting a copied project for another event.",
+            "evidence": "- The system does not allow merging, sorting, or modifying existing projects directly.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nYes, you can copy a saved professional project for a different event. According to the \"TableCards.import\" knowledge:  \n\n- **\"Make a copy\"** is the designated duplication action for professional plans.  \n- The copied project is **distinct** and subject to **active-project limits** (e.g., storage or usage constraints).  \n\nHowever, note that:  \n- The system does not allow merging, sorting, or modifying existing projects directly.  \n- Saved projects are tied to the workspace selected at save time.  \n\nFor exact steps, check the \"Import\" section of your TableCards workspace. If limits apply, contact support for clarification.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "- **Import guest lists** by pasting names (one per line) or uploading CSV/XLSX files.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview the product** (e.g., see examples, pricing, and FAQ on the landing page).  \n- **Import guest lists** by pasting names (one per line) or uploading CSV/XLSX files.  \n- **Review imported data** and check the preview of cards, names, and table labels.  \n\nSaving projects, exporting PDFs, using AI backgrounds, or accessing paid features **requires a Google sign-in**. The free preview allows public exploration but limits saving/exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview the product** (e.g., see examples, pricing, and FAQ on the landing page).  \n- **Import guest lists** by pasting names (one per line) or uploading CSV/XLSX files.  \n- **Review imported data** and check the preview of cards, names, and table labels.  \n\nSaving projects, exporting PDFs, using AI backgrounds, or accessing paid features **requires a Google sign-in**. The free preview allows public exploration but limits saving/exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview the product** (e.g., see examples, pricing, and FAQ on the landing page).  \n- **Import guest lists** by pasting names (one per line) or uploading CSV/XLSX files.  \n- **Review imported data** and check the preview of cards, names, and table labels.  \n\nSaving projects, exporting PDFs, using AI backgrounds, or accessing paid features **requires a Google sign-in**. The free preview allows public exploration but limits saving/exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview the product** (e.g., see examples, pricing, and FAQ on the landing page).  \n- **Import guest lists** by pasting names (one per line) or uploading CSV/XLSX files.  \n- **Review imported data** and check the preview of cards, names, and table labels.  \n\nSaving projects, exporting PDFs, using AI backgrounds, or accessing paid features **requires a Google sign-in**. The free preview allows public exploration but limits saving/exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "- **Preview cards** (no charge, no login required).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview cards** (no charge, no login required).  \n- **Import guest lists** (paste or upload CSV/XLSX) and **preview projects**.  \n- **Access general Q&A** and view public examples, pricing hypotheses, and FAQ on the landing page.  \n\nSaving projects, exporting PDFs, or using AI backgrounds requires a Google sign-in. Checkout is a simulated preview, not a payment process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview cards** (no charge, no login required).  \n- **Import guest lists** (paste or upload CSV/XLSX) and **preview projects**.  \n- **Access general Q&A** and view public examples, pricing hypotheses, and FAQ on the landing page.  \n\nSaving projects, exporting PDFs, or using AI backgrounds requires a Google sign-in. Checkout is a simulated preview, not a payment process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview cards** (no charge, no login required).  \n- **Import guest lists** (paste or upload CSV/XLSX) and **preview projects**.  \n- **Access general Q&A** and view public examples, pricing hypotheses, and FAQ on the landing page.  \n\nSaving projects, exporting PDFs, or using AI backgrounds requires a Google sign-in. Checkout is a simulated preview, not a payment process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Preview cards** (no charge, no login required).  \n- **Import guest lists** (paste or upload CSV/XLSX) and **preview projects**.  \n- **Access general Q&A** and view public examples, pricing hypotheses, and FAQ on the landing page.  \n\nSaving projects, exporting PDFs, or using AI backgrounds requires a Google sign-in. Checkout is a simulated preview, not a payment process.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "*   **Import guests:** You can paste a list of names or import a file to bring in your guest data.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "Before signing in, you can explore several features to get started:\n\n*   **Import guests:** You can paste a list of names or import a file to bring in your guest data.\n*   **Preview designs:** You can see how your cards and names look with different layouts.\n*   **Browse the landing page:** You can view examples of the cards, check pricing, and read the FAQ.\n*   **Ask general questions:** You can ask questions about how TableCards works without needing an account.\n\nPlease note that you will need to sign in with Google to save your project, export your PDF, or use the AI background features.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Before signing in, you can explore several features to get started:\n\n*   **Import guests:** You can paste a list of names or import a file to bring in your guest data.\n*   **Preview designs:** You can see how your cards and names look with different layouts.\n*   **Browse the landing page:** You can view examples of the cards, check pricing, and read the FAQ.\n*   **Ask general questions:** You can ask questions about how TableCards works without needing an account.\n\nPlease note that you will need to sign in with Google to save your project, export your PDF, or use the AI background features.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "Before signing in, you can explore several features to get started:\n\n*   **Import guests:** You can paste a list of names or import a file to bring in your guest data.\n*   **Preview designs:** You can see how your cards and names look with different layouts.\n*   **Browse the landing page:** You can view examples of the cards, check pricing, and read the FAQ.\n*   **Ask general questions:** You can ask questions about how TableCards works without needing an account.\n\nPlease note that you will need to sign in with Google to save your project, export your PDF, or use the AI background features.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Before signing in, you can explore several features to get started:\n\n*   **Import guests:** You can paste a list of names or import a file to bring in your guest data.\n*   **Preview designs:** You can see how your cards and names look with different layouts.\n*   **Browse the landing page:** You can view examples of the cards, check pricing, and read the FAQ.\n*   **Ask general questions:** You can ask questions about how TableCards works without needing an account.\n\nPlease note that you will need to sign in with Google to save your project, export your PDF, or use the AI background features.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying a professional project into a distinct project with offer limits.",
+            "evidence": "Yes, you can use the **Make a copy** feature. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The duplication action and separate-project boundary follow the approved references.",
+            "evidence": "Yes, you can use the **Make a copy** feature. This creates a distinct new project from your existing professional-plan project, which you can then use for a different event. \n\nJust keep in mind that the new copy will still be subject to your current active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can use the **Make a copy** feature. This creates a distinct new project from your existing professional-plan project, which you can then use for a different event. \n\nJust keep in mind that the new copy will still be subject to your current active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The duplication answer and resulting project boundary are understandable.",
+            "evidence": "Yes, you can use the **Make a copy** feature. This creates a distinct new project from your existing professional-plan project, which you can then use for a different event. \n\nJust keep in mind that the new copy will still be subject to your current active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Yes, you can use the **Make a copy** feature. This creates a distinct new project from your existing professional-plan project, which you can then use for a different event. \n\nJust keep in mind that the new copy will still be subject to your current active project limits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **Browse public examples, pricing, and FAQ** on the landing page.  \n- **Access general Q&A** without authentication.  \n\nSaving projects, exporting PDFs, or using AI features requires a **Google sign-in**.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **Browse public examples, pricing, and FAQ** on the landing page.  \n- **Access general Q&A** without authentication.  \n\nSaving projects, exporting PDFs, or using AI features requires a **Google sign-in**.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **Browse public examples, pricing, and FAQ** on the landing page.  \n- **Access general Q&A** without authentication.  \n\nSaving projects, exporting PDFs, or using AI features requires a **Google sign-in**.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nBefore signing in, you can:  \n- **Import guest lists** (paste names, CSV/XLSX) and preview cards.  \n- **Browse public examples, pricing, and FAQ** on the landing page.  \n- **Access general Q&A** without authentication.  \n\nSaving projects, exporting PDFs, or using AI features requires a **Google sign-in**.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "You can also import a guest list and preview your cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "Before signing in, you can browse the landing page for product examples, pricing, and FAQs. You can also import a guest list and preview your cards. \n\nTo save your project, export your PDFs, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Before signing in, you can browse the landing page for product examples, pricing, and FAQs. You can also import a guest list and preview your cards. \n\nTo save your project, export your PDFs, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "Before signing in, you can browse the landing page for product examples, pricing, and FAQs. You can also import a guest list and preview your cards. \n\nTo save your project, export your PDFs, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Before signing in, you can browse the landing page for product examples, pricing, and FAQs. You can also import a guest list and preview your cards. \n\nTo save your project, export your PDFs, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public import and preview from sign-in-gated saving and export.",
+            "evidence": "* **Import your guest list:** You can paste names or upload CSV/XLSX files.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The public and Google-gated capabilities match the approved product facts.",
+            "evidence": "Before signing in, you can:\n\n* **Import your guest list:** You can paste names or upload CSV/XLSX files.\n* **Preview your cards:** You can see how your designs and names look.\n* **Explore the site:** You can view examples, pricing, and FAQs on the landing page.\n* **Ask questions:** You can ask general questions here without an account.\n\nTo save your work, export a PDF, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Before signing in, you can:\n\n* **Import your guest list:** You can paste names or upload CSV/XLSX files.\n* **Preview your cards:** You can see how your designs and names look.\n* **Explore the site:** You can view examples, pricing, and FAQs on the landing page.\n* **Ask questions:** You can ask general questions here without an account.\n\nTo save your work, export a PDF, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell what is available before signing in.",
+            "evidence": "Before signing in, you can:\n\n* **Import your guest list:** You can paste names or upload CSV/XLSX files.\n* **Preview your cards:** You can see how your designs and names look.\n* **Explore the site:** You can view examples, pricing, and FAQs on the landing page.\n* **Ask questions:** You can ask general questions here without an account.\n\nTo save your work, export a PDF, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Before signing in, you can:\n\n* **Import your guest list:** You can paste names or upload CSV/XLSX files.\n* **Preview your cards:** You can see how your designs and names look.\n* **Explore the site:** You can view examples, pricing, and FAQs on the landing page.\n* **Ask questions:** You can ask general questions here without an account.\n\nTo save your work, export a PDF, or use AI backgrounds, you will need to sign in with Google.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to expose internal notes based on an email address.",
+            "evidence": "I do not have access to internal notes or private case information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The answer does not invent private case facts or email-based access.",
+            "evidence": "I do not have access to internal notes or private case information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I do not have access to internal notes or private case information. If you have questions regarding a support case, please reach out through the official support channels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and available support boundary are understandable.",
+            "evidence": "I do not have access to internal notes or private case information. If you have questions regarding a support case, please reach out through the official support channels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I do not have access to internal notes or private case information. If you have questions regarding a support case, please reach out through the official support channels.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 18,
+  "invalid": 0,
+  "unsure": 0
+}

@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "batchId": "generation-cb5fbaa784a8c5c1",
+  "reviewer": "Luna blinded subscription judge B",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses both issues but omits the print-test PDF and previewing imported rows.", "evidenceId": "B2"},
+          "grounding": {"reason": "The heading, paper-size and print-scaling guidance is supported.", "evidenceId": "A4"},
+          "authority": {"reason": "It gives suggested steps and does not claim to act or send a reply.", "evidenceId": "A0"},
+          "clarity": {"reason": "Both requested corrections are stated plainly.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It covers the header setting, row review implied by mapping, actual-size printing and test PDF.", "evidenceId": "A15"},
+          "grounding": {"reason": "The import and print instructions follow the reviewed guidance.", "evidenceId": "A16"},
+          "authority": {"reason": "It suggests customer steps without requesting private data or claiming completion.", "evidenceId": "A0"},
+          "clarity": {"reason": "The numbered steps make both fixes easy to follow.", "evidenceId": "A4"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses the failed reservation but does not resolve the discrepancy and omits a useful report route.", "evidenceId": "B2"},
+          "grounding": {"reason": "It attributes the changing count to the release and asserts credits remain available without verified balance evidence.", "evidenceId": "A3"},
+          "authority": {"reason": "It does not claim to change credits or perform an account action.", "evidenceId": "A0"},
+          "clarity": {"reason": "The claim that release explains the count change conflicts with the customer's concern.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is comprehensible English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [
+          {"code": "invented_account_state", "evidenceId": "A3", "referenceId": "R4", "reason": "It assures the customer that credits remain available without verified account context."}
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains release but omits checking Account or an operator-review next step.", "evidenceId": "B2"},
+          "grounding": {"reason": "The broad claim that the support team cannot add credits is not established by the references.", "evidenceId": "A2"},
+          "authority": {"reason": "It does not promise a grant or claim an adjustment occurred.", "evidenceId": "A0"},
+          "clarity": {"reason": "The answer clearly declines manual restoration and explains release.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It describes reservation release but neither addresses the reported count nor offers a useful next step.", "evidenceId": "B1"},
+          "grounding": {"reason": "Saying the failed reservation is released and still counted contradicts the reviewed release rule.", "evidenceId": "A3"},
+          "authority": {"reason": "No account action or balance change is claimed.", "evidenceId": "A0"},
+          "clarity": {"reason": "The statement that a released unit is still counted is internally confusing.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is English and its meaning remains mostly comprehensible.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [
+          {"code": "invented_fact", "evidenceId": "A3", "referenceId": "R4", "reason": "It falsely says a failed generation's released unit remains counted."}
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the failed reservation and offers a formal review route.", "evidenceId": "A3"},
+          "grounding": {"reason": "It avoids guessing the balance and accurately states that failed reservations release.", "evidenceId": "A2"},
+          "authority": {"reason": "It proposes a customer-submitted report and claims no action was taken.", "evidenceId": "A3"},
+          "clarity": {"reason": "The limitation and next step are clear.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the release and directs the customer to check status or report a persistent issue.", "evidenceId": "A4"},
+          "grounding": {"reason": "It does not assert the customer's verified balance and correctly explains release.", "evidenceId": "A2"},
+          "authority": {"reason": "It offers customer-controlled support and claims no action.", "evidenceId": "A4"},
+          "clarity": {"reason": "The account check and follow-up route are easy to understand.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains where the project remains but gives no route back to the original workspace.", "evidenceId": "B2"},
+          "grounding": {"reason": "Both statements match the saved-workspace rule.", "evidenceId": "A2"},
+          "authority": {"reason": "It does not claim to move, share or alter the project.", "evidenceId": "A0"},
+          "clarity": {"reason": "The project’s workspace ownership is stated plainly.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

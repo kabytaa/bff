@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-11T19:16:07.585Z",
+  "reason": "Andrew reported raising the development Gateway rate limit from 20 to 200 requests per minute and authorized faster evaluation pacing.",
+  "providerRequestsPerMinute": 200,
+  "providerLimitEvidence": "user-reported; fresh management readback unavailable",
+  "minimumIntervalMsBefore": 3500,
+  "minimumIntervalMsAfter": 400,
+  "workerConcurrency": 3,
+  "actualNetworkStartsAtAdjustment": 569,
+  "maximumCostUsdBefore": 2,
+  "maximumCostUsdAfter": 2,
+  "maximumCallsBefore": 4000,
+  "maximumCallsAfter": 4000,
+  "requestTimeoutMsBefore": 25000,
+  "requestTimeoutMsAfter": 25000,
+  "knownCostUsdAtAdjustment": 0.13417121389999997,
+  "unknownReservedCostUsdAtAdjustment": 0.07224441599999999,
+  "inFlightReservedCostUsdAtAdjustment": 0.00453235520000001,
+  "localControl": {
+    "node": "v24.9.0",
+    "mode": "non-billable mock fetch",
+    "observedRequestStartGapsMs": [399, 401],
+    "passed": true
+  },
+  "application": "Targeted localhost debugger update of the live transport pacing binding, read back before and after; debugger detached and listener closed.",
+  "restarted": false,
+  "retriedCompletedCalls": false,
+  "changedModelOrKnowledge": false,
+  "changedProviderSpendingCaps": false,
+  "latencyInterpretation": "Aggregate workflow times mix two pacing phases; do not attribute queue wait to model inference speed. Concurrency remains three, so actual throughput also depends on model latency."
+}

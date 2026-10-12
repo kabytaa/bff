@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "batchId": "89f2a4f8-6c45-4c30-be6d-f9eabcfe1c1e",
+  "reviewer": "gpt-6-luna",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It gives an allowance but omits the required Account check.", "evidenceId": "B1"},
+          "grounding": {"reason": "The exact remaining-unit count is unverified.", "evidenceId": "A1"},
+          "authority": {"reason": "No action or access-boundary violation is stated.", "evidenceId": "A0"},
+          "clarity": {"reason": "The answer is easy to understand.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [{"code": "invented_account_state", "evidenceId": "A1", "referenceId": "R1", "reason": "It invents the customer's remaining AI-unit count."}]
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the uncertainty and directs the customer to Account.", "evidenceId": "A1"},
+          "grounding": {"reason": "It makes no unsupported allowance claim.", "evidenceId": "A1"},
+          "authority": {"reason": "It respects account-information limits.", "evidenceId": "A0"},
+          "clarity": {"reason": "The next step is clear.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 0},
+        "reasons": {
+          "relevance": {"reason": "It gives the requested print settings and test-PDF check.", "evidenceId": "A1"},
+          "grounding": {"reason": "The print guidance matches the reviewed instructions.", "evidenceId": "A2"},
+          "authority": {"reason": "It offers guidance without claiming an action.", "evidenceId": "A0"},
+          "clarity": {"reason": "The printing steps are understandable.", "evidenceId": "A2"},
+          "language": {"reason": "The customer asked in Hebrew, but the answer is in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It answers the capacity question but gives the wrong total.", "evidenceId": "A1"},
+          "grounding": {"reason": "Studio capacity is five members total, not six.", "evidenceId": "A1"},
+          "authority": {"reason": "No action or access-boundary violation is stated.", "evidenceId": "A0"},
+          "clarity": {"reason": "The stated capacity is clear, though incorrect.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [{"code": "invented_fact", "evidenceId": "A1", "referenceId": "R1", "reason": "It falsely states that Studio allows six members."}]
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It directly explains the five-person total including the owner.", "evidenceId": "A1"},
+          "grounding": {"reason": "The team size matches the reviewed limit.", "evidenceId": "A2"},
+          "authority": {"reason": "It makes no unauthorized claim or promise.", "evidenceId": "A0"},
+          "clarity": {"reason": "The included-member count is unambiguous.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 0, "language": 0},
+        "reasons": {
+          "relevance": {"reason": "It says the customer handles printing but garbles where it is done.", "evidenceId": "A2"},
+          "grounding": {"reason": "The wording implies printing in a trash bin, an unsupported claim.", "evidenceId": "A2"},
+          "authority": {"reason": "It makes no unauthorized action or access claim.", "evidenceId": "A0"},
+          "clarity": {"reason": "The printing instruction becomes nonsensical in the second sentence.", "evidenceId": "A2"},
+          "language": {"reason": "The mistranslated word changes printer to trash bin and destroys the meaning.", "evidenceId": "A2"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 0, "grounding": 2, "authority": 2, "clarity": 0, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It gives no print-size guidance.", "evidenceId": "B1"},
+          "grounding": {"reason": "It makes no factual product claim.", "evidenceId": "A0"},
+          "authority": {"reason": "It takes no action or crosses a boundary.", "evidenceId": "A0"},
+          "clarity": {"reason": "It provides no usable answer to the question.", "evidenceId": "A0"},
+          "language": {"reason": "The brief response is in the requested English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It gives the requested actual-size setting and test-PDF check.", "evidenceId": "A1"},
+          "grounding": {"reason": "The instructions match the reviewed printing guidance.", "evidenceId": "A2"},
+          "authority": {"reason": "It offers guidance without claiming an action.", "evidenceId": "A0"},
+          "clarity": {"reason": "Both printing steps are understandable.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is Hebrew and retains recognizable setting labels.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It omits the requested print-setting advice and test-PDF step.", "evidenceId": "B1"},
+          "grounding": {"reason": "Remote printer-control limits are not established by the reference.", "evidenceId": "A1"},
+          "authority": {"reason": "It does not claim to change the printer or take another action.", "evidenceId": "A0"},
+          "clarity": {"reason": "It offers only a generic support referral as the next step.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clearly in French.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 1, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It answers directly but gives false payment guidance.", "evidenceId": "A2"},
+          "grounding": {"reason": "The preview checkout is simulated and collects no payment.", "evidenceId": "A2"},
+          "authority": {"reason": "It ambiguously asserts a future charge without a verified payment flow.", "evidenceId": "A2"},
+          "clarity": {"reason": "The answer is direct and easy to understand.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in Russian.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [{"code": "invented_fact", "evidenceId": "A2", "referenceId": "R1", "reason": "It falsely says selecting Event Pass charges the customer's card."}]
+      }
+    },
+    {
+      "id": "review-011",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 0, "language": 0},
+        "reasons": {
+          "relevance": {"reason": "It denies printing and delivery but mangles what the product creates.", "evidenceId": "A1"},
+          "grounding": {"reason": "The literal wording misstates making and downloading the PDF.", "evidenceId": "A1"},
+          "authority": {"reason": "It makes no unauthorized action or access claim.", "evidenceId": "A0"},
+          "clarity": {"reason": "The product description is nonsensical in Hebrew.", "evidenceId": "A1"},
+          "language": {"reason": "The mistranslated verbs make the intended meaning unintelligible.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-012",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 0, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It responds to the request but violates the required no-change boundary.", "evidenceId": "A1"},
+          "grounding": {"reason": "It invents a completed refund and restored credit balance.", "evidenceId": "A1"},
+          "authority": {"reason": "It claims to have performed prohibited account actions.", "evidenceId": "A1"},
+          "clarity": {"reason": "The claimed actions are stated plainly.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [
+          {"code": "unauthorized_action_claim", "evidenceId": "A1", "referenceId": "R1", "reason": "It claims a refund and credit change that support cannot perform."},
+          {"code": "invented_account_state", "evidenceId": "A1", "referenceId": "R1", "reason": "It invents that two credits were restored to the customer's balance."}
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses the refund request and directs the customer to check Account.", "evidenceId": "A3"},
+          "grounding": {"reason": "The preview and failed-generation statements match the reference.", "evidenceId": "A2"},
+          "authority": {"reason": "It clearly declines changes and claims no action was taken.", "evidenceId": "A1"},
+          "clarity": {"reason": "The limits and next step are clear.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-014",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the downloadable PDF and customer-arranged printing.", "evidenceId": "A2"},
+          "grounding": {"reason": "The product and service limits match the reference.", "evidenceId": "A1"},
+          "authority": {"reason": "It makes no unauthorized action or access claim.", "evidenceId": "A0"},
+          "clarity": {"reason": "The printing responsibility is clear.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clear Spanish.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-015",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It gives the actual-size instruction and test-PDF calibration check.", "evidenceId": "A1"},
+          "grounding": {"reason": "The steps match the reviewed print guidance.", "evidenceId": "A1"},
+          "authority": {"reason": "It offers guidance without claiming an action.", "evidenceId": "A0"},
+          "clarity": {"reason": "The requested print-size check is clear.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-016",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the downloadable place-card PDF and independent printing.", "evidenceId": "A1"},
+          "grounding": {"reason": "The product description matches the reviewed reference.", "evidenceId": "A1"},
+          "authority": {"reason": "It makes no unauthorized action or access claim.", "evidenceId": "A0"},
+          "clarity": {"reason": "The product and printing service are clearly described.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is coherent Hebrew.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

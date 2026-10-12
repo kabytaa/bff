@@ -1,0 +1,1154 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T17:24:27.014Z",
+  "captureFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z.json",
+  "captureSha256": "cb5c3d0eb497729858edc79d208b9c3911d4a35591a05222b086427d9617b45a",
+  "transportFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-transport.json",
+  "transportSha256": "0fb0a42625af730d9c6611fc3b56f07d4c7a23e8527de6f3839741dd71cbbf93",
+  "reviewMethod": "mode-blinded-supervised-sub-agents",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "humanGroundTruth": false,
+  "subscriptionReviewCost": "unmeasured",
+  "qualityBoundary": "Raw strict v2 diagnostic grades, not useful-answer accuracy or a settled strategy ranking. Seven already-seen English questions repeated; full held-out and language suites remain.",
+  "historicalCompactKnowledgeVersion": 1,
+  "compactSnapshotReconstructedAndHashed": true,
+  "originalBatchFailures": [
+    {
+      "batch": 2,
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna.json",
+      "error": "Agent review identity, content or completeness mismatch",
+      "separateRecheck": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "semanticChanges": []
+    },
+    {
+      "batch": 3,
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna.json",
+      "error": "Agent review identity, content or completeness mismatch",
+      "separateRecheck": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "semanticChanges": [
+        {
+          "opaqueId": "review-002",
+          "order": 19,
+          "before": {
+            "relevance": 1,
+            "grounding": 0,
+            "criticalFailures": 1
+          },
+          "after": {
+            "relevance": 2,
+            "grounding": 1,
+            "criticalFailures": 0
+          },
+          "reason": "Recheck distinguished an unsupported causal explanation from a definite factual contradiction; original remains."
+        }
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "gradeFileSha256": "2dd59fa39f69e5359b583d2f69cc0e9a5990125e0df8e8a7afe7f986417ea086",
+      "batchId": "generation-9a0e3be30d74c5ad",
+      "packetHash": "e621f2d9fcdd6cd09de2ef542dd66a00942eede9c54c005b9f0bc34583772216",
+      "reviewer": "Luna blinded subscription judge A",
+      "accepted": 3,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "gradeFileSha256": "31bee24292352aca8cfd194bb58e5a5071332b5dab485c4429a786bc45b7bb84",
+      "batchId": "generation-23bd2e9ca1d0f946",
+      "packetHash": "974ed1459f1d0ef98f47aa4e60674bdbb771e01d10a22cf9ff6bea59e91f1b8a",
+      "reviewer": "Luna blinded subscription judge A",
+      "accepted": 1,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "gradeFileSha256": "6630698f86d7af273df1ba2a1aa579c2296afea91fef4afbd4457c1c640291af",
+      "batchId": "generation-ea2d287d39643d6a",
+      "packetHash": "1affed251b595c9fd9d2ca7940fff0abd1fc04dbdfd8cdbe76d4a2cc517cf9b7",
+      "reviewer": "Luna blinded subscription judge A",
+      "accepted": 4,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "gradeFileSha256": "20e2a26bc354c7157f35b76ebc449cdbf1b9f1f79dbf2dae0c8e8f8c71cf8903",
+      "batchId": "generation-7d1dd0aa404c73f5",
+      "packetHash": "b94bb646b09a34a4c5aebe2ab9bc055769c3161a3b3a54fc98be975b8ede1379",
+      "reviewer": "Luna blinded subscription judge B",
+      "accepted": 2,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "gradeFileSha256": "978f77f6374f965b183d082b895c75a2d2b0b3cc9f60a727ae9fc7a4c10c6556",
+      "batchId": "generation-cb5fbaa784a8c5c1",
+      "packetHash": "9492c6bf3343e50d8d4e09e1ca3cd2ebf4f30337e38fb7ccaba93afeb72ca71c",
+      "reviewer": "Luna blinded subscription judge B",
+      "accepted": 3,
+      "invalid": 0,
+      "unsure": 0
+    },
+    {
+      "packetFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-6.json",
+      "mappingFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-6-mapping.json",
+      "originalGradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-6-luna.json",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-6-luna.json",
+      "gradeFileSha256": "2f8791f755da12899d80d9da2a64e5f5d475e1f93b5e2bdf2e4bcc42e0ae1215",
+      "batchId": "generation-c9c6d877abbdb3fd",
+      "packetHash": "8b9d754d2bf4354ada7cea62cb3f5fe22bba8f4eb036fe4fb3458ad23d8162ea",
+      "reviewer": "Luna blinded subscription judge B",
+      "accepted": 0,
+      "invalid": 0,
+      "unsure": 0
+    }
+  ],
+  "summary": {
+    "attempted": 42,
+    "completed": 41,
+    "strictLunaAccepted": 13,
+    "semanticGrades": 41,
+    "criticalFlags": 5,
+    "unknownCostCalls": 0,
+    "estimatedInferenceUsd": 0.014186800000000003,
+    "meanEstimatedInferenceUsdPerAttempt": 0.00033778095238095246,
+    "estimatedAttemptsPerInferenceUsd": 2960.49849155553,
+    "medianEndToEndMs": 5041.5,
+    "inputTokens": 96724,
+    "outputTokens": 15048,
+    "unknownReasoningCount": 42,
+    "meanLunaScoresReviewedOnly": {
+      "relevance": 1.3902439024390243,
+      "grounding": 1.6097560975609757,
+      "authority": 2,
+      "clarity": 1.8780487804878048,
+      "language": 2
+    }
+  },
+  "byMode": {
+    "provider-default": {
+      "attempted": 21,
+      "completed": 20,
+      "strictLunaAccepted": 2,
+      "semanticGrades": 20,
+      "criticalFlags": 2,
+      "unknownCostCalls": 0,
+      "estimatedInferenceUsd": 0.0086619,
+      "meanEstimatedInferenceUsdPerAttempt": 0.0004124714285714286,
+      "estimatedAttemptsPerInferenceUsd": 2424.4103487687457,
+      "medianEndToEndMs": 12304,
+      "inputTokens": 48342,
+      "outputTokens": 12759,
+      "unknownReasoningCount": 21,
+      "meanLunaScoresReviewedOnly": {
+        "relevance": 1.2,
+        "grounding": 1.6,
+        "authority": 2,
+        "clarity": 1.95,
+        "language": 2
+      }
+    },
+    "thinking-disabled": {
+      "attempted": 21,
+      "completed": 21,
+      "strictLunaAccepted": 11,
+      "semanticGrades": 21,
+      "criticalFlags": 3,
+      "unknownCostCalls": 0,
+      "estimatedInferenceUsd": 0.0055249,
+      "meanEstimatedInferenceUsdPerAttempt": 0.0002630904761904762,
+      "estimatedAttemptsPerInferenceUsd": 3800.9737732809645,
+      "medianEndToEndMs": 2711,
+      "inputTokens": 48382,
+      "outputTokens": 2289,
+      "unknownReasoningCount": 21,
+      "meanLunaScoresReviewedOnly": {
+        "relevance": 1.5714285714285714,
+        "grounding": 1.619047619047619,
+        "authority": 2,
+        "clarity": 1.8095238095238095,
+        "language": 2
+      }
+    }
+  },
+  "byRole": {
+    "helper": {
+      "attempted": 30,
+      "completed": 29,
+      "strictLunaAccepted": 9,
+      "semanticGrades": 29,
+      "criticalFlags": 4,
+      "unknownCostCalls": 0,
+      "estimatedInferenceUsd": 0.0099547,
+      "meanEstimatedInferenceUsdPerAttempt": 0.00033182333333333335,
+      "estimatedAttemptsPerInferenceUsd": 3013.6518428481018,
+      "medianEndToEndMs": 3471,
+      "inputTokens": 68914,
+      "outputTokens": 10211,
+      "unknownReasoningCount": 30,
+      "meanLunaScoresReviewedOnly": {
+        "relevance": 1.3793103448275863,
+        "grounding": 1.5862068965517242,
+        "authority": 2,
+        "clarity": 1.8275862068965518,
+        "language": 2
+      }
+    },
+    "support": {
+      "attempted": 12,
+      "completed": 12,
+      "strictLunaAccepted": 4,
+      "semanticGrades": 12,
+      "criticalFlags": 1,
+      "unknownCostCalls": 0,
+      "estimatedInferenceUsd": 0.0042321,
+      "meanEstimatedInferenceUsdPerAttempt": 0.000352675,
+      "estimatedAttemptsPerInferenceUsd": 2835.471751612675,
+      "medianEndToEndMs": 7525.5,
+      "inputTokens": 27810,
+      "outputTokens": 4837,
+      "unknownReasoningCount": 12,
+      "meanLunaScoresReviewedOnly": {
+        "relevance": 1.4166666666666667,
+        "grounding": 1.6666666666666667,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      }
+    }
+  },
+  "captureFailures": [
+    {
+      "order": 20,
+      "caseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 3,
+      "mode": "provider-default",
+      "status": "truncated-answer",
+      "finishReason": "length",
+      "inputTokens": 2291,
+      "outputTokens": 1200,
+      "estimatedCostUsd": 0.0005891000000000001
+    }
+  ],
+  "results": [
+    {
+      "order": 1,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.helper.followup:1:thinking-disabled",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-008",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 2,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.helper.followup:1:provider-default",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-003",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 3,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:1:thinking-disabled",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-002",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 4,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:1:provider-default",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 5,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.helper.followup:3:provider-default",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-005",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 6,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.helper.followup:3:thinking-disabled",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-004",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 7,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.support.multitopic:1:thinking-disabled",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-007",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 8,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.support.multitopic:1:provider-default",
+      "batch": "generation-9a0e3be30d74c5ad",
+      "opaqueId": "review-006",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-1-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 9,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.helper.multitopic:1:thinking-disabled",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-008",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 10,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.helper.multitopic:1:provider-default",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-004",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 11,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.helper.multitopic:2:thinking-disabled",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-002",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 12,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.helper.multitopic:2:provider-default",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-007",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 13,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.support.followup:1:provider-default",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-006",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 0,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidence": "When an AI generation fails, the reserved unit is automatically released, so your balance should reflect the correct amount.",
+          "reason": "It attributes a lower remaining count to releasing a failed reservation, which should restore the reserved unit.",
+          "referenceKey": "tablecards.access"
+        }
+      ]
+    },
+    {
+      "order": 14,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 1,
+      "sourceId": "diagnostic.context.support.followup:1:thinking-disabled",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 15,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.support.multitopic:3:thinking-disabled",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-003",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 16,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.support.multitopic:3:provider-default",
+      "batch": "generation-23bd2e9ca1d0f946",
+      "opaqueId": "review-005",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-2-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 17,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 3,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:3:thinking-disabled",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 18,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 3,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:3:provider-default",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-003",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 19,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 3,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.09:3:thinking-disabled",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-002",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 2,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 21,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:2:provider-default",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-007",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 22,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:2:thinking-disabled",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-006",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 23,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:1:thinking-disabled",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-004",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 24,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.16:1:provider-default",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-008",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 2,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 25,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.helper.multitopic:3:provider-default",
+      "batch": "generation-ea2d287d39643d6a",
+      "opaqueId": "review-005",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-3-luna-recheck.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 26,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.multitopic",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.helper.multitopic:3:thinking-disabled",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-007",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 27,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:2:thinking-disabled",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-008",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 0,
+        "authority": 2,
+        "clarity": 1,
+        "language": 2
+      },
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidence": "You can map your **Name** and **Table** columns, but since we don't have a specific field for \"Meal,\" you can choose not to map that column, and it won't appear on your cards.\n",
+          "reason": "It falsely says no field exists for Meal despite the supported optional short-marker field.",
+          "referenceKey": "tablecards.import"
+        }
+      ]
+    },
+    {
+      "order": 28,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:2:provider-default",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-006",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 29,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 3,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:3:provider-default",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-003",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 30,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "repetition": 3,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.normal.03:3:thinking-disabled",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-005",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 0,
+        "authority": 2,
+        "clarity": 1,
+        "language": 2
+      },
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidence": "You can choose to map your **Name** and **Table** columns, but since we don't have a specific field for \"Meal,\" you can skip that column during the mapping process so it doesn't appear on your cards.",
+          "reason": "It falsely says no field exists for Meal despite the supported optional short-marker field.",
+          "referenceKey": "tablecards.import"
+        }
+      ]
+    },
+    {
+      "order": 31,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.support.followup:3:thinking-disabled",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 32,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 3,
+      "sourceId": "diagnostic.context.support.followup:3:provider-default",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-002",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 2,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 33,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.helper.followup:2:provider-default",
+      "batch": "generation-7d1dd0aa404c73f5",
+      "opaqueId": "review-004",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-4-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 34,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.helper.followup",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.helper.followup:2:thinking-disabled",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-008",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 35,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.support.multitopic:2:thinking-disabled",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-002",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 36,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.multitopic",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.support.multitopic:2:provider-default",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 37,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.09:1:thinking-disabled",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-003",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 0,
+        "authority": 2,
+        "clarity": 1,
+        "language": 2
+      },
+      "criticalFailures": [
+        {
+          "code": "invented_account_state",
+          "evidence": "If your generation failed, you should still have your remaining credits available for another attempt. ",
+          "reason": "It assures the customer that credits remain available without verified account context.",
+          "referenceKey": "tablecards.access"
+        }
+      ]
+    },
+    {
+      "order": 38,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 1,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.09:1:provider-default",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-005",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 0,
+        "authority": 2,
+        "clarity": 1,
+        "language": 2
+      },
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidence": "Even if the generation fails, that unit is still released and counted.",
+          "reason": "It falsely says a failed generation's released unit remains counted.",
+          "referenceKey": "tablecards.access"
+        }
+      ]
+    },
+    {
+      "order": 39,
+      "cohort": "support",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.support.followup:2:provider-default",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-004",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 40,
+      "cohort": "support",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.context.support.followup",
+      "repetition": 2,
+      "sourceId": "diagnostic.context.support.followup:2:thinking-disabled",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-006",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 41,
+      "cohort": "helper",
+      "mode": "provider-default",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.09:2:provider-default",
+      "batch": "generation-cb5fbaa784a8c5c1",
+      "opaqueId": "review-007",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-5-luna.json",
+      "status": "reviewed",
+      "passed": true,
+      "scores": {
+        "relevance": 2,
+        "grounding": 2,
+        "authority": 2,
+        "clarity": 2,
+        "language": 2
+      },
+      "criticalFailures": []
+    },
+    {
+      "order": 42,
+      "cohort": "helper",
+      "mode": "thinking-disabled",
+      "originalCaseId": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "repetition": 2,
+      "sourceId": "diagnostic.known.synthetic.helper.held_out.messy.09:2:thinking-disabled",
+      "batch": "generation-c9c6d877abbdb3fd",
+      "opaqueId": "review-001",
+      "gradeFile": "projects/tablecards/support/evaluation-results/generation-control-2026-10-11T171036-602Z-review-6-luna.json",
+      "status": "reviewed",
+      "passed": false,
+      "scores": {
+        "relevance": 1,
+        "grounding": 1,
+        "authority": 2,
+        "clarity": 1,
+        "language": 2
+      },
+      "criticalFailures": []
+    }
+  ]
+}

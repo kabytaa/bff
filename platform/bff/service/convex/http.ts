@@ -51,6 +51,16 @@ import {
   createCheckoutHandler,
   readCheckoutHandler,
 } from './lib/checkoutHttp';
+import {
+  operationsConfiguration,
+  operationsContact,
+  operationsEvents,
+  operationsFeedback,
+  operationsHelper,
+  operationsOptions,
+  operationsResendWebhook,
+  operationsSurvey,
+} from './lib/operationsHttp';
 
 const http = httpRouter();
 
@@ -374,5 +384,59 @@ http.route({
     }
   }),
 });
+
+http.route({
+  path: '/v1/operations/config',
+  method: 'GET',
+  handler: httpAction(operationsConfiguration),
+});
+http.route({
+  path: '/v1/operations/helper',
+  method: 'POST',
+  handler: httpAction(operationsHelper),
+});
+http.route({
+  path: '/v1/operations/contact',
+  method: 'POST',
+  handler: httpAction(operationsContact),
+});
+http.route({
+  path: '/v1/operations/feedback',
+  method: 'POST',
+  handler: httpAction(operationsFeedback),
+});
+http.route({
+  path: '/v1/operations/survey',
+  method: 'GET',
+  handler: httpAction(operationsSurvey),
+});
+http.route({
+  path: '/v1/operations/survey',
+  method: 'POST',
+  handler: httpAction(operationsSurvey),
+});
+http.route({
+  path: '/v1/operations/events',
+  method: 'POST',
+  handler: httpAction(operationsEvents),
+});
+http.route({
+  path: '/v1/operations/resend',
+  method: 'POST',
+  handler: httpAction(operationsResendWebhook),
+});
+for (const path of [
+  '/v1/operations/config',
+  '/v1/operations/helper',
+  '/v1/operations/contact',
+  '/v1/operations/feedback',
+  '/v1/operations/survey',
+] as const) {
+  http.route({
+    path,
+    method: 'OPTIONS',
+    handler: httpAction(operationsOptions),
+  });
+}
 
 export default http;

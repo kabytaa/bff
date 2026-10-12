@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "sourceManifest": "20261011-080737960-cheap-model-capture-manifest.json",
+  "status": "stopped_after_wholly_failed_provider_chunks",
+  "captureOnly": true,
+  "qualityVerified": false,
+  "manualReviewRequired": true,
+  "judgeCalls": 0,
+  "calibrationCalls": 0,
+  "automaticRetries": 0,
+  "matchedBankCaseCountPerModel": 157,
+  "completeMatchedComparison": false,
+  "failureInterpretation": "Provider failures do not provide semantic answer-quality evidence. A shared availability or quota issue is suspected but its cause is not established by these captures.",
+  "costInterpretation": "Costs below estimate only completed calls with reported usage, not the full provider invoice; failed requests can have unavailable usage and cost.",
+  "models": [
+    {
+      "modelKey": "qwen3-30b",
+      "attemptedCaseCount": 140,
+      "completedAnswerTurns": 119,
+      "nonemptyAnswers": 119,
+      "providerFailures": 21,
+      "deterministicFailuresOnCompletedAnswers": 0,
+      "inputTokens": 276489,
+      "outputTokens": 43988,
+      "knownEstimatedCostUsd": 0.0288092701,
+      "unrunRanges": [{ "offset": 140, "count": 17 }]
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "attemptedCaseCount": 73,
+      "completedAnswerTurns": 23,
+      "nonemptyAnswers": 22,
+      "providerFailures": 50,
+      "deterministicFailuresOnCompletedAnswers": 1,
+      "inputTokens": 52677,
+      "outputTokens": 13983,
+      "knownEstimatedCostUsd": 0.0087801585,
+      "unrunRanges": [{ "offset": 60, "count": 84 }],
+      "diagnosticOnlyReports": [
+        {
+          "jsonPath": "20261011-075441611-operator-live.json",
+          "offset": 144,
+          "count": 13,
+          "reason": "Parent-owned run used 30-second fetch pacing inside a 25-second answer deadline; all 13 requests failed. Retained as attempted diagnostic coverage, not answer-quality evidence."
+        }
+      ]
+    },
+    {
+      "modelKey": "gemma4-26b",
+      "attemptedCaseCount": 60,
+      "completedAnswerTurns": 38,
+      "nonemptyAnswers": 38,
+      "providerFailures": 22,
+      "deterministicFailuresOnCompletedAnswers": 1,
+      "inputTokens": 90064,
+      "outputTokens": 17350,
+      "knownEstimatedCostUsd": 0.0142114,
+      "unrunRanges": [{ "offset": 60, "count": 97 }]
+    }
+  ]
+}

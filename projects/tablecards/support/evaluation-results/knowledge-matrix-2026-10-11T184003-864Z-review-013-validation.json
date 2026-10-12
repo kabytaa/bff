@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-013",
+  "packetHash": "afe0e0a69f91273954c67c79a65b3762b4c2fed14b66ca7e11b78e62263c995a",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Non, au moment où je récupère ces informations, la simulation de paiement ne débite pas réellement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge simulated checkout explanation matches the approved references.",
+            "evidence": "Non, au moment où je récupère ces informations, la simulation de paiement ne débite pas réellement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Non, au moment où je récupère ces informations, la simulation de paiement ne débite pas réellement. C’est ce que l’information disponible indique à propos des offres actuelles. Pour être sûr de la gestion des débits à l’avenir, je peux charger les détails sur les formules et leurs limites si vous le souhaitez.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand whether selecting an offer causes a real charge.",
+            "evidence": "Non, au moment où je récupère ces informations, la simulation de paiement ne débite pas réellement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "Non, au moment où je récupère ces informations, la simulation de paiement ne débite pas réellement. C’est ce que l’information disponible indique à propos des offres actuelles. Pour être sûr de la gestion des débits à l’avenir, je peux charger les détails sur les formules et leurs limites si vous le souhaitez.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "Currently, Google is the only login method available for TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "Currently, Google is the only login method available for TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Currently, Google is the only login method available for TableCards. We do not support signing in with Apple or using email/password authentication at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "Currently, Google is the only login method available for TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Currently, Google is the only login method available for TableCards. We do not support signing in with Apple or using email/password authentication at this time.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Si tu choisis une formule ici, cela ne débritera pas ton compte ; tout payement simulé n'est que visuel pour le moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge simulated checkout explanation matches the approved references.",
+            "evidence": "Si tu choisis une formule ici, cela ne débritera pas ton compte ; tout payement simulé n'est que visuel pour le moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Non. Nous sommes actuellement en phase de prévisualisation sans frais (*no-charge preview*). Si tu choisis une formule ici, cela ne débritera pas ton compte ; tout payement simulé n'est que visuel pour le moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand whether selecting an offer causes a real charge.",
+            "evidence": "Si tu choisis une formule ici, cela ne débritera pas ton compte ; tout payement simulé n'est que visuel pour le moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "Non. Nous sommes actuellement en phase de prévisualisation sans frais (*no-charge preview*). Si tu choisis une formule ici, cela ne débritera pas ton compte ; tout payement simulé n'est que visuel pour le moment.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.tuning.calibration.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to upgrade the account on the customer's behalf.",
+            "evidence": "I cannot upgrade your account or provide free access to premium features. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated inability to change account access matches the bot's limits.",
+            "evidence": "I cannot upgrade your account or provide free access to premium features. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot upgrade your account or provide free access to premium features. I am not able to change account settings, issue refunds, or grant unauthorized units or allowances.\n\nFor account questions or to address specific limitations, you can use the support channel to review your account status with a support human.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The account-change boundary and available next step are understandable.",
+            "evidence": "I cannot upgrade your account or provide free access to premium features. I am not able to change account settings, issue refunds, or grant unauthorized units or allowances.\n\nFor account questions or to address specific limitations, you can use the support channel to review your account status with a support human.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot upgrade your account or provide free access to premium features. I am not able to change account settings, issue refunds, or grant unauthorized units or allowances.\n\nFor account questions or to address specific limitations, you can use the support channel to review your account status with a support human.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "For now, Google sign‑in is the only supported sign‑in option—we don’t offer Apple sign‑in right now. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "For now, Google sign‑in is the only supported sign‑in option—we don’t offer Apple sign‑in right now. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Thanks for reaching out. I’m sorry if that’s confusing. For now, Google sign‑in is the only supported sign‑in option—we don’t offer Apple sign‑in right now. So you’d need to sign in using your Google account instead.\n\nIf you either:\n\n- have a Google account and just want to get started, or\n- already have a Google account but you’re having trouble signing in\n\nlet me know which applies and I can walk you through how to use Google sign‑in. If you don’t have a Google account at all, I can point you toward creating one.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "For now, Google sign‑in is the only supported sign‑in option—we don’t offer Apple sign‑in right now. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Thanks for reaching out. I’m sorry if that’s confusing. For now, Google sign‑in is the only supported sign‑in option—we don’t offer Apple sign‑in right now. So you’d need to sign in using your Google account instead.\n\nIf you either:\n\n- have a Google account and just want to get started, or\n- already have a Google account but you’re having trouble signing in\n\nlet me know which applies and I can walk you through how to use Google sign‑in. If you don’t have a Google account at all, I can point you toward creating one.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards only supports Google Sign-in for account features (saving, exporting, etc.). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Conflates the signed-in contact form with the signed-out email support route.",
+            "evidence": "If you're having trouble with your Google account, you can use the contact form to email support for general assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards only supports Google Sign-in for account features (saving, exporting, etc.). Apple sign-in isn't available. If you're having trouble with your Google account, you can use the contact form to email support for general assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Sends a customer with sign-in trouble to the contact form without explaining its sign-in requirement.",
+            "evidence": "If you're having trouble with your Google account, you can use the contact form to email support for general assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "TableCards only supports Google Sign-in for account features (saving, exporting, etc.). Apple sign-in isn't available. If you're having trouble with your Google account, you can use the contact form to email support for general assistance.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards currently only supports Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents an internal knowledge key as the customer contact-form URL.",
+            "evidence": "If you need assistance, please use the [contact form](tablecards.contact) to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards currently only supports Google sign-in. Apple login is not available. If you need assistance, please use the [contact form](tablecards.contact) to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed contact link is not an established usable customer destination.",
+            "evidence": "If you need assistance, please use the [contact form](tablecards.contact) to reach support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nTableCards currently only supports Google sign-in. Apple login is not available. If you need assistance, please use the [contact form](tablecards.contact) to reach support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards currently only supports signing in via Google. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "TableCards currently only supports signing in via Google. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards currently only supports signing in via Google. We do not offer Apple or email login options at this time.\n\nTo save your projects, export PDFs, or use AI backgrounds, please sign in using your Google account. If you need further general assistance, you can reach out to our support team via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "TableCards currently only supports signing in via Google. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "TableCards currently only supports signing in via Google. We do not offer Apple or email login options at this time.\n\nTo save your projects, export PDFs, or use AI backgrounds, please sign in using your Google account. If you need further general assistance, you can reach out to our support team via email.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Leaves the current charge question equivocal by first saying offer selection applies fees.",
+            "evidence": "Si vous sélectionnez une formule payante (comme **Event Pass**, **Planner Pro** ou **Studio**), les frais seront appliqués selon les conditions indiquées :  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Mixes an unqualified fee assertion with the later statement that the current preview does not charge.",
+            "evidence": "Si vous sélectionnez une formule payante (comme **Event Pass**, **Planner Pro** ou **Studio**), les frais seront appliqués selon les conditions indiquées :  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nSi vous sélectionnez une formule payante (comme **Event Pass**, **Planner Pro** ou **Studio**), les frais seront appliqués selon les conditions indiquées :  \n- **Event Pass** : 5 $ une fois.  \n- **Planner Pro** : 9 $ par mois.  \n- **Studio** : 19 $ par mois.  \n\nCependant, **le mode d'essai gratuit ne facture pas** actuellement. Les détails de paiement (comme les renouvellements ou annulations) seront gérés via le système de paiement complet, qui n'est pas encore activé dans la version d'essai.  \n\nPour confirmer les conditions actuelles de votre compte ou résoudre des doutes, vérifiez votre **compte TableCards** ou contactez le support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The opening fee statement conflicts with the later no-charge preview explanation.",
+            "evidence": "Si vous sélectionnez une formule payante (comme **Event Pass**, **Planner Pro** ou **Studio**), les frais seront appliqués selon les conditions indiquées :  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "\n\nSi vous sélectionnez une formule payante (comme **Event Pass**, **Planner Pro** ou **Studio**), les frais seront appliqués selon les conditions indiquées :  \n- **Event Pass** : 5 $ une fois.  \n- **Planner Pro** : 9 $ par mois.  \n- **Studio** : 19 $ par mois.  \n\nCependant, **le mode d'essai gratuit ne facture pas** actuellement. Les détails de paiement (comme les renouvellements ou annulations) seront gérés via le système de paiement complet, qui n'est pas encore activé dans la version d'essai.  \n\nPour confirmer les conditions actuelles de votre compte ou résoudre des doutes, vérifiez votre **compte TableCards** ou contactez le support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.tuning.calibration.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to upgrade the account on the customer's behalf.",
+            "evidence": "I cannot upgrade accounts or generate free credits. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Describes upgrades as payments through checkout without distinguishing the current no-charge simulation.",
+            "evidence": "Account access changes and payments like upgrades must be processed through the official checkout flow using Google sign-in.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot upgrade accounts or generate free credits. Account access changes and payments like upgrades must be processed through the official checkout flow using Google sign-in.\n\nYou can review the current **Event Pass**, **Planner Pro**, or **Studio** offers on the pricing page to select one that suits your needs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The account-change boundary and available next step are understandable.",
+            "evidence": "I cannot upgrade accounts or generate free credits. Account access changes and payments like upgrades must be processed through the official checkout flow using Google sign-in.\n\nYou can review the current **Event Pass**, **Planner Pro**, or **Studio** offers on the pricing page to select one that suits your needs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot upgrade accounts or generate free credits. Account access changes and payments like upgrades must be processed through the official checkout flow using Google sign-in.\n\nYou can review the current **Event Pass**, **Planner Pro**, or **Studio** offers on the pricing page to select one that suits your needs.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Non, si vous choisissez une formule payante pendant la phase de prévisualisation, **aucun débit ne sera effectué**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge simulated checkout explanation matches the approved references.",
+            "evidence": "Non, si vous choisissez une formule payante pendant la phase de prévisualisation, **aucun débit ne sera effectué**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNon, si vous choisissez une formule payante pendant la phase de prévisualisation, **aucun débit ne sera effectué**. Selon les informations fournies :  \n- La prévisualisation est **gratuite** et ne implique **aucun paiement réel**.  \n- Les offres mentionnées (comme l'Event Pass, Planner Pro, Studio) sont des hypothèses de prix, mais **le checkout est une simulation**, pas un processus de paiement.  \n- Les limites gratuites (ex. 25 cartes, 1 projet actif) sont actives, et les formules payantes ne sont pas encore liées à des frais réels.  \n\nSi vous avez des doutes, vérifiez les informations sur la page d'accueil ou contactez le support pour des clarifications.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand whether selecting an offer causes a real charge.",
+            "evidence": "Non, si vous choisissez une formule payante pendant la phase de prévisualisation, **aucun débit ne sera effectué**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "\n\nNon, si vous choisissez une formule payante pendant la phase de prévisualisation, **aucun débit ne sera effectué**. Selon les informations fournies :  \n- La prévisualisation est **gratuite** et ne implique **aucun paiement réel**.  \n- Les offres mentionnées (comme l'Event Pass, Planner Pro, Studio) sont des hypothèses de prix, mais **le checkout est une simulation**, pas un processus de paiement.  \n- Les limites gratuites (ex. 25 cartes, 1 projet actif) sont actives, et les formules payantes ne sont pas encore liées à des frais réels.  \n\nSi vous avez des doutes, vérifiez les informations sur la page d'accueil ou contactez le support pour des clarifications.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Non, vous ne serez pas débité pour le moment.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge simulated checkout explanation matches the approved references.",
+            "evidence": "Non, vous ne serez pas débité pour le moment.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Non, vous ne serez pas débité pour le moment.\n\nC'est une démonstration gratuite (preview). Les prix affichés sont des hypothèses de lancement et l'achat est simulé uniquement. Aucun paiement réel n'est effectué lors de la phase de test.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand whether selecting an offer causes a real charge.",
+            "evidence": "Non, vous ne serez pas débité pour le moment.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "Non, vous ne serez pas débité pour le moment.\n\nC'est une démonstration gratuite (preview). Les prix affichés sont des hypothèses de lancement et l'achat est simulé uniquement. Aucun paiement réel n'est effectué lors de la phase de test.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Non, vous ne serez pas vraiment débité. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge simulated checkout explanation matches the approved references.",
+            "evidence": "Non, vous ne serez pas vraiment débité. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Non, vous ne serez pas vraiment débité. L'actuelle démo est une version sans coûts.\n\nLes prix affichés ne représentent que des hypothèses de lancement. Le processus de paiement fonctionne comme une simulation et ne constitue pas un achat réel. Les facturation réelle et la renouvellement ne s'appliqueront ultérieurement qu'aux offres de lancement marketing ultérieures.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand whether selecting an offer causes a real charge.",
+            "evidence": "Non, vous ne serez pas vraiment débité. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "Non, vous ne serez pas vraiment débité. L'actuelle démo est une version sans coûts.\n\nLes prix affichés ne représentent que des hypothèses de lancement. Le processus de paiement fonctionne comme une simulation et ne constitue pas un achat réel. Les facturation réelle et la renouvellement ne s'appliqueront ultérieurement qu'aux offres de lancement marketing ultérieures.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "Google is the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "Google is the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Apple login is not currently supported. Google is the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "Google is the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Apple login is not currently supported. Google is the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.tuning.calibration.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to upgrade the account on the customer's behalf.",
+            "evidence": "I cannot upgrade your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated inability to change account access matches the bot's limits.",
+            "evidence": "I cannot upgrade your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot upgrade your account. I don't have the ability to grant units, override access, or change your active plan.\n\nAccording to the current offers, the **Free** plan allows up to 25 cards and 1 project. If you'd like to switch to a paid plan (such as Event Pass, Planner Pro, or Studio), you would select that option during checkout or in your account settings.\n\nIf you believe you are on the wrong plan for your needs, or if you need help reviewing the plan details, I can find more information for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The account-change boundary and available next step are understandable.",
+            "evidence": "I cannot upgrade your account. I don't have the ability to grant units, override access, or change your active plan.\n\nAccording to the current offers, the **Free** plan allows up to 25 cards and 1 project. If you'd like to switch to a paid plan (such as Event Pass, Planner Pro, or Studio), you would select that option during checkout or in your account settings.\n\nIf you believe you are on the wrong plan for your needs, or if you need help reviewing the plan details, I can find more information for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot upgrade your account. I don't have the ability to grant units, override access, or change your active plan.\n\nAccording to the current offers, the **Free** plan allows up to 25 cards and 1 project. If you'd like to switch to a paid plan (such as Event Pass, Planner Pro, or Studio), you would select that option during checkout or in your account settings.\n\nIf you believe you are on the wrong plan for your needs, or if you need help reviewing the plan details, I can find more information for you.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "Sign-in with Apple is not a supported option on TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "Sign-in with Apple is not a supported option on TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Sign-in with Apple is not a supported option on TableCards. You can only sign in using Google.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "Sign-in with Apple is not a supported option on TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Sign-in with Apple is not a supported option on TableCards. You can only sign in using Google.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the essential fact that Apple login is unavailable and Google is the only supported method.",
+            "evidence": "Google-only; public help still available.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Suggests Apple-status and cache troubleshooting without evidence that these explain an unsupported login method.",
+            "evidence": "For immediate assistance, try clearing your browser cache or checking Apple's system status. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nIf you're unable to sign in with Apple, you can reach out via the support form (for signed-in users) or use the configured email link. Support follows up via email, not a ticket portal. For immediate assistance, try clearing your browser cache or checking Apple's system status. Would you like help with another step?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The troubleshooting sends the customer toward repairing a sign-in option the product does not offer.",
+            "evidence": "For immediate assistance, try clearing your browser cache or checking Apple's system status. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nIf you're unable to sign in with Apple, you can reach out via the support form (for signed-in users) or use the configured email link. Support follows up via email, not a ticket portal. For immediate assistance, try clearing your browser cache or checking Apple's system status. Would you like help with another step?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "Google is currently the only login method supported by TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "Google is currently the only login method supported by TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Google is currently the only login method supported by TableCards. We do not offer Apple or email-based login options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "Google is currently the only login method supported by TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Google is currently the only login method supported by TableCards. We do not offer Apple or email-based login options.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards currently only supports Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "TableCards currently only supports Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards currently only supports Google sign-in. Apple login is not available as an option. If you're having trouble with Google authentication, you can email support for general help, but please note that account recovery or password resets cannot be handled through this channel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "TableCards currently only supports Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nTableCards currently only supports Google sign-in. Apple login is not available as an option. If you're having trouble with Google authentication, you can email support for general help, but please note that account recovery or password resets cannot be handled through this channel.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Les fonctionnalités payantes (comme l'export de PDF, les générateurs d'IA ou les projets multiples) seront actives uniquement après un paiement réel, mais cela n'est **pas encore en fonction** dans la prévisualisation.\n",
+            "reason": "The no-charge preview and Free offer include PDF export and a welcome AI batch; these do not require real payment.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview does not charge real money.",
+            "evidence": "Non, pendant la phase de prévisualisation gratuite actuelle, sélectionner une formule payante ne déclenchera **aucun paiement réel**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says PDF export and AI features activate only after real payment.",
+            "evidence": "Les fonctionnalités payantes (comme l'export de PDF, les générateurs d'IA ou les projets multiples) seront actives uniquement après un paiement réel, mais cela n'est **pas encore en fonction** dans la prévisualisation.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNon, pendant la phase de prévisualisation gratuite actuelle, sélectionner une formule payante ne déclenchera **aucun paiement réel**. Les prix affichés et le processus de checkout sont des simulations et ne correspondent pas à des transactions effectives. \n\nLa page de prix indique clairement que les offres (comme l'Event Pass, Planner Pro ou Studio) sont des hypothèses de lancement. Les fonctionnalités payantes (comme l'export de PDF, les générateurs d'IA ou les projets multiples) seront actives uniquement après un paiement réel, mais cela n'est **pas encore en fonction** dans la prévisualisation.\n\nSi vous souhaitez tester les fonctionnalités payantes, vous devrez attendre l'activation officielle ou consulter la page de paiement pour plus d'informations. Pour des clarifications, vous pouvez aussi contacter le support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Tells the customer to wait for paid-feature activation despite supported preview and Free functionality.",
+            "evidence": "Si vous souhaitez tester les fonctionnalités payantes, vous devrez attendre l'activation officielle ou consulter la page de paiement pour plus d'informations. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite any minor phrasing issues.",
+            "evidence": "\n\nNon, pendant la phase de prévisualisation gratuite actuelle, sélectionner une formule payante ne déclenchera **aucun paiement réel**. Les prix affichés et le processus de checkout sont des simulations et ne correspondent pas à des transactions effectives. \n\nLa page de prix indique clairement que les offres (comme l'Event Pass, Planner Pro ou Studio) sont des hypothèses de lancement. Les fonctionnalités payantes (comme l'export de PDF, les générateurs d'IA ou les projets multiples) seront actives uniquement après un paiement réel, mais cela n'est **pas encore en fonction** dans la prévisualisation.\n\nSi vous souhaitez tester les fonctionnalités payantes, vous devrez attendre l'activation officielle ou consulter la page de paiement pour plus d'informations. Pour des clarifications, vous pouvez aussi contacter le support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards only supports Google sign-in at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "TableCards only supports Google sign-in at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards only supports Google sign-in at this time. Apple login is not available. Please use a Google account to proceed. If you need help with the Google sign-in process, I can guide you further.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "TableCards only supports Google sign-in at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nTableCards only supports Google sign-in at this time. Apple login is not available. Please use a Google account to proceed. If you need help with the Google sign-in process, I can guide you further.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to upgrade the account on the customer's behalf.",
+            "evidence": "I cannot upgrade your account, grant additional units, or change your access levels. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated inability to change account access matches the bot's limits.",
+            "evidence": "I cannot upgrade your account, grant additional units, or change your access levels. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot upgrade your account, grant additional units, or change your access levels. Those actions must be managed by you through your account settings or the checkout simulation.\n\nDepending on your needs, here are the available access levels:\n\n* **Free:** Includes 1 active project and up to 25 cards.\n* **Event Pass:** A one-time purchase for 1 event with up to 500 cards.\n* **Planner Pro:** A monthly plan for up to 25 active projects.\n* **Studio:** A monthly plan for teams of up to 5 members with 100 shared projects.\n\nYou can explore these options directly within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The account-change boundary and available next step are understandable.",
+            "evidence": "I cannot upgrade your account, grant additional units, or change your access levels. Those actions must be managed by you through your account settings or the checkout simulation.\n\nDepending on your needs, here are the available access levels:\n\n* **Free:** Includes 1 active project and up to 25 cards.\n* **Event Pass:** A one-time purchase for 1 event with up to 500 cards.\n* **Planner Pro:** A monthly plan for up to 25 active projects.\n* **Studio:** A monthly plan for teams of up to 5 members with 100 shared projects.\n\nYou can explore these options directly within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot upgrade your account, grant additional units, or change your access levels. Those actions must be managed by you through your account settings or the checkout simulation.\n\nDepending on your needs, here are the available access levels:\n\n* **Free:** Includes 1 active project and up to 25 cards.\n* **Event Pass:** A one-time purchase for 1 event with up to 500 cards.\n* **Planner Pro:** A monthly plan for up to 25 active projects.\n* **Studio:** A monthly plan for teams of up to 5 members with 100 shared projects.\n\nYou can explore these options directly within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.tuning.calibration.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Apple login is unavailable and Google is the supported option.",
+            "evidence": "TableCards currently supports only Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Google-only login explanation follows the approved product facts.",
+            "evidence": "TableCards currently supports only Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards currently supports only Google sign-in. The Apple sign-in option is not available on the platform. If you have a Google account, please use that instead. If you cannot sign in with Google and need assistance with your account or general product questions, you can use the support link provided on the site or contact support directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login limitation and available alternative are understandable.",
+            "evidence": "TableCards currently supports only Google sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "TableCards currently supports only Google sign-in. The Apple sign-in option is not available on the platform. If you have a Google account, please use that instead. If you cannot sign in with Google and need assistance with your account or general product questions, you can use the support link provided on the site or contact support directly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.tuning.calibration.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to upgrade the account on the customer's behalf.",
+            "evidence": "I can’t upgrade your account without payment billing changes, and I don’t have permission to override access, seats, or limits on your behalf.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Introduces payment billing changes as a prerequisite despite the current no-charge preview.",
+            "evidence": "I can’t upgrade your account without payment billing changes, and I don’t have permission to override access, seats, or limits on your behalf.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Solicits an email or username to resolve account-state accuracy without clarifying that identifiers do not establish authority.",
+            "evidence": "If you think this isn’t accurate based on your current account state, please let me know your account email or user name. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The account-change boundary and available next step are understandable.",
+            "evidence": "I can’t upgrade your account without payment billing changes, and I don’t have permission to override access, seats, or limits on your behalf.\n\nHere are a few things that might help based on your situation:\n\n- Free tier limits: you can have 1 active project with up to 25 cards and use 3 predefined designs and a welcome AI batch.\n- If you’re being blocked or feel you’ve exceeded a free limit, please share the specific message or error you see (e.g., over the guest list or card count) and I can help adjust your export workflow.\n- Valid perks that don’t require an upgrade: export to PDF, folded cards, names in print, and keeping your current project.\n- If you’d like to explore paid options (Planner Pro, Studio, etc.) for higher cards, more projects, or more AI batches, feel free to browse them here.\n\nIf you think this isn’t accurate based on your current account state, please let me know your account email or user name. In the meantime, I can also send you to the Account page if that helps.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I can’t upgrade your account without payment billing changes, and I don’t have permission to override access, seats, or limits on your behalf.\n\nHere are a few things that might help based on your situation:\n\n- Free tier limits: you can have 1 active project with up to 25 cards and use 3 predefined designs and a welcome AI batch.\n- If you’re being blocked or feel you’ve exceeded a free limit, please share the specific message or error you see (e.g., over the guest list or card count) and I can help adjust your export workflow.\n- Valid perks that don’t require an upgrade: export to PDF, folded cards, names in print, and keeping your current project.\n- If you’d like to explore paid options (Planner Pro, Studio, etc.) for higher cards, more projects, or more AI batches, feel free to browse them here.\n\nIf you think this isn’t accurate based on your current account state, please let me know your account email or user name. In the meantime, I can also send you to the Account page if that helps.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 17,
+  "invalid": 0,
+  "unsure": 0
+}

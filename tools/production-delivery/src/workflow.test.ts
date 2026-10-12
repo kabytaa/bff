@@ -51,6 +51,25 @@ describe('production workflow credential boundaries', () => {
       '/designs/predefined/v2/*\n  Cache-Control: public, max-age=31536000, immutable',
     );
   });
+  it('permits private backoffice preview blobs only in the image policy', async () => {
+    const headers = await readFile(
+      'platform/bff/backoffice/public/_headers',
+      'utf8',
+    );
+    const csp = headers.match(/Content-Security-Policy: ([^\n]+)/u)?.[1];
+    const directives = csp?.split(';').map((value) => value.trim());
+    expect(directives?.filter((value) => value.includes('blob:'))).toEqual([
+      "img-src 'self' data: blob: https://*.googleusercontent.com",
+    ]);
+    expect(directives).toContain(
+      "script-src 'self' https://accounts.google.com/gsi/client",
+    );
+    expect(directives).toContain(
+      "connect-src 'self' https://*.convex.cloud wss://*.convex.cloud https://*.convex.site https://accounts.google.com",
+    );
+    expect(directives).toContain("object-src 'none'");
+  });
+
   it('keeps deploy secrets out of the job-wide environment', async () => {
     const workflow = await readFile(workflowPath, 'utf8');
     const jobEnvironment = workflow.slice(

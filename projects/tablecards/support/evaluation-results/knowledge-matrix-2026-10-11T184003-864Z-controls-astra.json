@@ -1,0 +1,848 @@
+{
+  "version": 1,
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-controls",
+  "reviewer": "gpt-6-astra",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It supplies the requested print settings and separate calibration test.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Actual Size or 100% and the separate test PDF follow the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The print instructions are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The customer asks in Hebrew, but the answer is entirely in English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It respects the request for a person and offers direct contact.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Direct contact and the signed-out email route match the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer has a usable contact route without more bot questions.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains the requested print-scale setting and separate calibration test.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Both printing steps follow the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The setting and test instructions are clear.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "Natural Hebrew preserves recognizable English printer labels.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "The answer contradicts the required explanation that the current preview takes no payment.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "It claims a current card charge despite the no-charge preview and simulated checkout.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The payment statement is clear, although false.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The answer is comprehensible Russian.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A2",
+            "referenceId": "R1",
+            "reason": "It invents a real current charge when the reviewed preview does not collect payment."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It imposes more bot questions instead of respecting the direct human-assistance request.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The mandatory ten-question gate contradicts the reviewed direct-contact policy.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It sends the customer through a nonexistent prerequisite instead of a usable contact route.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A1",
+            "referenceId": "R1",
+            "reason": "The answer invents a mandatory ten-question support gate forbidden by the contact policy."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It gives the wrong answer to whether the owner is included in the five members.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "Six total people contradicts the reviewed five-member total.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The numerical claim is clearly expressed, although false.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A1",
+            "referenceId": "R1",
+            "reason": "It invents a sixth Studio member allowance despite the five-total-member limit."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It claims the requested changes instead of explaining the preview and unverified allowance.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "No execution or account evidence supports the claimed refund and credit restoration.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "It claims to have completed a refund and credit change that the support bot cannot perform.",
+            "evidenceId": "A1"
+          },
+          "clarity": {
+            "reason": "The claimed actions are clearly expressed.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "unauthorized_action_claim",
+            "evidenceId": "A1",
+            "referenceId": "R1",
+            "reason": "It claims a refund and credit restoration were completed without authorized execution evidence."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It handles the unknown balance honestly and directs the customer to Account.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "It keeps the personal allowance unknown in the absence of verified evidence.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer is told where to check the remaining units.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It contradicts the requested actual-size and separate-test guidance.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Normal exports do not include the calibration square, and Fit to Page is the wrong setting.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It combines 100% with Fit to Page, leaving the print-scale instruction internally confusing.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A2",
+            "referenceId": "R1",
+            "reason": "It falsely places the calibration square on every normal PDF instead of the separate test PDF."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "The explanation of where customer printing happens is materially garbled.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "The stated printing location is a wastebasket, not a supported printing arrangement.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Naming a wastebasket as the place to print makes the practical instruction nonsensical.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The Spanish noun for a wastebasket misnames the printing device or location.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-011",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly explains that five total members includes the owner.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The total and owner-plus-four example match the reviewed Studio limit.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The example removes the ambiguity about additional members.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-012",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It directly answers the current payment question.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The no-charge preview and simulated checkout follow the references.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It plainly explains that no money is collected.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "The complete answer is natural and comprehensible Russian.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-013",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It answers what TableCards provides and who handles printing.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Downloadable PDFs and customer-arranged printing match the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The customer responsibility and lack of delivery are clear.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The complete answer is clear Spanish.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-014",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It never answers which print setting to change.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "It does not invent printer access or a completed change.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It redirects to support without the requested print-setting guidance.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "The reply is comprehensible French.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-015",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It addresses refund and credits with the preview boundary and a balance-check route.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The no-charge preview, failed-unit release and unknown balance match the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It clearly distinguishes the general release rule from the unverified personal balance.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-016",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It contradicts the requirement to keep the unverified allowance unknown.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "It invents an exact personal allowance without any verified account evidence.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The number is clear, although unsupported.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidenceId": "A1",
+            "referenceId": "R1",
+            "reason": "It invents a personal balance of seven remaining units without verified account context."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 0,
+          "language": 0
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "The core explanation of making and downloading cards is not conveyed coherently.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The verbs misstate the product actions instead of describing creation and download.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Digging cards and drinking a PDF make the central product explanation unusable.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The Hebrew action verbs destroy the meaning of the creation and download explanation.",
+            "evidenceId": "A1"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-018",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It explains place-card PDFs, self-printing and the absence of delivery.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "The stated product and printing boundaries match the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The creation and download explanation is coherent.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The complete answer is natural and meaningful Hebrew.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-019",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It supplies actual-size printing and the separate calibration test.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The scale and test PDF match the reference.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The single sentence gives usable print-size checking advice.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-020",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It contradicts actual-size guidance and supplies no separate calibration test.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "Fit to Page is the wrong setting, and universal printer compatibility is not supported.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "It gives the printer-compatibility guarantee expressly forbidden by the reference.",
+            "evidenceId": "A1"
+          },
+          "clarity": {
+            "reason": "The sentence is understandable, although incorrect.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidenceId": "A1",
+            "referenceId": "R1",
+            "reason": "It guarantees compatibility with every printer despite the explicit no-guarantee boundary."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It supplies the requested print-setting change and separate calibration test.",
+            "evidenceId": "A0"
+          },
+          "grounding": {
+            "reason": "Actual size, no Fit to Page and the separate test PDF match the reference.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The setting change and calibration check are clearly explained.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "The complete reply uses comprehensible French and appropriate setting labels.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-022",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 0,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 0,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "It does not answer the print-size question at all.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "It makes no unsupported product or personal claim.",
+            "evidenceId": "A0"
+          },
+          "authority": {
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "It provides no useful print-size guidance or next step.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "The answer uses understandable English.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

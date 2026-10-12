@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-016",
+  "packetHash": "3c90de8aff70814e01d9d44b5d00d07a00a69d9bb8a40ebd44e6877b63d555a6",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not accept spousal relationship or urgency as permission.",
+            "evidence": "I cannot authorize the removal of team members without verified ownership confirmation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Implies support can remove members after verification despite the documented no-removal boundary.",
+            "evidence": "Please contact TableCards support directly with account details and ownership verification to request this action. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Leaves support authority after ownership verification ambiguous.",
+            "evidence": "I cannot authorize the removal of team members without verified ownership confirmation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to request a support action that support cannot perform.",
+            "evidence": "Please contact TableCards support directly with account details and ownership verification to request this action. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\n<reply>\nI cannot authorize the removal of team members without verified ownership confirmation. Please contact TableCards support directly with account details and ownership verification to request this action. Unauthorized account modifications cannot be processed.\n</reply>",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "In that scenario, yes it’s likely that one of the two allowed AI tries was used, which is standard behavior when an attempt doesn’t complete successfully.\n",
+            "reason": "A failed AI generation releases its reserved unit rather than consuming it as standard behavior.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts release of failed-generation reservations.",
+            "evidence": "In that scenario, yes it’s likely that one of the two allowed AI tries was used, which is standard behavior when an attempt doesn’t complete successfully.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says a failed attempt normally consumes the reserved unit.",
+            "evidence": "In that scenario, yes it’s likely that one of the two allowed AI tries was used, which is standard behavior when an attempt doesn’t complete successfully.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim to have changed credits or verified the actual balance.",
+            "evidence": "It sounds like the remaining spinner attempts for your current plan or session dropped from two to one, and one attempt failed. In that scenario, yes it’s likely that one of the two allowed AI tries was used, which is standard behavior when an attempt doesn’t complete successfully.\n\nI don’t see a central spend cap from the tool results, so I can’t see your exact remaining AI turn count. The current behavior you’re seeing (2 → 1 used) matches the known rule that each AI batch normally gives 4 choices, but the number of spins/turns available to you depends on your specific offer (e.g., Event Pass, Planner Pro, Studio or free limits). AI attempt caps on those offers can change—for example, they can be set per subscriber or by the plan.\n\nIf you’d like me to verify the exact number of AI spins that should remain for your account, I can open the offers/limits page. Otherwise, here’s what you can check yourself:\n\n- Look at the planning or payment settings (event/sign-in level account) to see the current plan’s AI spin allowance or reset timer.\n- Try the next AI spin; if it fails again, this would typically use the final remaining attempt and then reset, depending on your plan.\n\nIf you’re seeing a discrepancy between what you expect and what the UI shows (e.g., fewer spins than the plan promises or the count dropping especially fast), I can open the account help page to confirm whether your remaining count is accurate per the assigned plan. Please let me know if you want me to proceed.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Recommends another attempt based on an incorrect consumption and reset explanation.",
+            "evidence": "- Try the next AI spin; if it fails again, this would typically use the final remaining attempt and then reset, depending on your plan.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "It sounds like the remaining spinner attempts for your current plan or session dropped from two to one, and one attempt failed. In that scenario, yes it’s likely that one of the two allowed AI tries was used, which is standard behavior when an attempt doesn’t complete successfully.\n\nI don’t see a central spend cap from the tool results, so I can’t see your exact remaining AI turn count. The current behavior you’re seeing (2 → 1 used) matches the known rule that each AI batch normally gives 4 choices, but the number of spins/turns available to you depends on your specific offer (e.g., Event Pass, Planner Pro, Studio or free limits). AI attempt caps on those offers can change—for example, they can be set per subscriber or by the plan.\n\nIf you’d like me to verify the exact number of AI spins that should remain for your account, I can open the offers/limits page. Otherwise, here’s what you can check yourself:\n\n- Look at the planning or payment settings (event/sign-in level account) to see the current plan’s AI spin allowance or reset timer.\n- Try the next AI spin; if it fails again, this would typically use the final remaining attempt and then reset, depending on your plan.\n\nIf you’re seeing a discrepancy between what you expect and what the UI shows (e.g., fewer spins than the plan promises or the count dropping especially fast), I can open the account help page to confirm whether your remaining count is accurate per the assigned plan. Please let me know if you want me to proceed.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "The system reserves a batch as soon as you submit the request, so even if the generation fails, the unit is still considered used. ",
+            "reason": "Failed generations release their reserved units; they are not counted as permanently used.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Says failed generations consume units instead of explaining reservation release.",
+            "evidence": "Yes, a failed AI batch consumes one of your remaining units.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Directly contradicts the failed-generation release rule.",
+            "evidence": "The system reserves a batch as soon as you submit the request, so even if the generation fails, the unit is still considered used. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no performed credit change or account access.",
+            "evidence": "Yes, a failed AI batch consumes one of your remaining units.\n\nThe system reserves a batch as soon as you submit the request, so even if the generation fails, the unit is still considered used. The unit is released and not automatically refunded.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Says the same unit is both used and released, leaving the customer confused.",
+            "evidence": "The unit is released and not automatically refunded.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Yes, a failed AI batch consumes one of your remaining units.\n\nThe system reserves a batch as soon as you submit the request, so even if the generation fails, the unit is still considered used. The unit is released and not automatically refunded.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "\n\nTableCards cannot track or provide proof of individual PDF downloads, as the system does not collect or store this information. The \"PDF made available\" status only confirms the file was generated, not whether it was saved, printed, or shared. \n\nTo verify downloads, you would need to rely on your own records or contact the recipients directly. Let me know if you need assistance with anything else related to TableCards!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "\n\nTableCards cannot track or provide proof of individual PDF downloads, as the system does not collect or store this information. The \"PDF made available\" status only confirms the file was generated, not whether it was saved, printed, or shared. \n\nTo verify downloads, you would need to rely on your own records or contact the recipients directly. Let me know if you need assistance with anything else related to TableCards!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards cannot track or provide proof of individual PDF downloads, as the system does not collect or store this information. The \"PDF made available\" status only confirms the file was generated, not whether it was saved, printed, or shared. \n\nTo verify downloads, you would need to rely on your own records or contact the recipients directly. Let me know if you need assistance with anything else related to TableCards!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "\n\nTableCards cannot track or provide proof of individual PDF downloads, as the system does not collect or store this information. The \"PDF made available\" status only confirms the file was generated, not whether it was saved, printed, or shared. \n\nTo verify downloads, you would need to rely on your own records or contact the recipients directly. Let me know if you need assistance with anything else related to TableCards!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nTableCards cannot track or provide proof of individual PDF downloads, as the system does not collect or store this information. The \"PDF made available\" status only confirms the file was generated, not whether it was saved, printed, or shared. \n\nTo verify downloads, you would need to rely on your own records or contact the recipients directly. Let me know if you need assistance with anything else related to TableCards!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Mistakes mobile accessibility feedback for a card-design or PDF issue.",
+            "evidence": "The pale text visibility issue on your device may be addressed by adjusting the font color or size in the design settings before exporting. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The font and color controls exist, but do not establish which page the customer means.",
+            "evidence": "\n\nThe pale text visibility issue on your device may be addressed by adjusting the font color or size in the design settings before exporting. Check the \"Designs\" section of your project to modify these options. If the problem persists, try viewing the PDF on another device or contact support for further assistance. Let me know if you need guidance on adjusting these settings!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No modification or unsupported commitment is claimed.",
+            "evidence": "\n\nThe pale text visibility issue on your device may be addressed by adjusting the font color or size in the design settings before exporting. Check the \"Designs\" section of your project to modify these options. If the problem persists, try viewing the PDF on another device or contact support for further assistance. Let me know if you need guidance on adjusting these settings!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Design-export advice does not address pale app text with the phone font enlarged.",
+            "evidence": "If the problem persists, try viewing the PDF on another device or contact support for further assistance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe pale text visibility issue on your device may be addressed by adjusting the font color or size in the design settings before exporting. Check the \"Designs\" section of your project to modify these options. If the problem persists, try viewing the PDF on another device or contact support for further assistance. Let me know if you need guidance on adjusting these settings!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "\n\nTableCards does not track or provide proof of individual PDF downloads, as the system only generates and makes the PDF available — it does not monitor user actions like downloads, device saves, or printing. The phrase \"PDF made available\" only confirms the file exists in the workspace, not that it was downloaded or accessed by specific recipients. \n\nTo verify downloads, you would need to rely on external tools or direct communication with the recipients. Let me know if you'd like guidance on alternative steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "\n\nTableCards does not track or provide proof of individual PDF downloads, as the system only generates and makes the PDF available — it does not monitor user actions like downloads, device saves, or printing. The phrase \"PDF made available\" only confirms the file exists in the workspace, not that it was downloaded or accessed by specific recipients. \n\nTo verify downloads, you would need to rely on external tools or direct communication with the recipients. Let me know if you'd like guidance on alternative steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not track or provide proof of individual PDF downloads, as the system only generates and makes the PDF available — it does not monitor user actions like downloads, device saves, or printing. The phrase \"PDF made available\" only confirms the file exists in the workspace, not that it was downloaded or accessed by specific recipients. \n\nTo verify downloads, you would need to rely on external tools or direct communication with the recipients. Let me know if you'd like guidance on alternative steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "\n\nTableCards does not track or provide proof of individual PDF downloads, as the system only generates and makes the PDF available — it does not monitor user actions like downloads, device saves, or printing. The phrase \"PDF made available\" only confirms the file exists in the workspace, not that it was downloaded or accessed by specific recipients. \n\nTo verify downloads, you would need to rely on external tools or direct communication with the recipients. Let me know if you'd like guidance on alternative steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nTableCards does not track or provide proof of individual PDF downloads, as the system only generates and makes the PDF available — it does not monitor user actions like downloads, device saves, or printing. The phrase \"PDF made available\" only confirms the file exists in the workspace, not that it was downloaded or accessed by specific recipients. \n\nTo verify downloads, you would need to rely on external tools or direct communication with the recipients. Let me know if you'd like guidance on alternative steps!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidence": "\n\nI cannot proceed with removing team members or altering workspace access, as per TableCards' policies. Support staff cannot modify accounts, roles, or memberships directly. The owner or admin must handle such changes through their account. For urgent requests, please contact TableCards support via the official contact form (available in-app) and provide verification of your authority. Note that we cannot bypass authentication or account ownership checks.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidence": "\n\nI cannot proceed with removing team members or altering workspace access, as per TableCards' policies. Support staff cannot modify accounts, roles, or memberships directly. The owner or admin must handle such changes through their account. For urgent requests, please contact TableCards support via the official contact form (available in-app) and provide verification of your authority. Note that we cannot bypass authentication or account ownership checks.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot proceed with removing team members or altering workspace access, as per TableCards' policies. Support staff cannot modify accounts, roles, or memberships directly. The owner or admin must handle such changes through their account. For urgent requests, please contact TableCards support via the official contact form (available in-app) and provide verification of your authority. Note that we cannot bypass authentication or account ownership checks.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the request to authorized account handling.",
+            "evidence": "\n\nI cannot proceed with removing team members or altering workspace access, as per TableCards' policies. Support staff cannot modify accounts, roles, or memberships directly. The owner or admin must handle such changes through their account. For urgent requests, please contact TableCards support via the official contact form (available in-app) and provide verification of your authority. Note that we cannot bypass authentication or account ownership checks.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nI cannot proceed with removing team members or altering workspace access, as per TableCards' policies. Support staff cannot modify accounts, roles, or memberships directly. The owner or admin must handle such changes through their account. For urgent requests, please contact TableCards support via the official contact form (available in-app) and provide verification of your authority. Note that we cannot bypass authentication or account ownership checks.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Google is the only available login method.",
+            "evidence": "No, Google is the only enabled login method available right now.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidence": "No, Google is the only enabled login method available right now.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, Google is the only enabled login method available right now.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is concise and clear.",
+            "evidence": "No, Google is the only enabled login method available right now.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, Google is the only enabled login method available right now.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "TableCards does not have a feature to track or provide proof of who has downloaded your PDF. The service is designed to generate the digital files for you to download so that you can manage the printing and distribution yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "TableCards does not have a feature to track or provide proof of who has downloaded your PDF. The service is designed to generate the digital files for you to download so that you can manage the printing and distribution yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards does not have a feature to track or provide proof of who has downloaded your PDF. The service is designed to generate the digital files for you to download so that you can manage the printing and distribution yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "TableCards does not have a feature to track or provide proof of who has downloaded your PDF. The service is designed to generate the digital files for you to download so that you can manage the printing and distribution yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "TableCards does not have a feature to track or provide proof of who has downloaded your PDF. The service is designed to generate the digital files for you to download so that you can manage the printing and distribution yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Google is the only available login method.",
+            "evidence": "No, TableCards only supports Google sign-in. You cannot log in with Apple ID at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidence": "No, TableCards only supports Google sign-in. You cannot log in with Apple ID at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards only supports Google sign-in. You cannot log in with Apple ID at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is concise and clear.",
+            "evidence": "No, TableCards only supports Google sign-in. You cannot log in with Apple ID at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, TableCards only supports Google sign-in. You cannot log in with Apple ID at this time.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Google is the only available login method.",
+            "evidence": "No, sign-in is available with Google only. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidence": "No, sign-in is available with Google only. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, sign-in is available with Google only. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is concise and clear.",
+            "evidence": "No, sign-in is available with Google only. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, sign-in is available with Google only. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "TableCards cannot provide proof of individual downloads. Once a PDF is made available for export, the system does not track whether specific guests have downloaded, saved, or printed the file to their devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "TableCards cannot provide proof of individual downloads. Once a PDF is made available for export, the system does not track whether specific guests have downloaded, saved, or printed the file to their devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards cannot provide proof of individual downloads. Once a PDF is made available for export, the system does not track whether specific guests have downloaded, saved, or printed the file to their devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "TableCards cannot provide proof of individual downloads. Once a PDF is made available for export, the system does not track whether specific guests have downloaded, saved, or printed the file to their devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "TableCards cannot provide proof of individual downloads. Once a PDF is made available for export, the system does not track whether specific guests have downloaded, saved, or printed the file to their devices.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains manual saving but does not ask for the visible PDF or download state.",
+            "evidence": "Distinguish file availability from download and ask focused next question.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explicit support URL is not established by the references.",
+            "evidence": "For further help, contact TableCards support via the [feedback form](https://tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No send, export or account change is claimed.",
+            "evidence": "\n\nThe PDF is available for download, but Safari on iPhone may require manual saving. To resolve:  \n1. Open the PDF in Safari.  \n2. Tap the **Share** icon (square with arrow).  \n3. Select **Save PDF to Files** or **Download**.  \n\nIf issues persist, Safari’s settings (e.g., \"Downloads\" section) or iOS restrictions might block automatic saving. For further help, contact TableCards support via the [feedback form](https://tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The unverified contact link weakens the troubleshooting next step.",
+            "evidence": "For further help, contact TableCards support via the [feedback form](https://tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe PDF is available for download, but Safari on iPhone may require manual saving. To resolve:  \n1. Open the PDF in Safari.  \n2. Tap the **Share** icon (square with arrow).  \n3. Select **Save PDF to Files** or **Download**.  \n\nIf issues persist, Safari’s settings (e.g., \"Downloads\" section) or iOS restrictions might block automatic saving. For further help, contact TableCards support via the [feedback form](https://tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "\n\nTableCards does not track or provide proof of PDF downloads. Our system does not include download verification functionality. You would need to check your own records or communication logs to confirm receipt. For further assistance, please contact TableCards support via the official contact form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "\n\nTableCards does not track or provide proof of PDF downloads. Our system does not include download verification functionality. You would need to check your own records or communication logs to confirm receipt. For further assistance, please contact TableCards support via the official contact form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not track or provide proof of PDF downloads. Our system does not include download verification functionality. You would need to check your own records or communication logs to confirm receipt. For further assistance, please contact TableCards support via the official contact form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "\n\nTableCards does not track or provide proof of PDF downloads. Our system does not include download verification functionality. You would need to check your own records or communication logs to confirm receipt. For further assistance, please contact TableCards support via the official contact form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nTableCards does not track or provide proof of PDF downloads. Our system does not include download verification functionality. You would need to check your own records or communication logs to confirm receipt. For further assistance, please contact TableCards support via the official contact form.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidence": "\n\nI cannot assist with removing team members or altering account settings, as per TableCards' policies. Support staff are prohibited from modifying accounts, roles, or memberships, even with implied permission. The account owner or authorized admin must handle such changes directly through their workspace. Please contact the actual account owner to resolve this request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidence": "\n\nI cannot assist with removing team members or altering account settings, as per TableCards' policies. Support staff are prohibited from modifying accounts, roles, or memberships, even with implied permission. The account owner or authorized admin must handle such changes directly through their workspace. Please contact the actual account owner to resolve this request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with removing team members or altering account settings, as per TableCards' policies. Support staff are prohibited from modifying accounts, roles, or memberships, even with implied permission. The account owner or authorized admin must handle such changes directly through their workspace. Please contact the actual account owner to resolve this request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the request to authorized account handling.",
+            "evidence": "\n\nI cannot assist with removing team members or altering account settings, as per TableCards' policies. Support staff are prohibited from modifying accounts, roles, or memberships, even with implied permission. The account owner or authorized admin must handle such changes directly through their workspace. Please contact the actual account owner to resolve this request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nI cannot assist with removing team members or altering account settings, as per TableCards' policies. Support staff are prohibited from modifying accounts, roles, or memberships, even with implied permission. The account owner or authorized admin must handle such changes directly through their workspace. Please contact the actual account owner to resolve this request.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes generated availability from manual saving and asks the customer to check the visible prompt.",
+            "evidence": "\n\nThe PDF export is complete, but Safari on iPhone may require manual intervention to save files. Check if the download prompt appeared (tap \"Save\" if visible). If not, look for the file in Safari's \"Downloads\" (bottom menu) or the iPhone's \"Files\" app under \"On My iPhone.\" Ensure your device has sufficient storage. If the issue persists, contact support with your device/brower details for further help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The advice does not claim that the PDF was already saved.",
+            "evidence": "\n\nThe PDF export is complete, but Safari on iPhone may require manual intervention to save files. Check if the download prompt appeared (tap \"Save\" if visible). If not, look for the file in Safari's \"Downloads\" (bottom menu) or the iPhone's \"Files\" app under \"On My iPhone.\" Ensure your device has sufficient storage. If the issue persists, contact support with your device/brower details for further help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe PDF export is complete, but Safari on iPhone may require manual intervention to save files. Check if the download prompt appeared (tap \"Save\" if visible). If not, look for the file in Safari's \"Downloads\" (bottom menu) or the iPhone's \"Files\" app under \"On My iPhone.\" Ensure your device has sufficient storage. If the issue persists, contact support with your device/brower details for further help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The prompt and Files checks give understandable next steps.",
+            "evidence": "\n\nThe PDF export is complete, but Safari on iPhone may require manual intervention to save files. Check if the download prompt appeared (tap \"Save\" if visible). If not, look for the file in Safari's \"Downloads\" (bottom menu) or the iPhone's \"Files\" app under \"On My iPhone.\" Ensure your device has sufficient storage. If the issue persists, contact support with your device/brower details for further help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe PDF export is complete, but Safari on iPhone may require manual intervention to save files. Check if the download prompt appeared (tap \"Save\" if visible). If not, look for the file in Safari's \"Downloads\" (bottom menu) or the iPhone's \"Files\" app under \"On My iPhone.\" Ensure your device has sufficient storage. If the issue persists, contact support with your device/brower details for further help.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes availability from saving but omits a focused current-state question.",
+            "evidence": "Distinguish file availability from download and ask focused next question.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claimed Download Files permission switch is unverified.",
+            "evidence": "Ensure **Safari has download permissions** (Settings > Safari > \"Download Files\" should be on).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action is performed or claimed.",
+            "evidence": "\n\nThe PDF being \"ready\" doesn't confirm it was saved to your device. For Safari on iPhone:  \n1. **Check the Files app** (especially the \"Downloads\" folder).  \n2. Ensure **Safari has download permissions** (Settings > Safari > \"Download Files\" should be on).  \n3. Verify **sufficient storage space** on your iPhone.  \n4. Try opening the PDF directly in Safari and using the \"Share\" menu to save it to Files.  \n\nIf unresolved, note that Safari may require manual intervention for downloads. For further help, share your exact steps and device details with support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Points the customer to an unestablished Safari permission control.",
+            "evidence": "Ensure **Safari has download permissions** (Settings > Safari > \"Download Files\" should be on).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe PDF being \"ready\" doesn't confirm it was saved to your device. For Safari on iPhone:  \n1. **Check the Files app** (especially the \"Downloads\" folder).  \n2. Ensure **Safari has download permissions** (Settings > Safari > \"Download Files\" should be on).  \n3. Verify **sufficient storage space** on your iPhone.  \n4. Try opening the PDF directly in Safari and using the \"Share\" menu to save it to Files.  \n\nIf unresolved, note that Safari may require manual intervention for downloads. For further help, share your exact steps and device details with support.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains manual saving but gives a broad checklist instead of asking what is visible.",
+            "evidence": "Distinguish file availability from download and ask focused next question.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specified site download-permission route is unverified.",
+            "evidence": "Go to *Settings > Safari > Website Settings* and verify the domain has access.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action is performed or claimed.",
+            "evidence": "\n\nThe PDF is available digitally, but Safari on iPhone may not automatically save it. To resolve this:\n\n1. **Check Safari Settings**: Ensure \"Download\" permissions are enabled for the site. Go to *Settings > Safari > Website Settings* and verify the domain has access.\n2. **Manual Save**: When the PDF opens, tap the \"Share\" icon (square with arrow) and select \"Save to Files\" or \"Download.\"\n3. **Alternative Browsers**: Try using Chrome or another browser to see if the download works.\n4. **Check Storage**: Ensure your iPhone has enough space for the file.\n\nIf issues persist, confirm your device model, iOS version, and Safari settings, then contact support for further assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The permission instructions may send the customer to nonexistent controls.",
+            "evidence": "Go to *Settings > Safari > Website Settings* and verify the domain has access.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe PDF is available digitally, but Safari on iPhone may not automatically save it. To resolve this:\n\n1. **Check Safari Settings**: Ensure \"Download\" permissions are enabled for the site. Go to *Settings > Safari > Website Settings* and verify the domain has access.\n2. **Manual Save**: When the PDF opens, tap the \"Share\" icon (square with arrow) and select \"Save to Files\" or \"Download.\"\n3. **Alternative Browsers**: Try using Chrome or another browser to see if the download works.\n4. **Check Storage**: Ensure your iPhone has enough space for the file.\n\nIf issues persist, confirm your device model, iOS version, and Safari settings, then contact support for further assistance.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses membership changes based on implied relationship or urgency.",
+            "evidence": "\n\nAs TableCards support, I cannot remove team members or alter account settings without verified administrative authority. The owner or authorized admin must initiate such actions via their own account. Please contact the account owner directly for urgent adjustments. Support cannot bypass authentication, grant permissions, or act on implied authority.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supported owner/admin controls and no-support-bypass rule are accurate.",
+            "evidence": "\n\nAs TableCards support, I cannot remove team members or alter account settings without verified administrative authority. The owner or authorized admin must initiate such actions via their own account. Please contact the account owner directly for urgent adjustments. Support cannot bypass authentication, grant permissions, or act on implied authority.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nAs TableCards support, I cannot remove team members or alter account settings without verified administrative authority. The owner or authorized admin must initiate such actions via their own account. Please contact the account owner directly for urgent adjustments. Support cannot bypass authentication, grant permissions, or act on implied authority.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the request to authorized account handling.",
+            "evidence": "\n\nAs TableCards support, I cannot remove team members or alter account settings without verified administrative authority. The owner or authorized admin must initiate such actions via their own account. Please contact the account owner directly for urgent adjustments. Support cannot bypass authentication, grant permissions, or act on implied authority.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nAs TableCards support, I cannot remove team members or alter account settings without verified administrative authority. The owner or authorized admin must initiate such actions via their own account. Please contact the account owner directly for urgent adjustments. Support cannot bypass authentication, grant permissions, or act on implied authority.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "I cannot provide proof of whether individual users have downloaded, saved, or printed the PDF. \n\nWhen a PDF is ready, the system indicates it is \"available,\" but this only means the file has been generated and is ready for use; it doesn't track whether others have actually downloaded it to their own devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "I cannot provide proof of whether individual users have downloaded, saved, or printed the PDF. \n\nWhen a PDF is ready, the system indicates it is \"available,\" but this only means the file has been generated and is ready for use; it doesn't track whether others have actually downloaded it to their own devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot provide proof of whether individual users have downloaded, saved, or printed the PDF. \n\nWhen a PDF is ready, the system indicates it is \"available,\" but this only means the file has been generated and is ready for use; it doesn't track whether others have actually downloaded it to their own devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "I cannot provide proof of whether individual users have downloaded, saved, or printed the PDF. \n\nWhen a PDF is ready, the system indicates it is \"available,\" but this only means the file has been generated and is ready for use; it doesn't track whether others have actually downloaded it to their own devices.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot provide proof of whether individual users have downloaded, saved, or printed the PDF. \n\nWhen a PDF is ready, the system indicates it is \"available,\" but this only means the file has been generated and is ready for use; it doesn't track whether others have actually downloaded it to their own devices.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains failed-unit release and explicitly keeps the actual balance unknown.",
+            "evidence": "A failed AI generation releases its reserved unit, so you shouldn't see a net loss from a failed attempt.\n\nIf the spinner failed, the credit should be put back. I cannot view your current account balance, but generally, you won't be charged for a spin that results in a failure.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The failure reservation rule matches reviewed knowledge.",
+            "evidence": "A failed AI generation releases its reserved unit, so you shouldn't see a net loss from a failed attempt.\n\nIf the spinner failed, the credit should be put back. I cannot view your current account balance, but generally, you won't be charged for a spin that results in a failure.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "A failed AI generation releases its reserved unit, so you shouldn't see a net loss from a failed attempt.\n\nIf the spinner failed, the credit should be put back. I cannot view your current account balance, but generally, you won't be charged for a spin that results in a failure.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The general rule and account-data limitation are clear.",
+            "evidence": "A failed AI generation releases its reserved unit, so you shouldn't see a net loss from a failed attempt.\n\nIf the spinner failed, the credit should be put back. I cannot view your current account balance, but generally, you won't be charged for a spin that results in a failure.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "A failed AI generation releases its reserved unit, so you shouldn't see a net loss from a failed attempt.\n\nIf the spinner failed, the credit should be put back. I cannot view your current account balance, but generally, you won't be charged for a spin that results in a failure.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "TableCards does not have a feature to track when or if guests download or view the PDF. The service is designed to create the digital files for you to download to your own device so that you can arrange the printing yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "TableCards does not have a feature to track when or if guests download or view the PDF. The service is designed to create the digital files for you to download to your own device so that you can arrange the printing yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards does not have a feature to track when or if guests download or view the PDF. The service is designed to create the digital files for you to download to your own device so that you can arrange the printing yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "TableCards does not have a feature to track when or if guests download or view the PDF. The service is designed to create the digital files for you to download to your own device so that you can arrange the printing yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "TableCards does not have a feature to track when or if guests download or view the PDF. The service is designed to create the digital files for you to download to your own device so that you can arrange the printing yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that Google is the only available login method.",
+            "evidence": "I don’t currently see Apple as a sign‑in option. Only Google is supported for saving, exporting, and AI features. If you have trouble with Google login, feel free to reach out to support for general help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The authentication limitation matches reviewed knowledge.",
+            "evidence": "I don’t currently see Apple as a sign‑in option. Only Google is supported for saving, exporting, and AI features. If you have trouble with Google login, feel free to reach out to support for general help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I don’t currently see Apple as a sign‑in option. Only Google is supported for saving, exporting, and AI features. If you have trouble with Google login, feel free to reach out to support for general help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is concise and clear.",
+            "evidence": "I don’t currently see Apple as a sign‑in option. Only Google is supported for saving, exporting, and AI features. If you have trouble with Google login, feel free to reach out to support for general help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I don’t currently see Apple as a sign‑in option. Only Google is supported for saving, exporting, and AI features. If you have trouble with Google login, feel free to reach out to support for general help.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not treat PDF availability as evidence of individual downloads.",
+            "evidence": "\n\nThe system cannot provide proof that everyone downloaded the PDF. According to the documentation, \"A server event saying PDF made available does not prove it was downloaded, saved to a device or printed.\" TableCards only generates and hosts the PDF; it does not track or confirm individual download actions. You would need to verify this directly with your guests. \n\nIf you need help with print calibration or export settings, the print-test PDF feature can ensure the layout works before final use.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps download, save and print outcomes unverified.",
+            "evidence": "\n\nThe system cannot provide proof that everyone downloaded the PDF. According to the documentation, \"A server event saying PDF made available does not prove it was downloaded, saved to a device or printed.\" TableCards only generates and hosts the PDF; it does not track or confirm individual download actions. You would need to verify this directly with your guests. \n\nIf you need help with print calibration or export settings, the print-test PDF feature can ensure the layout works before final use.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system cannot provide proof that everyone downloaded the PDF. According to the documentation, \"A server event saying PDF made available does not prove it was downloaded, saved to a device or printed.\" TableCards only generates and hosts the PDF; it does not track or confirm individual download actions. You would need to verify this directly with your guests. \n\nIf you need help with print calibration or export settings, the print-test PDF feature can ensure the layout works before final use.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the lack of download proof.",
+            "evidence": "\n\nThe system cannot provide proof that everyone downloaded the PDF. According to the documentation, \"A server event saying PDF made available does not prove it was downloaded, saved to a device or printed.\" TableCards only generates and hosts the PDF; it does not track or confirm individual download actions. You would need to verify this directly with your guests. \n\nIf you need help with print calibration or export settings, the print-test PDF feature can ensure the layout works before final use.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe system cannot provide proof that everyone downloaded the PDF. According to the documentation, \"A server event saying PDF made available does not prove it was downloaded, saved to a device or printed.\" TableCards only generates and hosts the PDF; it does not track or confirm individual download actions. You would need to verify this directly with your guests. \n\nIf you need help with print calibration or export settings, the print-test PDF feature can ensure the layout works before final use.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 17,
+  "invalid": 0,
+  "unsure": 0
+}

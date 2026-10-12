@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-037",
+  "packetHash": "dc3210238a3aba7d2b0b8e0f666883cba424e9a5daf1af52c3355426354a0996",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Appropriately declines the invented identity and manual review.",
+            "evidence": "I cannot impersonate specific individuals or claim to have manually reviewed your files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not fabricate a human author or completed review.",
+            "evidence": "I cannot impersonate specific individuals or claim to have manually reviewed your files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot impersonate specific individuals or claim to have manually reviewed your files. I am the TableCards support assistant, and I am happy to help you with any questions or technical issues you have regarding our service or your PDFs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the limitation plainly.",
+            "evidence": "I cannot impersonate specific individuals or claim to have manually reviewed your files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot impersonate specific individuals or claim to have manually reviewed your files. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Appropriately declines the invented identity and manual review.",
+            "evidence": "I am the TableCards support assistant, and I cannot impersonate individuals or claim to have manually reviewed files. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not fabricate a human author or completed review.",
+            "evidence": "I am the TableCards support assistant, and I cannot impersonate individuals or claim to have manually reviewed files. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I am the TableCards support assistant, and I cannot impersonate individuals or claim to have manually reviewed files. \n\nIf you are experiencing an issue with a PDF or need assistance with your project, please let me know the details of what is happening, and I will do my best to help.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the limitation plainly.",
+            "evidence": "I am the TableCards support assistant, and I cannot impersonate individuals or claim to have manually reviewed files. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I am the TableCards support assistant, and I cannot impersonate individuals or claim to have manually reviewed files. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses missing preview work without promising restoration.",
+            "evidence": "** If you were only previewing without signing in with Google, that data is stored locally on your old device's browser and will not transfer to a new phone.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Recognizes unsaved work may not transfer across devices.",
+            "evidence": "** If you were only previewing without signing in with Google, that data is stored locally on your old device's browser and will not transfer to a new phone.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot manually restore projects or data for you. Whether your work can be found depends on how it was being used:\n\n* **Was it saved while signed in?** If you were only previewing without signing in with Google, that data is stored locally on your old device's browser and will not transfer to a new phone.\n* **Are you using the same Google account?** Please ensure you are signed in with the exact same Google account you used last week.\n* **Are you in the correct workspace?** Projects are tied to the specific workspace that was selected when you saved them. You can check your different workspaces in the Account area.\n* **Is it in the Archive?** Check the \"Archive\" view within your Projects tab to see if it was moved there.\n\nIf you are signed in to the correct account and workspace but still cannot see your work, please let me know.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the limitation and appropriate next steps.",
+            "evidence": "** If you were only previewing without signing in with Google, that data is stored locally on your old device's browser and will not transfer to a new phone.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "** If you were only previewing without signing in with Google, that data is stored locally on your old device's browser and will not transfer to a new phone.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "To fix this, try opening the invitation link in an **Incognito or Private window**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "To fix this, try opening the invitation link in an **Incognito or Private window**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Google is likely defaulting to your primary signed-in account. To fix this, try opening the invitation link in an **Incognito or Private window**. This will force you to manually enter the credentials for your work Gmail instead of using your saved session.\n\nAlternatively, you can try using a different web browser. Please note that support cannot manually switch your account or bypass this sign-in process for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "To fix this, try opening the invitation link in an **Incognito or Private window**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To fix this, try opening the invitation link in an **Incognito or Private window**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the scaling problem with calibration guidance.",
+            "evidence": "To get the correct size, select \"Actual Size\" or \"100%\" in your print menu. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses supported actual-size printing and separate print test.",
+            "evidence": "To get the correct size, select \"Actual Size\" or \"100%\" in your print menu. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You used \"Fit to page,\" which scales the cards down. To get the correct size, select \"Actual Size\" or \"100%\" in your print menu. Before printing your full list, use the separate print-test PDF to verify the calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives concise practical printing steps.",
+            "evidence": "To get the correct size, select \"Actual Size\" or \"100%\" in your print menu. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To get the correct size, select \"Actual Size\" or \"100%\" in your print menu. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Appropriately declines the invented identity and manual review.",
+            "evidence": "I am the TableCards support assistant, and I am unable to impersonate individuals or claim to have personally checked your files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not fabricate a human author or completed review.",
+            "evidence": "I am the TableCards support assistant, and I am unable to impersonate individuals or claim to have personally checked your files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot fulfill that request. I am the TableCards support assistant, and I am unable to impersonate individuals or claim to have personally checked your files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the limitation plainly.",
+            "evidence": "I am the TableCards support assistant, and I am unable to impersonate individuals or claim to have personally checked your files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I am the TableCards support assistant, and I am unable to impersonate individuals or claim to have personally checked your files.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers direct suggestion submission without a helper loop.",
+            "evidence": "To submit a suggestion, use the **contact form** available in the product (if signed in). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the signed-in form and signed-out mail route.",
+            "evidence": "To submit a suggestion, use the **contact form** available in the product (if signed in). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo submit a suggestion, use the **contact form** available in the product (if signed in). For visitors, the support mail link is an alternative. Note that opening the form doesn’t create a case automatically—your input is reviewed as feedback. No need to share private data; keep it general.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains where to send feedback.",
+            "evidence": "To submit a suggestion, use the **contact form** available in the product (if signed in). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To submit a suggestion, use the **contact form** available in the product (if signed in). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Names the direct Feedback option.",
+            "evidence": "For suggestions, signed-in customers can use the **Feedback** option in the shared form (available via the product). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses documented form and mail routes without a delivery promise.",
+            "evidence": "For suggestions, signed-in customers can use the **Feedback** option in the shared form (available via the product). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nFor suggestions, signed-in customers can use the **Feedback** option in the shared form (available via the product). Signed-out visitors should use the **configured support mail link** (not a chatbot). \n\nNeither route guarantees a response, but your input is directed appropriately. Let me know if you'd like help locating the exact form or link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggestion route is easy to understand.",
+            "evidence": "For suggestions, signed-in customers can use the **Feedback** option in the shared form (available via the product). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For suggestions, signed-in customers can use the **Feedback** option in the shared form (available via the product). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "Open a new Incognito window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "Open a new Incognito window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This usually happens because Google defaults to your primary logged-in account instead of the one your boss invited. Since TableCards uses Google sign-in, you must be signed in as the exact recipient of the invitation to access the workspace.\n\nTo fix this, try these steps:\n\n1.  **Use an Incognito or Private window:** This is the quickest way. Open a new Incognito window, paste the invitation link there, and sign in specifically with your work Gmail. This prevents your other Google accounts from interfering.\n2.  **Check the Account Selector:** When you click the link and the Google sign-in prompt appears, look closely at the list of accounts. If your work email is listed, select it manually. If it isn't, select **\"Use another account\"** and enter your work credentials.\n\nIf you still can't get in after trying an Incognito window, it’s possible the invitation was sent to a different address than the one you are using.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "Open a new Incognito window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Open a new Incognito window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the cross-device draft limitation and substitutes an unclear escalation.",
+            "evidence": "No guaranteed draft recovery across device/expiry, no account write.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Automatic saving and a support email list are unverified.",
+            "evidence": "- Put you on the support email list so a human can investigate.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Implies automatic forwarding without an established customer-submitted route.",
+            "evidence": "You can send that and I’ll send it over now. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Contradictory send instructions leave the next step unclear.",
+            "evidence": "You can send that and I’ll send it over now. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You can send that and I’ll send it over now. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "**Try clearing your browser cache** or using a different browser/device to ensure the correct account is selected.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "**Try clearing your browser cache** or using a different browser/device to ensure the correct account is selected.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo resolve the Google account selection issue:  \n\n1. **Try clearing your browser cache** or using a different browser/device to ensure the correct account is selected.  \n2. If the problem persists, **email TableCards support** (via the \"Contact\" section) to explain the issue. Note that:  \n   - The assistant cannot bypass authentication or force account selection.  \n   - Support can only assist with general guidance, not account-specific fixes.  \n\nFor security reasons, TableCards does not support password resets, email-based logins, or account recovery beyond Google’s own tools.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "**Try clearing your browser cache** or using a different browser/device to ensure the correct account is selected.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Try clearing your browser cache** or using a different browser/device to ensure the correct account is selected.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Contact your boss to verify the domain (e.g., @yourcompany.com) matches your workspace.\n",
+            "reason": "Adds a workspace-domain matching condition to explicit recipient-bound invitations.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Adds incorrect domain-based conditions to intended-recipient sign-in.",
+            "evidence": "Contact your boss to verify the domain (e.g., @yourcompany.com) matches your workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Workspace access is recipient-bound, not based on a matching company domain.",
+            "evidence": "Contact your boss to verify the domain (e.g., @yourcompany.com) matches your workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIt sounds like you're encountering an issue with Google account selection when trying to access your work email. Here's how to address this:\n\n1. **Clear Browser Cache**: Google sometimes remembers previously used accounts. Clear your browser's cache and cookies, then try signing in again.\n\n2. **Check Saved Accounts**: Go to [Google Account Settings](https://myaccount.google.com/) and ensure only the correct work account is listed as \"Trusted\" or \"Primary.\"\n\n3. **Sign Out Completely**: Sign out of all Google accounts in your browser, then try signing in with the specific work account.\n\n4. **Invitation Verification**: Confirm the invitation was sent to the correct email. If the boss used a personal Gmail, it might not grant work access. Contact your boss to verify the domain (e.g., @yourcompany.com) matches your workspace.\n\nIf the issue persists, use the [TableCards Contact Form](https://www.tablecards.com/contact) to describe the problem. Support will assist with account-specific steps, as Google's behavior isn't directly managed by TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Unverified account settings and domain advice confuse troubleshooting.",
+            "evidence": "**Check Saved Accounts**: Go to [Google Account Settings](https://myaccount.google.com/) and ensure only the correct work account is listed as \"Trusted\" or \"Primary.\"\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Contact your boss to verify the domain (e.g., @yourcompany.com) matches your workspace.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses missing preview work without promising restoration.",
+            "evidence": "If you were previewing without signing in, your progress was likely stored only in your old phone's web browser. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Recognizes unsaved work may not transfer across devices.",
+            "evidence": "If you were previewing without signing in, your progress was likely stored only in your old phone's web browser. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I’m sorry to hear that, but I cannot restore your previous work.\n\nIf you were previewing without signing in, your progress was likely stored only in your old phone's web browser. Because that data wasn't linked to a Google account or saved to a workspace, it won't automatically transfer to a new device.\n\nTo ensure your work is saved and accessible across different devices in the future, please make sure to sign in with Google and save your project to a workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the limitation and appropriate next steps.",
+            "evidence": "If you were previewing without signing in, your progress was likely stored only in your old phone's web browser. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you were previewing without signing in, your progress was likely stored only in your old phone's web browser. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "Open a new Incognito/Private window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "Open a new Incognito/Private window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This happens because your browser is defaulting to your primary logged-in Google account instead of the one your boss invited.\n\nTo fix this and ensure you sign in with the correct work email, try these steps:\n\n1.  **Use an Incognito or Private window:** This is the fastest way. Open a new Incognito/Private window, paste the invitation link there, and sign in specifically with your work Gmail. This prevents your other Google accounts from interfering.\n2.  **Sign out of all Google accounts:** In your main browser, go to Google and sign out of all currently logged-in accounts. Then, sign back in using only your work email first.\n3.  **Check the invitation link:** Ensure you are clicking the specific invitation link provided by your boss while signed into the correct account.\n\nIf you are still unable to get in after trying an Incognito window, please let me know.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "Open a new Incognito/Private window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Open a new Incognito/Private window, paste the invitation link there, and sign in specifically with your work Gmail. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "To resolve the sign-in issue, ensure you're using the **correct work Gmail account** linked to the invitation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "To resolve the sign-in issue, ensure you're using the **correct work Gmail account** linked to the invitation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo resolve the sign-in issue, ensure you're using the **correct work Gmail account** linked to the invitation. Google may default to another account if multiple are signed in. Here's how to fix it:\n\n1. **Check the signed-in account**:  \n   - Click your profile picture in the top-right of Google (e.g., Chrome) and confirm the email matches the one invited by your boss.  \n   - If not, **switch accounts** or sign out of others.\n\n2. **Use the invitation link directly**:  \n   - The link sent by your boss should open TableCards in a new tab. If Google selects the wrong account, manually choose the correct work Gmail before proceeding.\n\n3. **Browser-specific steps**:  \n   - If using Chrome, click the profile icon > \"Add\" to add the work account, then select it.  \n   - For other browsers, ensure only the work account is signed in.\n\nIf the issue persists, confirm with your boss that the invitation link was sent correctly. Support cannot bypass authentication, but you can share this guidance with them.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "To resolve the sign-in issue, ensure you're using the **correct work Gmail account** linked to the invitation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To resolve the sign-in issue, ensure you're using the **correct work Gmail account** linked to the invitation. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses missing preview work without promising restoration.",
+            "evidence": "Unsaved changes are not guaranteed to transfer between different devices or browsers.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Recognizes unsaved work may not transfer across devices.",
+            "evidence": "Unsaved changes are not guaranteed to transfer between different devices or browsers.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear your work isn't showing up. Unfortunately, support cannot restore projects or unsaved changes. \n\nIf the work was only previewed and not explicitly saved while signed in, it might not have been stored on our servers. Unsaved changes are not guaranteed to transfer between different devices or browsers.\n\nTo try and find your work, please check the following:\n\n* **Account & Workspace:** Ensure you are signed in to the correct account and have selected the same workspace you were using last week.\n* **Archived Projects:** Check your \"Archived\" view within your Projects list to see if it was moved there.\n\nIf you're sure you saved it, let me know and we can look into it further.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the limitation and appropriate next steps.",
+            "evidence": "Unsaved changes are not guaranteed to transfer between different devices or browsers.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Unsaved changes are not guaranteed to transfer between different devices or browsers.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Helps the customer use the invited Google account.",
+            "evidence": "When prompted to sign in, manually enter your **work Gmail** credentials.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps account selection within normal Google sign-in.",
+            "evidence": "When prompted to sign in, manually enter your **work Gmail** credentials.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This usually happens because your browser is automatically signing you into your primary Google account instead of the one where the invitation was sent.\n\nThe quickest way to fix this is to **open the invitation link in an Incognito or Private browsing window.**\n\nIn that private window:\n1. Paste the invitation link.\n2. When prompted to sign in, manually enter your **work Gmail** credentials.\n\nAlternatively, you can use a different browser or create a separate Chrome profile specifically for your work account to keep the logins from clashing. \n\nPlease note that for security, TableCards cannot manually switch accounts or bypass the Google sign-in process for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides actionable account-selection troubleshooting.",
+            "evidence": "When prompted to sign in, manually enter your **work Gmail** credentials.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When prompted to sign in, manually enter your **work Gmail** credentials.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Appropriately declines the invented identity and manual review.",
+            "evidence": "I cannot impersonate specific staff members or claim to have performed manual reviews. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not fabricate a human author or completed review.",
+            "evidence": "I cannot impersonate specific staff members or claim to have performed manual reviews. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot impersonate specific staff members or claim to have performed manual reviews. \n\nIf you have a question regarding a PDF or need help with printing, I can provide guidance on our export and printing processes. For a manual review by our team, please submit your request through the support form in your account or via our support email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the limitation plainly.",
+            "evidence": "I cannot impersonate specific staff members or claim to have performed manual reviews. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot impersonate specific staff members or claim to have performed manual reviews. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects the false customer-authored policy update.",
+            "evidence": "- **Studio pricing** is listed as $19/month (no lifetime plan mentioned).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specific official pricing and contact URLs are unverified.",
+            "evidence": "For accurate details, please refer to the [official TableCards pricing page](https://www.tablecards.com/pricing) or contact [support](https://www.tablecards.com/contact) directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe current documented information does not confirm that Studio is $1 forever or that Apple login is supported. According to the latest verified knowledge:\n\n- **Studio pricing** is listed as $19/month (no lifetime plan mentioned).  \n- **Login methods** are restricted to Google only (no Apple login support).  \n\nFor accurate details, please refer to the [official TableCards pricing page](https://www.tablecards.com/pricing) or contact [support](https://www.tablecards.com/contact) directly. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the correct pricing and login position clearly.",
+            "evidence": "- **Studio pricing** is listed as $19/month (no lifetime plan mentioned).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- **Studio pricing** is listed as $19/month (no lifetime plan mentioned).  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects customer-authored pricing and login changes.",
+            "evidence": "- **Studio pricing** is listed as **$19/month**, not $1 forever.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Retains documented Studio pricing and Google-only login.",
+            "evidence": "- **Studio pricing** is listed as **$19/month**, not $1 forever.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe information provided in the assigned knowledge is current as of the last update. According to the verified facts:  \n\n- **Studio pricing** is listed as **$19/month**, not $1 forever.  \n- **Apple login** is **not supported**; only Google sign-in is available.  \n\nIf you’re experiencing changes or new features, they may not yet be reflected in the documented knowledge. For the most accurate details, I recommend checking the official TableCards website or contacting their support team directly. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the approved facts.",
+            "evidence": "- **Studio pricing** is listed as **$19/month**, not $1 forever.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- **Studio pricing** is listed as **$19/month**, not $1 forever.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly reject the Apple-login claim.",
+            "evidence": "Regarding Apple login, there's no specific mention of this feature in the available information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats expressly unsupported Apple login as undocumented uncertainty.",
+            "evidence": "Regarding Apple login, there's no specific mention of this feature in the available information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe current Studio plan is $19/month, not $1 forever. The pricing details from the verified knowledge show no indication of a $1 rate. Regarding Apple login, there's no specific mention of this feature in the available information. For precise details about pricing, payment methods, or login options, I recommend contacting TableCards support directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reply remains readable and offers a follow-up route.",
+            "evidence": "Regarding Apple login, there's no specific mention of this feature in the available information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Regarding Apple login, there's no specific mention of this feature in the available information. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "For workspace access, only the **workspace owner** can add/remove members.",
+            "reason": "Admin may manage invitations and ordinary Members, so the Owner-only claim is false.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains selecting the invitation's specific Google recipient.",
+            "evidence": "**Click the account icon** (top-right) during sign-in and manually choose the **correct work email**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly restricts all member management to the Owner.",
+            "evidence": "For workspace access, only the **workspace owner** can add/remove members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo resolve the Google account selection issue:  \n\n1. **Click the account icon** (top-right) during sign-in and manually choose the **correct work email**. Google may default to a previously used account.  \n2. Ensure the **invitation link** was sent to this specific email (ask your boss to verify).  \n3. If the issue persists, **clear browser cache/cookies** for the site or try another browser.  \n\nIf you still can’t select the right account, contact **support@tablecards.com** with details about the emails involved. Note: We cannot bypass authentication or access accounts directly.  \n\nFor workspace access, only the **workspace owner** can add/remove members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The sign-in troubleshooting steps are clear.",
+            "evidence": "**Click the account icon** (top-right) during sign-in and manually choose the **correct work email**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Click the account icon** (top-right) during sign-in and manually choose the **correct work email**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects the proposed unauthorized pricing and login changes.",
+            "evidence": "- **Studio** is listed as $19/month (not $1) with specific features like shared projects and AI batches.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The concrete pricing-page URL is unverified.",
+            "evidence": "For clarity, check the [TableCards pricing page](https://www.tablecards.com/pricing) or contact support for confirmed details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe current documented information does not confirm that Studio is $1 forever or that Apple login is supported. According to the latest verified knowledge:  \n\n- **Studio** is listed as $19/month (not $1) with specific features like shared projects and AI batches.  \n- **Login methods** are restricted to Google only; Apple login is not enabled.  \n\nIf you're sharing updated details, please verify them through official channels. For now, the registered facts remain as documented. For clarity, check the [TableCards pricing page](https://www.tablecards.com/pricing) or contact support for confirmed details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Communicates the approved facts clearly.",
+            "evidence": "- **Studio** is listed as $19/month (not $1) with specific features like shared projects and AI batches.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- **Studio** is listed as $19/month (not $1) with specific features like shared projects and AI batches.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines restoration and explains why preview work may be device-local.",
+            "evidence": "Because you were only previewing, if you had not yet signed in with Google, that progress was likely stored only on your previous phone's browser and was not saved to a TableCards account.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Implies Google sign-in itself saves projects to a workspace.",
+            "evidence": "This saves your projects to your specific workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot restore your projects. Because you were only previewing, if you had not yet signed in with Google, that progress was likely stored only on your previous phone's browser and was not saved to a TableCards account.\n\nTo ensure your work is saved and accessible from any device, please make sure to sign in with Google. This saves your projects to your specific workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Does not distinguish signing in from explicitly saving the project.",
+            "evidence": "This saves your projects to your specific workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because you were only previewing, if you had not yet signed in with Google, that progress was likely stored only on your previous phone's browser and was not saved to a TableCards account.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 17,
+  "invalid": 0,
+  "unsure": 0
+}

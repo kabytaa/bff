@@ -1,0 +1,1237 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-014",
+  "packetHash": "a68a1799451824b72334a718c49f7cece7dbf876fc9568a606c2ed28bb05cdd5",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain adding guest names and choosing a design.",
+            "evidence": "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Blurs the distinction between public card creation and sign-in for saving or restricted features.",
+            "evidence": "- **האפשרויות:** ליצירת ושמירת קרטיסים מותאמים נדרשת התחברות Google.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards הוא שירות המאפשר יצירת קרטיסי שולחן בפורמט PDF להורדה, ולא כולל פיזור פיזי, הדפסה או חידוש.  \n- **הפתרון:** ניתן לטעון קבצים ולחצו על תצוגה מוקדמת ללא תשלום.  \n- **התיאום:** תצוגת מחירים בדף היא היפותזה, והכניסה לסיום הרכישה היא סימולציה, לא תשלום אמיתי.  \n- **האפשרויות:** ליצירת ושמירת קרטיסים מותאמים נדרשת התחברות Google.  \n- **מידע נוסף:** הדף הראשי מכיל דוגמאות, תיאור התכונות ושאלות נפוצות (FAQ).  \n\nלפרטים נוספים, פנה לדף הבית או השתמש במקלט הפנייה בדף.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Refers to an unclear contact receiver instead of a recognizable next step.",
+            "evidence": "לפרטים נוספים, פנה לדף הבית או השתמש במקלט הפנייה בדף.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses materially awkward Hebrew vocabulary.",
+            "evidence": "לפרטים נוספים, פנה לדף הבית או השתמש במקלט הפנייה בדף.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that choosing an offer now will not cause a real charge.",
+            "evidence": "Non, vous ne serez pas débité. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains the no-charge preview and simulated checkout.",
+            "evidence": "Les tarifs affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation, ce n'est pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, vous ne serez pas débité. \n\nL'utilisation actuelle de TableCards est un aperçu gratuit (no-charge preview). Les tarifs affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation, ce n'est pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between displayed prices and actual payment is clear.",
+            "evidence": "Les tarifs affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation, ce n'est pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Non, vous ne serez pas débité. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Stops before explaining preview, PDF download and independent printing.",
+            "evidence": "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes pasting names or importing a spreadsheet.",
+            "evidence": "**ייבוא רשימת אורחים:** אתה יכול להדביק רשימת שמות או להעלות קובץ (כמו Excel או CSV) הכולל את שמות האורחים ומספרי השולחנות שלהם.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards עוזרת לך ליצור קובצי PDF להדפסה של כרטיסי שולחן (place cards) לאירועים בצורה מהירה וקלה.\n\nהתהליך עובד כך:\n\n1.  **ייבוא רשימת אורחים:** אתה יכול להדביק רשימת שמות או להעלות קובץ (כמו Excel או CSV) הכולל את שמות האורחים ומספרי השולחנות שלהם.\n2.  **עיצוב:** בחר בעיצובים מוכנים מראש או השתמש בבינה מלאכותית (AI) כדי ליצור",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workflow ends mid-sentence during the design step.",
+            "evidence": "**עיצוב:** בחר בעיצובים מוכנים מראש או השתמש בבינה מלאכותית (AI) כדי ליצור",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Hebrew.",
+            "evidence": "**ייבוא רשימת אורחים:** אתה יכול להדביק רשימת שמות או להעלות קובץ (כמו Excel או CSV) הכולל את שמות האורחים ומספרי השולחנות שלהם.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Places Google sign-in before trying the public import and preview workflow.",
+            "evidence": "**Inicio de sesión**: Usa Google para acceder (no se aceptan otros métodos).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents sign-in as an initial access step without the public-editor distinction.",
+            "evidence": "**Inicio de sesión**: Usa Google para acceder (no se aceptan otros métodos).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards crea tarjetas de lugar descargables en PDF. Aquí está el proceso básico para tus invitados de boda:\n\n1. **Inicio de sesión**: Usa Google para acceder (no se aceptan otros métodos).  \n2. **Importar invitados**:  \n   - Pega nombres uno por línea o sube un archivo CSV/XLSX.  \n   - Asegúrate de mapear correctamente las columnas (nombre, mesa, etc.).  \n3. **Diseño**:  \n   - Elige entre diseños prediseñados.  \n   - Sube arte (PNG/JPEG, 7:4 ratio, 1050x600 px mínimo) si lo deseas.  \n   - Ajusta fuente, tamaño y posición del nombre.  \n4. **Previsualización**: Verifica que todos los nombres y mesas se muestren correctamente.  \n5. **Exportar**: Descarga el PDF y imprímelo en papel. Usa \"Tamaño real\" (100%) y verifica la calibración con el archivo de prueba.  \n\n**Limitaciones gratis**: Máximo 25 tarjetas. Si necesitas más, considera la opción de pago (ej. Event Pass por $5).  \n\n¿Necesitas ayuda con algún paso en particular?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The PDF download and printing steps are understandable.",
+            "evidence": "**Exportar**: Descarga el PDF y imprímelo en papel. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "   - Pega nombres uno por línea o sube un archivo CSV/XLSX.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the path from guest names and design to a downloadable PDF.",
+            "evidence": "**Importar Nombres:** Puedes añadir la lista de tus invitados para generar las tarjetas automáticamente.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes the digital product and applicable sign-in boundary.",
+            "evidence": "**Guardar y Exportar:** Para guardar tu proyecto o descargar el PDF final, solo necesitarás iniciar sesión con tu cuenta de Google.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards te permite crear y descargar archivos PDF con las tarjetas de sitio para tus invitados. Es importante mencionar que nosotros proporcionamos el diseño digital descargable, pero no imprimimos ni enviamos las tarjetas físicas.\n\nPara empezar con tu boda, el proceso es sencillo:\n\n1.  **Diseño y Vista Previa:** Puedes explorar los diseños y hacer una vista previa de cómo quedarán tus tarjetas sin costo alguno.\n2.  **Importar Nombres:** Puedes añadir la lista de tus invitados para generar las tarjetas automáticamente.\n3.  **Guardar y Exportar:** Para guardar tu proyecto o descargar el PDF final, solo necesitarás iniciar sesión con tu cuenta de Google.\n\n¿Te gustaría que te ayude con los pasos para importar tu lista de invitados o prefieres ver los diseños primero?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable workflow for creating and printing cards.",
+            "evidence": "**Importar Nombres:** Puedes añadir la lista de tus invitados para generar las tarjetas automáticamente.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "**Importar Nombres:** Puedes añadir la lista de tus invitados para generar las tarjetas automáticamente.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the path from guest names and design to a downloadable PDF.",
+            "evidence": "**Descargar e Imprimir:** Una vez que revises la vista previa, descargas el PDF. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes the digital product and applicable sign-in boundary.",
+            "evidence": "*   Para guardar tu progreso y descargar el PDF, necesitarás iniciar sesión con tu cuenta de **Google**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards te permite crear archivos PDF con los nombres de tus invitados para que luego tú mismo los imprimas en el papel que prefieras. No vendemos las tarjetas físicas, sino el diseño listo para imprimir.\n\nAquí tienes los pasos básicos para tu boda:\n\n1.  **Importar invitados:** Puedes pegar tu lista de nombres directamente o subir un archivo Excel (XLSX) o CSV.\n2.  **Diseño:** Eliges entre diseños predefinidos o puedes usar nuestra herramienta de IA para generar fondos personalizados.\n3.  **Personalizar:** Puedes ajustar la fuente, el color y la posición de los nombres para que queden perfectos.\n4.  **Descargar e Imprimir:** Una vez que revises la vista previa, descargas el PDF. **Muy importante:** Al imprimir, asegúrate de seleccionar **\"Tamaño Real\" (o 100%)** en tu impresora para que las medidas sean correctas.\n\n**Un par de detalles a tener en cuenta:**\n*   Para guardar tu progreso y descargar el PDF, necesitarás iniciar sesión con tu cuenta de **Google**.\n*   En la versión gratuita, puedes crear un proyecto con hasta **25 tarjetas**. Si tu boda tiene más invitados, podrás ver nuestras otras opciones de acceso.\n\n¿Te gustaría saber cómo importar tu lista de invitados o prefieres explorar los diseños?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable workflow for creating and printing cards.",
+            "evidence": "**Descargar e Imprimir:** Una vez que revises la vista previa, descargas el PDF. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "**Descargar e Imprimir:** Una vez que revises la vista previa, descargas el PDF. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "En revanche, si vous choisissez de souscrire à une formule spécifique, vous serez débité du montant correspondant à l'offre sélectionnée (par exemple, l'Event Pass à 5 $ une seule fois, ou les abonnements Planner Pro ou Studio).",
+            "reason": "Choosing a displayed offer in the current no-charge preview does not trigger the stated real payment.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts the required answer by saying the selected offer will actually charge the customer.",
+            "evidence": "En revanche, si vous choisissez de souscrire à une formule spécifique, vous serez débité du montant correspondant à l'offre sélectionnée (par exemple, l'Event Pass à 5 $ une seule fois, ou les abonnements Planner Pro ou Studio).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a real charge during the current simulated checkout.",
+            "evidence": "En revanche, si vous choisissez de souscrire à une formule spécifique, vous serez débité du montant correspondant à l'offre sélectionnée (par exemple, l'Event Pass à 5 $ une seule fois, ou les abonnements Planner Pro ou Studio).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "L'aperçu actuel sans frais (no-charge preview) ne prélève aucun paiement.\n\nEn revanche, si vous choisissez de souscrire à une formule spécifique, vous serez débité du montant correspondant à l'offre sélectionnée (par exemple, l'Event Pass à 5 $ une seule fois, ou les abonnements Planner Pro ou Studio).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Contradicts the preceding no-payment statement within the same answer.",
+            "evidence": "En revanche, si vous choisissez de souscrire à une formule spécifique, vous serez débité du montant correspondant à l'offre sélectionnée (par exemple, l'Event Pass à 5 $ une seule fois, ou les abonnements Planner Pro ou Studio).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "L'aperçu actuel sans frais (no-charge preview) ne prélève aucun paiement.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains adding names, choosing a design, previewing and printing the downloaded PDF.",
+            "evidence": "   - Download the PDF and print at home or a shop.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly requires Google sign-in for saving and export.",
+            "evidence": "- Requires Google sign-in to save/export.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards helps you create downloadable place-card PDFs for events like weddings. Here's how it works:\n\n1. **Import Guests**:  \n   - Paste names (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table\") during import.  \n\n2. **Design Cards**:  \n   - Choose from predefined templates (free plan includes 3 designs).  \n   - Adjust font, color, and layout. AI-generated backgrounds are available with paid plans.  \n\n3. **Preview & Export**:  \n   - Check all names, tables, and formatting.  \n   - Export a PDF (free plan limits to 25 cards; upgrade for more).  \n\n4. **Print**:  \n   - Download the PDF and print at home or a shop.  \n   - Use \"Actual Size\" (100%) and verify calibration with the test PDF.  \n\n**Free Plan Notes**:  \n- Requires Google sign-in to save/export.  \n- Limited to 25 cards and 3 designs.  \n- No direct printing or delivery—only PDFs.  \n\nFor larger weddings, consider upgrading to a paid plan (e.g., Event Pass for 500 cards). Let me know if you need help with specific steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The printing instructions are understandable in English.",
+            "evidence": "   - Use \"Actual Size\" (100%) and verify calibration with the test PDF.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Spanish question entirely in English.",
+            "evidence": "TableCards helps you create downloadable place-card PDFs for events like weddings. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Presents Google registration as a basic prerequisite instead of preserving public editing and preview.",
+            "evidence": "- צורך להירשם עם חשבון Google.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Adds an unclear restriction against printing or editing without a connection.",
+            "evidence": "- לא ניתן להדפיס או לערוך קבצים ללא חיבור.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards הוא שירות המאפשר ליצור קרטיסי שולחן בפורמט PDF להורדה. הוא לא ממכור נייר, חיבורים או פלטters, אלא רק את הקובץ הדיגיטלי. התהליך כולל בחירת תבנית, הוספת שמות אורחים וטבלאות, ויצירת קובץ PDF לה печать. \n\n**היתרונות המרכזיים:**\n- ** gratuites:** גרסה ניסיונית ללא תשלום, עם הגבלות מוגדרות (למשל, עד 25 כרטיסים בגרסת החינום).\n- **עיצובים מוכנים:** תבניות מותאמות לאייקון, עם אפשרויות לטעון תמונה משלך (למשל, סמל חברה).\n- **תמיכה בשמות מורכבים:** שמות עם תווים מיוחדים (כמו ווייטנמי) מותאמים, אך לא כל שפות מוגדרות כמתקנת.\n- **אפשרויות תשלומים:** גרסאות מתקדמות (مثل Event Pass, Planner Pro) מציעות יותר כרטיסים, תבניות מותאמות, ומאפשרות שימוש ב- AI ליצירת רקע.\n\n**דרישות בסיסיות:**\n- צורך להירשם עם חשבון Google.\n- חובה לערוך ולבדוק את כל הכרטיסים לפני הורדה.\n- לא ניתן להדפיס או לערוך קבצים ללא חיבור.\n\nאם תרצה, אוכל להסביר את התהליך של יצירת קובץ PDF או בחירת תבניות.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation mixes unrelated product terms and garbled words.",
+            "evidence": "הוא לא ממכור נייר, חיבורים או פלטters, אלא רק את הקובץ הדיגיטלי. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Russian text and other unrelated language fragments interrupt the Hebrew explanation.",
+            "evidence": "התהליך כולל בחירת תבנית, הוספת שמות אורחים וטבלאות, ויצירת קובץ PDF לה печать. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain that downloading the PDF requires Google sign-in.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Introduces an unverified approximate A6 PDF size.",
+            "evidence": "4) Previsualizas o descargas el PDF en tamaño A6 aprox (compatible para impresión). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards te permite crear PDF de tarjetas de mesa descargables, sin cartas físicas ni envíos.\n\nPasos principales:\n\n1) Abres la página, seleccionas la cantidad de invitados (o usas importación).\n2) Pones los nombres (puedes escribir manualmente o pegar una lista cambiando un par de columnas: Nombre, Apellido, Mesa, etc.). Deja un nombre en cada tarjeta.\n3) Elige o subes un diseño, fondo y tamaño de texto.\n4) Previsualizas o descargas el PDF en tamaño A6 aprox (compatible para impresión). Solo tienes la opción de descargar, no de pedir impresión o envío.\n5) Si quieres guardar proyectos futuros, hacer copias o usar fondos generados por IA deberás iniciar sesión con Google.\n\nComo es previsualización sin cobro, ves los resultados pero el checkout es una simulación, no un pago real.\n\nSi necesitas ayuda con la importación, con el tamaño o con el diseño, dime qué quieres hacer y te guío punto por punto.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Combines preview and download with an unsupported fixed-size instruction.",
+            "evidence": "4) Previsualizas o descargas el PDF en tamaño A6 aprox (compatible para impresión). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "2) Pones los nombres (puedes escribir manualmente o pegar una lista cambiando un par de columnas: Nombre, Apellido, Mesa, etc.). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits Google sign-in as the requirement for saving and exporting.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains that customers arrange paper and physical printing.",
+            "evidence": "Ten en cuenta que TableCards crea el diseño digital (el archivo); la compra del papel y la impresión física corre por tu cuenta. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards te permite diseñar y descargar archivos PDF con tus tarjetas de sitio para que luego puedas imprimirlas tú mismo. El proceso es muy sencillo:\n\n1.  **Importar los nombres:** Puedes pegar tu lista de invitados directamente o subir un archivo (como Excel o CSV).\n2.  **Elegir el diseño:** Puedes usar nuestras plantillas predefinidas o subir una imagen propia para que las tarjetas combinen con la temática de tu boda.\n3.  **Personalizar y revisar:** Puedes ajustar el tipo de letra, el tamaño y la posición de los nombres. Es importante previsualizar cada tarjeta para asegurar que no haya errores.\n4.  **Descargar e imprimir:** Una vez listo, generas un PDF descargable. \n\n**Un consejo importante para la impresión:** Cuando mandes a imprimir el PDF, asegúrate de seleccionar la opción **\"Tamaño real\" o \"100%\"** (no uses \"ajustar a la página\") para que las dimensiones de las tarjetas sean las correctas.\n\nTen en cuenta que TableCards crea el diseño digital (el archivo); la compra del papel y la impresión física corre por tu cuenta. Puedes empezar a probarlo gratis con el sistema de vista previa.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The name, design and preview workflow is understandable.",
+            "evidence": "Es importante previsualizar cada tarjeta para asegurar que no haya errores.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "**Importar los nombres:** Puedes pegar tu lista de invitados directamente o subir un archivo (como Excel o CSV).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Mentions sign-in for saving and advanced features but omits its export requirement.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes PDF export and matching print scale, paper and margins.",
+            "evidence": "   - Descarga el PDF y imprime en tamaño real (100%), asegurando que el papel y márgenes coincidan con el diseño.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards te permite crear tarjetas de lugar digitales en PDF para eventos como bodas. Aquí cómo funciona:\n\n1. **Importar invitados**:  \n   - Pega nombres uno por línea o sube un archivo CSV/XLSX.  \n   - Mapea columnas (nombre, mesa, etc.) y confirma si la primera fila tiene encabezados.  \n   - *Nota*: La importación no fusiona o elimina datos automáticamente; revisa los resultados antes de continuar.\n\n2. **Diseñar tarjetas**:  \n   - Usa plantillas prediseñadas (gratis: 3 opciones; pagas: más opciones).  \n   - Sube arte personalizado (PNG/JPEG, 7:4 ratio, 1050×600 píxeles mínimo).  \n   - Ajusta fuentes, colores y posición del texto.  \n   - *Gratis*: Solo 25 tarjetas; para más, necesitas un plan (ej.: Event Pass por $5).\n\n3. **Previsualizar y exportar**:  \n   - Revisa cada tarjeta antes de exportar.  \n   - Descarga el PDF y imprime en tamaño real (100%), asegurando que el papel y márgenes coincidan con el diseño.  \n   - *Nota*: No hay impresión física directa; tú gestionas la impresión.\n\n4. **Guardar y editar**:  \n   - Inicia sesión con Google para guardar proyectos o usar funciones avanzadas (AI, arte personalizado).  \n   - Los proyectos guardados están en tu espacio de trabajo; no se transfieren automáticamente entre cuentas.\n\n**Limitaciones gratis**:  \n- Máximo 25 tarjetas.  \n- Solo 3 plantillas.  \n- Sin exportación de PDF si excedes el límite.  \n\nPara bodas con más invitados, considera un plan como **Event Pass** (hasta 500 tarjetas) o **Planner Pro** (más proyectos y funciones).  \n\n¿Necesitas ayuda con algo específico, como importar una lista o ajustar un diseño?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The import and mapping steps are clear.",
+            "evidence": "   - Mapea columnas (nombre, mesa, etc.) y confirma si la primera fila tiene encabezados.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "   - Pega nombres uno por línea o sube un archivo CSV/XLSX.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly explain choosing a design and previewing the cards.",
+            "evidence": "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses unreviewed registration categories to describe template access.",
+            "evidence": "   - תבניות מוכנות מוגדרות לפי רמת הרישום (חינם/אינטראקטיבי/מתקדם).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards יוצרת קבצי PDF לקלפי שולחן לטעון ולהדפיס במחשב או במדפסת. התהליך כולל:\n\n1. **יצירת הקובץ**  \n   - מוסיפים רשימה של שמות אורחים, מסכי שולחן (אופציונלי) ופרטים אחרים.  \n   - בוחרים במבנה (למשל, 4 קלפים לדף) ופורמט מדפסת (A4/US Letter).  \n   - הקובץ מופיע בדפדפן כמצגת, וניתן להורידו כ-PDF.\n\n2. **הדפסה**  \n   - יש להדפיס ב-**Actual Size / 100%** (לא \"התאמה לדף\").  \n   - מומלץ לבדוק את התרעננות עם קובץ בדיקה נפרדים לפני הדפסת כל האירוע.\n\n3. **רישום**  \n   - יצוא פרויקט ותיעוד עוזרים דורשים **כניסה באמצעות Google**.  \n   - חסרים חיסורים/שכבות טקסט מוגנים, ושמות ארוכים יכולים להיראות בשתי שורות.\n\n4. **אפשרויות מתקדמות**  \n   - **AI** יכול לספק רעיונות לרקע (אינו מצריך תשלום).  \n   - תבניות מוכנות מוגדרות לפי רמת הרישום (חינם/אינטראקטיבי/מתקדם).\n\nלפרטים נוספים, יש לבדוק את דף ה-FAQ או לשלוח שאלה ספציפית.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The description of protected text and missing subtractions is unintelligible.",
+            "evidence": "   - חסרים חיסורים/שכבות טקסט מוגנים, ושמות ארוכים יכולים להיראות בשתי שורות.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Garbled Hebrew vocabulary destroys the meaning of the text-handling explanation.",
+            "evidence": "   - חסרים חיסורים/שכבות טקסט מוגנים, ושמות ארוכים יכולים להיראות בשתי שורות.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the path from guest names and design to a downloadable PDF.",
+            "evidence": "**ייבוא רשימות:** ניתן להעתיק רשימות או להעלות קבצי Excel/CSV כדי לייצר את הכרטיסים במהירות.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes the digital product and applicable sign-in boundary.",
+            "evidence": "**שמירה וייצוא:** כדי לשמור את הפרויקטים שלך, לייצא את הקבצים להדפסה או להשתמש בתכונות ה-AI, עליך להתחבר באמצעות חשבון Google.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards היא כלי ליצירת קבצי PDF להדפסה של כרטיסי שולחן (place cards).\n\nהתהליך עובד כך:\n1. **עיצוב וטעינה:** ניתן להשתמש בעיצובים מוכנים, להעלות אמנות משלך או להשתמש בבינה מלאכותית (AI) ליצירת רקעים.\n2. **ייבוא רשימות:** ניתן להעתיק רשימות או להעלות קבצי Excel/CSV כדי לייצר את הכרטיסים במהירות.\n3. **תצוגה מקדימה:** ניתן לראות תצוגה מקדימה של הכרטיסים ללא עלות.\n4. **שמירה וייצוא:** כדי לשמור את הפרויקטים שלך, לייצא את הקבצים להדפסה או להשתמש בתכונות ה-AI, עליך להתחבר באמצעות חשבון Google.\n\nחשוב לזכור: אנחנו מספקים את קובץ ה-PDF להדפסה בלבד, ולא שירות של הדפסה או משלוח פיזי של כרטיסים.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable workflow for creating and printing cards.",
+            "evidence": "**ייבוא רשימות:** ניתן להעתיק רשימות או להעלות קבצי Excel/CSV כדי לייצר את הכרטיסים במהירות.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Hebrew.",
+            "evidence": "**ייבוא רשימות:** ניתן להעתיק רשימות או להעלות קבצי Excel/CSV כדי לייצר את הכרטיסים במהירות.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the practical steps of adding names and choosing a design.",
+            "evidence": "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Mistranslates launch hypotheses as publication discounts.",
+            "evidence": "המחירים המוצגים הם הנחות לפרסום, וההתשלום בקופסה הוא סימולציה, לא תשלום אמיתי. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards יוצרת קרטיסי מיקום בפורמט PDF להורדה, לא פיזיים. הגרסה הנוכחית היא תצוגה חינמית ללא תשלום. המחירים המוצגים הם הנחות לפרסום, וההתשלום בקופסה הוא סימולציה, לא תשלום אמיתי. כדי לשמור, ל تصدير או להשתמש במאחורי דפי AI, דרוש התחברות עם Google. התצוגה הכללית והשאלות הרגולריות לא דורשות התחברות. שימו לב: TableCards לא מטפל בדruk, משלוח או הוצאה חוזרת.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation of export and AI backgrounds uses unclear and mixed-language terms.",
+            "evidence": "כדי לשמור, ל تصدير או להשתמש במאחורי דפי AI, דרוש התחברות עם Google. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Arabic text and incorrect Hebrew vocabulary destroy the feature explanation.",
+            "evidence": "כדי לשמור, ל تصدير או להשתמש במאחורי דפי AI, דרוש התחברות עם Google. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Mentions sign-in for saving and advanced features but omits its export requirement.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes PDF export and printing at full scale.",
+            "evidence": "   - Экспортируйте PDF и распечатайте на бумаге (рекомендуется 100% масштаб, проверьте калибровку).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards позволяет создать цифровые PDF-карточки с именами гостей для вашего события. Вот как это работает:\n\n1. **Загрузите список гостей**  \n   - Вставьте имена вручную (по одному на строку) или импортируйте CSV/XLSX-файл.  \n   - Укажите столбцы с именами, столами (опционально) и маркерами (например, \"Свадьба\" или \"Дети\").  \n\n2. **Настройте дизайн**  \n   - Выберите один из 3 бесплатных шаблонов или загрузите собственное изображение (PNG/JPEG, 7:4, до 2 Мп).  \n   - Настройте шрифт, цвет и расположение текста.  \n\n3. **Предварительный просмотр и печать**  \n   - Проверьте, чтобы имена не обрезались (допускается 2 строки).  \n   - Экспортируйте PDF и распечатайте на бумаге (рекомендуется 100% масштаб, проверьте калибровку).  \n\n**Важно:**  \n- Бесплатная версия позволяет создавать до 25 карточек. Для больших списков (до 500) нужен **Event Pass** ($5).  \n- Печать, бумага и доставка не включены — организуйте их самостоятельно.  \n- Для сохранения проектов и расширенных функций (например, AI-фонов) требуется вход в Google.  \n\nЕсли нужно, помогу с конкретным шагом (например, импортом CSV или выбором шаблона).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The import instructions are understandable.",
+            "evidence": "   - Вставьте имена вручную (по одному на строку) или импортируйте CSV/XLSX-файл.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian.",
+            "evidence": "   - Вставьте имена вручную (по одному на строку) или импортируйте CSV/XLSX-файл.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required preview step before downloading the cards.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states the Google sign-in requirement for saving, export and AI.",
+            "evidence": "*   **Google Sign-In:** Para guardar el proyecto, exportar el PDF o usar fondos generados por IA, necesitas iniciar sesión con Google.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para hacer las tarjetas con los nombres de tus invitados:\n\n1.  **Sube los nombres**: Puedes pegar una lista (uno por línea), subir un archivo (Excel, CSV) o importar datos ya guardados. También puedes asignar un número de mesa.\n2.  **Elige un diseño**: Selecciona entre las plantillas predefinidas.\n3.  **Descarga un PDF**: TableCards genera las tarjetas digitales para que tú las imprimas tú mismo.\n\n**A tener en cuenta:**\n*   **Imprimas tú mismo:** Debes configurar la impresora para imprimir a tamaño real (100%), no \"ajustar a página\".\n*   **Google Sign-In:** Para guardar el proyecto, exportar el PDF o usar fondos generados por IA, necesitas iniciar sesión con Google.\n*   **Límites:** El plan gratuito permite hasta 25 tarjetas por evento. Si tienes más invitados, puedes reducir la lista o ver opciones de pago.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains that the customer prints the downloaded PDF.",
+            "evidence": "**Descarga un PDF**: TableCards genera las tarjetas digitales para que tú las imprimas tú mismo.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "**Elige un diseño**: Selecciona entre las plantillas predefinidas.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Completes the core workflow through preview and PDF download.",
+            "evidence": "**הורדה והדפסה:** לאחר התצוגה המקדימה, ניתן להוריד קובץ PDF. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described name styling follows the supported customization options.",
+            "evidence": "**התאמה אישית:** ניתן לעצב את הגופן, הצבע והמיקום של השמות על הכרטיס כדי לוודא שהכל נראה בדיוק כפי שרציתם.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards מאפשרת לך ליצור קבצי PDF מוכנים להדפסה עבור כרטיסי שולחן (place cards) לאירועים. התהליך פשוט ומתבצע בכמה שלבים:\n\n1.  **בחירת עיצוב:** תוכלו לבחור מתוך תבניות עיצוב מוכנות או להשתמש בבינה מלאכותית (AI) כדי ליצור רקע ייחודי שמתאים לאירוע שלכם.\n2.  **הוספת אורחים:** ניתן להזין שמות בצורה פשוטה על ידי הדבקת רשימה, או לייבא קובץ (כמו CSV או Excel). ניתן להוסיף גם מספרי שולחנות או סימונים קצרים.\n3.  **התאמה אישית:** ניתן לעצב את הגופן, הצבע והמיקום של השמות על הכרטיס כדי לוודא שהכל נראה בדיוק כפי שרציתם.\n4.  **הורדה והדפסה:** לאחר התצוגה המקדימה, ניתן להוריד קובץ PDF. \n\n**נקודות חשובות שכדאי לדעת:**\n*   ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The core workflow remains clear despite the unused trailing heading.",
+            "evidence": "**הורדה והדפסה:** לאחר התצוגה המקדימה, ניתן להוריד קובץ PDF. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Hebrew.",
+            "evidence": "**הוספת אורחים:** ניתן להזין שמות בצורה פשוטה על ידי הדבקת רשימה, או לייבא קובץ (כמו CSV או Excel). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that choosing an offer now will not cause a real charge.",
+            "evidence": "Non, vous ne serez pas débité.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains the no-charge preview and simulated checkout.",
+            "evidence": "Le processus de paiement que vous voyez est une simulation et les prix affichés sont des hypothèses de lancement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, vous ne serez pas débité.\n\nActuellement, TableCards est en phase de « no-charge preview » (aperçu sans frais). Le processus de paiement que vous voyez est une simulation et les prix affichés sont des hypothèses de lancement. Aucun paiement réel n'est collecté pour le moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between displayed prices and actual payment is clear.",
+            "evidence": "Le processus de paiement que vous voyez est une simulation et les prix affichés sont des hypothèses de lancement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Non, vous ne serez pas débité.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Ensure your printer settings match the card size (e.g., 5x7 inches) for accuracy.\n",
+            "reason": "Printer paper settings must match the selected sheet layout, not an invented five-by-seven-inch card size.",
+            "referenceKey": "tablecards.printing"
+          },
+          {
+            "code": "invented_fact",
+            "evidence": "Check the [landing page](https://www.tablecards.com) for finalized info. ",
+            "reason": "Invents a landing-page URL not supplied by the reviewed knowledge or tool evidence.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the main workflow through PDF download and self-printing.",
+            "evidence": "   - Download the PDF and print it on standard paper. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly matches printer settings to an individual card size rather than the sheet layout.",
+            "evidence": "Ensure your printer settings match the card size (e.g., 5x7 inches) for accuracy.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards helps you create downloadable place-card PDFs for events like weddings. Here's how to make them:\n\n1. **Add Guest Names**:  \n   - Use the \"Import\" feature to paste names directly or upload a CSV/XLSX file. Map columns (e.g., \"Name\") to organize data.\n\n2. **Design Preview**:  \n   - Choose from predefined templates or use AI-generated backgrounds (requires Google sign-in). Preview designs in the free, no-charge demo.\n\n3. **Print PDFs**:  \n   - Download the PDF and print it on standard paper. Ensure your printer settings match the card size (e.g., 5x7 inches) for accuracy.\n\n4. **Save Projects**:  \n   - Sign in with Google to save, archive, or restore your work. Free previews don’t require login, but saving/exporting does.\n\nNote: Pricing details are hypothetical (e.g., \"Event Pass\" or \"Planner Pro\" are placeholders). Check the [landing page](https://www.tablecards.com) for finalized info. For bulk printing, ensure your PDF is correctly formatted. Let me know if you need help with specific steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The unsupported card-size instruction can misdirect the printing setup.",
+            "evidence": "Ensure your printer settings match the card size (e.g., 5x7 inches) for accuracy.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Spanish question entirely in English.",
+            "evidence": "TableCards helps you create downloadable place-card PDFs for events like weddings. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that choosing an offer now will not cause a real charge.",
+            "evidence": "Non, si vous choisissez une formule payante pendant la phase de **prévisualisation gratuite**, **aucun débit ne sera effectué**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains the no-charge preview and simulated checkout.",
+            "evidence": "- Le \"checkout\" est décrit comme une **simulation non liée à un paiement réel**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNon, si vous choisissez une formule payante pendant la phase de **prévisualisation gratuite**, **aucun débit ne sera effectué**. Selon les informations fournies :  \n- La **prévisualisation actuelle ne collecte aucune paiement**.  \n- Les offres mentionnées (Event Pass, Planner Pro, Studio) sont des hypothèses de lancement, mais **le comportement de paiement réel n’est pas encore activé**.  \n- Le \"checkout\" est décrit comme une **simulation non liée à un paiement réel**.  \n\nPour les détails sur les tarifs et les paiements futurs, consultez la page de **tarification** ou contactez le support. En cas de doute, vérifiez les informations via le **compte utilisateur** ou contactez le service client.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between displayed prices and actual payment is clear.",
+            "evidence": "- Le \"checkout\" est décrit comme une **simulation non liée à un paiement réel**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Non, si vous choisissez une formule payante pendant la phase de **prévisualisation gratuite**, **aucun débit ne sera effectué**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.spanish.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the path from guest names and design to a downloadable PDF.",
+            "evidence": "**Previsualizar y Exportar:** Revisas que todos los nombres y etiquetas estén correctos y, cuando estés listo, descargas el PDF.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes the digital product and applicable sign-in boundary.",
+            "evidence": "Para poder guardar tus proyectos y descargar los archivos PDF, necesitarás iniciar sesión con tu cuenta de **Google**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards te permite crear archivos PDF descargables con los nombres de tus invitados para que luego puedas imprimirlos tú mismo. El proceso es muy sencillo:\n\n1.  **Importar tus invitados:** Puedes copiar y pegar una lista de nombres o subir un archivo (como un CSV o Excel).\n2.  **Elegir un diseño:** Puedes usar nuestros diseños predefinidos o subir tu propio arte (por ejemplo, una imagen con la temática de tu boda).\n3.  **Personalizar:** Puedes ajustar el tipo de letra, el tamaño, el color y la posición de los nombres en las tarjetas.\n4.  **Previsualizar y Exportar:** Revisas que todos los nombres y etiquetas estén correctos y, cuando estés listo, descargas el PDF.\n\n**Cosas importantes a tener en cuenta:**\n\n*   **Impresión:** Nosotros no vendemos papel ni realizamos la impresión. Una vez que descargues el PDF, tú te encargas de imprimirlo. Para que el tamaño sea el correcto, asegúrate de configurar tu impresora al **100% de tamaño real** (no uses \"ajustar a página\").\n*   **Acceso:** Actualmente estamos en una fase de vista previa sin coste (*no-charge preview*). Para poder guardar tus proyectos y descargar los archivos PDF, necesitarás iniciar sesión con tu cuenta de **Google**.\n\n¿Te gustaría que te ayude con el primer paso para importar tu lista de invitados?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable workflow for creating and printing cards.",
+            "evidence": "**Previsualizar y Exportar:** Revisas que todos los nombres y etiquetas estén correctos y, cuando estés listo, descargas el PDF.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Spanish.",
+            "evidence": "**Previsualizar y Exportar:** Revisas que todos los nombres y etiquetas estén correctos y, cuando estés listo, descargas el PDF.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.french.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that choosing an offer now will not cause a real charge.",
+            "evidence": "Non, vous ne serez pas débité. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains the no-charge preview and simulated checkout.",
+            "evidence": "Les prix affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation étiquetée, pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, vous ne serez pas débité. \n\nActuellement, TableCards est en phase de **prévisualisation gratuite** (no-charge preview). Les prix affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation étiquetée, pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between displayed prices and actual payment is clear.",
+            "evidence": "Les prix affichés sont des hypothèses pour le lancement et le processus de paiement est une simulation étiquetée, pas un véritable abonnement ou un paiement réel.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Non, vous ne serez pas débité. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.hebrew.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains names, design and PDF export for independent printing.",
+            "evidence": "- Export a ready‑to‑print PDF\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes public import and preview from sign-in-required saving and export.",
+            "evidence": "For saving projects, exporting, and AI backgrounds you’ll need to sign in with your Google account (Google sign‑in only—no email/Apple login and no password reset). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards is a web tool for creating printable place‑card PDFs (no paper, printing, or delivery). You can use it to:\n\n- Paste or upload a guest list\n- Choose or upload a design or AI background\n- Export a ready‑to‑print PDF\n\nNo checkout or payment is required—there’s a no‑charge preview. The display prices are placeholders for future experiments, and the checkout flow is a simulation (just to test the experience). Import and preview are open to everyone. For saving projects, exporting, and AI backgrounds you’ll need to sign in with your Google account (Google sign‑in only—no email/Apple login and no password reset). To request human assistance, feedback, or have a question that can’t be answered here, you can reach out to support.\n\nIf you’d like, I can walk you through how to start with your first list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The basic workflow is understandable in English.",
+            "evidence": "- Paste or upload a guest list\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "TableCards is a web tool for creating printable place‑card PDFs (no paper, printing, or delivery). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 8,
+  "invalid": 0,
+  "unsure": 0
+}

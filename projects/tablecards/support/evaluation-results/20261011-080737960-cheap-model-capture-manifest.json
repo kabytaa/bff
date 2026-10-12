@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "startedAt": "2026-10-11T07:52:55.165Z",
+  "finishedAt": "2026-10-11T08:07:37.960Z",
+  "captureOnly": true,
+  "qualityVerified": false,
+  "manualReviewRequired": true,
+  "deployment": "compassionate-buffalo-689",
+  "globalProviderPacingMs": 4000,
+  "maximumRequestsPerMinute": 15,
+  "maximumAdditionalParentRequestsPerMinute": 2,
+  "maximumCombinedCaptureRequestsPerMinute": 17,
+  "maximumAnswerCallsPerCase": 4,
+  "maximumOutputTokensPerCall": 1200,
+  "maximumRetries": 0,
+  "judgeCalls": 0,
+  "calibrationCalls": 0,
+  "maximumCostUsdPerChunk": 2,
+  "expectedArmRanges": [
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 40,
+      "end": 157
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 0,
+      "end": 144
+    },
+    {
+      "modelKey": "gemma4-26b",
+      "offset": 0,
+      "end": 157
+    }
+  ],
+  "expectedParentOwnedRanges": [
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 0,
+      "count": 40
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 144,
+      "count": 13
+    }
+  ],
+  "missingParentOwnedReports": [],
+  "reports": [
+    {
+      "modelKey": "gemma4-26b",
+      "offset": 0,
+      "count": 20,
+      "status": "captured",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075708259-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075708259-operator-live.md",
+      "calls": 20,
+      "inputTokens": 47364,
+      "outputTokens": 6381,
+      "estimatedCostUsd": 0.006650699999999999,
+      "conservativeCostBoundUsd": 0.29094400000000004
+    },
+    {
+      "modelKey": "gemma4-26b",
+      "offset": 20,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080303116-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080303116-operator-live.md",
+      "calls": 18,
+      "inputTokens": 42700,
+      "outputTokens": 10969,
+      "estimatedCostUsd": 0.007560700000000001,
+      "conservativeCostBoundUsd": 0.29094400000000004
+    },
+    {
+      "modelKey": "gemma4-26b",
+      "offset": 40,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080653892-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080653892-operator-live.md",
+      "calls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "estimatedCostUsd": 0,
+      "conservativeCostBoundUsd": 0.29094400000000004
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 0,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075827607-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075827607-operator-live.md",
+      "calls": 19,
+      "inputTokens": 43508,
+      "outputTokens": 11033,
+      "estimatedCostUsd": 0.007045434,
+      "conservativeCostBoundUsd": 0.19699712000000003
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 20,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080437909-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080437909-operator-live.md",
+      "calls": 4,
+      "inputTokens": 9169,
+      "outputTokens": 2950,
+      "estimatedCostUsd": 0.0017347245,
+      "conservativeCostBoundUsd": 0.19699712000000003
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 40,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080737905-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080737905-operator-live.md",
+      "calls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "estimatedCostUsd": 0,
+      "conservativeCostBoundUsd": 0.19699712000000003
+    },
+    {
+      "modelKey": "glm-4.7-flash",
+      "offset": 144,
+      "count": 13,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075441611-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075441611-operator-live.md",
+      "calls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "estimatedCostUsd": 0,
+      "conservativeCostBoundUsd": 0.128048128
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 0,
+      "count": 40,
+      "status": "captured",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-074936615-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-074936615-operator-live.md",
+      "calls": 40,
+      "inputTokens": 92562,
+      "outputTokens": 13738,
+      "estimatedCostUsd": 0.0093136358,
+      "conservativeCostBoundUsd": 0.331182592
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 40,
+      "count": 20,
+      "status": "captured",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075602565-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075602565-operator-live.md",
+      "calls": 20,
+      "inputTokens": 46343,
+      "outputTokens": 6884,
+      "estimatedCostUsd": 0.0046649987,
+      "conservativeCostBoundUsd": 0.165591296
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 60,
+      "count": 20,
+      "status": "captured",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075851155-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-075851155-operator-live.md",
+      "calls": 20,
+      "inputTokens": 46613,
+      "outputTokens": 7760,
+      "estimatedCostUsd": 0.0049722017000000006,
+      "conservativeCostBoundUsd": 0.165591296
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 80,
+      "count": 20,
+      "status": "captured",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080105249-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080105249-operator-live.md",
+      "calls": 20,
+      "inputTokens": 46637,
+      "outputTokens": 8848,
+      "estimatedCostUsd": 0.0053379033,
+      "conservativeCostBoundUsd": 0.165591296
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 100,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080309911-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080309911-operator-live.md",
+      "calls": 19,
+      "inputTokens": 44334,
+      "outputTokens": 6758,
+      "estimatedCostUsd": 0.004520530600000001,
+      "conservativeCostBoundUsd": 0.165591296
+    },
+    {
+      "modelKey": "qwen3-30b",
+      "offset": 120,
+      "count": 20,
+      "status": "partial_or_failed",
+      "jsonPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080705903-operator-live.json",
+      "markdownPath": "/root/projects/bff/projects/tablecards/support/evaluation-results/20261011-080705903-operator-live.md",
+      "calls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "estimatedCostUsd": 0,
+      "conservativeCostBoundUsd": 0.165591296
+    }
+  ]
+}

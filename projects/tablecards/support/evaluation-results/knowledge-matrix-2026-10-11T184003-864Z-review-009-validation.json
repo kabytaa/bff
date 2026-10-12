@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-009",
+  "packetHash": "b0426a0100045a335372d7b1cef101599d9393d0f10423304c27fc2453c39718",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "The original invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "The original invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe original invitation link is no longer valid after reissuance. To join the Studio workspace, use the **new invitation link** provided by the owner/admin. Ensure you **sign in with the exact account** associated with the invitation. If issues persist, the workspace owner must reissue the link through their admin interface. Support cannot bypass authentication or restore expired links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "The original invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "\n\nThe original invitation link is no longer valid after reissuance. To join the Studio workspace, use the **new invitation link** provided by the owner/admin. Ensure you **sign in with the exact account** associated with the invitation. If issues persist, the workspace owner must reissue the link through their admin interface. Support cannot bypass authentication or restore expired links.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "That is the expected behavior. When an invitation link is reissued, the previous link is automatically invalidated. \n\nPlease use the most recent link provided by your team member to join the workspace. When you click it, make sure you are signed in to the correct Google account to accept the invitation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "That is the expected behavior. When an invitation link is reissued, the previous link is automatically invalidated. \n\nPlease use the most recent link provided by your team member to join the workspace. When you click it, make sure you are signed in to the correct Google account to accept the invitation.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Масштаб:** Выберите **100%** (итальянский язык — «Собственный размер», «Реальный размер»). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Prescribes no or minimum margins instead of matching margins to the selected layout.",
+            "evidence": "Выберите «Нет» или «Минимальные», чтобы не обрезать часть макета.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Чаще всего ответы на принтере выходят меньше, если настройки принтера подгоняют страницу под лист, либо если поля обрезают край макета.\n\nПопробуйте следующие настройки:\n1.  **Масштаб:** Выберите **100%** (итальянский язык — «Собственный размер», «Реальный размер»). Не используйте «Подогнать».\n2.  **Поля:** Проверьте разметку полей. Выберите «Нет» или «Минимальные», чтобы не обрезать часть макета.\n3.  **Размер бумаги:** Убедитесь, что в настройках принтера указан тот же формат, который использовался при создании документа (например, А4 или Letter).\n\nТаблица переведения полей в разных принтерах может отличаться, поэтому проверьте макет на экране перед печатью.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The blanket margin preset instruction can misdirect the customer's printing setup.",
+            "evidence": "Выберите «Нет» или «Минимальные», чтобы не обрезать часть макета.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The scale instruction inserts an irrelevant Italian-language label and the closing margin sentence is garbled.",
+            "evidence": "**Масштаб:** Выберите **100%** (итальянский язык — «Собственный размер», «Реальный размер»). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "Good to hear the invitation was reissued—this also makes sense because the old link is no longer valid (reissued invitations invalidate previous ones).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "Good to hear the invitation was reissued—this also makes sense because the old link is no longer valid (reissued invitations invalidate previous ones).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Good to hear the invitation was reissued—this also makes sense because the old link is no longer valid (reissued invitations invalidate previous ones).\n\nTo accept and start using the workspace (depending on how the new link is set up):\n\n- Open the new invitation link in a browser (suggested: a new incognito/private window if you’re already signed in somewhere else), and sign in as the intended recipient. This accepts the Studio workspace on your account.\n- Alternatively, use the app, navigate to the invitation, and complete sign‑in. Use the same account you accepted the invitation to (other accounts won’t attach to the same project/workspace).\n- Once accepted, you should be able to access projects on that Studio workspace as a member.\n\nIf the reissued link in your browser or app also shows as invalid or won’t accept your sign‑in:\n- Try signing out completely, opening a fresh browser window without an active account, and accepting from that session, or\n- Let me know how you’d like to proceed—I can locate support or a direct path for a human review if the item itself won’t work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "Good to hear the invitation was reissued—this also makes sense because the old link is no longer valid (reissued invitations invalidate previous ones).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "Good to hear the invitation was reissued—this also makes sense because the old link is no longer valid (reissued invitations invalidate previous ones).\n\nTo accept and start using the workspace (depending on how the new link is set up):\n\n- Open the new invitation link in a browser (suggested: a new incognito/private window if you’re already signed in somewhere else), and sign in as the intended recipient. This accepts the Studio workspace on your account.\n- Alternatively, use the app, navigate to the invitation, and complete sign‑in. Use the same account you accepted the invitation to (other accounts won’t attach to the same project/workspace).\n- Once accepted, you should be able to access projects on that Studio workspace as a member.\n\nIf the reissued link in your browser or app also shows as invalid or won’t accept your sign‑in:\n- Try signing out completely, opening a fresh browser window without an active account, and accepting from that session, or\n- Let me know how you’d like to proceed—I can locate support or a direct path for a human review if the item itself won’t work.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs let the customer continue without new AI generation.",
+            "evidence": "Puede imprimir las tarjetas usando los diseños predeterminados que ya están disponibles, sin necesidad de esperar. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Predefined designs and normal export remain available when AI is exhausted.",
+            "evidence": "Puede imprimir las tarjetas usando los diseños predeterminados que ya están disponibles, sin necesidad de esperar. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nPuede imprimir las tarjetas usando los diseños predeterminados que ya están disponibles, sin necesidad de esperar. Según la información de TableCards, los usuarios gratuitos tienen acceso a 3 diseños predeterminados y pueden ajustar el texto (nombre, mesa, etc.) antes de exportar. Si ya completó el uso de su crédito de IA, simplemente seleccione uno de los fondos predeterminados y proceda con la impresión. Asegúrese de verificar que el texto se muestre correctamente en la vista previa. Si necesita más opciones, podría considerar actualizar a un plan premium, pero no es obligatorio para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a usable way to continue preparing the cards.",
+            "evidence": "Puede imprimir las tarjetas usando los diseños predeterminados que ya están disponibles, sin necesidad de esperar. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply answers naturally in Spanish.",
+            "evidence": "\n\nPuede imprimir las tarjetas usando los diseños predeterminados que ya están disponibles, sin necesidad de esperar. Según la información de TableCards, los usuarios gratuitos tienen acceso a 3 diseños predeterminados y pueden ajustar el texto (nombre, mesa, etc.) antes de exportar. Si ya completó el uso de su crédito de IA, simplemente seleccione uno de los fondos predeterminados y proceda con la impresión. Asegúrese de verificar que el texto se muestre correctamente en la vista previa. Si necesita más opciones, podría considerar actualizar a un plan premium, pero no es obligatorio para imprimir.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Выберите \"Печать по фактическому размеру\" (Actual Size/100%)**, а не \"Подогнать под страницу\".  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Prescribes minimum or Normal margins without establishing that they match the selected layout.",
+            "evidence": "Проверьте **поля печати** (Margins) — установите их на минимальные или \"Нормальные\", чтобы не сокращать размер карточек.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nЧтобы исправить проблему с маленькими карточками, проверьте настройки принтера:  \n1. **Выберите \"Печать по фактическому размеру\" (Actual Size/100%)**, а не \"Подогнать под страницу\".  \n2. Убедитесь, что **размер бумаги** в принтере совпадает с выбранным в TableCards (например, A4 или Letter).  \n3. Проверьте **поля печати** (Margins) — установите их на минимальные или \"Нормальные\", чтобы не сокращать размер карточек.  \n4. Используйте **тестовый PDF для калибровки** (отдельный файл) перед печатью полного набора.  \n\nЕсли проблема сохраняется, уточните, какая именно настройка принтера применялась, и укажите модель принтера/устройства.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer is given conflicting generic margin presets instead of a layout-matching instruction.",
+            "evidence": "Проверьте **поля печати** (Margins) — установите их на минимальные или \"Нормальные\", чтобы не сокращать размер карточек.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "\n\nЧтобы исправить проблему с маленькими карточками, проверьте настройки принтера:  \n1. **Выберите \"Печать по фактическому размеру\" (Actual Size/100%)**, а не \"Подогнать под страницу\".  \n2. Убедитесь, что **размер бумаги** в принтере совпадает с выбранным в TableCards (например, A4 или Letter).  \n3. Проверьте **поля печати** (Margins) — установите их на минимальные или \"Нормальные\", чтобы не сокращать размер карточек.  \n4. Используйте **тестовый PDF для калибровки** (отдельный файл) перед печатью полного набора.  \n\nЕсли проблема сохраняется, уточните, какая именно настройка принтера применялась, и укажите модель принтера/устройства.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "When an invitation is reissued, the previous link is automatically invalidated.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "When an invitation is reissued, the previous link is automatically invalidated.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "That's expected behavior. When an invitation is reissued, the previous link is automatically invalidated.\n\nPlease use the most recent link provided. Also, ensure you are signed in to Google as the intended recipient when you click the new link.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "When an invitation is reissued, the previous link is automatically invalidated.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "That's expected behavior. When an invitation is reissued, the previous link is automatically invalidated.\n\nPlease use the most recent link provided. Also, ensure you are signed in to Google as the intended recipient when you click the new link.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "Reissuing an invitation invalidates the old link automatically. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "Reissuing an invitation invalidates the old link automatically. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Reissuing an invitation invalidates the old link automatically. Please use the new link that was sent after you requested the reissue.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "Reissuing an invitation invalidates the old link automatically. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "Reissuing an invitation invalidates the old link automatically. Please use the new link that was sent after you requested the reissue.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "   В окне печати убедитесь, что выбрана опция **\"Фактический размер\"** или **\"100%\"**, а не **\"Подогнать под страницу\"** (Fit to Page). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential scale and paper guidance follows the printing reference.",
+            "evidence": "   В окне печати убедитесь, что выбрана опция **\"Фактический размер\"** или **\"100%\"**, а не **\"Подогнать под страницу\"** (Fit to Page). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nЕсли карточки получились слишком маленькими, проверьте настройки принтера и PDF-документа. Вот что можно изменить:\n\n1. **Установите масштаб 100% (Actual Size)**  \n   В окне печати убедитесь, что выбрана опция **\"Фактический размер\"** или **\"100%\"**, а не **\"Подогнать под страницу\"** (Fit to Page). Это предотвратит автоматическое уменьшение размера документа.\n\n2. **Проверьте размер бумаги**  \n   Убедитесь, что параметры бумаги в принтере совпадают с теми, которые были выбраны в TableCards (например, A4, Letter и т.д.).\n\n3. **Проверьте поля (Margins)**  \n   Убедитесь, что поля принтера не уменьшают видимую область. Настройки полей в принтере должны соответствовать макету карточек.\n\n4. **Используйте тестовый файл для калибровки**  \n   Скачайте и распечатайте **print-test PDF** (ссылка в интерфейсе TableCards), чтобы проверить точность размеров до массовой печати.\n\nЕсли проблема сохраняется, уточните, какая именно настройка принтера используется (например, модель принтера или ОС), чтобы дать более точные рекомендации.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the print setting the customer should change.",
+            "evidence": "   В окне печати убедитесь, что выбрана опция **\"Фактический размер\"** или **\"100%\"**, а не **\"Подогнать под страницу\"** (Fit to Page). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "\n\nЕсли карточки получились слишком маленькими, проверьте настройки принтера и PDF-документа. Вот что можно изменить:\n\n1. **Установите масштаб 100% (Actual Size)**  \n   В окне печати убедитесь, что выбрана опция **\"Фактический размер\"** или **\"100%\"**, а не **\"Подогнать под страницу\"** (Fit to Page). Это предотвратит автоматическое уменьшение размера документа.\n\n2. **Проверьте размер бумаги**  \n   Убедитесь, что параметры бумаги в принтере совпадают с теми, которые были выбраны в TableCards (например, A4, Letter и т.д.).\n\n3. **Проверьте поля (Margins)**  \n   Убедитесь, что поля принтера не уменьшают видимую область. Настройки полей в принтере должны соответствовать макету карточек.\n\n4. **Используйте тестовый файл для калибровки**  \n   Скачайте и распечатайте **print-test PDF** (ссылка в интерфейсе TableCards), чтобы проверить точность размеров до массовой печати.\n\nЕсли проблема сохраняется, уточните, какая именно настройка принтера используется (например, модель принтера или ОС), чтобы дать более точные рекомендации.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated to ensure security.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated to ensure security.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "That is expected behavior. When an invitation link is reissued, the previous link is automatically invalidated to ensure security.\n\nPlease try using the most recent link provided. When you click it, make sure you are signed into the specific account intended for that invitation to complete the process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated to ensure security.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "That is expected behavior. When an invitation link is reissued, the previous link is automatically invalidated to ensure security.\n\nPlease try using the most recent link provided. When you click it, make sure you are signed into the specific account intended for that invitation to complete the process.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "The invalid link indicates the original invitation was replaced. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "The invalid link indicates the original invitation was replaced. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Asks the customer to send a live invitation link to support without clarifying safe handling of that recipient-bound link.",
+            "evidence": "If the issue persists, contact TableCards support with the new link for further verification. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "The invalid link indicates the original invitation was replaced. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "\n\nThe invalid link indicates the original invitation was replaced. To resolve this:\n\n1. **Use the new invitation link** (reissued via Studio admin/owner). \n2. **Recipient must sign in** with their TableCards account to accept the invitation. \n3. If you're the admin/owner, ensure the link is shared directly with the intended user. \n\nIf the issue persists, contact TableCards support with the new link for further verification. Note: Support cannot bypass sign-in requirements or force acceptance.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "That is expected behavior. When an invitation link is reissued, the previous link is automatically invalidated. \n\nPlease use the most recent link provided to you. Once you click it, you will need to sign in with your Google account to accept the invitation to the Studio workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "When an invitation link is reissued, the previous link is automatically invalidated. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "That is expected behavior. When an invitation link is reissued, the previous link is automatically invalidated. \n\nPlease use the most recent link provided to you. Once you click it, you will need to sign in with your Google account to accept the invitation to the Studio workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs let the customer continue without new AI generation.",
+            "evidence": "Aunque se te hayan acabado los créditos para generar fondos con IA, puedes usar perfectamente los diseños predefinidos que ya vienen en TableCards para crear tus tarjetas y exportar el PDF para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Predefined designs and normal export remain available when AI is exhausted.",
+            "evidence": "Aunque se te hayan acabado los créditos para generar fondos con IA, puedes usar perfectamente los diseños predefinidos que ya vienen en TableCards para crear tus tarjetas y exportar el PDF para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No tienes que esperar. Aunque se te hayan acabado los créditos para generar fondos con IA, puedes usar perfectamente los diseños predefinidos que ya vienen en TableCards para crear tus tarjetas y exportar el PDF para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a usable way to continue preparing the cards.",
+            "evidence": "Aunque se te hayan acabado los créditos para generar fondos con IA, puedes usar perfectamente los diseños predefinidos que ya vienen en TableCards para crear tus tarjetas y exportar el PDF para imprimir.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply answers naturally in Spanish.",
+            "evidence": "No tienes que esperar. Aunque se te hayan acabado los créditos para generar fondos con IA, puedes usar perfectamente los diseños predefinidos que ya vienen en TableCards para crear tus tarjetas y exportar el PDF para imprimir.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "כדי להדפיס שלמים, חייבים להשתמש ב\"גודל אמיתי\" (Actual Size) או 100%, ולא ב\"התאמה לדף\" (Fit to page).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential scale and paper guidance follows the printing reference.",
+            "evidence": "כדי להדפיס שלמים, חייבים להשתמש ב\"גודל אמיתי\" (Actual Size) או 100%, ולא ב\"התאמה לדף\" (Fit to page).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "כדי להדפיס שלמים, חייבים להשתמש ב\"גודל אמיתי\" (Actual Size) או 100%, ולא ב\"התאמה לדף\" (Fit to page).\n\nבדקו שהערך של \"גודל הנייר\" בהגדרות המדפסת תואם את אלו שנבחרו בפריסת הקובץ ב-TableCards, ונסו להוריד את שולי ההדפסה (Margins) של המדפסת אם אפשרי.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the print setting the customer should change.",
+            "evidence": "כדי להדפיס שלמים, חייבים להשתמש ב\"גודל אמיתי\" (Actual Size) או 100%, ולא ב\"התאמה לדף\" (Fit to page).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Hebrew instructions and setting labels are understandable.",
+            "evidence": "כדי להדפיס שלמים, חייבים להשתמש ב\"גודל אמיתי\" (Actual Size) או 100%, ולא ב\"התאמה לדף\" (Fit to page).\n\nבדקו שהערך של \"גודל הנייר\" בהגדרות המדפסת תואם את אלו שנבחרו בפריסת הקובץ ב-TableCards, ונסו להוריד את שולי ההדפסה (Margins) של המדפסת אם אפשרי.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "Reissuing an invitation automatically invalidates the previous link so it can no longer be used. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "Reissuing an invitation automatically invalidates the previous link so it can no longer be used. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Reissuing an invitation automatically invalidates the previous link so it can no longer be used. Please use the **new** link instead.\n\nNote that invitation links in this workflow do not send an automated email, so acceptance still requires signing in as the intended recipient.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "Reissuing an invitation automatically invalidates the previous link so it can no longer be used. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "Reissuing an invitation automatically invalidates the previous link so it can no longer be used. Please use the **new** link instead.\n\nNote that invitation links in this workflow do not send an automated email, so acceptance still requires signing in as the intended recipient.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs let the customer continue without new AI generation.",
+            "evidence": "You can proceed to print the cards using the predefined designs that are included in your current plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Contrasts paid-offer AI with Free templates without acknowledging the Free welcome AI batch.",
+            "evidence": "The AI-generated backgrounds are part of paid offers (e.g., Event Pass, Planner Pro, Studio), but the basic predefined templates are available even on the free plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYou can proceed to print the cards using the predefined designs that are included in your current plan. The AI-generated backgrounds are part of paid offers (e.g., Event Pass, Planner Pro, Studio), but the basic predefined templates are available even on the free plan. If your AI credits are exhausted, you can still use the existing design options without waiting. Ensure you’ve selected a supported layout and previewed the cards before exporting. If you need more design options, consider upgrading your plan.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a usable way to continue preparing the cards.",
+            "evidence": "You can proceed to print the cards using the predefined designs that are included in your current plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Replies in English to the Spanish customer.",
+            "evidence": "\n\nYou can proceed to print the cards using the predefined designs that are included in your current plan. The AI-generated backgrounds are part of paid offers (e.g., Event Pass, Planner Pro, Studio), but the basic predefined templates are available even on the free plan. If your AI credits are exhausted, you can still use the existing design options without waiting. Ensure you’ve selected a supported layout and previewed the cards before exporting. If you need more design options, consider upgrading your plan.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Чтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбран режим **\"Actual Size\" (100%)**, а не \"Fit to page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says margins must be minimum or None without support for those presets on the selected layout.",
+            "evidence": "Убедиться, что поля принтера не уменьшают область печати (настройки \"Margins\" должны быть минимальными или \"None\").\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nЧтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбран режим **\"Actual Size\" (100%)**, а не \"Fit to page\". Это гарантирует, что PDF-файл распечатается в реальных размерах, указанных в проекте. \n\nТакже рекомендуется:\n1. Проверить, совпадает ли размер бумаги в настройках принтера с тем, который был выбран при создании карточек.\n2. Использовать **отдельный тестовый PDF** для калибровки перед печатью полного набора.\n3. Убедиться, что поля принтера не уменьшают область печати (настройки \"Margins\" должны быть минимальными или \"None\").\n\nЕсли проблема сохраняется, проверьте, не были ли изменены настройки масштаба в самом PDF-файле до печати.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The blanket minimum-or-None margin requirement may misdirect the print setup.",
+            "evidence": "Убедиться, что поля принтера не уменьшают область печати (настройки \"Margins\" должны быть минимальными или \"None\").\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "\n\nЧтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбран режим **\"Actual Size\" (100%)**, а не \"Fit to page\". Это гарантирует, что PDF-файл распечатается в реальных размерах, указанных в проекте. \n\nТакже рекомендуется:\n1. Проверить, совпадает ли размер бумаги в настройках принтера с тем, который был выбран при создании карточек.\n2. Использовать **отдельный тестовый PDF** для калибровки перед печатью полного набора.\n3. Убедиться, что поля принтера не уменьшают область печати (настройки \"Margins\" должны быть минимальными или \"None\").\n\nЕсли проблема сохраняется, проверьте, не были ли изменены настройки масштаба в самом PDF-файле до печати.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs let the customer continue without new AI generation.",
+            "evidence": "You can proceed to print your cards using the predefined designs and backgrounds you've already viewed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Predefined designs and normal export remain available when AI is exhausted.",
+            "evidence": "You can proceed to print your cards using the predefined designs and backgrounds you've already viewed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYou can proceed to print your cards using the predefined designs and backgrounds you've already viewed. The AI-generated options are not required for printing, and the system will not prompt you to wait. If you need adjustments to the available templates, I can guide you through the customization options. Would you like to proceed with a specific design?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a usable way to continue preparing the cards.",
+            "evidence": "You can proceed to print your cards using the predefined designs and backgrounds you've already viewed. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Replies in English to the Spanish customer.",
+            "evidence": "\n\nYou can proceed to print your cards using the predefined designs and backgrounds you've already viewed. The AI-generated options are not required for printing, and the system will not prompt you to wait. If you need adjustments to the available templates, I can guide you through the customization options. Would you like to proceed with a specific design?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Чтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбрано **\"Фактический размер / 100%\"**, а не \"Подгонка под страницу\". \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential scale and paper guidance follows the printing reference.",
+            "evidence": "Чтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбрано **\"Фактический размер / 100%\"**, а не \"Подгонка под страницу\". \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nЧтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбрано **\"Фактический размер / 100%\"**, а не \"Подгонка под страницу\". \n\n1. **Проверьте масштаб печати**: В окне печати отключите опцию \"Автоматически подгонять размер\" и установите масштаб вручную на 100%.  \n2. **Используйте тестовый PDF**: Перед печатью всего события проверьте калибровочный квадрат в отдельном тестовом файле.  \n3. **Совместимость бумаги**: Убедитесь, что размер бумаги в принтере совпадает с настройками макета (например, A4 или Letter).  \n4. **Поля принтера**: Настройте поля принтера так, чтобы они соответствовали выбранным макетам карточек.  \n\nЕсли проблема сохраняется, уточните, какая модель принтера используется — это может повлиять на точность печати.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the print setting the customer should change.",
+            "evidence": "Чтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбрано **\"Фактический размер / 100%\"**, а не \"Подгонка под страницу\". \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "\n\nЧтобы карточки печатались в правильном размере, убедитесь, что в настройках принтера выбрано **\"Фактический размер / 100%\"**, а не \"Подгонка под страницу\". \n\n1. **Проверьте масштаб печати**: В окне печати отключите опцию \"Автоматически подгонять размер\" и установите масштаб вручную на 100%.  \n2. **Используйте тестовый PDF**: Перед печатью всего события проверьте калибровочный квадрат в отдельном тестовом файле.  \n3. **Совместимость бумаги**: Убедитесь, что размер бумаги в принтере совпадает с настройками макета (например, A4 или Letter).  \n4. **Поля принтера**: Настройте поля принтера так, чтобы они соответствовали выбранным макетам карточек.  \n\nЕсли проблема сохраняется, уточните, какая модель принтера используется — это может повлиять на точность печати.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "The previous invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "The previous invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe previous invitation link is no longer valid after reissuance. Please use the new link provided. The recipient must sign in using their own account to accept the invitation. If issues persist, verify the link and ensure the correct Google account is being used.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "The previous invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "\n\nThe previous invitation link is no longer valid after reissuance. Please use the new link provided. The recipient must sign in using their own account to accept the invitation. If issues persist, verify the link and ensure the correct Google account is being used.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains old-link invalidation and directs the customer to the new link.",
+            "evidence": "The old invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reissue explanation follows the approved invitation rules.",
+            "evidence": "The old invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe old invitation link is no longer valid after reissuance. You must use the **new invitation link** provided by the sender. Ensure the recipient signs in with the correct Google account before accessing the link. If the new link also fails, verify it was shared directly by the organizer, as generic links may not work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer has a clear next step using the latest invitation.",
+            "evidence": "The old invitation link is no longer valid after reissuance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The reply is understandable English.",
+            "evidence": "\n\nThe old invitation link is no longer valid after reissuance. You must use the **new invitation link** provided by the sender. Ensure the recipient signs in with the correct Google account before accessing the link. If the new link also fails, verify it was shared directly by the organizer, as generic links may not work.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Размер по возможности — Actual Size / 100%**  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential scale and paper guidance follows the printing reference.",
+            "evidence": "**Размер по возможности — Actual Size / 100%**  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Чтобы карточки печатались в нужном размере, проверьте два параметра в настройках принтера:\n\n1. **Размер по возможности — Actual Size / 100%**  \n   Не используйте «Fit to page» и другие варианты масштабирования. Печать должна быть в реальном размере, иначе карточки будут печататься меньше или больше, чем нужно.\n\n2. **Размер бумаги и отступы соответствуют выбранному макету**  \n   В интерфейсе TableCards подберите размер бумаги (например, A4, Letter) и макет карточки так, чтобы они совпадали с тем, что выбрано в настройках принтера. Поставьте отступы (margins) примерно так же, как указано в макете, чтобы карточки не обрезались.\n\nЕсли после этих шагов карточки всё равно выглядят меньше или больше ожидаемого — возможно, я неправильно подобрал размер бумаги или макета. В таком случае напишите, какой размер бумаги вы используете и какой макет выбран в TableCards, и я помогу подобрать правильные значения.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the print setting the customer should change.",
+            "evidence": "**Размер по возможности — Actual Size / 100%**  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "Чтобы карточки печатались в нужном размере, проверьте два параметра в настройках принтера:\n\n1. **Размер по возможности — Actual Size / 100%**  \n   Не используйте «Fit to page» и другие варианты масштабирования. Печать должна быть в реальном размере, иначе карточки будут печататься меньше или больше, чем нужно.\n\n2. **Размер бумаги и отступы соответствуют выбранному макету**  \n   В интерфейсе TableCards подберите размер бумаги (например, A4, Letter) и макет карточки так, чтобы они совпадали с тем, что выбрано в настройках принтера. Поставьте отступы (margins) примерно так же, как указано в макете, чтобы карточки не обрезались.\n\nЕсли после этих шагов карточки всё равно выглядят меньше или больше ожидаемого — возможно, я неправильно подобрал размер бумаги или макета. В таком случае напишите, какой размер бумаги вы используете и какой макет выбран в TableCards, и я помогу подобрать правильные значения.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Чтобы карточки были реального размера, нужно настроить масштаб печати на **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential scale and paper guidance follows the printing reference.",
+            "evidence": "Чтобы карточки были реального размера, нужно настроить масштаб печати на **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Чтобы карточки были реального размера, нужно настроить масштаб печати на **100%**. Не выбирайте опцию «Подогнать под страницу» (Fit to page), так как принтер при этом может уменьшать или обрезать границы.\n\nТакже убедитесь, что размер бумаги в настройках приложения совпадает с тем, который загружен в ваш принтер.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the print setting the customer should change.",
+            "evidence": "Чтобы карточки были реального размера, нужно настроить масштаб печати на **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian reply preserves understandable printing instructions.",
+            "evidence": "Чтобы карточки были реального размера, нужно настроить масштаб печати на **100%**. Не выбирайте опцию «Подогнать под страницу» (Fit to page), так как принтер при этом может уменьшать или обрезать границы.\n\nТакже убедитесь, что размер бумаги в настройках приложения совпадает с тем, который загружен в ваш принтер.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.support.print-without-ai",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "You can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n",
+            "reason": "The customer's plan is unknown; the answer nevertheless identifies their current plan as Free.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that predefined designs let the customer continue without new AI generation.",
+            "evidence": "You can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts that the customer has a Free plan without verified account context.",
+            "evidence": "You can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYou can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n\nTo proceed:\n1. **Select a predefined design** (free plan includes 3) or use uploaded artwork (if available).\n2. **Export the PDF** (ensure \"actual size / 100%\" is selected for printing).\n3. **Print directly** from the PDF without needing AI.\n\nIf you need more design options, consider upgrading to a paid plan (e.g., Event Pass, Planner Pro, or Studio). Let me know if you need help with the export settings!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a usable way to continue preparing the cards.",
+            "evidence": "You can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Replies in English to the Spanish customer.",
+            "evidence": "\n\nYou can print your cards using the **predefined designs** that are included with your free plan (3 options) or any saved custom artwork, even if your AI generation credits are exhausted. \n\nTo proceed:\n1. **Select a predefined design** (free plan includes 3) or use uploaded artwork (if available).\n2. **Export the PDF** (ensure \"actual size / 100%\" is selected for printing).\n3. **Print directly** from the PDF without needing AI.\n\nIf you need more design options, consider upgrading to a paid plan (e.g., Event Pass, Planner Pro, or Studio). Let me know if you need help with the export settings!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 17,
+  "invalid": 0,
+  "unsure": 0
+}

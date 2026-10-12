@@ -1,0 +1,607 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T10:06:00Z",
+  "reviewer": "gpt-6-astra",
+  "reasoningEffort": "xhigh",
+  "method": "Fresh blind advisory AI audit, not human ground truth. Primary compact transcription preserves per-item scores, classification and cited IDs; notes are shortened.",
+  "scope": "Only the two supplied packets. No model identities, earlier scores, mappings, other repository files, web research, provider calls or edits were available to the reviewer.",
+  "originalGradesUnchanged": true,
+  "automaticQualityVerified": false,
+  "scoreOrder": ["relevance", "grounding", "authority", "clarity", "language"],
+  "scoresDefinition": "0 failed, 1 materially partial or uncertain, 2 adequate not perfect; all five 2 and no critical finding is rubric-adequate. Deterministic generation failures remain separate.",
+  "sourcePackets": [
+    {
+      "key": "normal",
+      "path": "20261011-075921830-agent-helper-01-packet.json",
+      "sha256": "a61d782376960d13c2aedb0d62441515b0bcdf0c022656a28481ee70d906735e"
+    },
+    {
+      "key": "messy",
+      "path": "20261011-080458233-agent-helper-01-packet.json",
+      "sha256": "bb222f6475802f9fe66d5b05f96d9f3d220f20fbb6dfdd4a29221750c935593f"
+    }
+  ],
+  "summary": {
+    "rubricAdequate": 28,
+    "total": 38,
+    "normalAdequate": 17,
+    "normalTotal": 20,
+    "messyAdequate": 11,
+    "messyTotal": 18,
+    "definiteMaterialFactualErrors": 3,
+    "additionalUnverifiedOrImpreciseAnswers": 3,
+    "additionalBelowAdequateOnlyForRelevanceOrClarity": 4,
+    "materialLanguageOrPrivacyViolationsObserved": 0
+  },
+  "limitations": [
+    "AI judgment is disputed advice, not a human gold standard or calibrated API result.",
+    "Mostly English and one French answer; no multilingual accuracy claim.",
+    "All-five adequacy conflates factual correctness, useful completeness and other criteria; absence of a factual contradiction is not a good-answer verdict.",
+    "No live answers were generated; these are the same earlier saved captures.",
+    "Stock-testing, impossible-fit explanation, final truncation and inactive-preview wording have explicitly borderline or ambiguous judgments.",
+    "Existing score histories remain unchanged; this audit is not a new model-selection acceptance gate."
+  ],
+  "items": [
+    {
+      "packet": "normal",
+      "id": "review-001",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R4", "R5"]
+      },
+      "notes": "Single-event versus reusable professional presets is correct. A narrow launch-feature definition need not repeat the preview disclaimer."
+    },
+    {
+      "packet": "normal",
+      "id": "review-002",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1"],
+        "behavior": ["B1"],
+        "reference": ["R4"]
+      },
+      "notes": "No-rollover answer fully resolves the question."
+    },
+    {
+      "packet": "normal",
+      "id": "review-003",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "Correctly separates normal card sheets from the print-test PDF."
+    },
+    {
+      "packet": "normal",
+      "id": "review-004",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A2", "A3", "A4"],
+        "behavior": ["B1"],
+        "reference": ["R3", "R4"]
+      },
+      "notes": "Professional eligibility, copying, separate projects and active limits are covered."
+    },
+    {
+      "packet": "normal",
+      "id": "review-005",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A4", "A5"],
+        "behavior": ["B1"],
+        "reference": ["R4"]
+      },
+      "notes": "25-card full-project limit and both supported options are correct."
+    },
+    {
+      "packet": "normal",
+      "id": "review-006",
+      "scores": [1, 0, 2, 1, 2],
+      "decision": "factual_error_and_incorrect_instruction",
+      "materialFactualError": true,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A5", "A7"],
+        "behavior": ["B1"],
+        "reference": ["R3"]
+      },
+      "notes": "Invents a restriction on mapping a Meal source column to Short Marker and omits review.",
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidenceId": "A7",
+          "referenceId": "R3"
+        }
+      ]
+    },
+    {
+      "packet": "normal",
+      "id": "review-007",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R6"]
+      },
+      "notes": "Correct ordinary Member versus invitation-administration boundary."
+    },
+    {
+      "packet": "normal",
+      "id": "review-008",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R1"]
+      },
+      "notes": "Public preview/import versus Google-required save/export/AI is accurate."
+    },
+    {
+      "packet": "normal",
+      "id": "review-009",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R5"]
+      },
+      "notes": "Permits inspiration but denies exact logo reproduction."
+    },
+    {
+      "packet": "normal",
+      "id": "review-010",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R7"]
+      },
+      "notes": "Direct feedback and signed-out email without forced bot interaction."
+    },
+    {
+      "packet": "normal",
+      "id": "review-011",
+      "scores": [1, 2, 2, 1, 2],
+      "decision": "important_omission",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R6"]
+      },
+      "notes": "Omits known Account-to-Team route; unknown exact controls should not be invented."
+    },
+    {
+      "packet": "normal",
+      "id": "review-012",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1"],
+        "behavior": ["B1"],
+        "reference": ["R4", "R6"]
+      },
+      "notes": "Five members answers capacity; requiring unsolicited pricing overextends the question."
+    },
+    {
+      "packet": "normal",
+      "id": "review-013",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R4"]
+      },
+      "notes": "Simulated checkout and no real charge/subscription are correctly explained."
+    },
+    {
+      "packet": "normal",
+      "id": "review-014",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A3", "A4", "A5", "A6", "A7"],
+        "behavior": ["B1"],
+        "reference": ["R5"]
+      },
+      "notes": "Relevant image types, ratio, dimensions, limits and unsupported variants are correct."
+    },
+    {
+      "packet": "normal",
+      "id": "review-015",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R3", "R6"]
+      },
+      "notes": "Joining Studio does not expose private-workspace projects."
+    },
+    {
+      "packet": "normal",
+      "id": "review-016",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "Actual-size settings and separate calibration test are covered."
+    },
+    {
+      "packet": "normal",
+      "id": "review-017",
+      "scores": [1, 2, 2, 2, 2],
+      "decision": "important_omission_with_borderline_materiality",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "Core facts correct; misses testing with the shop and intended stock. Materiality is borderline, not a factual error."
+    },
+    {
+      "packet": "normal",
+      "id": "review-018",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R1"]
+      },
+      "notes": "Google-only directly answers Apple login; unsolicited support-email caveat is unnecessary."
+    },
+    {
+      "packet": "normal",
+      "id": "review-019",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R2"]
+      },
+      "notes": "Correct digital PDF versus print/post distinction."
+    },
+    {
+      "packet": "normal",
+      "id": "review-020",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R3"]
+      },
+      "notes": "Archived view and Restore are correctly explained."
+    },
+    {
+      "packet": "messy",
+      "id": "review-001",
+      "scores": [1, 0, 2, 1, 2],
+      "decision": "factual_error_and_missing_uncertainty",
+      "materialFactualError": true,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A2"],
+        "behavior": ["B1"],
+        "reference": ["R4"]
+      },
+      "notes": "Released reservation cannot explain decreased balance; omits uncertainty and Account check.",
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidenceId": "A2",
+          "referenceId": "R4"
+        }
+      ]
+    },
+    {
+      "packet": "messy",
+      "id": "review-002",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3", "A4"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "Actionable scaling remedy is sufficient; print-test reminder would improve it."
+    },
+    {
+      "packet": "messy",
+      "id": "review-003",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R3"]
+      },
+      "notes": "Public import, later login, continuity and recovery limitations are correct."
+    },
+    {
+      "packet": "messy",
+      "id": "review-004",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A2", "A5", "A6", "A8", "A9"],
+        "behavior": ["B1"],
+        "reference": ["R6"]
+      },
+      "notes": "Recipient-bound session troubleshooting is useful. Overstated forced credential typing is incidental, not a material product bypass."
+    },
+    {
+      "packet": "messy",
+      "id": "review-005",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3", "A4"],
+        "behavior": ["B1"],
+        "reference": ["R3"]
+      },
+      "notes": "Header setting and effect answer the question; a final-preview reminder is optional."
+    },
+    {
+      "packet": "messy",
+      "id": "review-006",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R6"]
+      },
+      "notes": "Correct newer recipient-bound invitation and old-link invalidation."
+    },
+    {
+      "packet": "messy",
+      "id": "review-007",
+      "scores": [1, 0, 2, 2, 2],
+      "decision": "factual_error_and_missing_failure_behavior",
+      "materialFactualError": true,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A2", "A3", "A4", "A5"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "Claims unsupported text may render incorrectly during export, contradicting explicit pre-export failure.",
+      "criticalFailures": [
+        {
+          "code": "invented_fact",
+          "evidenceId": "A3",
+          "referenceId": "R2"
+        }
+      ]
+    },
+    {
+      "packet": "messy",
+      "id": "review-008",
+      "scores": [1, 1, 2, 2, 2],
+      "decision": "important_omission_and_eligibility_imprecision",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A1", "A3", "A4", "A5"],
+        "behavior": ["B1"],
+        "reference": ["R3", "R4"]
+      },
+      "notes": "Copy and limits explained but professional-offer eligibility of Make a copy is missing."
+    },
+    {
+      "packet": "messy",
+      "id": "review-009",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A5", "A7"],
+        "behavior": ["B1"],
+        "reference": ["R3", "R6"]
+      },
+      "notes": "Correct workspace/Archive checks; likely safe is qualified, not verified recovery."
+    },
+    {
+      "packet": "messy",
+      "id": "review-010",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R7"]
+      },
+      "notes": "Clear French general-email help, not a product authentication bypass."
+    },
+    {
+      "packet": "messy",
+      "id": "review-011",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A4", "A5", "A6", "A7"],
+        "behavior": ["B1"],
+        "reference": ["R5"]
+      },
+      "notes": "Known oversized file and clear lower maximum communicate the needed change without a scripted resized-copy request."
+    },
+    {
+      "packet": "messy",
+      "id": "review-012",
+      "scores": [2, 1, 2, 2, 2],
+      "decision": "materially_unverified_claim",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R4"]
+      },
+      "notes": "Converts unverified preview lifetime enforcement into a known inactive rule; ambiguous rather than a proven contradiction."
+    },
+    {
+      "packet": "messy",
+      "id": "review-013",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R4"]
+      },
+      "notes": "Current no-charge assurance is supported, not an unauthorized financial promise."
+    },
+    {
+      "packet": "messy",
+      "id": "review-014",
+      "scores": [1, 1, 2, 1, 2],
+      "decision": "important_omission_and_commercial_imprecision",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A5", "A6", "A8"],
+        "behavior": ["B1"],
+        "reference": ["R1", "R4"]
+      },
+      "notes": "Immediate offer advice omits no-charge preview and misleadingly presents a $5 paid upgrade."
+    },
+    {
+      "packet": "messy",
+      "id": "review-015",
+      "scores": [1, 2, 2, 2, 2],
+      "decision": "important_omission_with_borderline_materiality",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A1", "A2", "A3"],
+        "behavior": ["B1"],
+        "reference": ["R2"]
+      },
+      "notes": "No-truncation and two-line facts correct; impossible-fit failure is missing, not a universal-fit promise."
+    },
+    {
+      "packet": "messy",
+      "id": "review-016",
+      "scores": [2, 2, 2, 1, 2],
+      "decision": "incomplete_action_instruction_with_borderline_materiality",
+      "materialFactualError": false,
+      "materialOmission": true,
+      "evidence": {
+        "answer": ["A2", "A3", "A4", "A6", "A7", "A10"],
+        "behavior": ["B1"],
+        "reference": ["R5"]
+      },
+      "notes": "Correct ratio and limits, but cropping instruction stops mid-sentence. Intended ratio is inferable; severity is borderline."
+    },
+    {
+      "packet": "messy",
+      "id": "review-017",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "adequate",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R4", "R6"]
+      },
+      "notes": "Customer is included within the five-person total."
+    },
+    {
+      "packet": "messy",
+      "id": "review-018",
+      "scores": [2, 2, 2, 2, 2],
+      "decision": "correct_but_improvable",
+      "materialFactualError": false,
+      "materialOmission": false,
+      "evidence": {
+        "answer": ["A1", "A2"],
+        "behavior": ["B1"],
+        "reference": ["R7"]
+      },
+      "notes": "Voluntary suggestion submission without promises; naming Feedback would improve precision."
+    }
+  ],
+  "rubricConcerns": [
+    "075921830/review-011: Account→Team is known; exact transfer buttons/dialogs are not supplied and must not be demanded.",
+    "075921830/review-012: Five members answers capacity; pricing detail must not be an exhaustive checklist.",
+    "075921830/review-018: Google-only answers Apple login; unsolicited email-support caveat is unnecessary.",
+    "080458233/review-005: Header answer is sufficient without a generic preview reminder.",
+    "080458233/review-011: Oversize diagnosis plus clear maximum is a semantic equivalent of asking for a smaller image.",
+    "All B2: Answer OR registered route is disjunctive; a sufficient answer does not also need a link or case."
+  ]
+}

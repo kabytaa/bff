@@ -43,6 +43,69 @@
   --shadow: 0 1.2rem 3.5rem rgb(80 54 38 / 10%);
 }
 
+.tablecards-help-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-shrink: 0;
+}
+.tablecards-help-actions button {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.2rem;
+}
+.tablecards-help-surface,
+.support-page {
+  --bff-support-accent: var(--terracotta-dark);
+  --bff-support-text: var(--ink);
+  --bff-support-muted: var(--ink-soft);
+  --bff-support-border: var(--line);
+  --bff-support-field-border: #b4a59a;
+  --bff-support-surface: #fff;
+  --bff-support-panel-surface: var(--paper);
+  --bff-support-surface-soft: var(--mist);
+  --bff-support-selected-surface: var(--sage-wash);
+  --bff-support-selected-border: var(--forest);
+  --bff-support-disabled-text: #6b6058;
+  --bff-support-disabled-border: #d9d0c7;
+  --bff-support-disabled-surface: #e8e1d8;
+  --bff-support-focus: rgb(199 88 61 / 32%);
+}
+.support-page {
+  max-width: 47rem;
+}
+.support-page h1 {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+}
+@media (max-width: 1000px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    padding-block: 0.75rem;
+  }
+  .site-header .header-actions {
+    flex-wrap: wrap;
+  }
+  .application-topbar {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 760px) {
+  .tablecards-help-above-nav {
+    --bff-support-launcher-bottom: 5.25rem;
+  }
+  .application-topbar .tablecards-help-actions {
+    width: 100%;
+    justify-content: flex-end;
+    border-top: 1px solid var(--line);
+  }
+  .creator-route-header {
+    flex-wrap: wrap;
+  }
+  .creator-route-header .header-actions {
+    flex-wrap: wrap;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -149,6 +212,7 @@ h3 {
   position: relative;
   z-index: 10;
   display: flex;
+  flex-wrap: wrap;
   width: min(100% - 2.5rem, 82rem);
   min-height: 5.2rem;
   margin: 0 auto;
@@ -1258,7 +1322,7 @@ textarea {
 
 .faq-section {
   display: grid;
-  grid-template-columns: minmax(16rem, 0.65fr) minmax(24rem, 1.35fr);
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
   gap: 5rem;
   background: #fcfaf6;
 }

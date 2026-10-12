@@ -16,6 +16,7 @@ import { tablecardsCustomerAuth } from './environment';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
 import type { Doc } from './_generated/dataModel';
+import { queueOperationOutcome } from './operationEvents';
 
 const MAX_TITLE_LENGTH = 120;
 const MAX_NAME_LENGTH = 120;
@@ -373,6 +374,19 @@ export const saveAuthorized = internalMutation({
     }
     const saved = await ctx.db.get(projectId);
     if (!saved) fail('CONFLICT', 'The project could not be saved');
+    await queueOperationOutcome(ctx, {
+      name: 'project.saved',
+      deduplicationId: `${saved.publicId}:save:${saved.revision}`,
+      occurredAt: now,
+      productReference: saved.publicId,
+      userPublicId: args.userId,
+      accountPublicId: args.accountId,
+      properties: {
+        project_reference: saved.publicId,
+        card_count: saved.guestCount,
+        operation: existing ? 'updated' : 'created',
+      },
+    });
     return {
       publicId: saved.publicId,
       title: saved.title,

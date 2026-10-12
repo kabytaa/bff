@@ -1,0 +1,1230 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-003",
+  "packetHash": "ac3084150408746babfc608d35171e6fbaed066b38916dd89e6bdfda1a10d917",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits explicit failure when a supported name is still impossible to fit.",
+            "evidence": "Two-line fitting and explicit failure, no silent truncation.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Two-line fitting and unsupported-script failure follow the reference.",
+            "evidence": "If the surname uses **unsupported scripts** (e.g., certain non-Latin or complex combining marks), the system will **fail explicitly before export** rather than truncating. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe PDF won't silently chop off long surnames. Instead, names are formatted to use up to **two balanced lines** if needed (e.g., \"Van Der Sar\" becomes \"Van Der / Sar\"). This applies to Latin-based scripts (including Vietnamese and accented characters). \n\nIf the surname uses **unsupported scripts** (e.g., certain non-Latin or complex combining marks), the system will **fail explicitly before export** rather than truncating. Always preview names with long surnames in the tool to confirm layout. \n\nFor unsupported cases, you may need to adjust the name format or check if the script is compatible.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains wrapping and advises checking the preview.",
+            "evidence": "Always preview names with long surnames in the tool to confirm layout. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Instead, names are formatted to use up to **two balanced lines** if needed (e.g., \"Van Der Sar\" becomes \"Van Der / Sar\"). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains five total seats and gives no sixth-seat workaround.",
+            "evidence": "The Studio plan includes 5 members total, including yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the customer's stated count and keeps direct verification unavailable.",
+            "evidence": "I don't have access to your specific account or team list to verify your current member count, but you can check your active members in your Account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio plan includes 5 members total, including yourself. If you already have yourself plus four other people in the workspace, the 5-member limit has been reached, which is why your sister cannot join.\n\nIf you believe you haven't reached that limit yet, here are a few things to check:\n\n* **Invitation Link:** Invitation links are recipient-bound. If a link was reissued, the old one becomes invalid. Try sending her a new invitation link.\n* **Google Sign-in:** She must sign in using the specific Google account that was invited.\n\nI don't have access to your specific account or team list to verify your current member count, but you can check your active members in your Account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the limit and where to check members.",
+            "evidence": "I don't have access to your specific account or team list to verify your current member count, but you can check your active members in your Account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio plan includes 5 members total, including yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain the explicit failure when the name cannot fit.",
+            "evidence": "Two-line fitting and explicit failure, no silent truncation.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Two-line wrapping and supported font adjustments match the references.",
+            "evidence": "Longer names are designed to use up to two balanced lines if they don't fit on a single line.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, names are not silently chopped off. Longer names are designed to use up to two balanced lines if they don't fit on a single line.\n\nIf you want to try to fit the name on one line, you can adjust the guest-name font size or position in the design settings before you export your PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains wrapping and an available adjustment.",
+            "evidence": "If you want to try to fit the name on one line, you can adjust the guest-name font size or position in the design settings before you export your PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Longer names are designed to use up to two balanced lines if they don't fit on a single line.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the header setting and a customer-controlled correction.",
+            "evidence": "To fix this, you can manually delete the header card from your project, or re-run the import and ensure you indicate that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The first-row heading treatment follows the import reference.",
+            "evidence": "When you upload a CSV or XLSX, you need to confirm whether row one has headings; otherwise, TableCards treats that row as a guest entry.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This happens if the system isn't told that your first row contains headings during the import. When you upload a CSV or XLSX, you need to confirm whether row one has headings; otherwise, TableCards treats that row as a guest entry.\n\nTo fix this, you can manually delete the header card from your project, or re-run the import and ensure you indicate that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The re-import remedy is understandable and actionable.",
+            "evidence": "To fix this, you can manually delete the header card from your project, or re-run the import and ensure you indicate that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To fix this, you can manually delete the header card from your project, or re-run the import and ensure you indicate that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the five-person total without offering a sixth seat.",
+            "evidence": "The Studio plan includes up to five members in total, which includes you as the owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assumes that the customer is the owner without evidence of their role.",
+            "evidence": "The Studio plan includes up to five members in total, which includes you as the owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio plan includes up to five members in total, which includes you as the owner. Since you already have yourself plus four others in the workspace, you have reached the five-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member-count explanation is clear.",
+            "evidence": "The Studio plan includes up to five members in total, which includes you as the owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio plan includes up to five members in total, which includes you as the owner. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that five total members includes the owner.",
+            "evidence": "The Studio plan includes 5 members total, which includes the owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Applies the reviewed limit to the customer's stated count.",
+            "evidence": "Since you already have yourself plus 4 others, you have reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio plan includes 5 members total, which includes the owner. Since you already have yourself plus 4 others, you have reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why five people fill the plan.",
+            "evidence": "Since you already have yourself plus 4 others, you have reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio plan includes 5 members total, which includes the owner. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains five total members without a sixth-seat workaround.",
+            "evidence": "Because you currently have yourself plus 4 others, your workspace has reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The count follows the customer's report and the reviewed limit.",
+            "evidence": "Because you currently have yourself plus 4 others, your workspace has reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio plan includes up to 5 members in total. Because you currently have yourself plus 4 others, your workspace has reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The short explanation is unambiguous.",
+            "evidence": "Because you currently have yourself plus 4 others, your workspace has reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because you currently have yourself plus 4 others, your workspace has reached the 5-member limit, which is why your sister is unable to join.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects cross-Business email correlation and member disclosure.",
+            "evidence": "For security and privacy, I am only able to access data for the specific account currently being accessed and cannot pull details from one profile to identify members in another.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explanation respects scoped account access and identity limits.",
+            "evidence": "For security and privacy, I am only able to access data for the specific account currently being accessed and cannot pull details from one profile to identify members in another.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot access information from another business or workspace using your email address. For security and privacy, I am only able to access data for the specific account currently being accessed and cannot pull details from one profile to identify members in another.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the requested lookup cannot be used.",
+            "evidence": "For security and privacy, I am only able to access data for the specific account currently being accessed and cannot pull details from one profile to identify members in another.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For security and privacy, I am only able to access data for the specific account currently being accessed and cannot pull details from one profile to identify members in another.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the heading setting and how to correct the import.",
+            "evidence": "To fix this, I recommend re-importing your file and ensuring you select the option to indicate that the first row contains headings during the mapping step.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described heading-row behavior follows reviewed knowledge.",
+            "evidence": "To fix this, I recommend re-importing your file and ensuring you select the option to indicate that the first row contains headings during the mapping step.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This usually happens if the option to confirm that the first row contains headings wasn't selected during the import process.\n\nWhen you import a CSV or XLSX file, you'll be prompted to confirm whether row one has headings. If this isn't confirmed, TableCards treats that first row as a guest entry, which is why it appeared on your first card.\n\nTo fix this, I recommend re-importing your file and ensuring you select the option to indicate that the first row contains headings during the mapping step.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The re-import instruction is clear and usable.",
+            "evidence": "To fix this, I recommend re-importing your file and ensuring you select the option to indicate that the first row contains headings during the mapping step.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To fix this, I recommend re-importing your file and ensuring you select the option to indicate that the first row contains headings during the mapping step.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines a printer guarantee and recommends calibration.",
+            "evidence": "Follow our [printing instructions](#) (e.g., \"Print at Actual Size / 100%\", test calibration), but we are not responsible for device-specific outcomes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claim disclaiming responsibility for device-specific outcomes is not in the reference.",
+            "evidence": "Follow our [printing instructions](#) (e.g., \"Print at Actual Size / 100%\", test calibration), but we are not responsible for device-specific outcomes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards cannot guarantee perfect printing on your specific inkjet printer. Our service provides digital PDFs for you to print, but print quality depends on your printer settings, paper type, and calibration. Follow our [printing instructions](#) (e.g., \"Print at Actual Size / 100%\", test calibration), but we are not responsible for device-specific outcomes. Contact your printer manufacturer for hardware-specific support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides understandable print-setting and testing advice.",
+            "evidence": "Follow our [printing instructions](#) (e.g., \"Print at Actual Size / 100%\", test calibration), but we are not responsible for device-specific outcomes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Follow our [printing instructions](#) (e.g., \"Print at Actual Size / 100%\", test calibration), but we are not responsible for device-specific outcomes. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives an ambiguous setting choice for excluding the header row.",
+            "evidence": "You need to re-import your data and confirm that the first row should be skipped (often labeled as \"First row is a header\" or \"No\") to keep it out of the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The suggested alternative label is unverified and could reverse the intended setting.",
+            "evidence": "You need to re-import your data and confirm that the first row should be skipped (often labeled as \"First row is a header\" or \"No\") to keep it out of the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This usually happens if you didn't tell the import tool that row 1 is a header. You need to re-import your data and confirm that the first row should be skipped (often labeled as \"First row is a header\" or \"No\") to keep it out of the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Listing a negative option alongside the header setting makes the correction confusing.",
+            "evidence": "You need to re-import your data and confirm that the first row should be skipped (often labeled as \"First row is a header\" or \"No\") to keep it out of the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You need to re-import your data and confirm that the first row should be skipped (often labeled as \"First row is a header\" or \"No\") to keep it out of the cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the explicit failure for an impossible text fit.",
+            "evidence": "Two-line fitting and explicit failure, no silent truncation.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The two-line behavior and supported adjustments match the references.",
+            "evidence": "According to the printing guidelines: **\"Longer names may use up to two balanced lines; names are not silently truncated.\"",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe PDF will not silently truncate long surnames. According to the printing guidelines: **\"Longer names may use up to two balanced lines; names are not silently truncated.\"** The system will wrap the text to fit within the card layout, but you must **preview every card** to confirm the formatting. If the surname is excessively long, you may need to adjust font size/positioning manually in the design tool before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear preview and formatting guidance.",
+            "evidence": "If the surname is excessively long, you may need to adjust font size/positioning manually in the design tool before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to the printing guidelines: **\"Longer names may use up to two balanced lines; names are not silently truncated.\"",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers two-line fitting, explicit failure, and no silent truncation.",
+            "evidence": "If a name is truly too large to fit or uses an unsupported script, the system will show an explicit error before you export, rather than cutting the text off without warning.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The error behavior matches the printing reference.",
+            "evidence": "If a name is truly too large to fit or uses an unsupported script, the system will show an explicit error before you export, rather than cutting the text off without warning.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the PDF won't silently chop your names off. \n\nIf a surname is long, the system is designed to wrap it into up to two balanced lines. If a name is truly too large to fit or uses an unsupported script, the system will show an explicit error before you export, rather than cutting the text off without warning.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains what happens if wrapping cannot solve the problem.",
+            "evidence": "If a name is truly too large to fit or uses an unsupported script, the system will show an explicit error before you export, rather than cutting the text off without warning.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If a name is truly too large to fit or uses an unsupported script, the system will show an explicit error before you export, rather than cutting the text off without warning.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects email-based cross-workspace lookup and offers the customer's Team route.",
+            "evidence": "I cannot access team member details or account information using an email address, nor can I look into other workspaces. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The scoped access boundary and Account-to-Team direction follow the references.",
+            "evidence": "To see your team members or manage your workspace, please navigate to the **Account** or **Team** section within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot access team member details or account information using an email address, nor can I look into other workspaces. For security and privacy, I only have access to the data of the specific account currently active in this session.\n\nTo see your team members or manage your workspace, please navigate to the **Account** or **Team** section within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear way for the customer to inspect their own team.",
+            "evidence": "To see your team members or manage your workspace, please navigate to the **Account** or **Team** section within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To see your team members or manage your workspace, please navigate to the **Account** or **Team** section within the TableCards app.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the explicit failure for a name that cannot fit.",
+            "evidence": "Two-line fitting and explicit failure, no silent truncation.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The two-line wrapping and preview advice match reviewed knowledge.",
+            "evidence": "If a name is too long for a single line, TableCards will automatically use up to two balanced lines to fit the text.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, it won't be silently chopped off. If a name is too long for a single line, TableCards will automatically use up to two balanced lines to fit the text.\n\nI recommend previewing every name before you export your PDF to ensure the two-line layout looks exactly how you want it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation and preview advice are clear.",
+            "evidence": "I recommend previewing every name before you export your PDF to ensure the two-line layout looks exactly how you want it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If a name is too long for a single line, TableCards will automatically use up to two balanced lines to fit the text.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains two-line fitting and an explicit error for impossible text.",
+            "evidence": "If a name is truly impossible to fit within the design, the system will fail explicitly before you export the PDF so you can address it. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described behavior follows the printing reference.",
+            "evidence": "If a name is truly impossible to fit within the design, the system will fail explicitly before you export the PDF so you can address it. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the name won't be silently chopped off. For longer names, TableCards uses up to two balanced lines to try and fit the text.\n\nIf a name is truly impossible to fit within the design, the system will fail explicitly before you export the PDF so you can address it. I recommend previewing your cards in the app to ensure the wrapping looks exactly how you want it before you download the final file.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Makes the failure behavior and preview check understandable.",
+            "evidence": "If a name is truly impossible to fit within the design, the system will fail explicitly before you export the PDF so you can address it. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If a name is truly impossible to fit within the design, the system will fail explicitly before you export the PDF so you can address it. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects correlation using an email address.",
+            "evidence": "I cannot access or switch to other workspaces or businesses using your email address. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The instruction conflates another Business with a TableCards workspace selection.",
+            "evidence": "To view team members in another business, please ensure you have selected that specific workspace through the account selection in TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot access or switch to other workspaces or businesses using your email address. For security and privacy, I only have access to information within your currently active and verified workspace. \n\nTo view team members in another business, please ensure you have selected that specific workspace through the account selection in TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The privacy refusal and proposed navigation are understandable.",
+            "evidence": "I cannot access or switch to other workspaces or businesses using your email address. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot access or switch to other workspaces or businesses using your email address. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains two-line fitting and blocked export rather than silent truncation.",
+            "evidence": "For unsupported scripts (e.g., certain non-Latin characters), the system will explicitly block export rather than risk corruption.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The treatment of unsupported scripts and excessive length matches the reference.",
+            "evidence": "However, if the surname is excessively long or contains unsupported characters/scripts, it may fail to export properly before rendering. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe PDF will not silently chop off the end of a long surname. Instead, it will attempt to split the name across **up to two balanced lines** (if possible) to avoid truncation. However, if the surname is excessively long or contains unsupported characters/scripts, it may fail to export properly before rendering. \n\n**Action:** Preview the card layout before exporting to ensure the surname displays correctly. If the name exceeds two lines or causes layout issues, you may need to shorten it or adjust formatting. \n\nFor unsupported scripts (e.g., certain non-Latin characters), the system will explicitly block export rather than risk corruption.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preview and adjustment advice supplies a useful next step.",
+            "evidence": "**Action:** Preview the card layout before exporting to ensure the surname displays correctly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For unsupported scripts (e.g., certain non-Latin characters), the system will explicitly block export rather than risk corruption.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- If they want row one to be a heading instead of data, uncheck “Row one has headings” during the CSV import (this prevents the first row from being treated as guest data). ",
+            "reason": "Reverses the import heading setting by claiming unchecking it excludes the header row.",
+            "referenceKey": "tablecards.import"
+          },
+          {
+            "code": "privacy_or_identity_violation",
+            "evidence": "  • Your CSV or a minimal public replica (or tell me the exact column names you mapped)\n",
+            "reason": "Requests the customer's CSV as an option despite the prohibition on requesting private guest lists.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Reverses the required header selection and drifts into unrelated field configuration.",
+            "evidence": "- If they want row one to be a heading instead of data, uncheck “Row one has headings” during the CSV import (this prevents the first row from being treated as guest data). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Tells the customer to disable the heading setting to exclude the heading row.",
+            "evidence": "- If they want row one to be a heading instead of data, uncheck “Row one has headings” during the CSV import (this prevents the first row from being treated as guest data). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Requests the customer's CSV, which can disclose their private guest list.",
+            "evidence": "  • Your CSV or a minimal public replica (or tell me the exact column names you mapped)\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Mixes header-row correction with unrelated column and template controls.",
+            "evidence": "  1) In the column map, only map the columns you want displayed (guest name + short marker, for example) and ensure “table row/column marker” is deselected if you don’t want the table column shown.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "- If they want row one to be a heading instead of data, uncheck “Row one has headings” during the CSV import (this prevents the first row from being treated as guest data). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the first row must be identified as headings.",
+            "evidence": "When you import your CSV or XLSX file, please ensure you indicate that the first row contains headings during the column mapping step. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The header treatment matches the import reference.",
+            "evidence": "When you import your CSV or XLSX file, please ensure you indicate that the first row contains headings during the column mapping step. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This usually happens if the import settings don't know the first row is a header. When you import your CSV or XLSX file, please ensure you indicate that the first row contains headings during the column mapping step. This tells TableCards to use that row for the column names rather than treating it as a guest.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear correction during column mapping.",
+            "evidence": "When you import your CSV or XLSX file, please ensure you indicate that the first row contains headings during the column mapping step. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When you import your CSV or XLSX file, please ensure you indicate that the first row contains headings during the column mapping step. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the heading option and directs a corrected re-import.",
+            "evidence": "To fix this, please re-import your CSV and ensure you check the option to confirm that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The first-row behavior follows the reviewed import instructions.",
+            "evidence": "To fix this, please re-import your CSV and ensure you check the option to confirm that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This happens if the system isn't told that your first row contains headings. During the import process, there is a step where you must confirm whether row one has headings; if this isn't selected, the header row is treated as a regular guest.\n\nTo fix this, please re-import your CSV and ensure you check the option to confirm that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The remedy is concise and actionable.",
+            "evidence": "To fix this, please re-import your CSV and ensure you check the option to confirm that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To fix this, please re-import your CSV and ensure you check the option to confirm that the first row contains headings.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses a printer guarantee and recommends the print-test PDF.",
+            "evidence": "Use the **print-test PDF** to calibrate first, and ensure you're printing at **100% scale** (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Actual-size printing and calibration match reviewed knowledge.",
+            "evidence": "Use the **print-test PDF** to calibrate first, and ensure you're printing at **100% scale** (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards cannot guarantee perfect printing on any specific inkjet printer. Our PDFs are designed for standard 100% actual-size printing, but compatibility depends on your printer settings, paper type, and margins. Use the **print-test PDF** to calibrate first, and ensure you're printing at **100% scale** (not \"Fit to page\"). If issues persist, contact your printer's support, as we cannot resolve device-specific printing behavior.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear test before full printing.",
+            "evidence": "Use the **print-test PDF** to calibrate first, and ensure you're printing at **100% scale** (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Use the **print-test PDF** to calibrate first, and ensure you're printing at **100% scale** (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.normal.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Identifies the heading setting needed to keep the header off cards.",
+            "evidence": "Re-open the import or reset the mapping and make sure **\"First row contains headings\"** is checked before you run the export again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading-row correction follows the import reference.",
+            "evidence": "Re-open the import or reset the mapping and make sure **\"First row contains headings\"** is checked before you run the export again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It sounds like the mapping step didn't recognize your header line as a label. Re-open the import or reset the mapping and make sure **\"First row contains headings\"** is checked before you run the export again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer is told which setting to select before exporting.",
+            "evidence": "Re-open the import or reset the mapping and make sure **\"First row contains headings\"** is checked before you run the export again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Re-open the import or reset the mapping and make sure **\"First row contains headings\"** is checked before you run the export again.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.06",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers two-line fitting, explicit failure, and no silent truncation.",
+            "evidence": "**Fail explicitly** for unsupported scripts or impossible text fits (not silent truncation)\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated fitting and script boundaries agree with reviewed knowledge.",
+            "evidence": "**Fail explicitly** for unsupported scripts or impossible text fits (not silent truncation)\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe PDF won't silently truncate long surnames. Instead, it will:\n\n1. **Break names across two balanced lines** if needed (e.g., \"Van der Sar\" becomes \"Van der / Sar\")\n2. **Preserve Latin accented names** (including Vietnamese) without issues\n3. **Fail explicitly** for unsupported scripts or impossible text fits (not silent truncation)\n\nHowever, you should:\n- Preview all cards before exporting\n- Print at **Actual Size (100%)** not \"Fit to page\"\n- Check calibration with the dedicated print-test PDF first\n\nIf the surname still doesn't fit, consider shortening it or adjusting the layout in the design tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear preview and printing checks.",
+            "evidence": "- Preview all cards before exporting\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Fail explicitly** for unsupported scripts or impossible text fits (not silent truncation)\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 15,
+  "invalid": 0,
+  "unsure": 0
+}

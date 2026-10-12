@@ -1,7 +1,7 @@
 # TableCards architecture and data model
 
 Created: 2026-10-06
-Updated: 2026-10-08
+Updated: 2026-10-09
 Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
 Scope: implemented Build 3 architecture; deployment evidence is separate from architecture approval
 
@@ -52,6 +52,23 @@ records the published no-charge production boundary and its verification limits.
 See [shared BFF table explanations](../../../docs/architecture/shared-bff-data-model.md),
 [SDK exports and contracts](../../../platform/bff/libs/sdk/typescript/README.md)
 and [ADR 0004](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md).
+
+### Operator work integration — development
+
+The [shared Operator architecture](../../../docs/architecture/operator-work.md)
+owns support histories, draft approval, mail, feedback, bot runs and reported
+events. TableCards adds no product tables or cross-database joins. It owns
+[bot/skill/event/KPI/page definitions](../operator-work.defaults.ts), realistic
+seed/evaluation content and its registered client handlers. Shared code consumes
+validated configuration data, never imports TableCards product code.
+
+The product shell embeds the shared helper. Its private chat state resets on
+identity/account changes without remounting the creator. TableCards backend
+one-shot jobs report safe save/export/AI outcomes with a separate scoped service
+secret, stable deduplication and bounded retries; reporting failure cannot undo
+the product action. Existing events drive generic seven-day KPI counts. Project
+contents, guest names, prompts and product private files stay out of event payloads.
+Actual text/email transport remains mocked/disabled in this development release.
 
 ### Authentication and context
 

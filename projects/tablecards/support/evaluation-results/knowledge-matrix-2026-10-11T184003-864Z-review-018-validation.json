@@ -1,0 +1,1244 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-018",
+  "packetHash": "1f73a08173b28cd8ac7d94fa59d956ffcfa85927975056238966b6fda9716b36",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains distinct copying and the active-project limit.",
+            "evidence": "Keep in mind that **active-project limits still apply**, so if you are on a specific plan (like Planner Pro with up to 25 active projects), this copy counts as a new active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The absolute restriction on copying across workspaces is not established by the references.",
+            "evidence": "You cannot copy a project to a different account or workspace through this action; the copy remains in your current selected workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can copy a project. For professional offers, the action is labeled **\"Make a copy\"** in your Projects menu. This creates a distinct project that retains your design details but is separate from the original.\n\nKeep in mind that **active-project limits still apply**, so if you are on a specific plan (like Planner Pro with up to 25 active projects), this copy counts as a new active project. You cannot copy a project to a different account or workspace through this action; the copy remains in your current selected workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Identifies the customer-operated copy action.",
+            "evidence": "For professional offers, the action is labeled **\"Make a copy\"** in your Projects menu. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Yes, you can copy a project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits checking the Archived view.",
+            "evidence": "Separate account scope and Archived check.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains that changing workspaces does not transfer projects.",
+            "evidence": "Changing workspaces doesn't transfer existing projects between them. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYour projects are tied to the specific workspace where they were saved. Changing workspaces doesn't transfer existing projects between them. To locate your old project, switch back to the original workspace where it was created. If you need further assistance, contact support with details about the project name and workspace, but note that support cannot access or retrieve projects on your behalf.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear original-workspace check.",
+            "evidence": "To locate your old project, switch back to the original workspace where it was created. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Your projects are tied to the specific workspace where they were saved. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers original workspace and Active or Archived checks.",
+            "evidence": "Check the original workspace’s \"Active\" or \"Archived\" views to locate it. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly ties project ownership to the workspace used when saving.",
+            "evidence": "Projects are tied to the workspace selected at save time, and switching workspaces does not move them. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIf you switched workspaces, your old project remains in the workspace where it was saved. Projects are tied to the workspace selected at save time, and switching workspaces does not move them. Check the original workspace’s \"Active\" or \"Archived\" views to locate it. Let me know if you need further guidance!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable next step.",
+            "evidence": "Check the original workspace’s \"Active\" or \"Archived\" views to locate it. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "If you switched workspaces, your old project remains in the workspace where it was saved. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "*Remarque : Les fonctionnalités avancées (comme l'IA ou plus de 25 noms) nécessitent une offre payante (ex. ",
+            "reason": "Free includes one welcome AI batch, so AI does not always require a paid offer.",
+            "referenceKey": "tablecards.access"
+          },
+          {
+            "code": "invented_fact",
+            "evidence": "Event Pass à 5 €).",
+            "reason": "Event Pass is defined as $5, not 5 euros.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain that PDF export requires Google sign-in.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly makes AI paid-only despite the Free welcome batch.",
+            "evidence": "*Remarque : Les fonctionnalités avancées (comme l'IA ou plus de 25 noms) nécessitent une offre payante (ex. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards vous permet de créer des fichiers PDF imprimables pour des noms d'invités, comme pour un mariage. Voici comment ça fonctionne :\n\n1. **Importez votre liste d'invités**  \n   - Collez les noms ligne par ligne ou importez un fichier CSV/XLSX.  \n   - Associez la colonne \"Nom\" (et éventuellement \"Table\" si besoin).  \n   - *Le mode gratuit limite à 25 noms par projet.*  \n\n2. **Choisissez un design**  \n   - Sélectionnez l'un des 3 designs prédéfinis (gratuits) ou utilisez l'IA pour des arrière-plans personnalisés (disponible avec l'offre Event Pass ou Planner Pro).  \n   - Ajustez la police, la taille et la position des noms.  \n\n3. **Prévisualisez et imprimez**  \n   - Vérifiez l'aspect des cartes avant l'export.  \n   - Téléchargez le PDF et imprimez-le en taille réelle (100 %) sur du papier de votre choix.  \n   - *Utilisez le fichier de test d'impression pour calibrer votre imprimante.*  \n\n4. **Enregistrez ou partagez**  \n   - Connectez-vous avec Google pour sauvegarder votre projet.  \n   - Les projets gratuits sont limités à un seul projet actif.  \n\n*Remarque : Les fonctionnalités avancées (comme l'IA ou plus de 25 noms) nécessitent une offre payante (ex. Event Pass à 5 €).*  \n\nSouhaitez-vous commencer avec un exemple simple ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The import, design and printing sequence is understandable.",
+            "evidence": "   - Collez les noms ligne par ligne ou importez un fichier CSV/XLSX.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF imprimables pour des noms d'invités, comme pour un mariage. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in requirement for saving and exporting.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes a digital product with customer-arranged printing.",
+            "evidence": "**Note importante :** TableCards fournit uniquement les fichiers numériques (PDF) prêts à imprimer ; nous ne livrons pas de cartes en papier physiques.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "C'est très simple ! TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pouvez ensuite imprimer vous-même.\n\nVoici les étapes principales :\n\n1.  **Importation des noms** : Vous pouvez copier-coller votre liste d'invités ou importer un fichier (comme un CSV ou Excel) pour que tous les noms soient ajoutés automatiquement.\n2.  **Choix du design** : Vous pouvez choisir parmi nos modèles prédéfinis ou utiliser l'intelligence artificielle pour générer un arrière-plan unique qui correspond au thème de votre mariage.\n3.  **Aperçu gratuit** : Vous pouvez visualiser le résultat de vos cartes sans frais.\n4.  **Téléchargement et impression** : Une fois que le design vous convient, vous téléchargez le fichier PDF. Vous n'avez plus qu'à l'imprimer chez vous ou chez un imprimeur local sur le papier de votre choix.\n\n**Note importante :** TableCards fournit uniquement les fichiers numériques (PDF) prêts à imprimer ; nous ne livrons pas de cartes en papier physiques.\n\nSouhaitez-vous savoir comment importer votre liste d'invités ou préférez-vous explorer les options de design ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The basic workflow is easy to follow.",
+            "evidence": "**Importation des noms** : Vous pouvez copier-coller votre liste d'invités ou importer un fichier (comme un CSV ou Excel) pour que tous les noms soient ajoutés automatiquement.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "C'est très simple ! ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the copy is distinct and subject to active-project limits.",
+            "evidence": "The copy creates a distinct project subject to your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the documented professional Make a copy action.",
+            "evidence": "This is available through the \"Make a copy\" action, which is a feature of the professional plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can make a copy of a saved project for a different event. This is available through the \"Make a copy\" action, which is a feature of the professional plan. The copy creates a distinct project subject to your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a concise, useful explanation.",
+            "evidence": "The copy creates a distinct project subject to your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Yes, you can make a copy of a saved project for a different event. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits checking Archived projects.",
+            "evidence": "Separate account scope and Archived check.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains workspace-scoped project ownership.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them; they do not move automatically when you switch workspaces. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them; they do not move automatically when you switch workspaces. To find your old project, please switch back to the workspace where you originally worked on it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly directs the customer to the original workspace.",
+            "evidence": "To find your old project, please switch back to the workspace where you originally worked on it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them; they do not move automatically when you switch workspaces. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes public exploration from Google-gated actions.",
+            "evidence": "However, saving those changes, using AI backgrounds, or exporting the final PDF requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly allows importing and previewing before sign-in.",
+            "evidence": "You can also import a guest list by pasting names (one per line or as a grid) to try the import and preview features.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Before signing in, you can browse the landing page to see examples, pricing, and the FAQ. You can also import a guest list by pasting names (one per line or as a grid) to try the import and preview features.\n\nHowever, saving those changes, using AI backgrounds, or exporting the final PDF requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Makes the sign-in boundary clear.",
+            "evidence": "However, saving those changes, using AI backgrounds, or exporting the final PDF requires a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Before signing in, you can browse the landing page to see examples, pricing, and the FAQ. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers the original account and Active or Archived views.",
+            "evidence": "Check the Projects tab in that account for both active and archived projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains separate workspace project scope.",
+            "evidence": "Projects are saved to the specific workspace they were originally created in, so switching accounts or workspaces does not move them over.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Projects are saved to the specific workspace they were originally created in, so switching accounts or workspaces does not move them over.\n\nTo find the old project, you’ll need to sign in with the workspace where it was saved. Check the Projects tab in that account for both active and archived projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers an understandable recovery check.",
+            "evidence": "Check the Projects tab in that account for both active and archived projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Projects are saved to the specific workspace they were originally created in, so switching accounts or workspaces does not move them over.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits checking the Archived view.",
+            "evidence": "Separate account scope and Archived check.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says Studio membership does not expose private-workspace projects.",
+            "evidence": "Studio memberships don't share private workspace projects. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIf you switched workspaces, projects are tied to the specific account/workspace you used when creating them. Check if the old project exists in the original workspace (browser tab). Studio memberships don't share private workspace projects. Support cannot retrieve projects from other accounts. Would you like guidance on account/workspace selection?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Points the customer toward the original workspace.",
+            "evidence": "Check if the old project exists in the original workspace (browser tab). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "If you switched workspaces, projects are tied to the specific account/workspace you used when creating them. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.normal.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "* Terms/limits (e.g., 5 active professional projects) apply as usual to the copy.\n",
+            "reason": "Planner Pro permits 25 active projects and Studio permits 100, not five professional projects.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains copying as a new project subject to active limits.",
+            "evidence": "That creates a new project that’s still subject to your active-project limits under the same plan.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a five-project professional limit instead of the documented limits.",
+            "evidence": "* Terms/limits (e.g., 5 active professional projects) apply as usual to the copy.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can copy a saved professional project for a different event.\n\n**What to do**\n\n1. Sign in and open the workspace that contains the project you want to copy.\n2. Open the project to its detail view.\n3. Look for “Make a copy” (or similar—start-from copy) in your options or actions.\n\nThat creates a new project that’s still subject to your active-project limits under the same plan.\n\n## How it works in practice\n\n* Starts with the same structure (tables, headings, and your chosen design), but it’s a distinct project that can be edited separately.  \n* Use it as a clean starting point for the new event—just add or remove guests and change event details.  \n* Terms/limits (e.g., 5 active professional projects) apply as usual to the copy.\n\nIf you can’t locate “Make a copy,” tell me which browser and whether you see a dots or more menu, and I’ll help narrow it down.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify and use the copy action.",
+            "evidence": "Look for “Make a copy” (or similar—start-from copy) in your options or actions.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Yes, you can copy a saved professional project for a different event.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Includes both workspace selection and an Archived check.",
+            "evidence": "You should also check the **Archived** view in your current workspace, just in case it was archived instead of being in another workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains projects remaining in the saved workspace.",
+            "evidence": "Projects stay in the specific workspace that was selected when they were saved, so they won't appear when you switch to a different workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Projects stay in the specific workspace that was selected when they were saved, so they won't appear when you switch to a different workspace.\n\nTo find your project, please try switching back to your previous workspace. You should also check the **Archived** view in your current workspace, just in case it was archived instead of being in another workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear first step.",
+            "evidence": "To find your project, please try switching back to your previous workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Projects stay in the specific workspace that was selected when they were saved, so they won't appear when you switch to a different workspace.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers public importing and the save/export sign-in boundary.",
+            "evidence": "You cannot save projects or export PDFs without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Public import and preview are supported.",
+            "evidence": "*   **Import guest lists:** Paste names, CSV, or XLSX files to preview how your place cards would look.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Before signing in, you can:\n\n*   **Import guest lists:** Paste names, CSV, or XLSX files to preview how your place cards would look.\n*   **Browse:** View examples, pricing, and FAQs on the landing page.\n*   **Ask questions:** Get general information about the product and features.\n\nYou cannot save projects or export PDFs without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly states which actions require Google.",
+            "evidence": "You cannot save projects or export PDFs without a Google sign-in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Before signing in, you can:\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required Archived check.",
+            "evidence": "Separate account scope and Archived check.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains private and Studio project separation.",
+            "evidence": "For example, if you created a project in your private workspace and then joined a Studio workspace, those projects do not automatically move or share between them.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It sounds like you might be looking in a different workspace than where the project was originally created.\n\nProjects are tied to the specific account or workspace used during creation. For example, if you created a project in your private workspace and then joined a Studio workspace, those projects do not automatically move or share between them.\n\nTo find your project, please check if you can switch back to your original workspace or account. You may need to ensure you are signed in with the same Google account used for that specific project.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear original-workspace check.",
+            "evidence": "To find your project, please check if you can switch back to your original workspace or account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "It sounds like you might be looking in a different workspace than where the project was originally created.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in requirement for PDF export.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states that over-limit Free projects cannot export.",
+            "evidence": "   - Les projets gratuits ne peuvent pas être exportés si le nombre de cartes dépasse 25.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nPour créer des marque-places avec les noms des invités pour un mariage via TableCards, suivez ces étapes :  \n\n1. **Importer les noms des invités** :  \n   - Collez les noms un par ligne ou importez un fichier CSV/XLSX (mappez les colonnes \"Nom\", \"Table\" et \"Marqueur\" si nécessaire).  \n   - *Limitation gratuite* : 25 cartes max (ajoutez un événement via l'offre **Event Pass** pour 500 cartes).  \n\n2. **Choisir un design** :  \n   - Sélectionnez un modèle prédéfini (designs élégants disponibles en version payante).  \n   - Personnalisez la police, la taille et la position des noms.  \n   - Utilisez l'**IA** pour des arrière-plans (4 options par lot, sans garantie de reproduction exacte des logos).  \n\n3. **Prévisualiser et imprimer** :  \n   - Vérifiez chaque carte avant l'export.  \n   - Téléchargez le PDF et imprimez-le en **taille réelle (100%)**.  \n   - Testez avec le PDF de calibration avant l'impression finale.  \n\n4. **Gérer les projets** :  \n   - Connectez-vous avec un compte Google pour sauvegarder ou copier des projets.  \n   - Les projets gratuits ne peuvent pas être exportés si le nombre de cartes dépasse 25.  \n\n*Remarque* : Les cartes sont numériques (PDF) ; l'impression et l'envoi sont gérés par vous. Pour plus de personnalisation, explorez les offres payantes (ex. : **Planner Pro** pour plusieurs projets).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers understandable preview and printing steps.",
+            "evidence": "   - Téléchargez le PDF et imprimez-le en **taille réelle (100%)**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "Pour créer des marque-places avec les noms des invités pour un mariage via TableCards, suivez ces étapes :  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "   - Les projets gratuits expirent après 30 jours de non-activité.\n",
+            "reason": "A 30-day Free-project expiry is not an established preview retention rule.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain the Google sign-in requirement for PDF export.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a 30-day inactivity expiry for Free projects.",
+            "evidence": "   - Les projets gratuits expirent après 30 jours de non-activité.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards vous permet de créer des marque-place numériques en PDF, que vous imprimez vous-même. Voici comment procéder pour un mariage :\n\n1. **Importer les noms des invités** :  \n   - Collez les noms un par ligne ou importez un fichier CSV/XLSX (mappez les colonnes \"Nom\", \"Table\" et \"Marqueur\" si nécessaire).  \n   - La version gratuite limite à 25 cartes ; pour plus, envisagez l'**Event Pass** ($5) ou d'autres abonnements.\n\n2. **Choisir un design** :  \n   - Utilisez des modèles prédéfinis (gratuits ou premium selon votre abonnement).  \n   - Ajoutez un artwork personnalisé (PNG/JPEG, 7:4, ≥1050×600 pixels) ou utilisez l'**IA** pour des fonds (1 batch gratuit par défaut).\n\n3. **Prévisualiser et imprimer** :  \n   - Vérifiez chaque carte avant export.  \n   - Imprimez en **Taille Réelle (100%)** sur du papier adapté. Utilisez le **PDF de test** pour calibrer votre imprimante.\n\n4. **Enregistrer ou partager** :  \n   - Connectez-vous avec un compte Google pour sauvegarder votre projet.  \n   - Les projets gratuits expirent après 30 jours de non-activité.\n\nPour les grandes listes, vérifiez les limites de votre abonnement. Si besoin, passez à l'Event Pass pour 500 cartes. Aucune livraison n’est proposée ; vous gérez l’impression.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The main creation and printing sequence is understandable.",
+            "evidence": "   - Collez les noms un par ligne ou importez un fichier CSV/XLSX (mappez les colonnes \"Nom\", \"Table\" et \"Marqueur\" si nécessaire).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des marque-place numériques en PDF, que vous imprimez vous-même. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers original-workspace selection and Archived recovery.",
+            "evidence": "* **Check your 'Archived' view:** If you didn't delete the project, it might be in your Archive. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly ties a project to the workspace used when saving.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them. Switching workspaces does not move your projects automatically.\n\nTo find your old project, please try these steps:\n\n* **Switch back to your previous workspace:** The project will still be located in the workspace where it was originally saved.\n* **Check your 'Archived' view:** If you didn't delete the project, it might be in your Archive. You can restore it to your active view from there.\n\nIf you have checked both and still cannot find it, please let me know.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains restoring an archived project.",
+            "evidence": "You can restore it to your active view from there.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Projects are tied to the specific workspace you were using when you saved them. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the creation workflow and Google-gated save/export.",
+            "evidence": "Pour sauvegarder votre projet ou exporter vos fichiers, une connexion via Google est nécessaire.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly offers a no-charge preview before saving.",
+            "evidence": "Vous pouvez commencer dès maintenant avec notre **aperçu gratuit** (sans frais) pour tester le processus. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pouvez ensuite imprimer vous-même. Voici comment cela fonctionne pour votre mariage :\n\n1.  **Importation des noms :** Vous pouvez copier-coller votre liste d'invités ou importer un fichier (CSV ou Excel). Vous n'avez qu'à mapper les colonnes pour les noms et, si besoin, les numéros de table.\n2.  **Choix du design :** Vous pouvez choisir parmi nos modèles prédéfinis, utiliser l'IA pour générer un arrière-plan unique, ou télécharger votre propre illustration (en format PNG ou JPEG).\n3.  **Personnalisation :** Vous pouvez ajuster la police, la taille, la couleur et la position des noms sur les cartes.\n4.  **Exportation et Impression :** Une fois vos cartes prêtes, vous téléchargez un PDF. **Note importante :** TableCards ne vend pas de papier et ne gère pas l'impression ou la livraison. Pour un résultat conforme, veillez à imprimer votre PDF en utilisant l'option **\"Taille réelle\" (ou 100%)** et non \"Ajuster à la page\".\n\nVous pouvez commencer dès maintenant avec notre **aperçu gratuit** (sans frais) pour tester le processus. Pour sauvegarder votre projet ou exporter vos fichiers, une connexion via Google est nécessaire.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides understandable self-printing guidance.",
+            "evidence": "Pour un résultat conforme, veillez à imprimer votre PDF en utilisant l'option **\"Taille réelle\" (ou 100%)** et non \"Ajuster à la page\".\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pouvez ensuite imprimer vous-même. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.tuning.calibration.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Separates public import and preview from gated saving and export.",
+            "evidence": "- Exporting PDFs\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies Google as the only enabled sign-in method.",
+            "evidence": "**To use features that require sign‑in**, you’ll need to connect with Google (the only login method available). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Before you sign in, you can:\n\n- **Browse the landing page** – check examples, pricing, and FAQ to see the product and what it offers.\n- **Import lists publicly** – paste names, CSV, or XLSX into the importer to see how it processes them; this doesn’t require sign‑in.\n- **Preview cards** – use the public preview features to see how the cards look before deciding to sign in.\n- **Explore designs** — view predefined designs and artwork options (no sign‑in needed).\n\n**To use features that require sign‑in**, you’ll need to connect with Google (the only login method available). Those include:\n- Saving projects\n- Exporting PDFs\n- accessing AI backgrounds\n\nIf you just want to explore without signing in, the public preview, import, and design browsing should get you started. If any specific feature isn’t working as expected or you have another question, let me know what you’re trying to do and I’ll point you in the right direction.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Organizes the available actions clearly.",
+            "evidence": "- **Import lists publicly** – paste names, CSV, or XLSX into the importer to see how it processes them; this doesn’t require sign‑in.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Before you sign in, you can:\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers original workspace and Active or Archived checks.",
+            "evidence": "Check the original workspace’s \"Active\" or \"Archived\" views (projects are not deleted when archived). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes ownership at the time of saving.",
+            "evidence": "Projects are tied to the workspace active at the time of saving, and switching workspaces does not move them. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIf you switched workspaces, your old project remains in the original workspace where it was saved. Projects are tied to the workspace active at the time of saving, and switching workspaces does not move them. Check the original workspace’s \"Active\" or \"Archived\" views (projects are not deleted when archived). If the project isn’t there, confirm whether it was saved before the workspace change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a useful follow-up check if the project is absent.",
+            "evidence": "If the project isn’t there, confirm whether it was saved before the workspace change.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "If you switched workspaces, your old project remains in the original workspace where it was saved. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers the workflow and Google requirement for saving and exporting.",
+            "evidence": "*Note : Pour enregistrer votre projet et exporter votre PDF, une connexion avec votre compte Google est nécessaire.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes a downloadable PDF for self-printing.",
+            "evidence": "**Exportez et imprimez** : Une fois satisfait, vous téléchargez le PDF. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pourrez ensuite imprimer vous-même. Nous fournissons le design numérique, mais nous ne livrons pas de papier ou de cartes physiques.\n\nVoici comment procéder pour votre mariage :\n\n1.  **Importez vos invités** : Vous pouvez copier et coller votre liste de noms (un nom par ligne) ou importer un fichier (CSV ou Excel).\n2.  **Choisissez un design** : Vous pouvez utiliser nos modèles prédéfinis ou utiliser notre outil d'IA pour générer des arrière-plans uniques pour vos cartes.\n3.  **Prévisualisez** : Vérifiez l'apparence de chaque nom et de chaque mise en page avant de finaliser.\n4.  **Exportez et imprimez** : Une fois satisfait, vous téléchargez le PDF. Pour un résultat optimal, il faudra l'imprimer sur le papier de votre choix en utilisant le réglage **\"Taille réelle\"** (ou 100 %) sur votre imprimante.\n\n*Note : Pour enregistrer votre projet et exporter votre PDF, une connexion avec votre compte Google est nécessaire.*",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Presents a clear sequence with preview before export.",
+            "evidence": "**Prévisualisez** : Vérifiez l'apparence de chaque nom et de chaque mise en page avant de finaliser.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pourrez ensuite imprimer vous-même. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses account scope and checking archived projects.",
+            "evidence": "  - Look for an archive or past‑session entries; if you archived the project it appears under those views.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Suggests a project may be device-only without evidence distinguishing an unsaved draft.",
+            "evidence": "- You opened an older browser tab or device: A project may only be visible in the original tab or device.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thanks for the details. I can help track down that project.\n\nA project is always tied to the account (and workspace) that originally created it. When you switch contexts you typically see only your current account's projects.\n\nBelow are the most common reasons you can’t find it and the fixes aligned with how TableCards works.\n\nWhy the project may be missing\n- You're signed into a different account: Projects, offers, and AI allowance belong to the account, not just the browser tab.\n- It belongs to a private workspace vs. Studio: Projects in your original private workspace aren’t automatically visible in a Studio workspace after you join or switch.\n- Saved/archived project is in another view: Saved projects may be filtered or located under an “Archive” or “Saved” tab in the app.\n- You opened an older browser tab or device: A project may only be visible in the original tab or device.\n\nHow to find it\n- Sign in with the account the project was created on and try these steps:\n  - Go to My Projects (or Saved Projects/Projects list).\n  - Look for an archive or past‑session entries; if you archived the project it appears under those views.\n  - Confirm the workspace context: if the project was in your private workspace, you’ll need to sign in with that account; joining Studio does not surface private‑workspace projects.\n- Use import to restore the project:\n  - If you have the cards or list from the old project, you can import them again (given we still have the same limits for imports).\n- Confirm you still have the original sign‑in details: the project still exists on your account; we just need you back in that context to view it.\n\nWhat I need from you (optional)\n- Which account or workspace was it originally on (private workspace vs. a Studio workspace)?\n- If you have access to that email/customer ID: sign in with that account and then scroll into Saved/Archived projects.\n- The approximate project name or timeframe, or the original invitation link (if you have it), can help narrow it down faster.\n\nOnce you confirm which account/workspace you’d like to try first, I can walk you through the specific steps in your app view. If you’d prefer, I can also provide guidance for restoring or re‑importing that project from the original list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Calling a fresh import restoration confuses recreating a list with recovering the saved project.",
+            "evidence": "- Use import to restore the project:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Thanks for the details. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers the digital workflow and Google-gated save/export.",
+            "evidence": "- Certaines fonctionnalités (sauvegarde, export) nécessitent une connexion Google.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Separate first-name and surname column mapping is not established by the supplied import reference.",
+            "evidence": "   - Exemple : une colonne \"Prénom\" et \"Nom\" pour chaque invité.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards vous permet de créer des marque-places numériques (PDF téléchargeables) pour vos invités de mariage. Voici comment ça fonctionne :\n\n1. **Importez vos invités**  \n   - Collez une liste de noms ou téléchargez un fichier CSV/XLSX (mappez les colonnes si nécessaire).  \n   - Exemple : une colonne \"Prénom\" et \"Nom\" pour chaque invité.\n\n2. **Concevez vos marque-places**  \n   - Choisissez parmi des modèles prédéfinis ou utilisez l'IA pour générer un fond (si vous êtes connecté avec un compte Google).  \n   - Personnalisez le texte, la police et les couleurs via l'éditeur en ligne.\n\n3. **Prévisualisez et téléchargez**  \n   - Visualisez un aperçu gratuit (sans paiement).  \n   - Téléchargez le PDF final pour l'imprimer vous-même (papier, format A4 ou carte pliée).\n\n**Limites** :  \n- Aucune livraison physique ou impression directe.  \n- Certaines fonctionnalités (sauvegarde, export) nécessitent une connexion Google.  \n- Les prix affichés sont des hypothèses ; le paiement n'est pas actif.  \n\nBesoin d'aide pour importer une liste ou choisir un design ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workflow and next steps are understandable.",
+            "evidence": "**Prévisualisez et téléchargez**  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des marque-places numériques (PDF téléchargeables) pour vos invités de mariage. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains importing, design, preview, PDF printing and Google sign-in.",
+            "evidence": "*   Pour enregistrer votre projet et télécharger votre PDF, vous devrez vous connecter avec votre compte **Google**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly allows trying the tool for free.",
+            "evidence": "*   Vous pouvez commencer à tester l'outil gratuitement pour voir si le résultat vous convient.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pourrez ensuite imprimer vous-même. Nous ne fournissons pas de papier ni de service de livraison, nous créons le design numérique.\n\nVoici comment procéder pour votre mariage :\n\n1.  **Importer vos invités** : Vous pouvez copier et coller votre liste de noms directement, ou importer un fichier (CSV ou Excel). Vous pourrez ensuite associer chaque nom à une table si besoin.\n2.  **Choisir le design** : Vous pouvez utiliser nos modèles prédéfinis ou utiliser notre outil d'IA pour générer des arrière-plans uniques qui correspondent au thème de votre mariage.\n3.  **Vérifier l'aperçu** : Avant de finaliser, vérifiez bien l'orthographe de chaque nom et le rendu visuel dans l'aperçu.\n4.  **Télécharger et imprimer** : Une fois terminé, vous exportez un PDF. Pour un résultat optimal, il faudra imprimer le document en choisissant l'option **\"Taille réelle\"** ou **\"100 %\"** dans vos paramètres d'imprimante (évitez l'option \"Ajuster à la page\").\n\n**À noter :**\n*   Pour enregistrer votre projet et télécharger votre PDF, vous devrez vous connecter avec votre compte **Google**.\n*   Vous pouvez commencer à tester l'outil gratuitement pour voir si le résultat vous convient.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear actual-size printing guidance.",
+            "evidence": "Pour un résultat optimal, il faudra imprimer le document en choisissant l'option **\"Taille réelle\"** ou **\"100 %\"** dans vos paramètres d'imprimante (évitez l'option \"Ajuster à la page\").\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable French throughout.",
+            "evidence": "TableCards vous permet de créer des fichiers PDF de marque-places personnalisés que vous pourrez ensuite imprimer vous-même. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 12,
+  "invalid": 0,
+  "unsure": 0
+}

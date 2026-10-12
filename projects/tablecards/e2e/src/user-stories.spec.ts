@@ -72,7 +72,12 @@ async function activateOffer(
   offerName: 'Event Pass' | 'Free' | 'Planner Pro' | 'Studio',
 ) {
   await chooseDevelopmentOffer(page, offerName);
-  await expect(page.getByText('No-charge simulation')).toBeVisible();
+  await expect(
+    page.getByText(
+      offerName === 'Free' ? 'Default access' : 'No-charge simulation',
+      { exact: true },
+    ),
+  ).toBeVisible();
 }
 
 test('the acceptance registry covers every accepted user story', () => {

@@ -10,6 +10,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@bff/assistant/react': resolve(
+        workspaceRoot,
+        'platform/bff/libs/assistant/src/react.tsx',
+      ),
       '@bff/contracts': resolve(
         workspaceRoot,
         'platform/bff/libs/contracts/src/index.ts',
