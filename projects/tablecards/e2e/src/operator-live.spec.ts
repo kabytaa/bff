@@ -45,6 +45,116 @@ async function ask(dialog: Locator, question: string) {
   ).toContainText(/\S/u);
 }
 
+test('a lost real printing response recovers the same saved answer without another AI attempt', async ({
+  page,
+}, testInfo) => {
+  let posts = 0;
+  let originalStream = '';
+  let conversationId = '';
+  let firstQuestionId = '';
+  let firstCapability = '';
+  let replayMatched = false;
+  await page.route('**/v1/operations/helper*', async (route) => {
+    if (route.request().method() !== 'POST') return await route.continue();
+    posts += 1;
+    if (posts > 2) return await route.abort();
+    const body = route.request().postDataJSON();
+    const response = await route.fetch({ timeout: 65_000 });
+    if (posts === 1) {
+      expect(response.status()).toBe(200);
+      originalStream = await response.text();
+      const chunks = originalStream
+        .split('\n')
+        .filter((line) => line.startsWith('data: {'))
+        .map((line) => JSON.parse(line.slice(6)));
+      const session = chunks.find(
+        (chunk) => chunk.type === 'data-session',
+      )?.data;
+      expect(session?.mocked).toBe(false);
+      expect(
+        chunks.some(
+          (chunk) =>
+            chunk.type === 'text-delta' &&
+            /100\s*%|actual size/iu.test(chunk.delta),
+        ),
+      ).toBe(true);
+      conversationId = session.conversationId;
+      firstQuestionId = body.message.id;
+      firstCapability = body.capability;
+      // Lose the delivered response only AFTER real inference saved an answer.
+      // Never retain stream/capability values in reports, traces or screenshots.
+      return await route.fulfill({
+        response,
+        status: 503,
+        contentType: 'application/json',
+        body: '{"error":{"code":"SYNTHETIC_LOST_RESPONSE"}}',
+      });
+    }
+    expect(body.message.id === firstQuestionId).toBe(true);
+    expect(body.capability === firstCapability).toBe(true);
+    expect(response.status()).toBe(200);
+    replayMatched = (await response.text()) === originalStream;
+    await route.fulfill({ response });
+  });
+  await page.goto('/');
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Help', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'TableCards Help' });
+  await dialog
+    .getByRole('button', {
+      name: 'How do I print at the right size?',
+      exact: true,
+    })
+    .click();
+  await expect(dialog.getByRole('alert')).toContainText(
+    'Your message is still here',
+    { timeout: 65_000 },
+  );
+  await dialog
+    .getByRole('button', { name: 'Retry answer', exact: true })
+    .click();
+  await expect(dialog.locator('li.answer .bff-helper-message')).toContainText(
+    /100\s*%|actual size/iu,
+    { timeout: 35_000 },
+  );
+  await expect(dialog.getByRole('alert')).toHaveCount(0);
+  await expect(dialog.locator('li.customer')).toHaveCount(1);
+  await expect(dialog.locator('li.answer')).toHaveCount(1);
+  expect(posts).toBe(2);
+  expect(replayMatched).toBe(true);
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      'node_modules/convex/bin/main.js',
+      'run',
+      '--deployment',
+      deployment,
+      '--inline-query',
+      `
+      const e=await ctx.db.query("businessEnvironments").withIndex("by_key",q=>q.eq("key","tablecards-development")).unique();
+      const c=await ctx.db.query("conversations").withIndex("by_environment_public_id",q=>q.eq("environmentId",e._id).eq("publicId",${JSON.stringify(conversationId)})).unique();
+      const runs=await ctx.db.query("botRuns").withIndex("by_conversation_started_at",q=>q.eq("conversationId",c._id)).take(10);
+      const entries=await ctx.db.query("conversationEntries").withIndex("by_conversation_created_at",q=>q.eq("conversationId",c._id)).take(10);
+      return {runs:runs.length,attempts:runs.reduce((n,r)=>n+r.attempts.length,0),completed:runs.every(r=>r.state==="completed"),questions:entries.filter(e=>e.kind==="customer_message").length,answers:entries.filter(e=>e.kind==="bot_answer").length};
+    `,
+    ],
+    { cwd: process.cwd(), timeout: 30_000, maxBuffer: 8_192 },
+  );
+  expect(JSON.parse(stdout)).toEqual({
+    runs: 1,
+    attempts: 1,
+    completed: true,
+    questions: 1,
+    answers: 1,
+  });
+  await expectNoHorizontalPageOverflow(page);
+  await page.screenshot({
+    path: `.playwright-cli/printing-recovered-${testInfo.project.name}.png`,
+  });
+});
+
 test('real helper answers and a correlated browser tool preserve customer-chosen navigation', async ({
   page,
 }) => {

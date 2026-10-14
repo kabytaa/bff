@@ -209,6 +209,173 @@ describe('guarded Operator HTTP workflows', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0]?.rating).toBe('partly');
   });
+  it('recovers the saved printing answer after a lost response without another execution', async () => {
+    const t = await fixture();
+    const capability = 'b'.repeat(43);
+    const body = {
+      ...turn('printing_response_lost_synthetic01'),
+      capability,
+      message: {
+        id: 'printing_response_lost_synthetic01',
+        text: 'How do I print at the right size?',
+      },
+    };
+    const send = (input: unknown) =>
+      t.fetch('/v1/operations/helper', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify(input),
+      });
+    const first = await send(body);
+    expect(first.status).toBe(200);
+    const original = await first.text();
+    const session = streamData(original).find(
+      (part) => part.type === 'data-session',
+    )?.data as { conversationId: string; capability: string };
+    // No conversation ID was received if the entire first response was lost.
+    const retry = await send(body);
+    expect(retry.status).toBe(200);
+    expect(await retry.text()).toBe(original);
+    // A stream interrupted after session metadata has the same recovery path.
+    const known = await send({ ...body, ...session });
+    expect(known.status).toBe(200);
+    expect(await known.text()).toBe(original);
+    const stored = await t.run(async (ctx) => ({
+      conversations: await ctx.db.query('conversations').take(10),
+      entries: await ctx.db.query('conversationEntries').take(10),
+      runs: await ctx.db.query('botRuns').take(10),
+    }));
+    expect(stored.conversations).toHaveLength(1);
+    expect(stored.entries).toHaveLength(2);
+    expect(stored.runs).toHaveLength(1);
+    expect(stored.runs[0]?.attempts).toHaveLength(1);
+  });
+  it('never replays another capability, changed question/page or an older turn', async () => {
+    const t = await fixture();
+    const body = {
+      ...turn('replay_scope_synthetic01'),
+      capability: 'b'.repeat(43),
+    };
+    const send = (input: unknown) =>
+      t.fetch('/v1/operations/helper', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify(input),
+      });
+    const original = await send(body);
+    const session = streamData(await original.text()).find(
+      (part) => part.type === 'data-session',
+    )?.data as { conversationId: string; capability: string };
+    const same = { ...body, ...session };
+    expect((await send({ ...same, capability: 'x'.repeat(43) })).status).toBe(
+      403,
+    );
+    expect(
+      (
+        await send({
+          ...same,
+          message: { ...body.message, text: 'Other question' },
+        })
+      ).status,
+    ).toBe(409);
+    expect((await send({ ...same, page: { key: '/changed' } })).status).toBe(
+      409,
+    );
+    expect(
+      (
+        await send({
+          ...same,
+          message: { id: 'newer_scope_synthetic01', text: 'What next?' },
+        })
+      ).status,
+    ).toBe(200);
+    expect((await send(same)).status).toBe(409);
+  });
+  it('does not execute an already queued or running duplicate', async () => {
+    const t = await fixture();
+    const capability = 'b'.repeat(43);
+    const body = { ...turn('running_duplicate_synthetic01'), capability };
+    const saved = await t.mutation(internal.operationsState.helperTurn, {
+      environmentKey,
+      anonymousHandleHash: await sha256Base64Url(capability),
+      text: body.message.text,
+      idempotencyKey: body.message.id,
+      pageContext: body.page,
+    });
+    const send = () =>
+      t.fetch('/v1/operations/helper', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify(body),
+      });
+    expect((await send()).status).toBe(409);
+    const claim = await t.mutation(internal.operationsState.claimRun, {
+      runId: saved.runId!,
+      provider: 'development-mock',
+    });
+    expect(claim).not.toBeNull();
+    expect((await send()).status).toBe(409);
+    const runs = await t.run(
+      async (ctx) => await ctx.db.query('botRuns').take(10),
+    );
+    expect(runs).toHaveLength(1);
+    expect(runs[0]?.attempts).toHaveLength(1);
+    expect(runs[0]?.state).toBe('running');
+  });
+  it('retries a failed helper only on explicit resubmission and within the existing attempt ceiling', async () => {
+    const t = await fixture();
+    const body = {
+      ...turn('failed_retry_synthetic01'),
+      capability: 'b'.repeat(43),
+    };
+    const send = () =>
+      t.fetch('/v1/operations/helper', {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify(body),
+      });
+    vi.stubEnv('BFF_OPERATIONS_AI_MODE', 'disabled');
+    expect((await send()).status).toBe(503);
+    vi.stubEnv('BFF_OPERATIONS_AI_MODE', 'mock');
+    expect((await send()).status).toBe(200);
+    const runs = await t.run(
+      async (ctx) => await ctx.db.query('botRuns').take(10),
+    );
+    expect(runs).toHaveLength(1);
+    expect(runs[0]?.state).toBe('completed');
+    expect(runs[0]?.attempts.map(({ outcome }) => outcome)).toEqual([
+      'failed',
+      'completed',
+    ]);
+
+    const blocked = await fixture();
+    vi.stubEnv('BFF_OPERATIONS_AI_MODE', 'disabled');
+    for (let attempt = 0; attempt < 3; attempt++) {
+      expect(
+        (
+          await blocked.fetch('/v1/operations/helper', {
+            method: 'POST',
+            headers: headers(),
+            body: JSON.stringify(body),
+          })
+        ).status,
+      ).toBe(503);
+    }
+    expect(
+      (
+        await blocked.fetch('/v1/operations/helper', {
+          method: 'POST',
+          headers: headers(),
+          body: JSON.stringify(body),
+        })
+      ).status,
+    ).toBe(409);
+    expect(
+      (
+        await blocked.run(async (ctx) => await ctx.db.query('botRuns').take(10))
+      )[0]?.attempts,
+    ).toHaveLength(3);
+  });
   it.each(['inline', 'lazy'] as const)(
     'uses shared behavior with automatic %s assigned knowledge in the actual run',
     async (strategy) => {

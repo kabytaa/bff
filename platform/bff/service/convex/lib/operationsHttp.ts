@@ -323,6 +323,16 @@ export async function operationsHelper(ctx: ActionCtx, request: Request) {
       });
       runId = turn.runId;
       publicId = turn.publicId;
+      if (turn.savedAnswer)
+        return createAssistantUIResponse({
+          ...turn.savedAnswer,
+          toolCalls: [],
+          session: {
+            conversationId: publicId,
+            ...(capability ? { capability } : {}),
+          },
+          headers: operationResponseHeaders(cors),
+        });
     }
     if (!runId)
       throw new OperationTransportError(

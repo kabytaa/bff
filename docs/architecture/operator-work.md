@@ -1,6 +1,6 @@
 # Operator work — architecture
 
-Created: 2026-10-09 · Updated: 2026-10-12 · Implementation baseline: `41ba411` · **Gemma/Jev helper and support checkpoint verified in development; production excluded**
+Created: 2026-10-09 · Updated: 2026-10-13 · Implementation baseline: `41ba411` · **Gemma/Jev helper and support checkpoint verified in development; production excluded**
 
 Short review view of the [detailed brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#proposed-erd).
 Andrew approved the design/schema on 2026-10-09. The
@@ -304,6 +304,19 @@ Customer/account links are optional and must be verified—not inferred from ema
 All child records enforce Business/environment scope. Events may also link to a
 verified customer/account. Webhooks remain unlinked until safely correlated.
 Relationships are application-enforced Convex references, not SQL constraints.
+
+**Helper retry recovery — 2026-10-13:** anonymous clients create a 256-bit
+capability before the first request and keep it only in the identity-scoped
+component's memory. The same question ID/capability survives a lost response;
+it is not an authenticated identity or a persisted browser credential. Invalid
+bearer tokens still fail, never downgrade to anonymous access.
+The server authorizes the caller, matches the exact latest question and saved
+page fingerprint, then reads its run through the existing conversation/trigger
+index. A completed run replays only its original customer-visible answer after
+environment/conversation/source-run checks, without another model call. Queued
+or running duplicates cannot start another execution. Explicit failed-run retries
+reuse the same active run only with unchanged configuration and fewer than three
+attempts; no automatic retry, new table/index/field or migration is introduced.
 
 **Provider safety cap — selected 2026-10-09:** configure the existing $3/day and
 $30/month live-text ceilings at the provider/gateway, not in application tables.

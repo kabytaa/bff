@@ -1,9 +1,18 @@
 # Business Factory Handoff
 
-Updated: 2026-10-12.
+Updated: 2026-10-14.
 
 ## Current checkpoint
 
+- **Latest development repair:** printing-answer Retry now replays the exact
+  authorized saved answer, with no duplicate AI execution. Anonymous recovery
+  authority exists before the first fetch; failed explicit retries remain bounded.
+  151 backend/101 assistant tests, four real and six isolated UI desktop/phone
+  checks pass. Ordinary UI tests cannot accidentally invoke inference or email.
+  The initial successful response's display failure was not reproduced.
+  Andrew requested this repair's branch checkpoint on 2026-10-14.
+  Model/config/caps and production are unchanged. See the existing development
+  review below.
 - **Operator work:** follow the [execution plan](.agent/plans/261009-operator-work.md).
   Approved baseline/schema: `41ba411`; development implementation/evidence
   checkpoint **`fa9b2bc` is committed and pushed** to `build/operator-work-dev`.
@@ -24,12 +33,12 @@ Updated: 2026-10-12.
 ## Verified development
 
 - [Backoffice](https://ops-dev.tofler.tech): `4e369153-e9c9-4580-b0e1-2231aaa92696`.
-  [TableCards](https://tablecards-dev.tofler.app): `788753c4-f4fe-42db-8638-7bb4ab4ea5ae`.
+  [TableCards](https://tablecards-dev.tofler.app): `5b5f3f57-49f6-4104-b96f-fd596f871f8b`.
   BFF/TableCards Convex dev targets: `compassionate-buffalo-689` /
   `scrupulous-hawk-991`. Private provider:
   `b162aeef-6e08-4b7d-925e-962f876febfd`; Business configuration revision 8.
-  Shared BFF code push/recheck completed 2026-10-12 06:14 UTC. Unchanged
-  frontends/TableCards backend were not redeployed or restamped.
+  Shared BFF code push completed 2026-10-13 19:56 UTC. Unchanged
+  backoffice/TableCards backend were not redeployed or restamped.
 - Real development email intake/replies, signed callbacks, duplicate protection,
   private previews, survey and reopening pass. Capped helper integration and
   hosted desktop/phone chat/event/KPI checks pass; keyboard/200% text checks

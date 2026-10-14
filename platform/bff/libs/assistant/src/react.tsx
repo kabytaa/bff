@@ -569,6 +569,15 @@ export function BffHelper({
               'The current workspace or page changed. Ask again from this page.',
             );
           requestContext.current = context.contextKey;
+          if (!token && !session.current.capability) {
+            // Create recovery authority before the first request, so losing
+            // its response cannot lose the anonymous conversation as well.
+            // Keep this secret in this identity-scoped instance only.
+            session.current.capability = Array.from(
+              crypto.getRandomValues(new Uint8Array(32)),
+              (byte) => byte.toString(16).padStart(2, '0'),
+            ).join('');
+          }
           const latest = [...messages]
             .reverse()
             .find((message) => message.role === 'user');

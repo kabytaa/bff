@@ -1,6 +1,6 @@
 # Operator work — development review
 
-Created: 2026-10-09; updated: 2026-10-12
+Created: 2026-10-09; updated: 2026-10-13
 Baseline: `41ba411`; implementation/evidence checkpoint `fa9b2bc` pushed on `build/operator-work-dev`
 Scope: shared Operator work and TableCards integration, development only
 Status: Gemma/Jev development checkpoint verified; broad comparison complete, 90–95% target unmet/deferred by Andrew
@@ -18,10 +18,55 @@ Bounded real text-model smoke/evaluation calls were made.
 | Surface                        | Development target / version                                                                                                                |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | Operator backoffice            | [ops-dev.tofler.tech](https://ops-dev.tofler.tech), `4e369153-e9c9-4580-b0e1-2231aaa92696`                                                  |
-| TableCards web                 | [tablecards-dev.tofler.app](https://tablecards-dev.tofler.app), `788753c4-f4fe-42db-8638-7bb4ab4ea5ae`                                      |
-| Shared BFF                     | `compassionate-buffalo-689`, successful development code push/recheck 2026-10-12 06:14 UTC                                                          |
+| TableCards web                 | [tablecards-dev.tofler.app](https://tablecards-dev.tofler.app), `5b5f3f57-49f6-4104-b96f-fd596f871f8b`                                      |
+| Shared BFF                     | `compassionate-buffalo-689`, successful development code push 2026-10-13 19:56 UTC                                                          |
 | TableCards backend             | `scrupulous-hawk-991`, successful code push 20:56 UTC                                                                                       |
 | Private screenshot/text bridge | `business-factory-ai-provider-dev`, `b162aeef-6e08-4b7d-925e-962f876febfd`; private Gemma/Jev runtime, isolated judge/experiment roles, Images and capped bindings |
+
+### Printing-answer retry repair — 2026-10-13
+
+Andrew reported an error after the starter question **“How do I print at the
+right size?”**. Indexed run inspection and sanitized HTTP logs match the device
+time: the original run completed at 19:42:34 UTC and its HTTP response was 200;
+a retry six seconds later returned 409. No provider outage or cap rejection was
+observed. A fresh WebKit answer succeeds. Why that original successful response
+was not displayed is **unreproduced**, not attributed to an invented outage.
+
+The confirmed recovery defect was that completion cleared `activeRunId`, then
+retry treated the saved answer as an already-handled conflict. Anonymous clients
+also previously learned their capability only from the response. Shared recovery
+now creates that capability before sending, uses the exact question's indexed
+run, and replays its authorized saved answer rather than starting paid work again.
+Latest question/page, customer/account/capability and source-entry checks remain
+enforced. Failed runs can be explicitly retried within the existing three-attempt
+bound and unchanged configuration; queued/running duplicates never start work.
+No database/configuration/model/instruction/cap change or migration.
+
+**Pass:** 151 backend integration tests; 101 assistant tests; affected type/lint,
+boundary, secret and build checks. Independent read-only audit finds no blocker.
+**Four real hosted checks pass** on desktop Chromium/phone WebKit: each completes
+this printing question, deliberately hides the delivered response after the
+answer is saved, clicks Retry, verifies a byte-identical replay and checks one
+run/attempt/question/answer in the database. The existing printing/FAQ browser-tool
+flow also passes on both devices, with customer-clicked navigation and feedback.
+These are integration tests, not a new 90–95% model-quality claim.
+
+An initial extra UI selection hit two stale tests expecting a deployed mock
+notice while the backend is live. They failed before sign-in/contact, not because
+of a customer-auth defect. The ordinary UI suite now intercepts inference,
+contact and feedback actions, rejects unconfigured actions, and expects anonymous
+capability on first fetch; it cannot accidentally spend or send mail. Final
+mock UI recheck **6/6 passes**: Markdown safety, exact-question retry with an
+unsent draft preserved, and sign-in/out context separation on both devices.
+A 157-case offline
+diagnostic (84 helper/73 support) and the saved printing case both complete with
+zero model calls; ignored dated reports stay in Business `test-results/`.
+Frozen live captures/grades and the accepted 84.0% checkpoint remain unchanged.
+
+Only the BFF development functions and TableCards development assets changed.
+Provider, backoffice, TableCards backend and production were not republished.
+Andrew requested a commit/push of this repair to the work branch on 2026-10-14;
+this does not authorize a main merge or production publication.
 
 ### Gemma/Jev checkpoint — 2026-10-12
 

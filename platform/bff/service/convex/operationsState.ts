@@ -535,6 +535,13 @@ export const helperTurn = internalMutation({
     runId: v.union(v.id('botRuns'), v.null()),
     entryId: v.id('conversationEntries'),
     duplicate: v.boolean(),
+    savedAnswer: v.optional(
+      v.object({
+        text: v.string(),
+        messageId: v.string(),
+        mocked: v.boolean(),
+      }),
+    ),
   }),
   handler: async (ctx, args) => {
     const environment = await environmentByKey(ctx, args.environmentKey);
@@ -612,12 +619,66 @@ export const helperTurn = internalMutation({
           'CONFLICT',
           'Helper turn key was already used for different text',
         );
+      // A transport retry belongs to this exact question, never to whichever
+      // run happens to be active now. Authorization above still applies.
+      const run = await ctx.db
+        .query('botRuns')
+        .withIndex('by_conversation_trigger', (index) =>
+          index
+            .eq('conversationId', conversation._id)
+            .eq('triggerEntryId', duplicate._id),
+        )
+        .unique();
+      if (
+        !run ||
+        conversation.latestCustomerEntryId !== duplicate._id ||
+        run.pageContextFingerprint !==
+          (pageContext
+            ? await sha256Base64Url(JSON.stringify(pageContext))
+            : undefined)
+      )
+        return fail('CONFLICT', 'The question or page has changed');
+      let savedAnswer;
+      let runId: Id<'botRuns'> | null = null;
+      if (run.state === 'completed' && run.resultEntryId) {
+        const answer = await ctx.db.get(run.resultEntryId);
+        if (
+          !answer ||
+          answer.environmentId !== environment._id ||
+          answer.conversationId !== conversation._id ||
+          answer.sourceRunId !== run._id ||
+          answer.kind !== 'bot_answer' ||
+          answer.visibility !== 'customer'
+        )
+          return fail('CONFIGURATION_ERROR', 'Saved helper answer is missing');
+        savedAnswer = {
+          text: answer.text,
+          messageId: answer.publicId,
+          mocked: run.attempts.at(-1)?.provider === 'development-mock',
+        };
+      } else if (
+        run.state === 'failed' &&
+        conversation.activeRunId === run._id &&
+        run.configurationRevision ===
+          (environment.operatorWorkConfigurationRevision ?? 0) &&
+        run.attempts.length < OPERATOR_WORK_LIMITS.runAttempts
+      ) {
+        // Only an explicit customer retry requeues a failed run. Keep its
+        // original ID/evidence and the existing three-attempt ceiling.
+        await ctx.db.patch(run._id, {
+          state: 'queued',
+          error: undefined,
+          updatedAt: Date.now(),
+        });
+        runId = run._id;
+      }
       return {
         conversationId: conversation._id,
         publicId: conversation.publicId,
-        runId: conversation.activeRunId ?? null,
+        runId,
         entryId: duplicate._id,
         duplicate: true,
+        ...(savedAnswer ? { savedAnswer } : {}),
       };
     }
     await invalidateUnstartedSend(ctx, conversation, Date.now());

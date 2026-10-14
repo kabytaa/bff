@@ -83,6 +83,60 @@ afterEach(() => {
 });
 
 describe('Shared support UI authority and continuity', () => {
+  it('keeps anonymous recovery authority and the exact question ID when the first response is lost', async () => {
+    const anonymous = { ...connection, getAccessToken: async () => null };
+    request.mockRejectedValueOnce(new TypeError('Synthetic lost response'));
+    render(
+      <BffHelper
+        connection={anonymous}
+        contextKey="anonymous:/create"
+        pageKey="/create"
+        productName="Synthetic"
+        links={[]}
+        renderLink={() => null}
+        onContact={vi.fn()}
+      />,
+    );
+    fireEvent.change(screen.getByLabelText('Your question'), {
+      target: { value: 'How do I print at the right size?' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Send question' }));
+    await screen.findByRole('alert');
+    const first = JSON.parse(String(request.mock.calls[0]?.[1]?.body));
+    expect(first.capability).toMatch(/^[0-9a-f]{64}$/u);
+    expect(first).not.toHaveProperty('conversationId');
+    request.mockResolvedValueOnce(
+      helperStream([
+        { type: 'start', messageId: 'saved-printing-answer' },
+        {
+          type: 'data-session',
+          data: {
+            conversationId: 'saved-conversation',
+            capability: first.capability,
+            mocked: true,
+          },
+          transient: true,
+        },
+        { type: 'text-start', id: 'saved-printing-answer' },
+        {
+          type: 'text-delta',
+          id: 'saved-printing-answer',
+          delta: 'Use Actual Size / 100%.',
+        },
+        { type: 'text-end', id: 'saved-printing-answer' },
+        { type: 'finish', finishReason: 'stop' },
+      ]),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Retry answer' }));
+    await screen.findByText('Use Actual Size / 100%.');
+    expect(request).toHaveBeenCalledTimes(2);
+    const retry = JSON.parse(String(request.mock.calls[1]?.[1]?.body));
+    expect(retry).toEqual(first);
+    expect(screen.queryByRole('alert')).toBeNull();
+    expect(
+      screen.getAllByText('How do I print at the right size?'),
+    ).toHaveLength(1);
+  });
   it('isolates mixed-language messages and reads Hebrew right-to-left even after a Latin brand', async () => {
     request.mockResolvedValueOnce(
       helperStream([

@@ -84,6 +84,40 @@ function chatFixture(answer: string) {
   );
 }
 
+test.beforeEach(async ({ page }) => {
+  // Ordinary hosted UI checks never depend on the deployed inference/mail
+  // mode. Per-test protocol fixtures registered later override this default.
+  await page.route('**/v1/operations/**', async (route) => {
+    if (route.request().method() !== 'POST') return await route.continue();
+    const path = new URL(route.request().url()).pathname;
+    if (path === '/v1/operations/helper')
+      return await route.fulfill({
+        status: 200,
+        headers: {
+          'content-type': 'text/event-stream',
+          'x-vercel-ai-ui-message-stream': 'v1',
+        },
+        body: chatFixture(
+          '[Development mock] Your message has been recorded. A person can review it and help with the next step.',
+        ),
+      });
+    if (path === '/v1/operations/contact')
+      return await route.fulfill({
+        status: 200,
+        json: {
+          conversationId: 'synthetic-contact',
+          reference: 'synthetic-contact',
+          contactEmail: 'synthetic@example.invalid',
+          receiptState: 'mocked',
+        },
+      });
+    if (path === '/v1/operations/feedback')
+      return await route.fulfill({ status: 200, json: {} });
+    // A newly added action must be mocked explicitly, not accidentally sent.
+    return await route.abort();
+  });
+});
+
 test('Hebrew and mixed-language chat blocks keep their own direction', async ({
   page,
 }) => {
@@ -798,7 +832,7 @@ test('development sign-in separates helper identity and explicitly submitted con
     }),
   ).toHaveCount(0);
   expect(helperRequests).toEqual([
-    { authenticated: false, hasConversation: false, hasCapability: false },
+    { authenticated: false, hasConversation: false, hasCapability: true },
     { authenticated: true, hasConversation: false, hasCapability: false },
   ]);
   await dialog
