@@ -13,6 +13,15 @@ const outgoingEvents = new Set([
   'email.complained',
 ]);
 
+export function isSupportServiceSender(
+  sender: string,
+  support: { fromEmail: string; receivingAddress: string },
+): boolean {
+  return [support.fromEmail, support.receivingAddress].some(
+    (address) => address.toLowerCase() === sender.toLowerCase(),
+  );
+}
+
 /** Provider signatures authenticate an account, not this deployment's mailbox. */
 export const acceptsWebhook = internalQuery({
   args: {
@@ -91,6 +100,7 @@ export const acceptsWebhook = internalQuery({
       ]);
       return Boolean(
         environment?.operatorWork?.enabled &&
+        !isSupportServiceSender(sender, environment.operatorWork.support) &&
         conversation?.environmentId === environment._id &&
         conversation.contactEmail === sender &&
         entry?.environmentId === environment._id &&
@@ -104,9 +114,11 @@ export const acceptsWebhook = internalQuery({
         index.eq('operatorWork.support.receivingAddress', recipient),
       )
       .take(2);
-    return (
+    const configuration = environments[0]?.operatorWork;
+    return Boolean(
       environments.length === 1 &&
-      environments[0]?.operatorWork?.enabled === true
+      configuration?.enabled &&
+      !isSupportServiceSender(sender, configuration.support),
     );
   },
 });

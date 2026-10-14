@@ -1196,6 +1196,125 @@ describe('transactional operator work', () => {
     });
   });
 
+  it.each([
+    { address: 'fromEmail', route: 'direct' },
+    { address: 'receivingAddress', route: 'direct' },
+    { address: 'fromEmail', route: 'correlated' },
+    { address: 'receivingAddress', route: 'correlated' },
+  ] as const)(
+    'suppresses legacy $route mail from its own $address without automated headers',
+    async ({ address, route }) => {
+      const state = await fixture();
+      const selfSender = configuration.support[address];
+      const deliveryId = state.contact.receiptDeliveryId!;
+      const context = await state.t.query(
+        internal.operationsState.deliveryContext,
+        { deliveryId },
+      );
+      const delivery = await state.t.run((ctx) => ctx.db.get(deliveryId));
+      await state.t.run((ctx) =>
+        ctx.db.patch(state.contact.conversationId, {
+          contactEmail: selfSender,
+        }),
+      );
+      const snapshot = () =>
+        state.t.run(async (ctx) => ({
+          conversations: await ctx.db.query('conversations').take(10),
+          entries: await ctx.db.query('conversationEntries').take(10),
+          runs: await ctx.db.query('botRuns').take(10),
+          deliveries: await ctx.db.query('emailDeliveries').take(10),
+          attachments: await ctx.db.query('supportAttachments').take(10),
+          scheduled: await ctx.db.system.query('_scheduled_functions').take(10),
+        }));
+      const callback = await state.t.mutation(
+        internal.operationsState.recordWebhook,
+        {
+          eventId: 'self-sender-event',
+          eventType: 'email.received',
+          occurredAt: Date.now(),
+          providerMessageId: 'self-sender-message',
+          sender: selfSender,
+          recipients: [
+            route === 'direct'
+              ? configuration.support.receivingAddress
+              : context.envelope.replyTo,
+          ],
+          threadIds: [],
+        },
+      );
+      const before = await snapshot();
+      expect(
+        await state.t.mutation(internal.operationsState.receiveEmail, {
+          receiptId: callback.receiptId,
+          providerInboundMessageId: 'self-sender-message',
+          sender: selfSender.toUpperCase(),
+          recipients: [
+            route === 'direct'
+              ? configuration.support.receivingAddress
+              : context.envelope.replyTo,
+          ],
+          ...(route === 'correlated'
+            ? { replyTokenHash: delivery!.replyTokenHash }
+            : {}),
+          subject: 'Self-addressed mail',
+          text: 'No automated headers are present.',
+        }),
+      ).toEqual({
+        conversationId: null,
+        entryId: null,
+        runId: null,
+        receiptDeliveryId: null,
+        duplicate: false,
+        matched: false,
+      });
+      expect(await snapshot()).toEqual(before);
+      expect(
+        await state.t.run((ctx) => ctx.db.get(callback.receiptId)),
+      ).toMatchObject({
+        state: 'processed',
+        outcome: 'Service sender mail loop suppressed',
+      });
+    },
+  );
+
+  it('freezes automatic loop-suppression headers only on receipts', async () => {
+    const state = await fixture();
+    const deliveryId = state.contact.receiptDeliveryId!;
+    const context = await state.t.query(
+      internal.operationsState.deliveryContext,
+      { deliveryId },
+    );
+    expect(context.envelope.headers).toEqual([
+      { name: 'Auto-Submitted', value: 'auto-replied' },
+      { name: 'X-Auto-Response-Suppress', value: 'All' },
+    ]);
+    // Preserve the creation-time property order used for the frozen payload hash.
+    const { from, to, replyTo, subject, text, headers, attachmentIds } =
+      context.envelope;
+    expect(
+      (await state.t.run((ctx) => ctx.db.get(deliveryId)))?.payloadFingerprint,
+    ).toBe(
+      await sha256Base64Url(
+        JSON.stringify({
+          from,
+          to,
+          replyTo,
+          subject,
+          text,
+          headers,
+          attachmentIds,
+        }),
+      ),
+    );
+    const claimed = await state.t.mutation(
+      internal.operationsState.claimDelivery,
+      { deliveryId },
+    );
+    expect(claimed?.envelope).toEqual(context.envelope);
+    const reply = await preparedReply(state);
+    expect(reply.envelope?.headers).toEqual([]);
+  });
+
   it('atomically registers incoming screenshots and permits safe replay after metadata failure', async () => {
     const state = await fixture();
     const callback = await state.t.mutation(
@@ -1242,6 +1361,16 @@ describe('transactional operator work', () => {
       { ...input, attachments: [{ ...input.attachments[0]!, byteSize: 100 }] },
     );
     expect(result.entryId).toBeTruthy();
+    expect(
+      (
+        await state.t.query(internal.operationsState.deliveryContext, {
+          deliveryId: result.receiptDeliveryId!,
+        })
+      ).envelope.headers,
+    ).toEqual([
+      { name: 'Auto-Submitted', value: 'auto-replied' },
+      { name: 'X-Auto-Response-Suppress', value: 'All' },
+    ]);
     expect(
       (
         await state.t.query(internal.operationsState.webhookContext, {

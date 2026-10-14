@@ -192,6 +192,46 @@ describe('deployment-local support mail routing', () => {
     },
   );
 
+  it.each([
+    { address: 'mailbox', route: 'direct' },
+    { address: 'from', route: 'direct' },
+    { address: 'mailbox', route: 'correlated' },
+    { address: 'from', route: 'correlated' },
+  ])(
+    'ignores its own $address sender on a $route route before receipt storage or download',
+    async ({ address, route }) => {
+      const { t, environmentId, conversationId } = await fixture();
+      const fromEmail = 'send-dev@example.invalid';
+      const selfSender = address === 'from' ? fromEmail : localMailbox;
+      await t.run(async (ctx) => {
+        await ctx.db.patch(environmentId, {
+          operatorWork: {
+            ...configuration,
+            support: { ...configuration.support, fromEmail },
+          },
+        });
+        // A legacy self-addressed case must not make its reply token routable.
+        await ctx.db.patch(conversationId, { contactEmail: selfSender });
+      });
+      const fetcher = vi.fn<typeof fetch>();
+      vi.stubGlobal('fetch', fetcher);
+      const response = await t.fetch(
+        '/v1/operations/resend',
+        await signedWebhook({
+          eventType: 'email.received',
+          from: `Support <${selfSender.toUpperCase()}>`,
+          to: [route === 'direct' ? localMailbox : replyAddress],
+        }),
+      );
+      expect(response.status).toBe(200);
+      expect(await response.json()).toEqual({ received: true, ignored: true });
+      expect(
+        await t.run((ctx) => ctx.db.query('emailWebhookReceipts').take(10)),
+      ).toEqual([]);
+      expect(fetcher).not.toHaveBeenCalled();
+    },
+  );
+
   it('accepts only one exact local mailbox or a sender-bound frozen reply address', async () => {
     const { t } = await fixture();
     const accepts = (recipients: string[], from = sender) =>
@@ -300,7 +340,7 @@ describe('deployment-local support mail routing', () => {
     ).toBe(true);
   });
 
-  it.each(['foreign', 'changed'] as const)(
+  it.each(['foreign', 'changed', 'self'] as const)(
     'does not fetch a queued %s inbound route',
     async (route) => {
       const { t, environmentId } = await fixture();
@@ -309,7 +349,7 @@ describe('deployment-local support mail routing', () => {
         eventType: 'email.received',
         occurredAt: Date.now(),
         providerMessageId: 'queued_incoming_fixture',
-        sender,
+        sender: route === 'self' ? localMailbox : sender,
         recipients: [route === 'foreign' ? foreignMailbox : localMailbox],
         threadIds: [],
       });

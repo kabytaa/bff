@@ -43,6 +43,7 @@ import {
   systemActor,
   type OperationsCtx,
 } from './lib/operationsCore';
+import { isSupportServiceSender } from './lib/operationsMailRouting';
 
 const customerIdentityArgs = {
   userPublicId: v.optional(v.string()),
@@ -337,7 +338,10 @@ async function queueReceipt(
     replyTo: `reply+${replyToken}@${configuration.support.replyDomain}`,
     subject: `Re: ${conversation.subject}`,
     text: configuration.support.receiptText,
-    headers: [],
+    headers: [
+      { name: 'Auto-Submitted', value: 'auto-replied' },
+      { name: 'X-Auto-Response-Suppress', value: 'All' },
+    ],
     attachmentIds: [],
   };
   const entryId = await appendEntry(ctx, conversation, {
@@ -2028,6 +2032,25 @@ export const receiveEmail = internalMutation({
       await ctx.db.patch(receipt._id, {
         state: 'unmatched',
         outcome: 'No unique registered Business mailbox matched',
+      });
+      return {
+        conversationId: null,
+        entryId: null,
+        runId: null,
+        receiptDeliveryId: null,
+        duplicate: false,
+        matched: false,
+      };
+    }
+    if (
+      isSupportServiceSender(
+        sender.data,
+        effectiveConfiguration(environment).support,
+      )
+    ) {
+      await ctx.db.patch(receipt._id, {
+        state: 'processed',
+        outcome: 'Service sender mail loop suppressed',
       });
       return {
         conversationId: null,

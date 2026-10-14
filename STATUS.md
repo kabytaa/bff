@@ -10,7 +10,12 @@ Updated: 2026-10-14.
   development-only restriction below; it is not a paying-customer launch or
   permission to waive safety checks. Astra's independent safety and release-wiring
   reviews pass after helper retry and webhook-isolation fixes; final gate and
-  PR/main publication are in progress. [Release evidence](projects/tablecards/docs/reviews/261014-operator-work-production.md).
+  production publication is in progress. [PR #2](https://github.com/kabytaa/bff/pull/2)
+  merged as `41cf45b` after GitHub validation passed; the main CI release is
+  published and its infrastructure/public UI smokes pass. Email activation is
+  held for a final self-sender loop fix: 88 targeted regressions, service types
+  and lint pass; final backend check/publication is next.
+  [Release evidence](projects/tablecards/docs/reviews/261014-operator-work-production.md).
 - **Test-user checkout (2026-10-14):** implemented and development-deployed.
   Backoffice → Business/environment → Customers → exact email/ID → Mark as test
   user. Andrew approved optional `businessUsers.isTestUser` (absent=false) and
@@ -20,7 +25,8 @@ Updated: 2026-10-14.
   access/data. Normal users cannot join/inherit test workspaces. The legacy
   customer grant endpoint is retired, preventing a development-mode bypass.
   Full `pnpm check`, 160 BFF tests and ten hosted desktop/phone checks pass. Feature changes
-  remain uncommitted; production application is unchanged. Baseline is the
+  are committed/pushed as `d58197c` and merged through PR #2; production
+  application publication/verification is pending. Baseline is the
   [completed shared-checkout plan](.agent/plans/260929-shared-mock-checkout.md).
 - **Latest development repair:** printing-answer Retry now replays the exact
   authorized saved answer, with no duplicate AI execution. Anonymous recovery
@@ -108,7 +114,7 @@ Updated: 2026-10-14.
   evidence are retained; generated status/caches/credentials/private state are
   excluded. The checkpoint is closed; quality tuning or a main/production release
   originally needed a new request; Andrew has now requested the production release.
-  No PR or merge exists yet. Jev has no proven quality win.
+  PR #2 is now merged for the authorized release. Jev has no proven quality win.
   Keep quality first, cost second, speed third; do not silently retune frozen
   tests/grades or claim readiness from survivor-selected/five-language samples.
 - Rotate temporary Resend/setup credentials after authorized dev use; the setup

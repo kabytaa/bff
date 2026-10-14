@@ -26,6 +26,26 @@ operator-designated test checkout, not real billing or customer launch.
 
 ## Operational isolation
 
+### Self-mail loop hardening before activation
+
+Main's final source audit found that automatic receipts lacked automation
+headers and a self-addressed incoming message could create another receipt.
+Production callback/configuration activation was held. Eleven regression
+assertions reproduced the gap offline. Fixed automatic receipts now freeze
+`Auto-Submitted: auto-replied` and `X-Auto-Response-Suppress: All`; human-approved
+replies do not inherit these receipt-only headers. Both own service addresses
+are suppressed at the pre-persistence routing gate and again when queued mail
+resolves its environment, without starting a bot or another receipt. All 88
+affected operations/transport tests, service types, lint and formatting pass.
+Existing frozen receipts are not rewritten; no schema migration is involved.
+Main also ran the complete BFF backend suite: **182/182 tests pass**.
+
+Initial release `41cf45b` passed main CI, production infrastructure smoke and
+four real public desktop/phone checks (pricing, Help and support entry). The
+loop hardening must be published before production mail activation.
+
+### Deployment boundaries
+
 Shared code, authorization and event machinery stay generic. TableCards owns bot
 content, event/KPI definitions, capabilities and branding. BFF retains exact
 operator Send approval; neither the model nor a deploy/admin credential grants
