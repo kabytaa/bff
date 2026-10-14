@@ -12,3 +12,4 @@ export * from './customerDevelopmentAuth';
 export * from './checkout';
 export * from './productAccess';
 export * from './session';
+export * from './operations';

@@ -1,6 +1,5 @@
 import {
   defaultProductAccessGrantRequestSchema,
-  developmentProductAccessGrantRequestSchema,
   reserveUnitsRequestSchema,
   transitionUnitReservationRequestSchema,
   unitBalanceRequestSchema,
@@ -188,20 +187,9 @@ export async function setDevelopmentProductAccessHandler(
   return await withAuthenticatedCustomerRequest(
     ctx,
     request,
-    async (claims, headers) => {
-      const input = parseInput(
-        developmentProductAccessGrantRequestSchema,
-        await readBoundedJson(request),
-      );
-      return jsonResponse(
-        await ctx.runMutation(internal.productAccess.setDevelopmentForAccount, {
-          ...contextArguments(accountContext(claims)),
-          ...input,
-          now: Date.now(),
-        }),
-        200,
-        headers,
-      );
-    },
+    // Retain a safe failure for old SDK clients; customer JWTs must never
+    // authorize arbitrary mock grants, even in a development deployment.
+    async (_claims, headers) =>
+      mapError({ data: { code: 'FORBIDDEN' } }, headers),
   );
 }

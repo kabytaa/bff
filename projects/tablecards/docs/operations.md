@@ -1,7 +1,7 @@
-# Build 3 TableCards operations
+# TableCards operations
 
 Created: 2026-09-27
-Last updated: 2026-10-07
+Last updated: 2026-10-14
 Status: Build 3 no-charge production preview deployed; final release evidence below
 
 This runbook covers the Build 3 no-charge preview in development and production.
@@ -11,8 +11,10 @@ in each deployment. Real payment and customer launch remain later stages.
 
 Use [Product](product.md) for promises, [Application](application.md) for
 screens/states and [Architecture](architecture.md) for table/API ownership.
-The [production release review](reviews/261007-build-3-production-release.md)
-records current versions, checks and limits. The
+The [Build 3 production review](reviews/261007-build-3-production-release.md)
+records that historical release. The authorized 2026-10-14 Operator/test-user
+production extension is tracked in the
+[current release review](reviews/261014-operator-work-production.md). The
 [delta review](reviews/261007-pdf-session-and-live-ai-fixes.md) and
 [earlier remediation acceptance](reviews/261006-tablecards-remediation-and-development-acceptance.md)
 and older runs below remain historical evidence for their versions.
@@ -55,11 +57,75 @@ the shared BFF still enforces both caps.
 
 ## Development providers
 
-`TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true`,
-`BFF_DEVELOPMENT_PRODUCT_ACCESS_ENABLED=enabled` and
-`BFF_MOCK_CHECKOUT_ENABLED=enabled` are required in development. Paid pricing
+### Operator work development configuration
+
+Operator work was first delivered on the development lane. BFF stores the validated
+TableCards definition snapshot under `tablecards-development`; preview/apply it
+through [the operator CLI](../../../tools/bff-operator/README.md) with the current
+revision. The default source is disabled and contains synthetic `.invalid` mail
+bindings; do not treat those as a real monitored mailbox. Current deployment
+evidence is in the [development review](reviews/261009-operator-work-development.md);
+the [implementation plan](../../../.agent/plans/261009-operator-work.md) records tasks and history.
+
+BFF development uses `BFF_DEVELOPMENT_OPERATOR_WORK_ENABLED=enabled`,
+`BFF_OPERATIONS_AI_MODE=live`, `BFF_OPERATIONS_CAPS_VERIFIED=verified` and
+`BFF_OPERATIONS_MAIL_MODE=live`. Provider URL/secrets remain server-only. The
+2026-10-12 revision-8 checkpoint selects Gemma 4 with Jev/compact-v2 for helper
+and support. Revision 9 on 2026-10-14 separates development intake/sending at
+`help-dev@tablecards.tofler.app` from production's `help@tablecards.tofler.app`,
+preserving events/KPIs/page tools. Shared optional
+selection settings preserve mandatory basics/contact; the registered destination
+catalog remains Business data. Global provider $3/day/$30/month caps are unchanged.
+The earlier broad strict result was 84.0%, not the unmet 90–95% target; this is
+Andrew's accepted development checkpoint, not a quality or production sign-off.
+Actual app/provider versions and fresh integration outcomes are in the linked
+review. Initial mock replies/receipts sent no mail; those old records are not
+replayed. Revision 3 first registered the verified `tablecards.tofler.app`
+mailbox for actual development intake and receipts. Email/website intake,
+operator-approved reply, thread correlation, private PNG/JPEG previews, replay
+deduplication and survey submission pass, including actual browser rendering.
+Backoffice CSP permits private preview blobs for images only; originals are never
+offered as a fallback. This proves development email, not live helper answer quality.
+
+Register a matching strong environment-scoped value in BFF's
+`BFF_OPERATION_EVENT_SECRETS_JSON` and TableCards development's
+`TABLECARDS_OPERATIONS_EVENT_SECRET`. They are separate from checkout/auth
+credentials, never browser configuration. This enables native one-shot outcome
+reporting and the overview's Business-defined KPIs; ordinary operation should
+not require manual KPI updates. Read the [backend contract](../backend/README.md)
+for bounded retries and payload limits. No KPI or spending table exists.
+
+Use the development-only repeatable seed for a populated backoffice, not copied
+customer data. Run `pnpm test:e2e:development-auth` for scoped overview/support
+and `pnpm exec nx run tablecards-e2e:e2e-operator-work` for mock customer
+helper/contact only when development mail is explicitly mocked. Do not rerun
+its synthetic contact-submit cases against live mail; use Andrew's authorized
+test account and the bounded live-email recipe in the
+[provider runbook](../../../docs/operations/provider-accounts-and-secrets.md#live-email-activation-recipe).
+Repository evaluations default to offline diagnostics; live evaluation requires
+verified capped routing and explicit bounded-run flags. Mock results do not
+establish live email/model quality. The original development scope excluded
+production; Andrew separately authorized the production extension on 2026-10-14.
+
+### Existing product checkout/artwork mocks
+
+The 2026-10-14 checkout revision uses operator-designated test
+users rather than a global deployment switch. In backoffice select the Business
+environment → Customers → exact registered email/ID → Mark as test user → confirm.
+The Owner and every workspace member must be designated. Refresh Account, then
+select an offer. Removing designation stops pending/new purchases but retains
+existing access/data. Provider-paid access is never replaced. No old users are
+automatically marked, and no backfill is required. `BFF_MOCK_CHECKOUT_ENABLED` is
+obsolete; leaving it set grants no checkout permission.
+
+`TABLECARDS_DEVELOPMENT_MOCKS_ENABLED=true` remains development-only and enables
+explicitly selected **artwork** fixtures, not payment eligibility. The legacy
+`/v1/product-access/development` customer write route is retired (403), even with
+old development flags enabled; shared test checkout is the only customer mock
+purchase path. Internal fixture tooling remains separately gated and cannot
+overwrite provider grants or strip `test_mock` isolation. Paid pricing
 actions ask BFF for a provider-neutral checkout URL, redirect to the shared
-`auth-dev.tofler.app/checkout` page and return after the explicit no-charge
+environment's shared authentication `/checkout` page and return after the explicit no-charge
 completion. TableCards has no local dummy-payment selector. Studio completion
 also applies its five-seat, Admin and invitation policy atomically, so hosted
 tests must not prepare that policy with the operator CLI.
@@ -168,8 +234,13 @@ production origins, the `/create` return path and automation disabled. Definitio
 revision 4/configuration revision 1 passed a compatible operator preflight and
 was applied after Andrew's confirmation. Production never accepts development
 identity grants, fixture AI or arbitrary offer selection. The shared no-charge
-checkout is intentionally enabled; it creates simulated grants, not verified
+checkout was intentionally enabled in that historical production release; it creates simulated grants, not verified
 paid subscriptions. The UI identifies these as **No-charge simulation**.
+The newer test-user-only checkout revision is production-authorized on
+2026-10-14; the current release review is authoritative for deployment evidence.
+Existing users are not automatically designated and historical simulated grants
+are preserved. New simulated purchases require the explicitly designated test
+Owner/all-test workspace, even in production.
 
 Production Convex requires the same private checkout/provider credentials as
 development, but different values: `BFF_CHECKOUT_SERVICE_TOKEN` matches its
@@ -190,7 +261,10 @@ credentials remain isolated in their own CI steps.
 
 The main-branch workflow validates first, then preflights exact-target bundles,
 deploys/stamps BFF, Example and TableCards backends, publishes gateways and static
-surfaces, and runs `pnpm production:smoke`. Every health/build metadata must match
+surfaces, and runs `pnpm production:smoke`. The Operator extension also deploys
+the private shared provider, configures verified capped inference and signed
+mail transport, and uses matching environment-scoped event secrets. Its
+production manifest exposes no comparison/evaluation endpoints. Every health/build metadata must match
 the same full merge SHA. TableCards manifests live beside web/gateway/AI code as
 `wrangler.production.jsonc`. This is not a zero-downtime rollout guarantee: if
 publication partially fails, do not call the release complete. Inspect the failed
@@ -231,7 +305,8 @@ or review that desired configuration before allowing CI to reopen generation.
 Disabling AI is not a rollback of ordinary
 predefined/uploaded designs or PDF export. Real billing, public support,
 observability and physical launch certification remain separate Payments,
-Operator work, Monitoring and Launch requirements in the single roadmap.
+Monitoring and Launch requirements in the single roadmap. Operator production
+delivery has its own dated release review linked above.
 
 The no-charge preview remains unindexed. TableCards HTML routes, including
 project, invitation and team deep links, send `no-store`; CSP blocks embedding
@@ -594,9 +669,11 @@ user/account. The daily admission estimate is not that future BFF ledger/report,
 and does not claim invoice-confirmed spend. No production configuration, merge,
 commit or push was performed.
 
-## Production boundary
+## Historical pre-release boundary
 
-There is currently no TableCards production Worker/session-gateway manifest or
+The following 2026-09-27 note is superseded by the authorized 2026-10-07
+Build 3 production preview above; Operator work remains development-only.
+At that original baseline there was no TableCards production Worker/session-gateway manifest or
 documented production acceptance run. A later authorized release must register
 exact independent targets, configure credentials outside Git, validate that
 development identity/AI entries are absent, verify truthful no-charge checkout

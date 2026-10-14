@@ -120,6 +120,40 @@ describe('production configuration', () => {
     );
   });
 
+  it('keeps the operator runtime optional and validates its production gate', () => {
+    expect(readSmokeConfig(production)).not.toHaveProperty('operatorRuntime');
+
+    const operatorEnvironment = {
+      ...production,
+      BFF_OPERATOR_PRODUCTION_ENABLED: 'true',
+      BFF_OPERATOR_CAPS_VERIFIED: 'verified',
+      BFF_OPERATIONS_PROVIDER_BASE_URL:
+        'https://business-factory-ai-provider.kabytaa.workers.dev',
+    };
+    expect(readSmokeConfig(operatorEnvironment).operatorRuntime).toEqual({
+      providerBaseUrl:
+        'https://business-factory-ai-provider.kabytaa.workers.dev',
+    });
+
+    for (const [name, value] of [
+      ['BFF_OPERATOR_CAPS_VERIFIED', undefined],
+      ['BFF_OPERATOR_CAPS_VERIFIED', 'false'],
+      ['BFF_OPERATIONS_PROVIDER_BASE_URL', undefined],
+      [
+        'BFF_OPERATIONS_PROVIDER_BASE_URL',
+        'https://business-factory-ai-provider-dev.kabytaa.workers.dev',
+      ],
+      [
+        'BFF_OPERATIONS_PROVIDER_BASE_URL',
+        'https://business-factory-ai-provider.kabytaa.workers.dev/path',
+      ],
+    ] as const) {
+      expect(() =>
+        readSmokeConfig({ ...operatorEnvironment, [name]: value }),
+      ).toThrow(ProductionConfigError);
+    }
+  });
+
   it.each([
     ['BACKOFFICE_URL'],
     ['CUSTOMER_AUTH_URL'],

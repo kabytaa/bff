@@ -1,0 +1,1251 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-020",
+  "packetHash": "73419feef63d6af2291ade6f849dae07687eae2bd45b678839a145db626a8d14",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that current checkout is simulated and does not charge.",
+            "evidence": "Все цены, которые вы видите на сайте, — это лишь гипотезы для будущего запуска, а процесс оформления заказа (checkout) является симуляцией и не является реальной оплатой или подпиской.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the no-charge preview.",
+            "evidence": "Мы находимся в режиме бесплатного ознакомительного доступа (no-charge preview). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Нет, сейчас с вас не спишут деньги. \n\nМы находимся в режиме бесплатного ознакомительного доступа (no-charge preview). Все цены, которые вы видите на сайте, — это лишь гипотезы для будущего запуска, а процесс оформления заказа (checkout) является симуляцией и не является реальной оплатой или подпиской.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directly answers the payment concern.",
+            "evidence": "Нет, сейчас с вас не спишут деньги. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Нет, сейчас с вас не спишут деньги. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Да, если вы выберете один из платных тарифов, с вас будет списана соответствующая сумма. \n",
+            "reason": "The current checkout is simulated and does not collect payment for displayed paid offers.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts the required explanation that choosing an offer does not charge now.",
+            "evidence": "Да, если вы выберете один из платных тарифов, с вас будет списана соответствующая сумма. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says selecting a paid offer will charge the customer.",
+            "evidence": "Да, если вы выберете один из платных тарифов, с вас будет списана соответствующая сумма. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Да, если вы выберете один из платных тарифов, с вас будет списана соответствующая сумма. \n\nВот основные платные варианты:\n* **Event Pass:** $5 (единоразовый платеж за одно мероприятие до 500 карточек).\n* **Planner Pro:** $9 в месяц (до 25 активных проектов).\n* **Studio:** $19 в месяц (подходит для команд до 5 человек).\n\nЕсли же вы имеете в виду режим **no-charge preview** (бесплатный предпросмотр), то за него плата не взимается.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation is understandable despite its factual error.",
+            "evidence": "* **Event Pass:** $5 (единоразовый платеж за одно мероприятие до 500 карточек).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Да, если вы выберете один из платных тарифов, с вас будет списана соответствующая сумма. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the direct artwork-upload route for an exact logo.",
+            "evidence": "**Upload a high-quality logo** (PNG/JPEG, 1050×600+ pixels, 10 MiB max) directly via \"Custom artwork\" in the design tool.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains that AI cannot guarantee logo reproduction.",
+            "evidence": "**Avoid AI for this step** — the note clarifies AI \"does not guarantee exact logo reproduction.\"  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe AI-generated design may not reproduce logos with exact precision, especially text. To ensure accuracy, you'll need to:  \n\n1. **Upload a high-quality logo** (PNG/JPEG, 1050×600+ pixels, 10 MiB max) directly via \"Custom artwork\" in the design tool.  \n2. **Avoid AI for this step** — the note clarifies AI \"does not guarantee exact logo reproduction.\"  \n3. **Double-check text** in your uploaded file before exporting.  \n\nIf you need further assistance, contact TableCards support for guidance on workspace-specific settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a useful verification step before export.",
+            "evidence": "**Double-check text** in your uploaded file before exporting.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI-generated design may not reproduce logos with exact precision, especially text. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the AI limitation and direct artwork upload.",
+            "evidence": "**Upload your logo directly** via the \"Custom artwork\" option (PNG/JPEG, 7:4 ratio, 1050×600+ pixels).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts an unestablished blanket credit-refund policy and image-editing restriction.",
+            "evidence": "AI-generated logos are not editable post-creation, and failed attempts do not qualify for credit refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe AI-generated imagery for logos is not guaranteed to reproduce precise text or branding, as noted in the design guidelines. For exact logo reproduction, you should:  \n\n1. **Upload your logo directly** via the \"Custom artwork\" option (PNG/JPEG, 7:4 ratio, 1050×600+ pixels).  \n2. **Avoid AI generation** for critical text/branding elements, as it may alter details.  \n3. Use **predefined designs** for deterministic results.  \n\nAI-generated logos are not editable post-creation, and failed attempts do not qualify for credit refunds. If you need further adjustments, ensure the logo is uploaded correctly before generating. Let me know if you need help with the upload process!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly recommends avoiding AI for critical branding.",
+            "evidence": "**Avoid AI generation** for critical text/branding elements, as it may alter details.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI-generated imagery for logos is not guaranteed to reproduce precise text or branding, as noted in the design guidelines. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains simulated checkout and no current charges.",
+            "evidence": "Процесс оформления заказа (checkout) и указанные цены — это лишь симуляция, чтобы показать, как будет выглядеть сервис в будущем. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says real payments are not conducted in the current version.",
+            "evidence": "Реальные платежи в текущей версии не проводятся.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Нет, деньги не спишутся.\n\nСейчас TableCards работает в режиме бесплатного превью (no-charge preview). Процесс оформления заказа (checkout) и указанные цены — это лишь симуляция, чтобы показать, как будет выглядеть сервис в будущем. Реальные платежи в текущей версии не проводятся.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Answers the question directly.",
+            "evidence": "Нет, деньги не спишутся.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Нет, деньги не спишутся.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives the custom artwork alternative for exact logos.",
+            "evidence": "If you need your exact logo to appear on your cards, I recommend using the custom artwork upload feature instead of the AI generation tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits what AI inspiration can reproduce.",
+            "evidence": "Because the AI is creating a new image from scratch based on that inspiration, it cannot guarantee the precise reproduction of specific text or logos.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The AI background tool uses uploaded images only as inspiration to generate a new design. Because the AI is creating a new image from scratch based on that inspiration, it cannot guarantee the precise reproduction of specific text or logos.\n\nIf you need your exact logo to appear on your cards, I recommend using the custom artwork upload feature instead of the AI generation tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers a clear next step.",
+            "evidence": "If you need your exact logo to appear on your cards, I recommend using the custom artwork upload feature instead of the AI generation tool.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI background tool uses uploaded images only as inspiration to generate a new design. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 1
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Если вы хотите уточнить детали, рекомендуется посетить [страницу с ценами](https://tablecards.com/pricing) или связаться с поддержкой.",
+            "reason": "The references establish landing-page pricing but do not provide this domain or pricing URL.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that current paid-offer selection does not take payment.",
+            "evidence": "Реальные платежи и условия будут реализованы позже, но в текущем режиме они не активны.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a specific pricing URL not provided by the references.",
+            "evidence": "Если вы хотите уточнить детали, рекомендуется посетить [страницу с ценами](https://tablecards.com/pricing) или связаться с поддержкой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nНет, в текущей версии TableCards (бесплатный премьера) с вас не снимут деньги, даже если вы выберете платный тариф. Согласно предоставленной информации:  \n- **Предварительный просмотр бесплатный**: \"Current deployment: no-charge preview. Displayed offer prices are launch hypotheses; checkout is a labelled simulation, not payment or a paid subscription.\"  \n- **Платные тарифы (Event Pass, Planner Pro и т.д.)** описаны как гипотетические предложения для будущего релиза. Реальные платежи и условия будут реализованы позже, но в текущем режиме они не активны.  \n\nЕсли вы хотите уточнить детали, рекомендуется посетить [страницу с ценами](https://tablecards.com/pricing) или связаться с поддержкой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The future-offer distinction is understandable.",
+            "evidence": "- **Платные тарифы (Event Pass, Planner Pro и т.д.)** описаны как гипотетические предложения для будущего релиза. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "A substantial English quotation interrupts the Russian customer explanation.",
+            "evidence": "Displayed offer prices are launch hypotheses; checkout is a labelled simulation, not payment or a paid subscription.\"  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that choosing a plan in the current mode will not charge.",
+            "evidence": "Это означает, что выбор тарифа в текущем режиме не приведёт к списанию средств. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes simulated checkout.",
+            "evidence": "- \"Checkout is a labelled simulation, not payment or a paid subscription.\"  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nНет, в текущей версии (предварительный показ) оплата не взимается. Согласно документации:  \n- \"Checkout is a labelled simulation, not payment or a paid subscription.\"  \n- \"Free cannot export a partial PDF from an over-limit guest list: reduce the list or choose a suitable offer.\"  \n\nЭто означает, что выбор тарифа в текущем режиме не приведёт к списанию средств. Однако точные условия оплаты могут измениться в будущем. Для уточнения рекомендуется обратиться в поддержку.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The payment answer is understandable.",
+            "evidence": "Это означает, что выбор тарифа в текущем режиме не приведёт к списанию средств. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Substantial untranslated English policy text makes the Russian answer materially mixed.",
+            "evidence": "- \"Free cannot export a partial PDF from an over-limit guest list: reduce the list or choose a suitable offer.\"  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that checkout is simulated rather than a transaction or subscription.",
+            "evidence": "Интерфейс оформления в этой версии — это симуляция (метка), а не реальная транзакция или подписка.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says plan selection does not charge in the free preview.",
+            "evidence": "Сейчас демонстрация работает в режиме **бесплатного превью**, поэтому при выборе тарифа деньги **не спишут**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Сейчас демонстрация работает в режиме **бесплатного превью**, поэтому при выборе тарифа деньги **не спишут**.\n\nИнтерфейс оформления в этой версии — это симуляция (метка), а не реальная транзакция или подписка.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a concise and clear distinction.",
+            "evidence": "Интерфейс оформления в этой версии — это симуляция (метка), а не реальная транзакция или подписка.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Сейчас демонстрация работает в режиме **бесплатного превью**, поэтому при выборе тарифа деньги **не спишут**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Covers hypothetical prices and simulated checkout.",
+            "evidence": "Все цены, которые вы видите, — это лишь гипотезы для будущего запуска, а сам процесс оформления заказа является симуляцией, а не реальной оплатой или подпиской.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes the current no-charge preview.",
+            "evidence": "Сейчас TableCards работает в режиме бесплатного предварительного ознакомления (no-charge preview). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Нет, деньги с вас не спишут.\n\nСейчас TableCards работает в режиме бесплатного предварительного ознакомления (no-charge preview). Все цены, которые вы видите, — это лишь гипотезы для будущего запуска, а сам процесс оформления заказа является симуляцией, а не реальной оплатой или подпиской.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directly answers the charge question.",
+            "evidence": "Нет, деньги с вас не спишут.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Нет, деньги с вас не спишут.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends direct upload for exact logo reproduction.",
+            "evidence": "To ensure your logo appears exactly as intended, use the **custom artwork upload** feature with the following specifications:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The blanket non-refundable-batch policy is not established by the supplied references.",
+            "evidence": "Note: AI batches are non-refundable, and exact logo reproduction is not guaranteed via AI.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe AI-generated backgrounds are not designed for precise logo reproduction, especially with text accuracy. To ensure your logo appears exactly as intended, use the **custom artwork upload** feature with the following specifications:  \n\n- **File format**: PNG/JPEG  \n- **Ratio**: 7:4 (e.g., 1050×600 pixels)  \n- **Size**: ≤2 megapixels and 10 MiB  \n- **Color**: 8-bit PNG or standard JPEG  \n\nAI-generated images may alter text or details, so direct artwork uploads bypass this risk. If you’ve already used AI and need corrections, re-upload the logo via **Designs > Artwork** (if eligible) or contact support for guidance. Note: AI batches are non-refundable, and exact logo reproduction is not guaranteed via AI.  \n\nFor further help, share what you’ve tried, and we’ll refine steps.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides understandable artwork specifications.",
+            "evidence": "- **File format**: PNG/JPEG  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI-generated backgrounds are not designed for precise logo reproduction, especially with text accuracy. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not finish explaining simulated checkout or the status of the displayed prices.",
+            "evidence": "Explain naturally in Hebrew that the current no-charge preview does not collect payment and checkout is simulated, not an active paid subscription.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states that the current demo does not collect payment.",
+            "evidence": "כרגע אנחנו במצב **\"דמו ללא תשלום\" (no-charge preview)**, כך שאף **תשלום לא נגבה לאלתר**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כרגע אנחנו במצב **\"דמו ללא תשלום\" (no-charge preview)**, כך שאף **תשלום לא נגבה לאלתר**.\n\nהמחירים שמופיעים באפליקציה הם **הצעות",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer cuts off in the middle of explaining the prices.",
+            "evidence": "המחירים שמופיעים באפליקציה הם **הצעות",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Hebrew.",
+            "evidence": "כרגע אנחנו במצב **\"דמו ללא תשלום\" (no-charge preview)**, כך שאף **תשלום לא נגבה לאלתר**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that no money is collected and offers describe a future release.",
+            "evidence": "На данный момент никакие деньги с вас не снимаются. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly treats the displayed offers as future hypotheses.",
+            "evidence": "Описанные тарифы (например, Event Pass, Planner Pro) — это гипотетические варианты для будущего релиза. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nВ текущей версии TableCards (нозарядный превью) оплата не производится. Описанные тарифы (например, Event Pass, Planner Pro) — это гипотетические варианты для будущего релиза. На данный момент никакие деньги с вас не снимаются. Если вы хотите уточнить детали, рекомендуется ознакомиться с официальной страницей цен или связаться с поддержкой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The no-charge answer remains clear.",
+            "evidence": "На данный момент никакие деньги с вас не снимаются. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses a nonsensical Russian rendering of no-charge preview.",
+            "evidence": "В текущей версии TableCards (нозарядный превью) оплата не производится. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the inspiration limitation and direct upload alternative.",
+            "evidence": "To ensure your logo is reproduced precisely, I recommend uploading your original file as **custom artwork** instead of using it as AI inspiration. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says AI can change spelling and fine details.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and feel rather than to replicate it exactly, which is why spelling and fine details can change.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear the AI changed your logo's text. \n\nWhen using an image for AI inspiration, the tool uses it to guide the style and feel rather than to replicate it exactly, which is why spelling and fine details can change.\n\nTo ensure your logo is reproduced precisely, I recommend uploading your original file as **custom artwork** instead of using it as AI inspiration. You can upload your logo as a PNG or JPEG to keep the design and spelling exactly as they are.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Makes the supported file-upload route clear.",
+            "evidence": "You can upload your logo as a PNG or JPEG to keep the design and spelling exactly as they are.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I'm sorry to hear the AI changed your logo's text. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides a supported artwork-upload route instead of AI.",
+            "evidence": "Instead, upload a high-quality PNG/JPEG of the logo directly, following the [artwork guidelines](#tablecards.designs): 7:4 ratio, 1050x600+ pixels, 2MP max, and 10MiB file size. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes failed-generation credit release from guaranteed corrections.",
+            "evidence": "If you’ve already used AI and need corrections, note that failed generations release the batch credit, but we cannot guarantee fixes via support. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe AI-generated artwork in TableCards is designed to inspire, but it may not reproduce specific text (like logos) with 100% precision, especially if the text contains non-standard fonts, accents, or complex layouts. For exact logo reproduction, avoid using AI for this task. Instead, upload a high-quality PNG/JPEG of the logo directly, following the [artwork guidelines](#tablecards.designs): 7:4 ratio, 1050x600+ pixels, 2MP max, and 10MiB file size. \n\nIf the logo’s spelling was altered by AI, this suggests the AI misinterpreted the text. To ensure accuracy, **use a pre-designed image without AI processing**. If you’ve already used AI and need corrections, note that failed generations release the batch credit, but we cannot guarantee fixes via support. For urgent cases, contact [support](#tablecards.contact) with your project details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly recommends using the prepared image without AI processing.",
+            "evidence": "To ensure accuracy, **use a pre-designed image without AI processing**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI-generated artwork in TableCards is designed to inspire, but it may not reproduce specific text (like logos) with 100% precision, especially if the text contains non-standard fonts, accents, or complex layouts. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that checkout is only simulated and not a real charge.",
+            "evidence": "כרגע השירות נמצא בשלב של \"no-charge preview\" (תצוגה מקדימה ללא חיוב), מה שאומר שתהליך התשלום הוא סימולציה בלבד ולא חיוב אמיתי.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Labels the listed prices as future payment-model estimates.",
+            "evidence": "המחירים המוצגים הם הערכות למודל התשלום העתידי:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "לא, **לא תחויב**. כרגע השירות נמצא בשלב של \"no-charge preview\" (תצוגה מקדימה ללא חיוב), מה שאומר שתהליך התשלום הוא סימולציה בלבד ולא חיוב אמיתי.\n\nהמחירים המוצגים הם הערכות למודל התשלום העתידי:\n\n* **Free (חינם):** $0 (פרויקט אחד פעיל, עד 25 כרטיסים).\n* **Event Pass:** $5 (תשלום חד-פעמי לאירוע אחד, עד 500 כרטיסים).\n* **Planner Pro:** $9 לחודש (עד 25 פרויקטים פעילים).\n* **Studio:** $19 לחודש (עד 5 משתמשים ו-100 פרויקטים משותפים).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directly reassures the customer about current charges.",
+            "evidence": "לא, **לא תחויב**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Hebrew.",
+            "evidence": "לא, **לא תחויב**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends direct artwork upload to preserve the logo.",
+            "evidence": "  - Upload the logo as a custom artwork file (PNG/JPEG) following the size/ratio and format rules above. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents unverified editable header and production-text options beyond supported guest-name controls.",
+            "evidence": "  - Provide short header or member names/labels as editable text fields in the production settings, ensuring the correct spelling and layout.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "We can help you get a high‑quality logo in your design. Here’s how:\n\n- What we can reliably use for logos now:\n  - PNG or JPEG files uploaded directly (minimum 1050 × 600 px and ≤2 MP; PNG eight‑bit or lower; no animation or rotation). This keeps your exact design unchanged.\n  - Text that’s entered as setting within standard options (including names or short header text), so it’s always spelled as you want it.\n\n- Why AI changed the spelling:\n  - The AI works by generating images based on the description you provide and text in that generation is recreated each time; we can’t edit the spelled text inside a generated image after it’s produced.\n  - The logo you uploaded via custom artwork won’t be automatically re‑spelled during generation.\n\n- To protect the spelling and layout in your production:\n  - Upload the logo as a custom artwork file (PNG/JPEG) following the size/ratio and format rules above. This uses your exact artwork and won’t be altered.\n  - Provide short header or member names/labels as editable text fields in the production settings, ensuring the correct spelling and layout.\n\nIf you’d like, share a screen capture of the uploaded artwork and how you want the spelling to appear. I can walk you through the exact upload step or help you set up the editable text options to match your logo’s text while keeping the background precise.\n\nIf you'd prefer human help with your specific artwork or product set, let me know and I can connect you to the support team.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Confuses direct artwork upload with the separate AI-generation flow.",
+            "evidence": "  - The logo you uploaded via custom artwork won’t be automatically re‑spelled during generation.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "We can help you get a high‑quality logo in your design. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the supported custom-artwork upload route for the customer's exact logo.",
+            "evidence": "Style inspiration limitation; supported artwork upload as route.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes uploaded AI images as inspiration.",
+            "evidence": "The AI feature uses your uploaded images as inspiration to generate new backgrounds rather than as a tool for precise graphic reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The AI feature uses your uploaded images as inspiration to generate new backgrounds rather than as a tool for precise graphic reproduction. Because the process is generative, it can alter text, spelling, or fine details within a logo.\n\nIf you need your logo to appear exactly as it is, the AI generation tool may not be the right choice for this specific task. You might consider using one of our predefined designs instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The AI limitation is stated clearly.",
+            "evidence": "If you need your logo to appear exactly as it is, the AI generation tool may not be the right choice for this specific task. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI feature uses your uploaded images as inspiration to generate new backgrounds rather than as a tool for precise graphic reproduction. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the limitation and recommends direct custom artwork.",
+            "evidence": "To use your logo precisely, please upload your original logo file as **Custom artwork** instead of using the AI generator. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses an ambiguous alternative between two limits that both apply.",
+            "evidence": "* **Maximum size:** 2 megapixels or 10 MiB",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The AI generation tool is designed to provide background inspiration and does not guarantee an exact reproduction of logos or specific text.\n\nTo use your logo precisely, please upload your original logo file as **Custom artwork** instead of using the AI generator. To ensure the upload is successful, please verify that your file meets these requirements:\n\n* **Format:** PNG or JPEG\n* **Ratio:** 7:4 \n* **Minimum size:** 1050 × 600 pixels\n* **Maximum size:** 2 megapixels or 10 MiB",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The upload steps and minimum dimensions are understandable.",
+            "evidence": "* **Minimum size:** 1050 × 600 pixels\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI generation tool is designed to provide background inspiration and does not guarantee an exact reproduction of logos or specific text.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Таким образом, если вы выберете из платных опций и зарегистрируете их, деньги с вашей карты спишутся. ",
+            "reason": "Choosing a displayed offer in the current no-charge preview cannot produce the claimed real card charge.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Incorrectly answers that current paid-offer selection charges the card.",
+            "evidence": "Таким образом, если вы выберете из платных опций и зарегистрируете их, деньги с вашей карты спишутся. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely describes real charging as enabled for current paid offers.",
+            "evidence": "* Запущенные платные опции уже связаны с реальными ценами и возможностью списания:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Если сейчас вы выбираете тариф, с вас действительно могут списать деньги — это зависит от того, что именно вы выберете.\n\nПо текущей конфигурации:\n\n* Бесплатный план — $0, полностью без оплаты.  \n* Вариант, который сейчас доступен без автоматического списания — «No-charge preview».  \n* Запущенные платные опции уже связаны с реальными ценами и возможностью списания:\n  * Event Pass — $5 разово, с привязкой одного события и лимитом карт;\n  * Planner Pro — $9/месяц;\n  * Studio — $19/месяц.\n\nТаким образом, если вы выберете из платных опций и зарегистрируете их, деньги с вашей карты спишутся. Если вы останетесь в бесплатном варианте или подтвердите только «no‑charge preview», списания не будет.\n\n* Чтобы избежать непредвиденной оплаты, убедитесь, что вы выбираете именно тот тариф, который вам нужен.\n* Если у вас есть сомнения по конкретному тарифу или возможной отмене, я могу подсказать, какие шаги стоит предпринять перед подтверждением.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The intended distinction is understandable though false.",
+            "evidence": "Если вы останетесь в бесплатном варианте или подтвердите только «no‑charge preview», списания не будет.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Если сейчас вы выбираете тариф, с вас действительно могут списать деньги — это зависит от того, что именно вы выберете.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that simulated checkout does not charge.",
+            "evidence": "Действие «перейти к оплате» (checkout) в данный момент работает как имитация и **не ведет к реальному списанию средств**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly treats prices as launch hypotheses.",
+            "evidence": "Цены, которые вы видите, — это гипотезы для будущего запуска платной версии. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "На текущем этапе использования site находится в режиме бесплатного превью. Действие «перейти к оплате» (checkout) в данный момент работает как имитация и **не ведет к реальному списанию средств**.\n\nЦены, которые вы видите, — это гипотезы для будущего запуска платной версии. Реальная интеграция оплаты и привязка к конкретным тарифам сейчас не активны.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Makes the inactive payment integration clear.",
+            "evidence": "Реальная интеграция оплаты и привязка к конкретным тарифам сейчас не активны.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian explanation is comprehensible despite a minor stray English word.",
+            "evidence": "Действие «перейти к оплате» (checkout) в данный момент работает как имитация и **не ведет к реальному списанию средств**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Если вы перейдете на платный тариф (например, Event Pass, Planner Pro или Studio), с вас **снимут деньги** в соответствии с условиями выбранного тарифа:\n",
+            "reason": "Current displayed offers use simulated checkout, not actual payments.",
+            "referenceKey": "tablecards.basics"
+          },
+          {
+            "code": "invented_fact",
+            "evidence": "- Уточните детали в процессе оформления подписки или обратитесь в [поддержку](https://tablecards.com/contact).  \n",
+            "reason": "The references provide a configured contact route but do not establish this specific support URL.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts the required no-charge-preview answer.",
+            "evidence": "Если вы перейдете на платный тариф (например, Event Pass, Planner Pro или Studio), с вас **снимут деньги** в соответствии с условиями выбранного тарифа:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents immediate real charging for current paid-offer selection.",
+            "evidence": "- При переходе на платный тариф **списание произойдет сразу**, если это предусмотрено условиями (например, Event Pass — одноразово, остальные — ежемесячно).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nЕсли вы перейдете на платный тариф (например, Event Pass, Planner Pro или Studio), с вас **снимут деньги** в соответствии с условиями выбранного тарифа:\n\n- **Event Pass**: единовременно $5 за один мероприятие (до 500 карточек).  \n- **Planner Pro**: $9 в месяц за расширенные функции.  \n- **Studio**: $19 в месяц за командные проекты.  \n\nВажно:  \n- На бесплатном тарифе **платежи не взимаются**.  \n- При переходе на платный тариф **списание произойдет сразу**, если это предусмотрено условиями (например, Event Pass — одноразово, остальные — ежемесячно).  \n- Уточните детали в процессе оформления подписки или обратитесь в [поддержку](https://tablecards.com/contact).  \n\nЕсли вы сейчас используете бесплатный тариф и не активируете платный, деньги **не снимутся**.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The payment explanation is understandable despite being incorrect.",
+            "evidence": "- На бесплатном тарифе **платежи не взимаются**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Если вы перейдете на платный тариф (например, Event Pass, Planner Pro или Studio), с вас **снимут деньги** в соответствии с условиями выбранного тарифа:\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.normal.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends direct artwork upload to preserve exact spelling.",
+            "evidence": "To ensure your logo is spelled correctly, upload the file directly as custom artwork following the 1050 × 600 pixel requirement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains that AI inspiration does not ensure exact logos.",
+            "evidence": "The AI image generator provides conceptual variations based on inspiration; it does not reproduce exact logos or spelling. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The AI image generator provides conceptual variations based on inspiration; it does not reproduce exact logos or spelling. To ensure your logo is spelled correctly, upload the file directly as custom artwork following the 1050 × 600 pixel requirement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a concise usable alternative.",
+            "evidence": "To ensure your logo is spelled correctly, upload the file directly as custom artwork following the 1050 × 600 pixel requirement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The AI image generator provides conceptual variations based on inspiration; it does not reproduce exact logos or spelling. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.russian.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that checkout is a simulated purchase, not a real transaction.",
+            "evidence": "Система находится в режиме симуляции: нажатие checkout работает как имитация покупки, но это не реальная транзакция. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the current no-charge-preview state.",
+            "evidence": "Ваше состояние — это «no-charge preview» (бесплатный просмотр). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Нет, на текущий момент с вас действительно **не будут списаны** деньги. \n\nВаше состояние — это «no-charge preview» (бесплатный просмотр). Система находится в режиме симуляции: нажатие checkout работает как имитация покупки, но это не реальная транзакция. Настоящая система оплаты будет введена в будущем.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Answers the customer's question directly.",
+            "evidence": "Нет, на текущий момент с вас действительно **не будут списаны** деньги. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "Нет, на текущий момент с вас действительно **не будут списаны** деньги. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 12,
+  "invalid": 0,
+  "unsure": 0
+}

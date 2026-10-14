@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-008",
+  "packetHash": "f96b371cf201dd500b2b384ecc28a5d4030a9bc3e4c520e95b3a6bb2079ec7f2",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "Usa el **PDF de prueba** con el cuadrado de calibración antes de imprimir eventos completos.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Para que las tarjetas se impriman al tamaño real, ajusta la configuración de impresión de tu dispositivo o impresora a **100% (Tamaño real)**, en lugar de \"Ajustar a página\". \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nPara que las tarjetas se impriman al tamaño real, ajusta la configuración de impresión de tu dispositivo o impresora a **100% (Tamaño real)**, en lugar de \"Ajustar a página\". \n\nAdemás:\n1. Usa el **PDF de prueba** con el cuadrado de calibración antes de imprimir eventos completos.\n2. Verifica que el tamaño del papel y los márgenes de la impresora coincidan con el diseño seleccionado.\n3. En la vista previa, confirma que los nombres y etiquetas se muestran correctamente.\n\nSi el problema persiste, prueba con una impresora diferente o contacta al soporte de TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "Usa el **PDF de prueba** con el cuadrado de calibración antes de imprimir eventos completos.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish with recognizable print-setting labels.",
+            "evidence": "Para que las tarjetas se impriman al tamaño real, ajusta la configuración de impresión de tu dispositivo o impresora a **100% (Tamaño real)**, en lugar de \"Ajustar a página\". \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Selecciona **\"Tamaño real\" (Actual Size)** o **\"100%\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para que las tarjetas salgan en el tamaño correcto, debes cambiar el ajuste de escala en la configuración de tu impresora:\n\n1.  Selecciona **\"Tamaño real\" (Actual Size)** o **\"100%\"**.\n2.  **No** utilices la opción \"Ajustar a la página\" (Fit to page), ya que esto suele reducir el tamaño del diseño.\n\nTambién te recomiendo verificar que el tamaño del papel seleccionado en tu configuración de impresión coincida con el diseño que elegiste en TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "Selecciona **\"Tamaño real\" (Actual Size)** o **\"100%\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "Selecciona **\"Tamaño real\" (Actual Size)** o **\"100%\"**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "En los ajustes de impresión, elige **\"Print at Actual Size\"** o **\"100%\"**; nunca uses la opción **\"Fit to page\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para que las tarjetas no salgan reducidas, debes configurar tu impresora para imprimir al **tamaño real**.\n\nEn los ajustes de impresión, elige **\"Print at Actual Size\"** o **\"100%\"**; nunca uses la opción **\"Fit to page\"**.\n\nAdemás, asegúrate de que el tamaño de papel configurado en tu impresora coincida con el que seleccionaste en TableCards (por ejemplo, A4 o Carta) y que los márgenes estén adecuados.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "En los ajustes de impresión, elige **\"Print at Actual Size\"** o **\"100%\"**; nunca uses la opción **\"Fit to page\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "En los ajustes de impresión, elige **\"Print at Actual Size\"** o **\"100%\"**; nunca uses la opción **\"Fit to page\"**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Includes the correct scale setting and separate test PDF.",
+            "evidence": "For calibration, use the separate **print-test PDF** to check sizing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly matches paper size and margins to the selected layout.",
+            "evidence": "Verify the **paper size and margins** match your layout choices. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIf the cards printed too small, ensure you selected **\"Actual Size / 100%\"** in your printer settings (not \"Fit to page\"). Verify the **paper size and margins** match your layout choices. Preview all cards, names, and table labels before exporting. For calibration, use the separate **print-test PDF** to check sizing. If issues persist, confirm your browser/device settings, as \"PDF made available\" does not guarantee successful download/printing.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The print-setting correction is understandable in English.",
+            "evidence": "If the cards printed too small, ensure you selected **\"Actual Size / 100%\"** in your printer settings (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "If the cards printed too small, ensure you selected **\"Actual Size / 100%\"** in your printer settings (not \"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "**Tamaño de papel y márgenes:** Asegúrate de que el tamaño físico configurado en la propia impresora coincida con el de las tarjetas (ej. ",
+            "reason": "Paper size must match the selected printing layout, not the physical dimensions of an individual card.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Incorrectly tells the customer to match paper size to individual cards.",
+            "evidence": "**Tamaño de papel y márgenes:** Asegúrate de que el tamaño físico configurado en la propia impresora coincida con el de las tarjetas (ej. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Confuses the size of a card with the selected sheet layout.",
+            "evidence": "**Tamaño de papel y márgenes:** Asegúrate de que el tamaño físico configurado en la propia impresora coincida con el de las tarjetas (ej. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para que las tarjetas salgan en tamaño real, verifica estos dos ajustes en la configuración de la impresión:\n\n1.  **Escala:** Debe estar en **100% (Tamaño real)**, nunca \"Ajustar a página\".\n2.  **Tamaño de papel y márgenes:** Asegúrate de que el tamaño físico configurado en la propia impresora coincida con el de las tarjetas (ej. A6) y que el ajuste de márgenes coincida con el del documento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The A6 example reinforces the misleading paper-size instruction.",
+            "evidence": "A6) y que el ajuste de márgenes coincida con el del documento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Spanish.",
+            "evidence": "**Escala:** Debe estar en **100% (Tamaño real)**, nunca \"Ajustar a página\".\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "   - Usa el archivo de prueba de impresión (disponible en la plataforma) para verificar que el cuadrado de calibración se imprima correctamente. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "   - En el diálogo de impresión, asegúrate de seleccionar **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nPara que las tarjetas se impriman al tamaño correcto, sigue estos pasos:\n\n1. **Configuración de impresión**:  \n   - En el diálogo de impresión, asegúrate de seleccionar **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n   - Verifica que el **tamaño de papel** (por ejemplo, A4 o Letter) y los **márgenes** coincidan con el diseño elegido en TableCards.\n\n2. **Prueba de calibración**:  \n   - Usa el archivo de prueba de impresión (disponible en la plataforma) para verificar que el cuadrado de calibración se imprima correctamente. Esto ayuda a ajustar cualquier desviación en la impresora.\n\n3. **Revisión previa**:  \n   - Previsualiza las tarjetas antes de imprimir para confirmar que los nombres y etiquetas estén correctamente posicionados y no se recorten.\n\nSi el problema persiste, ajusta las opciones de la impresora (como \"Escala automática\") o contacta al soporte de TableCards con detalles sobre tu navegador y dispositivo.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "   - Usa el archivo de prueba de impresión (disponible en la plataforma) para verificar que el cuadrado de calibración se imprima correctamente. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish with recognizable print-setting labels.",
+            "evidence": "   - En el diálogo de impresión, asegúrate de seleccionar **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "Si aún tienes problemas, te recomiendo realizar una prueba con el **PDF de prueba de impresión** (print-test PDF) que incluye un cuadrado de calibración para verificar que todo esté correcto antes de imprimir todo tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "**Selecciona \"Tamaño real\" o \"100%\"**: Asegúrate de que la escala esté configurada exactamente al 100%.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para solucionar este problema, debes cambiar el ajuste de escala en la configuración de tu impresora:\n\n1.  **Selecciona \"Tamaño real\" o \"100%\"**: Asegúrate de que la escala esté configurada exactamente al 100%.\n2.  **No uses \"Ajustar a la página\"**: Evita la opción \"Fit to page\" o \"Ajustar al área de impresión\", ya que esto suele reducir el tamaño de las tarjetas para que quepan en los márgenes de la impresora.\n3.  **Verifica el papel**: Comprueba que el tamaño de papel seleccionado en la impresora coincida con el diseño que elegiste en TableCards.\n\nSi aún tienes problemas, te recomiendo realizar una prueba con el **PDF de prueba de impresión** (print-test PDF) que incluye un cuadrado de calibración para verificar que todo esté correcto antes de imprimir todo tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "Si aún tienes problemas, te recomiendo realizar una prueba con el **PDF de prueba de impresión** (print-test PDF) que incluye un cuadrado de calibración para verificar que todo esté correcto antes de imprimir todo tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish with recognizable print-setting labels.",
+            "evidence": "**Selecciona \"Tamaño real\" o \"100%\"**: Asegúrate de que la escala esté configurada exactamente al 100%.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Чтобы карточки были правильного размера, в настройках печати вашего принтера установите масштаб **100%** или выберите параметр **«Реальный размер» (Actual size)**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Чтобы карточки были правильного размера, в настройках печати вашего принтера установите масштаб **100%** или выберите параметр **«Реальный размер» (Actual size)**.\n\nНе используйте настройку «По размеру страницы» (Fit to page), так как она уменьшает макет, чтобы он вписался в поля принтера. Также убедитесь, что размер бумаги в настройках принтера совпадает с тем форматом, который вы выбрали при создании проекта в TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "Чтобы карточки были правильного размера, в настройках печати вашего принтера установите масштаб **100%** или выберите параметр **«Реальный размер» (Actual size)**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian.",
+            "evidence": "Чтобы карточки были правильного размера, в настройках печати вашего принтера установите масштаб **100%** или выберите параметр **«Реальный размер» (Actual size)**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "*   Выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Чтобы карточки печатались в правильном размере, в настройках печати вашего принтера (в окне предварительного просмотра PDF) нужно изменить масштаб.\n\n**Что именно нужно сделать:**\n*   Выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n*   **Не выбирайте** параметр «По размеру страницы» (Fit to page) или «Вписать в область печати», так как принтер автоматически уменьшает содержимое, чтобы оставить отступы, из-за чего сами карточки становятся меньше нужного.\n\nТакже убедитесь, что в настройках выбран именно тот формат бумаги, который вы используете (например, A4).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "*   Выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian.",
+            "evidence": "*   Выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the correct scale setting and separate calibration test.",
+            "evidence": "   Download and print the separate **print-test PDF** to verify calibration. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly matches paper and margins to the selected layout.",
+            "evidence": "   Set your printer’s paper size and margins to match the selected card layout. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo fix the issue of cards printing too small, follow these steps based on the printing guidelines:\n\n1. **Print at Actual Size (100%)**  \n   Ensure your printer settings use \"Actual Size\" or \"100%\" scaling (not \"Fit to Page\" or \"Shrink to Fit\").\n\n2. **Use the Print-Test PDF**  \n   Download and print the separate **print-test PDF** to verify calibration. Check the calibration square for accurate sizing before printing your full event.\n\n3. **Match Paper and Margins**  \n   Set your printer’s paper size and margins to match the selected card layout. Unsupported configurations may cause scaling issues.\n\n4. **Preview Before Export**  \n   Double-check all cards, names, and table labels in the preview mode to ensure formatting is correct.\n\nIf the problem persists, confirm your browser/device (e.g., Chrome, PDF viewer) and share what you see when downloading the PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration check is clear in English.",
+            "evidence": "Check the calibration square for accurate sizing before printing your full event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "To fix the issue of cards printing too small, follow these steps based on the printing guidelines:\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Includes the correct scale setting and separate test PDF.",
+            "evidence": "**Calibration :** Utilisez le PDF de test séparé fourni. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Substitutes a straight-edge check for verifying the calibration square's size.",
+            "evidence": "Imprimez-le, vérifiez si le carré de calibration a son bord droit, et ajustez ensuite vos marges ou le calibrage.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "La cause la plus fréquente est un réglage de votre imprimante. Si elle est réglée sur « Ajuster à la page », les cartes seront réduites pour remplir tout le format papier.\n\nVoici les ajustements à effectuer :\n\n1.  **Imprimante :** Sélectionnez **« Taille réelle » (Actual Size)** ou **100%** dans les options d'impression.\n2.  **Calibration :** Utilisez le PDF de test séparé fourni. Imprimez-le, vérifiez si le carré de calibration a son bord droit, et ajustez ensuite vos marges ou le calibrage.\n3.  **Support :** Assurez-vous que la taille de papier définie dans TableCards correspond exactement au papier dans votre véhicule.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Tells the customer to match paper in a vehicle instead of the printer.",
+            "evidence": "**Support :** Assurez-vous que la taille de papier définie dans TableCards correspond exactement au papier dans votre véhicule.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The wrong device word destroys the meaning of the paper-matching instruction.",
+            "evidence": "**Support :** Assurez-vous que la taille de papier définie dans TableCards correspond exactement au papier dans votre véhicule.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate calibration test.",
+            "evidence": "   - Usa el **PDF de prueba separado** para verificar el cuadrado de calibración antes de imprimir el evento completo. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Adds an unverified half-centimeter margin for standard cards.",
+            "evidence": "   - Asegúrate de que el margen de la impresora esté configurado para el diseño elegido (por ejemplo, 0.5 cm para tarjetas estándar).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nPara que las tarjetas se impriman al tamaño correcto en TableCards, sigue estos pasos:\n\n1. **Configuración de impresión**:  \n   - En el diálogo de impresión, selecciona **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n   - Asegúrate de que el margen de la impresora esté configurado para el diseño elegido (por ejemplo, 0.5 cm para tarjetas estándar).\n\n2. **Prueba de calibración**:  \n   - Usa el **PDF de prueba separado** para verificar el cuadrado de calibración antes de imprimir el evento completo. Esto confirma que el tamaño es correcto.\n\n3. **Verifica el tamaño del papel**:  \n   - Asegúrate de que el tipo de papel (por ejemplo, A4, Carta) y los márgenes de la impresora coincidan con el diseño seleccionado.\n\nSi el problema persiste, describe tu navegador/dispositivo y el diseño elegido para más ayuda.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The general paper-and-layout matching instructions are clear.",
+            "evidence": "   - Asegúrate de que el tipo de papel (por ejemplo, A4, Carta) y los márgenes de la impresora coincidan con el diseño seleccionado.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "   - En el diálogo de impresión, selecciona **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "**Margins**: Set printer margins to **0** or \"Minimum\" to avoid cropping.  \n",
+            "reason": "Invents a universal zero-or-minimum margin rule instead of requiring margins that match the selected layout.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and test-PDF guidance.",
+            "evidence": "**Test Print**: Use the **print-test PDF** (via the \"Help\" menu) to calibrate first.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Prescribes zero or minimum margins instead of matching the selected layout.",
+            "evidence": "**Margins**: Set printer margins to **0** or \"Minimum\" to avoid cropping.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nIf the cards printed too small, check these settings:  \n\n1. **Print Scale**: Ensure your printer is set to **100% scale** (not \"Fit to page\" or \"Shrink to fit\").  \n2. **Paper Size**: Confirm the printer’s paper size matches the layout selected in TableCards (e.g., 4x6 inches).  \n3. **Margins**: Set printer margins to **0** or \"Minimum\" to avoid cropping.  \n4. **Test Print**: Use the **print-test PDF** (via the \"Help\" menu) to calibrate first.  \n\nTableCards exports are digital PDFs—printing behavior depends on your local software/printer settings. If issues persist, share the exact printer model and software for more targeted advice.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting instruction is understandable in English.",
+            "evidence": "**Print Scale**: Ensure your printer is set to **100% scale** (not \"Fit to page\" or \"Shrink to fit\").  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "If the cards printed too small, check these settings:  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "הוא כולל ריבוע כיול שיעזור לך לוודא שההדפסה תואמת בדיוק למידות הנדרשות לפני ההדפסה הסופית.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "**בחר ב-\"Actual Size\" (גודל אמיתי) או \"100%\":** אל תבחר באפשרות \"Fit to page\" (התאמה לדף), שכן היא עלולה לשנות את המידות המדויקות של הכרטיסים.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כדי שהכרטיסים יצאו בגודל הנכון, עליך לשנות את הגדרות ההדפסה במדפסת שלך:\n\n1.  **בחר ב-\"Actual Size\" (גודל אמיתי) או \"100%\":** אל תבחר באפשרות \"Fit to page\" (התאמה לדף), שכן היא עלולה לשנות את המידות המדויקות של הכרטיסים.\n2.  **התאמת גודל נייר:** וודא שגודל הנייר שאתה בוחר בהגדרות המדפסה תואם בדיוק לעיצוב שבחרת ב-TableCards.\n\n**טיפ חשוב:** לפני שאתה מדפיס את כל הכרטיסים, מומלץ להשתמש בקובץ ה-**print-test PDF** (קובץ בדיקת הדפסה) הייעודי שלנו. הוא כולל ריבוע כיול שיעזור לך לוודא שההדפסה תואמת בדיוק למידות הנדרשות לפני ההדפסה הסופית.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "הוא כולל ריבוע כיול שיעזור לך לוודא שההדפסה תואמת בדיוק למידות הנדרשות לפני ההדפסה הסופית.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Hebrew with recognizable print-setting labels.",
+            "evidence": "**בחר ב-\"Actual Size\" (גודל אמיתי) או \"100%\":** אל תבחר באפשרות \"Fit to page\" (התאמה לדף), שכן היא עלולה לשנות את המידות המדויקות של הכרטיסים.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Para que las tarjetas tengan el tamaño correcto, asegúrate de configurar la impresión en **\"Tamaño real\" (Actual Size)** o **al 100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para que las tarjetas tengan el tamaño correcto, asegúrate de configurar la impresión en **\"Tamaño real\" (Actual Size)** o **al 100%**.\n\nNo utilices la opción \"Ajustar a la página\" (Fit to page), ya que esto suele reducir el tamaño de las tarjetas para adaptarse a los márgenes de la impresora. También te recomiendo verificar que el tamaño de papel seleccionado en tu configuración de impresión coincida con el diseño que elegiste en TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "Para que las tarjetas tengan el tamaño correcto, asegúrate de configurar la impresión en **\"Tamaño real\" (Actual Size)** o **al 100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "Para que las tarjetas tengan el tamaño correcto, asegúrate de configurar la impresión en **\"Tamaño real\" (Actual Size)** o **al 100%**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "Если вы хотите заранее проверить точность масштаба, рекомендую использовать наш специальный **print-test PDF** (в нем есть калибровочный квадрат), прежде чем печатать весь основной список.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Чтобы карточки напечатались в правильном размере, в настройках вашего принтера (в окне предварительного просмотра печати) нужно выбрать параметр **«Реальный размер» (Actual Size)** или установить масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Чтобы карточки напечатались в правильном размере, в настройках вашего принтера (в окне предварительного просмотра печати) нужно выбрать параметр **«Реальный размер» (Actual Size)** или установить масштаб **100%**.\n\n**Чего стоит избегать:**\n*   **Не используйте функцию «По размеру страницы» (Fit to page).** Она часто уменьшает содержимое, чтобы подстроиться под поля принтера, из-за чего карточки становятся меньше нужного.\n\n**Также проверьте следующее:**\n1.  **Размер бумаги:** Убедитесь, что в настройках принтера выбран тот же формат бумаги, который вы использовали при создании макета в TableCards.\n2.  **Поля:** Настройки полей в принтере должны соответствовать выбранному вами макету.\n\nЕсли вы хотите заранее проверить точность масштаба, рекомендую использовать наш специальный **print-test PDF** (в нем есть калибровочный квадрат), прежде чем печатать весь основной список.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "Если вы хотите заранее проверить точность масштаба, рекомендую использовать наш специальный **print-test PDF** (в нем есть калибровочный квадрат), прежде чем печатать весь основной список.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian with recognizable print-setting labels.",
+            "evidence": "Чтобы карточки напечатались в правильном размере, в настройках вашего принтера (в окне предварительного просмотра печати) нужно выбрать параметр **«Реальный размер» (Actual Size)** или установить масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Reply in natural Hebrew with a few practical steps: Actual Size / 100%, not Fit to Page, and the separate print-test PDF before a full print run.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Overgeneralizes that every grouping or fitting option necessarily makes cards smaller.",
+            "evidence": "כל אפשרות קיבוץ או התאמה גורמת לכרטיסים להיות קטנים מההצגה.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "עלייך לוודא שהמדפסת הוגדרה להדפיס ב**גודל מלא / 100% (Actual Size)** ולא להתאים את הכרטיס לגודל הדף (\"Fit to page\"). כל אפשרות קיבוץ או התאמה גורמת לכרטיסים להיות קטנים מההצגה.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instruction to use Actual Size or 100 percent is clear.",
+            "evidence": "עלייך לוודא שהמדפסת הוגדרה להדפיס ב**גודל מלא / 100% (Actual Size)** ולא להתאים את הכרטיס לגודל הדף (\"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Hebrew.",
+            "evidence": "עלייך לוודא שהמדפסת הוגדרה להדפיס ב**גודל מלא / 100% (Actual Size)** ולא להתאים את הכרטיס לגודל הדף (\"Fit to page\"). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "Como recomendación, te sugiero usar el PDF de prueba de impresión (print-test PDF) y verificar su cuadro de calibración antes de imprimir todas las tarjetas de tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Para que las tarjetas salgan en el tamaño correcto, debes configurar tu impresora en **\"Tamaño real\"** (Actual size) o **\"100%\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Para que las tarjetas salgan en el tamaño correcto, debes configurar tu impresora en **\"Tamaño real\"** (Actual size) o **\"100%\"**.\n\n**No uses** la opción \"Ajustar a la página\" (Fit to page), ya que esto suele encoger el diseño y hacer que las tarjetas se vean más pequeñas de lo previsto.\n\nComo recomendación, te sugiero usar el PDF de prueba de impresión (print-test PDF) y verificar su cuadro de calibración antes de imprimir todas las tarjetas de tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "Como recomendación, te sugiero usar el PDF de prueba de impresión (print-test PDF) y verificar su cuadro de calibración antes de imprimir todas las tarjetas de tu evento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish with recognizable print-setting labels.",
+            "evidence": "Para que las tarjetas salgan en el tamaño correcto, debes configurar tu impresora en **\"Tamaño real\"** (Actual size) o **\"100%\"**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "מומלץ להשתמש ב-PDF לבדיקת הדפסה (print-test PDF) כדי לוודא שהכל מכויל כראוי לפני שאתה מדפיס את כל הכרטיסים לאירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "**בחר ב-\"Actual Size\" (גודל אמיתי) או 100%:** חשוב מאוד **לא** לבחור באפשרות \"Fit to page\" (התאמה לעמוד), שכן היא עלולה להקטין את הכרטיסים.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כדי שהכרטיסים יצאו בגודל הנכון, עליך לוודא שההגדרות במדפסת שלך מכוונות להדפסה בגודל המקורי:\n\n1.  **בחר ב-\"Actual Size\" (גודל אמיתי) או 100%:** חשוב מאוד **לא** לבחור באפשרות \"Fit to page\" (התאמה לעמוד), שכן היא עלולה להקטין את הכרטיסים.\n2.  **התאמת גודל הנייר:** וודא שגודל הנייר שבחרת ב-TableCards תואם בדיוק לנייר שנמצא במדפסת.\n\nמומלץ להשתמש ב-PDF לבדיקת הדפסה (print-test PDF) כדי לוודא שהכל מכויל כראוי לפני שאתה מדפיס את כל הכרטיסים לאירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "מומלץ להשתמש ב-PDF לבדיקת הדפסה (print-test PDF) כדי לוודא שהכל מכויל כראוי לפני שאתה מדפיס את כל הכרטיסים לאירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Hebrew with recognizable print-setting labels.",
+            "evidence": "**בחר ב-\"Actual Size\" (גודל אמיתי) או 100%:** חשוב מאוד **לא** לבחור באפשרות \"Fit to page\" (התאמה לעמוד), שכן היא עלולה להקטין את הכרטיסים.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "הקובץ הזה כולל ריבוע כיול (calibration square) שמאפשר לך לוודא שההדפסה מדויקת לפני האירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "**הגדרת גודל (Scale):** בהגדרות ההדפסה של המחשב, וודא שההגדרה היא **\"Actual Size\" (גודל אמיתי)** או **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כדי שהכרטיסים יודאו בגודל המדויק, עליך לוודא שהגדרות ההדפסה במדפסת שלך לא משנות את הקנה מידה.\n\nהנה מה שכדאי לבדוק:\n\n1.  **הגדרת גודל (Scale):** בהגדרות ההדפסה של המחשב, וודא שההגדרה היא **\"Actual Size\" (גודל אמיתי)** או **100%**. חשוב מאוד **לא** לבחור באפשרות \"Fit to page\" (התאם לעמוד), שכן היא בדרך כלל מקטינה את התוכן כדי להשאיר שוליים.\n2.  **גודל הנייר:** וודא שגודל הנייר שנבחר בהגדרות המדפסת תואם בדיוק לסוג הנייר שהכנסת למדפסת ולפריסה (Layout) שבחרת באתר.\n3.  **בדיקה מוקדמת:** לפני שאתה מדפיס את כל הכרטיסים, מומלץ להשתמש ב-**Print-test PDF** (קובץ בדיקת הדפסה) שניתן להוריד. הקובץ הזה כולל ריבוע כיול (calibration square) שמאפשר לך לוודא שההדפסה מדויקת לפני האירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "הקובץ הזה כולל ריבוע כיול (calibration square) שמאפשר לך לוודא שההדפסה מדויקת לפני האירוע.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Hebrew with recognizable print-setting labels.",
+            "evidence": "**הגדרת גודל (Scale):** בהגדרות ההדפסה של המחשב, וודא שההגדרה היא **\"Actual Size\" (גודל אמיתי)** או **100%**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate print-test guidance.",
+            "evidence": "   - Usa el **PDF de prueba** para calibrar el tamaño y confirmar que el cuadrado de calibración se imprime correctamente.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "   - En el menú de impresión, selecciona **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nPara que las tarjetas se impriman al tamaño correcto, sigue estos pasos:\n\n1. **Configuración de impresión**:  \n   - En el menú de impresión, selecciona **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n   - Asegúrate de que el tamaño de papel coincida con el diseño elegido (por ejemplo, A4 o Carta).\n\n2. **Verificación previa**:  \n   - Revisa todas las tarjetas, nombres y etiquetas de mesa en la vista previa antes de exportar.  \n   - Usa el **PDF de prueba** para calibrar el tamaño y confirmar que el cuadrado de calibración se imprime correctamente.\n\n3. **Ajustes de margen**:  \n   - Ajusta los márgenes de la impresora para que coincidan con el diseño seleccionado. No hay garantía de compatibilidad con impresoras específicas.\n\nSi el problema persiste, describe qué ves en la pantalla o en la impresión para ayudarte mejor.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration guidance is understandable and actionable.",
+            "evidence": "   - Usa el **PDF de prueba** para calibrar el tamaño y confirmar que el cuadrado de calibración se imprime correctamente.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish with recognizable print-setting labels.",
+            "evidence": "   - En el menú de impresión, selecciona **\"Tamaño real\" (100%)** en lugar de \"Ajustar a página\".  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.russian.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Чтобы карточки имели правильный размер, в настройках печати выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Чтобы карточки имели правильный размер, в настройках печати выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n\n**Не используйте** функцию «По размеру страницы» (Fit to page), так как она подстраивает изображение под поля принтера и уменьшает масштаб карточек.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "Чтобы карточки имели правильный размер, в настройках печати выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian.",
+            "evidence": "Чтобы карточки имели правильный размер, в настройках печати выберите параметр **«Реальный размер» (Actual Size)** или установите масштаб **100%**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.hebrew.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the scale correction and separate test-PDF step.",
+            "evidence": "   - Use the **print-test PDF** (separate file) to check scaling. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Names unverified print-layout sizes as available TableCards selections.",
+            "evidence": "   - Verify the **paper size** matches the layout selected in TableCards (e.g., 5x7\" or 4x6\").  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe cards printed smaller than expected because the printer settings might not be set to \"Actual Size / 100%.\" Here’s how to fix it:\n\n1. **Print Settings**:  \n   - Ensure the printer option is set to **\"Actual Size\"** or **\"100%\"** (not \"Fit to Page\" or \"Scale to Fit\").  \n   - Verify the **paper size** matches the layout selected in TableCards (e.g., 5x7\" or 4x6\").  \n\n2. **Calibration**:  \n   - Use the **print-test PDF** (separate file) to check scaling. Print the calibration square first to confirm it matches the expected size.  \n\n3. **Margins**:  \n   - Adjust printer margins to **match the layout’s requirements** (some layouts need minimal or no margins).  \n\n4. **Preview**:  \n   - Double-check all card text (names, tables) in the preview to avoid unexpected scaling due to text wrapping.  \n\nIf issues persist, share the **browser/device details** for further troubleshooting. For print shops, confirm they use \"Actual Size\" settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The calibration check is understandable in English.",
+            "evidence": "Print the calibration square first to confirm it matches the expected size.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "The cards printed smaller than expected because the printer settings might not be set to \"Actual Size / 100%.\" ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.spanish.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required separate print-test PDF.",
+            "evidence": "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly recommends Actual Size or 100 percent instead of Fit to Page.",
+            "evidence": "Ajusta la configuración de impresión de tu PDF a **Tamaño real** (actual size) o **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Ajusta la configuración de impresión de tu PDF a **Tamaño real** (actual size) o **100%**. No uses la opción \"Ajustar a la página\" (fit to page), ya que esto comprime el contenido y hace que las tarjetas parezcan pequeñas.\n\nTambién asegúrate de que el tamaño de papel en tu impresora coincida exactamente con el que seleccionaste en el diseño.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The scale-setting correction is clear.",
+            "evidence": "Ajusta la configuración de impresión de tu PDF a **Tamaño real** (actual size) o **100%**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Spanish.",
+            "evidence": "Ajusta la configuración de impresión de tu PDF a **Tamaño real** (actual size) o **100%**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 9,
+  "invalid": 0,
+  "unsure": 0
+}

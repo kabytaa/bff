@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-011",
+  "packetHash": "fc4ea335c171a0e5c599f7ac135b77ba1672cfc7fddf68ea415ca83d259527dc",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "TableCards creates downloadable place-card PDFs, so you are responsible for the actual printing and paper. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "TableCards creates downloadable place-card PDFs, so you are responsible for the actual printing and paper. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You get a file. TableCards creates downloadable place-card PDFs, so you are responsible for the actual printing and paper. We do not provide physical printing, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "TableCards creates downloadable place-card PDFs, so you are responsible for the actual printing and paper. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards creates downloadable place-card PDFs, so you are responsible for the actual printing and paper. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines deletion without claiming it was completed.",
+            "evidence": "I cannot delete your projects. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inability to modify customer projects matches the import reference.",
+            "evidence": "I cannot delete your projects. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot delete your projects. I don't have the ability to modify, delete, or manage your saved work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal is concise and unambiguous.",
+            "evidence": "I cannot delete your projects. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot delete your projects. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines deletion without pretending it happened.",
+            "evidence": "I cannot delete projects for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims an in-workspace deletion capability that the references do not establish.",
+            "evidence": "You will need to manage and delete your projects directly within your workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot delete projects for you. You will need to manage and delete your projects directly within your workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and proposed customer action are understandable.",
+            "evidence": "You will need to manage and delete your projects directly within your workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You will need to manage and delete your projects directly within your workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "You arrange printing yourself.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "You arrange printing yourself.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards provides **downloadable PDF files** for place cards, but it **does not print or mail them**. You arrange printing yourself.  \n\nKey details:  \n- Exported files are digital PDFs (no physical delivery).  \n- Print shops or personal printers handle actual printing.  \n- Use \"actual size / 100%\" for correct scaling, and verify with the print-test PDF.  \n\nFor help with formatting or calibration, refer to the [printing guide](#).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "You arrange printing yourself.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You arrange printing yourself.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the preview is a simulation without real payment.",
+            "evidence": "TableCards is operating a no-charge preview, so any \"Planner Pro\" or price references displayed are only for demonstration and do not result in real payment.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Absence of an email transaction is not proof of subscription or payment state.",
+            "evidence": "If you don't see a transaction, no subscription or money was collected, and it is safe to proceed as a guest or use the basic trial limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It sounds like you are seeing a simulated preview label, which is normal for the current deployment. TableCards is operating a no-charge preview, so any \"Planner Pro\" or price references displayed are only for demonstration and do not result in real payment.\n\nPlease check your email for a charge confirmation. If you don't see a transaction, no subscription or money was collected, and it is safe to proceed as a guest or use the basic trial limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The payment-confirmation detour undermines the otherwise clear no-charge explanation.",
+            "evidence": "If you don't see a transaction, no subscription or money was collected, and it is safe to proceed as a guest or use the basic trial limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you don't see a transaction, no subscription or money was collected, and it is safe to proceed as a guest or use the basic trial limits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "TableCards prepares PDF place-card files for you to open and print at your convenience. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "TableCards prepares PDF place-card files for you to open and print at your convenience. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You get the digital file.\n\nTableCards prepares PDF place-card files for you to open and print at your convenience. It does not print the cards or handle posting or delivery.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "TableCards prepares PDF place-card files for you to open and print at your convenience. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards prepares PDF place-card files for you to open and print at your convenience. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains known Latin support, unsupported scripts, and pre-export failure.",
+            "evidence": "While TableCards supports Latin-based characters (including Vietnamese accents), not every language or script is currently supported.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The script coverage and explicit failure follow reviewed knowledge.",
+            "evidence": "If a script is unsupported or the text cannot fit, it will usually fail explicitly before you export. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It is likely not an issue with your computer. While TableCards supports Latin-based characters (including Vietnamese accents), not every language or script is currently supported.\n\nIf a script is unsupported or the text cannot fit, it will usually fail explicitly before you export. I recommend checking the preview to see if the Arabic text renders correctly there.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a useful preview check without guaranteeing all scripts.",
+            "evidence": "I recommend checking the preview to see if the Arabic text renders correctly there.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "While TableCards supports Latin-based characters (including Vietnamese accents), not every language or script is currently supported.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines deletion without claiming it was completed.",
+            "evidence": "I cannot delete your project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inability to modify customer projects matches the import reference.",
+            "evidence": "I cannot delete your project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot delete your project. Neither I nor the support team have the ability to delete, modify, or export customer projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal is concise and unambiguous.",
+            "evidence": "I cannot delete your project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot delete your project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes script support from a computer problem and asks about the observed failure.",
+            "evidence": "Are you seeing a specific error message, or is the text simply not appearing as expected?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Latin support and qualified unsupported-script explanation match the reference.",
+            "evidence": "TableCards supports Latin-accented names like Nguyễn, but not all scripts are supported. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards supports Latin-accented names like Nguyễn, but not all scripts are supported. If the Arabic text isn't rendering correctly, it is likely a limitation of the tool's current script support rather than an issue with your computer.\n\nAre you seeing a specific error message, or is the text simply not appearing as expected?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused question about the error or visible rendering.",
+            "evidence": "Are you seeing a specific error message, or is the text simply not appearing as expected?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Are you seeing a specific error message, or is the text simply not appearing as expected?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that displayed Planner Pro access is simulated rather than paid.",
+            "evidence": "Any checkout process you encountered is a labeled simulation, not a real payment, and we are not collecting any money at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-charge checkout explanation follows reviewed knowledge.",
+            "evidence": "Any checkout process you encountered is a labeled simulation, not a real payment, and we are not collecting any money at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Please don't worry—you haven't been charged or signed up for a paid subscription.\n\nTableCards is currently in a no-charge preview mode. Any checkout process you encountered is a labeled simulation, not a real payment, and we are not collecting any money at this time. The \"Planner Pro\" status you're seeing is part of this mock access experience.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly addresses the worry about accidental payment.",
+            "evidence": "Any checkout process you encountered is a labeled simulation, not a real payment, and we are not collecting any money at this time. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Any checkout process you encountered is a labeled simulation, not a real payment, and we are not collecting any money at this time. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "It creates downloadable PDF files for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "It creates downloadable PDF files for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards **does not** print, mail, or deliver cards. It creates downloadable PDF files for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "It creates downloadable PDF files for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "It creates downloadable PDF files for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines deletion without claiming it was completed.",
+            "evidence": "I cannot delete your project for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inability to modify customer projects matches the import reference.",
+            "evidence": "I cannot delete your project for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot delete your project for you. Neither I nor our support team has the ability to modify, delete, or export your customer projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal is concise and unambiguous.",
+            "evidence": "I cannot delete your project for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot delete your project for you. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "It generates **downloadable PDF files** for digital use. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "It generates **downloadable PDF files** for digital use. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not print or post physical cards. It generates **downloadable PDF files** for digital use. You arrange printing and delivery yourself. \n\nKey details:  \n- **No physical production**: The service creates digital PDFs only (per [tablecards.basics](#tablecards.basics)).  \n- **Self-printing**: Instructions emphasize printing at \"Actual Size / 100%\" and handling logistics independently (per [tablecards.printing](#tablecards.printing)).  \n\nYou’ll need to download the PDF and use a printer or print shop for physical cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "It generates **downloadable PDF files** for digital use. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "It generates **downloadable PDF files** for digital use. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "The service does not handle physical printing or posting of cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "The service does not handle physical printing or posting of cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards provides **digital PDF files** for you to download and print yourself. The service does not handle physical printing or posting of cards. \n\nKey details:  \n- Export PDFs are \"card sheets only\" (no calibration pages).  \n- Print at **Actual Size / 100%** (not \"Fit to page\").  \n- Use the separate **print-test PDF** to calibrate your printer first.  \n- You’re responsible for arranging printing, paper, and final delivery.  \n\nLet me know if you need help with export settings or print calibration!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "The service does not handle physical printing or posting of cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The service does not handle physical printing or posting of cards. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the no-charge preview and simulated checkout.",
+            "evidence": "Checkout here is a simulation that does not process payments.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explanation does not invent current billing-provider state.",
+            "evidence": "Checkout here is a simulation that does not process payments.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It sounds like you are seeing the demonstration features of the current preview. TableCards is currently operating a no-charge preview, so the \"Planner Pro\" label relates to the free demonstration of capabilities, not a paid subscription. Checkout here is a simulation that does not process payments.\n\nIf you see a real charge on your account that you didn't authorize, please use the support",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The final support instruction is cut off mid-sentence.",
+            "evidence": "If you see a real charge on your account that you didn't authorize, please use the support",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Checkout here is a simulation that does not process payments.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "We do not handle physical printing, paper, or delivery; you receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "We do not handle physical printing, paper, or delivery; you receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards provides downloadable place-card PDFs. We do not handle physical printing, paper, or delivery; you receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "We do not handle physical printing, paper, or delivery; you receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We do not handle physical printing, paper, or delivery; you receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the known script-support boundary and explicit unsupported-rendering behavior.",
+            "evidence": "Known script coverage versus explicit unsupported rendering; no universal font promise.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Suggests a font change can resolve Arabic rendering without reviewed evidence.",
+            "evidence": "* **Change the font:** Try selecting a different font for that guest's name to see if another one supports the characters.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It is likely not your computer. It is more likely related to the font being used. \n\nArabic characters require specific fonts that support right-to-left script and those specific glyphs. If the current font doesn't support Arabic, the text may appear broken, as boxes, or incorrectly aligned.\n\nYou can try the following:\n* **Change the font:** Try selecting a different font for that guest's name to see if another one supports the characters.\n* **Adjust settings:** You can also adjust the font size, color, and position to see if it improves the layout.\n* **Check the preview:** Always use the preview feature before exporting to see exactly how the names will appear on the final cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Font color and positioning advice distract from the unsupported-script issue.",
+            "evidence": "* **Adjust settings:** You can also adjust the font size, color, and position to see if it improves the layout.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "* **Change the font:** Try selecting a different font for that guest's name to see if another one supports the characters.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "You receive the digital file and arrange printing or distribution yourself; it does not sell paper, handle printing, or provide mailing services.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "You receive the digital file and arrange printing or distribution yourself; it does not sell paper, handle printing, or provide mailing services.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards creates downloadable **place-card PDFs**. You receive the digital file and arrange printing or distribution yourself; it does not sell paper, handle printing, or provide mailing services.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "You receive the digital file and arrange printing or distribution yourself; it does not sell paper, handle printing, or provide mailing services.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You receive the digital file and arrange printing or distribution yourself; it does not sell paper, handle printing, or provide mailing services.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "We do not sell paper, handle printing, or manage delivery/reprints. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "We do not sell paper, handle printing, or manage delivery/reprints. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards provides downloadable place-card PDFs. We do not sell paper, handle printing, or manage delivery/reprints. You will receive a digital file that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "We do not sell paper, handle printing, or manage delivery/reprints. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We do not sell paper, handle printing, or manage delivery/reprints. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "We do not handle physical printing, paper, or delivery.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "We do not handle physical printing, paper, or delivery.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards provides you with a downloadable PDF file. We do not handle physical printing, paper, or delivery.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "We do not handle physical printing, paper, or delivery.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We do not handle physical printing, paper, or delivery.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains Latin support and possible incompatibility of the Arabic script.",
+            "evidence": "While TableCards supports many Latin-accented names (like Vietnamese), not all scripts and languages are supported yet.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps the device diagnosis qualified and follows known script boundaries.",
+            "evidence": "While TableCards supports many Latin-accented names (like Vietnamese), not all scripts and languages are supported yet.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It is likely not your computer. While TableCards supports many Latin-accented names (like Vietnamese), not all scripts and languages are supported yet.\n\nIf the Arabic text isn't displaying correctly in your preview, it is because that specific script may not be compatible with our current designs. You should always check your preview carefully to see exactly how the text renders before you attempt an export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear preview check.",
+            "evidence": "You should always check your preview carefully to see exactly how the text renders before you attempt an export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "While TableCards supports many Latin-accented names (like Vietnamese), not all scripts and languages are supported yet.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Recent charges and renewal dates will appear in the same billing area. ",
+            "reason": "Claims current charge and renewal records despite real billing and renewal behavior being later, unverified work.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Treats the preview as live billing rather than explaining the no-charge simulation.",
+            "evidence": "Recent charges and renewal dates will appear in the same billing area. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a current billing area with charges and renewal dates.",
+            "evidence": "Recent charges and renewal dates will appear in the same billing area. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thank you for being clear about what you saw—I can help sort out whether your account is showing “Planner Pro,” but I can’t directly verify your current subscription or billing status. Here’s what you can do right now, based on the free and paid tiers we have:\n\n**First check in TableCards**\n1. Open your account (the same place you signed up) and go to **Account** or **Settings**.\n2. Look for a section like “Plan” or “Billing,” where it will show your current status:\n   - Free ($0)\n   - Event Pass\n   - Planner Pro\n   - Studio (if you have it too)\n3. Recent charges and renewal dates will appear in the same billing area. If you see a charge here, you did subscribe for this period.\n\nIf you see an active subscription and you don’t want it\n- In the billing/settings area, you should be able to downgrade to the Free plan (or cancel entirely). The UI options will differ slightly, but look for “Downgrade,” “Change plan,” or “Cancel subscription.”\n\nIf you don’t see any active subscription or billing info\n- Use the **Help / Contact** link on the site, include your email, and attach any screenshots (like the email or the “Planner Pro” message). A human can verify what’s happening on the account side and confirm whether any payment was taken.\n\n**What the tiers are**\n- Free: $0, 1 active project, up to 25 cards, 3 predefined designs, 1 lifetime welcome AI batch.\n- Event Pass: $5 one-time, 1 event up to 500 cards, full premium predefined designs, event‑only artwork uploads, 2 AI batches; meant for a single event.\n- Planner Pro: $9/month (per the launch tier list), up to 25 active projects, reusable custom presets, copying, 10 AI batches/month. Monthly AI batches never roll over; no annual or per‑seat charges seen so far.\n\n**A few things I can’t confirm**\n- Whether a specific charge was actually applied to your payment method—at that point you’d rely on your bank statement or the billing center.\n- details about upcoming renewal timing—this is in your Account/Billing section.\n- refunds or changes to your account beyond what you can do yourself.\n\nNext step\n- Sign into TableCards, check your plan page and billing history.\n- If you’re still unsure, use **Help / Contact** and attach relevant screenshots and your email address; they can verify exactly what your account shows and what happened.\n\nIf you’d like, you can reply with what you see in your account (plan name, any associated dates or amounts), and I can walk you through the most likely next move.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer through unverified billing and cancellation controls.",
+            "evidence": "- In the billing/settings area, you should be able to downgrade to the Free plan (or cancel entirely). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Recent charges and renewal dates will appear in the same billing area. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "TableCards creates digital place-card PDFs for you to arrange and print yourself; it does not print, ship, or post anything.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "TableCards creates digital place-card PDFs for you to arrange and print yourself; it does not print, ship, or post anything.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You get a **downloadable PDF file**, not physical cards. TableCards creates digital place-card PDFs for you to arrange and print yourself; it does not print, ship, or post anything.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "TableCards creates digital place-card PDFs for you to arrange and print yourself; it does not print, ship, or post anything.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards creates digital place-card PDFs for you to arrange and print yourself; it does not print, ship, or post anything.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the digital PDF and customer-arranged printing.",
+            "evidence": "It provides **downloadable PDF files** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-printing and no-delivery scope matches reviewed knowledge.",
+            "evidence": "It provides **downloadable PDF files** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not print or post physical cards. It provides **downloadable PDF files** for you to print yourself. The service focuses on creating digital place-card templates (e.g., for tables, names, etc.), but printing, delivery, and reprints are handled by the user. \n\nFor printing guidance, ensure \"Actual Size / 100%\" is selected, and use the print-test PDF to calibrate. Let me know if you need help with the file itself!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes the downloadable file from physical services.",
+            "evidence": "It provides **downloadable PDF files** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "It provides **downloadable PDF files** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 19,
+  "invalid": 0,
+  "unsure": 0
+}

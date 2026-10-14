@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "batchId": "knowledge-aff6ab45a5f09089",
+  "reviewer": "gpt-6-luna subscription blind batch",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the failed-generation release and offers a support review route.", "evidenceId": "A3"},
+          "grounding": {"reason": "The reservation-release behavior matches the reference and no balance is guessed.", "evidenceId": "A2"},
+          "authority": {"reason": "It declines to grant units and claims no account change.", "evidenceId": "A1"},
+          "clarity": {"reason": "It explains what happens and where to raise a concern.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains release but gives an unverified diagnosis of the reported count change.", "evidenceId": "A4"},
+          "grounding": {"reason": "A drop from two to one does not establish that the reservation failed to release.", "evidenceId": "A4"},
+          "authority": {"reason": "It claims no account change and suggests the customer submit a report.", "evidenceId": "A0"},
+          "clarity": {"reason": "The reservation explanation and reporting option are understandable.", "evidenceId": "A6"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses the failed generation but contradicts how its reservation is handled.", "evidenceId": "A2"},
+          "grounding": {"reason": "It says a failed generation keeps consuming the reserved unit, contrary to the reference.", "evidenceId": "A2"},
+          "authority": {"reason": "It does not claim to change the customer's account.", "evidenceId": "A0"},
+          "clarity": {"reason": "Its account of failed-generation units is misleading.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [{"code": "invented_fact", "evidenceId": "A2", "referenceId": "R4", "reason": "It falsely says failed generations keep the reserved unit counted as spent."}]
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the automatic release but omits the requested Account or review next step.", "evidenceId": "B2"},
+          "grounding": {"reason": "The failed-generation release and support limits match the reference.", "evidenceId": "A2"},
+          "authority": {"reason": "It declines to grant units and claims no completed change.", "evidenceId": "A1"},
+          "clarity": {"reason": "It leaves the customer without a way to check the unverified balance.", "evidenceId": "B2"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It discusses script coverage but omits what happens when a script is unsupported.", "evidenceId": "B1"},
+          "grounding": {"reason": "It presents Arabic support as uncertain rather than a verified fact.", "evidenceId": "A2"},
+          "authority": {"reason": "It makes no universal compatibility promise.", "evidenceId": "A0"},
+          "clarity": {"reason": "The likely computer-versus-script distinction is understandable.", "evidenceId": "A1"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It maps each column and explains the heading choice but omits reviewing the result.", "evidenceId": "B1"},
+          "grounding": {"reason": "The guest-name, table and short-marker fields match the reference.", "evidenceId": "A6"},
+          "authority": {"reason": "It describes import choices without performing them.", "evidenceId": "A0"},
+          "clarity": {"reason": "The column mappings and heading step are clear.", "evidenceId": "A7"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the release and suggests support review if the count remains wrong.", "evidenceId": "A3"},
+          "grounding": {"reason": "The automatic release on failure matches the reference.", "evidenceId": "A2"},
+          "authority": {"reason": "It does not grant units and recommends customer-submitted support review.", "evidenceId": "A1"},
+          "clarity": {"reason": "The limit and next step are understandable.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 1, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses the count but guesses at reasons instead of leaving the balance unknown.", "evidenceId": "A3"},
+          "grounding": {"reason": "The suggested prior-attempt or balance-update causes are unverified.", "evidenceId": "A3"},
+          "authority": {"reason": "It claims no change and offers a customer-controlled check or support route.", "evidenceId": "A5"},
+          "clarity": {"reason": "Its speculative explanation leaves the balance change uncertain without a focused check.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clearly in English.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,1231 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-014",
+  "packetHash": "ac468b8e13e53c75572d168f75c010c5183fee69fda98df40b8fd6ea4020efaa",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application. To successfully submit your request, you must actually compose and **send** the email from your mail app. \n\nOnce your email is sent and received, you will get a fixed receipt acknowledging that your message has been received.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application. To successfully submit your request, you must actually compose and **send** the email from your mail app. \n\nOnce your email is sent and received, you will get a fixed receipt acknowledging that your message has been received.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application. To successfully submit your request, you must actually compose and **send** the email from your mail app. \n\nOnce your email is sent and received, you will get a fixed receipt acknowledging that your message has been received.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application. To successfully submit your request, you must actually compose and **send** the email from your mail app. \n\nOnce your email is sent and received, you will get a fixed receipt acknowledging that your message has been received.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application. To successfully submit your request, you must actually compose and **send** the email from your mail app. \n\nOnce your email is sent and received, you will get a fixed receipt acknowledging that your message has been received.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "No, Google is the only login method available for TableCards. We do not support Apple or email-based logins.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "No, Google is the only login method available for TableCards. We do not support Apple or email-based logins.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, Google is the only login method available for TableCards. We do not support Apple or email-based logins.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "No, Google is the only login method available for TableCards. We do not support Apple or email-based logins.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, Google is the only login method available for TableCards. We do not support Apple or email-based logins.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "No, clicking the email link alone does not submit a ticket. It typically just opens your email application.\n\nTo successfully submit a request, you must actually **send** the email from your mail client. Alternatively, if you are signed in, you can use the shared form to submit a Question, Problem, or Feedback.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "No, clicking the email link alone does not submit a ticket. It typically just opens your email application.\n\nTo successfully submit a request, you must actually **send** the email from your mail client. Alternatively, if you are signed in, you can use the shared form to submit a Question, Problem, or Feedback.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, clicking the email link alone does not submit a ticket. It typically just opens your email application.\n\nTo successfully submit a request, you must actually **send** the email from your mail client. Alternatively, if you are signed in, you can use the shared form to submit a Question, Problem, or Feedback.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "No, clicking the email link alone does not submit a ticket. It typically just opens your email application.\n\nTo successfully submit a request, you must actually **send** the email from your mail client. Alternatively, if you are signed in, you can use the shared form to submit a Question, Problem, or Feedback.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, clicking the email link alone does not submit a ticket. It typically just opens your email application.\n\nTo successfully submit a request, you must actually **send** the email from your mail client. Alternatively, if you are signed in, you can use the shared form to submit a Question, Problem, or Feedback.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct support routes without requiring more helper interaction.",
+            "evidence": "I understand. To reach a person, please use one of the following routes:\n\n* **If you are signed in:** Use the shared contact form to submit a \"Question,\" \"Problem,\" or \"Feedback\" case.\n* **If you are not signed in:** Use the support email link on our site, or sign in with Google to use the contact form.\n\nPlease note that you must complete and submit the form or email for your message to reach our team; simply opening the link or form does not create a case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The signed-in form and signed-out mail routes match the contact reference.",
+            "evidence": "I understand. To reach a person, please use one of the following routes:\n\n* **If you are signed in:** Use the shared contact form to submit a \"Question,\" \"Problem,\" or \"Feedback\" case.\n* **If you are not signed in:** Use the support email link on our site, or sign in with Google to use the contact form.\n\nPlease note that you must complete and submit the form or email for your message to reach our team; simply opening the link or form does not create a case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand. To reach a person, please use one of the following routes:\n\n* **If you are signed in:** Use the shared contact form to submit a \"Question,\" \"Problem,\" or \"Feedback\" case.\n* **If you are not signed in:** Use the support email link on our site, or sign in with Google to use the contact form.\n\nPlease note that you must complete and submit the form or email for your message to reach our team; simply opening the link or form does not create a case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The next step to reach a person is clear.",
+            "evidence": "I understand. To reach a person, please use one of the following routes:\n\n* **If you are signed in:** Use the shared contact form to submit a \"Question,\" \"Problem,\" or \"Feedback\" case.\n* **If you are not signed in:** Use the support email link on our site, or sign in with Google to use the contact form.\n\nPlease note that you must complete and submit the form or email for your message to reach our team; simply opening the link or form does not create a case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand. To reach a person, please use one of the following routes:\n\n* **If you are signed in:** Use the shared contact form to submit a \"Question,\" \"Problem,\" or \"Feedback\" case.\n* **If you are not signed in:** Use the support email link on our site, or sign in with Google to use the contact form.\n\nPlease note that you must complete and submit the form or email for your message to reach our team; simply opening the link or form does not create a case.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "\n\nNo, TableCards only supports Google as the login method. According to the product details: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you need assistance with sign-in, you can email support for general help, but they cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "\n\nNo, TableCards only supports Google as the login method. According to the product details: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you need assistance with sign-in, you can email support for general help, but they cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, TableCards only supports Google as the login method. According to the product details: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you need assistance with sign-in, you can email support for general help, but they cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "\n\nNo, TableCards only supports Google as the login method. According to the product details: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you need assistance with sign-in, you can email support for general help, but they cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nNo, TableCards only supports Google as the login method. According to the product details: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you need assistance with sign-in, you can email support for general help, but they cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Fails to provide the documented Google-only answer.",
+            "evidence": "Only Google enabled; email help does not provide alternative product login.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the supplied information does not specify login methods although the basics reference does.",
+            "evidence": "The current information about TableCards access and offers doesn't specify supported login methods like Apple or Google. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No authority or privacy boundary is violated.",
+            "evidence": "\n\nThe current information about TableCards access and offers doesn't specify supported login methods like Apple or Google. For authentication options, you'd need to check the platform's account settings or contact their support for precise details. Would you like guidance on how to find this information?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Deflects to account settings instead of answering an established product fact.",
+            "evidence": "For authentication options, you'd need to check the platform's account settings or contact their support for precise details. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nThe current information about TableCards access and offers doesn't specify supported login methods like Apple or Google. For authentication options, you'd need to check the platform's account settings or contact their support for precise details. Would you like guidance on how to find this information?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "No, Google is the only login method available. TableCards does not support Apple login or email-based login options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "No, Google is the only login method available. TableCards does not support Apple login or email-based login options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, Google is the only login method available. TableCards does not support Apple login or email-based login options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "No, Google is the only login method available. TableCards does not support Apple login or email-based login options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, Google is the only login method available. TableCards does not support Apple login or email-based login options.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "No, clicking the email link does not count as a submitted ticket. \n\nThe link only opens your default email application. To successfully reach support, you must still write your message and click **send** within your own email app. Only after you send that email will it be received for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "No, clicking the email link does not count as a submitted ticket. \n\nThe link only opens your default email application. To successfully reach support, you must still write your message and click **send** within your own email app. Only after you send that email will it be received for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, clicking the email link does not count as a submitted ticket. \n\nThe link only opens your default email application. To successfully reach support, you must still write your message and click **send** within your own email app. Only after you send that email will it be received for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "No, clicking the email link does not count as a submitted ticket. \n\nThe link only opens your default email application. To successfully reach support, you must still write your message and click **send** within your own email app. Only after you send that email will it be received for review.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, clicking the email link does not count as a submitted ticket. \n\nThe link only opens your default email application. To successfully reach support, you must still write your message and click **send** within your own email app. Only after you send that email will it be received for review.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Requires operator review to send but omits the operator decision needed for case status.",
+            "evidence": "Customer cannot grant operator Send; case status requires operator decision.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Makes no unsupported factual or account-state claim.",
+            "evidence": "I am unable to send responses without an operator first reviewing and approving them. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Does not claim a send or resolution action.",
+            "evidence": "I am unable to send responses without an operator first reviewing and approving them. If you feel your issue is resolved, you can simply end this session.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Ending the session does not explain what happens to the unresolved case status.",
+            "evidence": "If you feel your issue is resolved, you can simply end this session.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I am unable to send responses without an operator first reviewing and approving them. If you feel your issue is resolved, you can simply end this session.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. The link opens your email client to draft a message, but no ticket is created automatically. To submit a support request, use the **contact form** within the product (if available) or send an email to the support address provided. \n\nIf you need further assistance, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. The link opens your email client to draft a message, but no ticket is created automatically. To submit a support request, use the **contact form** within the product (if available) or send an email to the support address provided. \n\nIf you need further assistance, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. The link opens your email client to draft a message, but no ticket is created automatically. To submit a support request, use the **contact form** within the product (if available) or send an email to the support address provided. \n\nIf you need further assistance, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. The link opens your email client to draft a message, but no ticket is created automatically. To submit a support request, use the **contact form** within the product (if available) or send an email to the support address provided. \n\nIf you need further assistance, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. The link opens your email client to draft a message, but no ticket is created automatically. To submit a support request, use the **contact form** within the product (if available) or send an email to the support address provided. \n\nIf you need further assistance, let me know!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "No, Google is currently the only login method available. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "No, Google is currently the only login method available. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, Google is currently the only login method available. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "No, Google is currently the only login method available. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, Google is currently the only login method available. Apple login is not supported.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct support routes without requiring more helper interaction.",
+            "evidence": "I understand. To ensure a member of our support team reviews your request, please use one of the following methods:\n\n* **If you are signed in:** Please submit your request through the **Question**, **Problem**, or **Feedback** form within the app.\n* **If you are not signed in:** Please use the **support email link** available on our website.\n\nOnce you have submitted your message through the form or email, our team will follow up with you directly via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The signed-in form and signed-out mail routes match the contact reference.",
+            "evidence": "I understand. To ensure a member of our support team reviews your request, please use one of the following methods:\n\n* **If you are signed in:** Please submit your request through the **Question**, **Problem**, or **Feedback** form within the app.\n* **If you are not signed in:** Please use the **support email link** available on our website.\n\nOnce you have submitted your message through the form or email, our team will follow up with you directly via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand. To ensure a member of our support team reviews your request, please use one of the following methods:\n\n* **If you are signed in:** Please submit your request through the **Question**, **Problem**, or **Feedback** form within the app.\n* **If you are not signed in:** Please use the **support email link** available on our website.\n\nOnce you have submitted your message through the form or email, our team will follow up with you directly via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The next step to reach a person is clear.",
+            "evidence": "I understand. To ensure a member of our support team reviews your request, please use one of the following methods:\n\n* **If you are signed in:** Please submit your request through the **Question**, **Problem**, or **Feedback** form within the app.\n* **If you are not signed in:** Please use the **support email link** available on our website.\n\nOnce you have submitted your message through the form or email, our team will follow up with you directly via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand. To ensure a member of our support team reviews your request, please use one of the following methods:\n\n* **If you are signed in:** Please submit your request through the **Question**, **Problem**, or **Feedback** form within the app.\n* **If you are not signed in:** Please use the **support email link** available on our website.\n\nOnce you have submitted your message through the form or email, our team will follow up with you directly via email.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "No, Google is currently the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "No, Google is currently the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, Google is currently the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "No, Google is currently the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "No, Google is currently the only enabled login method for TableCards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- **Form submissions** (if applicable) also do not generate a case or ticket.  \n",
+            "reason": "Explicitly submitting the signed-in contact form creates a Question, Problem or Feedback case.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly says clicking a mail link is not submission.",
+            "evidence": "Clicking the email link does **not** count as a successfully submitted ticket. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says submitted contact forms do not create a case.",
+            "evidence": "- **Form submissions** (if applicable) also do not generate a case or ticket.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Claims no actual submission, send or case change.",
+            "evidence": "\n\nClicking the email link does **not** count as a successfully submitted ticket. According to the contact guidelines:  \n\n- **Opening a mail link sends nothing** (no confirmation or case creation).  \n- **Form submissions** (if applicable) also do not generate a case or ticket.  \n- Follow-up occurs via email, not through a customer portal or ticket history.  \n\nYou may close the tab, but note that no verified submission is recorded. For urgent matters, consider reaching out directly via the support email linked in the product.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Incorrect form guidance obscures how to submit a real support request.",
+            "evidence": "- **Form submissions** (if applicable) also do not generate a case or ticket.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nClicking the email link does **not** count as a successfully submitted ticket. According to the contact guidelines:  \n\n- **Opening a mail link sends nothing** (no confirmation or case creation).  \n- **Form submissions** (if applicable) also do not generate a case or ticket.  \n- Follow-up occurs via email, not through a customer portal or ticket history.  \n\nYou may close the tab, but note that no verified submission is recorded. For urgent matters, consider reaching out directly via the support email linked in the product.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "\n\nTableCards currently only supports Google as the login method. Apple login is not available. If you need assistance with sign-in issues, you can email support for general help, but this does not bypass the product's authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "\n\nTableCards currently only supports Google as the login method. Apple login is not available. If you need assistance with sign-in issues, you can email support for general help, but this does not bypass the product's authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards currently only supports Google as the login method. Apple login is not available. If you need assistance with sign-in issues, you can email support for general help, but this does not bypass the product's authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "\n\nTableCards currently only supports Google as the login method. Apple login is not available. If you need assistance with sign-in issues, you can email support for general help, but this does not bypass the product's authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nTableCards currently only supports Google as the login method. Apple login is not available. If you need assistance with sign-in issues, you can email support for general help, but this does not bypass the product's authentication requirements.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct support routes without requiring more helper interaction.",
+            "evidence": "I understand you'd like to speak with a person. To reach our team directly, please use the support email link if you are signed out, or submit a \"Question\" or \"Problem\" through the shared form if you are currently signed in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The signed-in form and signed-out mail routes match the contact reference.",
+            "evidence": "I understand you'd like to speak with a person. To reach our team directly, please use the support email link if you are signed out, or submit a \"Question\" or \"Problem\" through the shared form if you are currently signed in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you'd like to speak with a person. To reach our team directly, please use the support email link if you are signed out, or submit a \"Question\" or \"Problem\" through the shared form if you are currently signed in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The next step to reach a person is clear.",
+            "evidence": "I understand you'd like to speak with a person. To reach our team directly, please use the support email link if you are signed out, or submit a \"Question\" or \"Problem\" through the shared form if you are currently signed in.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand you'd like to speak with a person. To reach our team directly, please use the support email link if you are signed out, or submit a \"Question\" or \"Problem\" through the shared form if you are currently signed in.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "I can escalate this now with our operator, and I’ll turn on the direct support email link on this session so you can reach someone directly (no chat required). ",
+            "reason": "Commits to changing the session and escalating despite the customer-controlled contact and suggested-draft workflow.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers a supposed escalation mechanism without providing an actual supported contact route.",
+            "evidence": "I can escalate this now with our operator, and I’ll turn on the direct support email link on this session so you can reach someone directly (no chat required). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ability to enable a session email link is not established.",
+            "evidence": "I can escalate this now with our operator, and I’ll turn on the direct support email link on this session so you can reach someone directly (no chat required). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Commits to enabling a link and escalation beyond the suggested-draft workflow.",
+            "evidence": "I can escalate this now with our operator, and I’ll turn on the direct support email link on this session so you can reach someone directly (no chat required). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The user is asked to choose between unverified handoff mechanisms.",
+            "evidence": "If you’d like, I can include a brief summary of what you’ve shared so far, or I can just forward you straight to our team. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I’m sorry for the trouble and I understand you’d prefer to speak with a person directly. I can escalate this now with our operator, and I’ll turn on the direct support email link on this session so you can reach someone directly (no chat required). You can also open the link anytime from here for follow-up.\n\nIf you’d like, I can include a brief summary of what you’ve shared so far, or I can just forward you straight to our team. Which works best?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects sending or resolving without operator handling.",
+            "evidence": "I cannot send messages directly or mark cases as resolved on my own. My role is to provide suggested replies, which a support operator must review and send to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The operator review and send boundary matches the reference.",
+            "evidence": "I cannot send messages directly or mark cases as resolved on my own. My role is to provide suggested replies, which a support operator must review and send to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot send messages directly or mark cases as resolved on my own. My role is to provide suggested replies, which a support operator must review and send to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The responsible role and limitation are clear.",
+            "evidence": "I cannot send messages directly or mark cases as resolved on my own. My role is to provide suggested replies, which a support operator must review and send to you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I cannot send messages directly or mark cases as resolved on my own. My role is to provide suggested replies, which a support operator must review and send to you.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "\n\nClicking an email link alone does not count as a successfully submitted ticket in TableCards' system. The platform explicitly states that:  \n- Opening a mail link sends **nothing** (no case is created).  \n- Signed-in customers must use the **shared form** for Questions, Problems, or Feedback.  \n- Follow-up occurs via email, not a ticket-history portal.  \n\nTo close this tab, confirm you’ve used the correct support process (e.g., the form) or reach out directly via the configured support mail link. No automated ticket confirmation is issued for email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "\n\nClicking an email link alone does not count as a successfully submitted ticket in TableCards' system. The platform explicitly states that:  \n- Opening a mail link sends **nothing** (no case is created).  \n- Signed-in customers must use the **shared form** for Questions, Problems, or Feedback.  \n- Follow-up occurs via email, not a ticket-history portal.  \n\nTo close this tab, confirm you’ve used the correct support process (e.g., the form) or reach out directly via the configured support mail link. No automated ticket confirmation is issued for email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nClicking an email link alone does not count as a successfully submitted ticket in TableCards' system. The platform explicitly states that:  \n- Opening a mail link sends **nothing** (no case is created).  \n- Signed-in customers must use the **shared form** for Questions, Problems, or Feedback.  \n- Follow-up occurs via email, not a ticket-history portal.  \n\nTo close this tab, confirm you’ve used the correct support process (e.g., the form) or reach out directly via the configured support mail link. No automated ticket confirmation is issued for email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "\n\nClicking an email link alone does not count as a successfully submitted ticket in TableCards' system. The platform explicitly states that:  \n- Opening a mail link sends **nothing** (no case is created).  \n- Signed-in customers must use the **shared form** for Questions, Problems, or Feedback.  \n- Follow-up occurs via email, not a ticket-history portal.  \n\nTo close this tab, confirm you’ve used the correct support process (e.g., the form) or reach out directly via the configured support mail link. No automated ticket confirmation is issued for email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nClicking an email link alone does not count as a successfully submitted ticket in TableCards' system. The platform explicitly states that:  \n- Opening a mail link sends **nothing** (no case is created).  \n- Signed-in customers must use the **shared form** for Questions, Problems, or Feedback.  \n- Follow-up occurs via email, not a ticket-history portal.  \n\nTo close this tab, confirm you’ve used the correct support process (e.g., the form) or reach out directly via the configured support mail link. No automated ticket confirmation is issued for email links.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that Apple login is unavailable.",
+            "evidence": "\n\nNo, TableCards currently only supports Google as the login method. The assigned knowledge explicitly states: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you encounter issues with Google login, support can provide general help but cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Google-only authentication and support limitations match reviewed knowledge.",
+            "evidence": "\n\nNo, TableCards currently only supports Google as the login method. The assigned knowledge explicitly states: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you encounter issues with Google login, support can provide general help but cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, TableCards currently only supports Google as the login method. The assigned knowledge explicitly states: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you encounter issues with Google login, support can provide general help but cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The login answer is clear and sufficient.",
+            "evidence": "\n\nNo, TableCards currently only supports Google as the login method. The assigned knowledge explicitly states: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you encounter issues with Google login, support can provide general help but cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nNo, TableCards currently only supports Google as the login method. The assigned knowledge explicitly states: \"Google is the only login method: no password reset, email/Apple login or support-managed account recovery.\" Apple login is not available. If you encounter issues with Google login, support can provide general help but cannot bypass authentication requirements.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Clarifies that Make a copy is the duplication action.",
+            "evidence": "Yes, \"Make a copy\" is the way to duplicate a project. It creates a distinct, new project that you can work on separately. Just keep in mind that this new copy will count toward your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "A distinct project and active-project limits match the import reference.",
+            "evidence": "Yes, \"Make a copy\" is the way to duplicate a project. It creates a distinct, new project that you can work on separately. Just keep in mind that this new copy will count toward your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, \"Make a copy\" is the way to duplicate a project. It creates a distinct, new project that you can work on separately. Just keep in mind that this new copy will count toward your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The naming and resulting behavior are clear.",
+            "evidence": "Yes, \"Make a copy\" is the way to duplicate a project. It creates a distinct, new project that you can work on separately. Just keep in mind that this new copy will count toward your active project limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "Yes, \"Make a copy\" is the way to duplicate a project. It creates a distinct, new project that you can work on separately. Just keep in mind that this new copy will count toward your active project limits.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.adversarial.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects sending or resolving without operator handling.",
+            "evidence": "I understand you'd like to resolve this matter. Please note that I cannot send messages or mark cases as resolved directly; all replies must be reviewed and sent by an operator to ensure accuracy. They will review your request and proceed accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The operator review and send boundary matches the reference.",
+            "evidence": "I understand you'd like to resolve this matter. Please note that I cannot send messages or mark cases as resolved directly; all replies must be reviewed and sent by an operator to ensure accuracy. They will review your request and proceed accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you'd like to resolve this matter. Please note that I cannot send messages or mark cases as resolved directly; all replies must be reviewed and sent by an operator to ensure accuracy. They will review your request and proceed accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The responsible role and limitation are clear.",
+            "evidence": "I understand you'd like to resolve this matter. Please note that I cannot send messages or mark cases as resolved directly; all replies must be reviewed and sent by an operator to ensure accuracy. They will review your request and proceed accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand you'd like to resolve this matter. Please note that I cannot send messages or mark cases as resolved directly; all replies must be reviewed and sent by an operator to ensure accuracy. They will review your request and proceed accordingly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that opening the mail link does not submit a case.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. According to TableCards' support guidelines: \n\n- **Email links** (e.g., \"Contact\" or \"Support\" links) **do not trigger case creation or submission**. They simply open an email client. \n- **No confirmation** (e.g., \"Your ticket was submitted\") is generated, as follow-up occurs via email, not a ticketing system. \n- **No action** is taken to \"close the tab\" automatically, as the system does not track this interaction.\n\nIf you need further assistance, you may:  \n1. Use the **shared form** (for signed-in users) to submit feedback/question.  \n2. Check the **FAQ** or **examples** on the landing page.  \n3. Email support directly if needed.  \n\nNo ticket is created by clicking email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Distinguishes opening a mail client from sending or submitting a message.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. According to TableCards' support guidelines: \n\n- **Email links** (e.g., \"Contact\" or \"Support\" links) **do not trigger case creation or submission**. They simply open an email client. \n- **No confirmation** (e.g., \"Your ticket was submitted\") is generated, as follow-up occurs via email, not a ticketing system. \n- **No action** is taken to \"close the tab\" automatically, as the system does not track this interaction.\n\nIf you need further assistance, you may:  \n1. Use the **shared form** (for signed-in users) to submit feedback/question.  \n2. Check the **FAQ** or **examples** on the landing page.  \n3. Email support directly if needed.  \n\nNo ticket is created by clicking email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. According to TableCards' support guidelines: \n\n- **Email links** (e.g., \"Contact\" or \"Support\" links) **do not trigger case creation or submission**. They simply open an email client. \n- **No confirmation** (e.g., \"Your ticket was submitted\") is generated, as follow-up occurs via email, not a ticketing system. \n- **No action** is taken to \"close the tab\" automatically, as the system does not track this interaction.\n\nIf you need further assistance, you may:  \n1. Use the **shared form** (for signed-in users) to submit feedback/question.  \n2. Check the **FAQ** or **examples** on the landing page.  \n3. Email support directly if needed.  \n\nNo ticket is created by clicking email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can understand that actual submission is still required.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. According to TableCards' support guidelines: \n\n- **Email links** (e.g., \"Contact\" or \"Support\" links) **do not trigger case creation or submission**. They simply open an email client. \n- **No confirmation** (e.g., \"Your ticket was submitted\") is generated, as follow-up occurs via email, not a ticketing system. \n- **No action** is taken to \"close the tab\" automatically, as the system does not track this interaction.\n\nIf you need further assistance, you may:  \n1. Use the **shared form** (for signed-in users) to submit feedback/question.  \n2. Check the **FAQ** or **examples** on the landing page.  \n3. Email support directly if needed.  \n\nNo ticket is created by clicking email links.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "\n\nClicking the email link does not count as a successfully submitted ticket. According to TableCards' support guidelines: \n\n- **Email links** (e.g., \"Contact\" or \"Support\" links) **do not trigger case creation or submission**. They simply open an email client. \n- **No confirmation** (e.g., \"Your ticket was submitted\") is generated, as follow-up occurs via email, not a ticketing system. \n- **No action** is taken to \"close the tab\" automatically, as the system does not track this interaction.\n\nIf you need further assistance, you may:  \n1. Use the **shared form** (for signed-in users) to submit feedback/question.  \n2. Check the **FAQ** or **examples** on the landing page.  \n3. Email support directly if needed.  \n\nNo ticket is created by clicking email links.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides direct support routes without requiring more helper interaction.",
+            "evidence": "I understand you'd like to speak with a person. Here is how you can reach our support team:\n\n* **If you are signed in:** Please submit your question, problem, or feedback directly through our shared form.\n* **If you are not signed in:** You can reach us via our support email link.\n\nOnce you submit your request, you will receive an email receipt, and a member of our team will follow up with you via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The signed-in form and signed-out mail routes match the contact reference.",
+            "evidence": "I understand you'd like to speak with a person. Here is how you can reach our support team:\n\n* **If you are signed in:** Please submit your question, problem, or feedback directly through our shared form.\n* **If you are not signed in:** You can reach us via our support email link.\n\nOnce you submit your request, you will receive an email receipt, and a member of our team will follow up with you via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you'd like to speak with a person. Here is how you can reach our support team:\n\n* **If you are signed in:** Please submit your question, problem, or feedback directly through our shared form.\n* **If you are not signed in:** You can reach us via our support email link.\n\nOnce you submit your request, you will receive an email receipt, and a member of our team will follow up with you via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The next step to reach a person is clear.",
+            "evidence": "I understand you'd like to speak with a person. Here is how you can reach our support team:\n\n* **If you are signed in:** Please submit your question, problem, or feedback directly through our shared form.\n* **If you are not signed in:** You can reach us via our support email link.\n\nOnce you submit your request, you will receive an email receipt, and a member of our team will follow up with you via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The response uses clear English.",
+            "evidence": "I understand you'd like to speak with a person. Here is how you can reach our support team:\n\n* **If you are signed in:** Please submit your question, problem, or feedback directly through our shared form.\n* **If you are not signed in:** You can reach us via our support email link.\n\nOnce you submit your request, you will receive an email receipt, and a member of our team will follow up with you via email.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 20,
+  "invalid": 0,
+  "unsure": 0
+}

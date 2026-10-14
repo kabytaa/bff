@@ -24,6 +24,7 @@ import type * as lib_printAssets from '../lib/printAssets.js';
 import type * as lib_productErrors from '../lib/productErrors.js';
 import type * as lib_publicIds from '../lib/publicIds.js';
 import type * as lib_validateArtwork from '../lib/validateArtwork.js';
+import type * as operationEvents from '../operationEvents.js';
 import type * as productAccess from '../productAccess.js';
 import type * as projects from '../projects.js';
 
@@ -50,6 +51,7 @@ declare const fullApi: ApiFromModules<{
   'lib/productErrors': typeof lib_productErrors;
   'lib/publicIds': typeof lib_publicIds;
   'lib/validateArtwork': typeof lib_validateArtwork;
+  operationEvents: typeof operationEvents;
   productAccess: typeof productAccess;
   projects: typeof projects;
 }>;

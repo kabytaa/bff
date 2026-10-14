@@ -19,6 +19,70 @@ reason, this hosted suite is deliberately separate from the self-contained
 Artifacts go to this project's ignored `test-results/`, separate from local
 browser suites so concurrent validation cannot delete hosted traces.
 
+## Test-user checkout
+
+```bash
+pnpm exec playwright test --config projects/tablecards/e2e/playwright.test-users.config.ts
+```
+
+This focused desktop/phone journey registers a normal synthetic customer, checks
+checkout denial, enables its test-user flag through the real backoffice, completes
+shared no-charge checkout, then removes the flag and verifies access remains while
+new checkout is blocked. It uses the development admitted-operator token minting
+path; no real payment, email or inference is invoked. Traces/video are disabled.
+Existing paid-offer fixtures explicitly designate their verified synthetic Owner
+through the admitted public API immediately before checkout; general signup does
+not mark users. Test team recipients must also be designated before accepting a
+test-workspace invitation. No hidden seat/offer override replaces checkout.
+
+## Focused Operator work development checks
+
+```bash
+pnpm exec nx run tablecards-e2e:e2e-operator-work
+```
+
+This separate desktop/phone suite checks anonymous whole-site helper mock answers,
+customer-clicked registered links, keyboard/focus/containment, synthetic hosted
+development sign-in, explicit contact/general feedback and invalid survey links.
+It makes no payment or paid artwork/model call. It requires the development
+Operator configuration and explicitly labelled mock AI/mail modes. Trace,
+screenshots and video are disabled so auth grants cannot enter artifacts; request
+assertions retain only booleans, never tokens/capabilities. The ordinary hosted
+configuration excludes this suite. Mock passes do not verify live model quality,
+email delivery or a real active survey invitation.
+Focused artifacts use `operator-work/test-results/`, outside the legacy hosted
+suite's cleanup directory. Representative manual captures must contain only
+synthetic/anonymous UI and never an auth page, grant, cookie or capability.
+
+### Deliberate live helper check
+
+After provider caps have been independently configured/read back and the
+development backend is in live mode, with explicit model-spend authority:
+
+```bash
+TABLECARDS_TEST_LIVE_HELPER=true pnpm exec nx run tablecards-e2e:e2e-operator-live
+```
+
+The separate desktop/phone checks verify a real printing answer and a browser
+FAQ tool/result continuation, customer-clicked navigation and explicit feedback.
+The Gemma/Jev checkpoint also checks an explicitly prepared synthetic incoming
+email's live model/selector trace and saved draft, opens its exact operator
+review and verifies no substantive reply delivery exists without Send. Set
+`BFF_LIVE_SUPPORT_CASE_SUBJECT` to its exact `Synthetic Gemma-Jev checkpoint ...`
+subject after sending one authorized email to the development mailbox. Both
+device checks reuse that case; they do not send mail or create new support runs.
+Development signup remains `.invalid`-only. Never weaken that guard or send
+live receipt messages to fake recipients merely to make the browser test pass.
+It refuses mock/unverified-cap backend modes before any model request, aborts
+after six helper HTTP requests per device, disables retries/traces/video, and never
+intercepts an allowed request with a synthetic response. It is excluded from
+ordinary CI and hosted regression. This is a bounded integration smoke, not a
+replacement for the full Business evaluation set or real email round trip.
+Explicit synthetic chat/draft screenshots stay ignored under
+`.playwright-cli/` for rendered inspection; no auth page or browser state is saved.
+Draft captures include only the message editor, not customer identity or opaque
+reply/feedback routing values created during review.
+
 `src/support/coverage.ts` is the executable acceptance registry for PRD stories
 US-01 through US-20. Four cohesive story journeys run in desktop Chromium and
 mobile WebKit and cover public creation/import/authentication, Free and Event
@@ -31,15 +95,17 @@ well.
 Seven focused legacy regression cases continue to run in desktop Chromium for
 the public print-test PDF, 320-pixel containment, anonymous draft restoration,
 stored PDF bytes, Free access guidance, professional project/preset/AI behavior
-and Studio invitation acceptance. Eight remediation cases (four journeys on
-each device) additionally inspect actual edited PDF title/guest multiplicity,
+and Studio invitation acceptance. Ten remediation journeys on each device
+additionally inspect actual edited PDF title/guest multiplicity,
 unauthenticated and post-logout private byte denial, policy/design/navigation
 actions, explicit fit failures and the paid 500-card ceiling with embedded
-fonts. Together the hosted command executes 27 cases: 17 desktop and 10 mobile.
+fonts. Together the hosted command configures 41 cases: 24 desktop and 17 mobile,
+including one intentionally skipped manual AI case per device. Normal regression
+therefore executes 39 cases without paid inference.
 The Studio owner and member contexts both inherit the selected desktop/mobile
 device settings. The creator checks keep the whole page within
 phone and desktop viewports while allowing only the design carousel to scroll
-horizontally. Two additional manual AI test cases are skipped by default.
+horizontally.
 
 The manual AI test is an automated browser check that an operator deliberately
 starts; it calls the real Cloudflare provider, not fixtures. "Manual" describes

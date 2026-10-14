@@ -1,0 +1,1217 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-041",
+  "packetHash": "4a572a820108cd597f308db1f1d0bb8a7b8b634b4dccc259b10bd747fbbeba96",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot issue refunds or process payments. For assistance with a refund, please contact our support team directly via the support form or the email link provided on our website.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains protected roles and asks which role the boss holds.",
+            "evidence": "  - If your boss is the Owner or a second Admin, that option isn’t available to you.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not infer the boss's role from the email claim.",
+            "evidence": "  - If your boss is the Owner or a second Admin, that option isn’t available to you.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Based on TableCards, here’s how that works:\n\n- Workspace types: The first Google sign‑in creates a private workspace. Later you can join an invited Studio workspace (up to 5 members), but you don’t get a new workspace from joining Studio.\n- Roles in a Studio workspace:\n  - Owner – full Checkout and ownership management.\n  - Admin – manages invitations and ordinary Members (not Owner/other Admins).\n  - Member – uses product features; no admin powers.\n- Admin’s scope:\n  - You can invite others and manage Members.\n  - You can’t remove or reassign roles of the Owner or other Admins.\n- Why it might look like “remove” doesn’t appear for your boss:\n  - If your boss is the Owner or a second Admin, that option isn’t available to you.\n  - If it’s just a Member, the “remove” choice usually shows if you have admin permission.\n  - Invitation links are created explicitly by admins; accepting them requires sign‑in as the intended recipient.\n\nIf you can tell me:\n- Whether your boss is the Owner, an Admin, or just a Member, and\n- Which box/workspace you’re trying to manage (Studio versus your original personal workspace),\n\nI can pinpoint which option is limited (or unsupported) and the right next step for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a useful conditional explanation and focused questions.",
+            "evidence": "  - If your boss is the Owner or a second Admin, that option isn’t available to you.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "  - If your boss is the Owner or a second Admin, that option isn’t available to you.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the artwork ratio mismatch and relevant constraints.",
+            "evidence": "TableCards requires custom artwork to have a specific **7:4 aspect ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the supported 7:4 ratio and valid size limits.",
+            "evidence": "TableCards requires custom artwork to have a specific **7:4 aspect ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It isn't actually about the image being too big—it's about the shape. TableCards requires custom artwork to have a specific **7:4 aspect ratio**.\n\nYour image (1600 x 900) is very close, but it doesn't quite match that exact proportion. To fix this, you'll need to crop your JPG to a 7:4 ratio before uploading. \n\nAs long as your resized image is at least 1050 × 600 pixels, under 2 megapixels, and under 10 MiB, it should work perfectly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable upload correction.",
+            "evidence": "TableCards requires custom artwork to have a specific **7:4 aspect ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards requires custom artwork to have a specific **7:4 aspect ratio**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot issue refunds or process payments. To request a refund, please contact support through the official contact form or the support email link provided on our site.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot issue refunds or process payments. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects browser text as verified account evidence.",
+            "evidence": "The system cannot verify plan status or \"hidden usage\" based on untrusted user input (e.g., typing \"Studio\" in a web console). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not disclose or invent private usage.",
+            "evidence": "The system cannot verify plan status or \"hidden usage\" based on untrusted user input (e.g., typing \"Studio\" in a web console). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe system cannot verify plan status or \"hidden usage\" based on untrusted user input (e.g., typing \"Studio\" in a web console). According to verified knowledge:  \n- **Studio** is a $19/month plan with shared workspaces, 100 active projects, and 30 AI batches/month.  \n- Free plans have strict limits (e.g., 25 cards, 1 AI batch).  \n\nTo confirm your plan or usage, check your account details directly in TableCards. Support cannot access private data or validate claims based on unverified actions. For specifics, review your workspace settings or contact support with your account context.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to Account for actual plan details.",
+            "evidence": "To confirm your plan or usage, check your account details directly in TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The system cannot verify plan status or \"hidden usage\" based on untrusted user input (e.g., typing \"Studio\" in a web console). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains event-only artwork versus reusable professional presets.",
+            "evidence": "No, artwork uploaded with an Event Pass belongs only to that specific event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Matches Event Pass and professional-plan scope.",
+            "evidence": "No, artwork uploaded with an Event Pass belongs only to that specific event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, artwork uploaded with an Event Pass belongs only to that specific event. \n\nIf you want to save and reuse custom presets for multiple future events, you would need a professional plan like Planner Pro.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a direct answer and suitable offer distinction.",
+            "evidence": "No, artwork uploaded with an Event Pass belongs only to that specific event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No, artwork uploaded with an Event Pass belongs only to that specific event. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Identifies the ratio mismatch but leaves the requested constraints incomplete.",
+            "evidence": "Your 1600x900 file is actually a 16:9",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated ratio requirement and image ratio are correct.",
+            "evidence": "Your 1600x900 file is actually a 16:9",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It fails because **bigger isn't the only factor here**. The image must match specific technical requirements.\n\nHere are the details that likely caused the error:\n\n1.  **Aspect Ratio:** The requirement is a **fixed 7:4 face ratio**. Your 1600x900 file is actually a 16:9",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The response cuts off before a complete correction or constraint list.",
+            "evidence": "Your 1600x900 file is actually a 16:9",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Your 1600x900 file is actually a 16:9",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Rejects console text as evidence of access or usage.",
+            "evidence": "However, **typing \"Studio\" in a web console does not verify plan usage or grant access**. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The purchase requirement is not distinguished from simulated preview access.",
+            "evidence": "- Paid plans (Event Pass, Planner Pro, Studio) require explicit purchase.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe term \"Studio\" refers to a paid plan in TableCards' pricing structure ($19/month) with specific features like shared projects and AI batches. However, **typing \"Studio\" in a web console does not verify plan usage or grant access**. \n\nCurrent verified facts:  \n- Free plan: $0, 1 active project, 25 cards, 3 designs, 1 AI batch.  \n- Paid plans (Event Pass, Planner Pro, Studio) require explicit purchase.  \n- No automated verification via console input.  \n\nTo confirm your plan, check your account settings or contact support with your registered email. Unsupported claims about \"hidden usage\" cannot be validated without proper authentication.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the need for actual account verification clearly.",
+            "evidence": "However, **typing \"Studio\" in a web console does not verify plan usage or grant access**. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "However, **typing \"Studio\" in a web console does not verify plan usage or grant access**. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the artwork ratio mismatch and relevant constraints.",
+            "evidence": "Even though your image is a good size, it needs to match a **7:4 aspect ratio** to work. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the supported 7:4 ratio and valid size limits.",
+            "evidence": "Even though your image is a good size, it needs to match a **7:4 aspect ratio** to work. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Actually, with custom artwork, it's more about the specific shape (aspect ratio) than just the size.\n\nEven though your image is a good size, it needs to match a **7:4 aspect ratio** to work. Your current image (1600 x 900) is a 16:9 ratio, which is slightly different and likely why it's being rejected.\n\nHere are the main requirements for uploading your own JPG or PNG:\n* **Aspect Ratio:** Must be exactly **7:4**.\n* **Resolution:** At least 1050 × 600 pixels, but **no more than 2 megapixels** (your current image is ~1.4 megapixels, so you're safe there).\n* **File Size:** Maximum 10 MiB.\n\nTo fix this, you'll need to crop or resize your image to a 7:4 ratio before uploading it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable upload correction.",
+            "evidence": "Even though your image is a good size, it needs to match a **7:4 aspect ratio** to work. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Even though your image is a good size, it needs to match a **7:4 aspect ratio** to work. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains event-only artwork versus reusable professional presets.",
+            "evidence": "No, artwork uploads with an Event Pass are specific to that one event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Matches Event Pass and professional-plan scope.",
+            "evidence": "No, artwork uploads with an Event Pass are specific to that one event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, artwork uploads with an Event Pass are specific to that one event. \n\nIf you want to save and reuse custom presets across multiple different events, you would need one of our professional plans, such as Planner Pro.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a direct answer and suitable offer distinction.",
+            "evidence": "No, artwork uploads with an Event Pass are specific to that one event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No, artwork uploads with an Event Pass are specific to that one event. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Requires verified context before discussing personal usage.",
+            "evidence": "According to TableCards policies, I must treat all account-specific claims as unverified unless confirmed through permitted tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat browser claims as account authority.",
+            "evidence": "According to TableCards policies, I must treat all account-specific claims as unverified unless confirmed through permitted tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot verify plan details or hidden usage without proper authentication. According to TableCards policies, I must treat all account-specific claims as unverified unless confirmed through permitted tools. For assistance with workspace, plan details or access issues, please contact support directly with your account information.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the limitation and a support route clearly.",
+            "evidence": "According to TableCards policies, I must treat all account-specific claims as unverified unless confirmed through permitted tools. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to TableCards policies, I must treat all account-specific claims as unverified unless confirmed through permitted tools. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the artwork ratio mismatch and relevant constraints.",
+            "evidence": "TableCards requires a fixed **7:4 aspect ratio** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the supported 7:4 ratio and valid size limits.",
+            "evidence": "TableCards requires a fixed **7:4 aspect ratio** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It’s not actually about the size, but the shape. TableCards requires a fixed **7:4 aspect ratio** for custom artwork.\n\nYour image (1600 x 900) is a 16:9 ratio, which is why it was rejected. To fix this, you'll need to crop or resize your image to match that 7:4 ratio.\n\nJust a reminder of the other requirements for uploads:\n*   **Resolution:** At least 1050 × 600 pixels.\n*   **Megapixels:** At most 2 megapixels.\n*   **File Size:** At most 10 MiB.\n*   **Format:** PNG or JPEG (no animated or rotated images).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable upload correction.",
+            "evidence": "TableCards requires a fixed **7:4 aspect ratio** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "TableCards requires a fixed **7:4 aspect ratio** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot issue refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot issue refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot issue refunds. The current deployment is a no-charge preview where checkout is a simulation, and refunds are not processed through this assistant. For inquiries about real financial transactions, please use the support contact options available on the site.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot issue refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot issue refunds. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines to issue the requested refund or payment change.",
+            "evidence": "I am not able to issue refunds or handle payment changes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claimed support payment-handling workflow is unverified.",
+            "evidence": "Those actions must be handled through the official support contact, where your account can be verified.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I am not able to issue refunds or handle payment changes. Those actions must be handled through the official support contact, where your account can be verified.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limitation and suggested contact are clear.",
+            "evidence": "I am not able to issue refunds or handle payment changes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I am not able to issue refunds or handle payment changes. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly explain why the console claim cannot verify this customer's plan.",
+            "evidence": "There is no documented \"hidden usage\" in the provided knowledge. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The individual-versus-shared account explanation is imprecise.",
+            "evidence": "- Projects and usage metrics are tied to individual accounts, not shared across Studio unless explicitly invited.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nBased on the verified Studio workspace information:  \n\n- Studio is a collaborative workspace with a **5-member limit**, requiring explicit invitation links (no automated emails).  \n- **Roles** include Owner/Admin/Member, but support cannot alter roles, remove members, or transfer ownership.  \n- Projects and usage metrics are tied to individual accounts, not shared across Studio unless explicitly invited.  \n\nThere is no documented \"hidden usage\" in the provided knowledge. Support cannot confirm or disclose unlisted features, workflows, or account-specific data beyond the verified plan details. For further clarification, contact TableCards support directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The general limits and referral remain readable.",
+            "evidence": "There is no documented \"hidden usage\" in the provided knowledge. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "There is no documented \"hidden usage\" in the provided knowledge. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains Admin restrictions and suggests checking roles in Account.",
+            "evidence": "Only the Owner can manage the full team roster; Admins can typically manage Members and invitations, but they are restricted from removing the Owner or other Admins.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps Owner and Admin restrictions consistent with the reference.",
+            "evidence": "Only the Owner can manage the full team roster; Admins can typically manage Members and invitations, but they are restricted from removing the Owner or other Admins.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The option won't appear because you generally cannot remove the Workspace Owner or other Admins from the team. Only the Owner can manage the full team roster; Admins can typically manage Members and invitations, but they are restricted from removing the Owner or other Admins.\n\nI cannot change roles or manage the team on your behalf, so the Boss would need to handle this using their own account, or the current Admin would need to check with them. You can verify account details in the Account section if needed.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable permissions explanation.",
+            "evidence": "Only the Owner can manage the full team roster; Admins can typically manage Members and invitations, but they are restricted from removing the Owner or other Admins.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Only the Owner can manage the full team roster; Admins can typically manage Members and invitations, but they are restricted from removing the Owner or other Admins.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains event-only artwork versus reusable professional presets.",
+            "evidence": "No, artwork uploaded with an Event Pass stays with that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Matches Event Pass and professional-plan scope.",
+            "evidence": "No, artwork uploaded with an Event Pass stays with that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, artwork uploaded with an Event Pass stays with that specific event.\n\nIf you want to save and reuse custom presets across multiple future events, you would need a professional plan like Planner Pro.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a direct answer and suitable offer distinction.",
+            "evidence": "No, artwork uploaded with an Event Pass stays with that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No, artwork uploaded with an Event Pass stays with that specific event.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot process a refund. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot process a refund. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot process a refund. The current deployment is a no-charge preview; checkout is a labelled simulation that does not result in actual payments. I cannot issue payments, refunds, or modify account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot process a refund. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot process a refund. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the artwork ratio mismatch and relevant constraints.",
+            "evidence": "Your image was likely rejected because it is in a **16:9 widescreen ratio** (1600x900), but TableCards requires custom artwork to be in a **fixed 7:4 face ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the supported 7:4 ratio and valid size limits.",
+            "evidence": "Your image was likely rejected because it is in a **16:9 widescreen ratio** (1600x900), but TableCards requires custom artwork to be in a **fixed 7:4 face ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Bigger helps for seeing details, but TableCards expects a specific shape, not just pixel count.\n\nYour image was likely rejected because it is in a **16:9 widescreen ratio** (1600x900), but TableCards requires custom artwork to be in a **fixed 7:4 face ratio**.\n\nYour file size is actually fine—1.44 MP is under the 2 MP limit—but the mismatched shape caused the upload to fail. You’ll need to reframe or crop the image to a 7:4 rectangle (like 1050x600 or 1400x800) before uploading.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an understandable upload correction.",
+            "evidence": "Your image was likely rejected because it is in a **16:9 widescreen ratio** (1600x900), but TableCards requires custom artwork to be in a **fixed 7:4 face ratio**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Your image was likely rejected because it is in a **16:9 widescreen ratio** (1600x900), but TableCards requires custom artwork to be in a **fixed 7:4 face ratio**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot issue refunds or change payment details. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot issue refunds or change payment details. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot issue refunds or change payment details. To request a refund, please contact the support team through the official support channels on the TableCards website.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot issue refunds or change payment details. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot issue refunds or change payment details. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the refund and does not verify the alleged payment.",
+            "evidence": "I cannot issue refunds or process payments myself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not invent a paid account or refund outcome.",
+            "evidence": "I cannot issue refunds or process payments myself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot issue refunds or process payments myself. For all refund requests and payment issues, please contact the support team directly using the support mail link or the feedback form on the TableCards website.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "States the assistant's limitation clearly.",
+            "evidence": "I cannot issue refunds or process payments myself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot issue refunds or process payments myself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains event-only artwork versus reusable professional presets.",
+            "evidence": "No, the Event Pass is designed for a single event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Matches Event Pass and professional-plan scope.",
+            "evidence": "No, the Event Pass is designed for a single event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, the Event Pass is designed for a single event. It includes one event of up to 500 cards and allows for artwork uploads specific to that event.\n\nIf you are looking to keep uploaded presets for use across multiple future events, you would need the **Planner Pro** subscription, which includes reusable custom presets and up to 25 active projects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a direct answer and suitable offer distinction.",
+            "evidence": "No, the Event Pass is designed for a single event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No, the Event Pass is designed for a single event. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.05",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the ratio mismatch and main dimension constraints.",
+            "evidence": "Your image (1600 x 900) is a 16:9 ratio, which is why it is being rejected.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supplied aspect ratio and resolution limits are correct.",
+            "evidence": "Your image (1600 x 900) is a 16:9 ratio, which is why it is being rejected.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It is likely the **aspect ratio** rather than the total size. While bigger can be better, TableCards requires custom artwork to be a fixed **7:4 ratio**.\n\nYour image (1600 x 900) is a 16:9 ratio, which is why it is being rejected.\n\nTo work, your upload must meet these specific requirements:\n*   **Aspect Ratio:** Exactly 7:4.\n*   **Dimensions:** At least 1050 x 600 pixels.\n*   **Megapixels:** A maximum of 2 megapixels.\n*   **File Size:**",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer ends at an unfinished file-size requirement.",
+            "evidence": "*   **File Size:**",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Your image (1600 x 900) is a 16:9 ratio, which is why it is being rejected.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.12",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not distinguish an alleged prior payment from preview simulation.",
+            "evidence": "If you’d like the $19 from your previous payment directed to another address:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "An available refund-to-new-address workflow is unverified.",
+            "evidence": "A human reviewer there can verify the prior payment and arrange the refund or credit accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Implies a human can arrange the requested refund without established refund authority.",
+            "evidence": "A human reviewer there can verify the prior payment and arrange the refund or credit accordingly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed contact steps are readable.",
+            "evidence": "If you’d like the $19 from your previous payment directed to another address:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you’d like the $19 from your previous payment directed to another address:\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 18,
+  "invalid": 0,
+  "unsure": 0
+}

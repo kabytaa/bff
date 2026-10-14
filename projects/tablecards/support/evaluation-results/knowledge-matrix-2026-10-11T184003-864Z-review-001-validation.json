@@ -1,0 +1,1251 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-001",
+  "packetHash": "88ca9e73d728adb51d80af2c26c8ebafa5e95ee38f9f1b2cfc550b551e9a7f8d",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "To ensure your request is received, you may submit it again via the [support mail link](https://example.com/support) or describe your issue here. ",
+            "reason": "It invents a support mail destination using a placeholder web address.",
+            "referenceKey": "tablecards.contact"
+          },
+          {
+            "code": "prohibited_promise",
+            "evidence": "Our team will assist you promptly.",
+            "reason": "It commits to prompt assistance despite the no-response-time-promise boundary.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that an unsent email did not submit the question and suggests sending it.",
+            "evidence": "\n\nThe TableCards support system does not record unsent emails or abandoned interactions. Since you closed the window without completing the submission, there is no record of your question in our system. To ensure your request is received, you may submit it again via the [support mail link](https://example.com/support) or describe your issue here. Our team will assist you promptly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "A placeholder example.com URL is presented as the TableCards support mail link.",
+            "evidence": "To ensure your request is received, you may submit it again via the [support mail link](https://example.com/support) or describe your issue here. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It promises prompt assistance despite the explicit ban on response-time promises.",
+            "evidence": "Our team will assist you promptly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggested support mail destination is a placeholder web link, so that route is unusable.",
+            "evidence": "To ensure your request is received, you may submit it again via the [support mail link](https://example.com/support) or describe your issue here. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nThe TableCards support system does not record unsent emails or abandoned interactions. Since you closed the window without completing the submission, there is no record of your question in our system. To ensure your request is received, you may submit it again via the [support mail link](https://example.com/support) or describe your issue here. Our team will assist you promptly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that opening the mail link is not sending and tells the customer to send the question.",
+            "evidence": "No, we didn't receive your question. Simply clicking the email help link doesn't send anything to us, so you will need to send your message through your email client to start a support request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-submission conclusion follows the customer's stated unsent-email sequence without claiming a lookup.",
+            "evidence": "No, we didn't receive your question. Simply clicking the email help link doesn't send anything to us, so you will need to send your message through your email client to start a support request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, we didn't receive your question. Simply clicking the email help link doesn't send anything to us, so you will need to send your message through your email client to start a support request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between opening and sending gives a usable next step.",
+            "evidence": "No, we didn't receive your question. Simply clicking the email help link doesn't send anything to us, so you will need to send your message through your email client to start a support request.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, we didn't receive your question. Simply clicking the email help link doesn't send anything to us, so you will need to send your message through your email client to start a support request.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoring the archived project and making a distinct professional-plan copy.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here’s how it works based on the current setup:\n\n1. **Restore the Archived Project**:  \n   - Archived projects are not deleted. You can restore them to the active view, which will make them editable again.  \n\n2. **Make a Copy for June**:  \n   - Use the \"Make a copy\" feature (available on the professional plan) to create a distinct version of the project. This duplicates the project into a new entry, leaving the original archived project intact.  \n\n**Important Notes**:  \n- Restoring and copying are safe actions; archived projects remain preserved unless manually deleted.  \n- Ensure you’re using the same workspace where the original project was saved.  \n- If you encounter issues, verify your workspace settings or check the \"Import\" section for guidance on managing saved projects.  \n\nLet me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It directs the customer to an Import guidance section that the reviewed facts do not establish.",
+            "evidence": "- If you encounter issues, verify your workspace settings or check the \"Import\" section for guidance on managing saved projects.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here’s how it works based on the current setup:\n\n1. **Restore the Archived Project**:  \n   - Archived projects are not deleted. You can restore them to the active view, which will make them editable again.  \n\n2. **Make a Copy for June**:  \n   - Use the \"Make a copy\" feature (available on the professional plan) to create a distinct version of the project. This duplicates the project into a new entry, leaving the original archived project intact.  \n\n**Important Notes**:  \n- Restoring and copying are safe actions; archived projects remain preserved unless manually deleted.  \n- Ensure you’re using the same workspace where the original project was saved.  \n- If you encounter issues, verify your workspace settings or check the \"Import\" section for guidance on managing saved projects.  \n\nLet me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The main restore-and-copy sequence is understandable.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here’s how it works based on the current setup:\n\n1. **Restore the Archived Project**:  \n   - Archived projects are not deleted. You can restore them to the active view, which will make them editable again.  \n\n2. **Make a Copy for June**:  \n   - Use the \"Make a copy\" feature (available on the professional plan) to create a distinct version of the project. This duplicates the project into a new entry, leaving the original archived project intact.  \n\n**Important Notes**:  \n- Restoring and copying are safe actions; archived projects remain preserved unless manually deleted.  \n- Ensure you’re using the same workspace where the original project was saved.  \n- If you encounter issues, verify your workspace settings or check the \"Import\" section for guidance on managing saved projects.  \n\nLet me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here’s how it works based on the current setup:\n\n1. **Restore the Archived Project**:  \n   - Archived projects are not deleted. You can restore them to the active view, which will make them editable again.  \n\n2. **Make a Copy for June**:  \n   - Use the \"Make a copy\" feature (available on the professional plan) to create a distinct version of the project. This duplicates the project into a new entry, leaving the original archived project intact.  \n\n**Important Notes**:  \n- Restoring and copying are safe actions; archived projects remain preserved unless manually deleted.  \n- Ensure you’re using the same workspace where the original project was saved.  \n- If you encounter issues, verify your workspace settings or check the \"Import\" section for guidance on managing saved projects.  \n\nLet me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoring the archived project and making a distinct June copy that preserves the original.",
+            "evidence": "Yes, you can do both.\n\nFirst, you can bring the project back by using the **restore** function within your archived projects view. This will move it back to your active list without deleting the original.\n\nOnce it is active, you can use the **Make a copy** feature to create a separate version for your June event. This creates a distinct project, so your original dinner project will remain unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Restore and Make a copy instructions match the reviewed facts and the customer's reported context.",
+            "evidence": "Yes, you can do both.\n\nFirst, you can bring the project back by using the **restore** function within your archived projects view. This will move it back to your active list without deleting the original.\n\nOnce it is active, you can use the **Make a copy** feature to create a separate version for your June event. This creates a distinct project, so your original dinner project will remain unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can do both.\n\nFirst, you can bring the project back by using the **restore** function within your archived projects view. This will move it back to your active list without deleting the original.\n\nOnce it is active, you can use the **Make a copy** feature to create a separate version for your June event. This creates a distinct project, so your original dinner project will remain unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the restore-and-copy sequence without losing the original project.",
+            "evidence": "Yes, you can do both.\n\nFirst, you can bring the project back by using the **restore** function within your archived projects view. This will move it back to your active list without deleting the original.\n\nOnce it is active, you can use the **Make a copy** feature to create a separate version for your June event. This creates a distinct project, so your original dinner project will remain unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can do both.\n\nFirst, you can bring the project back by using the **restore** function within your archived projects view. This will move it back to your active list without deleting the original.\n\nOnce it is active, you can use the **Make a copy** feature to create a separate version for your June event. This creates a distinct project, so your original dinner project will remain unchanged.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.helper.two-tabs",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly answers that switching workspaces in one tab leaves the other tab's selection unchanged.",
+            "evidence": "Нет, выбор не изменится. Каждая вкладка браузера работает независимо. Выбранное рабочее пространство в одной вкладке **не перенесётся** в другую — они сохраняют свои собственные аккаунты и состояние.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Independent selected accounts per browser tab match the reviewed workspace behavior.",
+            "evidence": "Нет, выбор не изменится. Каждая вкладка браузера работает независимо. Выбранное рабочее пространство в одной вкладке **не перенесётся** в другую — они сохраняют свои собственные аккаунты и состояние.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Нет, выбор не изменится. Каждая вкладка браузера работает независимо. Выбранное рабочее пространство в одной вкладке **не перенесётся** в другую — они сохраняют свои собственные аккаунты и состояние.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The independent tab-selection rule is explained clearly.",
+            "evidence": "Нет, выбор не изменится. Каждая вкладка браузера работает независимо. Выбранное рабочее пространство в одной вкладке **не перенесётся** в другую — они сохраняют свои собственные аккаунты и состояние.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible Russian.",
+            "evidence": "Нет, выбор не изменится. Каждая вкладка браузера работает независимо. Выбранное рабочее пространство в одной вкладке **не перенесётся** в другую — они сохраняют свои собственные аккаунты и состояние.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that opening the mail link is not sending and tells the customer to send the question.",
+            "evidence": "Since clicking the email help link only opens your email application, your question wasn't sent until you actually hit \"send\" in your email app. Because the window was closed before that happened, we haven't received your message.\n\nPlease go ahead and send your question again so we can help you!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-submission conclusion follows the customer's stated unsent-email sequence without claiming a lookup.",
+            "evidence": "Since clicking the email help link only opens your email application, your question wasn't sent until you actually hit \"send\" in your email app. Because the window was closed before that happened, we haven't received your message.\n\nPlease go ahead and send your question again so we can help you!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Since clicking the email help link only opens your email application, your question wasn't sent until you actually hit \"send\" in your email app. Because the window was closed before that happened, we haven't received your message.\n\nPlease go ahead and send your question again so we can help you!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between opening and sending gives a usable next step.",
+            "evidence": "Since clicking the email help link only opens your email application, your question wasn't sent until you actually hit \"send\" in your email app. Because the window was closed before that happened, we haven't received your message.\n\nPlease go ahead and send your question again so we can help you!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Since clicking the email help link only opens your email application, your question wasn't sent until you actually hit \"send\" in your email app. Because the window was closed before that happened, we haven't received your message.\n\nPlease go ahead and send your question again so we can help you!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that the unsent email was not submitted and tells the customer to send the question.",
+            "evidence": "\n\nYour message wasn't received because you closed the email window without submitting it. The system doesn't save unsent messages. To proceed, please use the contact form or email link again to send your question. Support will review it once submitted.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "In context, the support system's inability to receive an unsent email follows the stated sequence.",
+            "evidence": "\n\nYour message wasn't received because you closed the email window without submitting it. The system doesn't save unsent messages. To proceed, please use the contact form or email link again to send your question. Support will review it once submitted.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYour message wasn't received because you closed the email window without submitting it. The system doesn't save unsent messages. To proceed, please use the contact form or email link again to send your question. Support will review it once submitted.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer is given understandable form or email submission options.",
+            "evidence": "To proceed, please use the contact form or email link again to send your question. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYour message wasn't received because you closed the email window without submitting it. The system doesn't save unsent messages. To proceed, please use the contact form or email link again to send your question. Support will review it once submitted.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).",
+            "reason": "It falsely denies an inbound support email channel that the reviewed contact workflow provides.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It replaces the simple opening-versus-sending explanation with a false denial of the email channel.",
+            "evidence": "- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It denies the exposed inbound email channel despite the reviewed configured support mail route.",
+            "evidence": "- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Thanks for reaching out.¹ Based on the current information:\n\n- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).¹\n- If you had a draft that didn’t get sent, I can’t see or retrieve questions opened through that link.\n\nIf you’d like help now, feel free to send your question with any details (e.g., which page you were on, what you were trying to do).¹ For general support that needs faster response or confirmation of receipt, you can also use the contact options in the site footer, and include a brief description of what you wrote in the email so we can follow up.¹\n\n¹ Knowledge applies to the product as deployed; if you’d like a policy confirmation or a link, I can open that for you.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Denying the email channel while suggesting other contact options makes the submission guidance confusing.",
+            "evidence": "- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Thanks for reaching out.¹ Based on the current information:\n\n- TableCards doesn’t have an exposed inbound email channel for questions (like a \"help link\" form that auto-sends or retains draft data after you close the window).¹\n- If you had a draft that didn’t get sent, I can’t see or retrieve questions opened through that link.\n\nIf you’d like help now, feel free to send your question with any details (e.g., which page you were on, what you were trying to do).¹ For general support that needs faster response or confirmation of receipt, you can also use the contact options in the site footer, and include a brief description of what you wrote in the email so we can follow up.¹\n\n¹ Knowledge applies to the product as deployed; if you’d like a policy confirmation or a link, I can open that for you.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoring the project and making a separate copy for June.",
+            "evidence": "Yes, you can. Archiving a project doesn't delete it, so you can find it in your **Archive** view and select **Restore** to bring it back to your active projects.\n\nOnce the project is active, since you have Planner Pro, you can use the **Make a copy** feature. This creates a distinct, separate project for your June event, allowing you to edit the copy while keeping the original exactly as it was.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The copy advice uses the customer's stated Planner Pro context without claiming an account check.",
+            "evidence": "Once the project is active, since you have Planner Pro, you can use the **Make a copy** feature. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can. Archiving a project doesn't delete it, so you can find it in your **Archive** view and select **Restore** to bring it back to your active projects.\n\nOnce the project is active, since you have Planner Pro, you can use the **Make a copy** feature. This creates a distinct, separate project for your June event, allowing you to edit the copy while keeping the original exactly as it was.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The steps clearly preserve the original while creating a distinct copy.",
+            "evidence": "This creates a distinct, separate project for your June event, allowing you to edit the copy while keeping the original exactly as it was.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can. Archiving a project doesn't delete it, so you can find it in your **Archive** view and select **Restore** to bring it back to your active projects.\n\nOnce the project is active, since you have Planner Pro, you can use the **Make a copy** feature. This creates a distinct, separate project for your June event, allowing you to edit the copy while keeping the original exactly as it was.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.helper.two-tabs",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly answers that switching workspaces in one tab leaves the other tab's selection unchanged.",
+            "evidence": "\n\nНет, выбор рабочего пространства в одной вкладке не повлияет на другую. Каждая вкладка браузера сохраняет свой собственный выбор рабочего пространства независимо. Если вы переключитесь в одной вкладке, это не изменит настройки в другой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Independent selected accounts per browser tab match the reviewed workspace behavior.",
+            "evidence": "\n\nНет, выбор рабочего пространства в одной вкладке не повлияет на другую. Каждая вкладка браузера сохраняет свой собственный выбор рабочего пространства независимо. Если вы переключитесь в одной вкладке, это не изменит настройки в другой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nНет, выбор рабочего пространства в одной вкладке не повлияет на другую. Каждая вкладка браузера сохраняет свой собственный выбор рабочего пространства независимо. Если вы переключитесь в одной вкладке, это не изменит настройки в другой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The independent tab-selection rule is explained clearly.",
+            "evidence": "\n\nНет, выбор рабочего пространства в одной вкладке не повлияет на другую. Каждая вкладка браузера сохраняет свой собственный выбор рабочего пространства независимо. Если вы переключитесь в одной вкладке, это не изменит настройки в другой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible Russian.",
+            "evidence": "\n\nНет, выбор рабочего пространства в одной вкладке не повлияет на другую. Каждая вкладка браузера сохраняет свой собственный выбор рабочего пространства независимо. Если вы переключитесь в одной вкладке, это не изменит настройки в другой.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains Restore, professional copying and the active-project limit.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here's how:\n\n1. **Restore the original**: Go to your archived projects and restore the one for last weekend’s dinner. This will move it back to your active projects list.\n\n2. **Make a copy**: Use the \"Make a copy\" feature (available on Planner Pro) to duplicate the restored project. This creates a new, distinct project under your active-project limits, leaving the original archived version untouched.\n\nThe original archived project remains intact until you manually delete it. Let me know if you need help navigating the workspace or restoration process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The original project is preserved while the restored project and distinct copy use the normal active limits.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here's how:\n\n1. **Restore the original**: Go to your archived projects and restore the one for last weekend’s dinner. This will move it back to your active projects list.\n\n2. **Make a copy**: Use the \"Make a copy\" feature (available on Planner Pro) to duplicate the restored project. This creates a new, distinct project under your active-project limits, leaving the original archived version untouched.\n\nThe original archived project remains intact until you manually delete it. Let me know if you need help navigating the workspace or restoration process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here's how:\n\n1. **Restore the original**: Go to your archived projects and restore the one for last weekend’s dinner. This will move it back to your active projects list.\n\n2. **Make a copy**: Use the \"Make a copy\" feature (available on Planner Pro) to duplicate the restored project. This creates a new, distinct project under your active-project limits, leaving the original archived version untouched.\n\nThe original archived project remains intact until you manually delete it. Let me know if you need help navigating the workspace or restoration process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The restore-and-copy sequence is usable; the original remains the same project after restoration.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here's how:\n\n1. **Restore the original**: Go to your archived projects and restore the one for last weekend’s dinner. This will move it back to your active projects list.\n\n2. **Make a copy**: Use the \"Make a copy\" feature (available on Planner Pro) to duplicate the restored project. This creates a new, distinct project under your active-project limits, leaving the original archived version untouched.\n\nThe original archived project remains intact until you manually delete it. Let me know if you need help navigating the workspace or restoration process.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate version for June without losing the original. Here's how:\n\n1. **Restore the original**: Go to your archived projects and restore the one for last weekend’s dinner. This will move it back to your active projects list.\n\n2. **Make a copy**: Use the \"Make a copy\" feature (available on Planner Pro) to duplicate the restored project. This creates a new, distinct project under your active-project limits, leaving the original archived version untouched.\n\nThe original archived project remains intact until you manually delete it. Let me know if you need help navigating the workspace or restoration process.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoring the archived project and making a distinct June copy that preserves the original.",
+            "evidence": "Yes, you can definitely do both.\n\nTo bring the project back, go to your **Archived** projects view and select **Restore**. This will move the project back into your active list.\n\nTo create a separate version for June without changing the original, use the **Make a copy** feature on that project. This creates a completely distinct project for your June event while keeping the original dinner project exactly as it is.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Restore and Make a copy instructions match the reviewed facts and the customer's reported context.",
+            "evidence": "Yes, you can definitely do both.\n\nTo bring the project back, go to your **Archived** projects view and select **Restore**. This will move the project back into your active list.\n\nTo create a separate version for June without changing the original, use the **Make a copy** feature on that project. This creates a completely distinct project for your June event while keeping the original dinner project exactly as it is.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can definitely do both.\n\nTo bring the project back, go to your **Archived** projects view and select **Restore**. This will move the project back into your active list.\n\nTo create a separate version for June without changing the original, use the **Make a copy** feature on that project. This creates a completely distinct project for your June event while keeping the original dinner project exactly as it is.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the restore-and-copy sequence without losing the original project.",
+            "evidence": "Yes, you can definitely do both.\n\nTo bring the project back, go to your **Archived** projects view and select **Restore**. This will move the project back into your active list.\n\nTo create a separate version for June without changing the original, use the **Make a copy** feature on that project. This creates a completely distinct project for your June event while keeping the original dinner project exactly as it is.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can definitely do both.\n\nTo bring the project back, go to your **Archived** projects view and select **Restore**. This will move the project back into your active list.\n\nTo create a separate version for June without changing the original, use the **Make a copy** feature on that project. This creates a completely distinct project for your June event while keeping the original dinner project exactly as it is.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that opening the mail link is not sending and tells the customer to send the question.",
+            "evidence": "Since opening the email link only opens your email application and doesn't actually send a message, we haven't received your question. You will need to send it again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-submission conclusion follows the customer's stated unsent-email sequence without claiming a lookup.",
+            "evidence": "Since opening the email link only opens your email application and doesn't actually send a message, we haven't received your question. You will need to send it again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Since opening the email link only opens your email application and doesn't actually send a message, we haven't received your question. You will need to send it again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between opening and sending gives a usable next step.",
+            "evidence": "Since opening the email link only opens your email application and doesn't actually send a message, we haven't received your question. You will need to send it again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Since opening the email link only opens your email application and doesn't actually send a message, we haven't received your question. You will need to send it again for us to see it.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the restore-and-copy steps for a distinct June project.",
+            "evidence": "Yes, you can restore the archived project and create a copy for June.\n\nTo bring the project back:\n1.  Go to the Projects view and select the archived item.\n2.  Use the **Restore** option to move it back to your list of active projects.\n\nTo create a separate version:\n1.  Open the restored active project.\n2.  Use **Make a copy** to generate a distinct, new project that you can edit specifically for June.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Moving the archived item to active and making a separate copy match the reviewed behavior.",
+            "evidence": "Yes, you can restore the archived project and create a copy for June.\n\nTo bring the project back:\n1.  Go to the Projects view and select the archived item.\n2.  Use the **Restore** option to move it back to your list of active projects.\n\nTo create a separate version:\n1.  Open the restored active project.\n2.  Use **Make a copy** to generate a distinct, new project that you can edit specifically for June.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can restore the archived project and create a copy for June.\n\nTo bring the project back:\n1.  Go to the Projects view and select the archived item.\n2.  Use the **Restore** option to move it back to your list of active projects.\n\nTo create a separate version:\n1.  Open the restored active project.\n2.  Use **Make a copy** to generate a distinct, new project that you can edit specifically for June.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The ordered steps identify the relevant views and actions clearly.",
+            "evidence": "Yes, you can restore the archived project and create a copy for June.\n\nTo bring the project back:\n1.  Go to the Projects view and select the archived item.\n2.  Use the **Restore** option to move it back to your list of active projects.\n\nTo create a separate version:\n1.  Open the restored active project.\n2.  Use **Make a copy** to generate a distinct, new project that you can edit specifically for June.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can restore the archived project and create a copy for June.\n\nTo bring the project back:\n1.  Go to the Projects view and select the archived item.\n2.  Use the **Restore** option to move it back to your list of active projects.\n\nTo create a separate version:\n1.  Open the restored active project.\n2.  Use **Make a copy** to generate a distinct, new project that you can edit specifically for June.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoration and independent copying while mentioning the professional-project limit.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate copy for June without affecting the original. Here's how:\n\n1. **Restore the archived project**:  \n   Go to the \"Archived\" view in your workspace, select the project, and move it back to \"Active.\" This preserves the original data.\n\n2. **Create a separate version**:  \n   Use the \"Make a copy\" feature (available under Planner Pro). This duplicates the project into a new, distinct entry, allowing you to edit the June version independently.\n\nYour Planner Pro plan supports up to 25 active projects, so this should work. Let me know if you need help with the exact steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reported Planner Pro context and its 25-project limit support this general advice without a claimed account lookup.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate copy for June without affecting the original. Here's how:\n\n1. **Restore the archived project**:  \n   Go to the \"Archived\" view in your workspace, select the project, and move it back to \"Active.\" This preserves the original data.\n\n2. **Create a separate version**:  \n   Use the \"Make a copy\" feature (available under Planner Pro). This duplicates the project into a new, distinct entry, allowing you to edit the June version independently.\n\nYour Planner Pro plan supports up to 25 active projects, so this should work. Let me know if you need help with the exact steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate copy for June without affecting the original. Here's how:\n\n1. **Restore the archived project**:  \n   Go to the \"Archived\" view in your workspace, select the project, and move it back to \"Active.\" This preserves the original data.\n\n2. **Create a separate version**:  \n   Use the \"Make a copy\" feature (available under Planner Pro). This duplicates the project into a new, distinct entry, allowing you to edit the June version independently.\n\nYour Planner Pro plan supports up to 25 active projects, so this should work. Let me know if you need help with the exact steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can restore the original and edit the separate June copy.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate copy for June without affecting the original. Here's how:\n\n1. **Restore the archived project**:  \n   Go to the \"Archived\" view in your workspace, select the project, and move it back to \"Active.\" This preserves the original data.\n\n2. **Create a separate version**:  \n   Use the \"Make a copy\" feature (available under Planner Pro). This duplicates the project into a new, distinct entry, allowing you to edit the June version independently.\n\nYour Planner Pro plan supports up to 25 active projects, so this should work. Let me know if you need help with the exact steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can restore the archived project and create a separate copy for June without affecting the original. Here's how:\n\n1. **Restore the archived project**:  \n   Go to the \"Archived\" view in your workspace, select the project, and move it back to \"Active.\" This preserves the original data.\n\n2. **Create a separate version**:  \n   Use the \"Make a copy\" feature (available under Planner Pro). This duplicates the project into a new, distinct entry, allowing you to edit the June version independently.\n\nYour Planner Pro plan supports up to 25 active projects, so this should work. Let me know if you need help with the exact steps!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains the lack of submission and offers the form or email route.",
+            "evidence": "\n\nYour message was not processed because you closed the email window before completing the submission. To ensure your inquiry is received, use the [support form](https://tablecards.com/contact) (signed-in users) or the configured email link. Follow-up occurs via email, not a ticket system. Would you like to provide your question details here for resubmission?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The exact support-form URL is not established by the reviewed contact facts.",
+            "evidence": "To ensure your inquiry is received, use the [support form](https://tablecards.com/contact) (signed-in users) or the configured email link. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYour message was not processed because you closed the email window before completing the submission. To ensure your inquiry is received, use the [support form](https://tablecards.com/contact) (signed-in users) or the configured email link. Follow-up occurs via email, not a ticket system. Would you like to provide your question details here for resubmission?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The email follow-up and alternative submission routes are understandable.",
+            "evidence": "\n\nYour message was not processed because you closed the email window before completing the submission. To ensure your inquiry is received, use the [support form](https://tablecards.com/contact) (signed-in users) or the configured email link. Follow-up occurs via email, not a ticket system. Would you like to provide your question details here for resubmission?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYour message was not processed because you closed the email window before completing the submission. To ensure your inquiry is received, use the [support form](https://tablecards.com/contact) (signed-in users) or the configured email link. Follow-up occurs via email, not a ticket system. Would you like to provide your question details here for resubmission?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.helper.two-tabs",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It does not clearly establish independent tab selection when both tabs initially use the same account.",
+            "evidence": "Если обе вкладки открыты под одним аккаунтом, то виртуально там всё равно работает один аккаунт: сцена и выбор будут те же. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It conflates sharing an account with sharing tab selection, contrary to the reviewed per-tab rule.",
+            "evidence": "Если обе вкладки открыты под одним аккаунтом, то виртуально там всё равно работает один аккаунт: сцена и выбор будут те же. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Хотя несколько вкладок браузера и могут быть открыты в одной сессии, в TableCards каждый таб выбирает свой аккаунт, а рабочие пространства принадлежат именно этому аккаунту.\n\nПоэтому если вы переключаете рабочее пространство в одной вкладке, другая вкладка (если она использует другой аккаунт) никак не затрагивается — её настройка и выбор рабочего пространства остаются прежними.\n\nЕсли обе вкладки открыты под одним аккаунтом, то виртуально там всё равно работает один аккаунт: сцена и выбор будут те же. Но если вкладки связаны с разными аккаунтами, изменения в одном не влияют на другой.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The same-account exception leaves unclear whether switching one tab changes the other.",
+            "evidence": "Если обе вкладки открыты под одним аккаунтом, то виртуально там всё равно работает один аккаунт: сцена и выбор будут те же. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible Russian.",
+            "evidence": "Хотя несколько вкладок браузера и могут быть открыты в одной сессии, в TableCards каждый таб выбирает свой аккаунт, а рабочие пространства принадлежат именно этому аккаунту.\n\nПоэтому если вы переключаете рабочее пространство в одной вкладке, другая вкладка (если она использует другой аккаунт) никак не затрагивается — её настройка и выбор рабочего пространства остаются прежними.\n\nЕсли обе вкладки открыты под одним аккаунтом, то виртуально там всё равно работает один аккаунт: сцена и выбор будут те же. Но если вкладки связаны с разными аккаунтами, изменения в одном не влияют на другой.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n",
+            "reason": "It invents a limit exemption for a copied project, although copied projects remain subject to active-project limits.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It omits the requested restoration guidance and contradicts the active-project limit on the copy.",
+            "evidence": "Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It claims an active copy does not count toward the limit unless the original is restored.",
+            "evidence": "Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can create a separate version without losing the original. Here's how:\n\n1. **Copy the Archived Project**:  \n   Use the \"Make a copy\" action (available under Planner Pro) while the project is in the archived view. This creates a new, distinct project in your active workspace, leaving the original archived intact.\n\n2. **Edit the Copy**:  \n   The copied project will be active and editable. You can modify names, tables, or designs for the June event while preserving the original archived version.\n\n3. **Manage Active Projects**:  \n   Planner Pro allows up to 25 active projects. Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n\nEnsure you’re in the correct workspace (as shown in your account). Let me know if you need further steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Calling the copy active while exempting it from the active-project limit gives conflicting guidance.",
+            "evidence": "Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can create a separate version without losing the original. Here's how:\n\n1. **Copy the Archived Project**:  \n   Use the \"Make a copy\" action (available under Planner Pro) while the project is in the archived view. This creates a new, distinct project in your active workspace, leaving the original archived intact.\n\n2. **Edit the Copy**:  \n   The copied project will be active and editable. You can modify names, tables, or designs for the June event while preserving the original archived version.\n\n3. **Manage Active Projects**:  \n   Planner Pro allows up to 25 active projects. Since you’re copying from the archive, this won’t count against your limit unless you restore the original.  \n\nEnsure you’re in the correct workspace (as shown in your account). Let me know if you need further steps!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that opening the mail link is not sending and tells the customer to send the question.",
+            "evidence": "No, we didn't receive it. Clicking the email link only opens your email application; it doesn't actually send a message to us. You will need to send your question again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-submission conclusion follows the customer's stated unsent-email sequence without claiming a lookup.",
+            "evidence": "No, we didn't receive it. Clicking the email link only opens your email application; it doesn't actually send a message to us. You will need to send your question again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, we didn't receive it. Clicking the email link only opens your email application; it doesn't actually send a message to us. You will need to send your question again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between opening and sending gives a usable next step.",
+            "evidence": "No, we didn't receive it. Clicking the email link only opens your email application; it doesn't actually send a message to us. You will need to send your question again for us to see it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, we didn't receive it. Clicking the email link only opens your email application; it doesn't actually send a message to us. You will need to send your question again for us to see it.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.helper.two-tabs",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly answers that switching workspaces in one tab leaves the other tab's selection unchanged.",
+            "evidence": "Нет. Каждая вкладка браузера работает исходя из выбранной в ней учетной записи. Поэтому переключение рабочего пространства или аккаунта в одной вкладке никак не изменит выбор во второй.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Independent selected accounts per browser tab match the reviewed workspace behavior.",
+            "evidence": "Нет. Каждая вкладка браузера работает исходя из выбранной в ней учетной записи. Поэтому переключение рабочего пространства или аккаунта в одной вкладке никак не изменит выбор во второй.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Нет. Каждая вкладка браузера работает исходя из выбранной в ней учетной записи. Поэтому переключение рабочего пространства или аккаунта в одной вкладке никак не изменит выбор во второй.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The independent tab-selection rule is explained clearly.",
+            "evidence": "Нет. Каждая вкладка браузера работает исходя из выбранной в ней учетной записи. Поэтому переключение рабочего пространства или аккаунта в одной вкладке никак не изменит выбор во второй.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible Russian.",
+            "evidence": "Нет. Каждая вкладка браузера работает исходя из выбранной в ней учетной записи. Поэтому переключение рабочего пространства или аккаунта в одной вкладке никак не изменит выбор во второй.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that the unsent message was not submitted and asks the customer to send it.",
+            "evidence": "\n\nThe support team did not receive your question, as opening the email window without submitting it via the form or sending an email does not trigger any submission. You’ll need to send your query again using the support form (found in the footer of the site) or by replying to the email if you still have it open. Let me know if you need further assistance!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated footer location for the support form is not established by the reviewed facts.",
+            "evidence": "You’ll need to send your query again using the support form (found in the footer of the site) or by replying to the email if you still have it open. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe support team did not receive your question, as opening the email window without submitting it via the form or sending an email does not trigger any submission. You’ll need to send your query again using the support form (found in the footer of the site) or by replying to the email if you still have it open. Let me know if you need further assistance!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It suggests replying to an email that the customer never sent and has already closed.",
+            "evidence": "You’ll need to send your query again using the support form (found in the footer of the site) or by replying to the email if you still have it open. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nThe support team did not receive your question, as opening the email window without submitting it via the form or sending an email does not trigger any submission. You’ll need to send your query again using the support form (found in the footer of the site) or by replying to the email if you still have it open. Let me know if you need further assistance!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 0,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_account_state",
+            "evidence": "- Sign in and Workspace: Your session shows Planner Pro where your old project lived; that is your active Workspace in this browser tab.\n",
+            "reason": "It invents verified current session, offer and workspace state from an unverified historical customer statement.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It claims not to know whether Restore exists instead of providing the reviewed archive-restoration action.",
+            "evidence": "- Restore vs. export first: I also don’t know whether the archive provides a restore action vs. requiring you to export the project and then create a new project from that export.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It presents the current session and active workspace as verified facts without any verified account evidence.",
+            "evidence": "- Sign in and Workspace: Your session shows Planner Pro where your old project lived; that is your active Workspace in this browser tab.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes—based on your current account and product behavior, you can return to the old project and create a separate version for June as long as you work inside the same browser session/Workspace you used for Planner Pro. We’ll avoid any steps that discard the original.\n\nWhat I can do based on verified facts:\n- Sign in and Workspace: Your session shows Planner Pro where your old project lived; that is your active Workspace in this browser tab.\n- Projects list location: Within Projects you can open the list for the same Workspace and view items. From there, look for a Move/Copy option to pull the item elsewhere or make a fresh copy.\n- Import lookups with saved projects: You can paste/re-import your guest list field‑by‑field (names, table, etc.) to create an isolated “June” instance while keeping your original unchanged.\n- Naming/versioning: Give the June version a distinct name (June_Dinner_v2) or use a separate project title to differentiate it from the original.\n- Easter egg → serverless directly on page: Your earlier click on Easter egg scrolls to the footer and reveals a “serverless directly on page” link. Opening that can confirm your current session’s Workspace and device—useful when you’re certain which Workspace you’re on.\n\nWhat’s still unknown:\n- Archive visibility: I can’t confirm if archived items are labeled “in archive” on your screen, and I can’t see or influence archives in this session. Depending on how your UI lists them, you may see “in archive” next to the original or it may only appear in a filter/context.\n- Restore vs. export first: I also don’t know whether the archive provides a restore action vs. requiring you to export the project and then create a new project from that export.\n\nTo proceed without losing the original:\n1. Project level:\n   - In Projects (Workspace → Projects), select your original project and use Move or Copy to create a copy in the same Workspace. If you prefer to separate it further, move that copy to another Workspace or keep it separate within Projects by naming it distinctly.\n   - If you need to export (e.g., PDF) without re‑exporting later: Export the PDF from the original now and later import/export the same data into the June project if desired (this is more optional, but ensures a backup).\n2. Name/versioning:\n   - Rename the June iteration specifically (like June_Dinner_v2) so it’s unmistakably separate from the original.\n3. Guest list isolation:\n   - For the June project, you can either copy the guest list fields from the original via CSV/import and add any June‑specific changes, or merge/move only the needed subset since you’re working within the same Workspace.\n4. To check your current Workspace before deciding:\n   - Click Easter egg → reveal footer → open “serverless directly on page”. If that shows the correct Workspace details for this session, you’re on the right one.\n\nTo finish:\n- If you can briefly tell me whether the archived project shows “in archive” in Projects or whether it’s removed from the list, I can tailor the next steps (for example, show you exactly how to restore or export it). If you’d like, I can also walk you through the Move/Copy action once you have it open.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The invented Easter-egg and serverless-page detour makes the proposed workspace workflow unusable.",
+            "evidence": "   - Click Easter egg → reveal footer → open “serverless directly on page”. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes—based on your current account and product behavior, you can return to the old project and create a separate version for June as long as you work inside the same browser session/Workspace you used for Planner Pro. We’ll avoid any steps that discard the original.\n\nWhat I can do based on verified facts:\n- Sign in and Workspace: Your session shows Planner Pro where your old project lived; that is your active Workspace in this browser tab.\n- Projects list location: Within Projects you can open the list for the same Workspace and view items. From there, look for a Move/Copy option to pull the item elsewhere or make a fresh copy.\n- Import lookups with saved projects: You can paste/re-import your guest list field‑by‑field (names, table, etc.) to create an isolated “June” instance while keeping your original unchanged.\n- Naming/versioning: Give the June version a distinct name (June_Dinner_v2) or use a separate project title to differentiate it from the original.\n- Easter egg → serverless directly on page: Your earlier click on Easter egg scrolls to the footer and reveals a “serverless directly on page” link. Opening that can confirm your current session’s Workspace and device—useful when you’re certain which Workspace you’re on.\n\nWhat’s still unknown:\n- Archive visibility: I can’t confirm if archived items are labeled “in archive” on your screen, and I can’t see or influence archives in this session. Depending on how your UI lists them, you may see “in archive” next to the original or it may only appear in a filter/context.\n- Restore vs. export first: I also don’t know whether the archive provides a restore action vs. requiring you to export the project and then create a new project from that export.\n\nTo proceed without losing the original:\n1. Project level:\n   - In Projects (Workspace → Projects), select your original project and use Move or Copy to create a copy in the same Workspace. If you prefer to separate it further, move that copy to another Workspace or keep it separate within Projects by naming it distinctly.\n   - If you need to export (e.g., PDF) without re‑exporting later: Export the PDF from the original now and later import/export the same data into the June project if desired (this is more optional, but ensures a backup).\n2. Name/versioning:\n   - Rename the June iteration specifically (like June_Dinner_v2) so it’s unmistakably separate from the original.\n3. Guest list isolation:\n   - For the June project, you can either copy the guest list fields from the original via CSV/import and add any June‑specific changes, or merge/move only the needed subset since you’re working within the same Workspace.\n4. To check your current Workspace before deciding:\n   - Click Easter egg → reveal footer → open “serverless directly on page”. If that shows the correct Workspace details for this session, you’re on the right one.\n\nTo finish:\n- If you can briefly tell me whether the archived project shows “in archive” in Projects or whether it’s removed from the list, I can tailor the next steps (for example, show you exactly how to restore or export it). If you’d like, I can also walk you through the Move/Copy action once you have it open.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that the mail link does not transmit the question and gives explicit sending steps.",
+            "evidence": "I don't see that you sent anything yet. Opening an email link to our support address only opens a blank message—it doesn't transmit your question automatically.\n\nTo get help, you will need to open the support email link again, type your question, and hit send. Once the message is in our inbox, a human support operator will review it and reply via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The no-send explanation follows the stated history without asserting a completed inbox lookup.",
+            "evidence": "I don't see that you sent anything yet. Opening an email link to our support address only opens a blank message—it doesn't transmit your question automatically.\n\nTo get help, you will need to open the support email link again, type your question, and hit send. Once the message is in our inbox, a human support operator will review it and reply via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I don't see that you sent anything yet. Opening an email link to our support address only opens a blank message—it doesn't transmit your question automatically.\n\nTo get help, you will need to open the support email link again, type your question, and hit send. Once the message is in our inbox, a human support operator will review it and reply via email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Opening the link, writing the question and sending it are clear next steps.",
+            "evidence": "To get help, you will need to open the support email link again, type your question, and hit send. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "I don't see that you sent anything yet. Opening an email link to our support address only opens a blank message—it doesn't transmit your question automatically.\n\nTo get help, you will need to open the support email link again, type your question, and hit send. Once the message is in our inbox, a human support operator will review it and reply via email.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.support.archived-copy-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains restoring the archived project and making a distinct June copy that preserves the original.",
+            "evidence": "Yes, you can do both.\n\nTo bring the project back, go to your **archived** projects view and select **Restore** to move it back to your active list.\n\nTo create a separate version for June without losing the original, use the **Make a copy** feature. This will create a distinct, second project that you can then edit for your June event while the original remains unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Restore and Make a copy instructions match the reviewed facts and the customer's reported context.",
+            "evidence": "Yes, you can do both.\n\nTo bring the project back, go to your **archived** projects view and select **Restore** to move it back to your active list.\n\nTo create a separate version for June without losing the original, use the **Make a copy** feature. This will create a distinct, second project that you can then edit for your June event while the original remains unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can do both.\n\nTo bring the project back, go to your **archived** projects view and select **Restore** to move it back to your active list.\n\nTo create a separate version for June without losing the original, use the **Make a copy** feature. This will create a distinct, second project that you can then edit for your June event while the original remains unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the restore-and-copy sequence without losing the original project.",
+            "evidence": "Yes, you can do both.\n\nTo bring the project back, go to your **archived** projects view and select **Restore** to move it back to your active list.\n\nTo create a separate version for June without losing the original, use the **Make a copy** feature. This will create a distinct, second project that you can then edit for your June event while the original remains unchanged.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can do both.\n\nTo bring the project back, go to your **archived** projects view and select **Restore** to move it back to your active list.\n\nTo create a separate version for June without losing the original, use the **Make a copy** feature. This will create a distinct, second project that you can then edit for your June event while the original remains unchanged.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

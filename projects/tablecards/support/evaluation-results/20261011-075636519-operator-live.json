@@ -1,0 +1,131 @@
+{
+  "version": 2,
+  "createdAt": "2026-10-11T07:56:36.519Z",
+  "mode": "live",
+  "model": "@cf/zai-org/glm-4.7-flash",
+  "captureOnly": true,
+  "judgeModel": null,
+  "rubricVersion": "operator-answer-quality-v2",
+  "judgePromptVersion": "fba7fefa7363e238e9fc1660f1278aa63873485bf432b6857e013953370995ad",
+  "sharedInstructionsVersion": 2,
+  "knowledgeMode": "auto",
+  "configurationVersion": "95abb4d785bc2860366d88b3015542f172217f699e875f3769123709fc4e869d",
+  "knowledgeVersions": [
+    {
+      "key": "tablecards.basics",
+      "version": 3,
+      "contentHash": "3bdcd41786697c6eb9053a95f9314ae03f7f18b24f3014aeddd3487bfb0e31a7"
+    },
+    {
+      "key": "tablecards.printing",
+      "version": 3,
+      "contentHash": "c8295aa784ebc989b8e88f8b33410cc80a60c93a60e0fa990e0b06916d448247"
+    },
+    {
+      "key": "tablecards.import",
+      "version": 1,
+      "contentHash": "71eec2b0084485a6627254582e4abbda16afd360e43f1ca936c70ff442890704"
+    },
+    {
+      "key": "tablecards.access",
+      "version": 1,
+      "contentHash": "3baabc805517a189973728285a3f5f05285dedfe5feba76ec1c94ade32a82e0c"
+    },
+    {
+      "key": "tablecards.designs",
+      "version": 1,
+      "contentHash": "8a53c124924fea9f7d76dd47e5b4b49c40de0b6836ec6c253c6447c896626fc5"
+    },
+    {
+      "key": "tablecards.teams",
+      "version": 1,
+      "contentHash": "54951122d7970c9a68a8b260aec27b7ee12a672db30049871f3e9b728071e965"
+    },
+    {
+      "key": "tablecards.contact",
+      "version": 1,
+      "contentHash": "075e2c98990dc5be9df05b9bdf2c1989695839cfcada49c08a1a8d087fb98054"
+    }
+  ],
+  "qualityVerified": false,
+  "manualReviewRequired": true,
+  "runtimeCoverage": "isolated assigned knowledge; loadSkill only; no customer records or browser execution",
+  "limits": {
+    "maximumCases": 1,
+    "maximumModelCalls": 4,
+    "maximumAnswerCallsPerCase": 4,
+    "maximumJudgeCallsPerCase": 0,
+    "maximumRetries": 0,
+    "maximumOutputTokensPerCall": 1200,
+    "conservativeCostBoundUsd": 0.009849856,
+    "maximumCostUsd": 2
+  },
+  "results": [
+    {
+      "id": "regression.helper.hebrew.overview",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "hebrew",
+        "basics"
+      ],
+      "question": "איך זה עובד?",
+      "expectedBehavior": [
+        "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+        "Keep the overview short and useful; distinguish public preview from Google sign-in for saving/exporting if needed, without dumping unrelated pricing, support or authentication policy.",
+        "Do not mix Arabic words or garbled literal translations into Hebrew. Product names, PDF and quoted English UI labels may remain unchanged."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.import",
+          "version": 1,
+          "content": "Customers can paste one name per line or a tabular grid, or import CSV/XLSX. Map guest name, optional table and optional short marker columns. Confirm whether the first row contains headings. Import does not intentionally merge, sort or silently drop guests. Review the imported rows and final preview; suggest a small synthetic example when diagnosing formatting. Never request a private guest list. Saving requires a signed-in selected workspace. Unsaved changes are protected during normal navigation/sign-in; do not promise recovery after the documented draft storage expires or across unrelated browsers/devices. Saved projects belong to the workspace selected when they were saved. Switching to a different workspace does not move the project. Projects provides active and archived views; restore puts an archived project back into active work. Archive is not deletion. Make a copy is the existing professional-plan duplication action. A copied project is a distinct project, and active-project limits still apply. Support/helper cannot copy, restore, delete, export or modify projects on the customer's behalf."
+        }
+      ],
+      "caseVersion": "5f55d8bdd4c1c98727da6b33b0bf9db5d8d5902b18ad861869b71cd6cb0afc56",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    }
+  ],
+  "passedComparisons": 0,
+  "failedComparisons": 0,
+  "providerFailures": 1,
+  "judgeErrors": 0,
+  "unsure": 0,
+  "criticalFailures": 0,
+  "usage": {
+    "modelCalls": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "estimatedCostUsd": 0,
+    "answerEstimatedCostUsd": 0,
+    "judgeEstimatedCostUsd": 0,
+    "calibrationEstimatedCostUsd": 0,
+    "meanAnswerCostUsd": null,
+    "pricedAnswerTurns": 0,
+    "estimatedQuestionsPerUsd": null,
+    "estimatedAcceptableAnswersPerUsd": null,
+    "missingUsageRecords": 0,
+    "answerLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    },
+    "judgeLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    }
+  }
+}

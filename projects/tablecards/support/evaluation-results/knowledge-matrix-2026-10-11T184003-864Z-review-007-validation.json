@@ -1,0 +1,1244 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-007",
+  "packetHash": "a37a728acf7857fda5da84cf4217b7cb8d861971fc880b3d1ffad536d997dd7d",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI uses the image as inspiration rather than an exact logo copy.",
+            "evidence": "The AI background tool uses your logo or icon as inspiration for the design's style and colors, rather than attempting an exact reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration boundary agrees with the approved design guidance.",
+            "evidence": "The AI background tool uses your logo or icon as inspiration for the design's style and colors, rather than attempting an exact reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The AI background tool uses your logo or icon as inspiration for the design's style and colors, rather than attempting an exact reproduction. Because it focuses on creating a matching aesthetic, it may alter the shape or details of the original image.\n\nIf you need your logo to remain exactly as it is, you may prefer using one of our predefined designs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation makes the altered logo understandable.",
+            "evidence": "The AI background tool uses your logo or icon as inspiration for the design's style and colors, rather than attempting an exact reproduction. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "The AI background tool uses your logo or icon as inspiration for the design's style and colors, rather than attempting an exact reproduction. Because it focuses on creating a matching aesthetic, it may alter the shape or details of the original image.\n\nIf you need your logo to remain exactly as it is, you may prefer using one of our predefined designs.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Pour obtenir la bonne taille, assurez-vous de régler votre imprimante sur **Taille réelle (Actual Size)** ou **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Pour obtenir la bonne taille, assurez-vous de régler votre imprimante sur **Taille réelle (Actual Size)** ou **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Pour obtenir la bonne taille, assurez-vous de régler votre imprimante sur **Taille réelle (Actual Size)** ou **100 %**.\n\nIl ne faut surtout pas utiliser l'option \"Ajuster à la page\" (*Fit to page*), car cela réduit les dimensions pour s'adapter aux marges de l'imprimante. Vérifiez également que le format de papier sélectionné dans vos paramètres d'impression correspond bien à la mise en page que vous avez choisie sur TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Pour obtenir la bonne taille, assurez-vous de régler votre imprimante sur **Taille réelle (Actual Size)** ou **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Pour obtenir la bonne taille, assurez-vous de régler votre imprimante sur **Taille réelle (Actual Size)** ou **100 %**.\n\nIl ne faut surtout pas utiliser l'option \"Ajuster à la page\" (*Fit to page*), car cela réduit les dimensions pour s'adapter aux marges de l'imprimante. Vérifiez également que le format de papier sélectionné dans vos paramètres d'impression correspond bien à la mise en page que vous avez choisie sur TableCards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Adjust the logo's **position, size, or rotation** manually in the editor.\n",
+            "reason": "The reference limits editing to supported name text; this answer invents logo position, size and rotation controls.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Denies the relevant AI alteration instead of explaining the inspiration-only boundary.",
+            "evidence": "The AI in TableCards is designed to generate background imagery based on your provided artwork or style inspiration, but it does not alter the shape of uploaded logos or artwork. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents manual logo position, size and rotation controls.",
+            "evidence": "Adjust the logo's **position, size, or rotation** manually in the editor.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe AI in TableCards is designed to generate background imagery based on your provided artwork or style inspiration, but it does not alter the shape of uploaded logos or artwork. If your logo's shape appears changed, it may be due to adjustments in positioning, scaling, or alignment within the design template. \n\nTo resolve this:\n1. Check the **design preview** to confirm how the logo is placed.\n2. Adjust the logo's **position, size, or rotation** manually in the editor.\n3. Ensure the uploaded artwork meets the required specifications (e.g., 7:4 ratio, static PNG/JPEG).\n\nIf the issue persists, contact support with details about the uploaded file and the observed change. Note that AI-generated backgrounds are separate from your artwork and do not modify it directly. Predefined designs or manual adjustments can avoid AI-related alterations.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Sends the customer to unsupported manual logo-editing controls.",
+            "evidence": "Adjust the logo's **position, size, or rotation** manually in the editor.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "\n\nThe AI in TableCards is designed to generate background imagery based on your provided artwork or style inspiration, but it does not alter the shape of uploaded logos or artwork. If your logo's shape appears changed, it may be due to adjustments in positioning, scaling, or alignment within the design template. \n\nTo resolve this:\n1. Check the **design preview** to confirm how the logo is placed.\n2. Adjust the logo's **position, size, or rotation** manually in the editor.\n3. Ensure the uploaded artwork meets the required specifications (e.g., 7:4 ratio, static PNG/JPEG).\n\nIf the issue persists, contact support with details about the uploaded file and the observed change. Note that AI-generated backgrounds are separate from your artwork and do not modify it directly. Predefined designs or manual adjustments can avoid AI-related alterations.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI uses the image as inspiration rather than an exact logo copy.",
+            "evidence": "When using the AI tool, any uploaded image (like a logo or icon) is used as inspiration to generate a new background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration boundary agrees with the approved design guidance.",
+            "evidence": "When using the AI tool, any uploaded image (like a logo or icon) is used as inspiration to generate a new background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "When using the AI tool, any uploaded image (like a logo or icon) is used as inspiration to generate a new background. Because the AI is creating a new image based on that style, it does not guarantee an exact reproduction of your original logo's shape or details.\n\nIf you are trying to upload the logo as the main artwork for your cards rather than using it for AI inspiration, please ensure the image follows the required 7:4 aspect ratio (for example, 1050 × 600 pixels).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation makes the altered logo understandable.",
+            "evidence": "When using the AI tool, any uploaded image (like a logo or icon) is used as inspiration to generate a new background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "When using the AI tool, any uploaded image (like a logo or icon) is used as inspiration to generate a new background. Because the AI is creating a new image based on that style, it does not guarantee an exact reproduction of your original logo's shape or details.\n\nIf you are trying to upload the logo as the main artwork for your cards rather than using it for AI inspiration, please ensure the image follows the required 7:4 aspect ratio (for example, 1050 × 600 pixels).",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI uses the image as inspiration rather than an exact logo copy.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and colors of the generated designs, but it does not guarantee an exact reproduction of your original logo shape.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration boundary agrees with the approved design guidance.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and colors of the generated designs, but it does not guarantee an exact reproduction of your original logo shape.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and colors of the generated designs, but it does not guarantee an exact reproduction of your original logo shape.\n\nIf you need your logo to appear exactly as it is, I recommend uploading it directly as custom artwork instead of using it as an AI inspiration image. Just ensure the file is a PNG or JPEG and at least 1050 × 600 pixels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation makes the altered logo understandable.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and colors of the generated designs, but it does not guarantee an exact reproduction of your original logo shape.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "When using an image for AI inspiration, the tool uses it to guide the style and colors of the generated designs, but it does not guarantee an exact reproduction of your original logo shape.\n\nIf you need your logo to appear exactly as it is, I recommend uploading it directly as custom artwork instead of using it as an AI inspiration image. Just ensure the file is a PNG or JPEG and at least 1050 × 600 pixels.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Free limit of 25 cards.",
+            "evidence": "The Free plan allows for up to 25 cards, 1 active project, 3 predefined designs, and 1 lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Free allowance matches the approved access reference.",
+            "evidence": "The Free plan allows for up to 25 cards, 1 active project, 3 predefined designs, and 1 lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The Free plan allows for up to 25 cards, 1 active project, 3 predefined designs, and 1 lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The numeric limit is easy to understand.",
+            "evidence": "The Free plan allows for up to 25 cards, 1 active project, 3 predefined designs, and 1 lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "The Free plan allows for up to 25 cards, 1 active project, 3 predefined designs, and 1 lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "2) If the card already has your logo on it, you can revert or restore a prior saved version in your project (Project > Save/Restore). ",
+            "reason": "Restore returns archived projects to active; no prior-version Project > Save/Restore workflow is provided.",
+            "referenceKey": "tablecards.import"
+          },
+          {
+            "code": "privacy_or_identity_violation",
+            "evidence": "Please include a description and, if possible, a screenshot or the Artwork URL, and I’ll arrange that for you.\n",
+            "reason": "Asks for the customer's Artwork URL although the reference prohibits private artwork URLs in support prompts.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Denies reshaping without clearly explaining that generated logos need not reproduce the original.",
+            "evidence": "It doesn’t modify or reshape an existing logo you’ve uploaded. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents prior-version recovery through Project > Save/Restore.",
+            "evidence": "2) If the card already has your logo on it, you can revert or restore a prior saved version in your project (Project > Save/Restore). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Requests an Artwork URL despite the explicit boundary against private artwork URLs in support prompts.",
+            "evidence": "Please include a description and, if possible, a screenshot or the Artwork URL, and I’ll arrange that for you.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to a fabricated save-history restoration workflow.",
+            "evidence": "2) If the card already has your logo on it, you can revert or restore a prior saved version in your project (Project > Save/Restore). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "Thanks for letting us know—I’m sorry the AI generated something you don’t like.\n\nWhat’s happening right now is that the AI generates 4 new artwork ideas based on your inspiration (like a style image or description). It doesn’t modify or reshape an existing logo you’ve uploaded. Adjusting supported guest-name details (font, size, color, position) and reusing templates are available, but actual logo editing isn’t yet supported.\n\nHere’s what you can do next:\n\n1) Use a predefined template and re-upload your logo as a custom artwork (PNG/JPEG, 1050×600 pixels or larger, up to 10 MiB, eight‑bit or lower PNG, static only). The template controls layout and shape; your artwork stays in the intended orientation.  \n2) If the card already has your logo on it, you can revert or restore a prior saved version in your project (Project > Save/Restore). If the project or save is unavailable, let me know and I’ll contact a human support agent to help recover.  \n3) For anything else—restores, missing saves, or issues with AI results—we’ll need to review specifics. Please include a description and, if possible, a screenshot or the Artwork URL, and I’ll arrange that for you.\n\nDo you want me to look into your project’s save history or submit a case to get further help?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Choisissez l'option **Taille réelle** (ou **100 %**) et assurez-vous de **ne pas** sélectionner « Ajuster à la page » (Fit to page), car ce dernier réglage réduit la taille du document.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Choisissez l'option **Taille réelle** (ou **100 %**) et assurez-vous de **ne pas** sélectionner « Ajuster à la page » (Fit to page), car ce dernier réglage réduit la taille du document.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Pour que vos cartes soient imprimées aux bonnes dimensions, vous devez modifier les réglages de votre imprimante :\n\nChoisissez l'option **Taille réelle** (ou **100 %**) et assurez-vous de **ne pas** sélectionner « Ajuster à la page » (Fit to page), car ce dernier réglage réduit la taille du document.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Choisissez l'option **Taille réelle** (ou **100 %**) et assurez-vous de **ne pas** sélectionner « Ajuster à la page » (Fit to page), car ce dernier réglage réduit la taille du document.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Pour que vos cartes soient imprimées aux bonnes dimensions, vous devez modifier les réglages de votre imprimante :\n\nChoisissez l'option **Taille réelle** (ou **100 %**) et assurez-vous de **ne pas** sélectionner « Ajuster à la page » (Fit to page), car ce dernier réglage réduit la taille du document.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain that logo images provide style inspiration rather than exact reproduction.",
+            "evidence": "Explain style inspiration boundary.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The asserted AI batch toggle and revert workflow are unsupported.",
+            "evidence": "**Disable AI** – Use the \"AI batch\" toggle to revert to deterministic exports.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe AI-generated background for your design may have applied automated adjustments that altered the logo's appearance. TableCards' AI tools prioritize consistency with template guidelines (e.g., 7:4 ratio, 1050×600+ pixels), but unexpected changes can occur. \n\nTo resolve this:\n1. **Check predefined designs** – Switch to a non-AI template for manual control.\n2. **Adjust artwork** – Ensure your logo meets specifications (PNG/JPEG, 7:4 ratio, 1050×600+ pixels) and re-upload.\n3. **Disable AI** – Use the \"AI batch\" toggle to revert to deterministic exports.\n\nIf issues persist, contact support with your workspace details (no private data), and we'll guide you through alternatives. Note: AI-generated results are workspace-private; avoid sharing URLs or guest data.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggested AI batch toggle is not an established customer control.",
+            "evidence": "**Disable AI** – Use the \"AI batch\" toggle to revert to deterministic exports.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "\n\nThe AI-generated background for your design may have applied automated adjustments that altered the logo's appearance. TableCards' AI tools prioritize consistency with template guidelines (e.g., 7:4 ratio, 1050×600+ pixels), but unexpected changes can occur. \n\nTo resolve this:\n1. **Check predefined designs** – Switch to a non-AI template for manual control.\n2. **Adjust artwork** – Ensure your logo meets specifications (PNG/JPEG, 7:4 ratio, 1050×600+ pixels) and re-upload.\n3. **Disable AI** – Use the \"AI batch\" toggle to revert to deterministic exports.\n\nIf issues persist, contact support with your workspace details (no private data), and we'll guide you through alternatives. Note: AI-generated results are workspace-private; avoid sharing URLs or guest data.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Vérifiez surtout que vos cartes s’impriment bien à « Taille réelle / 100 % » et non « Adapter à la page » dans les paramètres d’impression.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Vérifiez surtout que vos cartes s’impriment bien à « Taille réelle / 100 % » et non « Adapter à la page » dans les paramètres d’impression.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Vérifiez surtout que vos cartes s’impriment bien à « Taille réelle / 100 % » et non « Adapter à la page » dans les paramètres d’impression.  \n\nImportant de respecter ces points :\n\n- Mode d'impression : taille exacte à 100 % pour les feuilles de cartes.\n- Papier et marges : assurez‑vous que le format de papier et les marges du ticket correspondent à la taille de la mise en page choisie.\n- Avant de faire tout un événement : utilisez le PDF de test séparé (avec la case de calibration). L’affichage de cette case permet de vérifier visuellement que les dimensions de la carte sont correctes.\n\nSi vos cartes apparaissent trop petites, vérifiez dans l’aperçu et la configuration d’impression que vous êtes bien sur le mode « Taille réelle ». Ensuite, relancez l’impression depuis ce PDF de test pour confirmer que tout s’aligne correctement.\n\nSi après ces vérifications elles sont encore trop petites dans la pratique, dites‑moi ce que vous voyez (dimensions, papier et marges choisis) et je vous aiderai à ajuster la configuration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Vérifiez surtout que vos cartes s’impriment bien à « Taille réelle / 100 % » et non « Adapter à la page » dans les paramètres d’impression.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Vérifiez surtout que vos cartes s’impriment bien à « Taille réelle / 100 % » et non « Adapter à la page » dans les paramètres d’impression.  \n\nImportant de respecter ces points :\n\n- Mode d'impression : taille exacte à 100 % pour les feuilles de cartes.\n- Papier et marges : assurez‑vous que le format de papier et les marges du ticket correspondent à la taille de la mise en page choisie.\n- Avant de faire tout un événement : utilisez le PDF de test séparé (avec la case de calibration). L’affichage de cette case permet de vérifier visuellement que les dimensions de la carte sont correctes.\n\nSi vos cartes apparaissent trop petites, vérifiez dans l’aperçu et la configuration d’impression que vous êtes bien sur le mode « Taille réelle ». Ensuite, relancez l’impression depuis ce PDF de test pour confirmer que tout s’aligne correctement.\n\nSi après ces vérifications elles sont encore trop petites dans la pratique, dites‑moi ce que vous voyez (dimensions, papier et marges choisis) et je vous aiderai à ajuster la configuration.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI uses the image as inspiration rather than an exact logo copy.",
+            "evidence": "When you use a logo or icon as inspiration for an AI background, the AI uses that image as a guide rather than a direct copy. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The inspiration boundary agrees with the approved design guidance.",
+            "evidence": "When you use a logo or icon as inspiration for an AI background, the AI uses that image as a guide rather than a direct copy. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "When you use a logo or icon as inspiration for an AI background, the AI uses that image as a guide rather than a direct copy. Because of this, it cannot guarantee an exact reproduction of your logo's original shape or details.\n\nIf you need your logo to remain exactly as it is, you may prefer using one of our predefined designs instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation makes the altered logo understandable.",
+            "evidence": "When you use a logo or icon as inspiration for an AI background, the AI uses that image as a guide rather than a direct copy. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "When you use a logo or icon as inspiration for an AI background, the AI uses that image as a guide rather than a direct copy. Because of this, it cannot guarantee an exact reproduction of your logo's original shape or details.\n\nIf you need your logo to remain exactly as it is, you may prefer using one of our predefined designs instead.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Vos cartes doivent être imprimées en **taille réelle (100%)** et non \"Ajuster à la page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Introduces a 10 x 15 cm paper option not established by the printing reference.",
+            "evidence": "A4, 10x15 cm).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nVos cartes doivent être imprimées en **taille réelle (100%)** et non \"Ajuster à la page\". Voici les étapes à vérifier :\n\n1. **Paramètres d'impression** :  \n   - Dans la fenêtre d'impression, sélectionnez **\"Taille réelle\"** ou **\"100%\"** (évitez \"Ajuster à la page\" ou \"Zoom\").\n   - Vérifiez que la **taille du papier** correspond à celle choisie dans le design (ex. A4, 10x15 cm).\n\n2. **Test d'impression** :  \n   - Utilisez le **PDF de test** fourni par TableCards pour calibrer l'imprimante avant toute impression complète.\n\n3. **Calibration** :  \n   - Imprimez le **carré de calibration** (si disponible) pour vérifier la précision des dimensions.\n\nSi le problème persiste, vérifiez les **marges de l'imprimante** ou contactez le support avec votre navigateur/appareil. Les PDFs sont numériques, l'impression est gérée par votre appareil.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Vos cartes doivent être imprimées en **taille réelle (100%)** et non \"Ajuster à la page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "\n\nVos cartes doivent être imprimées en **taille réelle (100%)** et non \"Ajuster à la page\". Voici les étapes à vérifier :\n\n1. **Paramètres d'impression** :  \n   - Dans la fenêtre d'impression, sélectionnez **\"Taille réelle\"** ou **\"100%\"** (évitez \"Ajuster à la page\" ou \"Zoom\").\n   - Vérifiez que la **taille du papier** correspond à celle choisie dans le design (ex. A4, 10x15 cm).\n\n2. **Test d'impression** :  \n   - Utilisez le **PDF de test** fourni par TableCards pour calibrer l'imprimante avant toute impression complète.\n\n3. **Calibration** :  \n   - Imprimez le **carré de calibration** (si disponible) pour vérifier la précision des dimensions.\n\nSi le problème persiste, vérifiez les **marges de l'imprimante** ou contactez le support avec votre navigateur/appareil. Les PDFs sont numériques, l'impression est gérée par votre appareil.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Free limit of 25 cards.",
+            "evidence": "The Free plan allows for up to 25 cards per project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Free allowance matches the approved access reference.",
+            "evidence": "The Free plan allows for up to 25 cards per project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The Free plan allows for up to 25 cards per project. \n\nAdditionally, under the Free tier, you are limited to:\n* **1 active project**\n* **3 predefined designs**\n* **1 lifetime welcome AI batch**",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The numeric limit is easy to understand.",
+            "evidence": "The Free plan allows for up to 25 cards per project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "The Free plan allows for up to 25 cards per project. \n\nAdditionally, under the Free tier, you are limited to:\n* **1 active project**\n* **3 predefined designs**\n* **1 lifetime welcome AI batch**",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Utilisez le réglage \"Taille réelle\" ou \"100 %\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "**Utilisez le réglage \"Taille réelle\" ou \"100 %\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Pour corriger ce problème, vous devez modifier les paramètres de votre imprimante au moment de l'impression :\n\n1.  **Utilisez le réglage \"Taille réelle\" ou \"100 %\"**.\n2.  **N'utilisez pas** l'option \"Ajuster à la page\" (Fit to page), car cela réduit la taille des cartes pour respecter les marges de l'imprimante.\n3.  Vérifiez également que la **taille du papier** sélectionnée dans vos paramètres d'impression correspond bien à la mise en page que vous avez choisie sur TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "**Utilisez le réglage \"Taille réelle\" ou \"100 %\"**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Pour corriger ce problème, vous devez modifier les paramètres de votre imprimante au moment de l'impression :\n\n1.  **Utilisez le réglage \"Taille réelle\" ou \"100 %\"**.\n2.  **N'utilisez pas** l'option \"Ajuster à la page\" (Fit to page), car cela réduit la taille des cartes pour respecter les marges de l'imprimante.\n3.  Vérifiez également que la **taille du papier** sélectionnée dans vos paramètres d'impression correspond bien à la mise en page que vous avez choisie sur TableCards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Pour corriger cela, assurez-vous que votre imprimante est réglée sur **100 % (Taille réelle)** dans les paramètres d'impression. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Pour corriger cela, assurez-vous que votre imprimante est réglée sur **100 % (Taille réelle)** dans les paramètres d'impression. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Pour corriger cela, assurez-vous que votre imprimante est réglée sur **100 % (Taille réelle)** dans les paramètres d'impression. L'option « Ajuster à la page » va généralement réduire les dimensions du contenu.\n\nVérifiez aussi que la **taille et les marges du papier** de votre imprimante correspondent exactement à celles du layout TableCards que vous exportez.\n\nSi le problème persiste, imprimez d'abord la page de test fournie pour vérifier la calibration avant de faire une impression en grand volume.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Pour corriger cela, assurez-vous que votre imprimante est réglée sur **100 % (Taille réelle)** dans les paramètres d'impression. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Pour corriger cela, assurez-vous que votre imprimante est réglée sur **100 % (Taille réelle)** dans les paramètres d'impression. L'option « Ajuster à la page » va généralement réduire les dimensions du contenu.\n\nVérifiez aussi que la **taille et les marges du papier** de votre imprimante correspondent exactement à celles du layout TableCards que vous exportez.\n\nSi le problème persiste, imprimez d'abord la page de test fournie pour vérifier la calibration avant de faire une impression en grand volume.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Sélectionnez « Taille réelle »** (ou *Actual Size*) ou réglez l'échelle sur **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "**Sélectionnez « Taille réelle »** (ou *Actual Size*) ou réglez l'échelle sur **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Le problème vient probablement d'un réglage de votre imprimante ou de votre lecteur PDF.\n\nPour obtenir la taille correcte, vous devez changer le réglage d'échelle lors de l'impression :\n\n1.  **Ne choisissez pas « Ajuster à la page »** (ou *Fit to page*). Ce réglage réduit souvent la taille du design pour respecter les marges de l'imprimante.\n2.  **Sélectionnez « Taille réelle »** (ou *Actual Size*) ou réglez l'échelle sur **100 %**.\n3.  Vérifiez également que le **format de papier** sélectionné dans vos paramètres d'impression correspond bien au format de papier que vous avez chargé dans l'imprimante.\n\nSi vous avez un doute sur le rendu final, je vous conseille d'utiliser le PDF de test (le *print-test PDF*) avant de lancer l'impression de tout votre événement. Ce fichier contient un carré de calibration pour vérifier que vos réglages sont corrects.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "**Sélectionnez « Taille réelle »** (ou *Actual Size*) ou réglez l'échelle sur **100 %**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Le problème vient probablement d'un réglage de votre imprimante ou de votre lecteur PDF.\n\nPour obtenir la taille correcte, vous devez changer le réglage d'échelle lors de l'impression :\n\n1.  **Ne choisissez pas « Ajuster à la page »** (ou *Fit to page*). Ce réglage réduit souvent la taille du design pour respecter les marges de l'imprimante.\n2.  **Sélectionnez « Taille réelle »** (ou *Actual Size*) ou réglez l'échelle sur **100 %**.\n3.  Vérifiez également que le **format de papier** sélectionné dans vos paramètres d'impression correspond bien au format de papier que vous avez chargé dans l'imprimante.\n\nSi vous avez un doute sur le rendu final, je vous conseille d'utiliser le PDF de test (le *print-test PDF*) avant de lancer l'impression de tout votre événement. Ce fichier contient un carré de calibration pour vérifier que vos réglages sont corrects.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that AI does not prioritize exact logo fidelity.",
+            "evidence": "**AI Limitations**: The AI prioritizes overall composition over precise logo fidelity. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims unsupported formats or dimensions can cause scaling or cropping without supporting product evidence.",
+            "evidence": "Unsupported formats or dimensions might cause unexpected scaling or cropping.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe AI-generated background or artwork in TableCards may not always align perfectly with specific design elements like logo shapes, especially if the input instructions were ambiguous or the AI misinterpreted the request. Here’s what to check:\n\n1. **Artwork Specifications**: Ensure your logo meets the requirements: PNG/JPEG, 7:4 ratio, 1050×600px minimum, 2MP maximum, and 10MiB file size. Unsupported formats or dimensions might cause unexpected scaling or cropping.\n\n2. **AI Limitations**: The AI prioritizes overall composition over precise logo fidelity. If the shape changed, it could be due to automatic adjustments for visual balance or compatibility with the selected design template.\n\n3. **Review Preview**: Check the \"AI background\" preview before exporting. If the logo appears distorted, try re-uploading the artwork or simplifying its design (e.g., removing complex gradients or transparent elements).\n\n4. **Alternative Options**: If the issue persists, revert to a predefined design (free or premium) or manually adjust the layout using the available tools. Note that AI-generated results are not guaranteed to match exact logo specifications.\n\nFor further assistance, describe the logo’s original format and the AI’s output, but avoid sharing private files. Let me know how you’d like to proceed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Suggests removing gradients or transparency without a supported connection to the reported AI alteration.",
+            "evidence": "If the logo appears distorted, try re-uploading the artwork or simplifying its design (e.g., removing complex gradients or transparent elements).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "\n\nThe AI-generated background or artwork in TableCards may not always align perfectly with specific design elements like logo shapes, especially if the input instructions were ambiguous or the AI misinterpreted the request. Here’s what to check:\n\n1. **Artwork Specifications**: Ensure your logo meets the requirements: PNG/JPEG, 7:4 ratio, 1050×600px minimum, 2MP maximum, and 10MiB file size. Unsupported formats or dimensions might cause unexpected scaling or cropping.\n\n2. **AI Limitations**: The AI prioritizes overall composition over precise logo fidelity. If the shape changed, it could be due to automatic adjustments for visual balance or compatibility with the selected design template.\n\n3. **Review Preview**: Check the \"AI background\" preview before exporting. If the logo appears distorted, try re-uploading the artwork or simplifying its design (e.g., removing complex gradients or transparent elements).\n\n4. **Alternative Options**: If the issue persists, revert to a predefined design (free or premium) or manually adjust the layout using the available tools. Note that AI-generated results are not guaranteed to match exact logo specifications.\n\nFor further assistance, describe the logo’s original format and the AI’s output, but avoid sharing private files. Let me know how you’d like to proceed!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "**Échelle d'impression** : Sélectionnez **\"Taille réelle / 100%\"** (ne pas choisir \"Ajuster à la page\").  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "**Échelle d'impression** : Sélectionnez **\"Taille réelle / 100%\"** (ne pas choisir \"Ajuster à la page\").  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nPour que vos cartes s'impriment à la bonne taille, vérifiez ces paramètres :  \n\n1. **Échelle d'impression** : Sélectionnez **\"Taille réelle / 100%\"** (ne pas choisir \"Ajuster à la page\").  \n2. **Calibration** : Imprimez d'abord le **PDF de test** fourni pour vérifier la taille du carré de calibration.  \n3. **Format papier** : Assurez-vous que la taille du papier et les marges de l'imprimante correspondent au layout choisi (ex. : A4, 8.5x11 pouces).  \n\nSi le problème persiste, ajustez les marges de l'imprimante ou testez avec un autre appareil. Les cartes sont conçues pour être imprimées en PDF numérique, sans garantie de compatibilité avec des imprimantes spécifiques.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "**Échelle d'impression** : Sélectionnez **\"Taille réelle / 100%\"** (ne pas choisir \"Ajuster à la page\").  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "\n\nPour que vos cartes s'impriment à la bonne taille, vérifiez ces paramètres :  \n\n1. **Échelle d'impression** : Sélectionnez **\"Taille réelle / 100%\"** (ne pas choisir \"Ajuster à la page\").  \n2. **Calibration** : Imprimez d'abord le **PDF de test** fourni pour vérifier la taille du carré de calibration.  \n3. **Format papier** : Assurez-vous que la taille du papier et les marges de l'imprimante correspondent au layout choisi (ex. : A4, 8.5x11 pouces).  \n\nSi le problème persiste, ajustez les marges de l'imprimante ou testez avec un autre appareil. Les cartes sont conçues pour être imprimées en PDF numérique, sans garantie de compatibilité avec des imprimantes spécifiques.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Because it tries to balance the list data and the logo within a specific card ratio (7:4), the logo's shape and size may change in the results.\n",
+            "reason": "The reference says the guest list is not automatically sent to the image provider; the answer says AI balances list data.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the inspiration boundary and possible logo changes.",
+            "evidence": "AI generation treats your logo as inspiration and often re-frames or crops it to fit the card area. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely attributes logo changes to AI balancing guest-list data with the image.",
+            "evidence": "Because it tries to balance the list data and the logo within a specific card ratio (7:4), the logo's shape and size may change in the results.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "AI generation treats your logo as inspiration and often re-frames or crops it to fit the card area. Because it tries to balance the list data and the logo within a specific card ratio (7:4), the logo's shape and size may change in the results.\n\nIf you want to keep the exact logo shape intact, try using a predefined design instead. Predefined templates keep your artwork as a background without the AI reshaping it.\n\nYou can also generate a fresh batch to see if there are different ways the tool distributes your logo across the four available options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The main explanation and alternatives are understandable.",
+            "evidence": "AI generation treats your logo as inspiration and often re-frames or crops it to fit the card area. Because it tries to balance the list data and the logo within a specific card ratio (7:4), the logo's shape and size may change in the results.\n\nIf you want to keep the exact logo shape intact, try using a predefined design instead. Predefined templates keep your artwork as a background without the AI reshaping it.\n\nYou can also generate a fresh batch to see if there are different ways the tool distributes your logo across the four available options.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "AI generation treats your logo as inspiration and often re-frames or crops it to fit the card area. Because it tries to balance the list data and the logo within a specific card ratio (7:4), the logo's shape and size may change in the results.\n\nIf you want to keep the exact logo shape intact, try using a predefined design instead. Predefined templates keep your artwork as a background without the AI reshaping it.\n\nYou can also generate a fresh batch to see if there are different ways the tool distributes your logo across the four available options.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly states the Free limit of 25 cards.",
+            "evidence": "With the Free plan, you can create up to 25 cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Free allowance matches the approved access reference.",
+            "evidence": "With the Free plan, you can create up to 25 cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "With the Free plan, you can create up to 25 cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The numeric limit is easy to understand.",
+            "evidence": "With the Free plan, you can create up to 25 cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "With the Free plan, you can create up to 25 cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Pour que vos cartes sortent à la bonne taille, vérifiez les paramètres d'impression de votre imprimante et sélectionnez **\"Taille réelle (100%)\"** au lieu de \"Ajuster à la page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Pour que vos cartes sortent à la bonne taille, vérifiez les paramètres d'impression de votre imprimante et sélectionnez **\"Taille réelle (100%)\"** au lieu de \"Ajuster à la page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nPour que vos cartes sortent à la bonne taille, vérifiez les paramètres d'impression de votre imprimante et sélectionnez **\"Taille réelle (100%)\"** au lieu de \"Ajuster à la page\". Assurez-vous également que la taille du papier correspond à celle sélectionnée dans l'application. Avant d'imprimer l'ensemble de vos cartes, utilisez le **PDF de test** pour vérifier la calibration (carré de calibrage). Les PDF sont numériques, vous devez gérer l'impression directement via votre imprimante ou imprimerie.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Pour que vos cartes sortent à la bonne taille, vérifiez les paramètres d'impression de votre imprimante et sélectionnez **\"Taille réelle (100%)\"** au lieu de \"Ajuster à la page\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "\n\nPour que vos cartes sortent à la bonne taille, vérifiez les paramètres d'impression de votre imprimante et sélectionnez **\"Taille réelle (100%)\"** au lieu de \"Ajuster à la page\". Assurez-vous également que la taille du papier correspond à celle sélectionnée dans l'application. Avant d'imprimer l'ensemble de vos cartes, utilisez le **PDF de test** pour vérifier la calibration (carré de calibrage). Les PDF sont numériques, vous devez gérer l'impression directement via votre imprimante ou imprimerie.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "   - Dans l'aperçu d'impression, sélectionnez **\"Taille réelle\"** (ou \"100 %\") et désactivez l'option **\"Ajuster à la page\"**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assigns a specific 10 x 10 cm size to the calibration square without reference support.",
+            "evidence": "   - Imprimez la page de test fournie par TableCards pour vérifier la calibration (un carré de 10 cm x 10 cm doit être précis).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nVos cartes peuvent sortir trop petites si l'imprimante ne utilise pas le paramètre \"Taille réelle\" (100 %) ou si la mise en page ne correspond pas à la taille de la feuille. Voici les étapes à vérifier :\n\n1. **Paramètres d'impression** :  \n   - Dans l'aperçu d'impression, sélectionnez **\"Taille réelle\"** (ou \"100 %\") et désactivez l'option **\"Ajuster à la page\"**.  \n   - Vérifiez que la **taille de la feuille** (A4, Lettre, etc.) correspond à celle utilisée dans TableCards.\n\n2. **Calibration** :  \n   - Imprimez la page de test fournie par TableCards pour vérifier la calibration (un carré de 10 cm x 10 cm doit être précis).  \n   - Si le carré est déformé, ajustez les marges de l'imprimante ou vérifiez la configuration du pilote.\n\n3. **Taille des cartes dans le PDF** :  \n   - Assurez-vous que les cartes sont conçues pour la taille de feuille choisie (ex. : 10 cm x 15 cm pour des cartes pliées).  \n   - Privilégiez l'export PDF \"Taille réelle\" et évitez les conversions automatiques.\n\nSi le problème persiste, testez avec une autre imprimante ou un service d'impression externe. TableCards ne garantit pas la compatibilité avec tous les appareils.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Introduces an unestablished Actual Size export option after the correct print-setting advice.",
+            "evidence": "   - Privilégiez l'export PDF \"Taille réelle\" et évitez les conversions automatiques.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "\n\nVos cartes peuvent sortir trop petites si l'imprimante ne utilise pas le paramètre \"Taille réelle\" (100 %) ou si la mise en page ne correspond pas à la taille de la feuille. Voici les étapes à vérifier :\n\n1. **Paramètres d'impression** :  \n   - Dans l'aperçu d'impression, sélectionnez **\"Taille réelle\"** (ou \"100 %\") et désactivez l'option **\"Ajuster à la page\"**.  \n   - Vérifiez que la **taille de la feuille** (A4, Lettre, etc.) correspond à celle utilisée dans TableCards.\n\n2. **Calibration** :  \n   - Imprimez la page de test fournie par TableCards pour vérifier la calibration (un carré de 10 cm x 10 cm doit être précis).  \n   - Si le carré est déformé, ajustez les marges de l'imprimante ou vérifiez la configuration du pilote.\n\n3. **Taille des cartes dans le PDF** :  \n   - Assurez-vous que les cartes sont conçues pour la taille de feuille choisie (ex. : 10 cm x 15 cm pour des cartes pliées).  \n   - Privilégiez l'export PDF \"Taille réelle\" et évitez les conversions automatiques.\n\nSi le problème persiste, testez avec une autre imprimante ou un service d'impression externe. TableCards ne garantit pas la compatibilité avec tous les appareils.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.french.printing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the size problem with Actual Size / 100%, not Fit to Page.",
+            "evidence": "Choisissez **Taille réelle (100%)**, et non **'Adapter à la page'**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The essential printing advice matches the approved guidance.",
+            "evidence": "Choisissez **Taille réelle (100%)**, et non **'Adapter à la page'**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Le réglage principal à changer est celui de la taille du document lors de l'impression. Choisissez **Taille réelle (100%)**, et non **'Adapter à la page'**.\n\nVotre PDF est un fichier numérique conçu pour s'imprimer grandeur réelle. Si vous cochez \"Adapter à la page\", l'imprimante va réduire le document pour qu'il rentre dans la feuille standard (A4 ou Letter), ce qui explique qu'il semble plus petit une fois sur papier.\n\nPour éviter toute erreur, sortez une version de test (complète ou partielle) et vérifiez le carré de calibration s'il est fourni.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can identify the printing setting to change.",
+            "evidence": "Choisissez **Taille réelle (100%)**, et non **'Adapter à la page'**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable and preserves the printing advice.",
+            "evidence": "Le réglage principal à changer est celui de la taille du document lors de l'impression. Choisissez **Taille réelle (100%)**, et non **'Adapter à la page'**.\n\nVotre PDF est un fichier numérique conçu pour s'imprimer grandeur réelle. Si vous cochez \"Adapter à la page\", l'imprimante va réduire le document pour qu'il rentre dans la feuille standard (A4 ou Letter), ce qui explique qu'il semble plus petit une fois sur papier.\n\nPour éviter toute erreur, sortez une version de test (complète ou partielle) et vérifiez le carré de calibration s'il est fourni.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.tuning.calibration.05",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that generated results may change logos and need not reproduce them exactly.",
+            "evidence": "- **AI limitations**: Generated results may not reproduce logos exactly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims disabling AI reverts the project to manual controls without supporting product evidence.",
+            "evidence": "Disable AI for this project to revert to manual design controls.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe AI-generated background feature may alter elements like logo shape as part of its creative process. According to our design guidelines:  \n\n- **AI limitations**: Generated results may not reproduce logos exactly. Predefined templates and deterministic exports (without AI) are always available.  \n- **Workarounds**:  \n  1. Disable AI for this project to revert to manual design controls.  \n  2. Use predefined templates instead of AI-generated backgrounds.  \n  3. Adjust artwork constraints (e.g., fixed 7:4 ratio, PNG/JPEG format) for better consistency.  \n\nIf the issue persists, contact support for further assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer cannot identify a supported disable-AI-to-manual-controls workflow.",
+            "evidence": "Disable AI for this project to revert to manual design controls.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is clear and natural.",
+            "evidence": "\n\nThe AI-generated background feature may alter elements like logo shape as part of its creative process. According to our design guidelines:  \n\n- **AI limitations**: Generated results may not reproduce logos exactly. Predefined templates and deterministic exports (without AI) are always available.  \n- **Workarounds**:  \n  1. Disable AI for this project to revert to manual design controls.  \n  2. Use predefined templates instead of AI-generated backgrounds.  \n  3. Adjust artwork constraints (e.g., fixed 7:4 ratio, PNG/JPEG format) for better consistency.  \n\nIf the issue persists, contact support for further assistance.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

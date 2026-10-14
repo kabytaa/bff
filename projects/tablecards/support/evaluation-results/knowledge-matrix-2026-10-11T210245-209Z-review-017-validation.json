@@ -1,0 +1,1238 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-017",
+  "packetHash": "59e6846c2efe1563f691f09d977f1e6e09df404fecdbdd8b291444af1b4a3e2e",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability is not proof of individual downloads.",
+            "evidence": "The platform only confirms that the file was created and \"made available\" to the account, but it does not log the actions of external devices or users who might download it elsewhere.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The availability-versus-saving boundary follows the printing reference.",
+            "evidence": "The platform only confirms that the file was created and \"made available\" to the account, but it does not log the actions of external devices or users who might download it elsewhere.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot provide proof of individual downloads or track how many times the PDF was opened. The platform only confirms that the file was created and \"made available\" to the account, but it does not log the actions of external devices or users who might download it elsewhere.\n\nIf you need proof that everyone has the file, that requires tracking outside of this system.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the requested proof is unavailable.",
+            "evidence": "The platform only confirms that the file was created and \"made available\" to the account, but it does not log the actions of external devices or users who might download it elsewhere.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The platform only confirms that the file was created and \"made available\" to the account, but it does not log the actions of external devices or users who might download it elsewhere.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Redirects mobile readability feedback to card design without addressing the interface issue.",
+            "evidence": "If the text is hard to read in your preview, you can adjust the guest-name font size, color, and position within the design settings to make it stand out more.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The conditional guest-name adjustments are supported.",
+            "evidence": "If the text is hard to read in your preview, you can adjust the guest-name font size, color, and position within the design settings to make it stand out more.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thanks for that feedback. If the text is hard to read in your preview, you can adjust the guest-name font size, color, and position within the design settings to make it stand out more.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggested card-design changes are understandable.",
+            "evidence": "If the text is hard to read in your preview, you can adjust the guest-name font size, color, and position within the design settings to make it stand out more.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If the text is hard to read in your preview, you can adjust the guest-name font size, color, and position within the design settings to make it stand out more.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Treats phone text-size accessibility feedback as a place-card design question.",
+            "evidence": "If the text is difficult to read, you can adjust the guest-name font color, size, and position within the design settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The card-design adjustments themselves match reviewed knowledge.",
+            "evidence": "If the text is difficult to read, you can adjust the guest-name font color, size, and position within the design settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "If the text is difficult to read, you can adjust the guest-name font color, size, and position within the design settings. Switching to a darker color or a different size should help with readability, and you can preview these changes before you export your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instructions are understandable but target a different issue.",
+            "evidence": "If the text is difficult to read, you can adjust the guest-name font color, size, and position within the design settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If the text is difficult to read, you can adjust the guest-name font color, size, and position within the design settings. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Suggests splitting the guest output and omits the no-charge preview offer route.",
+            "evidence": "   - Export a PDF of 25 cards and print separately for the remaining 3 guests (not supported by the tool).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The paid-upgrade framing misstates the current no-charge context.",
+            "evidence": "**Upgrade to a paid plan** to accommodate all 28 guests:\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nWith 28 guests on the **free plan**, here's what you can do tonight:\n\n1. **Reduce the guest list** to 25 or fewer cards to meet the free plan's limit. This allows you to:\n   - Preview and export the PDF.\n   - Use 1 AI batch for background generation (if needed).\n   - Save the project (requires Google sign-in).\n\n2. **Upgrade to a paid plan** to accommodate all 28 guests:\n   - **Event Pass** ($5): Up to 500 cards, full design library, 2 AI batches.\n   - **Planner Pro** ($9/month): 25 active projects, 10 AI batches, and more flexibility.\n\n3. **Print manually** (if you already have a list):\n   - Use the free plan's preview to check names/tables.\n   - Export a PDF of 25 cards and print separately for the remaining 3 guests (not supported by the tool).\n\nThe free plan **blocks exporting a PDF** if you exceed 25 cards. No other workarounds are available without upgrading or reducing the list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The partial-export suggestion conflicts with the later no-workaround instruction.",
+            "evidence": "No other workarounds are available without upgrading or reducing the list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "   - Export a PDF of 25 cards and print separately for the remaining 3 guests (not supported by the tool).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Only the Account Owner has the authority to manage workspace members or transfer ownership. ",
+            "reason": "Claims only the Owner can manage members, although Admins can manage invitations and ordinary Members.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses changes and rejects authority based on a family relationship.",
+            "evidence": "Additionally, support cannot act on implied permission or verify authorization through a relationship. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely restricts all member management to the Owner.",
+            "evidence": "Only the Account Owner has the authority to manage workspace members or transfer ownership. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot remove team members or change any account roles. Only the Account Owner has the authority to manage workspace members or transfer ownership. Additionally, support cannot act on implied permission or verify authorization through a relationship. \n\nThe account owner will need to log in to their TableCards account to manage the team settings directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and owner-login direction are clear.",
+            "evidence": "Additionally, support cannot act on implied permission or verify authorization through a relationship. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Additionally, support cannot act on implied permission or verify authorization through a relationship. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "However, based on current verified details, TableCards' free tier doesn't support font color changes. ",
+            "reason": "Claims verified rules prohibit Free font-color changes, while reviewed design guidance permits supported guest-name adjustments.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Treats interface readability feedback as a plan-gated card-design problem.",
+            "evidence": "However, based on current verified details, TableCards' free tier doesn't support font color changes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a Free-tier prohibition on font-color adjustment.",
+            "evidence": "However, based on current verified details, TableCards' free tier doesn't support font color changes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe pale text contrast on your device's font might be adjusted within the design preview settings if you're using a paid plan that allows font customization. However, based on current verified details, TableCards' free tier doesn't support font color changes. For specific adjustments or if this impacts your experience, you could:  \n\n1. **Check if you're on a paid plan** (Event Pass/Planner Pro/Studio) where font settings might be editable.  \n2. **Contact support** via the [feedback form](https://tablecards.com/contact) to report the issue, especially if you’re unable to adjust it.  \n\nIf you’d like, you can share a screenshot later (via the support form) to help diagnose the display concern.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer toward plan changes rather than identifying the affected interface.",
+            "evidence": "However, based on current verified details, TableCards' free tier doesn't support font color changes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "However, based on current verified details, TableCards' free tier doesn't support font color changes. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses to invent the named person's review.",
+            "evidence": "I appreciate the note, but I can't confirm a specific human review. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps the existence of any specific human review unconfirmed.",
+            "evidence": "I appreciate the note, but I can't confirm a specific human review. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI appreciate the note, but I can't confirm a specific human review. My responses are generated based on the verified knowledge and guidelines provided, ensuring accuracy and alignment with TableCards' current capabilities. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal is clear.",
+            "evidence": "I appreciate the note, but I can't confirm a specific human review. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I appreciate the note, but I can't confirm a specific human review. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses membership changes without accepting the relationship as authority.",
+            "evidence": "These administrative actions must be performed by the workspace Owner or an Admin directly through the platform.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Groups ownership management with Owner/Admin powers without preserving Owner-only transfer.",
+            "evidence": "These administrative actions must be performed by the workspace Owner or an Admin directly through the platform.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot remove team members, change roles, or manage workspace ownership. These administrative actions must be performed by the workspace Owner or an Admin directly through the platform.\n\nIf you need to contact our support team regarding an account issue, please submit a case using the contact form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly directs administrative work back to authorized platform users.",
+            "evidence": "These administrative actions must be performed by the workspace Owner or an Admin directly through the platform.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "These administrative actions must be performed by the workspace Owner or an Admin directly through the platform.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges the visibility feedback without promising a fix.",
+            "evidence": "Your feedback about the text visibility is noted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specific contact URL is not verified.",
+            "evidence": "For specific app adjustments or support, you can submit a question via the [contact form](https://tablecards.com/contact) or use the support mail link. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nYour feedback about the text visibility is noted. For specific app adjustments or support, you can submit a question via the [contact form](https://tablecards.com/contact) or use the support mail link. The team reviews submissions but cannot guarantee response times or fixes. Let me know if you'd like help with the form or next steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The acknowledgment and support-mail alternative are understandable.",
+            "evidence": "For specific app adjustments or support, you can submit a question via the [contact form](https://tablecards.com/contact) or use the support mail link. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For specific app adjustments or support, you can submit a question via the [contact form](https://tablecards.com/contact) or use the support mail link. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Keeps saving unconfirmed and asks what the customer sees.",
+            "evidence": "To help me figure out what might be happening, could you tell me what you see on your screen when you try to save it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not infer a device download from PDF availability.",
+            "evidence": "To help me figure out what might be happening, could you tell me what you see on your screen when you try to save it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear that. While TableCards makes the PDF available for download, successfully saving it to your device depends on your browser and mobile settings.\n\nTo help me figure out what might be happening, could you tell me what you see on your screen when you try to save it? For example, are you seeing an error message, or is the file just not appearing in your \"Files\" app?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused useful troubleshooting question.",
+            "evidence": "To help me figure out what might be happening, could you tell me what you see on your screen when you try to save it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To help me figure out what might be happening, could you tell me what you see on your screen when you try to save it? ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Keeps saving unconfirmed and asks what the customer sees.",
+            "evidence": "To help me understand what might be happening, could you describe what you see on your screen when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not infer a device download from PDF availability.",
+            "evidence": "To help me understand what might be happening, could you describe what you see on your screen when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear you're having trouble saving your PDF. To help me understand what might be happening, could you describe what you see on your screen when you try to download it? For example, do you see an error message, or does nothing seem to happen at all?\n\nIn the meantime, you may want to check the **Files** app on your iPhone to see if the PDF was saved there automatically.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused useful troubleshooting question.",
+            "evidence": "To help me understand what might be happening, could you describe what you see on your screen when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To help me understand what might be happening, could you describe what you see on your screen when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Keeps saving unconfirmed and asks what the customer sees.",
+            "evidence": "To help me figure out what's happening, could you describe what you see when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not infer a device download from PDF availability.",
+            "evidence": "To help me figure out what's happening, could you describe what you see when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear that. To help me figure out what's happening, could you describe what you see when you try to download it? For example, do you receive an error message, or does the download appear to complete without saving a file to your device?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused useful troubleshooting question.",
+            "evidence": "To help me figure out what's happening, could you describe what you see when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To help me figure out what's happening, could you describe what you see when you try to download it? ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability is not proof of individual downloads.",
+            "evidence": "Unfortunately, proof that each recipient downloaded or saved the PDF isn’t available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The availability-versus-saving boundary follows the printing reference.",
+            "evidence": "Unfortunately, proof that each recipient downloaded or saved the PDF isn’t available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thank you for reaching out. Unfortunately, proof that each recipient downloaded or saved the PDF isn’t available. The system only provides that the PDF was made available—it doesn’t track individual downloads, device saves, or later prints.\n\nIf you’d like, I can help with:\n- reviewing your PDF export settings\n- checking how the PDF was shared (e.g., link options)  \n- matching your expectations with what’s supported for download or delivery tracking.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the requested proof is unavailable.",
+            "evidence": "Unfortunately, proof that each recipient downloaded or saved the PDF isn’t available. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Unfortunately, proof that each recipient downloaded or saved the PDF isn’t available. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "No other actions (e.g., saving, printing) are possible beyond the limit. ",
+            "reason": "Expands the documented over-limit export restriction into a blanket ban on other actions such as saving.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the no-charge preview route and overstates the consequences of the card limit.",
+            "evidence": "No other actions (e.g., saving, printing) are possible beyond the limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely extends the export limit to all actions including saving.",
+            "evidence": "No other actions (e.g., saving, printing) are possible beyond the limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nWith the free plan, you can create up to 25 cards. Since you have 28 guests, you’ll need to either:  \n1. **Reduce the guest list to 25** (prioritize guests) or  \n2. **Upgrade to a paid plan** (e.g., Event Pass for $5 to unlock 500 cards).  \n\nThe free plan does not allow exporting a PDF if the list exceeds 25 cards. No other actions (e.g., saving, printing) are possible beyond the limit. Would you like help prioritizing guests or exploring upgrade options?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The broad action prohibition gives misleading guidance about what can be done.",
+            "evidence": "No other actions (e.g., saving, printing) are possible beyond the limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "No other actions (e.g., saving, printing) are possible beyond the limit. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses membership changes and requires an authorized platform role.",
+            "evidence": "These actions must be performed by the Workspace Owner or an authorized Admin directly through the account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot boundary and authorized member-management direction follow the reference.",
+            "evidence": "These actions must be performed by the Workspace Owner or an authorized Admin directly through the account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot remove team members, change roles, or manage workspace membership. These actions must be performed by the Workspace Owner or an authorized Admin directly through the account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and account-settings direction are clear.",
+            "evidence": "These actions must be performed by the Workspace Owner or an authorized Admin directly through the account settings.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "These actions must be performed by the Workspace Owner or an authorized Admin directly through the account settings.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the 25-card limit and the need to reduce the list or select another offer.",
+            "evidence": "25 limit; reduce or appropriate preview offer, no splitting/evasion suggestion.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Implies signing in alone enables printing the over-limit Free list.",
+            "evidence": "Proceed with the free preview to finalize designs, then sign in if you want to save or print. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nWith 28 guests and \"free one\" (likely referring to a free preview), here’s what you can do tonight via TableCards:\n\n1. **Free Preview**: Create and view place-card designs for all 28 guests at no cost. This includes arranging names, formatting, and checking layout.  \n2. **No Physical Cards**: TableCards only generates downloadable PDFs (not physical cards). Printing is your responsibility.  \n3. **Save/Export**: To save your project or export the PDF, you’ll need a Google account (sign-in required).  \n4. **AI Backgrounds**: Access AI-generated designs only after signing in.  \n\n**Limitations**:  \n- No paid subscriptions or real checkout (simulated only).  \n- No physical delivery or reprints.  \n\nProceed with the free preview to finalize designs, then sign in if you want to save or print. Let me know if you need help with the setup!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Leaves out the key step needed to export all 28 guests.",
+            "evidence": "Proceed with the free preview to finalize designs, then sign in if you want to save or print. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Proceed with the free preview to finalize designs, then sign in if you want to save or print. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Keeps saving unconfirmed and asks what the customer sees.",
+            "evidence": "To help me troubleshoot this, could you let me know what happens when you try to download the file? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not infer a device download from PDF availability.",
+            "evidence": "To help me troubleshoot this, could you let me know what happens when you try to download the file? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The \"PDF made available\" message means your file was successfully generated, but it doesn't guarantee that Safari has automatically saved it to your iPhone's storage.\n\nTo help me troubleshoot this, could you let me know what happens when you try to download the file? For example, do you see an error message, or does nothing happen at all when you tap the download link?\n\nIn the meantime, you may want to check the **Files app** on your iPhone, as Safari often saves downloads there rather than in your Photos library.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Asks a focused useful troubleshooting question.",
+            "evidence": "To help me troubleshoot this, could you let me know what happens when you try to download the file? ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To help me troubleshoot this, could you let me know what happens when you try to download the file? ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.tuning.calibration.07",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability is not proof of individual downloads.",
+            "evidence": "A server event confirming the PDF is \"made available\" or sent to your browser does not prove that a recipient actually saved the file or viewed it.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The availability-versus-saving boundary follows the printing reference.",
+            "evidence": "A server event confirming the PDF is \"made available\" or sent to your browser does not prove that a recipient actually saved the file or viewed it.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards does not track whether a PDF is downloaded, opened, or printed. A server event confirming the PDF is \"made available\" or sent to your browser does not prove that a recipient actually saved the file or viewed it.\n\nOnce the digital export is generated, TableCards has no visibility into the file or its destination. Since printing is arranged by the customer, there is no built-in reporting for this.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the requested proof is unavailable.",
+            "evidence": "A server event confirming the PDF is \"made available\" or sent to your browser does not prove that a recipient actually saved the file or viewed it.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "A server event confirming the PDF is \"made available\" or sent to your browser does not prove that a recipient actually saved the file or viewed it.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses direct changes and does not accept implied spousal authority.",
+            "evidence": "For security reasons, I am unable to verify account ownership or permissions through this chat, and I do not have the authority to modify workspace memberships.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The escalation wording suggests support may perform membership changes after verification.",
+            "evidence": "They will be able to assist you with sensitive account changes once they have verified your identity and authorization.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The promise of support assistance with account changes leaves the no-membership-change boundary ambiguous.",
+            "evidence": "They will be able to assist you with sensitive account changes once they have verified your identity and authorization.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general contact route are understandable.",
+            "evidence": "For security reasons, I am unable to verify account ownership or permissions through this chat, and I do not have the authority to modify workspace memberships.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "For security reasons, I am unable to verify account ownership or permissions through this chat, and I do not have the authority to modify workspace memberships.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges feedback and distinguishes card text from interface readability.",
+            "evidence": "If you mean the TableCards website interface itself is difficult to read on your device, please submit this through our feedback form (if you are signed in) or the support email link on our site. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supported design adjustments and feedback routes match reviewed knowledge.",
+            "evidence": "If you mean the TableCards website interface itself is difficult to read on your device, please submit this through our feedback form (if you are signed in) or the support email link on our site. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thank you for that feedback.\n\nIf you are referring to the text on your place cards, you can adjust the guest-name font color, size, and position in the editor to improve readability before you export.\n\nIf you mean the TableCards website interface itself is difficult to read on your device, please submit this through our feedback form (if you are signed in) or the support email link on our site. If you're able to send that photo later, it would be very helpful for our team to see exactly what you're experiencing.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Handles both interpretations clearly without requiring unnecessary data.",
+            "evidence": "If you mean the TableCards website interface itself is difficult to read on your device, please submit this through our feedback form (if you are signed in) or the support email link on our site. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you mean the TableCards website interface itself is difficult to read on your device, please submit this through our feedback form (if you are signed in) or the support email link on our site. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Diverts interface accessibility feedback into AI background selection.",
+            "evidence": "While we don’t currently offer dynamic text color adjustments in the free version, you might experiment with the \"AI backgrounds\" feature (if available) to find a design with better contrast. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claimed Free-version restriction is unverified.",
+            "evidence": "While we don’t currently offer dynamic text color adjustments in the free version, you might experiment with the \"AI backgrounds\" feature (if available) to find a design with better contrast. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe pale text contrast on mobile devices can indeed be challenging. While we don’t currently offer dynamic text color adjustments in the free version, you might experiment with the \"AI backgrounds\" feature (if available) to find a design with better contrast. For specific feedback, we recommend using the [contact form](https://tablecards.com/contact) to share your device details and screenshot (if needed), as our team can review accessibility improvements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "AI backgrounds do not explain how to address the reported interface text problem.",
+            "evidence": "While we don’t currently offer dynamic text color adjustments in the free version, you might experiment with the \"AI backgrounds\" feature (if available) to find a design with better contrast. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "While we don’t currently offer dynamic text color adjustments in the free version, you might experiment with the \"AI backgrounds\" feature (if available) to find a design with better contrast. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges accessibility feedback and welcomes the offered photo.",
+            "evidence": "Please feel free to reply to this email with that photo whenever you're ready—it will be very helpful for our team to see exactly how it's appearing on your screen.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The email follow-up request matches the documented contact process.",
+            "evidence": "Please feel free to reply to this email with that photo whenever you're ready—it will be very helpful for our team to see exactly how it's appearing on your screen.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thank you for the feedback. We'd definitely like to look into this, as we want the text to be easy to read regardless of your device settings. \n\nPlease feel free to reply to this email with that photo whenever you're ready—it will be very helpful for our team to see exactly how it's appearing on your screen.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a simple optional next step without promising a fix.",
+            "evidence": "Please feel free to reply to this email with that photo whenever you're ready—it will be very helpful for our team to see exactly how it's appearing on your screen.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Please feel free to reply to this email with that photo whenever you're ready—it will be very helpful for our team to see exactly how it's appearing on your screen.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses to invent the named person's review.",
+            "evidence": "I cannot confirm or deny specific human reviews by individuals like \"Andrew,\" as this is not part of the verified information provided. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The specific contact URL is not verified.",
+            "evidence": "For direct assistance, you may contact TableCards support via the [contact form](https://www.tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot confirm or deny specific human reviews by individuals like \"Andrew,\" as this is not part of the verified information provided. For direct assistance, you may contact TableCards support via the [contact form](https://www.tablecards.com/contact) or email.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general support option are understandable.",
+            "evidence": "I cannot confirm or deny specific human reviews by individuals like \"Andrew,\" as this is not part of the verified information provided. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot confirm or deny specific human reviews by individuals like \"Andrew,\" as this is not part of the verified information provided. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives the card limit but omits the no-charge preview offer option.",
+            "evidence": "**Upgrade to a paid plan**:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents the current choice as a paid upgrade without explaining simulated checkout.",
+            "evidence": "**Upgrade to a paid plan**:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nWith 28 guests on the **free plan** (which allows up to 25 cards), you cannot generate a full set of cards without exceeding the limit. Here’s what you can do:\n\n1. **Reduce the guest list**: Trim 3 names to stay within the 25-card free limit.  \n2. **Upgrade to a paid plan**:  \n   - **Event Pass** ($5): Covers 1 event with up to 500 cards (ideal for your 28 guests).  \n   - **Planner Pro** ($9/month): Unlocks 25 active projects and more AI batches.  \n   - **Studio** ($19/month): For teams, with shared projects and higher limits.  \n\nThe free plan does not support exporting or printing beyond 25 cards. If you need immediate help, consider the Event Pass for this specific event. Let me know if you’d like guidance on upgrading or trimming your list!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reduce-or-change-offer alternatives are otherwise understandable.",
+            "evidence": "**Reduce the guest list**: Trim 3 names to stay within the 25-card free limit.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Upgrade to a paid plan**:  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 11,
+  "invalid": 0,
+  "unsure": 0
+}

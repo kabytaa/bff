@@ -252,7 +252,15 @@ test('review regression: project names persist before and after saving while lif
 
 async function importNames(page: Page, text: string) {
   await step(page, 'Guests');
-  await page.getByLabel(/Paste one name per line/u).fill(text);
+  // Saved-project values can arrive before loading's final microtask clears
+  // inert. Chromium fill() otherwise resolves without focusing/updating input.
+  await expect(page.locator('.creator-controls')).not.toHaveAttribute(
+    'inert',
+    '',
+  );
+  const names = page.getByLabel(/Paste one name per line/u);
+  await names.fill(text);
+  await expect(names).toHaveValue(text);
   const next = page.getByRole('button', { name: 'Continue to design' });
   if (await next.isVisible()) await next.click();
   else await page.getByRole('button', { name: 'Preview names' }).click();
@@ -608,9 +616,21 @@ test('review regression: policies, usable designs, workspace naming, pricing and
   for (const route of ['privacy', 'terms', 'contact']) {
     await page.goto(`/${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(
-      page.getByText(/no-charge preview, not a commercial launch/u),
-    ).toBeVisible();
+    if (route === 'contact') {
+      await expect(
+        page.getByText('TableCards no-charge preview', { exact: true }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole('link', { name: 'Sign in with Google' }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole('link', { name: 'Send us an email' }),
+      ).toHaveAttribute('href', /^mailto:/u);
+    } else {
+      await expect(
+        page.getByText(/no-charge preview, not a commercial launch/u),
+      ).toBeVisible();
+    }
     await expectNoHorizontalPageOverflow(page);
   }
   await logInFromLanding(

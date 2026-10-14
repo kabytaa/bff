@@ -59,6 +59,7 @@ export interface BffProductAccessClient {
     context: BffProductAccessRequestContext,
     request: TransitionUnitReservationRequest,
   ): Promise<UnitReservationResult>;
+  /** @deprecated Customer mock-grant writes are retired; use shared test checkout. */
   setDevelopmentAccess(
     context: BffProductAccessRequestContext,
     request: DevelopmentProductAccessGrantRequest,

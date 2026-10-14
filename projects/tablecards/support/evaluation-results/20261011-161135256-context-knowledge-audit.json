@@ -1,0 +1,2509 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T16:54:18.465Z",
+  "capture": "20261011-161135256-knowledge-live.json",
+  "source": "projects/tablecards/support/knowledge-experiment.ts",
+  "scope": "Prepared initial payload plus confirmed tool-load facts. Failed/locally blocked requests do not prove prepared context reached a model. Received context never proves comprehension.",
+  "correction": "Failed-unit diagnostic requires access and designs, not designs only; original capture metadata preserved.",
+  "completedSelectors": 16,
+  "completedSelectorFallbacks": 5,
+  "nonemptyMissingDependencies": [
+    {
+      "id": "synthetic.support.tuning.calibration.03",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.teams"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "regression.helper.hebrew.overview",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.access"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.basics"
+      ],
+      "originalMissing": [
+        "tablecards.basics"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "synthetic.helper.tuning.calibration.01",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.01",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.01",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.01",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": true
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.02",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.02",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.printing"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.02",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.02",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.03",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.import"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.03",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.import",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.03",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.03",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.04",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.access",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.04",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.04",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.04",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.access"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.05",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.05",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.05",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.teams"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.05",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": true
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.06",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.06",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.designs"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.06",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.designs",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.06",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.07",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.contact"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.07",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.contact"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.07",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.contact"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.helper.tuning.calibration.07",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.contact"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.01",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.01",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.01",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.01",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.printing"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.02",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.02",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.02",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.import"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.02",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.import",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.03",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.03",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.teams"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.03",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": true
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.03",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.04",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.access"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.04",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.access",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.04",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "synthetic.support.tuning.calibration.04",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.overview",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "regression.helper.hebrew.overview",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.overview",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.overview",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "regression.helper.hebrew.printing",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.printing",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.printing",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.printing"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.printing",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "arm": "full-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "arm": "compact-lazy",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.access"
+      ],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.basics"
+      ],
+      "originalMissing": [
+        "tablecards.basics"
+      ]
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.support.hebrew.printing",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.printing"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.support.hebrew.printing",
+      "arm": "jev-compact",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": false
+    },
+    {
+      "id": "regression.support.hebrew.printing",
+      "arm": "compact-inline",
+      "nonempty": true,
+      "successfulModelStep": true,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.support.hebrew.printing",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.overview",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "completed",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.russian.overview",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.overview",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.overview",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.basics",
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "regression.helper.russian.printing",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.printing",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.printing",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "regression.helper.russian.printing",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.russian.payment",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.russian.payment",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "originalMissing": [
+        "tablecards.access",
+        "tablecards.basics"
+      ]
+    },
+    {
+      "id": "regression.helper.russian.payment",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.russian.payment",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.overview",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.basics",
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "regression.helper.spanish.overview",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.spanish.overview",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.overview",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.printing",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.spanish.printing",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.printing",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.printing",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "regression.helper.spanish.payment",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.payment",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.spanish.payment",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "originalMissing": [
+        "tablecards.access",
+        "tablecards.basics"
+      ]
+    },
+    {
+      "id": "regression.helper.spanish.payment",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.french.overview",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.overview",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.basics",
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "regression.helper.french.overview",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.french.overview",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.basics",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.printing",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "regression.helper.french.printing",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.french.printing",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.printing",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.payment",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "regression.helper.french.payment",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.payment",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "regression.helper.french.payment",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.basics"
+      ],
+      "originalMissing": [
+        "tablecards.access",
+        "tablecards.basics"
+      ]
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.normal.03",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "originalMissing": [
+        "tablecards.designs"
+      ]
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.09",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.known.synthetic.helper.held_out.messy.16",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.helper.multitopic",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.context.helper.multitopic",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.helper.multitopic",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.helper.multitopic",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.access",
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "diagnostic.context.helper.followup",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.helper.followup",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.helper.followup",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "originalMissing": [
+        "tablecards.teams",
+        "tablecards.import"
+      ]
+    },
+    {
+      "id": "diagnostic.context.helper.followup",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.teams",
+        "tablecards.import"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.context.support.multitopic",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.support.multitopic",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.import",
+        "tablecards.printing"
+      ],
+      "originalMissing": [
+        "tablecards.import",
+        "tablecards.printing"
+      ]
+    },
+    {
+      "id": "diagnostic.context.support.multitopic",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.context.support.multitopic",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.import",
+        "tablecards.printing"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.support.followup",
+      "arm": "compact-lazy",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [],
+      "missingFromPreparedOrLoaded": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "originalMissing": [
+        "tablecards.access",
+        "tablecards.designs"
+      ]
+    },
+    {
+      "id": "diagnostic.context.support.followup",
+      "arm": "jev-compact",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": [],
+      "selectorStatus": "provider-error",
+      "selectorFallback": true
+    },
+    {
+      "id": "diagnostic.context.support.followup",
+      "arm": "compact-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    },
+    {
+      "id": "diagnostic.context.support.followup",
+      "arm": "full-inline",
+      "nonempty": false,
+      "successfulModelStep": false,
+      "dependencyKeys": [
+        "tablecards.access",
+        "tablecards.designs"
+      ],
+      "preparedOrConfirmedLoadedKeys": [
+        "tablecards.basics",
+        "tablecards.printing",
+        "tablecards.import",
+        "tablecards.access",
+        "tablecards.designs",
+        "tablecards.teams",
+        "tablecards.contact"
+      ],
+      "missingFromPreparedOrLoaded": [],
+      "originalMissing": []
+    }
+  ]
+}

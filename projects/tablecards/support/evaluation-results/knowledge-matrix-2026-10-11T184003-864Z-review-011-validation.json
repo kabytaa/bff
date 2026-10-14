@@ -1,0 +1,1245 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-011",
+  "packetHash": "6aee5c7a69556af883f859dab3aa8a077d31a4687dde4baf2bbeaa02e6c4b61f",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "For the background, please ask your designer for a **PNG or JPEG** file, as TableCards does not currently support SVG. To ensure the best results, the image should have a 7:4 aspect ratio and be at least 1050 x 600 pixels (and no more than 2 megapixels).\n\nYes, you can move the text. Once you have uploaded your background, you can adjust the guest name's position, as well as its font, size, and color.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "For the background, please ask your designer for a **PNG or JPEG** file, as TableCards does not currently support SVG. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "For the background, please ask your designer for a **PNG or JPEG** file, as TableCards does not currently support SVG. To ensure the best results, the image should have a 7:4 aspect ratio and be at least 1050 x 600 pixels (and no more than 2 megapixels).\n\nYes, you can move the text. Once you have uploaded your background, you can adjust the guest name's position, as well as its font, size, and color.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "For the background, please ask your designer for a **PNG or JPEG** file, as TableCards does not currently support SVG. To ensure the best results, the image should have a 7:4 aspect ratio and be at least 1050 x 600 pixels (and no more than 2 megapixels).\n\nYes, you can move the text. Once you have uploaded your background, you can adjust the guest name's position, as well as its font, size, and color.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "For the background, please ask your designer for a **PNG or JPEG** file, as TableCards does not currently support SVG. To ensure the best results, the image should have a 7:4 aspect ratio and be at least 1050 x 600 pixels (and no more than 2 megapixels).\n\nYes, you can move the text. Once you have uploaded your background, you can adjust the guest name's position, as well as its font, size, and color.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "\n\nFor the background, your designer should use **PNG/JPEG** files (not SVG) with a **7:4 aspect ratio** (e.g., 1050x600 pixels) and under **2 megapixels/10 MiB**. SVGs are not explicitly supported in the current workflow.  \n\nOnce the background is uploaded, you can adjust guest-name text **position, font, size, and color** via TableCards' preview interface. The text elements are editable after adding the background, but ensure the design doesn’t lock or obscure the name placement.  \n\nFor specifics, see:  \n- [Design requirements](tablecards.designs)  \n- [Text customization](tablecards.designs)  \n\nLet me know if further details are needed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents an internal knowledge key as customer documentation links without a supported destination.",
+            "evidence": "- [Design requirements](tablecards.designs)  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nFor the background, your designer should use **PNG/JPEG** files (not SVG) with a **7:4 aspect ratio** (e.g., 1050x600 pixels) and under **2 megapixels/10 MiB**. SVGs are not explicitly supported in the current workflow.  \n\nOnce the background is uploaded, you can adjust guest-name text **position, font, size, and color** via TableCards' preview interface. The text elements are editable after adding the background, but ensure the design doesn’t lock or obscure the name placement.  \n\nFor specifics, see:  \n- [Design requirements](tablecards.designs)  \n- [Text customization](tablecards.designs)  \n\nLet me know if further details are needed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The promised design-requirements link is an internal key, not a usable customer help destination.",
+            "evidence": "- [Design requirements](tablecards.designs)  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nFor the background, your designer should use **PNG/JPEG** files (not SVG) with a **7:4 aspect ratio** (e.g., 1050x600 pixels) and under **2 megapixels/10 MiB**. SVGs are not explicitly supported in the current workflow.  \n\nOnce the background is uploaded, you can adjust guest-name text **position, font, size, and color** via TableCards' preview interface. The text elements are editable after adding the background, but ensure the design doesn’t lock or obscure the name placement.  \n\nFor specifics, see:  \n- [Design requirements](tablecards.designs)  \n- [Text customization](tablecards.designs)  \n\nLet me know if further details are needed!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "No, you cannot use an SVG for the background. Custom artwork must be uploaded as a **PNG or JPEG** file. For the best results, ensure the image is at least 1050 × 600 pixels and no larger than 2 megapixels.\n\nYes, once you have added your background, you can adjust the guest name's **font, size, color, and position** before you export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "No, you cannot use an SVG for the background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you cannot use an SVG for the background. Custom artwork must be uploaded as a **PNG or JPEG** file. For the best results, ensure the image is at least 1050 × 600 pixels and no larger than 2 megapixels.\n\nYes, once you have added your background, you can adjust the guest name's **font, size, color, and position** before you export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "No, you cannot use an SVG for the background. Custom artwork must be uploaded as a **PNG or JPEG** file. For the best results, ensure the image is at least 1050 × 600 pixels and no larger than 2 megapixels.\n\nYes, once you have added your background, you can adjust the guest name's **font, size, color, and position** before you export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "No, you cannot use an SVG for the background. Custom artwork must be uploaded as a **PNG or JPEG** file. For the best results, ensure the image is at least 1050 × 600 pixels and no larger than 2 megapixels.\n\nYes, once you have added your background, you can adjust the guest name's **font, size, color, and position** before you export.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "You cannot manually move text after adding a background. ",
+            "reason": "The reference explicitly allows supported guest-name position adjustments; this answer denies them after background upload.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Incorrectly denies the requested ability to move guest-name text.",
+            "evidence": "You cannot manually move text after adding a background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says guest-name text cannot be moved despite the supported position control.",
+            "evidence": "You cannot manually move text after adding a background. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\n- **SVG support**: TableCards does not accept SVG files for custom backgrounds. Use PNG or JPEG instead, following these specs: 7:4 ratio, 1050×600 px minimum, 2 megapixels max, 10 MiB file size, and 8-bit color (no animation/rotation).  \n\n- **Text repositioning**: With a custom background, guest-name text positioning is limited to the template’s predefined layout. You cannot manually move text after adding a background. Ensure names fit within the template’s designated areas during design.  \n\nFor exact placement, test with a small guest list first. If issues arise, contact support with your browser/device details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "\n\n- **SVG support**: TableCards does not accept SVG files for custom backgrounds. Use PNG or JPEG instead, following these specs: 7:4 ratio, 1050×600 px minimum, 2 megapixels max, 10 MiB file size, and 8-bit color (no animation/rotation).  \n\n- **Text repositioning**: With a custom background, guest-name text positioning is limited to the template’s predefined layout. You cannot manually move text after adding a background. Ensure names fit within the template’s designated areas during design.  \n\nFor exact placement, test with a small guest list first. If issues arise, contact support with your browser/device details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\n- **SVG support**: TableCards does not accept SVG files for custom backgrounds. Use PNG or JPEG instead, following these specs: 7:4 ratio, 1050×600 px minimum, 2 megapixels max, 10 MiB file size, and 8-bit color (no animation/rotation).  \n\n- **Text repositioning**: With a custom background, guest-name text positioning is limited to the template’s predefined layout. You cannot manually move text after adding a background. Ensure names fit within the template’s designated areas during design.  \n\nFor exact placement, test with a small guest list first. If issues arise, contact support with your browser/device details.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides manual splitting as a workaround rather than maintaining the normal offer boundary.",
+            "evidence": "You’d need to manually divide the list into 25-guest batches and save each as a distinct project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Proposes eight saved Free projects without explaining how the one-active-project limit is preserved.",
+            "evidence": "You’d need to manually divide the list into 25-guest batches and save each as a distinct project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Provides a limit-circumvention workflow without clearly preserving the one-active-project boundary.",
+            "evidence": "\n\nThe Free plan allows 1 active project with up to 25 cards. To handle 200 guests, you’d need **8 separate Free projects** (200 ÷ 25 = 8). However, **TableCards does not auto-split guest lists** across projects. You’d need to manually divide the list into 25-guest batches and save each as a distinct project. \n\nNote: \n- Saving requires Google sign-in.\n- Free projects cannot export if exceeding 25 cards.\n- Automatic splitting is not supported; manual organization is required. \n\nConsider upgrading to a paid plan (e.g., Planner Pro) for larger guest lists without manual splitting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Says one active project is allowed but directs the customer to save eight distinct projects.",
+            "evidence": "You’d need to manually divide the list into 25-guest batches and save each as a distinct project. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe Free plan allows 1 active project with up to 25 cards. To handle 200 guests, you’d need **8 separate Free projects** (200 ÷ 25 = 8). However, **TableCards does not auto-split guest lists** across projects. You’d need to manually divide the list into 25-guest batches and save each as a distinct project. \n\nNote: \n- Saving requires Google sign-in.\n- Free projects cannot export if exceeding 25 cards.\n- Automatic splitting is not supported; manual organization is required. \n\nConsider upgrading to a paid plan (e.g., Planner Pro) for larger guest lists without manual splitting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "Your designer should send a **PNG or JPEG** file, as SVG is not supported for custom backgrounds.\n\nHowever, you **can move and adjust the guest-name text**. Once the background is added, you are able to change the font, size, color, and position of the names before exporting the final cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "Your designer should send a **PNG or JPEG** file, as SVG is not supported for custom backgrounds.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Your designer should send a **PNG or JPEG** file, as SVG is not supported for custom backgrounds.\n\nHowever, you **can move and adjust the guest-name text**. Once the background is added, you are able to change the font, size, color, and position of the names before exporting the final cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "Your designer should send a **PNG or JPEG** file, as SVG is not supported for custom backgrounds.\n\nHowever, you **can move and adjust the guest-name text**. Once the background is added, you are able to change the font, size, color, and position of the names before exporting the final cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "Your designer should send a **PNG or JPEG** file, as SVG is not supported for custom backgrounds.\n\nHowever, you **can move and adjust the guest-name text**. Once the background is added, you are able to change the font, size, color, and position of the names before exporting the final cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "Background for place cards must be a PNG or JPEG image, so an SVG file won't work for that import.\n\nHowever, you can move the guest names yourself. Once the background is added, you can adjust the guest-name font, size, color, and position before exporting the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "Background for place cards must be a PNG or JPEG image, so an SVG file won't work for that import.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Background for place cards must be a PNG or JPEG image, so an SVG file won't work for that import.\n\nHowever, you can move the guest names yourself. Once the background is added, you can adjust the guest-name font, size, color, and position before exporting the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "Background for place cards must be a PNG or JPEG image, so an SVG file won't work for that import.\n\nHowever, you can move the guest names yourself. Once the background is added, you can adjust the guest-name font, size, color, and position before exporting the cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "Background for place cards must be a PNG or JPEG image, so an SVG file won't work for that import.\n\nHowever, you can move the guest names yourself. Once the background is added, you can adjust the guest-name font, size, color, and position before exporting the cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "The \"4 ppl + me\" total of 5 people falls well within the **Free plan's limit of 25 cards** (assuming you're referring to guest cards or project members). ",
+            "reason": "The answer treats the 25-card Free allowance as project-member capacity; the approved shared workspace limit is five members.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not tell the customer that five people fills the Studio membership limit.",
+            "evidence": "There's no \"full\" threshold here—your group would occupy just 5 of the 25 available slots. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Applies the 25-card allowance to project members, conflating card and membership limits.",
+            "evidence": "The \"4 ppl + me\" total of 5 people falls well within the **Free plan's limit of 25 cards** (assuming you're referring to guest cards or project members). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe \"4 ppl + me\" total of 5 people falls well within the **Free plan's limit of 25 cards** (assuming you're referring to guest cards or project members). There's no \"full\" threshold here—your group would occupy just 5 of the 25 available slots. \n\nIf you're asking about team collaboration features (e.g., shared projects, AI batches), the **Studio plan** (up to 5 members) might be relevant. For precise details about your current access, check the **Account** section. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Says the group is not full while also mentioning Studio's five-member maximum.",
+            "evidence": "There's no \"full\" threshold here—your group would occupy just 5 of the 25 available slots. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe \"4 ppl + me\" total of 5 people falls well within the **Free plan's limit of 25 cards** (assuming you're referring to guest cards or project members). There's no \"full\" threshold here—your group would occupy just 5 of the 25 available slots. \n\nIf you're asking about team collaboration features (e.g., shared projects, AI batches), the **Studio plan** (up to 5 members) might be relevant. For precise details about your current access, check the **Account** section. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "For the background, your designer should send you a **PNG or JPEG** file. TableCards does not currently support SVG files for custom artwork. \n\nTo make sure the file works well, please ensure it meets these requirements:\n*   **Dimensions:** At least 1050 × 600 pixels (with a 7:4 aspect ratio).\n*   **File Size:** No more than 10 MiB or 2 megapixels.\n\nOnce you upload the background, **yes, you can move the guest names**. You have the ability to adjust the font, size, color, and position of the text before you export your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "For the background, your designer should send you a **PNG or JPEG** file. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "For the background, your designer should send you a **PNG or JPEG** file. TableCards does not currently support SVG files for custom artwork. \n\nTo make sure the file works well, please ensure it meets these requirements:\n*   **Dimensions:** At least 1050 × 600 pixels (with a 7:4 aspect ratio).\n*   **File Size:** No more than 10 MiB or 2 megapixels.\n\nOnce you upload the background, **yes, you can move the guest names**. You have the ability to adjust the font, size, color, and position of the text before you export your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "For the background, your designer should send you a **PNG or JPEG** file. TableCards does not currently support SVG files for custom artwork. \n\nTo make sure the file works well, please ensure it meets these requirements:\n*   **Dimensions:** At least 1050 × 600 pixels (with a 7:4 aspect ratio).\n*   **File Size:** No more than 10 MiB or 2 megapixels.\n\nOnce you upload the background, **yes, you can move the guest names**. You have the ability to adjust the font, size, color, and position of the text before you export your cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "For the background, your designer should send you a **PNG or JPEG** file. TableCards does not currently support SVG files for custom artwork. \n\nTo make sure the file works well, please ensure it meets these requirements:\n*   **Dimensions:** At least 1050 × 600 pixels (with a 7:4 aspect ratio).\n*   **File Size:** No more than 10 MiB or 2 megapixels.\n\nOnce you upload the background, **yes, you can move the guest names**. You have the ability to adjust the font, size, color, and position of the text before you export your cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "Unfortunately, TableCards only accepts PNG or JPEG images for custom backgrounds; SVGs are not supported.\n\nHowever, you can still move or adjust the guest names yourself. Once the background is applied, you can change the guest-name font, size, and position in the preview before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "Unfortunately, TableCards only accepts PNG or JPEG images for custom backgrounds; SVGs are not supported.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Unfortunately, TableCards only accepts PNG or JPEG images for custom backgrounds; SVGs are not supported.\n\nHowever, you can still move or adjust the guest names yourself. Once the background is applied, you can change the guest-name font, size, and position in the preview before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "Unfortunately, TableCards only accepts PNG or JPEG images for custom backgrounds; SVGs are not supported.\n\nHowever, you can still move or adjust the guest names yourself. Once the background is applied, you can change the guest-name font, size, and position in the preview before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "Unfortunately, TableCards only accepts PNG or JPEG images for custom backgrounds; SVGs are not supported.\n\nHowever, you can still move or adjust the guest names yourself. Once the background is applied, you can change the guest-name font, size, and position in the preview before exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends extra manual projects instead of maintaining the requested offer boundary.",
+            "evidence": "**Manually create new projects** for additional guests, as the system does not auto-split projects. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Suggests support offers custom automation workflows without evidence for that capability.",
+            "evidence": "For automation beyond this, contact support for custom workflows. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Provides a limit-circumvention workflow without clearly preserving the one-active-project boundary.",
+            "evidence": "\n\nTo split 200 guests into Free projects automatically, you’d need to use the **TableCards Import** tool to manage the guest list, but **automatic project splitting** isn’t supported. Here’s what you can do:\n\n1. **Import the guest list** (via text, CSV/XLSX) using `tablecards.import` to map names and optional details.\n2. **Save the project** (requires sign-in and a workspace selection). Each saved project is tied to a workspace and subject to Free plan limits.\n3. **Manually create new projects** for additional guests, as the system does not auto-split projects. Copying projects is only available on professional plans.\n\nFor automation beyond this, contact support for custom workflows. Would you like help importing your guest list first?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs a customer to use an internal knowledge key as an import tool.",
+            "evidence": "**Import the guest list** (via text, CSV/XLSX) using `tablecards.import` to map names and optional details.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nTo split 200 guests into Free projects automatically, you’d need to use the **TableCards Import** tool to manage the guest list, but **automatic project splitting** isn’t supported. Here’s what you can do:\n\n1. **Import the guest list** (via text, CSV/XLSX) using `tablecards.import` to map names and optional details.\n2. **Save the project** (requires sign-in and a workspace selection). Each saved project is tied to a workspace and subject to Free plan limits.\n3. **Manually create new projects** for additional guests, as the system does not auto-split projects. Copying projects is only available on professional plans.\n\nFor automation beyond this, contact support for custom workflows. Would you like help importing your guest list first?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that four others plus the customer fills the five-member Studio limit.",
+            "evidence": "If you are using a Studio workspace, a total of 5 people (you plus 4 others) means the workspace is at its limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Studio capacity matches the approved reference.",
+            "evidence": "If you are using a Studio workspace, a total of 5 people (you plus 4 others) means the workspace is at its limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "If you are using a Studio workspace, a total of 5 people (you plus 4 others) means the workspace is at its limit. The Studio plan supports up to five members total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The capacity answer is direct and easy to understand.",
+            "evidence": "If you are using a Studio workspace, a total of 5 people (you plus 4 others) means the workspace is at its limit. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "If you are using a Studio workspace, a total of 5 people (you plus 4 others) means the workspace is at its limit. The Studio plan supports up to five members total.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers in card slots instead of explaining the five-member workspace limit.",
+            "evidence": "With 5 people (4 + you), this would use **5 of 25 available slots**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Unconditionally maps the customer's group to Free card capacity without establishing that interpretation.",
+            "evidence": "There's no \"full\" limit here—your group is well within the free tier's capacity. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBased on the free plan details, you can create up to **25 cards**. With 5 people (4 + you), this would use **5 of 25 available slots**. There's no \"full\" limit here—your group is well within the free tier's capacity. If you need more cards, you’d need to upgrade to a paid plan (e.g., Event Pass for 500 cards). Let me know if you’re asking about something else!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer conflates the requested people capacity with a card-count allowance.",
+            "evidence": "With 5 people (4 + you), this would use **5 of 25 available slots**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nBased on the free plan details, you can create up to **25 cards**. With 5 people (4 + you), this would use **5 of 25 available slots**. There's no \"full\" limit here—your group is well within the free tier's capacity. If you need more cards, you’d need to upgrade to a paid plan (e.g., Event Pass for 500 cards). Let me know if you’re asking about something else!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "For AI-generated designs, note that \"4 choices\" are provided, but text positioning is automated. ",
+            "reason": "The reference allows supported guest-name position adjustment; the answer invents an AI-background automated-placement restriction.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "\n\nThe designer should use PNG/JPEG for custom backgrounds (not SVG), as per TableCards' specifications (1050×600px minimum, 2 megapixels max, 8-bit PNG). You **can** adjust guest-name text position, font, and style within TableCards after adding a background, but:  \n\n- AI-generated backgrounds may restrict manual text placement (preview first).  \n- Custom PNG/JPEG backgrounds require precise alignment during design, as TableCards doesn’t support editing vector elements (like SVG paths).  \n- Always preview before exporting to ensure names appear correctly.  \n\nFor AI-generated designs, note that \"4 choices\" are provided, but text positioning is automated. For full control, use predefined templates or custom artwork with fixed ratios.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims AI backgrounds automate text placement instead of preserving the supported position adjustment.",
+            "evidence": "For AI-generated designs, note that \"4 choices\" are provided, but text positioning is automated. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe designer should use PNG/JPEG for custom backgrounds (not SVG), as per TableCards' specifications (1050×600px minimum, 2 megapixels max, 8-bit PNG). You **can** adjust guest-name text position, font, and style within TableCards after adding a background, but:  \n\n- AI-generated backgrounds may restrict manual text placement (preview first).  \n- Custom PNG/JPEG backgrounds require precise alignment during design, as TableCards doesn’t support editing vector elements (like SVG paths).  \n- Always preview before exporting to ensure names appear correctly.  \n\nFor AI-generated designs, note that \"4 choices\" are provided, but text positioning is automated. For full control, use predefined templates or custom artwork with fixed ratios.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Adds conflicting unsupported restrictions to the otherwise correct name-position answer.",
+            "evidence": "- AI-generated backgrounds may restrict manual text placement (preview first).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe designer should use PNG/JPEG for custom backgrounds (not SVG), as per TableCards' specifications (1050×600px minimum, 2 megapixels max, 8-bit PNG). You **can** adjust guest-name text position, font, and style within TableCards after adding a background, but:  \n\n- AI-generated backgrounds may restrict manual text placement (preview first).  \n- Custom PNG/JPEG backgrounds require precise alignment during design, as TableCards doesn’t support editing vector elements (like SVG paths).  \n- Always preview before exporting to ensure names appear correctly.  \n\nFor AI-generated designs, note that \"4 choices\" are provided, but text positioning is automated. For full control, use predefined templates or custom artwork with fixed ratios.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "\n\n- **SVG support**: TableCards does not support SVG files for custom backgrounds. Use PNG or JPEG formats instead, adhering to the 7:4 aspect ratio (e.g., 1050×600 pixels) and size limits (2 megapixels, 10 MiB).  \n- **Text positioning**: Yes, you can adjust guest-name font, size, color, and position after adding the background. Preview changes before exporting.  \n\nEnsure the designer’s artwork meets the specified requirements for successful import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "- **SVG support**: TableCards does not support SVG files for custom backgrounds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\n- **SVG support**: TableCards does not support SVG files for custom backgrounds. Use PNG or JPEG formats instead, adhering to the 7:4 aspect ratio (e.g., 1050×600 pixels) and size limits (2 megapixels, 10 MiB).  \n- **Text positioning**: Yes, you can adjust guest-name font, size, color, and position after adding the background. Preview changes before exporting.  \n\nEnsure the designer’s artwork meets the specified requirements for successful import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "\n\n- **SVG support**: TableCards does not support SVG files for custom backgrounds. Use PNG or JPEG formats instead, adhering to the 7:4 aspect ratio (e.g., 1050×600 pixels) and size limits (2 megapixels, 10 MiB).  \n- **Text positioning**: Yes, you can adjust guest-name font, size, color, and position after adding the background. Preview changes before exporting.  \n\nEnsure the designer’s artwork meets the specified requirements for successful import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\n- **SVG support**: TableCards does not support SVG files for custom backgrounds. Use PNG or JPEG formats instead, adhering to the 7:4 aspect ratio (e.g., 1050×600 pixels) and size limits (2 megapixels, 10 MiB).  \n- **Text positioning**: Yes, you can adjust guest-name font, size, color, and position after adding the background. Preview changes before exporting.  \n\nEnsure the designer’s artwork meets the specified requirements for successful import.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that four others plus the customer fills the five-member Studio limit.",
+            "evidence": "A total of 5 people (you plus 4 others) fits exactly within the **Studio** plan, which allows for up to 5 members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Studio capacity matches the approved reference.",
+            "evidence": "A total of 5 people (you plus 4 others) fits exactly within the **Studio** plan, which allows for up to 5 members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "A total of 5 people (you plus 4 others) fits exactly within the **Studio** plan, which allows for up to 5 members. You won't need an extra space for that group size.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The capacity answer is direct and easy to understand.",
+            "evidence": "A total of 5 people (you plus 4 others) fits exactly within the **Studio** plan, which allows for up to 5 members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "A total of 5 people (you plus 4 others) fits exactly within the **Studio** plan, which allows for up to 5 members. You won't need an extra space for that group size.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Save each as a separate \"active\" project (requires Google sign-in).  \n",
+            "reason": "Free permits one active project, but the answer directs saving all eight chunks as separate active projects.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Recommends eight active Free projects instead of respecting the normal offer boundary.",
+            "evidence": "Save each as a separate \"active\" project (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says each of eight chunks can be saved as an active Free project despite the one-active-project limit.",
+            "evidence": "Save each as a separate \"active\" project (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Provides a limit-circumvention workflow without clearly preserving the one-active-project boundary.",
+            "evidence": "\n\nThe Free plan allows **1 active project with up to 25 cards**. To handle 200 guests, you’d need **8 separate Free projects** (200 ÷ 25 = 8). However, **TableCards does not auto-split guest lists**. You must manually divide your guest list into chunks of 25 or fewer, then:\n\n1. Import/paste each chunk into a new project.  \n2. Save each as a separate \"active\" project (requires Google sign-in).  \n\nNote:  \n- Free projects cannot export if exceeding 25 cards.  \n- Automatic splitting is not supported; manual organization is required.  \n- Consider upgrading to a paid plan (e.g., Event Pass) for larger events.  \n\nLet me know if you need help formatting the guest list!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed eight-active-project workflow contradicts the answer's own one-active-project limit.",
+            "evidence": "Save each as a separate \"active\" project (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe Free plan allows **1 active project with up to 25 cards**. To handle 200 guests, you’d need **8 separate Free projects** (200 ÷ 25 = 8). However, **TableCards does not auto-split guest lists**. You must manually divide your guest list into chunks of 25 or fewer, then:\n\n1. Import/paste each chunk into a new project.  \n2. Save each as a separate \"active\" project (requires Google sign-in).  \n\nNote:  \n- Free projects cannot export if exceeding 25 cards.  \n- Automatic splitting is not supported; manual organization is required.  \n- Consider upgrading to a paid plan (e.g., Event Pass) for larger events.  \n\nLet me know if you need help formatting the guest list!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that four others plus the customer fills the five-member Studio limit.",
+            "evidence": "If you are using a **Studio** workspace, you are exactly at the limit. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Studio capacity matches the approved reference.",
+            "evidence": "If you are using a **Studio** workspace, you are exactly at the limit. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "If you are using a **Studio** workspace, you are exactly at the limit. \n\nStudio allows for a total of **5 members**. Since you have 4 people plus yourself, you have reached the maximum capacity for that plan.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The capacity answer is direct and easy to understand.",
+            "evidence": "If you are using a **Studio** workspace, you are exactly at the limit. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "If you are using a **Studio** workspace, you are exactly at the limit. \n\nStudio allows for a total of **5 members**. Since you have 4 people plus yourself, you have reached the maximum capacity for that plan.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives a manual eight-project splitting workaround instead of the normal offer boundary.",
+            "evidence": "Import or save each chunk as a separate project under your workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The multi-project workaround omits the material Free limit of one active project.",
+            "evidence": "Import or save each chunk as a separate project under your workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Provides a limit-circumvention workflow without clearly preserving the one-active-project boundary.",
+            "evidence": "\n\nThe Free plan allows **up to 25 cards per active project**. To handle 200 guests, you’d need **8 separate projects** (200 ÷ 25 = 8). However, **TableCards does not automatically split guest lists** into multiple projects. You’d need to:\n\n1. Manually divide your guest list into chunks of 25 names.\n2. Import or save each chunk as a separate project under your workspace.\n3. Ensure each project stays within the Free plan’s limits.\n\nNote: Projects are not automatically managed across plans. If you exceed limits, you’d need to either reduce the guest list per project or upgrade to a paid plan (e.g., Event Pass, Planner Pro, or Studio). Let me know if you’d like help formatting the list!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Does not explain how eight saved projects would comply with Free's one-active-project limit.",
+            "evidence": "Import or save each chunk as a separate project under your workspace.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe Free plan allows **up to 25 cards per active project**. To handle 200 guests, you’d need **8 separate projects** (200 ÷ 25 = 8). However, **TableCards does not automatically split guest lists** into multiple projects. You’d need to:\n\n1. Manually divide your guest list into chunks of 25 names.\n2. Import or save each chunk as a separate project under your workspace.\n3. Ensure each project stays within the Free plan’s limits.\n\nNote: Projects are not automatically managed across plans. If you exceed limits, you’d need to either reduce the guest list per project or upgrade to a paid plan (e.g., Event Pass, Planner Pro, or Studio). Let me know if you’d like help formatting the list!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Discusses Free card counts but omits the needed five-member Studio capacity answer.",
+            "evidence": "Five total means full; no invented sixth slot.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explicitly conditional Free card-count facts are correct.",
+            "evidence": "- The **free tier** allows up to **25 cards**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nBased on the information provided, if \"4 ppl + me\" refers to 5 people total, and assuming you're asking about **place-card limits** under the free plan:  \n\n- The **free tier** allows up to **25 cards**.  \n- 5 people would use **only 5 of those 25 slots**, leaving ample space.  \n\nIf you're asking about something else (e.g., physical seating, workspace limits, or a different plan), clarify, and I’ll guide you further. For now, the free plan comfortably accommodates 5 cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The conditional interpretation and clarification request are understandable.",
+            "evidence": "If you're asking about something else (e.g., physical seating, workspace limits, or a different plan), clarify, and I’ll guide you further. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nBased on the information provided, if \"4 ppl + me\" refers to 5 people total, and assuming you're asking about **place-card limits** under the free plan:  \n\n- The **free tier** allows up to **25 cards**.  \n- 5 people would use **only 5 of those 25 slots**, leaving ample space.  \n\nIf you're asking about something else (e.g., physical seating, workspace limits, or a different plan), clarify, and I’ll guide you further. For now, the free plan comfortably accommodates 5 cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "Thanks for sharing that. Yes, you can provide that design and then add your guest names afterward.\n\nCan your designer send an SVG for the background?\n\n- Based on the current artwork rules, TableCards accepts artwork in PNG/JPEG format (fixed 7:4 ratio, at least 1050 × 600 px, under 10 MiB). So I can’t confirm or include SVG right now; if you’d like to proceed with SVG, I can check again for any updated support from your team/instructions.\n\nIn the meantime, once the background is applied (as supported formats)\n\n- Guest names can be adjusted in font, size, color and position before exporting, so you can place the names where you want on the cards.\n- You’ll see a preview before export, and you can save your project if you need to revisit it.\n\nDo you want me to reconfirm whether SVG is supported, or would you like to re-upload as PNG/JPEG from your designer and continue?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "Thanks for sharing that. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Thanks for sharing that. Yes, you can provide that design and then add your guest names afterward.\n\nCan your designer send an SVG for the background?\n\n- Based on the current artwork rules, TableCards accepts artwork in PNG/JPEG format (fixed 7:4 ratio, at least 1050 × 600 px, under 10 MiB). So I can’t confirm or include SVG right now; if you’d like to proceed with SVG, I can check again for any updated support from your team/instructions.\n\nIn the meantime, once the background is applied (as supported formats)\n\n- Guest names can be adjusted in font, size, color and position before exporting, so you can place the names where you want on the cards.\n- You’ll see a preview before export, and you can save your project if you need to revisit it.\n\nDo you want me to reconfirm whether SVG is supported, or would you like to re-upload as PNG/JPEG from your designer and continue?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "Thanks for sharing that. Yes, you can provide that design and then add your guest names afterward.\n\nCan your designer send an SVG for the background?\n\n- Based on the current artwork rules, TableCards accepts artwork in PNG/JPEG format (fixed 7:4 ratio, at least 1050 × 600 px, under 10 MiB). So I can’t confirm or include SVG right now; if you’d like to proceed with SVG, I can check again for any updated support from your team/instructions.\n\nIn the meantime, once the background is applied (as supported formats)\n\n- Guest names can be adjusted in font, size, color and position before exporting, so you can place the names where you want on the cards.\n- You’ll see a preview before export, and you can save your project if you need to revisit it.\n\nDo you want me to reconfirm whether SVG is supported, or would you like to re-upload as PNG/JPEG from your designer and continue?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "Thanks for sharing that. Yes, you can provide that design and then add your guest names afterward.\n\nCan your designer send an SVG for the background?\n\n- Based on the current artwork rules, TableCards accepts artwork in PNG/JPEG format (fixed 7:4 ratio, at least 1050 × 600 px, under 10 MiB). So I can’t confirm or include SVG right now; if you’d like to proceed with SVG, I can check again for any updated support from your team/instructions.\n\nIn the meantime, once the background is applied (as supported formats)\n\n- Guest names can be adjusted in font, size, color and position before exporting, so you can place the names where you want on the cards.\n- You’ll see a preview before export, and you can save your project if you need to revisit it.\n\nDo you want me to reconfirm whether SVG is supported, or would you like to re-upload as PNG/JPEG from your designer and continue?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Lists card allowances instead of explaining that five members fills Studio.",
+            "evidence": "Five total means full; no invented sixth slot.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The Free and Event Pass card limits are supported.",
+            "evidence": "\n\nThe total number of people in your group is 5 (4 people + you). If you're asking about capacity limits for TableCards:  \n\n- **Free plan**: Supports up to 25 cards, so 5 is well within the limit.  \n- **Event Pass**: Supports up to 500 cards, which is also far more than 5.  \n\nIf you're referring to something else (e.g., seating, workspace limits), clarify the context. For example:  \n- Are you asking about place-card slots, project capacity, or a different feature?  \n\nLet me know for a precise answer!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe total number of people in your group is 5 (4 people + you). If you're asking about capacity limits for TableCards:  \n\n- **Free plan**: Supports up to 25 cards, so 5 is well within the limit.  \n- **Event Pass**: Supports up to 500 cards, which is also far more than 5.  \n\nIf you're referring to something else (e.g., seating, workspace limits), clarify the context. For example:  \n- Are you asking about place-card slots, project capacity, or a different feature?  \n\nLet me know for a precise answer!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The clarification request is understandable but the relevant capacity remains unanswered.",
+            "evidence": "If you're referring to something else (e.g., seating, workspace limits), clarify the context. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "\n\nThe total number of people in your group is 5 (4 people + you). If you're asking about capacity limits for TableCards:  \n\n- **Free plan**: Supports up to 25 cards, so 5 is well within the limit.  \n- **Event Pass**: Supports up to 500 cards, which is also far more than 5.  \n\nIf you're referring to something else (e.g., seating, workspace limits), clarify the context. For example:  \n- Are you asking about place-card slots, project capacity, or a different feature?  \n\nLet me know for a precise answer!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that four others plus the customer fills the five-member Studio limit.",
+            "evidence": "You are at the full capacity for a Studio workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated Studio capacity matches the approved reference.",
+            "evidence": "You are at the full capacity for a Studio workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "You are at the full capacity for a Studio workspace. Studio allows for a total of 5 members, so 4 people plus yourself reaches that limit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The capacity answer is direct and easy to understand.",
+            "evidence": "You are at the full capacity for a Studio workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "You are at the full capacity for a Studio workspace. Studio allows for a total of 5 members, so 4 people plus yourself reaches that limit.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.helper.designer-file-followup",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers both the artwork-format and guest-name-position questions.",
+            "evidence": "No, TableCards does not support SVG files for custom backgrounds. Your designer will need to provide the artwork as a **PNG or JPEG**.\n\nTo ensure the background works correctly, it should meet these requirements:\n*   **Aspect Ratio:** 7:4\n*   **Dimensions:** At least 1050 × 600 pixels\n*   **File Size:** Maximum 2 megapixels or 10 MiB\n\nRegarding the text, **yes**, you can adjust the guest name's font, size, color, and position after you upload your background. Just make sure to preview your cards to see how everything looks before you export the PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "PNG/JPEG artwork and adjustable name position follow the approved design rules.",
+            "evidence": "No, TableCards does not support SVG files for custom backgrounds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, TableCards does not support SVG files for custom backgrounds. Your designer will need to provide the artwork as a **PNG or JPEG**.\n\nTo ensure the background works correctly, it should meet these requirements:\n*   **Aspect Ratio:** 7:4\n*   **Dimensions:** At least 1050 × 600 pixels\n*   **File Size:** Maximum 2 megapixels or 10 MiB\n\nRegarding the text, **yes**, you can adjust the guest name's font, size, color, and position after you upload your background. Just make sure to preview your cards to see how everything looks before you export the PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The designer's required format and available text controls are understandable.",
+            "evidence": "No, TableCards does not support SVG files for custom backgrounds. Your designer will need to provide the artwork as a **PNG or JPEG**.\n\nTo ensure the background works correctly, it should meet these requirements:\n*   **Aspect Ratio:** 7:4\n*   **Dimensions:** At least 1050 × 600 pixels\n*   **File Size:** Maximum 2 megapixels or 10 MiB\n\nRegarding the text, **yes**, you can adjust the guest name's font, size, color, and position after you upload your background. Just make sure to preview your cards to see how everything looks before you export the PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The answer uses clear English.",
+            "evidence": "No, TableCards does not support SVG files for custom backgrounds. Your designer will need to provide the artwork as a **PNG or JPEG**.\n\nTo ensure the background works correctly, it should meet these requirements:\n*   **Aspect Ratio:** 7:4\n*   **Dimensions:** At least 1050 × 600 pixels\n*   **File Size:** Maximum 2 megapixels or 10 MiB\n\nRegarding the text, **yes**, you can adjust the guest name's font, size, color, and position after you upload your background. Just make sure to preview your cards to see how everything looks before you export the PDF.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 13,
+  "invalid": 0,
+  "unsure": 0
+}

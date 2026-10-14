@@ -4,6 +4,7 @@ import {
   paginationResultValidator,
 } from 'convex/server';
 import { v } from 'convex/values';
+import { requireTestWorkspaceMember } from './mockCheckout';
 
 import { MAX_ACCOUNT_SEAT_LIMIT, publicIdentifierSchema } from '@bff/contracts';
 import { accountSummaryValidator, toAccountSummary } from './accounts';
@@ -468,6 +469,7 @@ export const accept = internalMutation({
     if (!user || user.verifiedEmail !== invitation.recipientEmail) {
       return fail('FORBIDDEN', 'Invitation recipient does not match');
     }
+    await requireTestWorkspaceMember(ctx, account, user);
     const policy = effectiveInvitationPolicy(
       environment as Doc<'businessEnvironments'> & {
         customerAuth: NonNullable<Doc<'businessEnvironments'>['customerAuth']>;

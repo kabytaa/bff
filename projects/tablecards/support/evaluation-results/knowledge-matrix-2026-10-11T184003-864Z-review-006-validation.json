@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-006",
+  "packetHash": "0954b6cae02995c6da12ece4dda9f57c37e336722e47bf9953861c65662c0814",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.14",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the current preview collects no payment information.",
+            "evidence": "The current no-charge preview does not collect any payment information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Adds an unsupported connection between Free project limits and checkout completion.",
+            "evidence": "If your project is within the Free tier limits—which includes up to 25 cards and 1 active project—the checkout process may show as complete because no transaction is required to proceed.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "This can happen if you are currently using the **no-charge preview** or the **Free tier**.\n\nThe current no-charge preview does not collect any payment information. If your project is within the Free tier limits—which includes up to 25 cards and 1 active project—the checkout process may show as complete because no transaction is required to proceed.\n\nTo confirm, you can check if your project falls within these Free tier limits:\n*   Up to 25 cards\n*   1 active project\n*   3 predefined designs",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The no-payment explanation is understandable.",
+            "evidence": "The current no-charge preview does not collect any payment information. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "This can happen if you are currently using the **no-charge preview** or the **Free tier**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly answers that the Free limit is twenty-five cards.",
+            "evidence": "The Free plan allows up to **25 cards**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The unqualified paid-upgrade wording obscures that current preview offers do not collect payment.",
+            "evidence": "If you need to exceed this limit, you’d need to upgrade to a paid plan like Event Pass, Planner Pro, or Studio.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Free plan allows up to **25 cards**. This is specified in the **tablecards.access** knowledge base under the \"Free\" offer details. If you need to exceed this limit, you’d need to upgrade to a paid plan like Event Pass, Planner Pro, or Studio.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested card limit is clear.",
+            "evidence": "The Free plan allows up to **25 cards**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows up to **25 cards**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly answers that the Free limit is twenty-five cards.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The unqualified paid-upgrade wording obscures that current preview offers do not collect payment.",
+            "evidence": "If you need more cards, you’d need to upgrade to a paid offer like Event Pass, Planner Pro, or Studio.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Free plan allows up to **25 cards** per active project. This is specified in the \"tablecards.access\" knowledge source under the Free tier details. If you need more cards, you’d need to upgrade to a paid offer like Event Pass, Planner Pro, or Studio.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested card limit is clear.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.14",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that completed checkout is a simulation in the current preview.",
+            "evidence": "TableCards is currently in a **no-charge preview** phase, so the checkout process is a simulation rather than a real financial transaction.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly says no real payment information is collected or required.",
+            "evidence": "Because this is a preview, no actual payment or credit card information is being collected or required at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards is currently in a **no-charge preview** phase, so the checkout process is a simulation rather than a real financial transaction.\n\nThe \"complete\" message simply means you have finished the simulated checkout flow. Because this is a preview, no actual payment or credit card information is being collected or required at this time.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly distinguishes completing the flow from making a payment.",
+            "evidence": "The \"complete\" message simply means you have finished the simulated checkout flow. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "TableCards is currently in a **no-charge preview** phase, so the checkout process is a simulation rather than a real financial transaction.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Attempts to confirm support for the customer's accented Latin letters.",
+            "evidence": "בהתאם לנתונים שמחויבים ל-TableCards, אותיות מוסננות כמו **é** ו-**ñ** (למשל בשמות לатיניים/וייטנאמיים) **מותרות** ותתמכו במערכת. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The corrupted description of template compatibility cannot be grounded in the reviewed guidance.",
+            "evidence": "**התאמה למאגר התרשימים**: אם יש שימוש בתרשימים מותאמים (למשל במודל \"Event Pass\" או \"Planner Pro\"), מומלץ לבדוק את תיאור התיאוריה כדי לוודא תיאום מושלם.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nבהתאם לנתונים שמחויבים ל-TableCards, אותיות מוסננות כמו **é** ו-**ñ** (למשל בשמות לатיניים/וייטנאמיים) **מותרות** ותתמכו במערכת. עם זאת, יש לשים לב למספר נקודות:\n\n1. **התאמה למאגר התרשימים**: אם יש שימוש בתרשימים מותאמים (למשל במודל \"Event Pass\" או \"Planner Pro\"), מומלץ לבדוק את תיאור התיאוריה כדי לוודא תיאום מושלם.\n2. **בדיקה סופית**: לפני יצוא ה-PDF, יש לבדוק את כל השמות בפריסה הסופית כדי לוודא שהאותיות מופיעות כמתוכננות.\n3. **מקרים לא נתמכים**: אם יש תווים לא מוכרים (למשל תווים מדרגות אינדונזיים או סימנים מודרניים), ייתכן שיתקלו בבעיה.\n\nאם יש ספק, מומלץ לשלוח דוגמה קטנה לבדיקה.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to a theory description and diagram collection with no usable meaning.",
+            "evidence": "**התאמה למאגר התרשימים**: אם יש שימוש בתרשימים מותאמים (למשל במודל \"Event Pass\" או \"Planner Pro\"), מומלץ לבדוק את תיאור התיאוריה כדי לוודא תיאום מושלם.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Incorrect Hebrew vocabulary destroys the meaning of the compatibility instructions.",
+            "evidence": "**התאמה למאגר התרשימים**: אם יש שימוש בתרשימים מותאמים (למשל במודל \"Event Pass\" או \"Planner Pro\"), מומלץ לבדוק את תיאור התיאוריה כדי לוודא תיאום מושלם.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states the twenty-five-card Free limit.",
+            "evidence": "The Free offer allows for **up to 25 cards**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The additional lifetime AI allowance agrees with the Free offer definition.",
+            "evidence": "*   1 lifetime AI batch",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Free offer allows for **up to 25 cards**.\n\nThis plan also includes:\n*   1 active project\n*   3 predefined designs\n*   1 lifetime AI batch",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives the requested limit directly.",
+            "evidence": "The Free offer allows for **up to 25 cards**.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free offer allows for **up to 25 cards**.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "For exact details, refer to the [Access page](https://tablecards.com/access).",
+            "reason": "Invents an Access-page URL where the reviewed account guidance identifies Account instead.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers an invented Access destination rather than an approved customer route.",
+            "evidence": "For exact details, refer to the [Access page](https://tablecards.com/access).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The linked Access page is not supplied by the reviewed knowledge or tool evidence.",
+            "evidence": "For exact details, refer to the [Access page](https://tablecards.com/access).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Free plan allows up to **25 cards**. If you're a guest trying to export a list exceeding this limit, you'll need to reduce the number of cards or upgrade to a paid plan. For exact details, refer to the [Access page](https://tablecards.com/access).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested card limit remains understandable.",
+            "evidence": "The Free plan allows up to **25 cards**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows up to **25 cards**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the requested Free card limit.",
+            "evidence": "The Free plan allows up to 25 cards per project.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The twenty-five-card limit follows the approved offer definition.",
+            "evidence": "The Free plan allows up to 25 cards per project.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Free plan allows up to 25 cards per project.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The concise answer is clear.",
+            "evidence": "The Free plan allows up to 25 cards per project.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows up to 25 cards per project.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.normal.14",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that the completed flow is not a payment or paid subscription.",
+            "evidence": "The checkout here is a labelled simulation, not an actual payment or a paid subscription. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the current no-charge preview.",
+            "evidence": "It shows \"complete\" because TableCards is currently in no-charge preview mode. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It shows \"complete\" because TableCards is currently in no-charge preview mode. The checkout here is a labelled simulation, not an actual payment or a paid subscription. Since you haven't processed a payment, your access remains free and mock.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The distinction between simulation and payment is clear.",
+            "evidence": "The checkout here is a labelled simulation, not an actual payment or a paid subscription. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "It shows \"complete\" because TableCards is currently in no-charge preview mode. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states the Free card and active-project limits.",
+            "evidence": "The Free plan allows you to create up to 25 cards in one active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The designs and lifetime welcome batch follow the approved Free definition.",
+            "evidence": "This includes access to three predefined designs and one lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Free plan allows you to create up to 25 cards in one active project. This includes access to three predefined designs and one lifetime welcome AI batch.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives the requested limit clearly.",
+            "evidence": "The Free plan allows you to create up to 25 cards in one active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows you to create up to 25 cards in one active project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states the twenty-five-card limit.",
+            "evidence": "- Up to **25 cards**  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Calls the upgrade currently paid without qualifying the no-charge preview.",
+            "evidence": "If you need more cards, a paid tier like Planner Pro or the Event Pass is available.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Free tier:  \n- Up to **25 cards**  \n- **1** active project  \n\nThat’s the per-project card limit on the Free plan. If you need more cards, a paid tier like Planner Pro or the Event Pass is available.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly identifies the per-project limit.",
+            "evidence": "That’s the per-project card limit on the Free plan. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Free tier:  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that the accents can remain.",
+            "evidence": "Yes, you can keep them as they are. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps unsupported scripts outside the supported accented-Latin claim.",
+            "evidence": "Unsupported scripts will be rejected before export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, you can keep them as they are. TableCards supports Latin extended characters, including accents like the é and ñ, as well as other accented letters used in languages such as Vietnamese. The system does not remove diacritics; if the text fits within the card's height and width, it will display exactly as you entered it. Unsupported scripts will be rejected before export.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The accented-character explanation is understandable in English.",
+            "evidence": "TableCards supports Latin extended characters, including accents like the é and ñ, as well as other accented letters used in languages such as Vietnamese. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question in English.",
+            "evidence": "Yes, you can keep them as they are. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly says the customer can retain the accented letters.",
+            "evidence": "כן, אתה יכול להשאיר אותם כפי שהם. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly describes explicit export failures for unsupported characters or impossible fits.",
+            "evidence": "אם יהיו בעיות בתווים או אם השם לא יצליח להיכנס בגלל אורך, המערכת תודיע לך על כך באופן מפורש לפני שתבצע ייצוא (export).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כן, אתה יכול להשאיר אותם כפי שהם. TableCards תומכת בשמות הכוללים אותיות עם סימנים (כמו é ו-ñ).\n\nאם יהיו בעיות בתווים או אם השם לא יצליח להיכנס בגלל אורך, המערכת תודיע לך על כך באופן מפורש לפני שתבצע ייצוא (export).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The supported-name explanation is clear.",
+            "evidence": "TableCards תומכת בשמות הכוללים אותיות עם סימנים (כמו é ו-ñ).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Hebrew.",
+            "evidence": "כן, אתה יכול להשאיר אותם כפי שהם. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that the accents do not need removal.",
+            "evidence": "את/ה יכול/ה להשאיר אותן כפי שהן. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Describes preserving imported names without promising every script will export.",
+            "evidence": "המערכת מייבאת את השמות בדיוק כפי שהם מופיעים ברשימה שלך (בין אם זה בהעתקה והדבקה או בקובץ CSV/XLSX) ולא מסירה סימנים או אותיות מיוחדות באופן אוטומטי.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "את/ה יכול/ה להשאיר אותן כפי שהן. המערכת מייבאת את השמות בדיוק כפי שהם מופיעים ברשימה שלך (בין אם זה בהעתקה והדבקה או בקובץ CSV/XLSX) ולא מסירה סימנים או אותיות מיוחדות באופן אוטומטי.\n\nאם תרצה/י לוודא שהכל נראה בדיוק כפי שצריך לפני ההדפסה, אני ממליץ/ה לבדוק את התצוגה המקדימה (Preview) של הפרויקט.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear optional preview check.",
+            "evidence": "אם תרצה/י לוודא שהכל נראה בדיוק כפי שצריך לפני ההדפסה, אני ממליץ/ה לבדוק את התצוגה המקדימה (Preview) של הפרויקט.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Hebrew.",
+            "evidence": "את/ה יכול/ה להשאיר אותן כפי שהן. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly says the accents can remain.",
+            "evidence": "כן, אפשר להשאיר אותם. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits the support claim to accented Latin letters.",
+            "evidence": "TableCards תומכת בשמות הכוללים אותיות לטיניות עם סימנים (כמו é, ñ ועוד).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כן, אפשר להשאיר אותם. TableCards תומכת בשמות הכוללים אותיות לטיניות עם סימנים (כמו é, ñ ועוד).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation is concise and clear.",
+            "evidence": "TableCards תומכת בשמות הכוללים אותיות לטיניות עם סימנים (כמו é, ñ ועוד).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Hebrew.",
+            "evidence": "כן, אפשר להשאיר אותם. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that the accents do not need to be removed.",
+            "evidence": "לא נחוצים למחוק את הסימנים מעל האותיות. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The mistranslated character-category terms make the stated limits imprecise.",
+            "evidence": "(לפי נתוני \"tablecards.printing\" – שמות לטיניים עם סימנים מותאמים, אך לא כל סיפרונות או סימני קומבינציה מותאמים.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nבהתאם לנתונים המותאמים, שמות אורים עם אותיות לטיניות עם סימנים מעל (כמו **é** או **ñ**) **מוצדדים** ב-TableCards. לא נחוצים למחוק את הסימנים מעל האותיות. \n\nאך חשוב לשלב את השמות בפריטים מוכנים להדפסה (במצב הופעה) כדי לוודא שהשמות מוצגים בצורה נכונה לפני הפלט.  \n(לפי נתוני \"tablecards.printing\" – שמות לטיניים עם סימנים מותאמים, אך לא כל סיפרונות או סימני קומבינציה מותאמים.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instruction refers to an unclear display mode instead of clearly identifying preview.",
+            "evidence": "אך חשוב לשלב את השמות בפריטים מוכנים להדפסה (במצב הופעה) כדי לוודא שהשמות מוצגים בצורה נכונה לפני הפלט.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Incorrect Hebrew words materially impair the explanation of supported names.",
+            "evidence": "בהתאם לנתונים המותאמים, שמות אורים עם אותיות לטיניות עם סימנים מעל (כמו **é** או **ñ**) **מוצדדים** ב-TableCards. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly says the accented letters can remain unchanged.",
+            "evidence": "כן, אפשר להשאיר את האותיות עם הסימנים כמו שהן. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claim about features absorbing relevant parts has no understandable basis in the references.",
+            "evidence": "ודא שקוראים להם ב-Preview בטרם הייצוא, אם כדי להבטיח שהפיצ'רים סופח לכל החלקים הרלוונטיים.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "כן, אפשר להשאיר את האותיות עם הסימנים כמו שהן. שמות עם דגשים לטיניים, כולל וייטנאמית, נתמכים במוצר.\n\nודא שקוראים להם ב-Preview בטרם הייצוא, אם כדי להבטיח שהפיצ'רים סופח לכל החלקים הרלוונטיים.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preview instruction ends in a nonsensical explanation.",
+            "evidence": "ודא שקוראים להם ב-Preview בטרם הייצוא, אם כדי להבטיח שהפיצ'רים סופח לכל החלקים הרלוונטיים.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The final Hebrew sentence is materially garbled.",
+            "evidence": "ודא שקוראים להם ב-Preview בטרם הייצוא, אם כדי להבטיח שהפיצ'רים סופח לכל החלקים הרלוונטיים.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly says the accented letters can be retained.",
+            "evidence": "אתה יכול להשאיר אותן בדיוק כפי שהן. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies support for accented Latin names.",
+            "evidence": "המערכת תומכת בשמות הכוללים סימנים לטיניים (Latin accented names), כולל אותיות כמו é ו-ñ.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "אתה יכול להשאיר אותן בדיוק כפי שהן. המערכת תומכת בשמות הכוללים סימנים לטיניים (Latin accented names), כולל אותיות כמו é ו-ñ.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The support claim is clear and appropriately scoped.",
+            "evidence": "המערכת תומכת בשמות הכוללים סימנים לטיניים (Latin accented names), כולל אותיות כמו é ו-ñ.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Hebrew.",
+            "evidence": "אתה יכול להשאיר אותן בדיוק כפי שהן. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states the Free limit of twenty-five cards.",
+            "evidence": "The Free offer includes up to 25 cards per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the current no-charge preview.",
+            "evidence": "This is a public, no-charge limit for the current preview.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Free offer includes up to 25 cards per active project. This is a public, no-charge limit for the current preview.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Answers the limit question clearly.",
+            "evidence": "The Free offer includes up to 25 cards per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free offer includes up to 25 cards per active project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly advises retaining the accented Latin characters.",
+            "evidence": "- Keep the accents as they are; the platform handles them correctly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states support for the customer's example characters.",
+            "evidence": "Names with Latin accented characters (like **é**, **ñ**) are **supported** in TableCards. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNames with Latin accented characters (like **é**, **ñ**) are **supported** in TableCards. The system does not silently truncate or remove these characters. \n\n**What to do:**\n- Keep the accents as they are; the platform handles them correctly.\n- Preview your cards to ensure the formatting looks as expected.\n- If you encounter issues, check the **print-test PDF** for calibration and review the **supported scripts** in the documentation.\n\nUnsupported scripts (e.g., non-Latin or complex combining marks) may fail explicitly before export, but Latin accents like **é**, **ñ**, **ç**, etc., are safe to retain.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The optional preview instruction is clear.",
+            "evidence": "- Preview your cards to ensure the formatting looks as expected.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Hebrew question entirely in English.",
+            "evidence": "Names with Latin accented characters (like **é**, **ñ**) are **supported** in TableCards. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.14",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly explains that the completed checkout is a simulation.",
+            "evidence": "Because of this, the checkout process is a labeled simulation rather than a real payment or paid subscription. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes completion of the preview flow from a real transaction.",
+            "evidence": "It says \"complete\" to show you how the workflow would look, but no actual transaction has taken place.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "TableCards is currently in a **no-charge preview** phase. Because of this, the checkout process is a labeled simulation rather than a real payment or paid subscription. It says \"complete\" to show you how the workflow would look, but no actual transaction has taken place.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The no-payment explanation is clear.",
+            "evidence": "It says \"complete\" to show you how the workflow would look, but no actual transaction has taken place.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "TableCards is currently in a **no-charge preview** phase. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that the accents should be retained.",
+            "evidence": "לא צריך למחוק את הסימנים — אפשר להשאיר אותם כמו שהם. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies support for accented Latin names.",
+            "evidence": "המוצר תומך בשמות עם סימנים מיוחדים לטיניים (כמו é, ñ וכד'), כך שיהיה בסדר להגיש את השמות המלאים כמו שהם.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "לא צריך למחוק את הסימנים — אפשר להשאיר אותם כמו שהם. המוצר תומך בשמות עם סימנים מיוחדים לטיניים (כמו é, ñ וכד'), כך שיהיה בסדר להגיש את השמות המלאים כמו שהם.  \n\nבפתיחת ה-PDF ובדפסה, שים דגש על התבנית \"Actual-size\" (בדיוק לפי הגודל) כדי שהאותיות יופיעו בגודל הרצוי ולא יכווצו.\n\nאם אתה רוצה, אפשר להשאיר את השמות כמות שהם ולבדוק את ה-preview של ה-PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers an understandable optional preview check.",
+            "evidence": "אם אתה רוצה, אפשר להשאיר את השמות כמות שהם ולבדוק את ה-preview של ה-PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible Hebrew.",
+            "evidence": "לא צריך למחוק את הסימנים — אפשר להשאיר אותם כמו שהם. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.tuning.calibration.04",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly states the twenty-five-card Free limit.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The paid-upgrade wording does not acknowledge that current preview access is uncharged.",
+            "evidence": "If you need to exceed this limit, you’d need to upgrade to a paid plan like Event Pass, Planner Pro, or Studio. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Free plan allows up to **25 cards** per active project. This includes 1 active project, 3 predefined designs, and 1 lifetime AI batch. If you need to exceed this limit, you’d need to upgrade to a paid plan like Event Pass, Planner Pro, or Studio. Let me know if you need clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The requested card limit is clear.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The Free plan allows up to **25 cards** per active project. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.helper.accented-names",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that the customer can keep the accented letters.",
+            "evidence": "בשיטופי היבוא של TableCards, ניתן לשמור על אותיות עם סימנים מעל כמו é ו-ñ כפי שהן. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The purported location for checking the preview is corrupted and unsupported.",
+            "evidence": "עם זאת, מומלץ לבדוק את ההצגת הנספחת במחברת הבחינה כדי לוודא שהאותיות מוצגות בצורה נכונה. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nבשיטופי היבוא של TableCards, ניתן לשמור על אותיות עם סימנים מעל כמו é ו-ñ כפי שהן. המערכת אינה מוחקת או מחליפה סימנים אלו באופן אוטומטי במהלך היבוא, והייתה מומלצת להישאר עם ההכנסה המקורית. עם זאת, מומלץ לבדוק את ההצגת הנספחת במחברת הבחינה כדי לוודא שהאותיות מוצגות בצורה נכונה. אם יש בעיות, ניתן לשלוח דוגמה קטנה לניתוח.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to an exam notebook instead of a recognizable preview.",
+            "evidence": "עם זאת, מומלץ לבדוק את ההצגת הנספחת במחברת הבחינה כדי לוודא שהאותיות מוצגות בצורה נכונה. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Incorrect Hebrew vocabulary destroys the meaning of the preview instruction.",
+            "evidence": "עם זאת, מומלץ לבדוק את ההצגת הנספחת במחברת הבחינה כדי לוודא שהאותיות מוצגות בצורה נכונה. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 12,
+  "invalid": 0,
+  "unsure": 0
+}

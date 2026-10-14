@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { v } from 'convex/values';
+import { requireTestWorkspaceMember } from './mockCheckout';
 
 import {
   HANDOFF_CODE_TTL_SECONDS,
@@ -693,6 +694,7 @@ export const transfer = internalMutation({
       return fail('CAPACITY_CONFLICT', 'New Owner capacity is full');
     }
 
+    await requireTestWorkspaceMember(ctx, account, newOwner);
     const previousOwnerRole =
       (account.policyOverrides?.adminRoleEnabled ??
       environment.customerAuth.accountDefaults.adminRoleEnabled)

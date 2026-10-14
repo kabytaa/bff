@@ -1,0 +1,1279 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-016",
+  "packetHash": "2cf3fe4e014ade4a0c7b5eded8f33811fa86ed6caa7e845e1696ff51239571a3",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability does not establish successful physical printing.",
+            "evidence": "It does not track or verify the physical printing process, as we only provide the digital files and do not manage the actual printing or the hardware used.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps export evidence separate from download and printing outcomes.",
+            "evidence": "It does not track or verify the physical printing process, as we only provide the digital files and do not manage the actual printing or the hardware used.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot confirm that the PDF was printed successfully. \n\nIn TableCards, \"export completed\" means the digital PDF file has been generated and is ready for download. It does not track or verify the physical printing process, as we only provide the digital files and do not manage the actual printing or the hardware used.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The evidence limitation is clear.",
+            "evidence": "It does not track or verify the physical printing process, as we only provide the digital files and do not manage the actual printing or the hardware used.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot confirm that the PDF was printed successfully. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides a normal resizing or compression path within the artwork limits.",
+            "evidence": "To fix this, you'll need to compress the image or save it at a lower quality to get it under 10MB. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supplied image geometry and size guidance follow the reviewed requirements.",
+            "evidence": "*   **Resolution:** At least 1050 × 600 pixels, but no more than 2 megapixels total.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The upload is failing because the file exceeds the size limit. TableCards allows custom artwork up to a maximum of **10 MiB**, and your file is 12MB.\n\nTo fix this, you'll need to compress the image or save it at a lower quality to get it under 10MB. While you are resizing it, please also ensure the image meets these other requirements:\n\n*   **Aspect Ratio:** Must be 7:4.\n*   **Resolution:** At least 1050 × 600 pixels, but no more than 2 megapixels total.\n*   **PNG Color:** Must be 8-bit or lower.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the reported file is too large.",
+            "evidence": "TableCards allows custom artwork up to a maximum of **10 MiB**, and your file is 12MB.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is failing because the file exceeds the size limit. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required 7:4 aspect-ratio constraint.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the ten-MiB cap as a likely reason for the upload failure.",
+            "evidence": "TableCards has a limit of **10 MiB** for custom artwork uploads, and your file is 12MB.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The upload is likely failing because your file is too large. TableCards has a limit of **10 MiB** for custom artwork uploads, and your file is 12MB.\n\nTo fix this, you'll need to compress the image or save it at a lower resolution. Just keep these other requirements in mind so it works once you've resized it:\n*   **Resolution:** It must be at least 1050 × 600 pixels, but no more than 2 megapixels total.\n*   **Format:** PNG or JPEG.\n*   **Color:** If using PNG, it should be eight-bit or lower.\n*   **Orientation:** No animated or rotated images.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The compression or resizing next step is clear.",
+            "evidence": "To fix this, you'll need to compress the image or save it at a lower resolution. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is likely failing because your file is too large. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "*   **Use the print-test PDF:** Use the separate calibration PDF provided in your export to check your printer's color accuracy before printing the full set.\n",
+            "reason": "The print-test PDF is separate; normal exports contain card sheets only and no calibration page.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines an exact color guarantee and offers printer-setting checks.",
+            "evidence": "We cannot guarantee that colors will match a specific brand standard across different hardware.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly places the calibration PDF inside the normal export.",
+            "evidence": "*   **Use the print-test PDF:** Use the separate calibration PDF provided in your export to check your printer's color accuracy before printing the full set.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I understand you're seeing a color discrepancy between your screen and your printed cards.\n\nBecause TableCards provides digital PDF exports, the final color output depends entirely on your specific printer, ink, and paper. We cannot guarantee that colors will match a specific brand standard across different hardware.\n\nTo help resolve this, I recommend the following:\n\n*   **Use the print-test PDF:** Use the separate calibration PDF provided in your export to check your printer's color accuracy before printing the full set.\n*   **Check printer settings:** Ensure your print settings are set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page,\" as scaling can sometimes affect how colors appear.\n*   **Paper and Ink:** The type of paper and the ink levels in your printer can significantly change how colors like beige appear.\n\nIf the colors are consistently off, you may need to adjust your printer's color profile or consult your print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to look for a calibration file within an export that contains card sheets only.",
+            "evidence": "*   **Use the print-test PDF:** Use the separate calibration PDF provided in your export to check your printer's color accuracy before printing the full set.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I understand you're seeing a color discrepancy between your screen and your printed cards.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Export completed is equivalent for your records. ",
+            "reason": "An export-completed event does not prove the PDF was downloaded or printed.",
+            "referenceKey": "tablecards.printing"
+          },
+          {
+            "code": "prohibited_promise",
+            "evidence": "We can send a formal statement from our support team if needed.",
+            "reason": "Offers to issue formal assurance for an unverified physical-printing outcome.",
+            "referenceKey": "tablecards.printing"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Accepts the false equivalence between export completion and successful printing.",
+            "evidence": "Export completed is equivalent for your records. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats PDF export as evidence of physical printing.",
+            "evidence": "Export completed is equivalent for your records. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Offers a formal support statement based on an unsupported printing claim.",
+            "evidence": "We can send a formal statement from our support team if needed.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The incorrect assertion is clearly expressed.",
+            "evidence": "Export completed is equivalent for your records. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Export completed is equivalent for your records. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the request for hidden internal notes and unverified private data.",
+            "evidence": "I cannot access internal notes or customer-specific data, as this would violate privacy and security policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Uses the approved contact-form and support-mail options.",
+            "evidence": "You can submit feedback or questions via the shared form (if signed in) or contact support through the configured mail link (signed out). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot access internal notes or customer-specific data, as this would violate privacy and security policies. For assistance with your account or specific requests, please use the official support channels provided on the TableCards website. You can submit feedback or questions via the shared form (if signed in) or contact support through the configured mail link (signed out). Always ensure you're using verified, official methods for sensitive requests.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives clear customer-controlled support routes.",
+            "evidence": "You can submit feedback or questions via the shared form (if signed in) or contact support through the configured mail link (signed out). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot access internal notes or customer-specific data, as this would violate privacy and security policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability does not establish successful physical printing.",
+            "evidence": "However, TableCards cannot verify if the file was downloaded to your device, saved correctly, or successfully sent to a printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps export evidence separate from download and printing outcomes.",
+            "evidence": "However, TableCards cannot verify if the file was downloaded to your device, saved correctly, or successfully sent to a printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot confirm to your insurer that the PDF was printed successfully. \n\nWhen the system shows that an export is completed, it means the digital PDF file has been successfully generated and is available for you to download. However, TableCards cannot verify if the file was downloaded to your device, saved correctly, or successfully sent to a printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The evidence limitation is clear.",
+            "evidence": "However, TableCards cannot verify if the file was downloaded to your device, saved correctly, or successfully sent to a printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot confirm to your insurer that the PDF was printed successfully. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the screen-to-print color difference without promising a deadline.",
+            "evidence": "The shift from beige to pink is likely due to the difference between how screens display color (using light/RGB) and how printers apply color (using ink/CMYK). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the test-PDF square is specifically for color accuracy without reviewed support.",
+            "evidence": "* **Test calibration:** If you need to check your printer's color accuracy, you can use our separate **print-test PDF**, which includes a calibration square specifically for this purpose.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot provide your specific brand color code directly, as TableCards generates PDFs based on your unique designs and uploaded assets. To find your exact color, you will need to check your original source files, such as your brand style guide or the design software you used to create your artwork.\n\nThe shift from beige to pink is likely due to the difference between how screens display color (using light/RGB) and how printers apply color (using ink/CMYK). \n\nTo help improve your print results:\n* **Check your settings:** Ensure your printer is set to **\"Actual Size\"** or **\"100%\"** rather than \"Fit to page.\"\n* **Test calibration:** If you need to check your printer's color accuracy, you can use our separate **print-test PDF**, which includes a calibration square specifically for this purpose.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs color troubleshooting toward an unverified color-calibration feature.",
+            "evidence": "* **Test calibration:** If you need to check your printer's color accuracy, you can use our separate **print-test PDF**, which includes a calibration square specifically for this purpose.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot provide your specific brand color code directly, as TableCards generates PDFs based on your unique designs and uploaded assets. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "For support, please use the official contact form or email support@tablecards.com. ",
+            "reason": "Invents a support email destination instead of using the configured support mail link.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers an invented email address rather than the configured support route.",
+            "evidence": "For support, please use the official contact form or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The support email address is not supplied by the reviewed knowledge or tools.",
+            "evidence": "For support, please use the official contact form or email support@tablecards.com. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot access internal notes or personal data, as per our privacy and security policies. For support, please use the official contact form or email support@tablecards.com. Be aware that email alone doesn't grant account access, and we can't retrieve private information without verified authentication.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains that email alone does not grant account access.",
+            "evidence": "Be aware that email alone doesn't grant account access, and we can't retrieve private information without verified authentication.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot access internal notes or personal data, as per our privacy and security policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers printer-specific color-profile troubleshooting without an exact-color or deadline guarantee.",
+            "evidence": "**Printer-specific adjustments**: Contact your printer’s support for color profile corrections (e.g., ICC profiles or color management settings).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats calibration or profile settings as likely causes rather than verified personal facts.",
+            "evidence": "The color discrepancy between your screen and printed output likely stems from printer calibration or color profile settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe color discrepancy between your screen and printed output likely stems from printer calibration or color profile settings. Since TableCards provides PDFs for customer-printing only, we recommend:  \n\n1. **Verify PDF settings**: Ensure \"Print at Actual Size / 100%\" is selected.  \n2. **Check calibration**: Use the separate print-test PDF to confirm your printer’s calibration square.  \n3. **Printer-specific adjustments**: Contact your printer’s support for color profile corrections (e.g., ICC profiles or color management settings).  \n\nFor urgent brand-color accuracy, consider:  \n- Exporting a test page with the exact color codes (if supported by your printer software).  \n- Consulting the printer manufacturer’s technical support for real-time calibration guidance.  \n\nIf further assistance is needed, reply here or contact TableCards support directly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable conditional test-print step.",
+            "evidence": "- Exporting a test page with the exact color codes (if supported by your printer software).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The color discrepancy between your screen and printed output likely stems from printer calibration or color profile settings. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Mentions possible aspect-ratio trouble without providing the required ratio or minimum dimensions.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states that twelve MB exceeds the ten-MiB cap.",
+            "evidence": "The 12MB PNG exceeds TableCards' maximum allowed file size of 10 MiB for custom artwork. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe 12MB PNG exceeds TableCards' maximum allowed file size of 10 MiB for custom artwork. Additionally, the platform restricts PNG color depth to 8-bit or lower. Your file may also have a non-standard aspect ratio or resolution beyond 2 megapixels. Try compressing the image (e.g., via Photoshop or online tools) to meet these specs. If issues persist, we can explore using a predefined design template instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly recommends compression rather than bypassing the limit.",
+            "evidence": "Try compressing the image (e.g., via Photoshop or online tools) to meet these specs. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The 12MB PNG exceeds TableCards' maximum allowed file size of 10 MiB for custom artwork. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Offers settings checks and professional printing help without promising the requested deadline.",
+            "evidence": "If this fails, contact a local print service with your brand color specs. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assigns color-balance calibration to the test square without reviewed support.",
+            "evidence": "Print a calibration square and adjust printer settings (color balance, paper type) accordingly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe color discrepancy between your screen and printer likely stems from calibration differences. To resolve this urgently:\n\n1. **Verify PDF Preview**: Ensure you're viewing the PDF in \"Actual Size\" (100% scale) on your screen. Zooming can alter perceived colors.\n\n2. **Print Test Page**: Use TableCards' dedicated print-test PDF to calibrate your printer. Print a calibration square and adjust printer settings (color balance, paper type) accordingly.\n\n3. **Brand Color Codes**: Confirm the exact Pantone/RGB/CMYK codes for your brand colors. Input these into the PDF design tool before exporting.\n\n4. **Printer Settings**: Set your printer to \"Best Quality\" mode and ensure paper type/finish matches the calibration test.\n\n5. **Print Shop Adjustment**: If self-printing, request color correction at a professional shop using the calibrated PDF.\n\nIf this fails, contact a local print service with your brand color specs. TableCards' support can't directly adjust printer settings, but we recommend prioritizing calibration first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The size-calibration guidance is confusingly presented as a color-calibration procedure.",
+            "evidence": "Print a calibration square and adjust printer settings (color balance, paper type) accordingly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The color discrepancy between your screen and printer likely stems from calibration differences. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides a normal resizing or compression path within the artwork limits.",
+            "evidence": "You will likely need to compress the file or resize it to bring it under both the 10 MiB and the 2-megapixel limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supplied image geometry and size guidance follow the reviewed requirements.",
+            "evidence": "* **Dimensions:** A 7:4 aspect ratio (at least 1050 x 600 pixels).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The upload is failing because your file is 12MB, which exceeds our **10 MiB limit** for custom artwork.\n\nTo successfully upload your image, it needs to meet these specific requirements:\n\n* **File size:** Maximum 10 MiB.\n* **Dimensions:** A 7:4 aspect ratio (at least 1050 x 600 pixels).\n* **Megapixels:** Maximum 2 megapixels.\n* **Color (for PNG):** Must be 8-bit or lower.\n\nYou will likely need to compress the file or resize it to bring it under both the 10 MiB and the 2-megapixel limits.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the reported file is too large.",
+            "evidence": "The upload is failing because your file is 12MB, which exceeds our **10 MiB limit** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is failing because your file is 12MB, which exceeds our **10 MiB limit** for custom artwork.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "If this fails, the printer’s manufacturer support (e.g., HP, Canon) can provide immediate guidance for your device model.",
+            "reason": "Promises immediate manufacturer support even though no response-time commitment is supported.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Promises immediate manufacturer assistance despite the requirement to avoid unsupported timing promises.",
+            "evidence": "If this fails, the printer’s manufacturer support (e.g., HP, Canon) can provide immediate guidance for your device model.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Immediate availability of manufacturer support is unverified.",
+            "evidence": "If this fails, the printer’s manufacturer support (e.g., HP, Canon) can provide immediate guidance for your device model.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Commits to immediate third-party guidance without evidence.",
+            "evidence": "If this fails, the printer’s manufacturer support (e.g., HP, Canon) can provide immediate guidance for your device model.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The sample-print step is clear.",
+            "evidence": "**Test Print**: Print a small sample first. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The color discrepancy between your screen and printout likely stems from differences in how devices interpret colors (RGB vs. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that PDF availability does not establish successful physical printing.",
+            "evidence": "Because TableCards provides digital files rather than physical printing services, the export status only confirms the file is ready; it does not track whether the file was downloaded, sent to a printer, or printed successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps export evidence separate from download and printing outcomes.",
+            "evidence": "Because TableCards provides digital files rather than physical printing services, the export status only confirms the file is ready; it does not track whether the file was downloaded, sent to a printer, or printed successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot confirm that the physical printing was successful. In TableCards, \"export completed\" means the digital PDF file has been successfully generated and is ready for you to download. \n\nBecause TableCards provides digital files rather than physical printing services, the export status only confirms the file is ready; it does not track whether the file was downloaded, sent to a printer, or printed successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The evidence limitation is clear.",
+            "evidence": "Because TableCards provides digital files rather than physical printing services, the export status only confirms the file is ready; it does not track whether the file was downloaded, sent to a printer, or printed successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot confirm that the physical printing was successful. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- There are no publicly documented size limits on PNG uploads, but some import workflows have constraints.\n",
+            "reason": "The reviewed artwork requirements explicitly specify a ten-MiB upload cap.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Fails to provide the documented upload cap and image constraints.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly says there are no documented PNG upload-size limits.",
+            "evidence": "- There are no publicly documented size limits on PNG uploads, but some import workflows have constraints.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Thanks for the context. The 12 MB is a fair file size for a decent-resolution PNG, but the upload interface seems to be rejecting it or giving a sad face for another reason. I can’t see your specific screen or any error message from here, so I’m not certain why the button isn’t accepting it.\n\nWhat I know:\n- TableCards sends a downloadable PDF; you arrange printing on your end.\n- Normal exports include only the card sheets (no calibration page unless you generate it first).\n- Previews are public; AI backgrounds, saving and export require Google sign‑in.\n- There are no publicly documented size limits on PNG uploads, but some import workflows have constraints.\n\nWhat I don’t know:\n- Whether the export format is PDF, a high‑resolution PNG, or another format.\n- The exact error state of the upload button (blocked, empty, deprecated format, file type not allowed, etc.).\n\nTo help narrow this down, could you tell me:\n- The exact error message or indicator shown by the upload button?\n- Whether the designer export is a PNG, PDF, or other file type?\n- Whether you’re just trying to upload a single PNG or using a hosted link (e.g., a cloud URL)?\n\nIf this is urgent or sensitive, you can also reach registered support via the Contact link so a human can take a closer look (I’m not able to act on your account or modify anything for you).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Denies the relevant known limit and diverts the customer from the straightforward resizing remedy.",
+            "evidence": "- There are no publicly documented size limits on PNG uploads, but some import workflows have constraints.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "Thanks for the context. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines both an exact brand-color guarantee and a fix by the requested deadline.",
+            "evidence": "Since the color output is determined by your local printing hardware and paper, we cannot guarantee an exact brand color match or provide a technical fix by 6pm.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly attributes physical print results to local printer, ink and paper conditions.",
+            "evidence": "Because TableCards provides digital PDFs, the final color you see depends on your specific printer, ink levels, and the type of paper you are using.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm sorry to hear the colors are not matching. Because TableCards provides digital PDFs, the final color you see depends on your specific printer, ink levels, and the type of paper you are using.\n\nTo help ensure the most accurate print, please check the following:\n* **Print Settings:** Ensure you are printing at **Actual Size** or **100%**, rather than \"Fit to page.\"\n* **Printer Calibration:** You may need to adjust your printer's color management or calibration settings.\n\nSince the color output is determined by your local printing hardware and paper, we cannot guarantee an exact brand color match or provide a technical fix by 6pm.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an understandable color-management check.",
+            "evidence": "* **Printer Calibration:** You may need to adjust your printer's color management or calibration settings.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I'm sorry to hear the colors are not matching. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses the request for hidden case notes.",
+            "evidence": "I cannot access internal notes or case details, as per the platform's privacy and security policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Does not treat an email match as authorization for private records.",
+            "evidence": "Customer data and internal records are protected, and no unauthorized access is permitted. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot access internal notes or case details, as per the platform's privacy and security policies. Customer data and internal records are protected, and no unauthorized access is permitted. For assistance, please use the official support channels provided in the product (e.g., contact form, email support link). \n\nIf you have a specific issue related to your account or projects, I can help guide you through available features or troubleshooting steps within the product's documented capabilities.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear official support options.",
+            "evidence": "For assistance, please use the official support channels provided in the product (e.g., contact form, email support link). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "I cannot access internal notes or case details, as per the platform's privacy and security policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required aspect ratio and minimum dimensions.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states the size and maximum-pixel limits.",
+            "evidence": "TableCards has a limit of **10 MiB** per image and a maximum resolution of **2 megapixels**. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The upload is failing because your file is too large. TableCards has a limit of **10 MiB** per image and a maximum resolution of **2 megapixels**. \n\nSince your PNG is 12MB, you will need to compress the file or resize it to get it under the 10 MiB limit before it will upload successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear compression or resizing remedy.",
+            "evidence": "Since your PNG is 12MB, you will need to compress the file or resize it to get it under the 10 MiB limit before it will upload successfully.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is failing because your file is too large. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "For urgent help, use the [support contact form](https://tablecards.com/contact) (no private data required).",
+            "reason": "Fabricates a support-form URL instead of using the configured contact route.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the two-megapixel ceiling from the required image constraints.",
+            "evidence": "10 MiB cap and pixel/ratio constraints; request resized copy, not bypass.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a support-form URL not supplied by the reviewed routes.",
+            "evidence": "For urgent help, use the [support contact form](https://tablecards.com/contact) (no private data required).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe upload button may be rejecting your 12MB PNG because TableCards has a **10 MiB file size limit** for custom artwork (as per `tablecards.designs`). Even if the image quality is high, the file exceeds the allowed size. \n\n### Steps to resolve:\n1. **Compress the PNG**: Use tools like TinyPNG or Photoshop to reduce the file size while maintaining quality.\n2. **Check dimensions**: Ensure the image meets the **7:4 ratio** (e.g., 1050×600 pixels) and isn’t unnecessarily large.\n3. **Color depth**: Confirm it’s an **8-bit PNG** (not 16-bit or higher), as higher bit depths increase file size.\n\nIf the file still exceeds 10 MiB, consider splitting it or using a lower-resolution version. For urgent help, use the [support contact form](https://tablecards.com/contact) (no private data required).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Suggests splitting a single background image without explaining a supported usable result.",
+            "evidence": "If the file still exceeds 10 MiB, consider splitting it or using a lower-resolution version. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload button may be rejecting your 12MB PNG because TableCards has a **10 MiB file size limit** for custom artwork (as per `tablecards.designs`). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "According to the support guidelines, we cannot retrieve or share internal documentation, private facts, or case-specific details via automated systems. \n",
+            "reason": "The approved workflow permits verified scoped reads; it does not forbid all automated access to private facts.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Refuses access to hidden case notes through this interface.",
+            "evidence": "The internal notes for cases involving your email address are not accessible through this interface. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly prohibits all automated retrieval of private facts rather than requiring verified scope.",
+            "evidence": "According to the support guidelines, we cannot retrieve or share internal documentation, private facts, or case-specific details via automated systems. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe internal notes for cases involving your email address are not accessible through this interface. According to the support guidelines, we cannot retrieve or share internal documentation, private facts, or case-specific details via automated systems. \n\nFor assistance, you may:\n1. Review the [contact guidelines](#) for supported help channels\n2. Ask specific questions about TableCards features, pricing, or functionality\n3. Submit feedback through the official support form\n\nWould you like help with anything related to TableCards design, printing, or project management?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The contact-guidelines link is only a placeholder and gives no usable destination.",
+            "evidence": "Review the [contact guidelines](#) for supported help channels\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The internal notes for cases involving your email address are not accessible through this interface. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides a normal resizing or compression path within the artwork limits.",
+            "evidence": "**Solution:** Compress the image to under 10MB while maintaining the 7:4 aspect ratio. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supplied image geometry and size guidance follow the reviewed requirements.",
+            "evidence": "- **Resolution:** At least 1050x600 pixels, no more than 2 megapixels.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe upload is rejecting your PNG file because it exceeds the size limit. According to TableCards guidelines:  \n- **Maximum file size: 10 MiB** (your 12MB file is over this).  \n- **Resolution:** At least 1050x600 pixels, no more than 2 megapixels.  \n- **Format:** PNG/JPEG, 8-bit color (no animation/rotation).  \n\n**Solution:** Compress the image to under 10MB while maintaining the 7:4 aspect ratio. Tools like Photoshop, Canva, or online compressors can help. Let me know if you need help trimming dimensions!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the reported file is too large.",
+            "evidence": "- **Maximum file size: 10 MiB** (your 12MB file is over this).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is rejecting your PNG file because it exceeds the size limit. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.messy.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "**Contact support**: Share your specific brand color code (e.g., HEX/RGB) and describe the issue via the [support form](https://tablecards.com/contact) for tailored guidance.  \n",
+            "reason": "Invents a support-form destination instead of using the configured contact route.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the likely printer-setting problem without claiming a completed fix.",
+            "evidence": "The color discrepancy between your screen and printer is likely due to monitor calibration or printer settings, which TableCards cannot adjust. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a support-form URL not supplied by the reviewed knowledge.",
+            "evidence": "**Contact support**: Share your specific brand color code (e.g., HEX/RGB) and describe the issue via the [support form](https://tablecards.com/contact) for tailored guidance.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The promise of immediate help is materially ambiguous and unsupported.",
+            "evidence": "For immediate help, submit details to support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The print-test instruction is understandable.",
+            "evidence": "**Verify the print-test PDF**: Use the separate \"print-test PDF\" to check calibration (ensure \"Actual Size / 100%\" is selected).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The color discrepancy between your screen and printer is likely due to monitor calibration or printer settings, which TableCards cannot adjust. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.15",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides a normal resizing or compression path within the artwork limits.",
+            "evidence": "- Compress the image to under 10 MiB while maintaining 1050×600px resolution.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The supplied image geometry and size guidance follow the reviewed requirements.",
+            "evidence": "- Compress the image to under 10 MiB while maintaining 1050×600px resolution.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe upload is rejecting your 12MB PNG because TableCards limits custom artwork to **10 MiB** (per the designs guidelines). Your file exceeds this size. To resolve:  \n- Compress the image to under 10 MiB while maintaining 1050×600px resolution.  \n- Use 8-bit PNG (no animation/rotation).  \n- Try tools like TinyPNG or Photoshop's \"Save for Web\" (legacy).  \n\nNo paid credits or workarounds are permitted to bypass this cap.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains why the reported file is too large.",
+            "evidence": "The upload is rejecting your 12MB PNG because TableCards limits custom artwork to **10 MiB** (per the designs guidelines). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English.",
+            "evidence": "The upload is rejecting your 12MB PNG because TableCards limits custom artwork to **10 MiB** (per the designs guidelines). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 11,
+  "invalid": 0,
+  "unsure": 0
+}

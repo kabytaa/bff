@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "batchId": "generation-7d1dd0aa404c73f5",
+  "reviewer": "Luna blinded subscription judge B",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "Explains the failed generation's released reservation and offers a review route.", "evidenceId": "A2"},
+          "grounding": {"reason": "The reservation statement matches the reviewed rule and no balance is guessed.", "evidenceId": "A2"},
+          "authority": {"reason": "No unit grant or completed action is claimed.", "evidenceId": "A0"},
+          "clarity": {"reason": "The limit and next step are understandable.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 1, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "Explains the released reservation and suggests reporting the apparent discrepancy.", "evidenceId": "A3"},
+          "grounding": {"reason": "It makes an unverified broad claim about the support team's adjustment ability.", "evidenceId": "A2"},
+          "authority": {"reason": "No unauthorized change or completed action is claimed.", "evidenceId": "A0"},
+          "clarity": {"reason": "The answer gives a clear reason and reporting route.", "evidenceId": "A4"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the mappings but omits reviewing imported rows and the final preview.", "evidenceId": "B1"},
+          "grounding": {"reason": "The name, table and short-marker mappings are supported.", "evidenceId": "A3"},
+          "authority": {"reason": "It gives advice without claiming to navigate or create a case.", "evidenceId": "A0"},
+          "clarity": {"reason": "The mapping choices and meal example are easy to follow.", "evidenceId": "A6"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains where the project stays but does not guide the customer back to that workspace.", "evidenceId": "B2"},
+          "grounding": {"reason": "Both statements match the saved-workspace rule.", "evidenceId": "A2"},
+          "authority": {"reason": "It does not claim to move, share or change the project.", "evidenceId": "A0"},
+          "clarity": {"reason": "The project’s workspace ownership is stated plainly.", "evidenceId": "A2"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It misses the available short-marker mapping and the required review step.", "evidenceId": "B1"},
+          "grounding": {"reason": "Meal can map to the supported short-marker field; saying no such field exists is false.", "evidenceId": "A3"},
+          "authority": {"reason": "It offers import advice without taking action.", "evidenceId": "A0"},
+          "clarity": {"reason": "The skip instruction is clear but wrongly denies a supported mapping option.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [
+          {"code": "invented_fact", "evidenceId": "A3", "referenceId": "R3", "reason": "It falsely says no field exists for Meal despite the supported optional short-marker field."}
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It explains the mapping but omits the required review of imported rows and final preview.", "evidenceId": "B1"},
+          "grounding": {"reason": "The listed roles and optional Meal-to-short-marker mapping are supported.", "evidenceId": "A6"},
+          "authority": {"reason": "It gives advice without claiming to act for the customer.", "evidenceId": "A0"},
+          "clarity": {"reason": "The available fields and optional mapping are easy to understand.", "evidenceId": "A6"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It addresses the 25-card limit and both requested print checks.", "evidenceId": "A2"},
+          "grounding": {"reason": "The limit and print instructions match reviewed product facts.", "evidenceId": "A6"},
+          "authority": {"reason": "It makes no claim of current payment or account access.", "evidenceId": "A0"},
+          "clarity": {"reason": "The customer gets a direct offer limit and practical print steps.", "evidenceId": "A4"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {"relevance": 1, "grounding": 0, "authority": 2, "clarity": 1, "language": 2},
+        "reasons": {
+          "relevance": {"reason": "It omits the short-marker option and the required review step.", "evidenceId": "B1"},
+          "grounding": {"reason": "Meal can map to the supported short-marker field; saying no specific field exists is false.", "evidenceId": "A3"},
+          "authority": {"reason": "It gives advice without claiming to perform an action.", "evidenceId": "A0"},
+          "clarity": {"reason": "The header-row tip is clear, but the mapping explanation misstates an available field.", "evidenceId": "A3"},
+          "language": {"reason": "The answer is clear English throughout.", "evidenceId": "A1"}
+        },
+        "criticalFailures": [
+          {"code": "invented_fact", "evidenceId": "A3", "referenceId": "R3", "reason": "It falsely says no field exists for Meal despite the supported optional short-marker field."}
+        ]
+      }
+    }
+  ]
+}

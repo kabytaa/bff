@@ -1,0 +1,1252 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-003",
+  "packetHash": "6ed44d02c8b24cdbc4859e95132d3983c3934aa81a57122dba5479065d4c37ad",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "**Unsaved Changes**: While you're entering names, your progress is temporarily protected during normal navigation (e.g., switching tabs/browsers) or sign-in. ",
+            "reason": "It promises protection of an unsaved draft when switching browsers beyond the supported recovery boundary.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It extends draft continuity beyond the reviewed boundary by including browser switches.",
+            "evidence": "**Unsaved Changes**: While you're entering names, your progress is temporarily protected during normal navigation (e.g., switching tabs/browsers) or sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It treats switching browsers as protected navigation despite the explicit cross-browser recovery limit.",
+            "evidence": "**Unsaved Changes**: While you're entering names, your progress is temporarily protected during normal navigation (e.g., switching tabs/browsers) or sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "It promises draft protection across browser switches, which the reviewed knowledge forbids.",
+            "evidence": "**Unsaved Changes**: While you're entering names, your progress is temporarily protected during normal navigation (e.g., switching tabs/browsers) or sign-in. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It adds an unexplained active-status confirmation as a saving requirement.",
+            "evidence": "   - Confirming the project's active status\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can enter names first and log in later without starting over. Here's how it works:\n\n1. **Unsaved Changes**: While you're entering names, your progress is temporarily protected during normal navigation (e.g., switching tabs/browsers) or sign-in. However, this is not guaranteed if you wait beyond the draft-storage expiry period or use unrelated devices.\n\n2. **Saving**: To ensure your work is preserved, save the project while logged in. Saving requires:\n   - Being signed in\n   - Selecting a workspace\n   - Confirming the project's active status\n\n3. **Logging In Later**: If you log out and return later:\n   - Your unsaved changes might be lost if the draft-storage period has expired\n   - Saved projects are tied to the workspace selected at save time\n\nFor best results, save your project once you're logged in. If you need to pause, avoid long inactivity periods to minimize data loss risks.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need a spreadsheet. You can copy the text from your notes app and paste it directly into the import area (one name per line).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need a spreadsheet. You can copy the text from your notes app and paste it directly into the import area (one name per line).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need a spreadsheet. You can copy the text from your notes app and paste it directly into the import area (one name per line).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need a spreadsheet. You can copy the text from your notes app and paste it directly into the import area (one name per line).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need a spreadsheet. You can copy the text from your notes app and paste it directly into the import area (one name per line).",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidence": "Yes, you can import names or work on a preview without signing in first, as those features are public. \n\nYour progress is protected during the sign-in process, but there are two important caveats to keep in mind:\n* **Session Expiry:** Unsaved changes are not guaranteed if the draft storage expires.\n* **Devices/Browsers:** Progress is not shared across different browsers or devices until you sign in and save the project to a workspace.\n\nTo be safe, it is best to sign in as soon as you are ready to save your work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidence": "Yes, you can import names or work on a preview without signing in first, as those features are public. \n\nYour progress is protected during the sign-in process, but there are two important caveats to keep in mind:\n* **Session Expiry:** Unsaved changes are not guaranteed if the draft storage expires.\n* **Devices/Browsers:** Progress is not shared across different browsers or devices until you sign in and save the project to a workspace.\n\nTo be safe, it is best to sign in as soon as you are ready to save your work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can import names or work on a preview without signing in first, as those features are public. \n\nYour progress is protected during the sign-in process, but there are two important caveats to keep in mind:\n* **Session Expiry:** Unsaved changes are not guaranteed if the draft storage expires.\n* **Devices/Browsers:** Progress is not shared across different browsers or devices until you sign in and save the project to a workspace.\n\nTo be safe, it is best to sign in as soon as you are ready to save your work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidence": "Yes, you can import names or work on a preview without signing in first, as those features are public. \n\nYour progress is protected during the sign-in process, but there are two important caveats to keep in mind:\n* **Session Expiry:** Unsaved changes are not guaranteed if the draft storage expires.\n* **Devices/Browsers:** Progress is not shared across different browsers or devices until you sign in and save the project to a workspace.\n\nTo be safe, it is best to sign in as soon as you are ready to save your work.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can import names or work on a preview without signing in first, as those features are public. \n\nYour progress is protected during the sign-in process, but there are two important caveats to keep in mind:\n* **Session Expiry:** Unsaved changes are not guaranteed if the draft storage expires.\n* **Devices/Browsers:** Progress is not shared across different browsers or devices until you sign in and save the project to a workspace.\n\nTo be safe, it is best to sign in as soon as you are ready to save your work.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply copy the list from your notes app and paste it directly into TableCards, as long as there is one name per line.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply copy the list from your notes app and paste it directly into TableCards, as long as there is one name per line.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply copy the list from your notes app and paste it directly into TableCards, as long as there is one name per line.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply copy the list from your notes app and paste it directly into TableCards, as long as there is one name per line.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply copy the list from your notes app and paste it directly into TableCards, as long as there is one name per line.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers that names and preview can be prepared before sign-in.",
+            "evidence": "Yes. You can enter names and preview your cards without being signed in.\n\nHowever, **saving** your work permanently, exporting the PDF, and using AI backgrounds require Google sign-in to link to a workspace. You can usually navigate to the sign-in screen without losing your current work on the screen, but you won't be able to see or restore that project later without logging in and selecting the associated workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It conflates returning to an unsaved draft with accessing a saved workspace project.",
+            "evidence": "You can usually navigate to the sign-in screen without losing your current work on the screen, but you won't be able to see or restore that project later without logging in and selecting the associated workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes. You can enter names and preview your cards without being signed in.\n\nHowever, **saving** your work permanently, exporting the PDF, and using AI backgrounds require Google sign-in to link to a workspace. You can usually navigate to the sign-in screen without losing your current work on the screen, but you won't be able to see or restore that project later without logging in and selecting the associated workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It leaves unclear whether a later sign-in preserves the existing draft or only opens a previously saved project.",
+            "evidence": "You can usually navigate to the sign-in screen without losing your current work on the screen, but you won't be able to see or restore that project later without logging in and selecting the associated workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes. You can enter names and preview your cards without being signed in.\n\nHowever, **saving** your work permanently, exporting the PDF, and using AI backgrounds require Google sign-in to link to a workspace. You can usually navigate to the sign-in screen without losing your current work on the screen, but you won't be able to see or restore that project later without logging in and selecting the associated workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "If you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. ",
+            "reason": "It invents mandatory re-entry at later sign-in despite the reviewed protection of unsaved changes during sign-in.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It gives the wrong answer about needing to start over when signing in later.",
+            "evidence": "If you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It says later sign-in requires re-entry unless already saved, contradicting protected sign-in continuity.",
+            "evidence": "If you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can enter names and preview your list without logging in. Import and preview features are public, so you can start adding names or uploading a guest list immediately. However, **saving your project requires a Google sign-in**. \n\nIf you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. Unsaved changes are protected during active use but may not persist across sessions or devices. To keep your work, save it while logged in. \n\nFor details, see the [import guide](#).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It requires prior saving to avoid re-entry while also saying saving requires sign-in.",
+            "evidence": "If you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can enter names and preview your list without logging in. Import and preview features are public, so you can start adding names or uploading a guest list immediately. However, **saving your project requires a Google sign-in**. \n\nIf you log in later, you’ll need to re-import or re-enter the names if you haven’t saved them already. Unsaved changes are protected during active use but may not persist across sessions or devices. To keep your work, save it while logged in. \n\nFor details, see the [import guide](#).",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "\n\nYou don't need to convert your notes app list into a spreadsheet first. TableCards allows you to:\n\n1. **Paste directly** (one name per line or a tabular grid)\n2. **Import CSV/XLSX** if you prefer spreadsheet format\n\nThe system will ask you to map columns (e.g., \"Guest Name,\" \"Table Number,\" \"Marker\") and confirm if your data has headers. Importing doesn't automatically merge/sort data, so ensure your list is formatted correctly before starting. Saved projects require sign-in and a workspace selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "\n\nYou don't need to convert your notes app list into a spreadsheet first. TableCards allows you to:\n\n1. **Paste directly** (one name per line or a tabular grid)\n2. **Import CSV/XLSX** if you prefer spreadsheet format\n\nThe system will ask you to map columns (e.g., \"Guest Name,\" \"Table Number,\" \"Marker\") and confirm if your data has headers. Importing doesn't automatically merge/sort data, so ensure your list is formatted correctly before starting. Saved projects require sign-in and a workspace selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYou don't need to convert your notes app list into a spreadsheet first. TableCards allows you to:\n\n1. **Paste directly** (one name per line or a tabular grid)\n2. **Import CSV/XLSX** if you prefer spreadsheet format\n\nThe system will ask you to map columns (e.g., \"Guest Name,\" \"Table Number,\" \"Marker\") and confirm if your data has headers. Importing doesn't automatically merge/sort data, so ensure your list is formatted correctly before starting. Saved projects require sign-in and a workspace selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "\n\nYou don't need to convert your notes app list into a spreadsheet first. TableCards allows you to:\n\n1. **Paste directly** (one name per line or a tabular grid)\n2. **Import CSV/XLSX** if you prefer spreadsheet format\n\nThe system will ask you to map columns (e.g., \"Guest Name,\" \"Table Number,\" \"Marker\") and confirm if your data has headers. Importing doesn't automatically merge/sort data, so ensure your list is formatted correctly before starting. Saved projects require sign-in and a workspace selection.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYou don't need to convert your notes app list into a spreadsheet first. TableCards allows you to:\n\n1. **Paste directly** (one name per line or a tabular grid)\n2. **Import CSV/XLSX** if you prefer spreadsheet format\n\nThe system will ask you to map columns (e.g., \"Guest Name,\" \"Table Number,\" \"Marker\") and confirm if your data has headers. Importing doesn't automatically merge/sort data, so ensure your list is formatted correctly before starting. Saved projects require sign-in and a workspace selection.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains public name entry followed by signed-in workspace saving.",
+            "evidence": "You can enter names and preview them without signing in, but you cannot save them to come back later.\n\nSaving the project requires a Google sign-in. Once you sign in, you can save the list to your workspace. If you close the page without logging in, your names will be lost.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It states that closing the page necessarily loses names, which the bounded-draft reference does not establish.",
+            "evidence": "If you close the page without logging in, your names will be lost.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "You can enter names and preview them without signing in, but you cannot save them to come back later.\n\nSaving the project requires a Google sign-in. Once you sign in, you can save the list to your workspace. If you close the page without logging in, your names will be lost.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The sign-in and saving steps are understandable.",
+            "evidence": "You can enter names and preview them without signing in, but you cannot save them to come back later.\n\nSaving the project requires a Google sign-in. Once you sign in, you can save the list to your workspace. If you close the page without logging in, your names will be lost.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "You can enter names and preview them without signing in, but you cannot save them to come back later.\n\nSaving the project requires a Google sign-in. Once you sign in, you can save the list to your workspace. If you close the page without logging in, your names will be lost.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need a spreadsheet. You can paste directly from your notes using the one-name-per-line format, which is fully supported for import. Just copy the content from your notes app and paste it into the import area; you can map names and prepare for export without creating a file first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need a spreadsheet. You can paste directly from your notes using the one-name-per-line format, which is fully supported for import. Just copy the content from your notes app and paste it into the import area; you can map names and prepare for export without creating a file first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need a spreadsheet. You can paste directly from your notes using the one-name-per-line format, which is fully supported for import. Just copy the content from your notes app and paste it into the import area; you can map names and prepare for export without creating a file first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need a spreadsheet. You can paste directly from your notes using the one-name-per-line format, which is fully supported for import. Just copy the content from your notes app and paste it into the import area; you can map names and prepare for export without creating a file first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need a spreadsheet. You can paste directly from your notes using the one-name-per-line format, which is fully supported for import. Just copy the content from your notes app and paste it into the import area; you can map names and prepare for export without creating a file first.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, provided there is one name per line.\n\nIf you ever decide to use a spreadsheet later, you can also import CSV or XLSX files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, provided there is one name per line.\n\nIf you ever decide to use a spreadsheet later, you can also import CSV or XLSX files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, provided there is one name per line.\n\nIf you ever decide to use a spreadsheet later, you can also import CSV or XLSX files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, provided there is one name per line.\n\nIf you ever decide to use a spreadsheet later, you can also import CSV or XLSX files.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, provided there is one name per line.\n\nIf you ever decide to use a spreadsheet later, you can also import CSV or XLSX files.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need to create a spreadsheet first. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nWhile you can also import CSV or XLSX files, pasting your list is a quick and easy way to get started.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need to create a spreadsheet first. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nWhile you can also import CSV or XLSX files, pasting your list is a quick and easy way to get started.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need to create a spreadsheet first. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nWhile you can also import CSV or XLSX files, pasting your list is a quick and easy way to get started.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need to create a spreadsheet first. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nWhile you can also import CSV or XLSX files, pasting your list is a quick and easy way to get started.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need to create a spreadsheet first. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nWhile you can also import CSV or XLSX files, pasting your list is a quick and easy way to get started.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains direct one-name-per-line pasting and optional column mapping.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. You can **paste one name per line directly** into the import section. The tool accepts plain text with names separated by line breaks, or a tabular grid (e.g., CSV/XLSX). If your notes app allows copying the list as plain text, simply paste it here. For multi-column data (e.g., names + tables), ensure columns are properly mapped during import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The listed text, grid and file import forms match the reviewed capabilities.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. You can **paste one name per line directly** into the import section. The tool accepts plain text with names separated by line breaks, or a tabular grid (e.g., CSV/XLSX). If your notes app allows copying the list as plain text, simply paste it here. For multi-column data (e.g., names + tables), ensure columns are properly mapped during import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. You can **paste one name per line directly** into the import section. The tool accepts plain text with names separated by line breaks, or a tabular grid (e.g., CSV/XLSX). If your notes app allows copying the list as plain text, simply paste it here. For multi-column data (e.g., names + tables), ensure columns are properly mapped during import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The earlier import-section context makes the paste instruction usable.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. You can **paste one name per line directly** into the import section. The tool accepts plain text with names separated by line breaks, or a tabular grid (e.g., CSV/XLSX). If your notes app allows copying the list as plain text, simply paste it here. For multi-column data (e.g., names + tables), ensure columns are properly mapped during import.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. You can **paste one name per line directly** into the import section. The tool accepts plain text with names separated by line breaks, or a tabular grid (e.g., CSV/XLSX). If your notes app allows copying the list as plain text, simply paste it here. For multi-column data (e.g., names + tables), ensure columns are properly mapped during import.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line directly** into the import tool. The system supports plain text pasting, CSV/XLSX files, or tabular grids. Just ensure each guest name is on a separate line, then map the \"Guest Name\" column during the import process. No spreadsheet formatting is required for this basic use case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line directly** into the import tool. The system supports plain text pasting, CSV/XLSX files, or tabular grids. Just ensure each guest name is on a separate line, then map the \"Guest Name\" column during the import process. No spreadsheet formatting is required for this basic use case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line directly** into the import tool. The system supports plain text pasting, CSV/XLSX files, or tabular grids. Just ensure each guest name is on a separate line, then map the \"Guest Name\" column during the import process. No spreadsheet formatting is required for this basic use case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line directly** into the import tool. The system supports plain text pasting, CSV/XLSX files, or tabular grids. Just ensure each guest name is on a separate line, then map the \"Guest Name\" column during the import process. No spreadsheet formatting is required for this basic use case.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line directly** into the import tool. The system supports plain text pasting, CSV/XLSX files, or tabular grids. Just ensure each guest name is on a separate line, then map the \"Guest Name\" column during the import process. No spreadsheet formatting is required for this basic use case.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidence": "Yes, you can enter or import your names before signing in, but you must sign in to save the project to a workspace.\n\nWhile unsaved changes are generally protected during the sign-in process, they are not guaranteed to persist if the draft storage expires or if you switch to a different browser or device. To be safe, it is best to sign in as soon as you have finished your initial setup to ensure your work is securely saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidence": "Yes, you can enter or import your names before signing in, but you must sign in to save the project to a workspace.\n\nWhile unsaved changes are generally protected during the sign-in process, they are not guaranteed to persist if the draft storage expires or if you switch to a different browser or device. To be safe, it is best to sign in as soon as you have finished your initial setup to ensure your work is securely saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can enter or import your names before signing in, but you must sign in to save the project to a workspace.\n\nWhile unsaved changes are generally protected during the sign-in process, they are not guaranteed to persist if the draft storage expires or if you switch to a different browser or device. To be safe, it is best to sign in as soon as you have finished your initial setup to ensure your work is securely saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidence": "Yes, you can enter or import your names before signing in, but you must sign in to save the project to a workspace.\n\nWhile unsaved changes are generally protected during the sign-in process, they are not guaranteed to persist if the draft storage expires or if you switch to a different browser or device. To be safe, it is best to sign in as soon as you have finished your initial setup to ensure your work is securely saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can enter or import your names before signing in, but you must sign in to save the project to a workspace.\n\nWhile unsaved changes are generally protected during the sign-in process, they are not guaranteed to persist if the draft storage expires or if you switch to a different browser or device. To be safe, it is best to sign in as soon as you have finished your initial setup to ensure your work is securely saved.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need a spreadsheet. You can paste the list directly into the import area; the system accepts text \"one name per line.\" Just copy your notes list and paste it into the box provided. Always review the preview to make sure the names are mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need a spreadsheet. You can paste the list directly into the import area; the system accepts text \"one name per line.\" Just copy your notes list and paste it into the box provided. Always review the preview to make sure the names are mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need a spreadsheet. You can paste the list directly into the import area; the system accepts text \"one name per line.\" Just copy your notes list and paste it into the box provided. Always review the preview to make sure the names are mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need a spreadsheet. You can paste the list directly into the import area; the system accepts text \"one name per line.\" Just copy your notes list and paste it into the box provided. Always review the preview to make sure the names are mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need a spreadsheet. You can paste the list directly into the import area; the system accepts text \"one name per line.\" Just copy your notes list and paste it into the box provided. Always review the preview to make sure the names are mapped correctly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It does not give a coherent account of preserving the draft through later sign-in.",
+            "evidence": "If you don't save while unsigned, your unsaved changes may be lost when you log out or navigate away. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The categorical statement about browser storage beyond the current session is not established by the reference.",
+            "evidence": "No data is stored locally in your browser beyond the current session unless saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can enter names and work on your project without logging in immediately. Importing, previewing, and editing guest lists are public functions that don't require sign-in. However, **saving your project or exporting PDFs** requires a Google sign-in. \n\nIf you don't save while unsigned, your unsaved changes may be lost when you log out or navigate away. To preserve your work, save it before logging out. Once saved, you can access it later by signing in to the same workspace. \n\nNo data is stored locally in your browser beyond the current session unless saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It tells an unsigned user to save while also stating that saving requires Google sign-in.",
+            "evidence": "If you don't save while unsigned, your unsaved changes may be lost when you log out or navigate away. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can enter names and work on your project without logging in immediately. Importing, previewing, and editing guest lists are public functions that don't require sign-in. However, **saving your project or exporting PDFs** requires a Google sign-in. \n\nIf you don't save while unsigned, your unsaved changes may be lost when you log out or navigate away. To preserve your work, save it before logging out. Once saved, you can access it later by signing in to the same workspace. \n\nNo data is stored locally in your browser beyond the current session unless saved.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "reason": "It invents mandatory loss and re-entry on navigation despite protected normal navigation for unsaved drafts.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It incorrectly implies normal navigation before sign-in forces the customer to start over.",
+            "evidence": "If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Mandatory re-entry after navigation contradicts the reviewed protection of unsaved changes during normal navigation.",
+            "evidence": "If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can add names or import a list right now without logging in to see a preview.\n\nHowever, **saving** the guest list so you can return to it later requires a Google sign-in. If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The navigation-loss warning undermines the initial assurance that the customer can continue later.",
+            "evidence": "If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can add names or import a list right now without logging in to see a preview.\n\nHowever, **saving** the guest list so you can return to it later requires a Google sign-in. If you navigate away without signing in, the list is not saved to your account, so you would have to re-enter the names when you come back.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nIf you do decide to use a spreadsheet later, you can also import CSV or XLSX files, but for a simple list from a notes app, pasting is the quickest method.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nIf you do decide to use a spreadsheet later, you can also import CSV or XLSX files, but for a simple list from a notes app, pasting is the quickest method.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nIf you do decide to use a spreadsheet later, you can also import CSV or XLSX files, but for a simple list from a notes app, pasting is the quickest method.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nIf you do decide to use a spreadsheet later, you can also import CSV or XLSX files, but for a simple list from a notes app, pasting is the quickest method.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No, you don't need to create a spreadsheet. You can simply paste your list directly into TableCards, as long as there is one name per line. \n\nIf you do decide to use a spreadsheet later, you can also import CSV or XLSX files, but for a simple list from a notes app, pasting is the quickest method.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "If you don’t complete the import and save, the data isn’t retained.\n",
+            "reason": "It denies retention before saving even though unsaved changes have bounded draft protection.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains that the customer can enter names first, then sign in and save to a workspace.",
+            "evidence": "Yes—make the changes in the app and don't close or navigate away while you're working. When you’re ready, sign in and save the project under the workspace you want it in. Save preserves the work for that workspace and can be edited or copied on later visits. If you don’t complete the import and save, the data isn’t retained.\n\nIf you want to verify what you can import from a pasted list or CSV, I can walk through that.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Its blanket claim that unsaved data is not retained contradicts the reviewed temporary draft protection.",
+            "evidence": "If you don’t complete the import and save, the data isn’t retained.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes—make the changes in the app and don't close or navigate away while you're working. When you’re ready, sign in and save the project under the workspace you want it in. Save preserves the work for that workspace and can be edited or copied on later visits. If you don’t complete the import and save, the data isn’t retained.\n\nIf you want to verify what you can import from a pasted list or CSV, I can walk through that.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The sign-in and workspace-saving sequence is understandable.",
+            "evidence": "Yes—make the changes in the app and don't close or navigate away while you're working. When you’re ready, sign in and save the project under the workspace you want it in. Save preserves the work for that workspace and can be edited or copied on later visits. If you don’t complete the import and save, the data isn’t retained.\n\nIf you want to verify what you can import from a pasted list or CSV, I can walk through that.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes—make the changes in the app and don't close or navigate away while you're working. When you’re ready, sign in and save the project under the workspace you want it in. Save preserves the work for that workspace and can be edited or copied on later visits. If you don’t complete the import and save, the data isn’t retained.\n\nIf you want to verify what you can import from a pasted list or CSV, I can walk through that.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidence": "Yes, you can import or paste your guest names before signing in, as the import and preview features are public. \n\nWhile unsaved changes are typically protected during a normal sign-in on the same browser, I cannot guarantee your progress will be recovered if the temporary draft storage expires or if you switch to a different browser or device. To ensure your work is saved securely, it is best to sign in to a workspace as soon as possible.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidence": "Yes, you can import or paste your guest names before signing in, as the import and preview features are public. \n\nWhile unsaved changes are typically protected during a normal sign-in on the same browser, I cannot guarantee your progress will be recovered if the temporary draft storage expires or if you switch to a different browser or device. To ensure your work is saved securely, it is best to sign in to a workspace as soon as possible.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can import or paste your guest names before signing in, as the import and preview features are public. \n\nWhile unsaved changes are typically protected during a normal sign-in on the same browser, I cannot guarantee your progress will be recovered if the temporary draft storage expires or if you switch to a different browser or device. To ensure your work is saved securely, it is best to sign in to a workspace as soon as possible.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidence": "Yes, you can import or paste your guest names before signing in, as the import and preview features are public. \n\nWhile unsaved changes are typically protected during a normal sign-in on the same browser, I cannot guarantee your progress will be recovered if the temporary draft storage expires or if you switch to a different browser or device. To ensure your work is saved securely, it is best to sign in to a workspace as soon as possible.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can import or paste your guest names before signing in, as the import and preview features are public. \n\nWhile unsaved changes are typically protected during a normal sign-in on the same browser, I cannot guarantee your progress will be recovered if the temporary draft storage expires or if you switch to a different browser or device. To ensure your work is saved securely, it is best to sign in to a workspace as soon as possible.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It answers that names can be entered first and retained through normal sign-in, with bounded draft protection.",
+            "evidence": "Yes, you can enter your names or import a list before signing in. The import and preview features are available to everyone without an account.\n\nHowever, to make sure you don't lose your work, you will need to sign in with Google to save the project to a workspace. While your progress is protected during a normal sign-in process, your changes aren't guaranteed if your session expires or if you switch to a different browser or device before you've signed in and saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Public import, sign-in continuity and the stated storage or device limitations follow the reviewed facts.",
+            "evidence": "Yes, you can enter your names or import a list before signing in. The import and preview features are available to everyone without an account.\n\nHowever, to make sure you don't lose your work, you will need to sign in with Google to save the project to a workspace. While your progress is protected during a normal sign-in process, your changes aren't guaranteed if your session expires or if you switch to a different browser or device before you've signed in and saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Yes, you can enter your names or import a list before signing in. The import and preview features are available to everyone without an account.\n\nHowever, to make sure you don't lose your work, you will need to sign in with Google to save the project to a workspace. While your progress is protected during a normal sign-in process, your changes aren't guaranteed if your session expires or if you switch to a different browser or device before you've signed in and saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "It explains the route from public drafting to saving in a signed-in workspace.",
+            "evidence": "Yes, you can enter your names or import a list before signing in. The import and preview features are available to everyone without an account.\n\nHowever, to make sure you don't lose your work, you will need to sign in with Google to save the project to a workspace. While your progress is protected during a normal sign-in process, your changes aren't guaranteed if your session expires or if you switch to a different browser or device before you've signed in and saved.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "Yes, you can enter your names or import a list before signing in. The import and preview features are available to everyone without an account.\n\nHowever, to make sure you don't lose your work, you will need to sign in with Google to save the project to a workspace. While your progress is protected during a normal sign-in process, your changes aren't guaranteed if your session expires or if you switch to a different browser or device before you've signed in and saved.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly explains that one-name-per-line text can be pasted without creating a spreadsheet.",
+            "evidence": "No spreadsheet needed—just copy and paste.\n\nTake the text from the notes app (one name per line), paste it into the import panel in TableCards, confirm there are no extra columns or table-style formatting, and then review the imported rows. The import accepts names alone when you only have one per line.\n\nAfter checking the preview you can decide whether to save or try the card preview right away. If you want to switch to or create a spreadsheet later, that’s also supported via CSV/XLSX upload.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The direct-paste format and any stated CSV/XLSX alternatives match the reviewed import facts.",
+            "evidence": "No spreadsheet needed—just copy and paste.\n\nTake the text from the notes app (one name per line), paste it into the import panel in TableCards, confirm there are no extra columns or table-style formatting, and then review the imported rows. The import accepts names alone when you only have one per line.\n\nAfter checking the preview you can decide whether to save or try the card preview right away. If you want to switch to or create a spreadsheet later, that’s also supported via CSV/XLSX upload.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No spreadsheet needed—just copy and paste.\n\nTake the text from the notes app (one name per line), paste it into the import panel in TableCards, confirm there are no extra columns or table-style formatting, and then review the imported rows. The import accepts names alone when you only have one per line.\n\nAfter checking the preview you can decide whether to save or try the card preview right away. If you want to switch to or create a spreadsheet later, that’s also supported via CSV/XLSX upload.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can start from the notes list without unnecessary conversion.",
+            "evidence": "No spreadsheet needed—just copy and paste.\n\nTake the text from the notes app (one name per line), paste it into the import panel in TableCards, confirm there are no extra columns or table-style formatting, and then review the imported rows. The import accepts names alone when you only have one per line.\n\nAfter checking the preview you can decide whether to save or try the card preview right away. If you want to switch to or create a spreadsheet later, that’s also supported via CSV/XLSX upload.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "No spreadsheet needed—just copy and paste.\n\nTake the text from the notes app (one name per line), paste it into the import panel in TableCards, confirm there are no extra columns or table-style formatting, and then review the imported rows. The import accepts names alone when you only have one per line.\n\nAfter checking the preview you can decide whether to save or try the card preview right away. If you want to switch to or create a spreadsheet later, that’s also supported via CSV/XLSX upload.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.helper.notes-list",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "If you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "reason": "It invents a spreadsheet-file requirement for optional columns that can also be imported through pasted grids.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It directly answers that plain-text name lists can be pasted without a spreadsheet.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line** directly into the import tool. If your notes app lets you copy the list as plain text (with each name on a separate line), you can paste it directly into TableCards' import interface. \n\nFor example, if your notes app looks like this:\n```\nAlice\nBob\nCharlie\n```\nYou can copy and paste that into TableCards' import field. The tool will process each line as a separate guest. \n\nIf you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "It falsely requires CSV/XLSX for tables or markers despite support for pasted tabular grids.",
+            "evidence": "If you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line** directly into the import tool. If your notes app lets you copy the list as plain text (with each name on a separate line), you can paste it directly into TableCards' import interface. \n\nFor example, if your notes app looks like this:\n```\nAlice\nBob\nCharlie\n```\nYou can copy and paste that into TableCards' import field. The tool will process each line as a separate guest. \n\nIf you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The one-name-per-line example makes the requested import clear.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line** directly into the import tool. If your notes app lets you copy the list as plain text (with each name on a separate line), you can paste it directly into TableCards' import interface. \n\nFor example, if your notes app looks like this:\n```\nAlice\nBob\nCharlie\n```\nYou can copy and paste that into TableCards' import field. The tool will process each line as a separate guest. \n\nIf you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nNo, you don't need to convert your notes app list into a spreadsheet first. TableCards allows you to **paste one name per line** directly into the import tool. If your notes app lets you copy the list as plain text (with each name on a separate line), you can paste it directly into TableCards' import interface. \n\nFor example, if your notes app looks like this:\n```\nAlice\nBob\nCharlie\n```\nYou can copy and paste that into TableCards' import field. The tool will process each line as a separate guest. \n\nIf you later want to add tables or markers, you’d need a spreadsheet format (CSV/XLSX), but for a simple list, plain text works.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "It explains public import, bounded unsaved progress and later signed-in saving.",
+            "evidence": "\n\nYes, you can enter names and work on your guest list **without logging in immediately**. Here's how it works:\n\n1. **Public Import/Preview**: You can paste names (one per line) or upload a CSV/XLSX file **without signing in**. The tool will preview the list, and you can adjust mappings (e.g., name, table, marker) before proceeding.\n\n2. **Unsaved Changes**: If you close the browser or switch devices, **unsaved progress may be lost**. The tool protects unsaved data during normal navigation but not across sessions or devices.\n\n3. **Save Later**: To preserve your work, log in later (Google sign-in required). Saved projects are tied to your workspace, but switching workspaces won’t move saved projects.\n\n**Tip**: For large lists, save early to avoid re-entering data. If you hit limits (e.g., 25 cards free tier), reduce the list or upgrade before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ordinary-navigation protection, possible loss outside it and workspace saving follow the reviewed facts.",
+            "evidence": "\n\nYes, you can enter names and work on your guest list **without logging in immediately**. Here's how it works:\n\n1. **Public Import/Preview**: You can paste names (one per line) or upload a CSV/XLSX file **without signing in**. The tool will preview the list, and you can adjust mappings (e.g., name, table, marker) before proceeding.\n\n2. **Unsaved Changes**: If you close the browser or switch devices, **unsaved progress may be lost**. The tool protects unsaved data during normal navigation but not across sessions or devices.\n\n3. **Save Later**: To preserve your work, log in later (Google sign-in required). Saved projects are tied to your workspace, but switching workspaces won’t move saved projects.\n\n**Tip**: For large lists, save early to avoid re-entering data. If you hit limits (e.g., 25 cards free tier), reduce the list or upgrade before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nYes, you can enter names and work on your guest list **without logging in immediately**. Here's how it works:\n\n1. **Public Import/Preview**: You can paste names (one per line) or upload a CSV/XLSX file **without signing in**. The tool will preview the list, and you can adjust mappings (e.g., name, table, marker) before proceeding.\n\n2. **Unsaved Changes**: If you close the browser or switch devices, **unsaved progress may be lost**. The tool protects unsaved data during normal navigation but not across sessions or devices.\n\n3. **Save Later**: To preserve your work, log in later (Google sign-in required). Saved projects are tied to your workspace, but switching workspaces won’t move saved projects.\n\n**Tip**: For large lists, save early to avoid re-entering data. If you hit limits (e.g., 25 cards free tier), reduce the list or upgrade before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The sequence and cautions are understandable without a universal recovery guarantee.",
+            "evidence": "\n\nYes, you can enter names and work on your guest list **without logging in immediately**. Here's how it works:\n\n1. **Public Import/Preview**: You can paste names (one per line) or upload a CSV/XLSX file **without signing in**. The tool will preview the list, and you can adjust mappings (e.g., name, table, marker) before proceeding.\n\n2. **Unsaved Changes**: If you close the browser or switch devices, **unsaved progress may be lost**. The tool protects unsaved data during normal navigation but not across sessions or devices.\n\n3. **Save Later**: To preserve your work, log in later (Google sign-in required). Saved projects are tied to your workspace, but switching workspaces won’t move saved projects.\n\n**Tip**: For large lists, save early to avoid re-entering data. If you hit limits (e.g., 25 cards free tier), reduce the list or upgrade before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The complete answer is comprehensible English.",
+            "evidence": "\n\nYes, you can enter names and work on your guest list **without logging in immediately**. Here's how it works:\n\n1. **Public Import/Preview**: You can paste names (one per line) or upload a CSV/XLSX file **without signing in**. The tool will preview the list, and you can adjust mappings (e.g., name, table, marker) before proceeding.\n\n2. **Unsaved Changes**: If you close the browser or switch devices, **unsaved progress may be lost**. The tool protects unsaved data during normal navigation but not across sessions or devices.\n\n3. **Save Later**: To preserve your work, log in later (Google sign-in required). Saved projects are tied to your workspace, but switching workspaces won’t move saved projects.\n\n**Tip**: For large lists, save early to avoid re-entering data. If you hit limits (e.g., 25 cards free tier), reduce the list or upgrade before exporting.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

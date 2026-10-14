@@ -34,7 +34,6 @@ import {
   updateAccountPolicyHandler,
 } from './lib/customerHttp';
 import { customerDevelopmentAutomationRouteEnabled } from './lib/customerCrypto';
-import { developmentProductAccessRouteEnabled } from './developmentProductAccess';
 import {
   commitUnitsHandler,
   currentProductAccessHandler,
@@ -46,11 +45,22 @@ import {
 } from './lib/productAccessHttp';
 import {
   cancelCheckoutHandler,
+  checkoutAvailabilityHandler,
   checkoutOptionsHandler,
   completeCheckoutHandler,
   createCheckoutHandler,
   readCheckoutHandler,
 } from './lib/checkoutHttp';
+import {
+  operationsConfiguration,
+  operationsContact,
+  operationsEvents,
+  operationsFeedback,
+  operationsHelper,
+  operationsOptions,
+  operationsResendWebhook,
+  operationsSurvey,
+} from './lib/operationsHttp';
 
 const http = httpRouter();
 
@@ -160,6 +170,12 @@ http.route({
 });
 
 http.route({
+  path: '/v1/checkouts/availability',
+  method: 'GET',
+  handler: httpAction(checkoutAvailabilityHandler),
+});
+
+http.route({
   path: '/v1/checkouts',
   method: 'GET',
   handler: httpAction(readCheckoutHandler),
@@ -214,13 +230,12 @@ http.route({
   handler: httpAction(releaseUnitsHandler),
 });
 
-if (developmentProductAccessRouteEnabled()) {
-  http.route({
-    path: '/v1/product-access/development',
-    method: 'POST',
-    handler: httpAction(setDevelopmentProductAccessHandler),
-  });
-}
+// Retired customer writer: keep a fail-closed response for legacy SDK clients.
+http.route({
+  path: '/v1/product-access/development',
+  method: 'POST',
+  handler: httpAction(setDevelopmentProductAccessHandler),
+});
 
 http.route({
   path: '/v1/accounts',
@@ -305,17 +320,10 @@ for (const path of [
   '/v1/product-access/units/reserve',
   '/v1/product-access/units/commit',
   '/v1/product-access/units/release',
+  '/v1/product-access/development',
 ] as const) {
   http.route({
     path,
-    method: 'OPTIONS',
-    handler: httpAction(customerApiOptionsHandler),
-  });
-}
-
-if (developmentProductAccessRouteEnabled()) {
-  http.route({
-    path: '/v1/product-access/development',
     method: 'OPTIONS',
     handler: httpAction(customerApiOptionsHandler),
   });
@@ -374,5 +382,59 @@ http.route({
     }
   }),
 });
+
+http.route({
+  path: '/v1/operations/config',
+  method: 'GET',
+  handler: httpAction(operationsConfiguration),
+});
+http.route({
+  path: '/v1/operations/helper',
+  method: 'POST',
+  handler: httpAction(operationsHelper),
+});
+http.route({
+  path: '/v1/operations/contact',
+  method: 'POST',
+  handler: httpAction(operationsContact),
+});
+http.route({
+  path: '/v1/operations/feedback',
+  method: 'POST',
+  handler: httpAction(operationsFeedback),
+});
+http.route({
+  path: '/v1/operations/survey',
+  method: 'GET',
+  handler: httpAction(operationsSurvey),
+});
+http.route({
+  path: '/v1/operations/survey',
+  method: 'POST',
+  handler: httpAction(operationsSurvey),
+});
+http.route({
+  path: '/v1/operations/events',
+  method: 'POST',
+  handler: httpAction(operationsEvents),
+});
+http.route({
+  path: '/v1/operations/resend',
+  method: 'POST',
+  handler: httpAction(operationsResendWebhook),
+});
+for (const path of [
+  '/v1/operations/config',
+  '/v1/operations/helper',
+  '/v1/operations/contact',
+  '/v1/operations/feedback',
+  '/v1/operations/survey',
+] as const) {
+  http.route({
+    path,
+    method: 'OPTIONS',
+    handler: httpAction(operationsOptions),
+  });
+}
 
 export default http;

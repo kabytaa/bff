@@ -55,7 +55,10 @@ Convex pairs are internally consistent and separate, and every remaining public
 value identifies the fixed production lane. It builds and audits backoffice,
 customer auth, retained Example and enabled TableCards before adding exact-SHA
 metadata. Main CI explicitly enables TableCards; missing configuration fails
-closed. Legacy Build 2-only local callers may omit that surface.
+closed. Legacy Build 2-only local callers may omit that surface. When the
+operator runtime is enabled, the preflight also dry-runs the shared provider's
+production Wrangler manifest with the runtime-only inference gates before any
+deployment or environment writes.
 
 `production:smoke` makes anonymous requests only. It verifies both backend
 health contracts and exact commit, public-only JWKS, absence of the development
@@ -103,11 +106,43 @@ With `TABLECARDS_PRODUCTION_ENABLED=true` (mandatory in main CI), also provide:
 | `TABLECARDS_CLOUDFLARE_AI_URL`   | `https://business-factory-tablecards-ai.kabytaa.workers.dev/generate` |
 | `TABLECARDS_AI_DAILY_BUDGET_USD` | `1` (separate production admission budget)                            |
 
-Deployment secrets stay in the GitHub `production` environment. The target
-guard reads `CONVEX_DEPLOY_KEY` only to compare its non-secret deployment-name
-prefix; build and smoke never receive deploy keys. See
+The shared operator runtime is enabled by the production workflow. Keep that
+workflow path enabled only after the production AI Gateway caps and blocking
+behavior have been read back and verified. CI sets the enable flag and reviewed
+provider URL directly; the only operator GitHub variable is the cap-proof
+marker:
+
+| Name                               | Required value                                             |
+| ---------------------------------- | ---------------------------------------------------------- |
+| `BFF_OPERATOR_CAPS_VERIFIED`       | `verified`                                                 |
+
+Before the first production write, CI uses the BFF-scoped deploy key to list
+environment variable names only and verifies that
+`BFF_OPERATIONS_RESEND_API_KEY`, `BFF_OPERATIONS_RESEND_WEBHOOK_SECRET`,
+`BFF_OPERATIONS_PROVIDER_SECRET` and `BFF_OPERATION_EVENT_SECRETS_JSON` are
+already present. It does not read or print their values. Those credentials
+remain in Convex's native environment-variable store, and the matching provider
+secret remains in the Worker secret store; CI neither duplicates nor passes
+them through GitHub. Provider publication uses a narrowly scoped Cloudflare
+token and the existing Worker secret. The workflow then sets only the public
+runtime modes, verified-cap marker and exact reviewed provider URL in Convex.
+It deploys the shared provider Worker with runtime-only routing, live text,
+verified caps and runtime Jev selection.
+
+The operator production smoke is anonymous and makes no inference request. It
+expects `401` from runtime chat, runtime Jev selection and private screenshot
+conversion, and `404` from comparison, judge, generation experiment and
+operator-only Jev routes. This checks the private boundary and that production
+does not expose evaluation routes.
+
+Deployment credentials stay in their native stores: deployment-scoped Convex
+keys and Cloudflare deploy tokens in the GitHub `production` environment, and
+runtime credentials in Convex/Worker secret storage. The target guard reads
+`CONVEX_DEPLOY_KEY` only to compare its non-secret production deployment name;
+build and smoke never receive deploy keys. See
 `docs/operations/build-2-customer-auth.md` for the multi-surface setup, key
 handling, deployment order, smoke contract and partial release recovery. See
 [TableCards Operations](../../projects/tablecards/docs/operations.md#production-release-and-recovery)
 for private provider/checkout setup, the no-charge boundary, browser smoke and
-AI pause/recovery. Build and smoke never receive provider/session secrets.
+AI pause/recovery. Build and smoke never receive provider/session secrets or
+runtime credentials from Convex/Worker secret storage.

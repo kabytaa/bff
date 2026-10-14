@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "batchId": "generation-audit-1",
+  "reviewer": "gpt-6-astra",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 2, "grounding": 1, "authority": 2, "clarity": 1, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Addresses the assistant's inability to spend credits and the failed-generation reservation policy.", "evidenceId": "A2" },
+          "grounding": { "reason": "The added assertion that a released unit is counted is materially imprecise about whether it is spent or available.", "evidenceId": "A3" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "Released and counted does not clearly explain what should happen to the customer's available units.", "evidenceId": "A3" },
+          "language": { "reason": "Uses understandable English; the ambiguity concerns accounting meaning, not language choice.", "evidenceId": "A3" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 2, "grounding": 1, "authority": 2, "clarity": 1, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Addresses failed-generation credits and gives an Account check for a possible discrepancy.", "evidenceId": "A4" },
+          "grounding": { "reason": "Uses reservation release to explain a reported lower count without establishing that causal connection.", "evidenceId": "A2" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "The release explanation does not distinguish restoring availability from the customer's reported decrease.", "evidenceId": "A2" },
+          "language": { "reason": "Uses clear English; the flaw concerns causal explanation rather than translation.", "evidenceId": "A2" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 2, "grounding": 1, "authority": 2, "clarity": 2, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Explains automatic release and offers an appropriate support investigation for a continuing discrepancy.", "evidenceId": "A4" },
+          "grounding": { "reason": "Extends a documented restriction on bots to the entire human support team without evidence about human capabilities.", "evidenceId": "A2" },
+          "authority": { "reason": "No unauthorized action or promised restoration is claimed.", "evidenceId": "A0" },
+          "clarity": { "reason": "Clearly identifies the signed-in Problem form as the next step for investigation.", "evidenceId": "A4" },
+          "language": { "reason": "Uses clear English throughout.", "evidenceId": "A4" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 2, "grounding": 1, "authority": 2, "clarity": 1, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Addresses the credit concern and offers the signed-in support form for a suspected discrepancy.", "evidenceId": "A3" },
+          "grounding": { "reason": "Links the reported count change to reservation release without evidence that release explains the lower balance.", "evidenceId": "A2" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "Does not distinguish released availability from the customer's reported loss of one unit.", "evidenceId": "A2" },
+          "language": { "reason": "Uses comprehensible English; the problem is the causal explanation.", "evidenceId": "A2" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 2, "grounding": 2, "authority": 2, "clarity": 2, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Gives the heading correction, correct print scale and separate calibration test for the two reported problems.", "evidenceId": "A16" },
+          "grounding": { "reason": "Matching print-dialog paper size to the chosen layout follows the documented printing guidance.", "evidenceId": "A14" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "The two sections give concrete changes to the import and printer settings.", "evidenceId": "A6" },
+          "language": { "reason": "Uses clear English and recognizable printer-setting labels.", "evidenceId": "A11" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 1, "grounding": 1, "authority": 2, "clarity": 2, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Leaves the reported balance problem at a refusal without an Account check or a route for operator review.", "evidenceId": "B2" },
+          "grounding": { "reason": "Claims that human support cannot add credits, although the documented restriction applies to automated bots.", "evidenceId": "A2" },
+          "authority": { "reason": "No unauthorized action or promised restoration is claimed.", "evidenceId": "A0" },
+          "clarity": { "reason": "Clearly distinguishes automatic release from the assistant's inability to perform a manual adjustment.", "evidenceId": "A2" },
+          "language": { "reason": "Uses understandable English; the minor agreement error does not obscure the meaning.", "evidenceId": "A2" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Explains omitting Meal but misses the useful option of including its information through the optional short marker.", "evidenceId": "B1" },
+          "grounding": { "reason": "The absence of a dedicated Meal field and the option to omit that column do not deny the generic marker field.", "evidenceId": "A3" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "The mapping and omission instructions are understandable, although the offered choices are incomplete.", "evidenceId": "A3" },
+          "language": { "reason": "Uses clear English and recognizable spreadsheet-column names.", "evidenceId": "A3" }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": { "relevance": 1, "grounding": 2, "authority": 2, "clarity": 2, "language": 2 },
+        "reasons": {
+          "relevance": { "reason": "Omits the short-marker option that would let the customer include Meal information rather than only leave it out.", "evidenceId": "B1" },
+          "grounding": { "reason": "Says Meal has no dedicated field and may be omitted; it does not claim Meal information can never appear.", "evidenceId": "A3" },
+          "authority": { "reason": "No boundary violation observed.", "evidenceId": "A0" },
+          "clarity": { "reason": "Clearly explains column mapping and checking whether the first row contains headings.", "evidenceId": "A4" },
+          "language": { "reason": "Uses clear English and understandable import terminology.", "evidenceId": "A2" }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

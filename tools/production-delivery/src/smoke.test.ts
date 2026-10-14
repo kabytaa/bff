@@ -25,6 +25,9 @@ const tablecards: NonNullable<SmokeConfig['tablecards']> = {
   aiUrl: 'https://business-factory-tablecards-ai.kabytaa.workers.dev/generate',
   dailyAiBudgetUsd: '1',
 };
+const operatorRuntime: NonNullable<SmokeConfig['operatorRuntime']> = {
+  providerBaseUrl: 'https://business-factory-ai-provider.kabytaa.workers.dev',
+};
 
 const baseHeaders = {
   'cache-control': 'no-store',
@@ -276,6 +279,27 @@ function routes(): Map<string, RouteResponder> {
           ].join(' '),
         ),
     ],
+    [
+      `${operatorRuntime.providerBaseUrl}/v1/runtime/chat/completions`,
+      () => new Response(null, { status: 401 }),
+    ],
+    [
+      `${operatorRuntime.providerBaseUrl}/v1/runtime/knowledge-selection`,
+      () => new Response(null, { status: 401 }),
+    ],
+    [
+      `${operatorRuntime.providerBaseUrl}/raster-preview`,
+      () => new Response(null, { status: 401 }),
+    ],
+    ...[
+      '/v1/chat/completions',
+      '/v1/judge/chat/completions',
+      '/v1/experiments/chat/completions',
+      '/v1/knowledge-selection',
+    ].map((path): [string, RouteResponder] => [
+      `${operatorRuntime.providerBaseUrl}${path}`,
+      () => new Response(null, { status: 404 }),
+    ]),
   ]);
 }
 
@@ -301,6 +325,39 @@ describe('production smoke', () => {
     await expect(
       checkProductionOnce({ ...config, tablecards }, createFetcher()),
     ).resolves.toBeUndefined();
+  });
+
+  it('checks the optional operator provider stays private and runtime-only', async () => {
+    const fetcher = createFetcher();
+    await expect(
+      checkProductionOnce({ ...config, operatorRuntime }, fetcher),
+    ).resolves.toBeUndefined();
+    for (const path of [
+      '/v1/runtime/chat/completions',
+      '/v1/runtime/knowledge-selection',
+      '/raster-preview',
+      '/v1/chat/completions',
+      '/v1/judge/chat/completions',
+      '/v1/experiments/chat/completions',
+      '/v1/knowledge-selection',
+    ]) {
+      expect(fetcher).toHaveBeenCalledWith(
+        `${operatorRuntime.providerBaseUrl}${path}`,
+        expect.objectContaining({ method: 'POST', body: '{}' }),
+      );
+    }
+  });
+
+  it('rejects an enabled operator comparison route', async () => {
+    const url = `${operatorRuntime.providerBaseUrl}/v1/chat/completions`;
+    await expect(
+      checkProductionOnce(
+        { ...config, operatorRuntime },
+        createFetcher(
+          new Map([[url, () => new Response(null, { status: 401 })]]),
+        ),
+      ),
+    ).rejects.toThrow(/expected 404/u);
   });
 
   it.each([

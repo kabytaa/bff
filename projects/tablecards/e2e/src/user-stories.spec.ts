@@ -19,6 +19,7 @@ import {
   expectNoHorizontalPageOverflow,
   findUserId,
   logInFromLanding,
+  markCurrentUserAsTestUser,
   uniquePersona,
 } from './support/hosted';
 
@@ -72,7 +73,14 @@ async function activateOffer(
   offerName: 'Event Pass' | 'Free' | 'Planner Pro' | 'Studio',
 ) {
   await chooseDevelopmentOffer(page, offerName);
-  await expect(page.getByText('No-charge simulation')).toBeVisible();
+  await expect(
+    page.getByText(
+      offerName === 'Free'
+        ? 'Default access'
+        : 'Test-user simulation · no payment charged',
+      { exact: true },
+    ),
+  ).toBeVisible();
 }
 
 test('the acceptance registry covers every accepted user story', () => {
@@ -393,6 +401,7 @@ test.describe('Studio accounts and teams', () => {
     const memberContext = await browser.newContext(contextOptions);
     const member = await memberContext.newPage();
     await logInFromLanding(member, memberPersona);
+    await markCurrentUserAsTestUser(member);
     await createSavedProject(member, 'Private member event');
 
     await owner.getByLabel('Verified email').fill(memberPersona.email);

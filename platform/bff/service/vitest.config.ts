@@ -10,6 +10,10 @@ const workspaceRoot = resolve(
 export default defineConfig({
   resolve: {
     alias: {
+      '@bff/assistant/server': resolve(
+        workspaceRoot,
+        'platform/bff/libs/assistant/src/server.ts',
+      ),
       '@bff/contracts': resolve(
         workspaceRoot,
         'platform/bff/libs/contracts/src/index.ts',

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "batchId": "generation-audit-2",
+  "reviewer": "gpt-6-astra",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits checking Account or gathering limited evidence for review of the reported balance discrepancy.",
+            "evidenceId": "B2"
+          },
+          "grounding": {
+            "reason": "States the documented release policy and an expected balance outcome, not a verified personal balance.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "Refuses to grant or restore units without claiming any action or promising a second restoration.",
+            "evidenceId": "A1"
+          },
+          "clarity": {
+            "reason": "The refusal and explanation of automatic reservation release are clear and understandable.",
+            "evidenceId": "A0"
+          },
+          "language": {
+            "reason": "Uses clear English matching the customer's language.",
+            "evidenceId": "A0"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

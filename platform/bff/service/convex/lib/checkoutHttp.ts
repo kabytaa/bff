@@ -6,7 +6,6 @@ import {
 import { internal } from '../_generated/api';
 import type { ActionCtx } from '../_generated/server';
 import { verifyCheckoutServiceAuthorization } from '../checkoutServiceAuth';
-import { mockCheckoutEnabled } from '../mockCheckout';
 import {
   accountContext,
   authOriginHeaders,
@@ -43,9 +42,6 @@ export async function createCheckoutHandler(ctx: ActionCtx, request: Request) {
       ) {
         return mapError({ data: { code: 'UNAUTHENTICATED' } }, headers);
       }
-      if (!mockCheckoutEnabled()) {
-        return mapError({ data: { code: 'FORBIDDEN' } }, headers);
-      }
       const input = parseInput(
         createCheckoutRequestSchema,
         await readBoundedJson(request),
@@ -80,6 +76,32 @@ export async function createCheckoutHandler(ctx: ActionCtx, request: Request) {
         );
       }
       return mapError({ data: { code: 'CONFIGURATION_ERROR' } }, headers);
+    },
+  );
+}
+
+export async function checkoutAvailabilityHandler(
+  ctx: ActionCtx,
+  request: Request,
+) {
+  return withAuthenticatedCustomerRequest(
+    ctx,
+    request,
+    async (claims, headers) => {
+      await ctx.runQuery(internal.sessions.validateContext, {
+        environmentKey: claims.environmentKey,
+        userPublicId: claims.sub,
+        sessionPublicId: claims.sessionId,
+        now: Date.now(),
+      });
+      return jsonResponse(
+        await ctx.runQuery(
+          internal.checkouts.availability,
+          contextArguments(accountContext(claims)),
+        ),
+        200,
+        headers,
+      );
     },
   );
 }

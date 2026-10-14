@@ -1,0 +1,1217 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-029",
+  "packetHash": "cf4bed198864650d7b5132f0e24aa288451d6821c802944609a0bb2d11e41090",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic navigation and member changes.",
+            "evidence": "I cannot assist with modifying account members or team settings directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's account-write boundary matches reviewed knowledge.",
+            "evidence": "I cannot assist with modifying account members or team settings directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with modifying account members or team settings directly. For support with account management, member removal, or workspace adjustments, please contact TableCards support through their official help channels. They can guide you based on your specific workspace permissions and account details.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general customer-controlled route are understandable.",
+            "evidence": "I cannot assist with modifying account members or team settings directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot assist with modifying account members or team settings directly. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Separates the successful print test from the feature suggestion.",
+            "evidence": "We appreciate the suggestion, and the best way to share it with our team is by submitting it as feedback through our contact form (if you are signed in).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The current product scope and feedback route match reviewed knowledge.",
+            "evidence": "We appreciate the suggestion, and the best way to share it with our team is by submitting it as feedback through our contact form (if you are signed in).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm glad to hear the print test worked well for you!\n\nRegarding address labels, we don't currently offer that feature. We appreciate the suggestion, and the best way to share it with our team is by submitting it as feedback through our contact form (if you are signed in).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Acknowledges each topic clearly without promising a feature.",
+            "evidence": "We appreciate the suggestion, and the best way to share it with our team is by submitting it as feedback through our contact form (if you are signed in).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We appreciate the suggestion, and the best way to share it with our team is by submitting it as feedback through our contact form (if you are signed in).",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains separate workspaces and provides selector and archive checks.",
+            "evidence": "Note that Studio and private workspaces are distinct—joining Studio doesn’t merge or delete existing projects.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Asserts that all private projects remain intact without verified project evidence.",
+            "evidence": "The customer's private workspace projects remain intact but are separate from Studio workspaces. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe customer's private workspace projects remain intact but are separate from Studio workspaces. When signed into a Studio, projects from the original private workspace may not display unless explicitly accessed. Advise them to:  \n\n1. Confirm they're in the correct workspace (private vs. Studio) via the account settings.  \n2. Check if projects were accidentally archived (restorable via \"Projects > Archive\").  \n3. Note that Studio and private workspaces are distinct—joining Studio doesn’t merge or delete existing projects.  \n\nIf unresolved, suggest contacting support with their workspace name and relevant project details for verification.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Presents instructions about the customer rather than a ready customer-facing reply.",
+            "evidence": "Advise them to:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Note that Studio and private workspaces are distinct—joining Studio doesn’t merge or delete existing projects.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer allows for up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer allows for up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer allows for up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer allows for up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer allows for up to 5 members.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the Admin-on-Admin restriction as intended role behavior.",
+            "evidence": "Admins manage invitations and ordinary Members, but not other Admins or the Owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ordinary-member and Owner/Admin boundaries match reviewed knowledge.",
+            "evidence": "Admins manage invitations and ordinary Members, but not other Admins or the Owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Based on the role permissions, you cannot remove another Admin because the role structure is designed that way. Admins manage invitations and ordinary Members, but not other Admins or the Owner. This behavior is intended by design and not a broken control.\n\nIf the member you want to remove is the Owner, they cannot be removed by anyone. If you are another Admin who believes this default restriction should be different, you can submit a Question via the support form to discuss potential changes.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reason for the unavailable control is clear.",
+            "evidence": "Admins manage invitations and ordinary Members, but not other Admins or the Owner. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Admins manage invitations and ordinary Members, but not other Admins or the Owner. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the Admin-on-Admin restriction as intended role behavior.",
+            "evidence": "According to the role hierarchy, **Admins can invite or assign ordinary Members, but they cannot remove other Admins or the Owner** in order to protect account safety. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ordinary-member and Owner/Admin boundaries match reviewed knowledge.",
+            "evidence": "According to the role hierarchy, **Admins can invite or assign ordinary Members, but they cannot remove other Admins or the Owner** in order to protect account safety. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Te control is likely working as designed rather than being broken.\n\nAccording to the role hierarchy, **Admins can invite or assign ordinary Members, but they cannot remove other Admins or the Owner** in order to protect account safety. Only the Owner has the ability to remove or transfer roles.\n\nIf you are the Owner and cannot perform an action on your own account, or if you need to know who the current Owner is to handle this, I recommend contacting our support team directly for further assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reason for the unavailable control is clear.",
+            "evidence": "According to the role hierarchy, **Admins can invite or assign ordinary Members, but they cannot remove other Admins or the Owner** in order to protect account safety. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to the role hierarchy, **Admins can invite or assign ordinary Members, but they cannot remove other Admins or the Owner** in order to protect account safety. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer allows up to **5 members** for $19/month. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer allows up to **5 members** for $19/month. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Studio offer allows up to **5 members** for $19/month. This includes shared projects, presets, and 30 monthly AI batches. Let me know if you need clarification on specific features!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer allows up to **5 members** for $19/month. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer allows up to **5 members** for $19/month. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer includes up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer includes up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer includes up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer includes up to 5 members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer includes up to 5 members.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Separates the resolved print issue from the feature suggestion.",
+            "evidence": "Regarding the address-label feature, thank you for the suggestion. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The promised forwarding step is not supported by observed action or verified workflow.",
+            "evidence": "I will pass this feedback along to our team for consideration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises an internal forwarding step whose authority is not established.",
+            "evidence": "I will pass this feedback along to our team for consideration.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Acknowledges both topics clearly.",
+            "evidence": "Regarding the address-label feature, thank you for the suggestion. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Regarding the address-label feature, thank you for the suggestion. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic navigation and member changes.",
+            "evidence": "I cannot navigate to account pages or modify workspace members directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's account-write boundary matches reviewed knowledge.",
+            "evidence": "I cannot navigate to account pages or modify workspace members directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot navigate to account pages or modify workspace members directly. According to TableCards' policies, support staff cannot remove members, change roles, or manage workspaces on behalf of customers. For account-related actions, you must use the official \"Account\" interface or contact support through the designated channels for assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general customer-controlled route are understandable.",
+            "evidence": "I cannot navigate to account pages or modify workspace members directly. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot navigate to account pages or modify workspace members directly. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic navigation and member changes.",
+            "evidence": "I cannot assist with navigating or modifying account settings, as per TableCards' policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's account-write boundary matches reviewed knowledge.",
+            "evidence": "I cannot assist with navigating or modifying account settings, as per TableCards' policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nI cannot assist with navigating or modifying account settings, as per TableCards' policies. The assigned knowledge states: \"Support cannot remove members, change roles, transfer ownership or join for someone.\" For account management, you'd need to contact TableCards support directly via their configured channels, but even then, specific actions like removing members are restricted as outlined in the \"tablecards.teams\" documentation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general customer-controlled route are understandable.",
+            "evidence": "I cannot assist with navigating or modifying account settings, as per TableCards' policies. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot assist with navigating or modifying account settings, as per TableCards' policies. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer supports up to **5 members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer supports up to **5 members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Studio offer supports up to **5 members** in a workspace. This includes shared projects, presets, and AI batch allowances. For exact details, refer to the [Studio plan description](#). \n\nIf you need further clarification, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer supports up to **5 members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer supports up to **5 members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer includes up to 5 members total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer includes up to 5 members total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer includes up to 5 members total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer includes up to 5 members total.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer includes up to 5 members total.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer allows for up to five members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer allows for up to five members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Studio offer allows for up to five members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer allows for up to five members.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer allows for up to five members.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines automatic navigation and member changes.",
+            "evidence": "To manage members, you must use the Studio workspace interface directly. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The bot's account-write boundary matches reviewed knowledge.",
+            "evidence": "To manage members, you must use the Studio workspace interface directly. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe TableCards Studio workspace allows up to 5 members. However, **support cannot remove members, change roles, or transfer ownership**. To manage members, you must use the Studio workspace interface directly. \n\nFor assistance:\n- Contact TableCards support for help with membership changes.\n- Note that roles and membership details cannot be inferred from email addresses or company domains.\n- Invitation links must be explicitly shared and accepted by the recipient. \n\nWould you like guidance on how to access your Studio workspace?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The refusal and general customer-controlled route are understandable.",
+            "evidence": "To manage members, you must use the Studio workspace interface directly. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "To manage members, you must use the Studio workspace interface directly. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes the planned 90-day edit lifetime from unverified preview behavior.",
+            "evidence": "Because the current site is a no-charge preview and a simulation of our upcoming paid features, the final rules regarding long-term access, renewals, and commercial retention haven't been fully implemented yet.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The planned policy and preview limitation follow the access reference.",
+            "evidence": "Because the current site is a no-charge preview and a simulation of our upcoming paid features, the final rules regarding long-term access, renewals, and commercial retention haven't been fully implemented yet.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The 90-day mention refers to the planned \"edit lifetime\" for the Event Pass. \n\nBecause the current site is a no-charge preview and a simulation of our upcoming paid features, the final rules regarding long-term access, renewals, and commercial retention haven't been fully implemented yet.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly separates the launch policy from current implementation.",
+            "evidence": "Because the current site is a no-charge preview and a simulation of our upcoming paid features, the final rules regarding long-term access, renewals, and commercial retention haven't been fully implemented yet.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because the current site is a no-charge preview and a simulation of our upcoming paid features, the final rules regarding long-term access, renewals, and commercial retention haven't been fully implemented yet.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Separates the print success from a non-promised feature suggestion.",
+            "evidence": "Regarding an address-label feature, we don't currently offer that, as TableCards is focused on creating downloadable place-card PDFs. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The promise to pass the suggestion to the team is unverified.",
+            "evidence": "However, I will pass your suggestion along to our team. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises internal forwarding without an established execution path.",
+            "evidence": "However, I will pass your suggestion along to our team. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The topics and optional feedback route are understandable.",
+            "evidence": "Regarding an address-label feature, we don't currently offer that, as TableCards is focused on creating downloadable place-card PDFs. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Regarding an address-label feature, we don't currently offer that, as TableCards is focused on creating downloadable place-card PDFs. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.20",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Acknowledges the print success and treats address labels as a suggestion.",
+            "evidence": "I recommend submitting this suggestion through the feedback form in the app so our team can review it for future updates.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The product focus and feedback route match reviewed knowledge.",
+            "evidence": "I recommend submitting this suggestion through the feedback form in the app so our team can review it for future updates.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I'm glad to hear the print test worked out!\n\nRegarding address labels, TableCards is currently focused on creating place-card PDFs. I recommend submitting this suggestion through the feedback form in the app so our team can review it for future updates.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The two topics and optional next step are clear.",
+            "evidence": "I recommend submitting this suggestion through the feedback form in the app so our team can review it for future updates.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I recommend submitting this suggestion through the feedback form in the app so our team can review it for future updates.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes the planned 90-day edit lifetime from unverified preview behavior.",
+            "evidence": "Because you are currently using a no-charge preview, the site is a simulation of our offers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The planned policy and preview limitation follow the access reference.",
+            "evidence": "Because you are currently using a no-charge preview, the site is a simulation of our offers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The 90-day mention refers to the planned \"edit lifetime\" for an event once it is bound to an Event Pass.\n\nBecause you are currently using a no-charge preview, the site is a simulation of our offers. While the 90-day edit window is part of our launch hypothesis, official details regarding long-term access, renewals, or permanent retention are part of future payment systems and are not yet verified in this preview mode.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly separates the launch policy from current implementation.",
+            "evidence": "Because you are currently using a no-charge preview, the site is a simulation of our offers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because you are currently using a no-charge preview, the site is a simulation of our offers. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the Admin-on-Admin restriction as intended role behavior.",
+            "evidence": "An Admin can manage invitations and ordinary Members only, but cannot remove the Owner or other Admins. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ordinary-member and Owner/Admin boundaries match reviewed knowledge.",
+            "evidence": "An Admin can manage invitations and ordinary Members only, but cannot remove the Owner or other Admins. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It isn't broken; it is a design setting. An Admin can manage invitations and ordinary Members only, but cannot remove the Owner or other Admins. Role changes like removing another Admin must be handled by the Workspace Owner.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reason for the unavailable control is clear.",
+            "evidence": "An Admin can manage invitations and ordinary Members only, but cannot remove the Owner or other Admins. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "An Admin can manage invitations and ordinary Members only, but cannot remove the Owner or other Admins. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the Admin-on-Admin restriction as intended role behavior.",
+            "evidence": "An Admin can only manage invitations and ordinary Members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The ordinary-member and Owner/Admin boundaries match reviewed knowledge.",
+            "evidence": "An Admin can only manage invitations and ordinary Members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "It isn't broken; this is the intended permission structure. An Admin can only manage invitations and ordinary Members. They cannot remove other Admins or the Owner.\n\nIf the member you are trying to remove is an Admin, only the Workspace Owner has the authority to change their role or remove them. If you would like to play that role, you would need to ask the current Owner to transfer it to you or demote the other Admin.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reason for the unavailable control is clear.",
+            "evidence": "An Admin can only manage invitations and ordinary Members. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "An Admin can only manage invitations and ordinary Members. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.17",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly separate the launch edit window from whether it applies in the preview.",
+            "evidence": "The \"90 days\" you saw likely refers to the **90-day edit lifetime** for that specific event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Frames Event Pass as a current purchase without explaining no-charge simulated checkout.",
+            "evidence": "The Event Pass is a one-time $5 purchase that covers one event with up to 500 cards, including premium designs and specific artwork uploads.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Event Pass is a one-time $5 purchase that covers one event with up to 500 cards, including premium designs and specific artwork uploads.\n\nThe \"90 days\" you saw likely refers to the **90-day edit lifetime** for that specific event. \n\nBecause you are currently using a preview/test version of the site, some long-term commercial policies—such as exact data retention limits or how the pass interacts with future billing updates—are still being finalized and aren't fully verified yet.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The broad future-policy limitation is understandable.",
+            "evidence": "The \"90 days\" you saw likely refers to the **90-day edit lifetime** for that specific event. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The \"90 days\" you saw likely refers to the **90-day edit lifetime** for that specific event. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer supports **up to five members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer supports **up to five members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Studio offer supports **up to five members** in a workspace. This is specified in the **tablecards.access** knowledge, which outlines the Studio plan as $19/month with a limit of five members. \n\nFor clarity:  \n- **Studio**: 5 members total.  \n- Additional details about member roles (e.g., Owner, Admin, Member) are covered in **tablecards.teams**.  \n\nLet me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer supports **up to five members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer supports **up to five members** in a workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the Studio member-capacity question.",
+            "evidence": "The Studio offer allows up to **5 members** in the workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The five-member total matches the reviewed offer.",
+            "evidence": "The Studio offer allows up to **5 members** in the workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nThe Studio offer allows up to **5 members** in the workspace. This is specified in the \"tablecards.access\" knowledge under the Studio description. \n\nFor reference:  \n- **Studio**: $19/month, up to 5 members, 100 active shared projects, shared presets, 30 shared monthly AI batches.  \n\nNo additional members can be added beyond this limit.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The member limit is clear.",
+            "evidence": "The Studio offer allows up to **5 members** in the workspace. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The Studio offer allows up to **5 members** in the workspace. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 20,
+  "invalid": 0,
+  "unsure": 0
+}

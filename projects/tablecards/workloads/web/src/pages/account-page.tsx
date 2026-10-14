@@ -106,6 +106,15 @@ export function Component() {
       });
       return;
     }
+    if (!access) return;
+    if (!access.mockCheckoutAvailable) {
+      setError({
+        operation: 'permission',
+        message:
+          'No-charge test checkout is available only to operator-designated test users in test-only workspaces. Real payments are not enabled yet.',
+      });
+      return;
+    }
     checkoutStarted.current = true;
     setBusy(true);
     setError(null);
@@ -125,6 +134,7 @@ export function Component() {
         });
       });
   }, [
+    access,
     account,
     backend,
     checkoutResult,
@@ -188,11 +198,13 @@ export function Component() {
           <span>Current offer</span>
           <strong>{access?.offerName ?? 'Loading…'}</strong>
           <small>
-            {access?.source === 'development_mock'
-              ? 'No-charge simulation'
-              : access?.source === 'provider'
-                ? 'Verified provider'
-                : 'Default access'}
+            {access?.source === 'test_mock'
+              ? 'Test-user simulation · no payment charged'
+              : access?.source === 'development_mock'
+                ? 'No-charge simulation'
+                : access?.source === 'provider'
+                  ? 'Verified provider'
+                  : 'Default access'}
           </small>
         </article>
         <article>
@@ -224,6 +236,28 @@ export function Component() {
       </div>
 
       <section className="page-section account-actions">
+        {access ? (
+          <p className="notice" role="status">
+            {access.mockCheckoutAvailable
+              ? 'Test checkout enabled for this workspace. No money will be charged.'
+              : 'Test checkout is not available for this user and workspace. Real payments are not enabled yet.'}
+          </p>
+        ) : null}
+        <button
+          type="button"
+          className="secondary-button"
+          disabled={busy}
+          onClick={() => {
+            void load().catch(() =>
+              setError({
+                operation: 'usage',
+                message: 'Account usage could not be loaded.',
+              }),
+            );
+          }}
+        >
+          Refresh availability
+        </button>
         <h2>Workspace</h2>
         <p>
           {account?.displayName ??

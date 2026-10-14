@@ -1,7 +1,14 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
+import type { api } from '@bff/service-api';
 import { expect, type Page } from '@playwright/test';
+import { ConvexHttpClient } from 'convex/browser';
+import {
+  makeFunctionReference,
+  type FunctionArgs,
+  type FunctionReturnType,
+} from 'convex/server';
 
 import {
   TABLECARDS_AUTH_URL,
@@ -10,8 +17,19 @@ import {
 
 const execFileAsync = promisify(execFile);
 const bffSiteUrl = 'https://compassionate-buffalo-689.convex.site';
+const sessionAdapterOrigin = 'https://api.tablecards-dev.tofler.app';
+const bffDeploymentUrl = 'https://compassionate-buffalo-689.convex.cloud';
 const environmentKey = 'tablecards-development';
 const bffDeployment = 'compassionate-buffalo-689';
+const backofficeDevelopmentUrl = 'https://ops-dev.tofler.tech/';
+
+const setTestUserReference = makeFunctionReference<
+  'mutation',
+  FunctionArgs<typeof api.customerBackoffice.setTestUser>,
+  FunctionReturnType<typeof api.customerBackoffice.setTestUser>
+>('customerBackoffice:setTestUser');
+
+const markedTestUsers = new WeakMap<Page, Set<string>>();
 
 export interface Persona {
   readonly id: string;
@@ -194,6 +212,72 @@ export async function findUserId(email: string): Promise<string> {
   return user.id;
 }
 
+/** Mark only the verified synthetic identity active in this development session. */
+export async function markCurrentUserAsTestUser(page: Page): Promise<string> {
+  if (TABLECARDS_WEB_URL !== 'https://tablecards-dev.tofler.app') {
+    throw new Error(
+      'Test-user checkout fixtures require the TableCards dev site.',
+    );
+  }
+  if (new URL(page.url()).origin !== TABLECARDS_WEB_URL) {
+    throw new Error(
+      'Test-user checkout marking requires a signed-in TableCards dev page.',
+    );
+  }
+
+  const contextResponse = page.waitForResponse((response) => {
+    const url = new URL(response.url());
+    return (
+      url.origin === sessionAdapterOrigin &&
+      url.pathname === '/_tofler/auth/context' &&
+      response.request().method() === 'POST'
+    );
+  });
+  await page.reload();
+  const response = await contextResponse;
+  expect(response.ok()).toBe(true);
+  const session = (await response.json()) as {
+    customer?: {
+      user?: {
+        id?: string;
+        verifiedEmail?: string;
+        environmentKey?: string;
+      };
+    };
+  };
+  const user = session.customer?.user;
+  expect(user?.id).toMatch(/^user_[A-Za-z0-9_-]+$/u);
+  expect(user?.verifiedEmail).toMatch(/@example\.invalid$/u);
+  expect(user?.environmentKey).toBe(environmentKey);
+
+  const userId = user!.id!;
+  const marked = markedTestUsers.get(page) ?? new Set<string>();
+  if (marked.has(userId)) return userId;
+
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      'node_modules/tsx/dist/cli.mjs',
+      '--tsconfig',
+      'tsconfig.base.json',
+      'platform/bff/backoffice-e2e/src/mintDevelopmentAuthToken.ts',
+      backofficeDevelopmentUrl,
+    ],
+    { cwd: process.cwd(), timeout: 30_000, maxBuffer: 8_192 },
+  );
+  const client = new ConvexHttpClient(bffDeploymentUrl);
+  client.setAuth(stdout.trim());
+  await client.mutation(setTestUserReference, {
+    environmentKey,
+    userPublicId: userId,
+    isTestUser: true,
+    expectedIsTestUser: false,
+  });
+  marked.add(userId);
+  markedTestUsers.set(page, marked);
+  return userId;
+}
+
 export async function expectNoHorizontalPageOverflow(page: Page) {
   const overflow = await page.evaluate(
     () =>
@@ -216,6 +300,7 @@ export async function chooseDevelopmentOffer(
   if (offerName === 'Free') {
     await page.goto('/settings');
   } else {
+    await markCurrentUserAsTestUser(page);
     await page.goto(`/settings?offer=${offerIds[offerName]}`);
     await page.waitForURL(/auth-dev\.tofler\.app\/checkout/u);
     await expect(page.getByRole('heading', { name: offerName })).toBeVisible();

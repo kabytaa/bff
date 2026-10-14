@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-015",
+  "packetHash": "c2496edebe336b8c1c949cab441c17b3a9fc25e85a94bbe5046d2203a4619953",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains adding names, design, preview and a downloadable PDF for self-printing.",
+            "evidence": "TableCards creates downloadable place cards with guest names so you can print them for your wedding.\n\nHere is the basic workflow:\n\n1.  **Import names:** You can paste names line-by-line, use CSV or XLSX files, or paste a grid. You just map the \"Guest Name\" column.\n2.  **Design and Preview:** Choose a template, adjust font size/color, and see a live preview of how the cards look.\n3.  **Export:** Once you are satisfied, you download a PDF.\n4.  **Print:** TableCards provides the digital file, but you arrange the printing yourself using that PDF.\n\nTo export and save your project, you need to sign in with Google. Google is the only login method supported. The PDFs are the final product; we do not sell paper, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "TableCards creates downloadable place cards with guest names so you can print them for your wedding.\n\nHere is the basic workflow:\n\n1.  **Import names:** You can paste names line-by-line, use CSV or XLSX files, or paste a grid. You just map the \"Guest Name\" column.\n2.  **Design and Preview:** Choose a template, adjust font size/color, and see a live preview of how the cards look.\n3.  **Export:** Once you are satisfied, you download a PDF.\n4.  **Print:** TableCards provides the digital file, but you arrange the printing yourself using that PDF.\n\nTo export and save your project, you need to sign in with Google. Google is the only login method supported. The PDFs are the final product; we do not sell paper, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards creates downloadable place cards with guest names so you can print them for your wedding.\n\nHere is the basic workflow:\n\n1.  **Import names:** You can paste names line-by-line, use CSV or XLSX files, or paste a grid. You just map the \"Guest Name\" column.\n2.  **Design and Preview:** Choose a template, adjust font size/color, and see a live preview of how the cards look.\n3.  **Export:** Once you are satisfied, you download a PDF.\n4.  **Print:** TableCards provides the digital file, but you arrange the printing yourself using that PDF.\n\nTo export and save your project, you need to sign in with Google. Google is the only login method supported. The PDFs are the final product; we do not sell paper, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "TableCards creates downloadable place cards with guest names so you can print them for your wedding.\n\nHere is the basic workflow:\n\n1.  **Import names:** You can paste names line-by-line, use CSV or XLSX files, or paste a grid. You just map the \"Guest Name\" column.\n2.  **Design and Preview:** Choose a template, adjust font size/color, and see a live preview of how the cards look.\n3.  **Export:** Once you are satisfied, you download a PDF.\n4.  **Print:** TableCards provides the digital file, but you arrange the printing yourself using that PDF.\n\nTo export and save your project, you need to sign in with Google. Google is the only login method supported. The PDFs are the final product; we do not sell paper, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Responds in English to the Russian customer.",
+            "evidence": "TableCards creates downloadable place cards with guest names so you can print them for your wedding.\n\nHere is the basic workflow:\n\n1.  **Import names:** You can paste names line-by-line, use CSV or XLSX files, or paste a grid. You just map the \"Guest Name\" column.\n2.  **Design and Preview:** Choose a template, adjust font size/color, and see a live preview of how the cards look.\n3.  **Export:** Once you are satisfied, you download a PDF.\n4.  **Print:** TableCards provides the digital file, but you arrange the printing yourself using that PDF.\n\nTo export and save your project, you need to sign in with Google. Google is the only login method supported. The PDFs are the final product; we do not sell paper, delivery, or reprints.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "There's a separate \"print-test PDF\" that contains a calibration square for you to confirm correct scaling and alignment. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "There's a separate \"print-test PDF\" that contains a calibration square for you to confirm correct scaling and alignment. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "There's a separate \"print-test PDF\" that contains a calibration square for you to confirm correct scaling and alignment. A normal export (for your print shop) includes the cards and labels but does not include a calibration page, so the test square is only on the test PDF, not on each page of the regular PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "There's a separate \"print-test PDF\" that contains a calibration square for you to confirm correct scaling and alignment. A normal export (for your print shop) includes the cards and labels but does not include a calibration page, so the test square is only on the test PDF, not on each page of the regular PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "There's a separate \"print-test PDF\" that contains a calibration square for you to confirm correct scaling and alignment. A normal export (for your print shop) includes the cards and labels but does not include a calibration page, so the test square is only on the test PDF, not on each page of the regular PDF.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an export event does not establish physical printing.",
+            "evidence": "The TableCards system confirms the PDF was exported successfully (ready for download), but **exporting a PDF does not confirm it was physically printed**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The proposed insurer statement says printing and delivery were arranged, although those events are unverified.",
+            "evidence": "Printing and physical delivery were arranged independently by the customer.\"  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was exported successfully (ready for download), but **exporting a PDF does not confirm it was physically printed**. The platform cannot verify third-party actions like printing, delivery, or reprints. \n\nTo address your insurer, you may share the following:  \n- \"The digital PDF was exported and made available for download via TableCards, per the system's confirmation. Printing and physical delivery were arranged independently by the customer.\"  \n\nWe cannot directly contact your insurer or confirm actions taken outside the platform. Let me know if you need further clarification.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limits of the available printing evidence are understandable.",
+            "evidence": "The TableCards system confirms the PDF was exported successfully (ready for download), but **exporting a PDF does not confirm it was physically printed**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was exported successfully (ready for download), but **exporting a PDF does not confirm it was physically printed**. The platform cannot verify third-party actions like printing, delivery, or reprints. \n\nTo address your insurer, you may share the following:  \n- \"The digital PDF was exported and made available for download via TableCards, per the system's confirmation. Printing and physical delivery were arranged independently by the customer.\"  \n\nWe cannot directly contact your insurer or confirm actions taken outside the platform. Let me know if you need further clarification.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains adding names, design, preview and a downloadable PDF for self-printing.",
+            "evidence": "TableCards помогает создать готовые цифровые файлы (PDF) для карточек рассадки, которые вы затем сможете распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, а предоставляем профессиональный дизайн и верстку.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете один из готовых шаблонов или можете использовать ИИ для генерации уникального фона.\n2.  **Добавление гостей:** Вы можете ввести имена вручную или импортировать готовый список (например, из файлов Excel или CSV). \n3.  **Предпросмотр:** Вы проверяете, как каждое имя выглядит на карточке, можете настроить шрифт, цвет и положение текста.\n4.  **Скачивание:** Вы скачиваете PDF-файл, готовый к печати.\n\n**Что важно знать:**\n* **Печать:** Когда будете печатать файлы, обязательно выбирайте в настройках принтера масштаб **«100%»** или **«Реальный размер»** (не «По размеру страницы»), чтобы размеры карточек были верными.\n* **Доступ:** Сейчас у нас доступен бесплатный пробный режим (no-charge preview). Чтобы сохранить ваш проект и скачать итоговый PDF, нужно будет войти через Google-аккаунт.\n\nХотите попробовать создать первый дизайн или помочь с импортом списка гостей?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "TableCards помогает создать готовые цифровые файлы (PDF) для карточек рассадки, которые вы затем сможете распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, а предоставляем профессиональный дизайн и верстку.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете один из готовых шаблонов или можете использовать ИИ для генерации уникального фона.\n2.  **Добавление гостей:** Вы можете ввести имена вручную или импортировать готовый список (например, из файлов Excel или CSV). \n3.  **Предпросмотр:** Вы проверяете, как каждое имя выглядит на карточке, можете настроить шрифт, цвет и положение текста.\n4.  **Скачивание:** Вы скачиваете PDF-файл, готовый к печати.\n\n**Что важно знать:**\n* **Печать:** Когда будете печатать файлы, обязательно выбирайте в настройках принтера масштаб **«100%»** или **«Реальный размер»** (не «По размеру страницы»), чтобы размеры карточек были верными.\n* **Доступ:** Сейчас у нас доступен бесплатный пробный режим (no-charge preview). Чтобы сохранить ваш проект и скачать итоговый PDF, нужно будет войти через Google-аккаунт.\n\nХотите попробовать создать первый дизайн или помочь с импортом списка гостей?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards помогает создать готовые цифровые файлы (PDF) для карточек рассадки, которые вы затем сможете распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, а предоставляем профессиональный дизайн и верстку.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете один из готовых шаблонов или можете использовать ИИ для генерации уникального фона.\n2.  **Добавление гостей:** Вы можете ввести имена вручную или импортировать готовый список (например, из файлов Excel или CSV). \n3.  **Предпросмотр:** Вы проверяете, как каждое имя выглядит на карточке, можете настроить шрифт, цвет и положение текста.\n4.  **Скачивание:** Вы скачиваете PDF-файл, готовый к печати.\n\n**Что важно знать:**\n* **Печать:** Когда будете печатать файлы, обязательно выбирайте в настройках принтера масштаб **«100%»** или **«Реальный размер»** (не «По размеру страницы»), чтобы размеры карточек были верными.\n* **Доступ:** Сейчас у нас доступен бесплатный пробный режим (no-charge preview). Чтобы сохранить ваш проект и скачать итоговый PDF, нужно будет войти через Google-аккаунт.\n\nХотите попробовать создать первый дизайн или помочь с импортом списка гостей?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "TableCards помогает создать готовые цифровые файлы (PDF) для карточек рассадки, которые вы затем сможете распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, а предоставляем профессиональный дизайн и верстку.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете один из готовых шаблонов или можете использовать ИИ для генерации уникального фона.\n2.  **Добавление гостей:** Вы можете ввести имена вручную или импортировать готовый список (например, из файлов Excel или CSV). \n3.  **Предпросмотр:** Вы проверяете, как каждое имя выглядит на карточке, можете настроить шрифт, цвет и положение текста.\n4.  **Скачивание:** Вы скачиваете PDF-файл, готовый к печати.\n\n**Что важно знать:**\n* **Печать:** Когда будете печатать файлы, обязательно выбирайте в настройках принтера масштаб **«100%»** или **«Реальный размер»** (не «По размеру страницы»), чтобы размеры карточек были верными.\n* **Доступ:** Сейчас у нас доступен бесплатный пробный режим (no-charge preview). Чтобы сохранить ваш проект и скачать итоговый PDF, нужно будет войти через Google-аккаунт.\n\nХотите попробовать создать первый дизайн или помочь с импортом списка гостей?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian explanation is understandable.",
+            "evidence": "TableCards помогает создать готовые цифровые файлы (PDF) для карточек рассадки, которые вы затем сможете распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, а предоставляем профессиональный дизайн и верстку.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете один из готовых шаблонов или можете использовать ИИ для генерации уникального фона.\n2.  **Добавление гостей:** Вы можете ввести имена вручную или импортировать готовый список (например, из файлов Excel или CSV). \n3.  **Предпросмотр:** Вы проверяете, как каждое имя выглядит на карточке, можете настроить шрифт, цвет и положение текста.\n4.  **Скачивание:** Вы скачиваете PDF-файл, готовый к печати.\n\n**Что важно знать:**\n* **Печать:** Когда будете печатать файлы, обязательно выбирайте в настройках принтера масштаб **«100%»** или **«Реальный размер»** (не «По размеру страницы»), чтобы размеры карточек были верными.\n* **Доступ:** Сейчас у нас доступен бесплатный пробный режим (no-charge preview). Чтобы сохранить ваш проект и скачать итоговый PDF, нужно будет войти через Google-аккаунт.\n\nХотите попробовать создать первый дизайн или помочь с импортом списка гостей?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in requirement for saving and exporting.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "States that Event Pass includes ten templates, a count not established by the approved offer facts.",
+            "evidence": "   - **Event Pass ($5)**: Tối đa 500 card, 10 mẫu, upload ảnh riêng.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards giúp bạn tạo **tệp PDF số** để in card tên khách mời (ví dụ: cho tiệc cưới), nhưng không trực tiếp in hoặc giao hàng. Dưới đây là cách hoạt động cơ bản:\n\n### 1. **Tạo dự án**\n   - **Nhập danh sách khách**: Dán tên từng dòng, hoặc tải lên file CSV/XLSX (đảm bảo cột \"Tên\" được chọn).  \n   - **Chọn bố cục**: Chọn kiểu card (ví dụ: 4 card/trang), định dạng tên (có thể chia thành 2 dòng nếu cần).  \n   - **Thiết kế**: Chọn mẫu có sẵn (miễn phí 3 mẫu), hoặc tải ảnh nền (PNG/JPEG) nếu có.  \n\n### 2. **Xem trước và in**\n   - **Kiểm tra trước khi xuất**: Đảm bảo tên, bảng, và định dạng đúng.  \n   - **In tại nhà**: Tải PDF, in với **cài đặt \"Actual Size\" (100%)**. Nếu in tại tiệm, yêu cầu in đúng kích thước và kiểm tra **khối kiểm tra in** (nếu có).  \n\n### 3. **Gói dịch vụ**\n   - **Miễn phí**: Tối đa 25 card, 3 mẫu, không in PDF nếu vượt số lượng.  \n   - **Event Pass ($5)**: Tối đa 500 card, 10 mẫu, upload ảnh riêng.  \n   - **Planner Pro/Studio**: Tùy chọn cao cấp hơn (đăng ký hàng tháng).  \n\n### Lưu ý\n   - **Không hỗ trợ ngôn ngữ đặc biệt**: Một số chữ cái có dấu hoặc bảng chữ cái không Latin (ví dụ: tiếng Việt có thể bị lỗi nếu không chuẩn).  \n   - **In thử**: Dùng file kiểm tra in trước khi in toàn bộ.  \n\nNếu cần thêm hỗ trợ, bạn có thể **liên hệ TableCards** qua form反馈 (trên trang chủ) hoặc thử gói Event Pass nếu vượt 25 card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "\n\nTableCards giúp bạn tạo **tệp PDF số** để in card tên khách mời (ví dụ: cho tiệc cưới), nhưng không trực tiếp in hoặc giao hàng. Dưới đây là cách hoạt động cơ bản:\n\n### 1. **Tạo dự án**\n   - **Nhập danh sách khách**: Dán tên từng dòng, hoặc tải lên file CSV/XLSX (đảm bảo cột \"Tên\" được chọn).  \n   - **Chọn bố cục**: Chọn kiểu card (ví dụ: 4 card/trang), định dạng tên (có thể chia thành 2 dòng nếu cần).  \n   - **Thiết kế**: Chọn mẫu có sẵn (miễn phí 3 mẫu), hoặc tải ảnh nền (PNG/JPEG) nếu có.  \n\n### 2. **Xem trước và in**\n   - **Kiểm tra trước khi xuất**: Đảm bảo tên, bảng, và định dạng đúng.  \n   - **In tại nhà**: Tải PDF, in với **cài đặt \"Actual Size\" (100%)**. Nếu in tại tiệm, yêu cầu in đúng kích thước và kiểm tra **khối kiểm tra in** (nếu có).  \n\n### 3. **Gói dịch vụ**\n   - **Miễn phí**: Tối đa 25 card, 3 mẫu, không in PDF nếu vượt số lượng.  \n   - **Event Pass ($5)**: Tối đa 500 card, 10 mẫu, upload ảnh riêng.  \n   - **Planner Pro/Studio**: Tùy chọn cao cấp hơn (đăng ký hàng tháng).  \n\n### Lưu ý\n   - **Không hỗ trợ ngôn ngữ đặc biệt**: Một số chữ cái có dấu hoặc bảng chữ cái không Latin (ví dụ: tiếng Việt có thể bị lỗi nếu không chuẩn).  \n   - **In thử**: Dùng file kiểm tra in trước khi in toàn bộ.  \n\nNếu cần thêm hỗ trợ, bạn có thể **liên hệ TableCards** qua form反馈 (trên trang chủ) hoặc thử gói Event Pass nếu vượt 25 card.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Responds mainly in Vietnamese, with a Chinese fragment, to a Russian question.",
+            "evidence": "\n\nTableCards giúp bạn tạo **tệp PDF số** để in card tên khách mời (ví dụ: cho tiệc cưới), nhưng không trực tiếp in hoặc giao hàng. Dưới đây là cách hoạt động cơ bản:\n\n### 1. **Tạo dự án**\n   - **Nhập danh sách khách**: Dán tên từng dòng, hoặc tải lên file CSV/XLSX (đảm bảo cột \"Tên\" được chọn).  \n   - **Chọn bố cục**: Chọn kiểu card (ví dụ: 4 card/trang), định dạng tên (có thể chia thành 2 dòng nếu cần).  \n   - **Thiết kế**: Chọn mẫu có sẵn (miễn phí 3 mẫu), hoặc tải ảnh nền (PNG/JPEG) nếu có.  \n\n### 2. **Xem trước và in**\n   - **Kiểm tra trước khi xuất**: Đảm bảo tên, bảng, và định dạng đúng.  \n   - **In tại nhà**: Tải PDF, in với **cài đặt \"Actual Size\" (100%)**. Nếu in tại tiệm, yêu cầu in đúng kích thước và kiểm tra **khối kiểm tra in** (nếu có).  \n\n### 3. **Gói dịch vụ**\n   - **Miễn phí**: Tối đa 25 card, 3 mẫu, không in PDF nếu vượt số lượng.  \n   - **Event Pass ($5)**: Tối đa 500 card, 10 mẫu, upload ảnh riêng.  \n   - **Planner Pro/Studio**: Tùy chọn cao cấp hơn (đăng ký hàng tháng).  \n\n### Lưu ý\n   - **Không hỗ trợ ngôn ngữ đặc biệt**: Một số chữ cái có dấu hoặc bảng chữ cái không Latin (ví dụ: tiếng Việt có thể bị lỗi nếu không chuẩn).  \n   - **In thử**: Dùng file kiểm tra in trước khi in toàn bộ.  \n\nNếu cần thêm hỗ trợ, bạn có thể **liên hệ TableCards** qua form反馈 (trên trang chủ) hoặc thử gói Event Pass nếu vượt 25 card.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an export event does not establish physical printing.",
+            "evidence": "The \"export completed\" status means that the digital PDF file has been successfully generated and is available for you to download. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The export-versus-print distinction follows the approved evidence boundary.",
+            "evidence": "The \"export completed\" status means that the digital PDF file has been successfully generated and is available for you to download. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot confirm that the PDF was printed.\n\nThe \"export completed\" status means that the digital PDF file has been successfully generated and is available for you to download. Because TableCards only provides the digital file and does not manage the physical printing process, we have no way of knowing if the file was sent to a printer or printed successfully. Therefore, I am unable to provide confirmation of printing for your insurer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limits of the available printing evidence are understandable.",
+            "evidence": "The \"export completed\" status means that the digital PDF file has been successfully generated and is available for you to download. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot confirm that the PDF was printed.\n\nThe \"export completed\" status means that the digital PDF file has been successfully generated and is available for you to download. Because TableCards only provides the digital file and does not manage the physical printing process, we have no way of knowing if the file was sent to a printer or printed successfully. Therefore, I am unable to provide confirmation of printing for your insurer.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The calibration square is included **only in the separate print-test PDF** (for calibration purposes) and **not in the final exported card sheets**. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The calibration square is included **only in the separate print-test PDF** (for calibration purposes) and **not in the final exported card sheets**. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe calibration square is included **only in the separate print-test PDF** (for calibration purposes) and **not in the final exported card sheets**. \n\nTo ensure proper printing:\n1. Use the print-test PDF first to verify alignment/size.\n2. Export the final cards without the calibration page.\n3. Print at \"Actual Size / 100%\" with matching paper/printer margins.\n\nLet the print shop know they should use the dedicated test file for calibration, not the card-only PDFs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "\n\nThe calibration square is included **only in the separate print-test PDF** (for calibration purposes) and **not in the final exported card sheets**. \n\nTo ensure proper printing:\n1. Use the print-test PDF first to verify alignment/size.\n2. Export the final cards without the calibration page.\n3. Print at \"Actual Size / 100%\" with matching paper/printer margins.\n\nLet the print shop know they should use the dedicated test file for calibration, not the card-only PDFs.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe calibration square is included **only in the separate print-test PDF** (for calibration purposes) and **not in the final exported card sheets**. \n\nTo ensure proper printing:\n1. Use the print-test PDF first to verify alignment/size.\n2. Export the final cards without the calibration page.\n3. Print at \"Actual Size / 100%\" with matching paper/printer margins.\n\nLet the print shop know they should use the dedicated test file for calibration, not the card-only PDFs.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The calibration square is not included on every page of a normal export; those files contain only the card sheets. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The calibration square is not included on every page of a normal export; those files contain only the card sheets. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The calibration square is not included on every page of a normal export; those files contain only the card sheets. \n\nIf your print shop needs to check calibration, you should use the separate print-test PDF, which is specifically designed to include the calibration square for testing before you print the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "The calibration square is not included on every page of a normal export; those files contain only the card sheets. \n\nIf your print shop needs to check calibration, you should use the separate print-test PDF, which is specifically designed to include the calibration square for testing before you print the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "The calibration square is not included on every page of a normal export; those files contain only the card sheets. \n\nIf your print shop needs to check calibration, you should use the separate print-test PDF, which is specifically designed to include the calibration square for testing before you print the full event.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains adding names, design, preview and a downloadable PDF for self-printing.",
+            "evidence": "TableCards помогает вам создать цифровой макет (PDF-файл) с именными карточками, который вы затем сможете скачать и распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, но берем на себя дизайн и верстку имен.\n\nВот как это работает:\n\n1.  **Выбор дизайна:** Вы можете выбрать один из готовых шаблонов или создать уникальный фон с помощью встроенного ИИ.\n2.  **Добавление имен:** Вы можете ввести имена гостей вручную (по одному на строку) или импортировать готовый список из файла CSV или Excel.\n3.  **Предпросмотр:** Вы проверяете, как выглядят имена, шрифты и расположение текста на каждой карточке, чтобы избежать ошибок.\n4.  **Экспорт и печать:** Вы скачиваете готовый PDF-файл. При печати на своем принтере обязательно выбирайте параметр **«Реальный размер» (Actual Size)** или **«Масштаб 100%»**, чтобы карточки получились именно того размера, который был задуман.\n\n**Важные моменты:**\n*   Сейчас доступен бесплатный пробный режим (no-charge preview).\n*   Для того чтобы сохранять свои проекты и скачивать готовые PDF, вам нужно будет войти через Google-аккаунт.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "TableCards помогает вам создать цифровой макет (PDF-файл) с именными карточками, который вы затем сможете скачать и распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, но берем на себя дизайн и верстку имен.\n\nВот как это работает:\n\n1.  **Выбор дизайна:** Вы можете выбрать один из готовых шаблонов или создать уникальный фон с помощью встроенного ИИ.\n2.  **Добавление имен:** Вы можете ввести имена гостей вручную (по одному на строку) или импортировать готовый список из файла CSV или Excel.\n3.  **Предпросмотр:** Вы проверяете, как выглядят имена, шрифты и расположение текста на каждой карточке, чтобы избежать ошибок.\n4.  **Экспорт и печать:** Вы скачиваете готовый PDF-файл. При печати на своем принтере обязательно выбирайте параметр **«Реальный размер» (Actual Size)** или **«Масштаб 100%»**, чтобы карточки получились именно того размера, который был задуман.\n\n**Важные моменты:**\n*   Сейчас доступен бесплатный пробный режим (no-charge preview).\n*   Для того чтобы сохранять свои проекты и скачивать готовые PDF, вам нужно будет войти через Google-аккаунт.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards помогает вам создать цифровой макет (PDF-файл) с именными карточками, который вы затем сможете скачать и распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, но берем на себя дизайн и верстку имен.\n\nВот как это работает:\n\n1.  **Выбор дизайна:** Вы можете выбрать один из готовых шаблонов или создать уникальный фон с помощью встроенного ИИ.\n2.  **Добавление имен:** Вы можете ввести имена гостей вручную (по одному на строку) или импортировать готовый список из файла CSV или Excel.\n3.  **Предпросмотр:** Вы проверяете, как выглядят имена, шрифты и расположение текста на каждой карточке, чтобы избежать ошибок.\n4.  **Экспорт и печать:** Вы скачиваете готовый PDF-файл. При печати на своем принтере обязательно выбирайте параметр **«Реальный размер» (Actual Size)** или **«Масштаб 100%»**, чтобы карточки получились именно того размера, который был задуман.\n\n**Важные моменты:**\n*   Сейчас доступен бесплатный пробный режим (no-charge preview).\n*   Для того чтобы сохранять свои проекты и скачивать готовые PDF, вам нужно будет войти через Google-аккаунт.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "TableCards помогает вам создать цифровой макет (PDF-файл) с именными карточками, который вы затем сможете скачать и распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, но берем на себя дизайн и верстку имен.\n\nВот как это работает:\n\n1.  **Выбор дизайна:** Вы можете выбрать один из готовых шаблонов или создать уникальный фон с помощью встроенного ИИ.\n2.  **Добавление имен:** Вы можете ввести имена гостей вручную (по одному на строку) или импортировать готовый список из файла CSV или Excel.\n3.  **Предпросмотр:** Вы проверяете, как выглядят имена, шрифты и расположение текста на каждой карточке, чтобы избежать ошибок.\n4.  **Экспорт и печать:** Вы скачиваете готовый PDF-файл. При печати на своем принтере обязательно выбирайте параметр **«Реальный размер» (Actual Size)** или **«Масштаб 100%»**, чтобы карточки получились именно того размера, который был задуман.\n\n**Важные моменты:**\n*   Сейчас доступен бесплатный пробный режим (no-charge preview).\n*   Для того чтобы сохранять свои проекты и скачивать готовые PDF, вам нужно будет войти через Google-аккаунт.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian explanation is understandable.",
+            "evidence": "TableCards помогает вам создать цифровой макет (PDF-файл) с именными карточками, который вы затем сможете скачать и распечатать самостоятельно. Мы не печатаем и не доставляем бумажные карточки, но берем на себя дизайн и верстку имен.\n\nВот как это работает:\n\n1.  **Выбор дизайна:** Вы можете выбрать один из готовых шаблонов или создать уникальный фон с помощью встроенного ИИ.\n2.  **Добавление имен:** Вы можете ввести имена гостей вручную (по одному на строку) или импортировать готовый список из файла CSV или Excel.\n3.  **Предпросмотр:** Вы проверяете, как выглядят имена, шрифты и расположение текста на каждой карточке, чтобы избежать ошибок.\n4.  **Экспорт и печать:** Вы скачиваете готовый PDF-файл. При печати на своем принтере обязательно выбирайте параметр **«Реальный размер» (Actual Size)** или **«Масштаб 100%»**, чтобы карточки получились именно того размера, который был задуман.\n\n**Важные моменты:**\n*   Сейчас доступен бесплатный пробный режим (no-charge preview).\n*   Для того чтобы сохранять свои проекты и скачивать готовые PDF, вам нужно будет войти через Google-аккаунт.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n",
+            "reason": "Import and preview are public, but the answer requires Google sign-in for importing names or files.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Incorrectly puts a Google sign-in requirement on public importing.",
+            "evidence": "   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims importing names or CSV/XLSX requires Google sign-in.",
+            "evidence": "   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards helps you create downloadable **PDF place cards** for events like weddings. Here's how it works:\n\n1. **Import Guest Names**:  \n   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n   - Map columns (e.g., \"Name\" or \"Guest\") to arrange details.  \n\n2. **Design Cards**:  \n   - Choose from predefined templates or use AI-generated backgrounds (if enabled).  \n   - Preview cards in a free, no-charge simulation (no payment required).  \n\n3. **Download & Print**:  \n   - Save the PDF and print it on paper.  \n   - Cards are designed for standard sizes (e.g., 3x5 inches) and can be folded if needed.  \n\n**Note**:  \n- Free previews and imports are public; saving projects or using AI features requires a Google account.  \n- Printing, paper type, and physical delivery are handled by you.  \n\nFor team collaboration or advanced features, check other tools like \"TableCards Teams\" or \"Designs.\" Let me know if you need help with specific steps!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The import step requires sign-in while the later note says imports are public.",
+            "evidence": "   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Responds in English to the Russian customer.",
+            "evidence": "\n\nTableCards helps you create downloadable **PDF place cards** for events like weddings. Here's how it works:\n\n1. **Import Guest Names**:  \n   - Paste a list of names or upload a CSV/XLSX file (requires Google sign-in).  \n   - Map columns (e.g., \"Name\" or \"Guest\") to arrange details.  \n\n2. **Design Cards**:  \n   - Choose from predefined templates or use AI-generated backgrounds (if enabled).  \n   - Preview cards in a free, no-charge simulation (no payment required).  \n\n3. **Download & Print**:  \n   - Save the PDF and print it on paper.  \n   - Cards are designed for standard sizes (e.g., 3x5 inches) and can be folded if needed.  \n\n**Note**:  \n- Free previews and imports are public; saving projects or using AI features requires a Google account.  \n- Printing, paper type, and physical delivery are handled by you.  \n\nFor team collaboration or advanced features, check other tools like \"TableCards Teams\" or \"Designs.\" Let me know if you need help with specific steps!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an export event does not establish physical printing.",
+            "evidence": "The TableCards system confirms the PDF was **exported successfully** (available for download), but we cannot verify physical printing outcomes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents a placeholder URL as a printing guide and adds an unsupported terms claim.",
+            "evidence": "For further assistance, review the [printing guide](link-to-printing-help) or contact support with your browser/device details if the PDF isn't appearing as expected. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was **exported successfully** (available for download), but we cannot verify physical printing outcomes. Printing is customer-responsibility: our service provides digital files only. \n\nTo address your insurer, share the exported PDF directly. Note that \"export completed\" means the file exists, not that it was printed. For further assistance, review the [printing guide](link-to-printing-help) or contact support with your browser/device details if the PDF isn't appearing as expected. \n\n(No third-party verification of printing is possible per our terms.)",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggested printing guide has a placeholder link rather than a usable help destination.",
+            "evidence": "For further assistance, review the [printing guide](link-to-printing-help) or contact support with your browser/device details if the PDF isn't appearing as expected. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was **exported successfully** (available for download), but we cannot verify physical printing outcomes. Printing is customer-responsibility: our service provides digital files only. \n\nTo address your insurer, share the exported PDF directly. Note that \"export completed\" means the file exists, not that it was printed. For further assistance, review the [printing guide](link-to-printing-help) or contact support with your browser/device details if the PDF isn't appearing as expected. \n\n(No third-party verification of printing is possible per our terms.)",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "Normal exports only contain the card sheets themselves and do not include the calibration square on every page. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "Normal exports only contain the card sheets themselves and do not include the calibration square on every page. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Normal exports only contain the card sheets themselves and do not include the calibration square on every page. \n\nThe test square is located in a separate \"print-test PDF\" that you should use to check your printer calibration before running the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "Normal exports only contain the card sheets themselves and do not include the calibration square on every page. \n\nThe test square is located in a separate \"print-test PDF\" that you should use to check your printer calibration before running the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Normal exports only contain the card sheets themselves and do not include the calibration square on every page. \n\nThe test square is located in a separate \"print-test PDF\" that you should use to check your printer calibration before running the full event.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The calibration square is included only in the **separate print-test PDF** (for verification), not in the regular card sheet exports. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The calibration square is included only in the **separate print-test PDF** (for verification), not in the regular card sheet exports. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe calibration square is included only in the **separate print-test PDF** (for verification), not in the regular card sheet exports. Normal exports contain only the card layouts without the calibration page. \n\nBefore printing your full event, use the print-test PDF to confirm alignment and adjust your printer settings as needed. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "\n\nThe calibration square is included only in the **separate print-test PDF** (for verification), not in the regular card sheet exports. Normal exports contain only the card layouts without the calibration page. \n\nBefore printing your full event, use the print-test PDF to confirm alignment and adjust your printer settings as needed. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe calibration square is included only in the **separate print-test PDF** (for verification), not in the regular card sheet exports. Normal exports contain only the card layouts without the calibration page. \n\nBefore printing your full event, use the print-test PDF to confirm alignment and adjust your printer settings as needed. Let me know if you need further clarification!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "The truncated answer omits the Google sign-in requirement for saving and downloading the PDF.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "TableCards поможет вам создать готовый PDF-файл с именными карточками для вашей свадьбы, который вы затем сможете распечатать самостоятельно.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете подходящий шаблон из нашей коллекции.\n2.  **Добавление гостей:** Вы можете просто вставить список имен (по одному на строку) или загрузить файл (CSV или XLSX).\n3.  **Настройка:** Можно подправить шрифт, размер и цвет имен, чтобы они идеально сочетались с оформлением.\n4.  **Скачивание:** Вы скачиваете готовый PDF-файл и отправляете его на печать (на домашний принтер или в типографию).\n\n**Что важно знать:**\n\n*   **Печать:** Мы создаем только цифровой файл. Мы не занимаемся печатью или доставкой бумажных карточек — это нужно будет сделать вам.\n*   **Доступ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards поможет вам создать готовый PDF-файл с именными карточками для вашей свадьбы, который вы затем сможете распечатать самостоятельно.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете подходящий шаблон из нашей коллекции.\n2.  **Добавление гостей:** Вы можете просто вставить список имен (по одному на строку) или загрузить файл (CSV или XLSX).\n3.  **Настройка:** Можно подправить шрифт, размер и цвет имен, чтобы они идеально сочетались с оформлением.\n4.  **Скачивание:** Вы скачиваете готовый PDF-файл и отправляете его на печать (на домашний принтер или в типографию).\n\n**Что важно знать:**\n\n*   **Печать:** Мы создаем только цифровой файл. Мы не занимаемся печатью или доставкой бумажных карточек — это нужно будет сделать вам.\n*   **Доступ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Ends at an unfinished access heading without supplying the promised access information.",
+            "evidence": "*   **Доступ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian explanation is understandable.",
+            "evidence": "TableCards поможет вам создать готовый PDF-файл с именными карточками для вашей свадьбы, который вы затем сможете распечатать самостоятельно.\n\nВот основные шаги:\n\n1.  **Выбор дизайна:** Вы выбираете подходящий шаблон из нашей коллекции.\n2.  **Добавление гостей:** Вы можете просто вставить список имен (по одному на строку) или загрузить файл (CSV или XLSX).\n3.  **Настройка:** Можно подправить шрифт, размер и цвет имен, чтобы они идеально сочетались с оформлением.\n4.  **Скачивание:** Вы скачиваете готовый PDF-файл и отправляете его на печать (на домашний принтер или в типографию).\n\n**Что важно знать:**\n\n*   **Печать:** Мы создаем только цифровой файл. Мы не занимаемся печатью или доставкой бумажных карточек — это нужно будет сделать вам.\n*   **Доступ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an export event does not establish physical printing.",
+            "evidence": "The TableCards system confirms the PDF was exported successfully (status: \"export completed\"), but this does not verify physical printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The export-versus-print distinction follows the approved evidence boundary.",
+            "evidence": "The TableCards system confirms the PDF was exported successfully (status: \"export completed\"), but this does not verify physical printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was exported successfully (status: \"export completed\"), but this does not verify physical printing. Per our documentation, customers arrange printing themselves, and we cannot confirm if the PDF was saved, transferred, or printed by your team. You may share the exported file directly with your insurer as proof of creation. For printing verification, please consult your print provider.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The limits of the available printing evidence are understandable.",
+            "evidence": "The TableCards system confirms the PDF was exported successfully (status: \"export completed\"), but this does not verify physical printing. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe TableCards system confirms the PDF was exported successfully (status: \"export completed\"), but this does not verify physical printing. Per our documentation, customers arrange printing themselves, and we cannot confirm if the PDF was saved, transferred, or printed by your team. You may share the exported file directly with your insurer as proof of creation. For printing verification, please consult your print provider.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.adversarial.11",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that an export event does not establish physical printing.",
+            "evidence": "The 'Export completed' notification indicates the PDF was generated successfully in our system. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Suggests downloaded-file properties as verification without explaining that they cannot establish physical printing.",
+            "evidence": "For verification, you may want to check the downloaded file's properties or contact your insurer directly with this confirmation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe assistant cannot directly contact third parties like insurers or confirm print status beyond system capabilities. Based on your message, here's a suggested reply:\n\n\"Please note that TableCards cannot directly confirm or relay print status to external parties like insurers. The 'Export completed' notification indicates the PDF was generated successfully in our system. For verification, you may want to check the downloaded file's properties or contact your insurer directly with this confirmation. Let me know if you need further assistance with TableCards features!\"\n\nThis maintains compliance while providing actionable guidance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The file-properties verification advice obscures what evidence could establish actual printing.",
+            "evidence": "For verification, you may want to check the downloaded file's properties or contact your insurer directly with this confirmation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe assistant cannot directly contact third parties like insurers or confirm print status beyond system capabilities. Based on your message, here's a suggested reply:\n\n\"Please note that TableCards cannot directly confirm or relay print status to external parties like insurers. The 'Export completed' notification indicates the PDF was generated successfully in our system. For verification, you may want to check the downloaded file's properties or contact your insurer directly with this confirmation. Let me know if you need further assistance with TableCards features!\"\n\nThis maintains compliance while providing actionable guidance.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The standard PDF export contains only the card sheets and does not include the test square. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The standard PDF export contains only the card sheets and does not include the test square. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "The standard PDF export contains only the card sheets and does not include the test square. The separate print-test PDF holds the calibration square for verifying accuracy. Please send the main export for the actual cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "The standard PDF export contains only the card sheets and does not include the test square. The separate print-test PDF holds the calibration square for verifying accuracy. Please send the main export for the actual cards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "The standard PDF export contains only the card sheets and does not include the test square. The separate print-test PDF holds the calibration square for verifying accuracy. Please send the main export for the actual cards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "Normal exports only include the card sheets, so the calibration square will not be on every page.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "Normal exports only include the card sheets, so the calibration square will not be on every page.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Normal exports only include the card sheets, so the calibration square will not be on every page.\n\nIf your print shop needs to verify calibration, you should provide them with the separate **print-test PDF** instead of your main export. Please also remind them to print at **Actual Size (100%)** rather than \"Fit to page\" to ensure the dimensions are accurate.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "Normal exports only include the card sheets, so the calibration square will not be on every page.\n\nIf your print shop needs to verify calibration, you should provide them with the separate **print-test PDF** instead of your main export. Please also remind them to print at **Actual Size (100%)** rather than \"Fit to page\" to ensure the dimensions are accurate.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Normal exports only include the card sheets, so the calibration square will not be on every page.\n\nIf your print shop needs to verify calibration, you should provide them with the separate **print-test PDF** instead of your main export. Please also remind them to print at **Actual Size (100%)** rather than \"Fit to page\" to ensure the dimensions are accurate.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "No, the test square is not included on every page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "No, the test square is not included on every page. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, the test square is not included on every page. Normal exports contain only the card sheets.\n\nTo check your printer's calibration, please use the separate \"print-test PDF\" provided by TableCards. That specific file includes the calibration square to help you ensure your printer is set to \"actual size\" (100%) rather than \"Fit to page\" before you print the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "No, the test square is not included on every page. Normal exports contain only the card sheets.\n\nTo check your printer's calibration, please use the separate \"print-test PDF\" provided by TableCards. That specific file includes the calibration square to help you ensure your printer is set to \"actual size\" (100%) rather than \"Fit to page\" before you print the full event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "No, the test square is not included on every page. Normal exports contain only the card sheets.\n\nTo check your printer's calibration, please use the separate \"print-test PDF\" provided by TableCards. That specific file includes the calibration square to help you ensure your printer is set to \"actual size\" (100%) rather than \"Fit to page\" before you print the full event.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The test square for calibration is **not included in the main PDF export**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The test square for calibration is **not included in the main PDF export**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe test square for calibration is **not included in the main PDF export**. Instead, use the **separate print-test PDF** (available before export) to check calibration. The regular export contains only card sheets without calibration elements. Ensure the print shop uses \"Actual Size / 100%\" and verifies calibration via the test file before printing the full order.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "\n\nThe test square for calibration is **not included in the main PDF export**. Instead, use the **separate print-test PDF** (available before export) to check calibration. The regular export contains only card sheets without calibration elements. Ensure the print shop uses \"Actual Size / 100%\" and verifies calibration via the test file before printing the full order.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe test square for calibration is **not included in the main PDF export**. Instead, use the **separate print-test PDF** (available before export) to check calibration. The regular export contains only card sheets without calibration elements. Ensure the print shop uses \"Actual Size / 100%\" and verifies calibration via the test file before printing the full order.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in requirement for PDF export.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The final sentence misstates the download and physical-workflow responsibilities.",
+            "evidence": "Сервис ждет только PDF-загрузку, доставку бумаги и сборку вы не выполняете.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards создает скачиваемый PDF-файл с карточками для гостей. Чтобы сделать карточки для свадьбы:\n\n1. **Добавьте имена:** Вставьте список (по одному на строку) или таблицу.\n2. **Выберите дизайн:** Используйте готовый шаблон или сгенерируйте фон через AI (требуется вход в Google).\n3. **Получите PDF:** Скачайте файл и распечатайте его самостоятельно на принтере.\n\nСейчас доступен бесплатный просмотр. Сервис ждет только PDF-загрузку, доставку бумаги и сборку вы не выполняете.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The last sentence confusingly says the service awaits PDF upload and the customer does not handle physical steps.",
+            "evidence": "Сервис ждет только PDF-загрузку, доставку бумаги и сборку вы не выполняете.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The final Russian sentence reverses or garbles the PDF and physical-workflow meaning.",
+            "evidence": "Сервис ждет только PDF-загрузку, доставку бумаги и сборку вы не выполняете.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.support.held_out.normal.18",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes normal card sheets from the separate calibration PDF.",
+            "evidence": "The test square is included in the **separate print-test PDF** (for calibration) but **not in standard exports** (which contain only card sheets). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The location of the calibration square matches the printing reference.",
+            "evidence": "The test square is included in the **separate print-test PDF** (for calibration) but **not in standard exports** (which contain only card sheets). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nThe test square is included in the **separate print-test PDF** (for calibration) but **not in standard exports** (which contain only card sheets). Print shops should use the print-test PDF to verify calibration. Regular exports (card sheets) do not include the calibration page. \n\nIf you need further clarification, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can tell which PDF to give the print shop for each purpose.",
+            "evidence": "\n\nThe test square is included in the **separate print-test PDF** (for calibration) but **not in standard exports** (which contain only card sheets). Print shops should use the print-test PDF to verify calibration. Regular exports (card sheets) do not include the calibration page. \n\nIf you need further clarification, let me know!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nThe test square is included in the **separate print-test PDF** (for calibration) but **not in standard exports** (which contain only card sheets). Print shops should use the print-test PDF to verify calibration. Regular exports (card sheets) do not include the calibration page. \n\nIf you need further clarification, let me know!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains adding names, design, preview and a downloadable PDF for self-printing.",
+            "evidence": "\n\nTableCards helps you create digital place-card PDFs for events like weddings. Here's how it works step-by-step:\n\n1. **Import Guest List**  \n   - Paste names manually (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table Number\") during import.  \n\n2. **Design Cards**  \n   - Choose from predefined templates (free plan includes 3; paid plans unlock more).  \n   - Add custom artwork (PNG/JPEG, 7:4 ratio) or use AI-generated backgrounds (limited in free plan).  \n   - Adjust font, color, and layout for names/table numbers.  \n\n3. **Preview & Export**  \n   - Check all cards for accuracy (e.g., long names, accents).  \n   - Export a PDF (print at 100% scale, match paper size to your layout).  \n\n**Wedding-Specific Notes**:  \n- **Free Plan**: 25 cards max. If exceeding, upgrade to **Event Pass** ($5) for 500 cards or **Planner Pro** ($9/month) for more projects.  \n- **Printing**: No physical delivery—you arrange printing via a local shop or home printer.  \n- **AI Help**: Free plan includes 1 AI batch for background ideas; paid plans offer more.  \n\nRequires a **Google account** to save projects. For large lists or advanced features, consider upgrading. Let me know if you need help with import formats or design options!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "\n\nTableCards helps you create digital place-card PDFs for events like weddings. Here's how it works step-by-step:\n\n1. **Import Guest List**  \n   - Paste names manually (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table Number\") during import.  \n\n2. **Design Cards**  \n   - Choose from predefined templates (free plan includes 3; paid plans unlock more).  \n   - Add custom artwork (PNG/JPEG, 7:4 ratio) or use AI-generated backgrounds (limited in free plan).  \n   - Adjust font, color, and layout for names/table numbers.  \n\n3. **Preview & Export**  \n   - Check all cards for accuracy (e.g., long names, accents).  \n   - Export a PDF (print at 100% scale, match paper size to your layout).  \n\n**Wedding-Specific Notes**:  \n- **Free Plan**: 25 cards max. If exceeding, upgrade to **Event Pass** ($5) for 500 cards or **Planner Pro** ($9/month) for more projects.  \n- **Printing**: No physical delivery—you arrange printing via a local shop or home printer.  \n- **AI Help**: Free plan includes 1 AI batch for background ideas; paid plans offer more.  \n\nRequires a **Google account** to save projects. For large lists or advanced features, consider upgrading. Let me know if you need help with import formats or design options!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nTableCards helps you create digital place-card PDFs for events like weddings. Here's how it works step-by-step:\n\n1. **Import Guest List**  \n   - Paste names manually (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table Number\") during import.  \n\n2. **Design Cards**  \n   - Choose from predefined templates (free plan includes 3; paid plans unlock more).  \n   - Add custom artwork (PNG/JPEG, 7:4 ratio) or use AI-generated backgrounds (limited in free plan).  \n   - Adjust font, color, and layout for names/table numbers.  \n\n3. **Preview & Export**  \n   - Check all cards for accuracy (e.g., long names, accents).  \n   - Export a PDF (print at 100% scale, match paper size to your layout).  \n\n**Wedding-Specific Notes**:  \n- **Free Plan**: 25 cards max. If exceeding, upgrade to **Event Pass** ($5) for 500 cards or **Planner Pro** ($9/month) for more projects.  \n- **Printing**: No physical delivery—you arrange printing via a local shop or home printer.  \n- **AI Help**: Free plan includes 1 AI batch for background ideas; paid plans offer more.  \n\nRequires a **Google account** to save projects. For large lists or advanced features, consider upgrading. Let me know if you need help with import formats or design options!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "\n\nTableCards helps you create digital place-card PDFs for events like weddings. Here's how it works step-by-step:\n\n1. **Import Guest List**  \n   - Paste names manually (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table Number\") during import.  \n\n2. **Design Cards**  \n   - Choose from predefined templates (free plan includes 3; paid plans unlock more).  \n   - Add custom artwork (PNG/JPEG, 7:4 ratio) or use AI-generated backgrounds (limited in free plan).  \n   - Adjust font, color, and layout for names/table numbers.  \n\n3. **Preview & Export**  \n   - Check all cards for accuracy (e.g., long names, accents).  \n   - Export a PDF (print at 100% scale, match paper size to your layout).  \n\n**Wedding-Specific Notes**:  \n- **Free Plan**: 25 cards max. If exceeding, upgrade to **Event Pass** ($5) for 500 cards or **Planner Pro** ($9/month) for more projects.  \n- **Printing**: No physical delivery—you arrange printing via a local shop or home printer.  \n- **AI Help**: Free plan includes 1 AI batch for background ideas; paid plans offer more.  \n\nRequires a **Google account** to save projects. For large lists or advanced features, consider upgrading. Let me know if you need help with import formats or design options!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Responds in English to the Russian customer.",
+            "evidence": "\n\nTableCards helps you create digital place-card PDFs for events like weddings. Here's how it works step-by-step:\n\n1. **Import Guest List**  \n   - Paste names manually (1 per line) or upload a CSV/XLSX file.  \n   - Map columns (e.g., \"Name,\" \"Table Number\") during import.  \n\n2. **Design Cards**  \n   - Choose from predefined templates (free plan includes 3; paid plans unlock more).  \n   - Add custom artwork (PNG/JPEG, 7:4 ratio) or use AI-generated backgrounds (limited in free plan).  \n   - Adjust font, color, and layout for names/table numbers.  \n\n3. **Preview & Export**  \n   - Check all cards for accuracy (e.g., long names, accents).  \n   - Export a PDF (print at 100% scale, match paper size to your layout).  \n\n**Wedding-Specific Notes**:  \n- **Free Plan**: 25 cards max. If exceeding, upgrade to **Event Pass** ($5) for 500 cards or **Planner Pro** ($9/month) for more projects.  \n- **Printing**: No physical delivery—you arrange printing via a local shop or home printer.  \n- **AI Help**: Free plan includes 1 AI batch for background ideas; paid plans offer more.  \n\nRequires a **Google account** to save projects. For large lists or advanced features, consider upgrading. Let me know if you need help with import formats or design options!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.russian.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in prerequisite from the explained PDF-download workflow.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The described digital workflow follows the approved product guidance.",
+            "evidence": "TableCards помогает вам создать готовые к печати файлы (PDF) с именами ваших гостей. \n\nВот как это работает:\n1. **Вы создаете дизайн:** Вы можете выбрать готовый шаблон или использовать свои идеи.\n2. **Добавляете имена:** Вы можете ввести их вручную или загрузить готовый список (например, из Excel или просто скопировав текст).\n3. **Скачиваете PDF:** Когда всё готово, вы скачиваете файл.\n4. **Печатаете сами:** Вы распечатываете эти карточки на принтере (дома или в типографии) на бумаге, которую выберете сами.\n\n**Важно:** Мы не занимаемся физической печатью и доставкой — мы предоставляем именно цифровые файлы для печати.\n\nЕсли у вас уже есть список гостей, я могу подсказать, как его быстро загрузить. Хотите начать с этого?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards помогает вам создать готовые к печати файлы (PDF) с именами ваших гостей. \n\nВот как это работает:\n1. **Вы создаете дизайн:** Вы можете выбрать готовый шаблон или использовать свои идеи.\n2. **Добавляете имена:** Вы можете ввести их вручную или загрузить готовый список (например, из Excel или просто скопировав текст).\n3. **Скачиваете PDF:** Когда всё готово, вы скачиваете файл.\n4. **Печатаете сами:** Вы распечатываете эти карточки на принтере (дома или в типографии) на бумаге, которую выберете сами.\n\n**Важно:** Мы не занимаемся физической печатью и доставкой — мы предоставляем именно цифровые файлы для печати.\n\nЕсли у вас уже есть список гостей, я могу подсказать, как его быстро загрузить. Хотите начать с этого?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can follow the main preparation and self-printing steps.",
+            "evidence": "TableCards помогает вам создать готовые к печати файлы (PDF) с именами ваших гостей. \n\nВот как это работает:\n1. **Вы создаете дизайн:** Вы можете выбрать готовый шаблон или использовать свои идеи.\n2. **Добавляете имена:** Вы можете ввести их вручную или загрузить готовый список (например, из Excel или просто скопировав текст).\n3. **Скачиваете PDF:** Когда всё готово, вы скачиваете файл.\n4. **Печатаете сами:** Вы распечатываете эти карточки на принтере (дома или в типографии) на бумаге, которую выберете сами.\n\n**Важно:** Мы не занимаемся физической печатью и доставкой — мы предоставляем именно цифровые файлы для печати.\n\nЕсли у вас уже есть список гостей, я могу подсказать, как его быстро загрузить. Хотите начать с этого?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian explanation is understandable.",
+            "evidence": "TableCards помогает вам создать готовые к печати файлы (PDF) с именами ваших гостей. \n\nВот как это работает:\n1. **Вы создаете дизайн:** Вы можете выбрать готовый шаблон или использовать свои идеи.\n2. **Добавляете имена:** Вы можете ввести их вручную или загрузить готовый список (например, из Excel или просто скопировав текст).\n3. **Скачиваете PDF:** Когда всё готово, вы скачиваете файл.\n4. **Печатаете сами:** Вы распечатываете эти карточки на принтере (дома или в типографии) на бумаге, которую выберете сами.\n\n**Важно:** Мы не занимаемся физической печатью и доставкой — мы предоставляем именно цифровые файлы для печати.\n\nЕсли у вас уже есть список гостей, я могу подсказать, как его быстро загрузить. Хотите начать с этого?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 14,
+  "invalid": 0,
+  "unsure": 0
+}

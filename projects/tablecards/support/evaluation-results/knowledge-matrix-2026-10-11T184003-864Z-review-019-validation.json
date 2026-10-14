@@ -1,0 +1,1252 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-019",
+  "packetHash": "8eb2d14f0a25bfc1f59a0baa36ceee50cafa32d7bf68152e514307006655a301",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Sí, si eliges un plan de pago (como Event Pass, Planner Pro o Studio), se aplicarán las tarifas mencionadas en la información cargada:  \n",
+            "reason": "Current checkout is simulated and collects no payment, including when a displayed paid offer is selected.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Says selecting a paid offer causes charges instead of explaining that all current checkout is simulated.",
+            "evidence": "Sí, si eliges un plan de pago (como Event Pass, Planner Pro o Studio), se aplicarán las tarifas mencionadas en la información cargada:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely says choosing a displayed paid offer applies real fees now.",
+            "evidence": "Sí, si eliges un plan de pago (como Event Pass, Planner Pro o Studio), se aplicarán las tarifas mencionadas en la información cargada:  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nSí, si eliges un plan de pago (como Event Pass, Planner Pro o Studio), se aplicarán las tarifas mencionadas en la información cargada:  \n\n- **Event Pass**: $5 una vez, para eventos hasta 500 tarjetas.  \n- **Planner Pro**: $9/mes, con más proyectos y funciones.  \n- **Studio**: $19/mes, para equipos y proyectos compartidos.  \n\nSin embargo, si estás usando la **versión gratuita de prueba**, **no se realizará ningún cargo** actualmente. Los límites de la versión gratuita incluyen 1 proyecto activo, hasta 25 tarjetas y 3 diseños predeterminados.  \n\nPara confirmar tu estado actual o resolver dudas sobre facturación, te recomiendo revisar tu cuenta en [TableCards](https://tablecards.com) o contactar soporte si necesitas ayuda adicional.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Treats only the Free version as no-charge and leaves the customer with the wrong paid-offer conclusion.",
+            "evidence": "Sin embargo, si estás usando la **versión gratuita de prueba**, **no se realizará ningún cargo** actualmente. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "\n\nSí, si eliges un plan de pago (como Event Pass, Planner Pro o Studio), se aplicarán las tarifas mencionadas en la información cargada:  \n\n- **Event Pass**: $5 una vez, para eventos hasta 500 tarjetas.  \n- **Planner Pro**: $9/mes, con más proyectos y funciones.  \n- **Studio**: $19/mes, para equipos y proyectos compartidos.  \n\nSin embargo, si estás usando la **versión gratuita de prueba**, **no se realizará ningún cargo** actualmente. Los límites de la versión gratuita incluyen 1 proyecto activo, hasta 25 tarjetas y 3 diseños predeterminados.  \n\nPara confirmar tu estado actual o resolver dudas sobre facturación, te recomiendo revisar tu cuenta en [TableCards](https://tablecards.com) o contactar soporte si necesitas ayuda adicional.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "The later paid-plan condition undermines the needed clear no-charge-now answer.",
+            "evidence": "הגרסה החינמית מוגבלת (למשל: עד 25 כרטיסים), ותשלומים יכולים להתחיל רק אם תבחר בתוכנית משלמת (למשל, Event Pass, Planner Pro או Studio). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Mixes no-charge plan selection with an unqualified statement that paid-plan selection starts payments.",
+            "evidence": "הגרסה החינמית מוגבלת (למשל: עד 25 כרטיסים), ותשלומים יכולים להתחיל רק אם תבחר בתוכנית משלמת (למשל, Event Pass, Planner Pro או Studio). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nהמחיר תלוי בתוכנית שתוכננת. לפי המידע העדכני, יש גיבוי חינמי (ללא תשלום) כרגע, וההצגת מחירים היא הנחה לפרסום. לחיצה על תוכנית לא תחייב תשלומים מיידית – התחברות או בחירת תוכנית לא יצרו תשלום בפועל.  \n\nהגרסה החינמית מוגבלת (למשל: עד 25 כרטיסים), ותשלומים יכולים להתחיל רק אם תבחר בתוכנית משלמת (למשל, Event Pass, Planner Pro או Studio). למידע מפורט על מחירים ותכונות, מומלץ לבדוק את דף התוכניות או לשלוח שאלה דרך צוות התמיכה.  \n\nאם יש שאלות נוספות, אפשר לענות גם באנגלית.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer is given conflicting conditions for when a charge can start.",
+            "evidence": "הגרסה החינמית מוגבלת (למשל: עד 25 כרטיסים), ותשלומים יכולים להתחיל רק אם תבחר בתוכנית משלמת (למשל, Event Pass, Planner Pro או Studio). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Calls the preview a free backup and uses confusing payment terminology.",
+            "evidence": "לפי המידע העדכני, יש גיבוי חינמי (ללא תשלום) כרגע, וההצגת מחירים היא הנחה לפרסום. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, durante la vista previa actual de TableCards, **no se realizarán cargos reales** si elige un plan de pago. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Presents an internal knowledge anchor as a customer offers-and-limits link.",
+            "evidence": "Para más detalles, consulte la sección [**\"Ofertas y límites\"**](#tablecards.access) o contacte al soporte si necesita aclaraciones específicas.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, durante la vista previa actual de TableCards, **no se realizarán cargos reales** si elige un plan de pago. Según la información proporcionada:  \n\n- **El checkout es una simulación**: Las ofertas y precios mencionados (como Event Pass, Planner Pro, Studio) son hipótesis de lanzamiento. La vista previa actual no procesa pagos ni suscripciones.  \n- **Acceso gratuito limitado**: El plan gratuito permite 1 proyecto activo con hasta 25 tarjetas, sin obligación de pagar.  \n- **Pagos reales pendientes**: Las funciones de pago, renovación, cancelación o retención comercial están en desarrollo y no están activas en la vista previa.  \n\nSi desea probar funciones premium, actualmente no se le cobrará. Para más detalles, consulte la sección [**\"Ofertas y límites\"**](#tablecards.access) o contacte al soporte si necesita aclaraciones específicas.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed detail link is not an established customer-facing destination.",
+            "evidence": "Para más detalles, consulte la sección [**\"Ofertas y límites\"**](#tablecards.access) o contacte al soporte si necesita aclaraciones específicas.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "\n\nNo, durante la vista previa actual de TableCards, **no se realizarán cargos reales** si elige un plan de pago. Según la información proporcionada:  \n\n- **El checkout es una simulación**: Las ofertas y precios mencionados (como Event Pass, Planner Pro, Studio) son hipótesis de lanzamiento. La vista previa actual no procesa pagos ni suscripciones.  \n- **Acceso gratuito limitado**: El plan gratuito permite 1 proyecto activo con hasta 25 tarjetas, sin obligación de pagar.  \n- **Pagos reales pendientes**: Las funciones de pago, renovación, cancelación o retención comercial están en desarrollo y no están activas en la vista previa.  \n\nSi desea probar funciones premium, actualmente no se le cobrará. Para más detalles, consulte la sección [**\"Ofertas y límites\"**](#tablecards.access) o contacte al soporte si necesita aclaraciones específicas.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in prerequisite from the PDF-download workflow.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The main digital-card workflow follows the approved product guidance.",
+            "evidence": "TableCards génère des fichiers PDF téléchargeables de marque-places que vous imprimez vous-même. Il n'y a pas d'option de mise sous presse ni de livraison.\n\nPour préparer votre liste pour le mariage :\n1.  **Importez la liste :** Collez les noms invités (un par ligne ou dans un tableau) et, si besoin, attribuez le numéro de table.\n2.  **Choisissez un design :** Sélectionnez parmi les designs prédéfinis.\n3.  **Exportez :** Téléchargez le PDF.\n4.  **Imprimez :** Impressionnez le document à **Taille réelle (100 %)** sur du papier ou carton épais. Si vous n'êtes pas sûr de votre imprimante, imprimez d'abord le fichier de test fourni pour vérifier les marges.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards génère des fichiers PDF téléchargeables de marque-places que vous imprimez vous-même. Il n'y a pas d'option de mise sous presse ni de livraison.\n\nPour préparer votre liste pour le mariage :\n1.  **Importez la liste :** Collez les noms invités (un par ligne ou dans un tableau) et, si besoin, attribuez le numéro de table.\n2.  **Choisissez un design :** Sélectionnez parmi les designs prédéfinis.\n3.  **Exportez :** Téléchargez le PDF.\n4.  **Imprimez :** Impressionnez le document à **Taille réelle (100 %)** sur du papier ou carton épais. Si vous n'êtes pas sûr de votre imprimante, imprimez d'abord le fichier de test fourni pour vérifier les marges.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preparation and self-printing steps are understandable.",
+            "evidence": "TableCards génère des fichiers PDF téléchargeables de marque-places que vous imprimez vous-même. Il n'y a pas d'option de mise sous presse ni de livraison.\n\nPour préparer votre liste pour le mariage :\n1.  **Importez la liste :** Collez les noms invités (un par ligne ou dans un tableau) et, si besoin, attribuez le numéro de table.\n2.  **Choisissez un design :** Sélectionnez parmi les designs prédéfinis.\n3.  **Exportez :** Téléchargez le PDF.\n4.  **Imprimez :** Impressionnez le document à **Taille réelle (100 %)** sur du papier ou carton épais. Si vous n'êtes pas sûr de votre imprimante, imprimez d'abord le fichier de test fourni pour vérifier les marges.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite minor wording issues.",
+            "evidence": "TableCards génère des fichiers PDF téléchargeables de marque-places que vous imprimez vous-même. Il n'y a pas d'option de mise sous presse ni de livraison.\n\nPour préparer votre liste pour le mariage :\n1.  **Importez la liste :** Collez les noms invités (un par ligne ou dans un tableau) et, si besoin, attribuez le numéro de table.\n2.  **Choisissez un design :** Sélectionnez parmi les designs prédéfinis.\n3.  **Exportez :** Téléchargez le PDF.\n4.  **Imprimez :** Impressionnez le document à **Taille réelle (100 %)** sur du papier ou carton épais. Si vous n'êtes pas sûr de votre imprimante, imprimez d'abord le fichier de test fourni pour vérifier les marges.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "Los precios que ves son hipótesis de lanzamiento y el proceso de pago es una simulación; por lo tanto, no se realiza ningún cargo real.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "Los precios que ves son hipótesis de lanzamiento y el proceso de pago es una simulación; por lo tanto, no se realiza ningún cargo real.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Actualmente, el producto funciona solo como **vista previa gratuita**. Los precios que ves son hipótesis de lanzamiento y el proceso de pago es una simulación; por lo tanto, no se realiza ningún cargo real.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "Los precios que ves son hipótesis de lanzamiento y el proceso de pago es una simulación; por lo tanto, no se realiza ningún cargo real.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "Actualmente, el producto funciona solo como **vista previa gratuita**. Los precios que ves son hipótesis de lanzamiento y el proceso de pago es una simulación; por lo tanto, no se realiza ningún cargo real.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-lazy:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- 5 ש\"ח אחת-פעמיים  \n",
+            "reason": "The launch Event Pass price is $5, not 5 shekels; the answer also changes the other paid-offer currencies.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain the current no-charge checkout simulation and substitutes unclear payment conditions.",
+            "evidence": "אם תלחץ על תוכנית, לא תחויבי אלא אם תבחרי להעניק חלופה מותאמת.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Replaces the approved dollar prices with the same numeric prices in shekels.",
+            "evidence": "- 5 ש\"ח אחת-פעמיים  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nהמערכת מציעה תוכניות מותאמות לדרישות שונות:\n\n**חינם**  \n- 0 ש\"ח  \n- 1 פרויקט פעיל  \n- עד 25 כרטיסים  \n- 3 תבניות מובנות  \n- 1 חבילת AI למשך חיים  \n\n**תוכנית אירוע (Event Pass)**  \n- 5 ש\"ח אחת-פעמיים  \n- אירוע אחד, עד 500 כרטיסים  \n- תבניות מותאמות לאיורים לאיורים בלבד  \n- 2 חבילות AI  \n\n**плanner Pro**  \n- 9 ש\"ח לشهر  \n- עד 25 פרויקטים פעילים  \n- הגדרות מותאמות למשתמש  \n- 10 חבילות AI לشهر  \n\n**סטודיו**  \n- 19 ש\"ח לشهر  \n- עד 5 חברים  \n- 100 פרויקטים משותפים  \n- 30 חבילות AI לشهر  \n\n**הערה חשובה**:  \n- התוכנית החינמית לא דורשת תשלום. אם תלחץ על תוכנית, לא תחויבי אלא אם תבחרי להעניק חלופה מותאמת.  \n- תוכניות מותאמות דורשות פעולה מפורשת (למשל, לחיצה על \"העלאה\" או \"רכישת תכונה\").  \n- תכונות חינמיות לא מחייבות תשלום, אך חוצות מוגבלות (למשל, חסימה של PDF אם תעברי את הגבול).  \n\nאם תרצי להתחיל ללא תשלום, ניתן ליהנות מהתוכנית החינמית ללא התחייבות.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The condition for incurring a charge and the described payment actions are materially garbled.",
+            "evidence": "אם תלחץ על תוכנית, לא תחויבי אלא אם תבחרי להעניק חלופה מותאמת.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Mixes Hebrew with Arabic and Cyrillic and includes nonsensical payment phrases.",
+            "evidence": "- 9 ש\"ח לشهر  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:jev-compact:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, durante la versión de prueba actual, **no se realizarán cargos reales** si eliges un plan de pago. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "No, durante la versión de prueba actual, **no se realizarán cargos reales** si eliges un plan de pago. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, durante la versión de prueba actual, **no se realizarán cargos reales** si eliges un plan de pago. Según la información proporcionada:  \n\n- La \"versión gratuita\" no cobra nada y tiene límites específicos (ej.: 25 tarjetas, 3 diseños predeterminados).  \n- Las ofertas de pago (como Event Pass, Planner Pro o Studio) están descritas como hipótesis de precios, y el \"checkout\" es una simulación, no un pago real.  \n- La página menciona explícitamente que la \"versión de prueba actual no recopila pagos\".  \n\nSi te registras o eliges un plan ahora, **no se procesará ningún cargo** hasta que el sistema de pagos esté activo. Para más detalles, consulta la sección de **precios y FAQ** en la página principal.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "No, durante la versión de prueba actual, **no se realizarán cargos reales** si eliges un plan de pago. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "\n\nNo, durante la versión de prueba actual, **no se realizarán cargos reales** si eliges un plan de pago. Según la información proporcionada:  \n\n- La \"versión gratuita\" no cobra nada y tiene límites específicos (ej.: 25 tarjetas, 3 diseños predeterminados).  \n- Las ofertas de pago (como Event Pass, Planner Pro o Studio) están descritas como hipótesis de precios, y el \"checkout\" es una simulación, no un pago real.  \n- La página menciona explícitamente que la \"versión de prueba actual no recopila pagos\".  \n\nSi te registras o eliges un plan ahora, **no se procesará ningún cargo** hasta que el sistema de pagos esté activo. Para más detalles, consulta la sección de **precios y FAQ** en la página principal.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, no se te cobrará nada. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "No, no se te cobrará nada. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, no se te cobrará nada. Actualmente, TableCards se encuentra en una fase de **vista previa sin cargo** (*no-charge preview*).\n\nAunque veas planes con precios, el proceso de pago (checkout) es solo una **simulación etiquetada** para mostrar cómo funcionará el servicio más adelante; no es una transacción real ni una suscripción pagada.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "No, no se te cobrará nada. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "No, no se te cobrará nada. Actualmente, TableCards se encuentra en una fase de **vista previa sin cargo** (*no-charge preview*).\n\nAunque veas planes con precios, el proceso de pago (checkout) es solo una **simulación etiquetada** para mostrar cómo funcionará el servicio más adelante; no es una transacción real ni una suscripción pagada.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "לגבי החיוב – התצוגה המקדימה הנוכחית אינה גובה תשלום, כך שלחיצה על תוכנית כעת לא תחייב אותך.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "לגבי החיוב – התצוגה המקדימה הנוכחית אינה גובה תשלום, כך שלחיצה על תוכנית כעת לא תחייב אותך.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "המחירים תלויים בתוכנית שתבחרו:\n\n* **Free (חינם):** $0 (כולל פרויקט פעיל אחד ועד 25 כרטיסים).\n* **Event Pass:** $5 חד-פעמי (לאירוע אחד, עד 500 כרטיסים).\n* **Planner Pro:** $9 לחודש (עד 25 פרויקטים פעילים).\n* **Studio:** $19 לחודש (עד 5 משתמשים ו-100 פרויקטים משותפים).\n\nלגבי החיוב – התצוגה המקדימה הנוכחית אינה גובה תשלום, כך שלחיצה על תוכנית כעת לא תחייב אותך.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "לגבי החיוב – התצוגה המקדימה הנוכחית אינה גובה תשלום, כך שלחיצה על תוכנית כעת לא תחייב אותך.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Hebrew reply and recognizable product labels are understandable.",
+            "evidence": "המחירים תלויים בתוכנית שתבחרו:\n\n* **Free (חינם):** $0 (כולל פרויקט פעיל אחד ועד 25 כרטיסים).\n* **Event Pass:** $5 חד-פעמי (לאירוע אחד, עד 500 כרטיסים).\n* **Planner Pro:** $9 לחודש (עד 25 פרויקטים פעילים).\n* **Studio:** $19 לחודש (עד 5 משתמשים ו-100 פרויקטים משותפים).\n\nלגבי החיוב – התצוגה המקדימה הנוכחית אינה גובה תשלום, כך שלחיצה על תוכנית כעת לא תחייב אותך.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "gemma4-26b:compact-lazy:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Sin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. ",
+            "reason": "There is no real payment path in the current preview; selecting an offered paid plan uses simulated checkout.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Says contracting a displayed paid plan now incurs costs, contradicting the required no-charge answer.",
+            "evidence": "Sin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Falsely states that selecting a paid offer applies real costs in the current preview.",
+            "evidence": "Sin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Si te refieres a la **vista previa sin cargo** (no-charge preview) en la que te encuentras ahora, no se te cobrará nada.\n\nSin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. Los planes disponibles son:\n\n*   **Event Pass:** $5 (pago único para un evento de hasta 500 tarjetas).\n*   **Planner Pro:** $9 al mes (hasta 25 proyectos activos).\n*   **Studio:** $19 al mes (para equipos de hasta 5 miembros).\n\nSi tienes dudas sobre tu estado actual de cuenta, te recomiendo revisar la sección de **Cuenta** en la plataforma.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The paid-plan exception contradicts the initial no-charge preview explanation.",
+            "evidence": "Sin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "Si te refieres a la **vista previa sin cargo** (no-charge preview) en la que te encuentras ahora, no se te cobrará nada.\n\nSin embargo, si decides contratar uno de los planes de pago, sí se aplicarán los costes correspondientes. Los planes disponibles son:\n\n*   **Event Pass:** $5 (pago único para un evento de hasta 500 tarjetas).\n*   **Planner Pro:** $9 al mes (hasta 25 proyectos activos).\n*   **Studio:** $19 al mes (para equipos de hasta 5 miembros).\n\nSi tienes dudas sobre tu estado actual de cuenta, te recomiendo revisar la sección de **Cuenta** en la plataforma.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, durante la fase de preview no se realizarán cargos reales. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats assigned internal knowledge as a customer-accessible information source.",
+            "evidence": "Para más detalles, consulte la sección \"tablecards.access\" en el conocimiento asignado.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nNo, durante la fase de preview no se realizarán cargos reales. Según la información disponible, el acceso actual es una **versión gratuita de prueba** y las ofertas de pago (como Event Pass, Planner Pro o Studio) están descritas como hipótesis de lanzamiento. El proceso de \"checkout\" mencionado es una simulación, no una transacción real. \n\nSi selecciona un plan de pago ahora, **no se le cobrará** mientras esté en la preview. Sin embargo, si posteriormente se activa un plan pagado (fuera de la preview), las condiciones de facturación dependerán de las políticas oficiales, que aún no están en vigor en esta etapa. \n\nPara más detalles, consulte la sección \"tablecards.access\" en el conocimiento asignado.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Tells the customer to consult an internal knowledge section they are not given a usable route to.",
+            "evidence": "Para más detalles, consulte la sección \"tablecards.access\" en el conocimiento asignado.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "\n\nNo, durante la fase de preview no se realizarán cargos reales. Según la información disponible, el acceso actual es una **versión gratuita de prueba** y las ofertas de pago (como Event Pass, Planner Pro o Studio) están descritas como hipótesis de lanzamiento. El proceso de \"checkout\" mencionado es una simulación, no una transacción real. \n\nSi selecciona un plan de pago ahora, **no se le cobrará** mientras esté en la preview. Sin embargo, si posteriormente se activa un plan pagado (fuera de la preview), las condiciones de facturación dependerán de las políticas oficiales, que aún no están en vigor en esta etapa. \n\nPara más detalles, consulte la sección \"tablecards.access\" en el conocimiento asignado.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, en la versión actual de prueba (no-charge preview) no se cobrará dinero de verdad.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "No, en la versión actual de prueba (no-charge preview) no se cobrará dinero de verdad.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, en la versión actual de prueba (no-charge preview) no se cobrará dinero de verdad.\n\nEl proceso de pago que ves es un simulador para describir cómo funcionaría en la versión futura de producción. Los precios que se muestran son hipótesis de lanzamiento y el sistema de facturación real (como renovaciones o cancelaciones) aún no está activo en este entorno.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "No, en la versión actual de prueba (no-charge preview) no se cobrará dinero de verdad.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "No, en la versión actual de prueba (no-charge preview) no se cobrará dinero de verdad.\n\nEl proceso de pago que ves es un simulador para describir cómo funcionaría en la versión futura de producción. Los precios que se muestran son hipótesis de lanzamiento y el sistema de facturación real (como renovaciones o cancelaciones) aún no está activo en este entorno.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:jev-compact:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, actualmente no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "No, actualmente no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, actualmente no se te cobrará nada.\n\nEstamos en una fase de **vista previa sin cargo** (*no-charge preview*). Esto significa que los precios que ves y el proceso de pago son simulaciones para el lanzamiento; no son cobros reales ni suscripciones pagadas en este momento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "No, actualmente no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "No, actualmente no se te cobrará nada.\n\nEstamos en una fase de **vista previa sin cargo** (*no-charge preview*). Esto significa que los precios que ves y el proceso de pago son simulaciones para el lanzamiento; no son cobros reales ni suscripciones pagadas en este momento.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "glm-4.7-flash:compact-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains guest names, design and a digital PDF for self-printing.",
+            "evidence": "TableCards fonctionne pour créer directement des **PDF de marque-places** (cartes de table) avec les noms de vos invités.\n\nVoici le principe simple :\n\n1.  **Importez la liste** : Collez les noms sur la page (un par ligne), dans un fichier CSV/XLSX ou via une grille.\n2.  **Customisez** : Choisissez un design, ajustez la taille ou la couleur des textes.\n3.  **Exportez** : Téléchargez le PDF et imprimez-le vous-même à la taille réelle (100% / \"Actual Size\") ou demandez une impression à un atelier.\n\n**Points attention** :\n*   TableCards envoie uniquement le fichier PDF digital ; rien n'est imprimé ou expédié pour vous.\n*   Le prévisualisation est gratuite, mais l'inscription via **Google** est requise pour enregistrer (sauvegarder) les projets, exporter ou utiliser les fonctions d'IA pour les fonds.\n*   Les noms longs sont acceptés : ils s'alignent sur deux lignes automatiquement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The main digital-card workflow follows the approved product guidance.",
+            "evidence": "TableCards fonctionne pour créer directement des **PDF de marque-places** (cartes de table) avec les noms de vos invités.\n\nVoici le principe simple :\n\n1.  **Importez la liste** : Collez les noms sur la page (un par ligne), dans un fichier CSV/XLSX ou via une grille.\n2.  **Customisez** : Choisissez un design, ajustez la taille ou la couleur des textes.\n3.  **Exportez** : Téléchargez le PDF et imprimez-le vous-même à la taille réelle (100% / \"Actual Size\") ou demandez une impression à un atelier.\n\n**Points attention** :\n*   TableCards envoie uniquement le fichier PDF digital ; rien n'est imprimé ou expédié pour vous.\n*   Le prévisualisation est gratuite, mais l'inscription via **Google** est requise pour enregistrer (sauvegarder) les projets, exporter ou utiliser les fonctions d'IA pour les fonds.\n*   Les noms longs sont acceptés : ils s'alignent sur deux lignes automatiquement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards fonctionne pour créer directement des **PDF de marque-places** (cartes de table) avec les noms de vos invités.\n\nVoici le principe simple :\n\n1.  **Importez la liste** : Collez les noms sur la page (un par ligne), dans un fichier CSV/XLSX ou via une grille.\n2.  **Customisez** : Choisissez un design, ajustez la taille ou la couleur des textes.\n3.  **Exportez** : Téléchargez le PDF et imprimez-le vous-même à la taille réelle (100% / \"Actual Size\") ou demandez une impression à un atelier.\n\n**Points attention** :\n*   TableCards envoie uniquement le fichier PDF digital ; rien n'est imprimé ou expédié pour vous.\n*   Le prévisualisation est gratuite, mais l'inscription via **Google** est requise pour enregistrer (sauvegarder) les projets, exporter ou utiliser les fonctions d'IA pour les fonds.\n*   Les noms longs sont acceptés : ils s'alignent sur deux lignes automatiquement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preparation and self-printing steps are understandable.",
+            "evidence": "TableCards fonctionne pour créer directement des **PDF de marque-places** (cartes de table) avec les noms de vos invités.\n\nVoici le principe simple :\n\n1.  **Importez la liste** : Collez les noms sur la page (un par ligne), dans un fichier CSV/XLSX ou via une grille.\n2.  **Customisez** : Choisissez un design, ajustez la taille ou la couleur des textes.\n3.  **Exportez** : Téléchargez le PDF et imprimez-le vous-même à la taille réelle (100% / \"Actual Size\") ou demandez une impression à un atelier.\n\n**Points attention** :\n*   TableCards envoie uniquement le fichier PDF digital ; rien n'est imprimé ou expédié pour vous.\n*   Le prévisualisation est gratuite, mais l'inscription via **Google** est requise pour enregistrer (sauvegarder) les projets, exporter ou utiliser les fonctions d'IA pour les fonds.\n*   Les noms longs sont acceptés : ils s'alignent sur deux lignes automatiquement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite minor wording issues.",
+            "evidence": "TableCards fonctionne pour créer directement des **PDF de marque-places** (cartes de table) avec les noms de vos invités.\n\nVoici le principe simple :\n\n1.  **Importez la liste** : Collez les noms sur la page (un par ligne), dans un fichier CSV/XLSX ou via une grille.\n2.  **Customisez** : Choisissez un design, ajustez la taille ou la couleur des textes.\n3.  **Exportez** : Téléchargez le PDF et imprimez-le vous-même à la taille réelle (100% / \"Actual Size\") ou demandez une impression à un atelier.\n\n**Points attention** :\n*   TableCards envoie uniquement le fichier PDF digital ; rien n'est imprimé ou expédié pour vous.\n*   Le prévisualisation est gratuite, mais l'inscription via **Google** est requise pour enregistrer (sauvegarder) les projets, exporter ou utiliser les fonctions d'IA pour les fonds.\n*   Les noms longs sont acceptés : ils s'alignent sur deux lignes automatiquement.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.tuning.calibration.03",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains workspace ownership and checks the original workspace and Archived view.",
+            "evidence": "Projects are tied to the specific workspace where they were saved, so switching workspaces does not move the project over.\n\nTo find it:\n1. Go back to the workspace where the project was originally saved.\n2. Check the **Projects** list. If it feels old or \"abandoned,\" look in the **Archived** view—projects aren't deleted, just saved in the workspace they belong to.\n\nIf you switch back and still cannot see it, let me know what workspaces you see available.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Switching workspaces does not move saved projects, and archive is not deletion.",
+            "evidence": "Projects are tied to the specific workspace where they were saved, so switching workspaces does not move the project over.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Projects are tied to the specific workspace where they were saved, so switching workspaces does not move the project over.\n\nTo find it:\n1. Go back to the workspace where the project was originally saved.\n2. Check the **Projects** list. If it feels old or \"abandoned,\" look in the **Archived** view—projects aren't deleted, just saved in the workspace they belong to.\n\nIf you switch back and still cannot see it, let me know what workspaces you see available.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives practical steps to look for the missing project.",
+            "evidence": "Go back to the workspace where the project was originally saved.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Projects are tied to the specific workspace where they were saved, so switching workspaces does not move the project over.\n\nTo find it:\n1. Go back to the workspace where the project was originally saved.\n2. Check the **Projects** list. If it feels old or \"abandoned,\" look in the **Archived** view—projects aren't deleted, just saved in the workspace they belong to.\n\nIf you switch back and still cannot see it, let me know what workspaces you see available.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "glm-4.7-flash:jev-compact:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "Actualmente el sistema opera en modo \"vista previa sin costo\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "Actualmente el sistema opera en modo \"vista previa sin costo\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Actualmente el sistema opera en modo \"vista previa sin costo\". Al pasar al checkout, el proceso actúa como una simulación final y no se procesa ningún pago real. Como no hay suscripción activa, no se cobra nada en este momento.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "Actualmente el sistema opera en modo \"vista previa sin costo\". ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "Actualmente el sistema opera en modo \"vista previa sin costo\". Al pasar al checkout, el proceso actúa como una simulación final y no se procesa ningún pago real. Como no hay suscripción activa, no se cobra nada en este momento.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:full-inline:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "התוכנית המוזכרת (Event Pass, Planner Pro, Studio) מציינת תעריפים ניסיוניים – בגרסה הניסיונית כרגע, אין התשלומים מופעלים. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Adds an unverified future anytime-cancellation claim framed as ending a donation.",
+            "evidence": "התשלומים הרשמיים יתנהלו בהמשך, ותוכלו לסיים את התרומה בכל זמן.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The promise of ending a future donation at any time leaves the commercial commitment materially ambiguous.",
+            "evidence": "התשלומים הרשמיים יתנהלו בהמשך, ותוכלו לסיים את התרומה בכל זמן.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Donation and delivery-plan wording obscures the actual checkout and subscription boundary.",
+            "evidence": "אם תרצה להתקדם לתוכנית משלוח, יש להשלים את הבדיקה (שאינה תשלום אמיתי) בהמשך. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Mixes Spanish into Hebrew and mistranslates payment concepts as donation and delivery.",
+            "evidence": "אם תרצה להתקדם לתוכנית משלוח, יש להשלים את הבדיקה (שאינה תשלום אמיתי) בהמשך. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the Google sign-in requirement for saving and PDF export.",
+            "evidence": "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Adds front/back format and column-count controls not established by the approved guidance.",
+            "evidence": "Configurez le format (recto seulement ou recto/verso, nombre de colonnes)\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Je vais faire simple : TableCards permet de visualiser et télécharger des modèles de marque-places pré‑conçus, au format PDF, pour que vous puissiez les imprimer vous‑même. Il ne traite pas la commande de papier ni l’expédition, tout ce monde va dans les impressions standard ou en atelier photo.\n\n**En bref pour votre mariage :**\n- Choisissez un modèle (designs, cartes recto/verso, recto seulement, etc.)\n- Sélectionnez les colonnes de votre liste d’invités (prénom, nom, table, etc. avec le chargement de colonnes)\n- Ajoutez les noms, ajustez les styles (polices, couleurs, mise en page)\n- Utilisez un fond déco le cas échéant\n- Téléchargez un PDF et faites l’impression (papier, finition, taille selon vos contraintes)\n\nProcédure rapide\n1. Sur le site (ou l’app), explorez les exemples.\n2. Dans un projet de marque‑places, ajoutez vos noms (collage, CSV/XLSX, import)\n3. Configurez le format (recto seulement ou recto/verso, nombre de colonnes)\n4. Téléchargez le PDF\n5. Impression : prenez le choix qui vous arrange (papier plus épais, recto/verso, etc.)\n\nPour plus de détails\n- Modèles et fond de cartes (tablecards.designs)\n- Téléchargement, ajustement de la mise en page et rôle du PDF (tablecards.printing)\n- Chargement de votre liste d’invités par collage, CSV/XLSX et mapping (tablecards.import)\n- Questions sur la limite gratuite, l’offre ou l’édition Studio (tablecards.access)\n\nQuand vous voudrez, je peux lancer les connaissances spécifiques (modèles, impression, import, offres) pour aller plus loin. Sinon, pour une demande humaine (retour, aide à importer) vous pouvez utiliser le formulaire de contact (tablecards.contact).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The suggested format controls and internal knowledge routes do not provide a dependable customer workflow.",
+            "evidence": "Configurez le format (recto seulement ou recto/verso, nombre de colonnes)\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite minor wording issues.",
+            "evidence": "Je vais faire simple : TableCards permet de visualiser et télécharger des modèles de marque-places pré‑conçus, au format PDF, pour que vous puissiez les imprimer vous‑même. Il ne traite pas la commande de papier ni l’expédition, tout ce monde va dans les impressions standard ou en atelier photo.\n\n**En bref pour votre mariage :**\n- Choisissez un modèle (designs, cartes recto/verso, recto seulement, etc.)\n- Sélectionnez les colonnes de votre liste d’invités (prénom, nom, table, etc. avec le chargement de colonnes)\n- Ajoutez les noms, ajustez les styles (polices, couleurs, mise en page)\n- Utilisez un fond déco le cas échéant\n- Téléchargez un PDF et faites l’impression (papier, finition, taille selon vos contraintes)\n\nProcédure rapide\n1. Sur le site (ou l’app), explorez les exemples.\n2. Dans un projet de marque‑places, ajoutez vos noms (collage, CSV/XLSX, import)\n3. Configurez le format (recto seulement ou recto/verso, nombre de colonnes)\n4. Téléchargez le PDF\n5. Impression : prenez le choix qui vous arrange (papier plus épais, recto/verso, etc.)\n\nPour plus de détails\n- Modèles et fond de cartes (tablecards.designs)\n- Téléchargement, ajustement de la mise en page et rôle du PDF (tablecards.printing)\n- Chargement de votre liste d’invités par collage, CSV/XLSX et mapping (tablecards.import)\n- Questions sur la limite gratuite, l’offre ou l’édition Studio (tablecards.access)\n\nQuand vous voudrez, je peux lancer les connaissances spécifiques (modèles, impression, import, offres) pour aller plus loin. Sinon, pour une demande humaine (retour, aide à importer) vous pouvez utiliser le formulaire de contact (tablecards.contact).",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "No, no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "No, no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, no se te cobrará nada.\n\nActualmente estamos en una fase de **vista previa sin costo** (*no-charge preview*). Los precios que ves en la plataforma son solo hipótesis para el lanzamiento y el proceso de pago es una simulación, por lo que no se realiza ningún cobro ni se crea una suscripción real.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "No, no se te cobrará nada.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Spanish reply is understandable.",
+            "evidence": "No, no se te cobrará nada.\n\nActualmente estamos en una fase de **vista previa sin costo** (*no-charge preview*). Los precios que ves en la plataforma son solo hipótesis para el lanzamiento y el proceso de pago es una simulación, por lo que no se realiza ningún cobro ni se crea una suscripción real.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:full-inline:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether the current preview causes a real charge.",
+            "evidence": "**לגבי השאלה השנייה: לא, לא תחויב.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "**לגבי השאלה השנייה: לא, לא תחויב.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "המחירים של התוכניות המוצעות הם:\n\n* **Free:** $0\n* **Event Pass:** $5 (תשלום חד-פעמי לאירוע אחד)\n* **Planner Pro:** $9 לחודש\n* **Studio:** $19 לחודש\n\n**לגבי השאלה השנייה: לא, לא תחויב.** כרגע המערכת נמצאת במצב \"no-charge preview\" (תצוגה מקדימה ללא תשלום). כל תהליך ה-checkout שאתה רואה הוא סימולציה בלבד ולא חיוב אמיתי או הרשמה למנוי בתשלום.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The current payment boundary is understandable.",
+            "evidence": "**לגבי השאלה השנייה: לא, לא תחויב.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Hebrew reply and recognizable product labels are understandable.",
+            "evidence": "המחירים של התוכניות המוצעות הם:\n\n* **Free:** $0\n* **Event Pass:** $5 (תשלום חד-פעמי לאירוע אחד)\n* **Planner Pro:** $9 לחודש\n* **Studio:** $19 לחודש\n\n**לגבי השאלה השנייה: לא, לא תחויב.** כרגע המערכת נמצאת במצב \"no-charge preview\" (תצוגה מקדימה ללא תשלום). כל תהליך ה-checkout שאתה רואה הוא סימולציה בלבד ולא חיוב אמיתי או הרשמה למנוי בתשלום.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "qwen3-30b:compact-inline:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "עליית על הגבולות תחייב 업גרד לתוכנית מותאמת (למשל, Event Pass ל-5 ש\"ח, Planner Pro ל-9 ש\"ח לشهر, וכו'). \n",
+            "reason": "The launch prices are $5 and $9 per month, not 5 and 9 shekels.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Gives incorrect prices and confusing paid-plan conditions instead of a dependable cost answer.",
+            "evidence": "עליית על הגבולות תחייב 업גרד לתוכנית מותאמת (למשל, Event Pass ל-5 ש\"ח, Planner Pro ל-9 ש\"ח לشهر, וכו'). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Changes the approved dollar prices to shekels.",
+            "evidence": "עליית על הגבולות תחייב 업גרד לתוכנית מותאמת (למשל, Event Pass ל-5 ש\"ח, Planner Pro ל-9 ש\"ח לشهر, וכו'). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nהמערכת מציעה גרסה חופשית עם הגבלות: עד 25 כרטיסים, 1 פרויקט פעיל, ומספר מוגבל של תבניות. עליית על הגבולות תחייב 업גרד לתוכנית מותאמת (למשל, Event Pass ל-5 ש\"ח, Planner Pro ל-9 ש\"ח לشهر, וכו'). \n\nאם לוחצים על \"תוכנית\" כרגע, זה לא יחייב תשלום — הכתובת מציינת כי \"เช็กเอาט\" הוא מודל ניסיון, לא תשלום אמיתי. עם זאת, אם תצטרכו למחוק יותר מ-25 כרטיסים או להשתמש בתوابע מותאמות, תצטרכו להירשם ולבחור תוכנית משליכת תשלום. \n\nלפרטים מלאים, ראה את דף התוכניות או פנה ל-support.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The instruction about deleting more than 25 cards and selecting a payment plan is materially confusing.",
+            "evidence": "עם זאת, אם תצטרכו למחוק יותר מ-25 כרטיסים או להשתמש בתوابע מותאמות, תצטרכו להירשם ולבחור תוכנית משליכת תשלום. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Mixes Korean, Arabic and Thai fragments into Hebrew and mistranslates the card action.",
+            "evidence": "עם זאת, אם תצטרכו למחוק יותר מ-25 כרטיסים או להשתמש בתوابע מותאמות, תצטרכו להירשם ולבחור תוכנית משליכת תשלום. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:full-inline:regression.helper.french.overview",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains guest names, design and a digital PDF for self-printing.",
+            "evidence": "TableCards est conçu pour vous aider à créer des marque-places. Son but est de générer des fichiers **PDF téléchargeables** pour que vous puissiez les imprimer vous-même (papier, boutique d'impression, etc.).\n\nVoici comment ça se passe concrètement :\n\n1.  **Importation** : Vous collez simplement la liste de vos invités (peut-être un par ligne) et le design choisi se met à jour automatiquement.\n2.  **Aperçu** : Vous pouvez tout vérifier (noms, tables, positions) avant de télécharger.\n3.  **Enregistrement** : Si vous voulez sauvegarder votre projet pour le retrouver plus tard, il faut vous connecter avec Google.\n4.  **Limites** : TableCards ne vend pas de papier ni les marque-places physiques, ne livre rien et ne fait pas d'impression pour vous.\n\nVous avez déjà une liste de noms prête à coller ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The main digital-card workflow follows the approved product guidance.",
+            "evidence": "TableCards est conçu pour vous aider à créer des marque-places. Son but est de générer des fichiers **PDF téléchargeables** pour que vous puissiez les imprimer vous-même (papier, boutique d'impression, etc.).\n\nVoici comment ça se passe concrètement :\n\n1.  **Importation** : Vous collez simplement la liste de vos invités (peut-être un par ligne) et le design choisi se met à jour automatiquement.\n2.  **Aperçu** : Vous pouvez tout vérifier (noms, tables, positions) avant de télécharger.\n3.  **Enregistrement** : Si vous voulez sauvegarder votre projet pour le retrouver plus tard, il faut vous connecter avec Google.\n4.  **Limites** : TableCards ne vend pas de papier ni les marque-places physiques, ne livre rien et ne fait pas d'impression pour vous.\n\nVous avez déjà une liste de noms prête à coller ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "TableCards est conçu pour vous aider à créer des marque-places. Son but est de générer des fichiers **PDF téléchargeables** pour que vous puissiez les imprimer vous-même (papier, boutique d'impression, etc.).\n\nVoici comment ça se passe concrètement :\n\n1.  **Importation** : Vous collez simplement la liste de vos invités (peut-être un par ligne) et le design choisi se met à jour automatiquement.\n2.  **Aperçu** : Vous pouvez tout vérifier (noms, tables, positions) avant de télécharger.\n3.  **Enregistrement** : Si vous voulez sauvegarder votre projet pour le retrouver plus tard, il faut vous connecter avec Google.\n4.  **Limites** : TableCards ne vend pas de papier ni les marque-places physiques, ne livre rien et ne fait pas d'impression pour vous.\n\nVous avez déjà une liste de noms prête à coller ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The preparation and self-printing steps are understandable.",
+            "evidence": "TableCards est conçu pour vous aider à créer des marque-places. Son but est de générer des fichiers **PDF téléchargeables** pour que vous puissiez les imprimer vous-même (papier, boutique d'impression, etc.).\n\nVoici comment ça se passe concrètement :\n\n1.  **Importation** : Vous collez simplement la liste de vos invités (peut-être un par ligne) et le design choisi se met à jour automatiquement.\n2.  **Aperçu** : Vous pouvez tout vérifier (noms, tables, positions) avant de télécharger.\n3.  **Enregistrement** : Si vous voulez sauvegarder votre projet pour le retrouver plus tard, il faut vous connecter avec Google.\n4.  **Limites** : TableCards ne vend pas de papier ni les marque-places physiques, ne livre rien et ne fait pas d'impression pour vous.\n\nVous avez déjà une liste de noms prête à coller ?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French reply is understandable despite minor wording issues.",
+            "evidence": "TableCards est conçu pour vous aider à créer des marque-places. Son but est de générer des fichiers **PDF téléchargeables** pour que vous puissiez les imprimer vous-même (papier, boutique d'impression, etc.).\n\nVoici comment ça se passe concrètement :\n\n1.  **Importation** : Vous collez simplement la liste de vos invités (peut-être un par ligne) et le design choisi se met à jour automatiquement.\n2.  **Aperçu** : Vous pouvez tout vérifier (noms, tables, positions) avant de télécharger.\n3.  **Enregistrement** : Si vous voulez sauvegarder votre projet pour le retrouver plus tard, il faut vous connecter avec Google.\n4.  **Limites** : TableCards ne vend pas de papier ni les marque-places physiques, ne livre rien et ne fait pas d'impression pour vous.\n\nVous avez déjà une liste de noms prête à coller ?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "glm-4.7-flash:compact-lazy:regression.helper.spanish.payment",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Un plan de pago solo se activa cuando ya usas los beneficios o pasas a una suscripción/alquiler final. ",
+            "reason": "Current checkout is simulated, not paid-plan activation through benefit use or a rental subscription.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Invented rental and benefit-use payment rules undermine the actual no-charge-now answer.",
+            "evidence": "Un plan de pago solo se activa cuando ya usas los beneficios o pasas a una suscripción/alquiler final. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents activation of a paid plan through benefit use or a final rental subscription.",
+            "evidence": "Un plan de pago solo se activa cuando ya usas los beneficios o pasas a una suscripción/alquiler final. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Offers account inspection and profile opening without clarifying the required verified account scope.",
+            "evidence": "Si quieres, puedo revisar tu cuenta para confirmar tus planes activos, límites y unidades de IA actual, o guiarte a pasar de la preview a una oferta concreta si te hallas en periodo de lanzamiento. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Rental, reservation and own-profile instructions make the payment explanation materially confusing.",
+            "evidence": "2) Si prefieres核对 el directório actual, te puedo abrir mi perfil para que veas a qué plan estás vinculado.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Contains Chinese and Portuguese fragments and confusing Spanish pronouns and rental terminology.",
+            "evidence": "2) Si prefieres核对 el directório actual, te puedo abrir mi perfil para que veas a qué plan estás vinculado.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-inline:regression.helper.hebrew.pricing",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "The requested price overview is cut off before the paid-offer costs and terms are fully given.",
+            "evidence": "* **Event Pass ($5 חד-",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated no-charge preview and simulated checkout follow the references.",
+            "evidence": "המשמעות היא שכל תהליך התשלום שאתה רואה הוא **סימולציה בלבד** – אם תלחץ על תוכנית עכשיו, **לא תחויב.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "כרגע אנחנו בשלב של תצוגה מקדימה ללא תשלום (no-charge preview). המשמעות היא שכל תהליך התשלום שאתה רואה הוא **סימולציה בלבד** – אם תלחץ על תוכנית עכשיו, **לא תחויב.**\n\nלהלן המחירים המוצגים עבור תוכניות ההשקה:\n\n* **Free ($0):** פרויקט אחד פעיל, עד 25 כרטיסים, 3 עיצובים מוגדרים מראש ו-1 חבילת AI לכל החיים.\n* **Event Pass ($5 חד-",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer ends mid-entry in the promised launch-price list.",
+            "evidence": "* **Event Pass ($5 חד-",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Hebrew reply and recognizable product labels are understandable.",
+            "evidence": "כרגע אנחנו בשלב של תצוגה מקדימה ללא תשלום (no-charge preview). המשמעות היא שכל תהליך התשלום שאתה רואה הוא **סימולציה בלבד** – אם תלחץ על תוכנית עכשיו, **לא תחויב.**\n\nלהלן המחירים המוצגים עבור תוכניות ההשקה:\n\n* **Free ($0):** פרויקט אחד פעיל, עד 25 כרטיסים, 3 עיצובים מוגדרים מראש ו-1 חבילת AI לכל החיים.\n* **Event Pass ($5 חד-",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 12,
+  "invalid": 0,
+  "unsure": 0
+}

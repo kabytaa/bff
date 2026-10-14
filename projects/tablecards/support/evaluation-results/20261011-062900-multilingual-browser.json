@@ -1,0 +1,354 @@
+{
+  "createdAt": "2026-10-11T06:31:59Z",
+  "scope": "Live anonymous TableCards development helper browser spot checks; not a full-suite accuracy benchmark.",
+  "reviewMethod": "Primary code-agent manual review with independent Astra review against approved Business facts; not scores from the currently uncalibrated semantic judge.",
+  "repositoryBaseline": "41ba411",
+  "branch": "build/operator-work-dev",
+  "environment": "development",
+  "appUrl": "https://tablecards-dev.tofler.app",
+  "uiVersion": "788753c4-f4fe-42db-8638-7bb4ab4ea5ae",
+  "configurationRevision": 6,
+  "botInstructionsVersion": 4,
+  "skills": {
+    "tablecards.basics": 2,
+    "tablecards.printing": 2,
+    "others": 1
+  },
+  "model": "@cf/qwen/qwen3-30b-a3b-fp8",
+  "gateway": "bff-operator-dev",
+  "testDesign": {
+    "cohort": "helper",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "questionsPerLanguage": 4,
+    "topics": ["overview", "printing", "payment", "overview-repeat"],
+    "freshThreadPerQuestion": true,
+    "transport": "real browser UI; no mocked replies",
+    "intentionalSampleSize": 12
+  },
+  "boundaries": {
+    "providerCapsChanged": false,
+    "modelChanged": false,
+    "promptChanged": false,
+    "runtimeChanged": false,
+    "paidFallback": false,
+    "emailSent": false,
+    "productionChanged": false
+  },
+  "usage": {
+    "helperHttpRequests": 12,
+    "exactProviderTokens": null,
+    "estimatedProviderCostUsd": null,
+    "note": "Browser UI does not expose model/tool step usage. HTTP request count is not model-call count. Existing verified provider caps remained unchanged."
+  },
+  "languages": [
+    {
+      "language": "ru",
+      "requests": 4,
+      "results": [
+        {
+          "language": "ru",
+          "topic": "overview",
+          "question": "Как это работает? Мне нужны карточки с именами гостей на свадьбу.",
+          "answer": "TableCards позволяет создавать электронные карточки с именами гостей для свадьбы. Вы можете:\n\nДобавить список гостей (через ввод вручную, CSV/XLSX).\nВыбрать шаблон дизайна.\nПросмотреть предварительный вид.\nСкачать PDF для самостоятельной печати.\n\nДля сохранения проекта или скачивания PDF требуется войти через Google.\nХотите начать? Можно перейти к созданию карточек или уточнить детали.",
+          "elapsedMs": 13725,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "understandable; minor awkwardness",
+            "facts": "correct",
+            "verdict": "acceptable",
+            "reason": "Correct import, design, preview and self-print PDF workflow; Google sign-in limited to saving/export.",
+            "evidence": []
+          }
+        },
+        {
+          "language": "ru",
+          "topic": "printing",
+          "question": "После печати карточки получились слишком маленькими. Что поменять в настройках принтера?",
+          "answer": "Если карточки получились слишком маленькими после печати, проверьте следующие настройки принтера:\n\nУбедитесь, что размер бумаги в настройках принтера совпадает с размером карточек (например, 5x7 дюймов).\nОтключите масштабирование (установите \"Фактический размер\" или \"Без масштабирования\").\nПроверьте, не активирован ли автоматический подбор к размеру страницы.\n\nЕсли проблема сохраняется, уточните настройки в разделе PDF и печать или свяжитесь с поддержкой.",
+          "elapsedMs": 8099,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "clear Russian",
+            "facts": "incorrect/incomplete",
+            "verdict": "fail",
+            "reason": "Confuses paper size with single-card size and invents 5x7 inches; omits the separate print-test PDF/calibration square.",
+            "evidence": [
+              "размер бумаги в настройках принтера совпадает с размером карточек (например, 5x7 дюймов)"
+            ]
+          }
+        },
+        {
+          "language": "ru",
+          "topic": "payment",
+          "question": "Если я сейчас выберу платный тариф, с меня действительно спишут деньги?",
+          "answer": "Если вы перейдете на платный тариф (например, Event Pass за $5, Planner Pro $9/месяц или Studio $19/месяц), с вас снимут деньги в соответствии с условиями выбранного плана. Бесплатная версия не взимает платежи, но ограничена по функциям (например, максимум 25 карт, 3 дизайна). Для оплаты необходимо подтвердить платежные данные при оформлении подписки.",
+          "elapsedMs": 6055,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "clear Russian",
+            "facts": "incorrect",
+            "verdict": "fail",
+            "reason": "Claims real charging and payment details during the current no-charge preview.",
+            "evidence": [
+              "с вас снимут деньги в соответствии с условиями выбранного плана",
+              "Для оплаты необходимо подтвердить платежные данные"
+            ]
+          }
+        },
+        {
+          "language": "ru",
+          "topic": "overview-repeat",
+          "question": "Как это работает? Мне нужны карточки с именами гостей на свадьбу.",
+          "answer": "TableCards позволяет создавать персонализированные карточки, например, для свадьбы, через веб-сайт. Вы можете импортировать список гостей (CSV/XLSX), выбрать дизайн, добавить имена и настроить внешний вид. После этого можно распечатать карточки в нужном формате или скачать как PDF. Для начала работы зарегистрируйтесь, затем перейдите в раздел \"Создать карточки\".\n\nДля деталей о процессе загрузите навык \"tablecards.basics\". Нужно ли помочь с конкретным шагом?",
+          "elapsedMs": 6057,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "understandable Russian",
+            "facts": "incorrect/actionability failure",
+            "verdict": "fail",
+            "reason": "Requires registration before public editor use and tells the customer to load an internal skill.",
+            "evidence": [
+              "Для начала работы зарегистрируйтесь",
+              "Для деталей о процессе загрузите навык \"tablecards.basics\""
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "sameLanguage": 4,
+        "fullyAcceptable": 1,
+        "borderline": 0,
+        "failures": 3,
+        "meanObservedUiLatencyMs": 8484
+      }
+    },
+    {
+      "language": "es",
+      "requests": 4,
+      "results": [
+        {
+          "language": "es",
+          "topic": "overview",
+          "question": "¿Cómo funciona? Quiero hacer tarjetas con los nombres de los invitados para una boda.",
+          "answer": "TableCards te permite crear y descargar PDF de cartas de invitados para eventos, como bodas. Aquí cómo funciona:\n\nImporta nombres: Pega una lista de invitados (en texto o archivo) y asigna columnas (ej: nombre, asiento).\nElige diseño: Selecciona un modelo predefinido o carga tu propio arte.\nPrevisualiza: Verifica la disposición y ajustes en la vista previa.\nDescarga: Guarda el PDF para imprimir en tu propia impresora o servicio de impresión.\n\nRequisitos:\n\nSin costo en la versión de prueba.\nPara guardar o descargar, necesitas iniciar sesión con Google.\n\n¿Quieres empezar con un ejemplo?",
+          "elapsedMs": 9031,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "comprehensible but awkward terminology",
+            "facts": "mostly correct/imprecise",
+            "verdict": "borderline",
+            "reason": "Calls place cards guest letters and describes seat rather than the documented table mapping.",
+            "evidence": [
+              "cartas de invitados",
+              "Aquí cómo funciona",
+              "nombre, asiento"
+            ]
+          }
+        },
+        {
+          "language": "es",
+          "topic": "printing",
+          "question": "Al imprimir, las tarjetas salen muy pequeñas. ¿Qué ajuste debo cambiar?",
+          "answer": "Para imprimir las tarjetas a tamaño real, en las configuraciones de la impresora seleccione \"Tamaño real\" o \"100%\", no \"Ajustar a página\". Antes de imprimir todo, use el archivo de prueba separado y verifique el cuadrado de calibración. Asegúrese de que el tamaño del papel y los márgenes coincidan con el diseño elegido.\n\nEn hebreo: בהגדרות המדפסת בחרו \"Actual Size\" או \"100%\", ולא \"Fit to Page\". לפני הדפסת כל הכרטיסים השתמשו בקובץ הניסיון הנפרד ובדקו את ריבוע הכיול.",
+          "elapsedMs": 6621,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": false,
+            "wording": "clear Spanish followed by unsolicited Hebrew",
+            "facts": "correct",
+            "verdict": "fail",
+            "reason": "Correct printing advice but leaks an unrelated Hebrew reference into a Spanish answer.",
+            "evidence": ["En hebreo:"]
+          }
+        },
+        {
+          "language": "es",
+          "topic": "payment",
+          "question": "Si elijo ahora un plan de pago, ¿me van a cobrar de verdad?",
+          "answer": "Si elige un plan de pago, no se le cobrará sin su consentimiento. Para activar un plan de pago, generalmente debe proporcionar detalles de pago, pero puede cancelar antes de que se realice cualquier cargo. Para más información sobre los planes y opciones de pago, puede revisar la sección de planes y acceso en el sitio. Si tiene dudas, contacte al soporte para asistencia directa.",
+          "elapsedMs": 4066,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "clear Spanish",
+            "facts": "incorrect",
+            "verdict": "fail",
+            "reason": "Invents payment details and cancellation before charging rather than stating preview checkout is simulated/no charge.",
+            "evidence": [
+              "generalmente debe proporcionar detalles de pago, pero puede cancelar antes de que se realice cualquier cargo"
+            ]
+          }
+        },
+        {
+          "language": "es",
+          "topic": "overview-repeat",
+          "question": "¿Cómo funciona? Quiero hacer tarjetas con los nombres de los invitados para una boda.",
+          "answer": "TableCards te permite crear y descargar archivos PDF de carteles para eventos, como una boda. Puedes importar los nombres de los invitados, elegir un diseño y ver una vista previa. Para guardar o descargar el PDF, necesitas iniciar sesión con Google. La impresión se realiza en tu propia papelera. Actualmente está en versión de prueba gratuita. ¿Deseas comenzar?",
+          "elapsedMs": 12522,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "material mistranslations",
+            "facts": "mostly correct but nonsensical printing wording",
+            "verdict": "fail",
+            "reason": "Uses posters rather than place cards and says printing occurs in your wastebasket.",
+            "evidence": [
+              "archivos PDF de carteles",
+              "La impresión se realiza en tu propia papelera"
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "sameLanguage": 3,
+        "fullyAcceptable": 0,
+        "borderline": 1,
+        "failures": 3,
+        "meanObservedUiLatencyMs": 8060
+      }
+    },
+    {
+      "language": "fr",
+      "requests": 4,
+      "results": [
+        {
+          "language": "fr",
+          "topic": "overview",
+          "question": "Comment ça marche ? Je veux faire des marque-places avec les noms des invités pour un mariage.",
+          "answer": "TableCards vous permet de créer des cartes de table personnalisées (comme des marque-places) en importants des noms d'invités, de choisir un design, et de télécharger un PDF imprimable. Voici les étapes :\n\nAjoutez les noms des invités via un fichier (CSV, Excel) ou en les saisissant manuellement.\nSélectionnez un modèle (ex. : mariage, anniversaire) ou utilisez un fond généré par l'IA.\nPrévisualisez le résultat et ajustez les paramètres (taille, police, disposition).\nTéléchargez le PDF (nécessite une connexion Google pour sauvegarder ou exporter).\n\nLa version gratuite permet de tester sans frais, mais la sauvegarde et l'impression nécessitent une connexion. Pour plus d'aide, voir la FAQ.",
+          "elapsedMs": 6963,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "comprehensible with minor grammar error",
+            "facts": "mostly correct/imprecise",
+            "verdict": "borderline",
+            "reason": "Incorrectly attaches sign-in to physical printing instead of saving/exporting; size adjustment is ambiguous.",
+            "evidence": [
+              "en importants des noms",
+              "ajustez les paramètres (taille, police, disposition)",
+              "la sauvegarde et l'impression nécessitent une connexion"
+            ]
+          }
+        },
+        {
+          "language": "fr",
+          "topic": "printing",
+          "question": "Mes cartes sortent trop petites à l’impression. Quel réglage dois-je changer ?",
+          "answer": "Si vos cartes sortent trop petites à l’impression, vérifiez les paramètres suivants :\n\nTaille du papier : Assurez-vous que la taille du papier sélectionnée dans les paramètres d’impression correspond à celle utilisée pour la conception (ex. : A6, 5x7 pouces).\nÉchelle d’impression : Cochez l’option \"Taille réelle\" ou \"100%\" pour éviter que l’imprimante ne réduise les cartes.\nCalibration : Si disponible, utilisez l’outil de calibration de l’imprimante pour ajuster les dimensions.\n\nPour plus d’aide, consultez l’onglet PDF et impression dans les paramètres de TableCards.",
+          "elapsedMs": 4958,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "clear French",
+            "facts": "incorrect/incomplete",
+            "verdict": "fail",
+            "reason": "Invents format examples and a settings tab; replaces the separate print-test PDF/calibration square with unspecified printer calibration.",
+            "evidence": [
+              "ex. : A6, 5x7 pouces",
+              "utilisez l’outil de calibration de l’imprimante",
+              "l’onglet PDF et impression dans les paramètres de TableCards"
+            ]
+          }
+        },
+        {
+          "language": "fr",
+          "topic": "payment",
+          "question": "Si je choisis une formule payante maintenant, est-ce que je serai vraiment débité ?",
+          "answer": "Si vous choisissez une formule payante, vous serez facturé(e) uniquement après avoir confirmé vos informations de paiement. La vérification des détails de paiement (carte bancaire, etc.) est généralement requise pour activer l'abonnement. Pour des précisions exactes, je peux charger le contenu de la compétence \"tablecards.access\" qui traite des offres et limites. Voulez-vous que je le fasse ?",
+          "elapsedMs": 2907,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "clear French with internal jargon",
+            "facts": "incorrect/actionability failure",
+            "verdict": "fail",
+            "reason": "Claims real charging and asks the customer whether to load an automatic internal skill.",
+            "evidence": [
+              "vous serez facturé(e) uniquement après avoir confirmé vos informations de paiement",
+              "la compétence \"tablecards.access\""
+            ]
+          }
+        },
+        {
+          "language": "fr",
+          "topic": "overview-repeat",
+          "question": "Comment ça marche ? Je veux faire des marque-places avec les noms des invités pour un mariage.",
+          "answer": "Pour créer des marque-places avec les noms des invités, commencez par accéder à TableCards, sélectionnez un design ou utilisez un modèle existant, puis ajoutez les noms via un tableau, un fichier CSV/XLSX ou en les saisissant manuellement. Vous pouvez imprimer directement en format réel ou exporter en PDF. Pour en savoir plus, cliquez sur Créer des cartes ou consultez les conseils d'impression.",
+          "elapsedMs": 7996,
+          "helperRequests": 1,
+          "mockNotice": false,
+          "alerts": [],
+          "direction": "ltr",
+          "manualReview": {
+            "sameLanguage": true,
+            "wording": "natural/comprehensible French",
+            "facts": "unsupported/incomplete",
+            "verdict": "fail",
+            "reason": "Suggests direct printing as an alternative to PDF export and omits Google sign-in for export.",
+            "evidence": [
+              "Vous pouvez imprimer directement en format réel ou exporter en PDF"
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "sameLanguage": 4,
+        "fullyAcceptable": 0,
+        "borderline": 1,
+        "failures": 3,
+        "meanObservedUiLatencyMs": 5706
+      }
+    }
+  ],
+  "limitations": [
+    "Four samples per language are too few to establish overall model accuracy or native-speaker language certification.",
+    "Only anonymous helper answers were sampled here, not authenticated account tools or support drafts.",
+    "UI-sampled latency includes tool/network/render work and is not a library/model speed benchmark.",
+    "Fresh repeated overview samples reveal variability but do not quantify its rate.",
+    "Prior 148-case live attempt stopped at failed 2/12 judge calibration; none of its answer cases ran.",
+    "The saved bank now has 157 cases; its new offline run proves wiring only and leaves all cases unjudged."
+  ],
+  "acceptanceStandard": "Fully acceptable means correct and actionable against approved knowledge, with clear appropriate language; borderline minor wording/fact imprecision is shown separately. No automated judge scores were assigned."
+}

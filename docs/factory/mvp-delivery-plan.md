@@ -1,6 +1,6 @@
 # Business Factory — TableCards MVP-to-Launch Plan
 
-Updated: 2026-10-09.
+Updated: 2026-10-14.
 
 This is the single authoritative MVP delivery roadmap for the first Business
 Factory product: accepted build scope, dependencies and launch acceptance live
@@ -201,6 +201,12 @@ Implement pre-auth pasted-line/grid, CSV and XLSX guest import with required nam
 
 Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project Planner Pro and 100-active-project Studio boundaries through the BFF-owned deterministic no-charge checkout. The later [shared checkout decision](../../.agent/plans/260929-shared-mock-checkout.md) supersedes the earlier development-only boundary: development and the published Build 3 production preview use that explicitly labeled simulation. TableCards requests a checkout URL through its authenticated backend and returns from the shared page; it exposes neither a local dummy-payment screen nor arbitrary client-side access grants. The mock drives the same application-facing access contract later used by real billing and supports positive and denial tests without a live charge. Studio invitations, team workflows and their compatible seat policy are exercised in Build 3. Do not claim real payment, paid-through state, cancellation or retention enforcement; Paddle checkout, webhooks and verified subscription lifecycle belong to Build 4.
 
+Andrew's 2026-10-14 revision restricts **new mock purchases** to operator-designated
+test users and test-only workspaces, independent of deployment. That revision's
+current scope ends at development; production remains the earlier published
+preview until separately released. Existing access/data is retained. The shared
+checkout plan's dated revision and shared data model own the eligibility details.
+
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
 
 Development and the no-charge production preview use capped real Cloudflare
@@ -220,7 +226,7 @@ The core regression fixture includes duplicate names, accents and long names. Au
 **Status: On hold for Paddle access/confirmed terms.** This build remains an MVP
 requirement; non-billing Operator work does not need to wait for it.
 
-After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, route the shared checkout interface directly to Paddle in production; development may choose Paddle or the mock. Implement verified Event Pass and subscription state, idempotent webhooks and minimal purchase/acquisition events while preserving the Business-facing contract. Build on the Studio invitations, five-seat policy and shared design workflows demonstrated in Build 3, and add only the operator views needed for purchases, subscriptions and billing remediation. Do not add annual billing. Monthly mock allocation demonstrates a successful-renewal simulation, not payment truth; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
+After Paddle confirms the Israeli seller/payout and sub-`$10` one-time/recurring terms in writing, route the shared checkout interface to Paddle for normal customers; designated test users may use the no-charge mock in either deployment (2026-10-14 revision). Implement verified Event Pass and subscription state, idempotent webhooks and minimal purchase/acquisition events while preserving the Business-facing contract. Build on the Studio invitations, five-seat policy and shared design workflows demonstrated in Build 3, and add only the operator views needed for purchases, subscriptions and billing remediation. Do not add annual billing. Monthly mock allocation demonstrates a successful-renewal simulation, not payment truth; real monthly allowances must advance only from verified provider subscription/paid-through state and must never renew merely because wall-clock time crossed an anniversary.
 
 Before enabling real payment, establish the applicable product/provider terms,
 seller identity, cancellation/refund arrangements and recurring-price/renewal

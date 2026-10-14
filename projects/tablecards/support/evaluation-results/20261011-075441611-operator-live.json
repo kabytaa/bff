@@ -1,0 +1,559 @@
+{
+  "version": 2,
+  "createdAt": "2026-10-11T07:54:41.611Z",
+  "mode": "live",
+  "model": "@cf/zai-org/glm-4.7-flash",
+  "captureOnly": true,
+  "judgeModel": null,
+  "rubricVersion": "operator-answer-quality-v2",
+  "judgePromptVersion": "fba7fefa7363e238e9fc1660f1278aa63873485bf432b6857e013953370995ad",
+  "sharedInstructionsVersion": 2,
+  "knowledgeMode": "auto",
+  "configurationVersion": "95abb4d785bc2860366d88b3015542f172217f699e875f3769123709fc4e869d",
+  "knowledgeVersions": [
+    {
+      "key": "tablecards.basics",
+      "version": 3,
+      "contentHash": "3bdcd41786697c6eb9053a95f9314ae03f7f18b24f3014aeddd3487bfb0e31a7"
+    },
+    {
+      "key": "tablecards.printing",
+      "version": 3,
+      "contentHash": "c8295aa784ebc989b8e88f8b33410cc80a60c93a60e0fa990e0b06916d448247"
+    },
+    {
+      "key": "tablecards.import",
+      "version": 1,
+      "contentHash": "71eec2b0084485a6627254582e4abbda16afd360e43f1ca936c70ff442890704"
+    },
+    {
+      "key": "tablecards.access",
+      "version": 1,
+      "contentHash": "3baabc805517a189973728285a3f5f05285dedfe5feba76ec1c94ade32a82e0c"
+    },
+    {
+      "key": "tablecards.designs",
+      "version": 1,
+      "contentHash": "8a53c124924fea9f7d76dd47e5b4b49c40de0b6836ec6c253c6447c896626fc5"
+    },
+    {
+      "key": "tablecards.teams",
+      "version": 1,
+      "contentHash": "54951122d7970c9a68a8b260aec27b7ee12a672db30049871f3e9b728071e965"
+    },
+    {
+      "key": "tablecards.contact",
+      "version": 1,
+      "contentHash": "075e2c98990dc5be9df05b9bdf2c1989695839cfcada49c08a1a8d087fb98054"
+    }
+  ],
+  "qualityVerified": false,
+  "manualReviewRequired": true,
+  "runtimeCoverage": "isolated assigned knowledge; loadSkill only; no customer records or browser execution",
+  "limits": {
+    "maximumCases": 13,
+    "maximumModelCalls": 52,
+    "maximumAnswerCallsPerCase": 4,
+    "maximumJudgeCallsPerCase": 0,
+    "maximumRetries": 0,
+    "maximumOutputTokensPerCall": 1200,
+    "conservativeCostBoundUsd": 0.128048128,
+    "maximumCostUsd": 2
+  },
+  "results": [
+    {
+      "id": "regression.helper.hebrew.overview",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "hebrew",
+        "basics"
+      ],
+      "question": "איך זה עובד?",
+      "expectedBehavior": [
+        "Answer in natural everyday Hebrew: explain creating printable place cards, adding guest names, choosing a design, previewing and downloading a PDF to print independently.",
+        "Keep the overview short and useful; distinguish public preview from Google sign-in for saving/exporting if needed, without dumping unrelated pricing, support or authentication policy.",
+        "Do not mix Arabic words or garbled literal translations into Hebrew. Product names, PDF and quoted English UI labels may remain unchanged."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.import",
+          "version": 1,
+          "content": "Customers can paste one name per line or a tabular grid, or import CSV/XLSX. Map guest name, optional table and optional short marker columns. Confirm whether the first row contains headings. Import does not intentionally merge, sort or silently drop guests. Review the imported rows and final preview; suggest a small synthetic example when diagnosing formatting. Never request a private guest list. Saving requires a signed-in selected workspace. Unsaved changes are protected during normal navigation/sign-in; do not promise recovery after the documented draft storage expires or across unrelated browsers/devices. Saved projects belong to the workspace selected when they were saved. Switching to a different workspace does not move the project. Projects provides active and archived views; restore puts an archived project back into active work. Archive is not deletion. Make a copy is the existing professional-plan duplication action. A copied project is a distinct project, and active-project limits still apply. Support/helper cannot copy, restore, delete, export or modify projects on the customer's behalf."
+        }
+      ],
+      "caseVersion": "5f55d8bdd4c1c98727da6b33b0bf9db5d8d5902b18ad861869b71cd6cb0afc56",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.hebrew.printing",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "hebrew",
+        "printing"
+      ],
+      "question": "הכרטיסים יצאו קטנים בהדפסה. מה לשנות בהגדרות?",
+      "expectedBehavior": [
+        "Reply in natural Hebrew with a few practical steps: Actual Size / 100%, not Fit to Page, and the separate print-test PDF before a full print run.",
+        "Preserve recognizable printer setting labels; no arbitrary Arabic words, printer guarantee or request for a private guest list."
+      ],
+      "references": [
+        {
+          "key": "tablecards.printing",
+          "version": 3,
+          "content": "Exports are digital PDFs. Customers arrange printing themselves. Use actual size / 100%, not Fit to page. Use the separate print-test PDF and check its calibration square before a full event. Normal exports contain card sheets only, without a calibration page. Paper size and printer margins must match the selected layout. TableCards cannot guarantee compatibility with a specific printer or print shop. Preview every card, names and table labels before exporting. Longer names may use up to two balanced lines; names are not silently truncated. Latin accented names, including Vietnamese, are supported; unsupported scripts, remaining unsupported combining marks or impossible text fits fail explicitly before export. Do not claim every language/script works. A server event saying PDF made available does not prove it was downloaded, saved to a device or printed. If a customer reports a missing PDF, ask what they see and their browser/device as needed; never ask for a complete private guest list. Use only permitted reported outcomes, not product database reads."
+        }
+      ],
+      "caseVersion": "0b8f1584373568e197dc11c30886fb709b3ad41c34ff7470daafcca6b2aa0859",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.hebrew.pricing",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "hebrew",
+        "access"
+      ],
+      "question": "כמה זה עולה? אם אני לוחץ על תוכנית עכשיו תחייבו אותי?",
+      "expectedBehavior": [
+        "Explain naturally in Hebrew that the current no-charge preview does not collect payment and checkout is simulated, not an active paid subscription.",
+        "If mentioning launch prices, label them as launch offer definitions, not money already charged. Answer the actual question without unrelated policy paragraphs."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.access",
+          "version": 1,
+          "content": "Accepted launch offer definitions: Free $0, one active project, up to 25 cards, three predefined designs and one lifetime welcome AI batch. Event Pass $5 one time, one event up to 500 cards, full premium predefined designs, event-only uploaded artwork and two AI batches. Planner Pro $9/month, up to 25 active projects, reusable custom presets, copying and ten monthly AI batches. Studio $19/month, up to five members, 100 active shared projects, shared presets and thirty shared monthly AI batches. Monthly batches do not roll over. Annual plans, per-seat charges and automatic email-domain joining are not offered. The current no-charge preview does not collect payment. Launch Event Pass event binding/90-day edit lifetime, real billing renewal/cancellation and commercial retention boundaries are later Payments work, not verified behavior of the preview. Free does not produce a partial PDF from an over-limit guest list: reduce the list or choose an appropriate offer. Current account access and remaining units must come from verified BFF context, not browser claims or guessed email matches. If account context is missing or stale, explain the uncertainty and direct the customer to Account. Neither helper nor support bot may grant units, override access, refund money or change accounts. A failed AI generation already releases its reserved unit; do not promise a second credit restoration."
+        }
+      ],
+      "caseVersion": "d638a9a56be540f654965d8d173f8c405dcae8981f22f4a5338f2e0e112a13e8",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.support.hebrew.printing",
+      "cohort": "support",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "hebrew",
+        "printing"
+      ],
+      "question": "שלום, הדפסתי את הכרטיסים והם קטנים מדי. ההגדרה הייתה Fit to Page. איך מתקנים?",
+      "expectedBehavior": [
+        "Produce a concise, natural Hebrew suggested reply with Actual Size / 100% and the separate print-test PDF; English setting labels are appropriate.",
+        "No mixed Arabic fragments, printer guarantee, claimed project changes or claim that this suggested reply has already been sent."
+      ],
+      "references": [
+        {
+          "key": "tablecards.printing",
+          "version": 3,
+          "content": "Exports are digital PDFs. Customers arrange printing themselves. Use actual size / 100%, not Fit to page. Use the separate print-test PDF and check its calibration square before a full event. Normal exports contain card sheets only, without a calibration page. Paper size and printer margins must match the selected layout. TableCards cannot guarantee compatibility with a specific printer or print shop. Preview every card, names and table labels before exporting. Longer names may use up to two balanced lines; names are not silently truncated. Latin accented names, including Vietnamese, are supported; unsupported scripts, remaining unsupported combining marks or impossible text fits fail explicitly before export. Do not claim every language/script works. A server event saying PDF made available does not prove it was downloaded, saved to a device or printed. If a customer reports a missing PDF, ask what they see and their browser/device as needed; never ask for a complete private guest list. Use only permitted reported outcomes, not product database reads."
+        }
+      ],
+      "caseVersion": "846ba952dd1cc192a5a8b57b485d416c1c7dd78466a3f26867cf58852aadabe0",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.russian.overview",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "russian",
+        "overview"
+      ],
+      "question": "Как это работает? Мне нужны карточки с именами гостей на свадьбу.",
+      "expectedBehavior": [
+        "Reply clearly and naturally in russian; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.import",
+          "version": 1,
+          "content": "Customers can paste one name per line or a tabular grid, or import CSV/XLSX. Map guest name, optional table and optional short marker columns. Confirm whether the first row contains headings. Import does not intentionally merge, sort or silently drop guests. Review the imported rows and final preview; suggest a small synthetic example when diagnosing formatting. Never request a private guest list. Saving requires a signed-in selected workspace. Unsaved changes are protected during normal navigation/sign-in; do not promise recovery after the documented draft storage expires or across unrelated browsers/devices. Saved projects belong to the workspace selected when they were saved. Switching to a different workspace does not move the project. Projects provides active and archived views; restore puts an archived project back into active work. Archive is not deletion. Make a copy is the existing professional-plan duplication action. A copied project is a distinct project, and active-project limits still apply. Support/helper cannot copy, restore, delete, export or modify projects on the customer's behalf."
+        }
+      ],
+      "caseVersion": "3194f921b690d3d80426190d54d24a0bd227d5c90ec0f173d5650b0c1262d81f",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.russian.printing",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "russian",
+        "printing"
+      ],
+      "question": "После печати карточки получились слишком маленькими. Что поменять в настройках принтера?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in russian; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.printing",
+          "version": 3,
+          "content": "Exports are digital PDFs. Customers arrange printing themselves. Use actual size / 100%, not Fit to page. Use the separate print-test PDF and check its calibration square before a full event. Normal exports contain card sheets only, without a calibration page. Paper size and printer margins must match the selected layout. TableCards cannot guarantee compatibility with a specific printer or print shop. Preview every card, names and table labels before exporting. Longer names may use up to two balanced lines; names are not silently truncated. Latin accented names, including Vietnamese, are supported; unsupported scripts, remaining unsupported combining marks or impossible text fits fail explicitly before export. Do not claim every language/script works. A server event saying PDF made available does not prove it was downloaded, saved to a device or printed. If a customer reports a missing PDF, ask what they see and their browser/device as needed; never ask for a complete private guest list. Use only permitted reported outcomes, not product database reads."
+        }
+      ],
+      "caseVersion": "0c6c96e381910a723cc3fee7fafa8dd163785bc18d8208b342613d54eb5cde14",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.russian.payment",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "russian",
+        "payment"
+      ],
+      "question": "Если я сейчас выберу платный тариф, с меня действительно спишут деньги?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in russian; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain that the current no-charge preview does not collect payment and checkout is simulated. Do not claim choosing a displayed paid offer charges the customer or requests real payment details.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.access",
+          "version": 1,
+          "content": "Accepted launch offer definitions: Free $0, one active project, up to 25 cards, three predefined designs and one lifetime welcome AI batch. Event Pass $5 one time, one event up to 500 cards, full premium predefined designs, event-only uploaded artwork and two AI batches. Planner Pro $9/month, up to 25 active projects, reusable custom presets, copying and ten monthly AI batches. Studio $19/month, up to five members, 100 active shared projects, shared presets and thirty shared monthly AI batches. Monthly batches do not roll over. Annual plans, per-seat charges and automatic email-domain joining are not offered. The current no-charge preview does not collect payment. Launch Event Pass event binding/90-day edit lifetime, real billing renewal/cancellation and commercial retention boundaries are later Payments work, not verified behavior of the preview. Free does not produce a partial PDF from an over-limit guest list: reduce the list or choose an appropriate offer. Current account access and remaining units must come from verified BFF context, not browser claims or guessed email matches. If account context is missing or stale, explain the uncertainty and direct the customer to Account. Neither helper nor support bot may grant units, override access, refund money or change accounts. A failed AI generation already releases its reserved unit; do not promise a second credit restoration."
+        }
+      ],
+      "caseVersion": "b047940ea1f893e327aa8e59784c2ac6b839784667df180fa7f49dd8f12c7813",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.spanish.overview",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "spanish",
+        "overview"
+      ],
+      "question": "¿Cómo funciona? Quiero hacer tarjetas con los nombres de los invitados para una boda.",
+      "expectedBehavior": [
+        "Reply clearly and naturally in spanish; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.import",
+          "version": 1,
+          "content": "Customers can paste one name per line or a tabular grid, or import CSV/XLSX. Map guest name, optional table and optional short marker columns. Confirm whether the first row contains headings. Import does not intentionally merge, sort or silently drop guests. Review the imported rows and final preview; suggest a small synthetic example when diagnosing formatting. Never request a private guest list. Saving requires a signed-in selected workspace. Unsaved changes are protected during normal navigation/sign-in; do not promise recovery after the documented draft storage expires or across unrelated browsers/devices. Saved projects belong to the workspace selected when they were saved. Switching to a different workspace does not move the project. Projects provides active and archived views; restore puts an archived project back into active work. Archive is not deletion. Make a copy is the existing professional-plan duplication action. A copied project is a distinct project, and active-project limits still apply. Support/helper cannot copy, restore, delete, export or modify projects on the customer's behalf."
+        }
+      ],
+      "caseVersion": "b3a192fc4c3867495c804f8d38119c113f32f38ac73db642db23f0d4a1aa7cc5",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.spanish.printing",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "spanish",
+        "printing"
+      ],
+      "question": "Al imprimir, las tarjetas salen muy pequeñas. ¿Qué ajuste debo cambiar?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in spanish; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.printing",
+          "version": 3,
+          "content": "Exports are digital PDFs. Customers arrange printing themselves. Use actual size / 100%, not Fit to page. Use the separate print-test PDF and check its calibration square before a full event. Normal exports contain card sheets only, without a calibration page. Paper size and printer margins must match the selected layout. TableCards cannot guarantee compatibility with a specific printer or print shop. Preview every card, names and table labels before exporting. Longer names may use up to two balanced lines; names are not silently truncated. Latin accented names, including Vietnamese, are supported; unsupported scripts, remaining unsupported combining marks or impossible text fits fail explicitly before export. Do not claim every language/script works. A server event saying PDF made available does not prove it was downloaded, saved to a device or printed. If a customer reports a missing PDF, ask what they see and their browser/device as needed; never ask for a complete private guest list. Use only permitted reported outcomes, not product database reads."
+        }
+      ],
+      "caseVersion": "98fa54034be67b8cc6013ccd8dc23255b3bde6ce59b17858307f3cf05ea744b8",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.spanish.payment",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "spanish",
+        "payment"
+      ],
+      "question": "Si elijo ahora un plan de pago, ¿me van a cobrar de verdad?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in spanish; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain that the current no-charge preview does not collect payment and checkout is simulated. Do not claim choosing a displayed paid offer charges the customer or requests real payment details.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.access",
+          "version": 1,
+          "content": "Accepted launch offer definitions: Free $0, one active project, up to 25 cards, three predefined designs and one lifetime welcome AI batch. Event Pass $5 one time, one event up to 500 cards, full premium predefined designs, event-only uploaded artwork and two AI batches. Planner Pro $9/month, up to 25 active projects, reusable custom presets, copying and ten monthly AI batches. Studio $19/month, up to five members, 100 active shared projects, shared presets and thirty shared monthly AI batches. Monthly batches do not roll over. Annual plans, per-seat charges and automatic email-domain joining are not offered. The current no-charge preview does not collect payment. Launch Event Pass event binding/90-day edit lifetime, real billing renewal/cancellation and commercial retention boundaries are later Payments work, not verified behavior of the preview. Free does not produce a partial PDF from an over-limit guest list: reduce the list or choose an appropriate offer. Current account access and remaining units must come from verified BFF context, not browser claims or guessed email matches. If account context is missing or stale, explain the uncertainty and direct the customer to Account. Neither helper nor support bot may grant units, override access, refund money or change accounts. A failed AI generation already releases its reserved unit; do not promise a second credit restoration."
+        }
+      ],
+      "caseVersion": "218aaa58de9c221b78ffa16d481e9446f3b586b7f99dd591ba96674e67addf01",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.french.overview",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "french",
+        "overview"
+      ],
+      "question": "Comment ça marche ? Je veux faire des marque-places avec les noms des invités pour un mariage.",
+      "expectedBehavior": [
+        "Reply clearly and naturally in french; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain adding guest names, choosing a design, previewing and downloading a digital PDF for self-printing. Import and preview are public; saving/exporting require Google sign-in. Do not require registration before trying the public editor.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.import",
+          "version": 1,
+          "content": "Customers can paste one name per line or a tabular grid, or import CSV/XLSX. Map guest name, optional table and optional short marker columns. Confirm whether the first row contains headings. Import does not intentionally merge, sort or silently drop guests. Review the imported rows and final preview; suggest a small synthetic example when diagnosing formatting. Never request a private guest list. Saving requires a signed-in selected workspace. Unsaved changes are protected during normal navigation/sign-in; do not promise recovery after the documented draft storage expires or across unrelated browsers/devices. Saved projects belong to the workspace selected when they were saved. Switching to a different workspace does not move the project. Projects provides active and archived views; restore puts an archived project back into active work. Archive is not deletion. Make a copy is the existing professional-plan duplication action. A copied project is a distinct project, and active-project limits still apply. Support/helper cannot copy, restore, delete, export or modify projects on the customer's behalf."
+        }
+      ],
+      "caseVersion": "ed2d3057b50e0329149d85d52f23a8e13e50e8bd1cdd923c840df92d4ef583e4",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.french.printing",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "french",
+        "printing"
+      ],
+      "question": "Mes cartes sortent trop petites à l’impression. Quel réglage dois-je changer ?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in french; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain Actual Size / 100%, not Fit to Page, and the separate print-test PDF. Match paper/layout and printer margins, not paper size to a single card. Do not invent card dimensions or export settings.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.printing",
+          "version": 3,
+          "content": "Exports are digital PDFs. Customers arrange printing themselves. Use actual size / 100%, not Fit to page. Use the separate print-test PDF and check its calibration square before a full event. Normal exports contain card sheets only, without a calibration page. Paper size and printer margins must match the selected layout. TableCards cannot guarantee compatibility with a specific printer or print shop. Preview every card, names and table labels before exporting. Longer names may use up to two balanced lines; names are not silently truncated. Latin accented names, including Vietnamese, are supported; unsupported scripts, remaining unsupported combining marks or impossible text fits fail explicitly before export. Do not claim every language/script works. A server event saying PDF made available does not prove it was downloaded, saved to a device or printed. If a customer reports a missing PDF, ask what they see and their browser/device as needed; never ask for a complete private guest list. Use only permitted reported outcomes, not product database reads."
+        }
+      ],
+      "caseVersion": "6b0075b7e67844380736903c1fd9242a66cab4db566f948f9fa25d400dd2aa53",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    },
+    {
+      "id": "regression.helper.french.payment",
+      "cohort": "helper",
+      "split": "tuning",
+      "tags": [
+        "synthetic",
+        "regression",
+        "french",
+        "payment"
+      ],
+      "question": "Si je choisis une formule payante maintenant, est-ce que je serai vraiment débité ?",
+      "expectedBehavior": [
+        "Reply clearly and naturally in french; product names, PDF and recognizable English setting labels may remain unchanged. No unrelated language fragments.",
+        "Explain that the current no-charge preview does not collect payment and checkout is simulated. Do not claim choosing a displayed paid offer charges the customer or requests real payment details.",
+        "Answer the customer, not the operator: never tell them to load an internal skill key, claim an unsent message was sent, or perform an account/project change."
+      ],
+      "references": [
+        {
+          "key": "tablecards.basics",
+          "version": 3,
+          "content": "TableCards creates downloadable place-card PDFs. It does not sell paper, printing, delivery or reprints. The current deployment is a no-charge preview. Displayed offer prices describe launch hypotheses; checkout is a labelled simulation, not a real payment or paid subscription. Do not call mock access paid access. Import and preview are public; saving, exporting and AI backgrounds require Google sign-in. The landing page has product examples, pricing and FAQ. General Q&A does not require sign-in. Google is the only enabled login method. Do not offer password reset, email login, Apple login or support-managed account recovery. If the customer cannot sign in, they may email support for general help; this does not bypass product authentication. A lack of reported events is unknown, not proof nothing happened."
+        },
+        {
+          "key": "tablecards.access",
+          "version": 1,
+          "content": "Accepted launch offer definitions: Free $0, one active project, up to 25 cards, three predefined designs and one lifetime welcome AI batch. Event Pass $5 one time, one event up to 500 cards, full premium predefined designs, event-only uploaded artwork and two AI batches. Planner Pro $9/month, up to 25 active projects, reusable custom presets, copying and ten monthly AI batches. Studio $19/month, up to five members, 100 active shared projects, shared presets and thirty shared monthly AI batches. Monthly batches do not roll over. Annual plans, per-seat charges and automatic email-domain joining are not offered. The current no-charge preview does not collect payment. Launch Event Pass event binding/90-day edit lifetime, real billing renewal/cancellation and commercial retention boundaries are later Payments work, not verified behavior of the preview. Free does not produce a partial PDF from an over-limit guest list: reduce the list or choose an appropriate offer. Current account access and remaining units must come from verified BFF context, not browser claims or guessed email matches. If account context is missing or stale, explain the uncertainty and direct the customer to Account. Neither helper nor support bot may grant units, override access, refund money or change accounts. A failed AI generation already releases its reserved unit; do not promise a second credit restoration."
+        }
+      ],
+      "caseVersion": "58f3e53c9fcbb60f81ce7bf9344603289d986915152f5d8572ab05974624d3e0",
+      "checks": [],
+      "phraseDiagnostics": [],
+      "passed": false,
+      "judge": {
+        "status": "not_run",
+        "reason": "Answer generation failed"
+      },
+      "error": "Answer evaluator failed; inspect scoped runtime without publishing private provider errors"
+    }
+  ],
+  "passedComparisons": 0,
+  "failedComparisons": 0,
+  "providerFailures": 13,
+  "judgeErrors": 0,
+  "unsure": 0,
+  "criticalFailures": 0,
+  "usage": {
+    "modelCalls": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "estimatedCostUsd": 0,
+    "answerEstimatedCostUsd": 0,
+    "judgeEstimatedCostUsd": 0,
+    "calibrationEstimatedCostUsd": 0,
+    "meanAnswerCostUsd": null,
+    "pricedAnswerTurns": 0,
+    "estimatedQuestionsPerUsd": null,
+    "estimatedAcceptableAnswersPerUsd": null,
+    "missingUsageRecords": 0,
+    "answerLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    },
+    "judgeLatencyMs": {
+      "p50": 0,
+      "p95": 0
+    }
+  }
+}

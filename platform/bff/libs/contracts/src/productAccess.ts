@@ -117,6 +117,7 @@ const developmentProductUnitGrantsSchema = z
 export const productAccessSourceSchema = z.enum([
   'default',
   'development_mock',
+  'test_mock',
   'provider',
 ]);
 

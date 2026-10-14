@@ -1,0 +1,899 @@
+{
+  "version": 1,
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-019",
+  "reviewer": "Astra xhigh blind",
+  "items": [
+    {
+      "id": "review-001",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Identifies the cap but supplies an invalid resolution example.",
+            "evidenceId": "A2"
+          },
+          "grounding": {
+            "reason": "The 2048-by-1024 example exceeds two million pixels and is not 7:4.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The example conflicts with the stated upload requirements.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A2",
+            "referenceId": "R5",
+            "reason": "Presents 2048 by 1024 as an allowed two-megapixel example although it exceeds the cap and violates the ratio."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Contradicts the no-partial-export rule while giving otherwise relevant options.",
+            "evidenceId": "A8"
+          },
+          "grounding": {
+            "reason": "Falsely says the first 25 guests of an over-limit list are exportable.",
+            "evidenceId": "A8"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The partial-export claim directly conflicts with the same sentence's prohibition.",
+            "evidenceId": "A8"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A8"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A8",
+            "referenceId": "R4",
+            "reason": "Claims the first 25 cards can be exported from an over-limit list despite the explicit no-partial-PDF rule."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains the 2.52-megapixel violation and gives a valid smaller size.",
+            "evidenceId": "A3"
+          },
+          "grounding": {
+            "reason": "The proposed dimensions satisfy the two-megapixel cap and 7:4 ratio.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides a concrete usable resize instruction.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-004",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Directs the customer to Account to switch workspaces.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The private/Studio distinction and workspace ownership follow the references.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Gives a clear location for the customer-controlled switch.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A1"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-005",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains the 2.52-megapixel violation and gives a valid smaller size.",
+            "evidenceId": "A3"
+          },
+          "grounding": {
+            "reason": "The proposed dimensions satisfy the two-megapixel cap and 7:4 ratio.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides a concrete usable resize instruction.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-006",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits the requested test-print guidance.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The actual-size setting and scaling explanation match the reference.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The scaling correction is clear and actionable.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-007",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits the requested calibration-test guidance.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The actual-size setting and paper-size matching are accurate.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The printer-setting instructions are clear.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-008",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains actual-size printing and recommends a calibration test.",
+            "evidenceId": "A4"
+          },
+          "grounding": {
+            "reason": "The print settings and separate test match reviewed knowledge.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides useful steps before printing the full event.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A4"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-009",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Identifies the workspace selector and invitation route.",
+            "evidenceId": "A5"
+          },
+          "grounding": {
+            "reason": "Falsely treats Make a copy as moving or sharing private workspaces.",
+            "evidenceId": "A13"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The copy/move explanation confuses workspace and project boundaries.",
+            "evidenceId": "A13"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A13"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A13",
+            "referenceId": "R3",
+            "reason": "Claims Make a copy moves or shares private workspaces, although it creates a distinct project."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains actual-size printing and recommends a calibration test.",
+            "evidenceId": "A3"
+          },
+          "grounding": {
+            "reason": "The print settings and separate test match reviewed knowledge.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides useful steps before printing the full event.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-011",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits testing the actual stock with the print shop.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The no-guarantee boundary and size/margin advice follow the reference.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The preparation advice is understandable.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-012",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains actual-size printing and recommends a calibration test.",
+            "evidenceId": "A4"
+          },
+          "grounding": {
+            "reason": "The print settings and separate test match reviewed knowledge.",
+            "evidenceId": "A4"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides useful steps before printing the full event.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A4"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-013",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Directs the customer to Account to switch workspaces.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The private/Studio distinction and workspace ownership follow the references.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Gives a clear location for the customer-controlled switch.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A1"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-014",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not provide the customer-controlled workspace selector route.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "Blurs per-tab account selection with a browser-window sign-in context.",
+            "evidenceId": "A9"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Focuses on Google sign-in without explaining selection between joined workspaces.",
+            "evidenceId": "A4"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A9"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-015",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Directs the customer to Account to switch workspaces.",
+            "evidenceId": "A1"
+          },
+          "grounding": {
+            "reason": "The private/Studio distinction and workspace ownership follow the references.",
+            "evidenceId": "A1"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Gives a clear location for the customer-controlled switch.",
+            "evidenceId": "A1"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A1"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-016",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Provides actual-size settings and a separate calibration test.",
+            "evidenceId": "A5"
+          },
+          "grounding": {
+            "reason": "The specific support email address is not established in reviewed knowledge.",
+            "evidenceId": "A10"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The printing steps themselves are clear and actionable.",
+            "evidenceId": "A5"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A5"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-017",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains the cap but gives a resize example that violates the required ratio.",
+            "evidenceId": "A3"
+          },
+          "grounding": {
+            "reason": "The 2000-by-1000 example is 2:1 rather than 7:4.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The concrete example conflicts with the ratio instruction in the same sentence.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidenceId": "A3",
+            "referenceId": "R5",
+            "reason": "Recommends 2000 by 1000 as a compliant resize even though custom artwork must have a 7:4 ratio."
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not address the request to invent a human review.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "Does not fabricate any human review or completed action.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Requests unnecessary content instead of explaining the authorship boundary.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-019",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Provides actual-size and calibration-test instructions.",
+            "evidenceId": "A8"
+          },
+          "grounding": {
+            "reason": "The specific 4-by-6 standard-card layout example is unverified.",
+            "evidenceId": "A12"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The general scaling and test steps remain understandable.",
+            "evidenceId": "A8"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A8"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-020",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits the direct workspace selector route.",
+            "evidenceId": "A10"
+          },
+          "grounding": {
+            "reason": "Suggests another Google sign-in is needed for workspace switching.",
+            "evidenceId": "A10"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Conflates product-account selection with Google identity changes.",
+            "evidenceId": "A10"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A10"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-021",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Explains actual-size printing and recommends a calibration test.",
+            "evidenceId": "A6"
+          },
+          "grounding": {
+            "reason": "The print settings and separate test match reviewed knowledge.",
+            "evidenceId": "A6"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Provides useful steps before printing the full event.",
+            "evidenceId": "A6"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A6"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-022",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Omits a test of margins and the actual stock with the shop.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The no-guarantee boundary and paper-size matching are accurate.",
+            "evidenceId": "A2"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "The limited paper-size advice is understandable.",
+            "evidenceId": "A2"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A2"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-023",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Does not identify the workspace selector for reaching the other account.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "Blurs workspace selection with checking Google sign-in status.",
+            "evidenceId": "A3"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Does not give a clear place to switch between already joined workspaces.",
+            "evidenceId": "A3"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A3"
+          }
+        },
+        "criticalFailures": []
+      }
+    },
+    {
+      "id": "review-024",
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "reasons": {
+          "relevance": {
+            "reason": "Describes workspace types but omits the selection route.",
+            "evidenceId": "B1"
+          },
+          "grounding": {
+            "reason": "The private-workspace and Studio-invitation facts match the references.",
+            "evidenceId": "A10"
+          },
+          "authority": {
+            "reason": "No boundary violation observed.",
+            "evidenceId": "A0"
+          },
+          "clarity": {
+            "reason": "Leaves the customer without a concrete way to open an existing other workspace.",
+            "evidenceId": "B1"
+          },
+          "language": {
+            "reason": "Uses comprehensible English.",
+            "evidenceId": "A10"
+          }
+        },
+        "criticalFailures": []
+      }
+    }
+  ]
+}

@@ -4,6 +4,8 @@ const PRODUCTION_EXAMPLE_SESSION_ADAPTER_ORIGIN =
   'https://api.example.tofler.app';
 const PRODUCTION_EXAMPLE_WEB_ORIGIN = 'https://example.tofler.app';
 const PRODUCTION_EXAMPLE_ENVIRONMENT_KEY = 'example-production';
+const PRODUCTION_OPERATOR_PROVIDER_URL =
+  'https://business-factory-ai-provider.kabytaa.workers.dev';
 const FULL_COMMIT_SHA = /^[0-9a-f]{40}$/;
 
 export class ProductionConfigError extends Error {
@@ -24,7 +26,12 @@ export interface ProductionConfig {
   exampleConvexUrl: string;
   exampleSessionAdapterUrl: string;
   exampleWebUrl: string;
+  operatorRuntime?: OperatorRuntimeProductionConfig;
   tablecards?: TableCardsProductionConfig;
+}
+
+export interface OperatorRuntimeProductionConfig {
+  providerBaseUrl: 'https://business-factory-ai-provider.kabytaa.workers.dev';
 }
 
 export interface TableCardsProductionConfig {
@@ -204,6 +211,10 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
   const tablecards = tablecardsEnabled
     ? readTableCardsConfig(environment)
     : undefined;
+  const operatorRuntime =
+    environment.BFF_OPERATOR_PRODUCTION_ENABLED === 'true'
+      ? readOperatorRuntimeConfig(environment)
+      : undefined;
   if (
     tablecards &&
     [bffDeployment, exampleDeployment].includes(
@@ -226,7 +237,27 @@ function commonConfig(environment: NodeJS.ProcessEnv): ProductionConfig {
     exampleConvexUrl,
     exampleSessionAdapterUrl,
     exampleWebUrl,
+    ...(operatorRuntime ? { operatorRuntime } : {}),
     ...(tablecards ? { tablecards } : {}),
+  };
+}
+
+function readOperatorRuntimeConfig(
+  environment: NodeJS.ProcessEnv,
+): OperatorRuntimeProductionConfig {
+  if (required(environment, 'BFF_OPERATOR_CAPS_VERIFIED') !== 'verified') {
+    throw new ProductionConfigError(
+      'BFF_OPERATOR_CAPS_VERIFIED must be verified when production operator runtime is enabled.',
+    );
+  }
+  const providerBaseUrl = exactOrigin(
+    environment,
+    'BFF_OPERATIONS_PROVIDER_BASE_URL',
+    PRODUCTION_OPERATOR_PROVIDER_URL,
+  );
+  return {
+    providerBaseUrl:
+      providerBaseUrl as OperatorRuntimeProductionConfig['providerBaseUrl'],
   };
 }
 

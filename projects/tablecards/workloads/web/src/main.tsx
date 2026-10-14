@@ -41,6 +41,10 @@ try {
         />
         <BffConvexProvider client={convexClient}>
           <TableCardsApplicationProvider
+            operations={{
+              apiBaseUrl: configuration.bffBaseUrl,
+              environmentKey: configuration.environmentKey,
+            }}
             developmentControlsEnabled={
               configuration.developmentControlsEnabled
             }

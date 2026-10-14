@@ -63,8 +63,10 @@ const offerView = v.object({
   source: v.union(
     v.literal('default'),
     v.literal('development_mock'),
+    v.literal('test_mock'),
     v.literal('provider'),
   ),
+  mockCheckoutAvailable: v.boolean(),
 });
 
 function isOfferId(value: string): value is OfferId {
@@ -316,7 +318,13 @@ export const current = action({
         { contextToken: args.accessToken },
         { unitType: offer.aiUnitPolicy.unitType },
       );
-      return view(offer, access, balance);
+      const availability = await checkoutClient
+        .getAvailability({ contextToken: args.accessToken })
+        .catch(() => ({ available: false }));
+      return {
+        ...view(offer, access, balance),
+        mockCheckoutAvailable: availability.available,
+      };
     },
   ),
 });

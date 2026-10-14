@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "recordedAt": "2026-10-11T08:19:00Z",
+  "environment": "development",
+  "observedAt": "2026-10-11T08:09:50Z",
+  "probeReport": "20261011-080950056-operator-live.json",
+  "probeCount": 1,
+  "bridgeStatus": 502,
+  "bridgeErrorCode": "PROVIDER_UNAVAILABLE",
+  "elapsedMs": 707,
+  "nativeDiagnostic": {
+    "source": "Filtered existing AI_PROVIDER_FAILURE console classification via wrangler tail; raw requests and error messages were not printed or saved",
+    "name": "AiError",
+    "numericFragments": ["4006", "000"],
+    "hints": [],
+    "interpretation": "4006 is the observed error number. The separate 000 fragment is not treated as a second verified provider error code."
+  },
+  "sharedFailureReports": [
+    "20261011-080705903-operator-live.json",
+    "20261011-080653892-operator-live.json",
+    "20261011-080737905-operator-live.json"
+  ],
+  "sharedFailureDescription": "Qwen, Gemma and GLM final chunks each failed all 20 requests. Collection stopped without retries; these are not semantic wrong-answer scores.",
+  "suspectedCause": "Account-wide Workers AI free allocation exhaustion",
+  "causeVerifiedByAccountUsage": false,
+  "documentationMismatch": "The observed binding diagnostic was 4006. Current official error documentation lists daily account exhaustion as 3036. Do not claim an exact documented-code match or independent quota verification.",
+  "officialSources": [
+    "https://developers.cloudflare.com/workers-ai/platform/errors/",
+    "https://developers.cloudflare.com/workers-ai/platform/pricing/"
+  ],
+  "documentedFreeAllocationNeuronsPerDay": 10000,
+  "documentedFreeAllocationReset": "00:00 UTC",
+  "gatewayCapReachedVerified": false,
+  "gatewayCapsChanged": false,
+  "billingUpgradePurchased": false,
+  "additionalCallsScheduled": false,
+  "fullLiveSuitesComplete": false,
+  "qualityVerified": false
+}

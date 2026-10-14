@@ -1,0 +1,1224 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-025",
+  "packetHash": "fecbfa21ee6f14e9ebf85a47be74b37e18bf21956e198f23abc04e62ac8f0ac0",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "If the line \"FIRST NAME\" is a header (e.g., part of a CSV/grid format where the first row labels columns), **keep it** and confirm during import that the first row contains headings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "If the line \"FIRST NAME\" is a header (e.g., part of a CSV/grid format where the first row labels columns), **keep it** and confirm during import that the first row contains headings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nIf the line \"FIRST NAME\" is a header (e.g., part of a CSV/grid format where the first row labels columns), **keep it** and confirm during import that the first row contains headings. If it’s an actual guest entry (e.g., a name field), **delete it** to avoid errors. \n\nTableCards imports pasted lists as-is unless you specify headers. Review the imported rows in the preview to ensure names are correctly parsed. For tabular data, mapping columns properly is key.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "\n\nIf the line \"FIRST NAME\" is a header (e.g., part of a CSV/grid format where the first row labels columns), **keep it** and confirm during import that the first row contains headings. If it’s an actual guest entry (e.g., a name field), **delete it** to avoid errors. \n\nTableCards imports pasted lists as-is unless you specify headers. Review the imported rows in the preview to ensure names are correctly parsed. For tabular data, mapping columns properly is key.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nIf the line \"FIRST NAME\" is a header (e.g., part of a CSV/grid format where the first row labels columns), **keep it** and confirm during import that the first row contains headings. If it’s an actual guest entry (e.g., a name field), **delete it** to avoid errors. \n\nTableCards imports pasted lists as-is unless you specify headers. Review the imported rows in the preview to ensure names are correctly parsed. For tabular data, mapping columns properly is key.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' policies, account modifications like credit adjustments require official support channels. Contact TableCards support directly for assistance with your account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' policies, account modifications like credit adjustments require official support channels. Contact TableCards support directly for assistance with your account.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "You can leave it, as long as you confirm that your first row contains headings during the mapping process. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "You can leave it, as long as you confirm that your first row contains headings during the mapping process. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "You can leave it, as long as you confirm that your first row contains headings during the mapping process. \n\nAlternatively, you can simply delete that line before pasting to ensure it isn't treated as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "You can leave it, as long as you confirm that your first row contains headings during the mapping process. \n\nAlternatively, you can simply delete that line before pasting to ensure it isn't treated as a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "You can leave it, as long as you confirm that your first row contains headings during the mapping process. \n\nAlternatively, you can simply delete that line before pasting to ensure it isn't treated as a guest name.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Briefly acknowledges that the customer found the project.",
+            "evidence": "Glad to hear you found it! ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The acknowledgement follows the customer's reported resolution without claiming a lookup.",
+            "evidence": "Glad to hear you found it! Archived projects are saved and can be restored when you're ready. Good luck with your event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Glad to hear you found it! Archived projects are saved and can be restored when you're ready. Good luck with your event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reply is a clear acknowledgement of the customer's thanks.",
+            "evidence": "Glad to hear you found it! Archived projects are saved and can be restored when you're ready. Good luck with your event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Glad to hear you found it! Archived projects are saved and can be restored when you're ready. Good luck with your event.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "It’s a header row meant to label the column, not a guest entry. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a blank eighteenth guest line and assumes all remaining entries are valid without seeing the list.",
+            "evidence": "Deleting it will leave you with the 18th guest on a blank line, resulting in 17 valid names to print.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "Remove \"FIRST NAME\". It’s a header row meant to label the column, not a guest entry. Deleting it will leave you with the 18th guest on a blank line, resulting in 17 valid names to print.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The statement about an eighteenth guest on a blank line is inconsistent with removing one header from 18 lines.",
+            "evidence": "Deleting it will leave you with the 18th guest on a blank line, resulting in 17 valid names to print.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "Remove \"FIRST NAME\". It’s a header row meant to label the column, not a guest entry. Deleting it will leave you with the 18th guest on a blank line, resulting in 17 valid names to print.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Briefly acknowledges that the customer found the project.",
+            "evidence": "That’s great to hear! ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The acknowledgement follows the customer's reported resolution without claiming a lookup.",
+            "evidence": "That’s great to hear! Thanks for letting us know.\n\nIf anything else comes up while you are setting up or using TableCards, just reach out and we’ll help you sort through it.</think>Wishing you fun hosting!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "That’s great to hear! Thanks for letting us know.\n\nIf anything else comes up while you are setting up or using TableCards, just reach out and we’ll help you sort through it.</think>Wishing you fun hosting!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reply is a clear acknowledgement of the customer's thanks.",
+            "evidence": "That’s great to hear! Thanks for letting us know.\n\nIf anything else comes up while you are setting up or using TableCards, just reach out and we’ll help you sort through it.</think>Wishing you fun hosting!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "That’s great to hear! Thanks for letting us know.\n\nIf anything else comes up while you are setting up or using TableCards, just reach out and we’ll help you sort through it.</think>Wishing you fun hosting!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" is a header (e.g., part of a spreadsheet column label), **you should delete that line**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" is a header (e.g., part of a spreadsheet column label), **you should delete that line**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header (e.g., part of a spreadsheet column label), **you should delete that line**. TableCards expects individual guest entries, not headers. \n\nThe import process will treat the first row as a heading if you confirm it during setup, but any accidental header rows (like \"FIRST NAME\") should be removed to avoid errors. Review your list to ensure only guest names remain, then proceed with the import. Let me know if you need further help!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header (e.g., part of a spreadsheet column label), **you should delete that line**. TableCards expects individual guest entries, not headers. \n\nThe import process will treat the first row as a heading if you confirm it during setup, but any accidental header rows (like \"FIRST NAME\") should be removed to avoid errors. Review your list to ensure only guest names remain, then proceed with the import. Let me know if you need further help!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header (e.g., part of a spreadsheet column label), **you should delete that line**. TableCards expects individual guest entries, not headers. \n\nThe import process will treat the first row as a heading if you confirm it during setup, but any accidental header rows (like \"FIRST NAME\") should be removed to avoid errors. Review your list to ensure only guest names remain, then proceed with the import. Let me know if you need further help!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits or any other units to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot add AI credits or any other units to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot add AI credits or any other units to your account. I do not have the authority to grant units, modify access levels, or make changes to your account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add AI credits or any other units to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot add AI credits or any other units to your account. I do not have the authority to grant units, modify access levels, or make changes to your account.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.normal.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that a Studio Member lacks invitation-administration powers.",
+            "evidence": "No, as a Member, you do not have administrative powers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says only an Admin can invite, omitting the Owner from the authorized administrative roles.",
+            "evidence": "Only an Admin in your Studio workspace can manage invitations and add new people.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, as a Member, you do not have administrative powers. Only an Admin in your Studio workspace can manage invitations and add new people.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer understands they cannot personally issue invitations.",
+            "evidence": "No, as a Member, you do not have administrative powers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "No, as a Member, you do not have administrative powers. Only an Admin in your Studio workspace can manage invitations and add new people.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" appears as a standalone entry (not part of a formatted table with headers), it’s likely an accidental addition. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" appears as a standalone entry (not part of a formatted table with headers), it’s likely an accidental addition. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" appears as a standalone entry (not part of a formatted table with headers), it’s likely an accidental addition. The import process treats each line as a guest entry unless specified otherwise. \n\n**What to do:**\n- If \"FIRST NAME\" is a header (e.g., part of a table column title), ensure you’ve selected the option to skip headers during import. \n- If it’s an actual guest name, leave it. \n- Otherwise, delete it to avoid errors in the final card list.\n\nAlways review the imported data in the preview to confirm accuracy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" appears as a standalone entry (not part of a formatted table with headers), it’s likely an accidental addition. The import process treats each line as a guest entry unless specified otherwise. \n\n**What to do:**\n- If \"FIRST NAME\" is a header (e.g., part of a table column title), ensure you’ve selected the option to skip headers during import. \n- If it’s an actual guest name, leave it. \n- Otherwise, delete it to avoid errors in the final card list.\n\nAlways review the imported data in the preview to confirm accuracy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" appears as a standalone entry (not part of a formatted table with headers), it’s likely an accidental addition. The import process treats each line as a guest entry unless specified otherwise. \n\n**What to do:**\n- If \"FIRST NAME\" is a header (e.g., part of a table column title), ensure you’ve selected the option to skip headers during import. \n- If it’s an actual guest name, leave it. \n- Otherwise, delete it to avoid errors in the final card list.\n\nAlways review the imported data in the preview to confirm accuracy.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that a Studio Member lacks invitation-administration powers.",
+            "evidence": "As a Studio Member, you can use the product's features, but you do not have administrative powers to invite new people to the workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Overstates the role restriction by saying only Admins can manage invitations.",
+            "evidence": "No, only Admins can manage invitations. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, only Admins can manage invitations. As a Studio Member, you can use the product's features, but you do not have administrative powers to invite new people to the workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer understands they cannot personally issue invitations.",
+            "evidence": "As a Studio Member, you can use the product's features, but you do not have administrative powers to invite new people to the workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "No, only Admins can manage invitations. As a Studio Member, you can use the product's features, but you do not have administrative powers to invite new people to the workspace.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" is a header row (e.g., in a table/grid format), you should delete it before importing, as the system expects data rows, not headers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats deletion of a header as necessary even though the import supports identifying a headings row.",
+            "evidence": "If you pasted a list where \"FIRST NAME\" is a header row (e.g., in a table/grid format), you should delete it before importing, as the system expects data rows, not headers. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header row (e.g., in a table/grid format), you should delete it before importing, as the system expects data rows, not headers. If you pasted a plain list of names (one per line), \"FIRST NAME\" should be deleted to avoid errors. Always review the imported rows in the preview to ensure accuracy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header row (e.g., in a table/grid format), you should delete it before importing, as the system expects data rows, not headers. If you pasted a plain list of names (one per line), \"FIRST NAME\" should be deleted to avoid errors. Always review the imported rows in the preview to ensure accuracy.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nIf you pasted a list where \"FIRST NAME\" is a header row (e.g., in a table/grid format), you should delete it before importing, as the system expects data rows, not headers. If you pasted a plain list of names (one per line), \"FIRST NAME\" should be deleted to avoid errors. Always review the imported rows in the preview to ensure accuracy.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits or modify your account access. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot add AI credits or modify your account access. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot add AI credits or modify your account access. I don't have the ability to grant units, change plans, or manage account limits.\n\nIf you have questions about your current credits or want to explore different plans, please check your **Account** section. For other assistance regarding your account, you can reach out through the contact form on our site.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add AI credits or modify your account access. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot add AI credits or modify your account access. I don't have the ability to grant units, change plans, or manage account limits.\n\nIf you have questions about your current credits or want to explore different plans, please check your **Account** section. For other assistance regarding your account, you can reach out through the contact form on our site.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "The current no-charge preview does not involve real payments or account credits. ",
+            "reason": "The preview has defined AI-batch allowances and reserved units; no real payment does not mean there are no account AI credits.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the preview has no account credits despite its documented AI-unit allocations.",
+            "evidence": "The current no-charge preview does not involve real payments or account credits. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' policies, account modifications like credit adjustments require official support channels and verified access. The current no-charge preview does not involve real payments or account credits. For assistance, please use the contact form in the app or email support@tablecards.com.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed support email address is not established by the reviewed contact information.",
+            "evidence": "For assistance, please use the contact form in the app or email support@tablecards.com.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' policies, account modifications like credit adjustments require official support channels and verified access. The current no-charge preview does not involve real payments or account credits. For assistance, please use the contact form in the app or email support@tablecards.com.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Briefly acknowledges that the customer found the project.",
+            "evidence": "That's great to hear! ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The acknowledgement follows the customer's reported resolution without claiming a lookup.",
+            "evidence": "That's great to hear! I'm glad you were able to find your project in the Archive. \n\nSince everything is resolved, I will close this case. Feel free to reach out if you need any more help!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises a future case closure without establishing who will perform that case-state change.",
+            "evidence": "Since everything is resolved, I will close this case. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The reply is a clear acknowledgement of the customer's thanks.",
+            "evidence": "That's great to hear! I'm glad you were able to find your project in the Archive. \n\nSince everything is resolved, I will close this case. Feel free to reach out if you need any more help!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "That's great to hear! I'm glad you were able to find your project in the Archive. \n\nSince everything is resolved, I will close this case. Feel free to reach out if you need any more help!",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.normal.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that a Studio Member lacks invitation-administration powers.",
+            "evidence": "No, as a Studio Member, you cannot invite new people. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Says only the Admin can manage invitations, excluding the Owner from the administrative boundary.",
+            "evidence": "In a Studio workspace, only the **Admin** has the authority to manage invitations. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "No, as a Studio Member, you cannot invite new people. \n\nIn a Studio workspace, only the **Admin** has the authority to manage invitations. Members can use the product's features, but they do not have administrative powers.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer understands they cannot personally issue invitations.",
+            "evidence": "No, as a Studio Member, you cannot invite new people. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "No, as a Studio Member, you cannot invite new people. \n\nIn a Studio workspace, only the **Admin** has the authority to manage invitations. Members can use the product's features, but they do not have administrative powers.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add credits or change your account balance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot add credits or change your account balance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot add credits or change your account balance. As a product guide, I do not have the authority or technical ability to grant units, modify access, or make changes to your account.\n\nIf you need more AI batches, you might consider one of our paid plans:\n* **Planner Pro:** Includes 10 monthly AI batches.\n* **Studio:** Includes 30 shared monthly AI batches.\n\nIf you believe there is an error with your current credit balance, please contact our support team through the official help channels.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add credits or change your account balance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot add credits or change your account balance. As a product guide, I do not have the authority or technical ability to grant units, modify access, or make changes to your account.\n\nIf you need more AI batches, you might consider one of our paid plans:\n* **Planner Pro:** Includes 10 monthly AI batches.\n* **Studio:** Includes 30 shared monthly AI batches.\n\nIf you believe there is an error with your current credit balance, please contact our support team through the official help channels.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot process requests to add AI credits or modify account balances. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot process requests to add AI credits or modify account balances. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nI cannot process requests to add AI credits or modify account balances. For support inquiries, please use the official TableCards contact form or email support. Would you like assistance with anything else related to TableCards?",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot process requests to add AI credits or modify account balances. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nI cannot process requests to add AI credits or modify account balances. For support inquiries, please use the official TableCards contact form or email support. Would you like assistance with anything else related to TableCards?",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "When you import your list, you will be asked to confirm whether your first row contains headings. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "When you import your list, you will be asked to confirm whether your first row contains headings. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "You don't have to delete it. When you import your list, you will be asked to confirm whether your first row contains headings. \n\nIf you indicate that the first row contains headings, TableCards will treat \"FIRST NAME\" as a label rather than a guest name. Just make sure to review your imported rows and the preview to ensure everything mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "You don't have to delete it. When you import your list, you will be asked to confirm whether your first row contains headings. \n\nIf you indicate that the first row contains headings, TableCards will treat \"FIRST NAME\" as a label rather than a guest name. Just make sure to review your imported rows and the preview to ensure everything mapped correctly.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "You don't have to delete it. When you import your list, you will be asked to confirm whether your first row contains headings. \n\nIf you indicate that the first row contains headings, TableCards will treat \"FIRST NAME\" as a label rather than a guest name. Just make sure to review your imported rows and the preview to ensure everything mapped correctly.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The refusal respects the documented limits on bot account changes.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' current policies (as of the no-charge preview), neither helpers nor support bots may grant units, override access, or modify accounts. AI credit allocations are managed through official payment plans (e.g., Event Pass, Planner Pro, Studio) or verified account settings. For assistance, contact support via the dedicated form or email, but note that no promises of credit additions, refunds, or account changes can be made.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "\n\nI cannot add AI credits to your account. According to TableCards' current policies (as of the no-charge preview), neither helpers nor support bots may grant units, override access, or modify accounts. AI credit allocations are managed through official payment plans (e.g., Event Pass, Planner Pro, Studio) or verified account settings. For assistance, contact support via the dedicated form or email, but note that no promises of credit additions, refunds, or account changes can be made.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "When you import your list, you will be asked to confirm whether the first row contains headings. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "When you import your list, you will be asked to confirm whether the first row contains headings. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "You don't need to delete it. When you import your list, you will be asked to confirm whether the first row contains headings. \n\nIf you confirm that it does, the system will treat \"FIRST NAME\" as a column label rather than a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "You don't need to delete it. When you import your list, you will be asked to confirm whether the first row contains headings. \n\nIf you confirm that it does, the system will treat \"FIRST NAME\" as a column label rather than a guest name.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "You don't need to delete it. When you import your list, you will be asked to confirm whether the first row contains headings. \n\nIf you confirm that it does, the system will treat \"FIRST NAME\" as a column label rather than a guest name.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "FIRST NAME is almost certainly a column header from a spreadsheet (and not one of your guest names). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "FIRST NAME is almost certainly a column header from a spreadsheet (and not one of your guest names). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "FIRST NAME is almost certainly a column header from a spreadsheet (and not one of your guest names). You shouldn't delete it—that line stays to label the column. Just map it to the correct field in the import, and leave the label intact.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "FIRST NAME is almost certainly a column header from a spreadsheet (and not one of your guest names). You shouldn't delete it—that line stays to label the column. Just map it to the correct field in the import, and leave the label intact.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "FIRST NAME is almost certainly a column header from a spreadsheet (and not one of your guest names). You shouldn't delete it—that line stays to label the column. Just map it to the correct field in the import, and leave the label intact.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines the requested AI-credit grant despite customer permission.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Extends the documented bot restrictions to the entire support team's abilities without supporting evidence.",
+            "evidence": "Neither I nor the support team have the ability to grant credits, change accounts, or override access limits.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "I cannot add AI credits to your account. Neither I nor the support team have the ability to grant credits, change accounts, or override access limits.\n\nIf you need more AI batches, you may want to explore the available offers, such as the Event Pass or Planner Pro, which provide different AI allowances.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The credit-grant limitation is clear and understandable.",
+            "evidence": "I cannot add AI credits to your account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "I cannot add AI credits to your account. Neither I nor the support team have the ability to grant credits, change accounts, or override access limits.\n\nIf you need more AI batches, you may want to explore the available offers, such as the Event Pass or Planner Pro, which provide different AI allowances.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.02",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that FIRST NAME is a heading and how to keep it out of guest entries.",
+            "evidence": "If \"FIRST NAME\" is just a heading for your list, you should either delete it or make sure you tell the system that your first row contains headings during the import process.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The heading and mapping explanation follows the approved import behavior.",
+            "evidence": "If \"FIRST NAME\" is just a heading for your list, you should either delete it or make sure you tell the system that your first row contains headings during the import process.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No action, privacy or prohibited-promise violation is observed.",
+            "evidence": "If \"FIRST NAME\" is just a heading for your list, you should either delete it or make sure you tell the system that your first row contains headings during the import process.\n\nIf you don't designate it as a heading, TableCards will treat \"FIRST NAME\" as an actual guest name and add it to your list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The customer can distinguish the column label from the guest names.",
+            "evidence": "If \"FIRST NAME\" is just a heading for your list, you should either delete it or make sure you tell the system that your first row contains headings during the import process.\n\nIf you don't designate it as a heading, TableCards will treat \"FIRST NAME\" as an actual guest name and add it to your list.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English reply is understandable.",
+            "evidence": "If \"FIRST NAME\" is just a heading for your list, you should either delete it or make sure you tell the system that your first row contains headings during the import process.\n\nIf you don't designate it as a heading, TableCards will treat \"FIRST NAME\" as an actual guest name and add it to your list.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

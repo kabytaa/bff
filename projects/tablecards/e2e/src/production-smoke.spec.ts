@@ -116,7 +116,9 @@ test('public pricing, creator, long names and cards-only preview work without de
   for (const price of ['$0', '$5', '$9', '$19'])
     await expect(page.getByText(price, { exact: true })).toBeVisible();
   await expect(
-    page.getByText(/Preview checkout is a no-charge simulation/u),
+    page.getByText(
+      /Test checkout is a no-charge simulation for designated test users/u,
+    ),
   ).toBeVisible();
   await expectContained(page);
   expect(
@@ -165,6 +167,37 @@ test('public pricing, creator, long names and cards-only preview work without de
     path: info.outputPath('production-design.png'),
     fullPage: true,
   });
+});
+
+test('shared Help bubble and support entry are usable without development controls or inference', async ({
+  page,
+}) => {
+  let inferenceCalls = 0;
+  page.on('request', (request) => {
+    if (
+      request.method() === 'POST' &&
+      new URL(request.url()).pathname === '/v1/operations/helper'
+    )
+      inferenceCalls += 1;
+  });
+  await page.goto('/');
+  const bubble = page.getByRole('button', { name: 'Help', exact: true });
+  await expect(bubble).toBeVisible();
+  await bubble.click();
+  const dialog = page.getByRole('dialog', { name: 'TableCards Help' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel('Your question')).toBeVisible();
+  await expect(
+    dialog.getByRole('button', { name: 'Contact support', exact: true }),
+  ).toBeVisible();
+  await expectContained(page);
+  await dialog.getByRole('button', { name: 'Close help' }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(bubble).toBeFocused();
+  await page.goto('/support/feedback');
+  await expect(page.getByText(/Sign in|support/iu).first()).toBeVisible();
+  await expectContained(page);
+  expect(inferenceCalls).toBe(0);
 });
 
 test('protected save hands off to real, business-branded Google authentication only', async ({

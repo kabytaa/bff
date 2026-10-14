@@ -9,6 +9,10 @@ import {
 } from './productAccess';
 
 export const CHECKOUT_VERSION = 1 as const;
+export const checkoutAvailabilitySchema = z
+  .object({ available: z.boolean() })
+  .strict();
+export type CheckoutAvailability = z.infer<typeof checkoutAvailabilitySchema>;
 export const MOCK_CHECKOUT_TTL_SECONDS = 15 * 60;
 
 export const checkoutOfferSchema = z

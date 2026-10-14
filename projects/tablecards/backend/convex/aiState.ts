@@ -8,6 +8,7 @@ import { dailyAiBatchLimit } from './lib/aiBudget';
 import { assetFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
+import { outcomeReason, queueOperationOutcome } from './operationEvents';
 
 const batchState = v.union(
   v.literal('queued'),
@@ -329,6 +330,18 @@ export const complete = internalMutation({
       errorCode: undefined,
       updatedAt: now,
     });
+    await queueOperationOutcome(ctx, {
+      name: 'ai.batch_completed',
+      deduplicationId: `${batch.publicId}:completed`,
+      occurredAt: now,
+      productReference: batch.publicId,
+      userPublicId: batch.requestedByUserId,
+      accountPublicId: batch.accountId,
+      properties: {
+        batch_reference: batch.publicId,
+        completed_choices: assetIds.length,
+      },
+    });
     return null;
   },
 });
@@ -354,6 +367,19 @@ export const rejectUnitCommit = internalMutation({
       errorCode: 'AI_UNIT_UNAVAILABLE',
       updatedAt: Date.now(),
     });
+    if (batch.status !== 'failed')
+      await queueOperationOutcome(ctx, {
+        name: 'ai.batch_failed',
+        deduplicationId: `${batch.publicId}:failed`,
+        occurredAt: Date.now(),
+        productReference: batch.publicId,
+        userPublicId: batch.requestedByUserId,
+        accountPublicId: batch.accountId,
+        properties: {
+          batch_reference: batch.publicId,
+          reason: 'AI_UNIT_UNAVAILABLE',
+        },
+      });
     return null;
   },
 });
@@ -385,6 +411,19 @@ export const markFailed = internalMutation({
           : args.errorCode,
       updatedAt: Date.now(),
     });
+    if (batch.status !== 'failed' && batch.generatedAssets?.length !== 4)
+      await queueOperationOutcome(ctx, {
+        name: 'ai.batch_failed',
+        deduplicationId: `${batch.publicId}:failed`,
+        occurredAt: Date.now(),
+        productReference: batch.publicId,
+        userPublicId: batch.requestedByUserId,
+        accountPublicId: batch.accountId,
+        properties: {
+          batch_reference: batch.publicId,
+          reason: outcomeReason(args.errorCode),
+        },
+      });
     return null;
   },
 });

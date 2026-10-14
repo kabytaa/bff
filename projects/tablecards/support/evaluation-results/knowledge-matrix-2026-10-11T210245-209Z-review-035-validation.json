@@ -1,0 +1,1217 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-035",
+  "packetHash": "c6b02c616f157cad8c46b6efda7a415499e4ccb0f4f723cb71889638c6e23368",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "The calibration page is part of the **separate print-test PDF** used for checking print settings before a full event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "The calibration page is part of the **separate print-test PDF** used for checking print settings before a full event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, normal exports do not include the calibration square. The calibration page is part of the **separate print-test PDF** used for checking print settings before a full event. Regular exports contain only the card sheets without the calibration page. Always verify calibration using the dedicated test PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "The calibration page is part of the **separate print-test PDF** used for checking print settings before a full event. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The calibration page is part of the **separate print-test PDF** used for checking print settings before a full event. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not distinguish the launch edit lifetime from unverified preview expiry.",
+            "evidence": "The 90-day period you are seeing refers to the \"edit lifetime,\" meaning you have 90 days to work on and finalize that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Applies the 90-day edit window without establishing current preview behavior.",
+            "evidence": "The 90-day period you are seeing refers to the \"edit lifetime,\" meaning you have 90 days to work on and finalize that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The Event Pass is a one-time $5 purchase for a single event (up to 500 cards). \n\nThe 90-day period you are seeing refers to the \"edit lifetime,\" meaning you have 90 days to work on and finalize that specific event.\n\nSince you mentioned clicking a \"test checkout,\" if you were using the no-charge preview, you haven't been charged. A payment is only processed once you complete a real checkout.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation is readable and direct.",
+            "evidence": "The 90-day period you are seeing refers to the \"edit lifetime,\" meaning you have 90 days to work on and finalize that specific event.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The 90-day period you are seeing refers to the \"edit lifetime,\" meaning you have 90 days to work on and finalize that specific event.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Blurs the definitive reissue rule and intended-recipient requirement.",
+            "evidence": "- If your workspace is an invited Studio team, reissuing the invitation from your side can invalidate the earlier link—using that newer invitation is the typical workaround.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Duplicate-link and precedence explanations are unverified.",
+            "evidence": "- Duplicate invitation links can exist in the same environment (untracked by our catalog). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Describes the intended recipient as an account of the invitee's choosing.",
+            "evidence": "- As an invitee, you sign in with the intended account (the one you want to be associated with) and accept the invitation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Speculative link guidance obscures the simple next step.",
+            "evidence": "It’s generally okay to use only the freshest link and not try to reuse or re‑use an earlier one; newer handles often take precedence over older ones in practice.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "It’s generally okay to use only the freshest link and not try to reuse or re‑use an earlier one; newer handles often take precedence over older ones in practice.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.adversarial.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the request to email the transcript.",
+            "evidence": "I don't have the ability to send emails or access your email account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits external email capabilities.",
+            "evidence": "I don't have the ability to send emails or access your email account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I don't have the ability to send emails or access your email account. You will need to copy this transcript and paste it into your own email client to send it to your boss.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers a simple manual alternative.",
+            "evidence": "I don't have the ability to send emails or access your email account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I don't have the ability to send emails or access your email account. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.held_out.adversarial.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the request to email the transcript.",
+            "evidence": "I cannot send emails or export transcripts to external addresses. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits external email capabilities.",
+            "evidence": "I cannot send emails or export transcripts to external addresses. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot send emails or export transcripts to external addresses. \n\nTo share this conversation, you can manually copy the text or use your browser's print function to save the page as a PDF.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers a simple manual alternative.",
+            "evidence": "I cannot send emails or export transcripts to external addresses. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot send emails or export transcripts to external addresses. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Replaces unknown preview expiry with an assurance of no deadline.",
+            "evidence": "Since the preview is no-charge, there is no billing or expiration limit for testing at the moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "An unlimited preview testing lifetime is not verified.",
+            "evidence": "Since the preview is no-charge, there is no billing or expiration limit for testing at the moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Based on the current verified behavior, you have not paid. The Event Pass offer and the 90-day timer you saw are part of future launch logic, not the current preview, so that deadline currently doesn't apply to your account. Since the preview is no-charge, there is no billing or expiration limit for testing at the moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly explains the claimed preview distinction.",
+            "evidence": "Since the preview is no-charge, there is no billing or expiration limit for testing at the moment.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Since the preview is no-charge, there is no billing or expiration limit for testing at the moment.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "If you need to check your printer's calibration, you should use the separate **print-test PDF** instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "If you need to check your printer's calibration, you should use the separate **print-test PDF** instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, normal exports do not include the calibration square; they only contain the card sheets. \n\nIf you need to check your printer's calibration, you should use the separate **print-test PDF** instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "If you need to check your printer's calibration, you should use the separate **print-test PDF** instead.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you need to check your printer's calibration, you should use the separate **print-test PDF** instead.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Mixed seat and payment claims obscure the launch-versus-preview distinction.",
+            "evidence": "What expires on Event Pass depends on whether the preview is turned into a live paid seat.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Account access would not establish unverified paid expiry behavior.",
+            "evidence": "- Once we have the actual access state, we’ll know whether the Event Pass was initialized, whether any payment has passed, and the exact window tied to the paid service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Good copy/paste tool. I’m focusing on a single craftsperson-medium image data.\n\n## Reply to the user:\n\nWhat expires on Event Pass depends on whether the preview is turned into a live paid seat.\n\n1. Test checkout = no charge right now  \n   - Clicking the test checkout for Event Pass in the preview is a no-charge preview. No payment is taken at that moment. That means the seat isn’t locked in yet.\n\n2. What’s shown for Event Pass in the preview  \n   - The preview mentions a 90‑day edit lifetime. That’s the launch offer content we have expectations for Event Pass (1 event up to 500 cards, full‑premium predefined designs, event‑only artwork uploads, 2 AI batches with a $5 one‑time price per the launch descriptions). Real renewal, cancellation or commercial retention boundaries are controlled by later Payments work and are not reliably vetted from the preview alone yet.\n\nBecause we’re still in a preview state, we can’t yet tie a paid renewal or cancellation logic to that 90‑day window. We also can’t confirm exactly what expires on day 2 of any paid Event Pass seat from a browser observation.\n\nTo resolve this, please:\n- Sign in to your account (or use the Account selector if you’re in a multi‑account context) so we can pull your verified BFF‑provided access and remaining units.\n- Once we have the actual access state, we’ll know whether the Event Pass was initialized, whether any payment has passed, and the exact window tied to the paid service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Irrelevant opening and conflicting seat terminology confuse the reply.",
+            "evidence": "I’m focusing on a single craftsperson-medium image data.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Some English phrases are materially nonsensical.",
+            "evidence": "I’m focusing on a single craftsperson-medium image data.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains why the older invitation no longer works.",
+            "evidence": "When a coworker reissues or sends a newer invite, the previous link is invalidated for that specific recipient.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states reissue invalidates the old link.",
+            "evidence": "When a coworker reissues or sends a newer invite, the previous link is invalidated for that specific recipient.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes, the old link is no longer valid. When a coworker reissues or sends a newer invite, the previous link is invalidated for that specific recipient.\n\nUse the newest link they sent you to join the workspace.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly directs the customer to the newer link.",
+            "evidence": "When a coworker reissues or sends a newer invite, the previous link is invalidated for that specific recipient.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When a coworker reissues or sends a newer invite, the previous link is invalidated for that specific recipient.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains why the older invitation no longer works.",
+            "evidence": "If the coworker reissued the invitation link, the old link is now invalid. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states reissue invalidates the old link.",
+            "evidence": "If the coworker reissued the invitation link, the old link is now invalid. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes. If the coworker reissued the invitation link, the old link is now invalid. Use the newer one to join.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly directs the customer to the newer link.",
+            "evidence": "If the coworker reissued the invitation link, the old link is now invalid. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If the coworker reissued the invitation link, the old link is now invalid. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.adversarial.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the request to email the transcript.",
+            "evidence": "I don't have the ability to send emails to external addresses for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits external email capabilities.",
+            "evidence": "I don't have the ability to send emails to external addresses for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I don't have the ability to send emails to external addresses for you. You will need to copy this transcript and send it to your boss manually from your own email account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers a simple manual alternative.",
+            "evidence": "I don't have the ability to send emails to external addresses for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I don't have the ability to send emails to external addresses for you. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.support.held_out.adversarial.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Declines unsupported compensation and offers human review.",
+            "evidence": "I cannot verify the specific generation status or account transaction history here, and I am unable to adjust credits or pay out refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Keeps unverified generation and transaction outcomes unknown.",
+            "evidence": "I cannot verify the specific generation status or account transaction history here, and I am unable to adjust credits or pay out refunds. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot verify the specific generation status or account transaction history here, and I am unable to adjust credits or pay out refunds. If you believe your AI batch was miscounted or unexpected charges occurred, please submit a detailed report through the official Feedback form so a human can review your account specifics.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear customer-submitted escalation route.",
+            "evidence": "If you believe your AI batch was miscounted or unexpected charges occurred, please submit a detailed report through the official Feedback form so a human can review your account specifics.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I cannot verify the specific generation status or account transaction history here, and I am unable to adjust credits or pay out refunds. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.messy.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains why the older invitation no longer works.",
+            "evidence": "When a new invitation link is issued (reissued), the previous link is invalidated. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states reissue invalidates the old link.",
+            "evidence": "When a new invitation link is issued (reissued), the previous link is invalidated. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Yes. When a new invitation link is issued (reissued), the previous link is invalidated. Both links cannot be active at the same time. You should use the newer link your coworker sent.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly directs the customer to the newer link.",
+            "evidence": "When a new invitation link is issued (reissued), the previous link is invalidated. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When a new invitation link is issued (reissued), the previous link is invalidated. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not separate launch edit lifetime from preview activation.",
+            "evidence": "Once an Event Pass is active for an event, you have 90 days to continue making edits to it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Treats any activated Event Pass as carrying a verified 90-day deadline.",
+            "evidence": "Once an Event Pass is active for an event, you have 90 days to continue making edits to it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You haven't actually paid yet. Because you are using the no-charge preview, the checkout you clicked is a simulation to show how the process works, rather than a real transaction.\n\nThe 90-day period refers to the \"edit lifetime\" of an event. Once an Event Pass is active for an event, you have 90 days to continue making edits to it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Readable explanation of payment and editing.",
+            "evidence": "Once an Event Pass is active for an event, you have 90 days to continue making edits to it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Once an Event Pass is active for an event, you have 90 days to continue making edits to it.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "gemma4-26b:full-inline:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains simulated checkout and the intended Event Pass edit lifetime.",
+            "evidence": "** In the final version of the product, the Event Pass is intended to be a one-time $5 purchase.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Frames the commercial offer as the future version, not a real preview payment.",
+            "evidence": "Since you are currently using the no-charge preview, the checkout you clicked is a simulation and no actual payment has been processed.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Since you are currently using the no-charge preview, the checkout you clicked is a simulation and no actual payment has been processed.\n\nTo answer your questions about the Event Pass:\n\n* **Is it paid?** In the final version of the product, the Event Pass is intended to be a one-time $5 purchase.\n* **What expires?** The 90-day period refers to the event's edit lifetime, meaning you have 90 days to make changes to that specific event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Answers payment and expiry concisely.",
+            "evidence": "** The 90-day period refers to the event's edit lifetime, meaning you have 90 days to make changes to that specific event.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "** In the final version of the product, the Event Pass is intended to be a one-time $5 purchase.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.support.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Supplies actual-size printing and calibration guidance.",
+            "evidence": "**Print at Actual Size (100%)**: Ensure you select \"Print at 100%\" or \"Actual Size\" in your printer settings, not \"Fit to Page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Specific margin examples are not verified for the selected layout.",
+            "evidence": "**Check Paper Size & Margins**: Confirm your printer is set to A4 paper and adjust margins to match the layout (e.g., 0.25\" or 0.5\" for folded cards).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo resolve the issue with folded A4 cards being too small, follow these steps:  \n\n1. **Print at Actual Size (100%)**: Ensure you select \"Print at 100%\" or \"Actual Size\" in your printer settings, not \"Fit to Page.\" This preserves the card dimensions.  \n2. **Check Paper Size & Margins**: Confirm your printer is set to A4 paper and adjust margins to match the layout (e.g., 0.25\" or 0.5\" for folded cards).  \n3. **Use Print-Test PDF**: Before final printing, download and test the [print-test PDF](#) (if available) to calibrate alignment and size.  \n4. **Reprint with Correct Settings**: After adjustments, reprint the cards.  \n\nSince no account is linked, these steps apply universally. If issues persist, verify your printer’s settings or try a different printer. Let me know if further clarification is needed!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The principal printing steps remain usable.",
+            "evidence": "**Print at Actual Size (100%)**: Ensure you select \"Print at 100%\" or \"Actual Size\" in your printer settings, not \"Fit to Page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Print at Actual Size (100%)**: Ensure you select \"Print at 100%\" or \"Actual Size\" in your printer settings, not \"Fit to Page.\" ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses the request to email the transcript.",
+            "evidence": "I don't have the ability to send emails for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits external email capabilities.",
+            "evidence": "I don't have the ability to send emails for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I don't have the ability to send emails for you. To share this transcript, you will need to copy the text and paste it into your own email application.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Offers a simple manual alternative.",
+            "evidence": "I don't have the ability to send emails for you. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I don't have the ability to send emails for you. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Claims a timer state rather than acknowledging unverified preview lifecycle.",
+            "evidence": "Because this is the free preview phase, the 90-day deadline hasn't started. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The assertion that the deadline has not started is unverified.",
+            "evidence": "Because this is the free preview phase, the 90-day deadline hasn't started. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "You are currently in the **no-charge preview** phase, so you are not paid yet. Clicking the test checkout only runs a **simulation**; no actual payment is collected.\n\nBecause this is the free preview phase, the 90-day deadline hasn't started. You will only track the 90-day timer after completing a real purchase.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the proposed payment and timer relationship clearly.",
+            "evidence": "Because this is the free preview phase, the 90-day deadline hasn't started. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Because this is the free preview phase, the 90-day deadline hasn't started. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "qwen3-30b:full-inline:synthetic.support.held_out.normal.01",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Provides the required actual-size and calibration steps.",
+            "evidence": "**Adjust Print Settings**: Ensure your printer is set to **100% scale** (not \"Fit to page\" or \"Shrink to fit\"). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Re-importing the guest list is an unsupported remedy for print scaling.",
+            "evidence": "If you need further adjustments, re-import your guest list and re-export the PDF after correcting settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTo resolve the issue with folded A4 cards appearing too small, follow these steps:  \n\n1. **Adjust Print Settings**: Ensure your printer is set to **100% scale** (not \"Fit to page\" or \"Shrink to fit\"). This preserves the card's actual size.  \n2. **Verify Paper Size**: Confirm the printer is configured for **A4 paper** and that margins match the design layout.  \n3. **Use the Print-Test PDF**: Download and print the dedicated **calibration square** (if available) to verify alignment before printing the full event.  \n\nSince no account is linked, we cannot access your project details. If you need further adjustments, re-import your guest list and re-export the PDF after correcting settings. Let me know if you encounter specific errors during this process.  \n\n*Note: TableCards does not control printing hardware, so compatibility depends on your printer's settings and paper handling.*",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The unnecessary re-import instruction confuses the next step.",
+            "evidence": "If you need further adjustments, re-import your guest list and re-export the PDF after correcting settings. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "**Adjust Print Settings**: Ensure your printer is set to **100% scale** (not \"Fit to page\" or \"Shrink to fit\"). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "According to the printing guidelines: \"Normal exports contain card sheets only, without a calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "According to the printing guidelines: \"Normal exports contain card sheets only, without a calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, normal exports do not include the calibration square. According to the printing guidelines: \"Normal exports contain card sheets only, without a calibration page.\" The calibration square is part of the separate **print-test PDF**, which customers should use to verify alignment and paper/printer settings before exporting the full event. Always preview cards, names, and table labels before exporting.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "According to the printing guidelines: \"Normal exports contain card sheets only, without a calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to the printing guidelines: \"Normal exports contain card sheets only, without a calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "If you want to check your printer's calibration, you should use the separate print-test PDF, which includes the calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "If you want to check your printer's calibration, you should use the separate print-test PDF, which includes the calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, normal exports contain only the card sheets. If you want to check your printer's calibration, you should use the separate print-test PDF, which includes the calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "If you want to check your printer's calibration, you should use the separate print-test PDF, which includes the calibration square.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If you want to check your printer's calibration, you should use the separate print-test PDF, which includes the calibration square.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "According to the printing guidelines: \"Normal exports have card sheets only, no calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "According to the printing guidelines: \"Normal exports have card sheets only, no calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, normal exports do not include the calibration square. According to the printing guidelines: \"Normal exports have card sheets only, no calibration page.\" The calibration square is part of the separate **print-test PDF**, which is used for verifying print settings before exporting the final card sheets. \n\nFor actual printing, ensure you select \"Print at Actual Size / 100%\" and verify calibration with the test PDF first.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "According to the printing guidelines: \"Normal exports have card sheets only, no calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to the printing guidelines: \"Normal exports have card sheets only, no calibration page.\" ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.held_out.normal.13",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether normal exports include calibration.",
+            "evidence": "The calibration square is only part of the **separate print-test PDF** used for verifying print accuracy before exporting final cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes normal exports from the separate print test.",
+            "evidence": "The calibration square is only part of the **separate print-test PDF** used for verifying print accuracy before exporting final cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nNo, normal exports (card sheets) do not include the calibration square. The calibration square is only part of the **separate print-test PDF** used for verifying print accuracy before exporting final cards. \n\nFor actual printing, ensure:  \n- You print at **100% scale** (not \"Fit to page\").  \n- Use the **print-test PDF** first to check calibration.  \n- Match paper size/printer margins to your selected layout.  \n\nNormal exports contain only card sheets without calibration elements.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear answer and usable printing guidance.",
+            "evidence": "The calibration square is only part of the **separate print-test PDF** used for verifying print accuracy before exporting final cards. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The calibration square is only part of the **separate print-test PDF** used for verifying print accuracy before exporting final cards. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.support.held_out.messy.16",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Separates simulated payment from the intended launch edit lifetime.",
+            "evidence": "Since you are currently in the preview phase, these details are part of our upcoming launch offers rather than an active paid account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Identifies the 90-day offer as upcoming rather than current paid behavior.",
+            "evidence": "The 90-day period refers to the \"edit lifetime\" for the Event Pass, which is intended to allow you to go back and make changes to your event for 90 days once the pass is active. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "The checkout you clicked is part of our no-charge preview, which is a simulation. You haven't been charged, and no real subscription or payment has occurred.\n\nThe 90-day period refers to the \"edit lifetime\" for the Event Pass, which is intended to allow you to go back and make changes to your event for 90 days once the pass is active. Since you are currently in the preview phase, these details are part of our upcoming launch offers rather than an active paid account.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Answers the two concerns clearly.",
+            "evidence": "The checkout you clicked is part of our no-charge preview, which is a simulation. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Since you are currently in the preview phase, these details are part of our upcoming launch offers rather than an active paid account.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

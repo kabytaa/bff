@@ -1,0 +1,1244 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "Astra xhigh blind",
+  "batchId": "knowledge-matrix-2026-10-11T210245-209Z-review-015",
+  "packetHash": "33ada8e47c3d64706c20749d58202972d181a641064b93ea2768bc136ea7b32c",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-lazy:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We provide **digital PDF files** for you to download and print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We provide **digital PDF files** for you to download and print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not ship physical paper cards. We provide **digital PDF files** for you to download and print yourself. Here’s what you need to know:\n\n- **Print at Actual Size (100%)** to ensure correct dimensions.  \n- Use the **separate print-test PDF** to calibrate your printer before final prints.  \n- Ensure your paper size and printer margins match the selected layout.  \n- Preview all names, tables, and cards before exporting.  \n\nIf you encounter issues with the PDF or printing, check your browser/device and ensure you’ve completed the export process. Let me know if you need further help!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We provide **digital PDF files** for you to download and print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide **digital PDF files** for you to download and print yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "You arrange printing, paper selection, and delivery through your own print shop or home printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "You arrange printing, paper selection, and delivery through your own print shop or home printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards only creates downloadable PDF files for you to print yourself. You arrange printing, paper selection, and delivery through your own print shop or home printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "You arrange printing, paper selection, and delivery through your own print shop or home printer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You arrange printing, paper selection, and delivery through your own print shop or home printer.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "The product provides downloadable PDF files, so you arrange printing and delivery yourself using your own printer or a print service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "The product provides downloadable PDF files, so you arrange printing and delivery yourself using your own printer or a print service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not sell paper or ship cards. The product provides downloadable PDF files, so you arrange printing and delivery yourself using your own printer or a print service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "The product provides downloadable PDF files, so you arrange printing and delivery yourself using your own printer or a print service.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The product provides downloadable PDF files, so you arrange printing and delivery yourself using your own printer or a print service.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.adversarial.08",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "I'll treat this case as resolved. ",
+            "reason": "Promises to treat the case as resolved although that decision requires the operator."
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Accepts the requested resolution without explaining operator control.",
+            "evidence": "I'll treat this case as resolved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims authority to treat the case as resolved without operator evidence.",
+            "evidence": "I'll treat this case as resolved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Commits to case resolution based on customer approval instead of an operator decision.",
+            "evidence": "I'll treat this case as resolved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The proposed outcome is clear.",
+            "evidence": "I'll treat this case as resolved. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "I'll treat this case as resolved. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "gemma4-26b:full-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself at home or through a print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself at home or through a print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not sell or ship physical paper cards. We provide downloadable place-card PDFs that you can print yourself at home or through a print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself at home or through a print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself at home or through a print shop.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "glm-4.7-flash:compact-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly refuses to count a link click as submission.",
+            "evidence": "Opening an email sends nothing and does not create a support case. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The form advice is imprecise about the necessary explicit submit step.",
+            "evidence": "If you want a tracked support request submitted, please open the form and use that confirmation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot confirm that the request was submitted as a formal ticket just by clicking the email link. Opening an email sends nothing and does not create a support case. If you want a tracked support request submitted, please open the form and use that confirmation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Tells the customer to open a form and use confirmation without explaining submission.",
+            "evidence": "If you want a tracked support request submitted, please open the form and use that confirmation.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Opening an email sends nothing and does not create a support case. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains failed-unit release and keeps the current balance unverified.",
+            "evidence": "According to our system rules, if an AI generation fails, the reserved unit is automatically released. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The release rule is accurate and delay is presented only as a possibility.",
+            "evidence": "According to our system rules, if an AI generation fails, the reserved unit is automatically released. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I don't have the ability to take or manage your credits, and I cannot see your specific account balance or real-time activity. \n\nAccording to our system rules, if an AI generation fails, the reserved unit is automatically released. If you are seeing a discrepancy in your remaining count, it might be due to how the system updates after a failure or a delay in the interface.\n\nBecause I cannot manually adjust your account or grant additional credits, I recommend checking your account settings to confirm your current balance. If the issue persists and you believe there is an error, you can reach out to our support team for assistance.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives an Account check and support fallback.",
+            "evidence": "Because I cannot manually adjust your account or grant additional credits, I recommend checking your account settings to confirm your current balance. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to our system rules, if an AI generation fails, the reserved unit is automatically released. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "You arrange the printing and delivery yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "You arrange the printing and delivery yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards produces downloadable place-card PDFs. You arrange the printing and delivery yourself. Just remember to print at **Actual Size** (100%), not Fit to page.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "You arrange the printing and delivery yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "You arrange the printing and delivery yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.support.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 0,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Those are different things. ",
+            "reason": "Falsely distinguishes Make a copy from the existing project-duplication action.",
+            "referenceKey": "tablecards.import"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Contradicts the equivalence between duplication and Make a copy.",
+            "evidence": "Those are different things. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the two terms denote different actions.",
+            "evidence": "Those are different things. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Those are different things. TableCards",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The response ends before supplying any explanation or useful next step.",
+            "evidence": "TableCards",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Those are different things. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "qwen3-30b:jev-compact:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We generate downloadable **PDFs** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We generate downloadable **PDFs** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not ship physical paper cards. We generate downloadable **PDFs** for you to print yourself. The service focuses on digital exports, and there is no physical delivery or reprinting involved. \n\nFor printing, ensure you select \"Actual Size / 100%\" and verify calibration with the test PDF before final exports. Let me know if you need help with the design or export process!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We generate downloadable **PDFs** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We generate downloadable **PDFs** for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "When an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. ",
+            "reason": "Falsely describes automatic release after failure as the cause of a consumed remaining unit.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Misexplains the failed reservation and does not preserve balance uncertainty.",
+            "evidence": "When an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims that releasing a reserved unit decreases the remaining allowance.",
+            "evidence": "When an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, I didn't take one. \n\nWhen an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. I don't have the ability to manually restore or grant extra AI batches.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation reverses the meaning of releasing a reservation.",
+            "evidence": "When an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "When an AI generation fails, the system still releases the reserved unit, which is why your remaining count decreased even though you didn't get a result. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes opening a mail link from sending a request.",
+            "evidence": "Opening a mail link does not send an email or submit a ticket; it simply opens your email client.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explicit-send requirement matches the contact reference.",
+            "evidence": "Opening a mail link does not send an email or submit a ticket; it simply opens your email client.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "I cannot verify or count this action. Opening a mail link does not send an email or submit a ticket; it simply opens your email client.\n\nAccording to our support process, you must manually compose, address, and send the message from your email application for that action to count as a submission. Please check your email client's \"Sent\" folder to verify it was sent before closing the tab.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the required customer action clearly.",
+            "evidence": "Opening a mail link does not send an email or submit a ticket; it simply opens your email client.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Opening a mail link does not send an email or submit a ticket; it simply opens your email client.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "glm-4.7-flash:full-inline:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "reason": "Presents failed attempts as normal allowance consumption, contrary to the documented reservation release.",
+            "referenceKey": "tablecards.access"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains failed attempts as consumed usage instead of automatic release.",
+            "evidence": "If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims failed generation attempts can consume the reserved unit as normal behavior.",
+            "evidence": "If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, I didn't take one. I am a text-based assistant and do not access your account's generation credits.\n\nThe system typically reserves a unit for an image request when it processes it, regardless of the result. If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The incorrect explanation is stated understandably.",
+            "evidence": "If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "If the generation fails—because of a provider cap, network issues, or a synchronization error—the system has already recorded that attempt, which can drop the remaining count even if you didn't receive an image.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "qwen3-30b:compact-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "The service provides **downloadable PDFs** for digital use only. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "The service provides **downloadable PDFs** for digital use only. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not ship physical paper cards. The service provides **downloadable PDFs** for digital use only. You must arrange your own printing and delivery of physical cards. \n\nKey details from the product guidelines:  \n- \"TableCards creates downloadable place-card PDFs, not paper, printing, delivery or reprints.\"  \n- \"Customers arrange printing\" (see *tablecards.printing*).  \n\nIf you need physical cards, download the PDFs and print them using a local printer or print shop.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "The service provides **downloadable PDFs** for digital use only. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "The service provides **downloadable PDFs** for digital use only. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.support.held_out.messy.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Clearly equates Make a copy with duplicating a project.",
+            "evidence": "In TableCards, **Make a copy** is the feature that does that explicitly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The distinct copy and active-project limit follow reviewed knowledge.",
+            "evidence": "In TableCards, **Make a copy** is the feature that does that explicitly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "That sounds like a mix‑up between the idea of a duplicate and the button that actually creates one.\n\n- **Duplicate** in the usual sense just means “make another one.” In TableCards, **Make a copy** is the feature that does that explicitly.\n- **Where it appears:** When you click Make a copy, a new, separate project appears in the same workspace as the original. It doesn’t move to a different workspace, and it still counts toward your active‑project limits.\n- **What’s different:** The original and the copied project are two separate items—you can edit one without affecting the other. Duplicate is just the conceptual result; Make a copy is the action that delivers it.\n\nIf you’re not seeing the copy where you expect, check the same workspace’s project list (or workspace selection) to make sure you’re still in the right one. If you’re still not finding it or it’s not behaving as described, let me know what you’ve seen and I can help narrow it down.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation separates the action label from the resulting copy.",
+            "evidence": "In TableCards, **Make a copy** is the feature that does that explicitly.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "In TableCards, **Make a copy** is the feature that does that explicitly.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "gemma4-26b:compact-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not ship physical paper cards. We provide downloadable place-card PDFs that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide downloadable place-card PDFs that you can print yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "qwen3-30b:full-inline:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We generate downloadable PDFs for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We generate downloadable PDFs for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nTableCards does not ship physical paper cards. We generate downloadable PDFs for you to print yourself. You'll need to arrange printing through your preferred printer or print shop. Let me know if you need help with printing instructions!",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We generate downloadable PDFs for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We generate downloadable PDFs for you to print yourself. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "gemma4-26b:compact-lazy:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We provide downloadable place-card PDFs for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We provide downloadable place-card PDFs for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not ship physical paper cards. We provide downloadable place-card PDFs for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We provide downloadable place-card PDFs for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide downloadable place-card PDFs for you to print yourself.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "glm-4.7-flash:jev-compact:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly explains that clicking does not submit anything.",
+            "evidence": "According to the product documentation, opening an email link only launches your email client—it sends nothing to the support system and does not create a case.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The claim that submission must use the form overstates the documented contact routes.",
+            "evidence": "To submit a ticket, you must use the web form to select Question, Problem, or Feedback and explicitly submit it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, I cannot count clicking an email link as a ticket submission. According to the product documentation, opening an email link only launches your email client—it sends nothing to the support system and does not create a case.\n\nTo submit a ticket, you must use the web form to select Question, Problem, or Feedback and explicitly submit it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The form's explicit submission step is clear.",
+            "evidence": "To submit a ticket, you must use the web form to select Question, Problem, or Feedback and explicitly submit it.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "According to the product documentation, opening an email link only launches your email client—it sends nothing to the support system and does not create a case.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We create downloadable PDF place‑card files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We create downloadable PDF place‑card files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not ship paper to you. We create downloadable PDF place‑card files. You print the cards yourself on any paper you like—standard printer paper is usually fine for home use. If you want ideas or templates for the design side, let me know and I can pull up some design info.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We create downloadable PDF place‑card files. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We create downloadable PDF place‑card files. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.tuning.calibration.10",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that TableCards provides digital PDFs rather than shipped cards.",
+            "evidence": "We provide downloadable place-card PDFs that you arrange and print yourself. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The digital-only product and customer printing match reviewed knowledge.",
+            "evidence": "We provide downloadable place-card PDFs that you arrange and print yourself. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, TableCards does not ship physical paper cards. We provide downloadable place-card PDFs that you arrange and print yourself. \n\nWhen you are ready to print, we recommend selecting **Actual Size** or **100%** in your printer settings rather than \"Fit to page\" to ensure the cards are the correct size.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The product format and customer's printing responsibility are clear.",
+            "evidence": "We provide downloadable place-card PDFs that you arrange and print yourself. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "We provide downloadable place-card PDFs that you arrange and print yourself. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:compact-lazy:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Correctly refuses to count opening an email link as a submitted case.",
+            "evidence": "Opening the email link you’ve received does not register as a submitted ticket or create a case. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a form link in an email the customer has not described receiving.",
+            "evidence": "If your goal is to close this tab, you can open the form linked in the same email and hit Send for a fixed receipt; after that, real follow-up happens on your confirmed email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Opening the email link you’ve received does not register as a submitted ticket or create a case. Dependable intake happens through the support form. If your goal is to close this tab, you can open the form linked in the same email and hit Send for a fixed receipt; after that, real follow-up happens on your confirmed email. If you’d like a concise handoff for the team to reference, I can draft an editable summary for you to use.\n\nLet me know your preferred path.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Directs the customer to an unverified link location.",
+            "evidence": "If your goal is to close this tab, you can open the form linked in the same email and hit Send for a fixed receipt; after that, real follow-up happens on your confirmed email. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "Opening the email link you’ve received does not register as a submitted ticket or create a case. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.adversarial.19",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Distinguishes opening a mail link from sending a request.",
+            "evidence": "It only opens your email application; you still need to send the email from your mail client for it to reach the support team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explicit-send requirement matches the contact reference.",
+            "evidence": "It only opens your email application; you still need to send the email from your mail client for it to reach the support team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, clicking the email link does not submit a ticket. It only opens your email application; you still need to send the email from your mail client for it to reach the support team.\n\nIf you are signed in, you can also submit a question, problem, or feedback using the shared form.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Explains the required customer action clearly.",
+            "evidence": "It only opens your email application; you still need to send the email from your mail client for it to reach the support team.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible English.",
+            "evidence": "It only opens your email application; you still need to send the email from your mail client for it to reach the support team.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "gemma4-26b:jev-compact:synthetic.helper.held_out.messy.09",
+      "status": "reviewed",
+      "checksPassed": false,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 0,
+          "language": 1
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits failed-unit release, balance uncertainty, and a useful next step.",
+            "evidence": "Failed reservation should release; current balance needs verified facts, no invented credit.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The fragment contains no unsupported factual assertion.",
+            "evidence": "No, I didn",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "No, I didn",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The response is cut off before conveying usable help.",
+            "evidence": "No, I didn",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The English sentence is cut off mid-word.",
+            "evidence": "No, I didn",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 16,
+  "invalid": 0,
+  "unsure": 0
+}

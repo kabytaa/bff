@@ -1,0 +1,1279 @@
+{
+  "version": 1,
+  "reviewMethod": "blinded-supervised-sub-agent",
+  "reviewer": "gpt-6-astra",
+  "batchId": "knowledge-matrix-2026-10-11T184003-864Z-review-000",
+  "packetHash": "dffabb9e3e9a45fe6b58ba3b649b7ce9d9bb75ad5ad68318e9cb29010153f164",
+  "rubricVersion": "operator-answer-quality-v2",
+  "qualityVerified": false,
+  "apiJudgeCalibrated": false,
+  "primaryCrossCheckRequired": true,
+  "subscriptionReviewCost": "unmeasured",
+  "results": [
+    {
+      "id": "review-001",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers the privacy question and acknowledges access by invited Studio members.",
+            "evidence": "- Les espaces Studio permettent le partage, mais **seuls les membres invités** peuvent accéder aux projets partagés.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Explicitly sharing a private project into Studio is an unverified product capability.",
+            "evidence": "Les fonds créés avec l’IA sont **privés à votre espace de travail** (workspace) et ne sont pas visibles par d’autres utilisateurs ou entreprises, sauf si vous partagez explicitement le projet dans un espace Studio partagé. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nLes fonds créés avec l’IA sont **privés à votre espace de travail** (workspace) et ne sont pas visibles par d’autres utilisateurs ou entreprises, sauf si vous partagez explicitement le projet dans un espace Studio partagé. \n\nSelon les règles de TableCards :\n- Les projets et contenus (y compris les fonds AI) sont associés à l’espace de travail de l’utilisateur.\n- Les espaces Studio permettent le partage, mais **seuls les membres invités** peuvent accéder aux projets partagés.\n- Les fonds générés par l’IA ne sont pas stockés publiquement ou accessibles à des tiers non autorisés.\n\nSi vous utilisez un compte personnel (non Studio), aucun autre utilisateur ne pourra accéder à vos fonds AI. Pour plus de précisions, vérifiez les paramètres de partage de votre espace de travail.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The workspace privacy explanation is understandable.",
+            "evidence": "Les fonds créés avec l’IA sont **privés à votre espace de travail** (workspace) et ne sont pas visibles par d’autres utilisateurs ou entreprises, sauf si vous partagez explicitement le projet dans un espace Studio partagé. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French throughout.",
+            "evidence": "Les fonds créés avec l’IA sont **privés à votre espace de travail** (workspace) et ne sont pas visibles par d’autres utilisateurs ou entreprises, sauf si vous partagez explicitement le projet dans un espace Studio partagé. \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-002",
+      "sourceId": "qwen3-30b:compact-inline:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 1,
+          "clarity": 1,
+          "language": 0
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "**Sign in with the correct Google account** (the one used to create the workspace).  \n",
+            "reason": "Joining requires the intended recipient's Google account, not the account that created the workspace.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not explain that an authorized member must copy and deliver the invitation link.",
+            "evidence": "Draft a natural Russian reply explaining that this invitation workflow does not send email automatically: an authorized member copies and delivers the invitation link.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The invited recipient must use their own Google identity, not the workspace creator's account.",
+            "evidence": "**Sign in with the correct Google account** (the one used to create the workspace).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The instruction ambiguously directs the colleague to use another person's account.",
+            "evidence": "**Sign in with the correct Google account** (the one used to create the workspace).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The email troubleshooting leaves the customer waiting instead of explaining manual link delivery.",
+            "evidence": "**Check spam/junk folders** if the email isn’t in the inbox.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian question receives an English answer.",
+            "evidence": "To help your colleague join your team in TableCards, ensure they:  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-003",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers whether other businesses can access generated backgrounds.",
+            "evidence": "Non, les résultats générés par l’IA sont privés à votre espace de travail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The stated workspace boundary qualifies the denial of outside access in this context.",
+            "evidence": "Non, les résultats générés par l’IA sont privés à votre espace de travail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, les résultats générés par l’IA sont privés à votre espace de travail. Personne d’autre ne peut les voir ou les récupérer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a concise and understandable privacy answer.",
+            "evidence": "Non, les résultats générés par l’IA sont privés à votre espace de travail. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural French.",
+            "evidence": "Personne d’autre ne peut les voir ou les récupérer.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-004",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "Ainsi, vos fonds AI ne seront visibles ou récupérables que par vous, à moins que vous ne les partagiez intentionnellement.",
+            "reason": "Guarantees access only to the creator although the approved privacy scope is the workspace.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Changes the required workspace privacy boundary into personal exclusive access.",
+            "evidence": "Ainsi, vos fonds AI ne seront visibles ou récupérables que par vous, à moins que vous ne les partagiez intentionnellement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Workspace privacy does not mean only the individual creator can access a shared workspace's files.",
+            "evidence": "Ainsi, vos fonds AI ne seront visibles ou récupérables que par vous, à moins que vous ne les partagiez intentionnellement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises personal exclusive access until the customer deliberately shares the files.",
+            "evidence": "Ainsi, vos fonds AI ne seront visibles ou récupérables que par vous, à moins que vous ne les partagiez intentionnellement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The answer is understandable despite its incorrect privacy guarantee.",
+            "evidence": "Ainsi, vos fonds AI ne seront visibles ou récupérables que par vous, à moins que vous ne les partagiez intentionnellement.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Les fonds créés avec l’IA via TableCards sont **privés à votre espace de travail** et ne sont pas partagés avec d’autres utilisateurs ou entreprises. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-005",
+      "sourceId": "qwen3-30b:jev-compact:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- Попробовать **ввести email вручную** при входе (если система его распознает).  \n",
+            "reason": "Invents an email-login alternative to the supported Google sign-in.",
+            "referenceKey": "tablecards.basics"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not provide the required recipient Google sign-in step.",
+            "evidence": "The invited colleague must use that link and sign in with the intended recipient’s Google account. Do not claim an invitation email was sent or offer to bypass recipient checks.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Offers manual email login although Google is the only enabled login method.",
+            "evidence": "- Попробовать **ввести email вручную** при входе (если система его распознает).  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No completed action or authentication bypass is claimed.",
+            "evidence": "Обратите внимание: TableCards не отправляет автоматические письма, и поддержка не может обойти систему авторизации.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The final denial of automatic email conflicts with the earlier email-delivery troubleshooting.",
+            "evidence": "Обратите внимание: TableCards не отправляет автоматические письма, и поддержка не может обойти систему авторизации.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The Russian is understandable throughout.",
+            "evidence": "Ваш коллега должен получить приглашение через ссылку, отправленную на указанный им адрес электронной почты. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-006",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Les éléments comme les modèles prédéfinis ou les présélections professionnelles sont gérés au niveau de votre projet, pas au niveau global.",
+            "reason": "Describes professional presets as project-scoped despite approved reusable professional presets.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers that generated backgrounds are private to the workspace.",
+            "evidence": "Les fonds créés avec l’IA dans TableCards sont **privés à votre espace de travail** et ne sont pas visibles ou récupérables par d'autres entreprises utilisant la plateforme. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Incorrectly confines professional presets to a project despite their reusable workspace role.",
+            "evidence": "Les éléments comme les modèles prédéfinis ou les présélections professionnelles sont gérés au niveau de votre projet, pas au niveau global.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "\n\nLes fonds créés avec l’IA dans TableCards sont **privés à votre espace de travail** et ne sont pas visibles ou récupérables par d'autres entreprises utilisant la plateforme. Selon les paramètres techniques, les résultats générés ou les uploads restent associés à votre compte, sauf partage explicite. Les éléments comme les modèles prédéfinis ou les présélections professionnelles sont gérés au niveau de votre projet, pas au niveau global.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The privacy answer is understandable.",
+            "evidence": "Les fonds créés avec l’IA dans TableCards sont **privés à votre espace de travail** et ne sont pas visibles ou récupérables par d'autres entreprises utilisant la plateforme. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Les fonds créés avec l’IA dans TableCards sont **privés à votre espace de travail** et ne sont pas visibles ou récupérables par d'autres entreprises utilisant la plateforme. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-007",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Чтобы коллега мог присоединиться к вашей команде, необходимо, чтобы она **сама открыла приглашение**, отправленное на её почту. ",
+            "reason": "Treats the created invitation as an email already sent although the workflow requires manual link delivery.",
+            "referenceKey": "tablecards.teams"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Does not clearly explain that the inviter must deliver the link because no automatic invitation email is sent.",
+            "evidence": "Draft a natural Russian reply explaining that this invitation workflow does not send email automatically: an authorized member copies and delivers the invitation link.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Assumes the invitation was sent to the colleague's mailbox without evidence of manual delivery.",
+            "evidence": "Чтобы коллега мог присоединиться к вашей команде, необходимо, чтобы она **сама открыла приглашение**, отправленное на её почту. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Explicitly declines sending or bypassing security on the customer's behalf.",
+            "evidence": "Поддержка не может отправлять письма за вас или обходить проверки безопасности.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Repeats inbox troubleshooting before mentioning copied links, leaving the actual delivery step unclear.",
+            "evidence": "**Спам-папка** — иногда письма попадают туда, даже если фильтры настроены.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "**Свяжитесь с коллегой** — попросите её проверить входящие и убедиться, что она использует тот же аккаунт Google, на который было отправлено приглашение.  \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-008",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains manual link delivery and tells the invited colleague to sign in to her account.",
+            "evidence": "Для успешного вступления коллеге необходимо будет войти в свой аккаунт при переходе по этой ссылке.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states that invitation emails are not sent automatically.",
+            "evidence": "Дело в том, что TableCards не отправляет приглашения автоматически по электронной почте.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Здравствуйте! Дело в том, что TableCards не отправляет приглашения автоматически по электронной почте.\n\nЧтобы ваша коллега могла присоединиться к команде, вам нужно скопировать персональную ссылку-приглашение и отправить её ей напрямую (например, через мессенджер, рабочий чат или личную почту). \n\nДля успешного вступления коллеге необходимо будет войти в свой аккаунт при переходе по этой ссылке.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives the customer a clear, actionable way to deliver the invitation.",
+            "evidence": "Чтобы ваша коллега могла присоединиться к команде, вам нужно скопировать персональную ссылку-приглашение и отправить её ей напрямую (например, через мессенджер, рабочий чат или личную почту). \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Russian.",
+            "evidence": "Чтобы ваша коллега могла присоединиться к команде, вам нужно скопировать персональную ссылку-приглашение и отправить её ей напрямую (например, через мессенджер, рабочий чат или личную почту). \n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-009",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains why opening the mail link did not submit the question and gives the next step.",
+            "evidence": "Clicking the email help link only opens a draft in your own email app; it doesn't automatically send anything to support on our end. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly distinguishes opening an email draft from sending it.",
+            "evidence": "Clicking the email help link only opens a draft in your own email app; it doesn't automatically send anything to support on our end. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No lookup or completed send is claimed.",
+            "evidence": "You need to resend it. Clicking the email help link only opens a draft in your own email app; it doesn't automatically send anything to support on our end. Just write your message in that draft and hit send.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the customer to compose and send the message.",
+            "evidence": "Just write your message in that draft and hit send.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear English matching the customer.",
+            "evidence": "Clicking the email help link only opens a draft in your own email app; it doesn't automatically send anything to support on our end. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-010",
+      "sourceId": "glm-4.7-flash:compact-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the question about access by other businesses.",
+            "evidence": "Elles ne sont pas visibles ni récupérables par d'autres entreprises ou utilisateurs, même ceux utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Places privacy at the workspace boundary without claiming personal-only access.",
+            "evidence": "Non, les images de fond générées par l'IA sont privées à votre espace de travail, à condition que vous ne les partagiez pas activement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, les images de fond générées par l'IA sont privées à votre espace de travail, à condition que vous ne les partagiez pas activement. Elles ne sont pas visibles ni récupérables par d'autres entreprises ou utilisateurs, même ceux utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The concise privacy explanation is understandable.",
+            "evidence": "Non, les images de fond générées par l'IA sont privées à votre espace de travail, à condition que vous ne les partagiez pas activement. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear French.",
+            "evidence": "Elles ne sont pas visibles ni récupérables par d'autres entreprises ou utilisateurs, même ceux utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-011",
+      "sourceId": "qwen3-30b:full-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 1,
+          "authority": 1,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Addresses whether other businesses can access generated backgrounds.",
+            "evidence": "Les fonds créés avec l’IA via TableCards sont **privés et restent associés à votre espace de travail** (workspace). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Introduces an unverified separate file-sharing mechanism for Studio workspaces.",
+            "evidence": "Si vous utilisez un compte professionnel (Plan Studio), les fichiers restent propres à votre espace, sauf partage explicite via les fonctionnalités d’équipe. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "The explicit-sharing condition leaves teammates' existing access materially ambiguous.",
+            "evidence": "Si vous utilisez un compte professionnel (Plan Studio), les fichiers restent propres à votre espace, sauf partage explicite via les fonctionnalités d’équipe. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation is readable despite its unsupported privacy qualification.",
+            "evidence": "- Les fichiers générés par l’IA ou les images téléchargées sont stockés de manière **privée dans votre espace de travail**.  \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "Les fonds créés avec l’IA via TableCards sont **privés et restent associés à votre espace de travail** (workspace). ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-012",
+      "sourceId": "glm-4.7-flash:compact-lazy:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 0,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "- L’option « inspiration » (image PNG/JPEG de votre style pour guider l’IA) n’est pas utilisée par TableCards ou partagée (elle reste dans votre espace).\n",
+            "reason": "Says the inspiration image is not used although the approved feature uses it as optional inspiration.",
+            "referenceKey": "tablecards.designs"
+          },
+          {
+            "code": "prohibited_promise",
+            "evidence": "En résumé : les fonds que vous générez ou importez restent entre vous et TableCards, sans être diffusés aux autres clients de TableCards.",
+            "reason": "Extends workspace privacy into an unsupported promise excluding the image provider.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Exceeds the required workspace privacy scope by excluding the image provider from the explanation.",
+            "evidence": "En résumé : les fonds que vous générez ou importez restent entre vous et TableCards, sans être diffusés aux autres clients de TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Claims the optional inspiration image is not used, contradicting its reviewed purpose.",
+            "evidence": "- L’option « inspiration » (image PNG/JPEG de votre style pour guider l’IA) n’est pas utilisée par TableCards ou partagée (elle reste dans votre espace).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises that generated or imported imagery remains only between the customer and TableCards.",
+            "evidence": "En résumé : les fonds que vous générez ou importez restent entre vous et TableCards, sans être diffusés aux autres clients de TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Describes an image as guiding the AI while saying it is not used, creating a confusing contradiction.",
+            "evidence": "- L’option « inspiration » (image PNG/JPEG de votre style pour guider l’IA) n’est pas utilisée par TableCards ou partagée (elle reste dans votre espace).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "The French remains understandable despite an awkward invented word.",
+            "evidence": "Ils ne sont pas automatiquement partagés ni exposés au catalogue public ni aux autres entreprises qui utilisent TableCards (leurs espaces sont séparés).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-013",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the required sign-in step using the intended recipient's Google account.",
+            "evidence": "The invited colleague must use that link and sign in with the intended recipient’s Google account. Do not claim an invitation email was sent or offer to bypass recipient checks.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains manual invitation delivery and invalidation when reissuing a link.",
+            "evidence": "Если ссылка вдруг не сработает, вы всегда можете выпустить новую — в этом случае старая ссылка автоматически станет недействительной.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Здравствуйте! Дело в том, что при приглашении в команду TableCards автоматические письма на электронную почту не отправляются.\n\nЧтобы коллега смогла присоединиться, вам нужно вручную скопировать ссылку-приглашение и отправить её ей любым удобным способом (например, через мессенджер или обычную электронную почту).\n\nЕсли ссылка вдруг не сработает, вы всегда можете выпустить новую — в этом случае старая ссылка автоматически станет недействительной.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides a clear immediate step for delivering the missing invitation.",
+            "evidence": "Чтобы коллега смогла присоединиться, вам нужно вручную скопировать ссылку-приглашение и отправить её ей любым удобным способом (например, через мессенджер или обычную электронную почту).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Russian.",
+            "evidence": "Чтобы коллега смогла присоединиться, вам нужно вручную скопировать ссылку-приглашение и отправить её ей любым удобным способом (например, через мессенджер или обычную электронную почту).\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-014",
+      "sourceId": "gemma4-26b:jev-compact:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that other businesses cannot retrieve the generated background.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer votre fond. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly limits generated and uploaded imagery to the workspace.",
+            "evidence": "Les résultats générés par l'IA ainsi que vos propres fichiers téléchargés sont strictement privés et limités à votre espace de travail (*workspace*).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer votre fond. Les résultats générés par l'IA ainsi que vos propres fichiers téléchargés sont strictement privés et limités à votre espace de travail (*workspace*).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a concise and clear privacy explanation.",
+            "evidence": "Les résultats générés par l'IA ainsi que vos propres fichiers téléchargés sont strictement privés et limités à votre espace de travail (*workspace*).",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural French.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer votre fond. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-015",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains manual invitation delivery and the colleague's Google sign-in.",
+            "evidence": "Она перейдет по ссылке, войдёт в свой Google-аккаунт и согласится на участие.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies the lack of automated invitation email.",
+            "evidence": "Скорее всего, коллега не получает письмо, потому что в TableCards приглашения для команд — это не автоматические письма, которые приходят в ящик на почте, а ссылки, которые нужно скопировать у вас и отправить вручную. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Declines sending invitations on the customer's behalf.",
+            "evidence": "Я не могу переадресовать письмо или отправить ссылку от вашего имени — это действие доступно только владельцу или админу команды.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives understandable steps for copying, delivering and accepting the invitation.",
+            "evidence": "Отправить её коллеге любым удобным способом (мессенджер, другой Email).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear Russian.",
+            "evidence": "Она перейдет по ссылке, войдёт в свой Google-аккаунт и согласится на участие.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-016",
+      "sourceId": "qwen3-30b:compact-lazy:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 0,
+          "authority": 2,
+          "clarity": 1,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "invented_fact",
+            "evidence": "Если это не помогло, [свяжитесь с поддержкой](https://tablecards.com/support) через форму для зарегистрированных пользователей или ссылку на почту (для гостей). ",
+            "reason": "Fabricates a product support destination instead of using the approved configured contact routes.",
+            "referenceKey": "tablecards.contact"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Omits the essential explanation and steps for manual invitation-link delivery.",
+            "evidence": "Draft a natural Russian reply explaining that this invitation workflow does not send email automatically: an authorized member copies and delivers the invitation link.",
+            "evidenceKind": "missing_behavior"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Invents a support URL absent from the approved contact routes or any tool evidence.",
+            "evidence": "Если это не помогло, [свяжитесь с поддержкой](https://tablecards.com/support) через форму для зарегистрированных пользователей или ссылку на почту (для гостей). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No completed action or identity bypass is claimed.",
+            "evidence": "\n\nДля решения вопроса с доступом коллеги в команду, пожалуйста, выполните следующие шаги:\n\n1. **Проверьте спам-папку** — убедитесь, что письмо не было перенаправлено туда автоматически.\n2. **Уточните email** — убедитесь, что адрес, указанный при приглашении, корректен.\n3. **Повторно отправьте приглашение** — если проблема сохраняется, отправьте приглашение заново через ваш аккаунт.\n\nЕсли это не помогло, [свяжитесь с поддержкой](https://tablecards.com/support) через форму для зарегистрированных пользователей или ссылку на почту (для гостей). Ответ будет отправлен на указанный email, но не будет автоматически связан с историей обращений.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Tells the customer to resend through the account without explaining the required copied-link delivery.",
+            "evidence": "**Повторно отправьте приглашение** — если проблема сохраняется, отправьте приглашение заново через ваш аккаунт.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable Russian.",
+            "evidence": "**Уточните email** — убедитесь, что адрес, указанный при приглашении, корректен.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-017",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains manual link delivery and the colleague's Google sign-in.",
+            "evidence": "После перехода по ссылке коллеге нужно будет войти в систему через свой Google-аккаунт. \n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly explains that reissuing a link invalidates the previous one.",
+            "evidence": "Если текущая ссылка не сработает, вы можете создать новую, но помните, что при этом старая ссылка станет недействительной.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Здравствуйте! В TableCards автоматическая отправка приглашений по электронной почте не предусмотрена.\n\nЧтобы коллега могла присоединиться к вашей команде, вам нужно сделать следующее:\n\n1. **Скопируйте ссылку-приглашение**, которую вы получили при создании приглашения.\n2. **Отправьте эту ссылку коллеге напрямую** (например, через мессенджер, чат или обычное электронное письмо).\n\nПосле перехода по ссылке коллеге нужно будет войти в систему через свой Google-аккаунт. \n\nЕсли текущая ссылка не сработает, вы можете создать новую, но помните, что при этом старая ссылка станет недействительной.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides clear steps for copying and directly delivering the invitation.",
+            "evidence": "**Отправьте эту ссылку коллеге напрямую** (например, через мессенджер, чат или обычное электронное письмо).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Russian.",
+            "evidence": "В TableCards автоматическая отправка приглашений по электронной почте не предусмотрена.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-018",
+      "sourceId": "glm-4.7-flash:full-inline:fresh.20261011.support.unsent-email",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains that the unopened submission was never sent and tells the customer how to send it.",
+            "evidence": "I can't see it—just clicking the link opens your email editor so you can write in it; it doesn't actually send the request yet. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Bases the absence of a submission on the customer's stated failure to send, not an invented lookup.",
+            "evidence": "Since you closed the window without sending anything, there’s nothing for me to see. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No lookup or completed action is claimed.",
+            "evidence": "I can't see it—just clicking the link opens your email editor so you can write in it; it doesn't actually send the request yet. Since you closed the window without sending anything, there’s nothing for me to see. You'll need to copy/ paste your question back into the email and send it in again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly instructs the customer to put the question into an email and send it.",
+            "evidence": "You'll need to copy/ paste your question back into the email and send it in again.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses understandable English.",
+            "evidence": "I can't see it—just clicking the link opens your email editor so you can write in it; it doesn't actually send the request yet. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-019",
+      "sourceId": "gemma4-26b:full-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers the question about other businesses accessing the images.",
+            "evidence": "Les autres utilisateurs ou entreprises ne peuvent ni les voir, ni les récupérer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Explicitly sets the workspace boundary for the subsequent denial of outside access.",
+            "evidence": "Non, les résultats générés par l'IA ainsi que vos images téléchargées sont strictement privés et limités à votre propre espace de travail (*workspace*). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, les résultats générés par l'IA ainsi que vos images téléchargées sont strictement privés et limités à votre propre espace de travail (*workspace*). Les autres utilisateurs ou entreprises ne peuvent ni les voir, ni les récupérer.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear, concise privacy answer.",
+            "evidence": "Non, les résultats générés par l'IA ainsi que vos images téléchargées sont strictement privés et limités à votre propre espace de travail (*workspace*). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural French.",
+            "evidence": "Les autres utilisateurs ou entreprises ne peuvent ni les voir, ni les récupérer.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-020",
+      "sourceId": "gemma4-26b:compact-lazy:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Answers whether other TableCards businesses can see or retrieve generated backgrounds.",
+            "evidence": "Les fonds générés par l'IA et vos images téléchargées sont réservés à votre espace de travail (*workspace*) ; ils ne sont pas visibles ni récupérables par d'autres entreprises utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly places generated and uploaded imagery within workspace privacy.",
+            "evidence": "Les fonds générés par l'IA et vos images téléchargées sont réservés à votre espace de travail (*workspace*) ; ils ne sont pas visibles ni récupérables par d'autres entreprises utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, vos créations restent privées. Les fonds générés par l'IA et vos images téléchargées sont réservés à votre espace de travail (*workspace*) ; ils ne sont pas visibles ni récupérables par d'autres entreprises utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Provides an immediately understandable privacy explanation.",
+            "evidence": "Les fonds générés par l'IA et vos images téléchargées sont réservés à votre espace de travail (*workspace*) ; ils ne sont pas visibles ni récupérables par d'autres entreprises utilisant TableCards.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses clear French.",
+            "evidence": "Non, vos créations restent privées. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-021",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Explains the missing automatic email and gives manual delivery and Google sign-in steps.",
+            "evidence": "**При переходе по ссылке** коллеге нужно будет войти в свой аккаунт через Google, чтобы принять приглашение.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly identifies that Studio invitations are not emailed automatically.",
+            "evidence": "В TableCards приглашения в команду Studio не отправляются автоматически по электронной почте, поэтому ваша коллега не получит письмо, даже если проверит папку «Спам».\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Здравствуйте! В TableCards приглашения в команду Studio не отправляются автоматически по электронной почте, поэтому ваша коллега не получит письмо, даже если проверит папку «Спам».\n\nЧтобы она могла присоединиться, вам нужно выполнить следующие действия:\n\n1. **Скопируйте ссылку-приглашение** вручную в настройках вашей команды.\n2. **Передайте эту ссылку коллеге** любым удобным способом (например, через мессенджер или личное сообщение).\n3. **При переходе по ссылке** коллеге нужно будет войти в свой аккаунт через Google, чтобы принять приглашение.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Clearly tells the inviter to pass the copied link directly to the colleague.",
+            "evidence": "**Передайте эту ссылку коллеге** любым удобным способом (например, через мессенджер или личное сообщение).\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural Russian.",
+            "evidence": "**При переходе по ссылке** коллеге нужно будет войти в свой аккаунт через Google, чтобы принять приглашение.",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-022",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.support.invitation-delivery",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 0
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Substantively answers with manual link delivery and the colleague's Google sign-in.",
+            "evidence": "To join the team, the colleague just needs to open the link and sign in with her Google account. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "Correctly states that invitations do not arrive automatically by email.",
+            "evidence": "In TableCards, invitations do not arrive via email automatically. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "In TableCards, invitations do not arrive via email automatically. Instead, you (or the invite creator) send the link directly to your colleague through any chat or messaging app.\n\nTo join the team, the colleague just needs to open the link and sign in with her Google account. If the link is broken or lost, you can reissue it, and it will invalidate the old version.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The explanation and next steps are understandable in English.",
+            "evidence": "Instead, you (or the invite creator) send the link directly to your colleague through any chat or messaging app.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Answers the Russian-speaking customer entirely in English.",
+            "evidence": "In TableCards, invitations do not arrive via email automatically. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-023",
+      "sourceId": "gemma4-26b:compact-inline:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": true,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 2,
+          "grounding": 2,
+          "authority": 2,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Directly answers that other businesses cannot see or retrieve the backgrounds.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer les fonds que vous créez avec l'IA.\n",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The explicit workspace boundary supports the denial of access by other platform customers.",
+            "evidence": "Les résultats de la génération par IA, tout comme vos propres images téléchargées, sont **privés et limités à votre espace de travail** (*workspace*). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "No boundary violation observed.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer les fonds que vous créez avec l'IA.\n\nLes résultats de la génération par IA, tout comme vos propres images téléchargées, sont **privés et limités à votre espace de travail** (*workspace*). Ils ne sont pas partagés avec les autres utilisateurs ou entreprises de la plateforme.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "Gives a clear and concise explanation.",
+            "evidence": "Les résultats de la génération par IA, tout comme vos propres images téléchargées, sont **privés et limités à votre espace de travail** (*workspace*). ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses natural French.",
+            "evidence": "Non, les autres entreprises ne pourront ni voir ni récupérer les fonds que vous créez avec l'IA.\n",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    },
+    {
+      "id": "review-024",
+      "sourceId": "glm-4.7-flash:jev-compact:fresh.20261011.helper.generated-background-privacy",
+      "status": "reviewed",
+      "checksPassed": true,
+      "passed": false,
+      "scorecard": {
+        "status": "scored",
+        "scores": {
+          "relevance": 1,
+          "grounding": 1,
+          "authority": 0,
+          "clarity": 2,
+          "language": 2
+        },
+        "criticalFailures": [
+          {
+            "code": "prohibited_promise",
+            "evidence": "*   **Données :** Vos listes d'invités et vos données ne sont pas envoyées à la société qui fournit l'art de fond.",
+            "reason": "Extends the limited guest-list assurance into an unsupported guarantee about all customer data.",
+            "referenceKey": "tablecards.designs"
+          }
+        ],
+        "reasons": [
+          {
+            "dimension": "relevance",
+            "reason": "Adds a broad provider-data guarantee beyond the required workspace privacy boundary.",
+            "evidence": "*   **Données :** Vos listes d'invités et vos données ne sont pas envoyées à la société qui fournit l'art de fond.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "grounding",
+            "reason": "The reviewed facts do not establish that all customer data is withheld from the image provider.",
+            "evidence": "*   **Données :** Vos listes d'invités et vos données ne sont pas envoyées à la société qui fournit l'art de fond.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "authority",
+            "reason": "Promises that customer data is not sent to the image provider without the approved scope limitation.",
+            "evidence": "*   **Données :** Vos listes d'invités et vos données ne sont pas envoyées à la société qui fournit l'art de fond.",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "clarity",
+            "reason": "The privacy explanation is understandable despite the unsupported guarantee.",
+            "evidence": "*   **Visibilité :** Les résultats et fichiers générés par l'IA sont privés dans votre **espace de travail**. ",
+            "evidenceKind": "answer_quote"
+          },
+          {
+            "dimension": "language",
+            "reason": "Uses comprehensible French.",
+            "evidence": "*   **Visibilité :** Les résultats et fichiers générés par l'IA sont privés dans votre **espace de travail**. ",
+            "evidenceKind": "answer_quote"
+          }
+        ]
+      }
+    }
+  ],
+  "accepted": 12,
+  "invalid": 0,
+  "unsure": 0
+}

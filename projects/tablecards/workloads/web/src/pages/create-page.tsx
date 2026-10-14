@@ -6,6 +6,7 @@ import { useTableCardsApplication } from '../application-context';
 import { ApplicationShell } from '../layouts/application-shell';
 import { RouteFocus } from '../route-focus';
 import { PublicSessionAction } from '../public-session-action';
+import { HelpActions } from '../help';
 
 export function Component() {
   const { state } = useBffAuth();
@@ -46,6 +47,7 @@ export function Component() {
           <span>TableCards</span>
         </Link>
         <div className="header-actions">
+          <HelpActions />
           {state.status === 'signed_out' ? (
             <BffAuthLink
               className="text-button"

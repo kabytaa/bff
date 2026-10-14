@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-11T07:59:00Z",
+  "reviewer": "primary Codex agent",
+  "method": "AI supervisor cross-check, not human ground truth",
+  "rubricVersion": "operator-answer-quality-v2",
+  "apiJudgeCalibrated": false,
+  "qualityVerified": false,
+  "coverage": "All 40 original answers and grades inspected. Eight IDs preselected and their answers assessed before Luna scores; remaining inspection after scores.",
+  "preselectedIds": {
+    "20261011-075106860-agent-helper-01": ["review-001", "review-007", "review-015", "review-020"],
+    "20261011-075106860-agent-helper-02": ["review-001", "review-007", "review-015", "review-020"]
+  },
+  "gradeAdjudications": [
+    {"batch":"20261011-075106860-agent-helper-01","id":"review-004","dimensions":{"grounding":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3"],"reason":"The complete answer unambiguously states monthly batches do not roll over. Using generations as a paraphrase adds no different quantity or personal allowance. Adequate semantic help should not fail a harmless synonym."},
+    {"batch":"20261011-075106860-agent-helper-01","id":"review-005","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A6","referenceId":"R5","reason":"It invents exact-logo placement via predefined designs or manual layout adjustments."}],"evidenceIds":["A6"],"reason":"Curated templates and guest-name controls do not establish arbitrary logo placement. The unsupported workaround is a fabricated product feature, not just a vague claim."},
+    {"batch":"20261011-075106860-agent-helper-01","id":"review-013","dimensions":{"grounding":2,"authority":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3","A4","A5"],"reason":"Read as a whole, it gives the documented 100% setting, requires calibration and matching paper/margins, and explicitly denies universal printer compatibility. Ensures here describes avoiding rescaling, not an unconditional compatibility guarantee."},
+    {"batch":"20261011-075106860-agent-helper-01","id":"review-016","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A6","referenceId":"R7","reason":"The answer invents a TableCards support-resource destination not supplied in the approved facts."}],"evidenceIds":["A4","A5","A6"],"reason":"In addition to unsupported move/share features, it supplies a fabricated tablecards.com/teams link. No approved reference supplies that destination."},
+    {"batch":"20261011-075106860-agent-helper-01","id":"review-018","dimensions":{"grounding":2},"criticalFailures":[],"evidenceIds":["A3","A4","A6","A7"],"reason":"It correctly explains Archive/Restore and explicitly says deletion is not an offered option here. A conditional generic contrast is not a claim of an implemented deletion feature."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-003","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A2","referenceId":"R7","reason":"The feedback reply invents a TableCards contact URL absent from approved facts."}],"evidenceIds":["A2"],"reason":"The suggestion is on topic but its purported product contact destination is fabricated. The judge overlooked the unsupported URL."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-006","dimensions":{"grounding":2,"clarity":2},"criticalFailures":[],"evidenceIds":["A1","A2","A3","A4","A5"],"reason":"It directly and repeatedly says preview billing is inactive and no payment is collected. Advising verification on the landing page does not contradict that or claim future prices are confirmed."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-007","dimensions":{"relevance":1,"grounding":0,"clarity":1},"criticalFailures":[{"code":"invented_fact","evidenceId":"A3","referenceId":"R6","reason":"It invents a Manage Members UI flow rather than the documented Account/Team path."}],"evidenceIds":["A3","A4","B1"],"reason":"The customer already has the newer link, but the answer unnecessarily requires another invite and invents its UI flow instead of using the latest recipient-bound link."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-015","dimensions":{"relevance":1},"evidenceIds":["B1","A4"],"reason":"The answer omits that impossible text fits fail explicitly before export. That required behavior is important to its no-truncation explanation; the unsupported spacing-control issue remains."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-018","dimensions":{"grounding":2,"clarity":2},"criticalFailures":[],"evidenceIds":["A2","A3","A4"],"reason":"It states that the reservation releases, avoids inventing the current balance and directs the customer to verified account state. Typically is cautious wording, not a contradictory refund or credit claim."},
+    {"batch":"20261011-075106860-agent-helper-02","id":"review-020","dimensions":{"grounding":0},"criticalFailures":[{"code":"invented_fact","evidenceId":"A3","referenceId":"R4","reason":"Unknown preview expiry behavior is converted into an unsupported no-time-limits claim."}],"evidenceIds":["A3","A5"],"reason":"Not verified does not mean absent. The answer asserts no preview time limits although reviewed facts explicitly leave preview lifetime unverified."}
+  ],
+  "styleObservationsNotScoringOverrides": [
+    "Some factual answers quote internal policy imperatives or skill keys. Improve natural customer wording; do not pretend every stylistic blemish is a material semantic failure.",
+    "A valid citation only proves where a judgment points. Supervisor inspection still found both harsh false rejections and missed unsupported links/details."
+  ]
+}

@@ -8,6 +8,7 @@ import { tablecardsCustomerAuth } from './environment';
 import { exportFileAddress } from './lib/fileAddresses';
 import { fail } from './lib/productErrors';
 import { createPublicId } from './lib/publicIds';
+import { outcomeReason, queueOperationOutcome } from './operationEvents';
 
 const exportStatus = v.union(
   v.literal('queued'),
@@ -303,6 +304,26 @@ export const complete = internalMutation({
       pageCount: args.pageCount,
       updatedAt: Date.now(),
     });
+    const project = await ctx.db.get(exportJob.projectId);
+    await queueOperationOutcome(ctx, {
+      name: 'pdf.export_completed',
+      deduplicationId: `${exportJob.publicId}:completed`,
+      occurredAt: Date.now(),
+      productReference:
+        exportJob.snapshot?.projectId ??
+        project?.publicId ??
+        exportJob.publicId,
+      userPublicId: exportJob.requestedByUserId,
+      accountPublicId: exportJob.accountId,
+      properties: {
+        project_reference:
+          exportJob.snapshot?.projectId ??
+          project?.publicId ??
+          exportJob.publicId,
+        card_count:
+          exportJob.snapshot?.guests.length ?? project?.guestCount ?? 0,
+      },
+    });
     return null;
   },
 });
@@ -360,6 +381,29 @@ export const failExport = internalMutation({
       errorCode: args.errorCode,
       updatedAt: Date.now(),
     });
+    if (exportJob.status !== 'failed') {
+      const project = await ctx.db.get(exportJob.projectId);
+      await queueOperationOutcome(ctx, {
+        name: 'pdf.export_failed',
+        deduplicationId: `${exportJob.publicId}:failed`,
+        occurredAt: Date.now(),
+        productReference:
+          exportJob.snapshot?.projectId ??
+          project?.publicId ??
+          exportJob.publicId,
+        userPublicId: exportJob.requestedByUserId,
+        accountPublicId: exportJob.accountId,
+        properties: {
+          project_reference:
+            exportJob.snapshot?.projectId ??
+            project?.publicId ??
+            exportJob.publicId,
+          card_count:
+            exportJob.snapshot?.guests.length ?? project?.guestCount ?? 0,
+          reason: outcomeReason(args.errorCode),
+        },
+      });
+    }
     return null;
   },
 });

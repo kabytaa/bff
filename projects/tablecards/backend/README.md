@@ -52,6 +52,15 @@ pnpm exec convex dev --once --typecheck enable
 
 The integration suite is `pnpm exec nx run tablecards-backend:test-integration`.
 
+Optional `TABLECARDS_OPERATIONS_EVENT_SECRET` (at least 32 characters) enables
+server-reported save/export/AI outcomes to the existing `BFF_CUSTOMER_API_BASE_URL`.
+Register the matching environment-scoped operations event secret in BFF separately
+from checkout credentials. Without it, reporting is disabled and old deployments
+remain compatible. Native one-shot jobs retry transient failures after 30 seconds,
+at most three attempts, using stable outcome IDs for BFF deduplication. Reporting
+cannot undo a product save/export/batch. Payloads contain public references,
+counts and safe outcome codes, never titles, guest names, prompts or private files.
+
 Production deployment is main CI's guarded `convex deploy`, not `convex dev`.
 The independent production target is `clean-gerbil-451`; never use the shared
 BFF deployment key here. [Operations](../docs/operations.md#production-release-and-recovery)

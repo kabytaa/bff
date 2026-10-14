@@ -28,7 +28,8 @@ export interface SavedProject extends ProjectSummary {
 export interface CurrentProductAccess {
   readonly offerKey: OfferId;
   readonly offerName?: string;
-  readonly source?: 'default' | 'development_mock' | 'provider';
+  readonly source?: 'default' | 'development_mock' | 'test_mock' | 'provider';
+  readonly mockCheckoutAvailable?: boolean;
   readonly maxCardsPerProject?: number;
   readonly maxActiveProjects?: number;
   readonly artworkUploadEnabled?: boolean;
@@ -64,7 +65,8 @@ interface BackendOfferView {
   readonly collaborationSeats: number;
   readonly aiBatchesRemaining: number;
   readonly aiAllocationLabel: 'lifetime' | 'event' | 'current_billing_cycle';
-  readonly source: 'default' | 'development_mock' | 'provider';
+  readonly source: 'default' | 'development_mock' | 'test_mock' | 'provider';
+  readonly mockCheckoutAvailable?: boolean;
 }
 
 export interface ExportStatus {
@@ -366,6 +368,7 @@ function accessView(access: BackendOfferView): CurrentProductAccess {
     offerKey: access.id,
     offerName: access.name,
     source: access.source,
+    mockCheckoutAvailable: access.mockCheckoutAvailable === true,
     maxCardsPerProject: access.maximumCardsPerProject,
     maxActiveProjects: access.maximumActiveProjects,
     artworkUploadEnabled: access.customArtwork,
