@@ -72,8 +72,9 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             Use synthetic guest names where possible. Archiving a project hides
             it from active projects; it is not deletion. Preview data can remain
             until operator cleanup. Automated retention, self-service deletion
-            are not yet provided. Use the support/feedback page for a data
-            request. Do not upload sensitive personal or payment information.
+            are not yet provided. Use <Link to="/contact">Contact</Link> for a
+            data request. Do not upload sensitive personal or payment
+            information.
           </p>
         </>
       ) : kind === 'terms' ? (
@@ -115,10 +116,10 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
         <>
           <h2>Preview help</h2>
           <p>
-            For this no-charge preview, use Help or the support/feedback page.
-            Include the page, the action you tried and any short error
-            reference. Never send a session cookie, access token, payment
-            details or a private guest list.
+            For this no-charge preview, use Help or the Contact page. Include
+            the page, the action you tried and any short error reference. Never
+            send a session cookie, access token, payment details or a private
+            guest list.
           </p>
           <p>
             Signed-in customers can submit a question, problem or feedback;
@@ -127,7 +128,7 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             an operator before sending; no response-time guarantee is made.
           </p>
           <p>
-            <Link to="/support/feedback">Contact support or send feedback</Link>
+            <Link to="/contact">Contact support or send feedback</Link>
           </p>
         </>
       )}

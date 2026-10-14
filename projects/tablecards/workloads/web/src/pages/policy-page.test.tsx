@@ -36,7 +36,7 @@ describe('Preview disclosures match Operator and test-checkout behavior', () => 
       screen
         .getByRole('link', { name: 'Contact support or send feedback' })
         .getAttribute('href'),
-    ).toBe('/support/feedback');
+    ).toBe('/contact');
     expect(screen.getByText(/operator before sending/u)).toBeTruthy();
     expect(screen.queryByText(/not configured yet/u)).toBeNull();
   });

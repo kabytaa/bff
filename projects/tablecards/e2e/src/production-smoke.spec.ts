@@ -194,8 +194,13 @@ test('shared Help bubble and support entry are usable without development contro
   await dialog.getByRole('button', { name: 'Close help' }).click();
   await expect(dialog).not.toBeVisible();
   await expect(bubble).toBeFocused();
-  await page.goto('/support/feedback');
-  await expect(page.getByText(/Sign in|support/iu).first()).toBeVisible();
+  await page.goto('/contact');
+  await expect(
+    page.getByRole('heading', { name: 'Contact', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Send us an email', exact: true }),
+  ).toHaveAttribute('href', /^mailto:help@tablecards\.tofler\.app\?/u);
   await expectContained(page);
   expect(inferenceCalls).toBe(0);
 });
