@@ -620,6 +620,56 @@ describe('product access projection and unit ledger', () => {
     });
   });
 
+  it.each([false, true])(
+    'retires customer mock-grant writes even with development gates enabled (test user: %s)',
+    async (isTestUser) => {
+      vi.stubEnv(DEVELOPMENT_PRODUCT_ACCESS_ENVIRONMENT.enabled, 'enabled');
+      const t = convexTest({ schema, modules, transactionLimits: true });
+      const context = await fixture(t);
+      await t.run(async (ctx) => {
+        const user = await ctx.db.query('businessUsers').first();
+        if (!user) throw new Error('Missing fixture user');
+        await ctx.db.patch(user._id, { isTestUser });
+      });
+      const signing = await installSigningConfiguration();
+      const now = Math.floor(Date.now() / 1_000);
+      const token = await signCustomerContextToken(signing, {
+        contextType: 'account',
+        ...context,
+        sessionPublicId: 'session_product_access1',
+        tokenPublicId: 'token_retired_access001',
+        role: 'owner',
+        permissions: ['account:read'],
+        authorizedAt: now,
+        expiresAt: now + 600,
+      });
+      const grant = grantArgs(context);
+      const response = await t.fetch('/v1/product-access/development', {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${token}`,
+          origin: 'https://tablecards-dev.tofler.app',
+          'x-tofler-environment': context.environmentKey,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          offerKey: grant.offerKey,
+          offerRevision: grant.offerRevision,
+          featureFlags: grant.featureFlags,
+          numericLimits: grant.numericLimits,
+          unitGrants: grant.unitGrants,
+        }),
+      });
+      expect(response.status).toBe(403);
+      expect(await response.json()).toMatchObject({
+        error: { code: 'FORBIDDEN' },
+      });
+      expect(
+        await t.run(async (ctx) => ctx.db.query('accountAccessGrants').take(1)),
+      ).toEqual([]);
+    },
+  );
+
   it('fails closed unless deployment and Business development gates are enabled', async () => {
     expect(developmentProductAccessRouteEnabled({})).toBe(false);
     expect(

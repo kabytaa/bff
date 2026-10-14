@@ -86,6 +86,27 @@ export const processWebhook = internalAction({
       return null;
     }
     try {
+      if (
+        !(await ctx.runQuery(
+          internal.lib.operationsMailRouting.acceptsWebhook,
+          {
+            eventType: receipt.eventType,
+            ...(receipt.providerMessageId
+              ? { providerMessageId: receipt.providerMessageId }
+              : {}),
+            ...(receipt.sender ? { sender: receipt.sender } : {}),
+            recipients: receipt.recipients,
+          },
+        ))
+      ) {
+        await ctx.runMutation(internal.operationsState.markWebhookFailure, {
+          ...args,
+          retryable: false,
+          error:
+            'Incoming webhook is outside the currently registered local mailbox routes.',
+        });
+        return null;
+      }
       if (!receipt.providerMessageId)
         throw new Error('Missing provider message ID');
       const content = await receiveOperationEmail(

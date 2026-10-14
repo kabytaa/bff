@@ -1,0 +1,19 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "business-factory-ai-provider",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-09",
+  "workers_dev": true,
+  "ai": { "binding": "AI" },
+  "images": { "binding": "IMAGES" },
+  "vars": {
+    "RUNTIME_ONLY": "true",
+    "LIVE_TEXT_ENABLED": "false",
+    "CAPS_VERIFIED": "false",
+    "AI_GATEWAY_ID": "bff-operator-prod",
+    "KNOWLEDGE_SELECTION_ENABLED": "false",
+    "RUNTIME_KNOWLEDGE_SELECTION_ENABLED": "false",
+    "GENERATION_EXPERIMENTS_ENABLED": "false",
+  },
+  "observability": { "enabled": false },
+}

@@ -2,7 +2,7 @@
 
 > **Status:** Completed for the authorized development checkpoint — Gemma/Jev integration verified; 90–95% quality target unmet and deferred
 > **Created:** 2026-10-09
-> **Last updated:** 2026-10-12
+> **Last updated:** 2026-10-14
 > **Repository baseline:** `41ba411`
 > **Source brainstorm:** [Accepted Operator work](../brainstorms/261008-customer-operations-backoffice.md), presented design/schema accepted 2026-10-09.
 
@@ -14,6 +14,18 @@ authorized one minimum Gateway credit top-up on 2026-10-11 (dated evidence below
 External
 blockers do not stop independent tasks: use labelled development mocks and record
 unverified live criteria rather than claiming mocks prove provider behavior.
+
+### 2026-10-14 production release authorization
+
+The original development checkpoint above remains completed. Andrew now
+explicitly authorizes independent review, garbage cleanup, finishing the current
+PR/build, merge and production deployment if safe, using existing credentials.
+This supersedes the historical development-only publication restriction, not the
+separate Payments or customer-launch stages. Production release evidence and
+remaining checks are recorded in the
+[dated release review](../../projects/tablecards/docs/reviews/261014-operator-work-production.md).
+The release preserves the accepted Gemma/Jev quality checkpoint and spending
+caps; no new benchmark run or paid plan change is needed.
 
 ## Repository context snapshot
 

@@ -113,7 +113,7 @@ describe('production workflow credential boundaries', () => {
     const exampleDeploy = step(
       workflow,
       'Deploy and stamp the separate example backend',
-      'Deploy the production example session gateway',
+      'Verify the separate TableCards production target',
     );
 
     for (const section of [bffDeploy, bffStamp]) {
@@ -129,8 +129,16 @@ describe('production workflow credential boundaries', () => {
     expect(exampleTarget).not.toContain('convex env set');
   });
 
-  it('scopes the Cloudflare token to gateway and static publication only', async () => {
+  it('scopes the Cloudflare token to the operator provider and Worker publication', async () => {
     const workflow = await readFile(workflowPath, 'utf8');
+    const operatorProvider = step(
+      workflow,
+      'Deploy the production operator provider',
+      'Configure production operator runtime',
+    );
+    expect(operatorProvider).toContain('secrets.CLOUDFLARE_API_TOKEN');
+    expect(operatorProvider).not.toContain('secrets.CONVEX_DEPLOY_KEY');
+
     const staticRelease = workflow.slice(
       workflow.indexOf(
         '      - name: Deploy the production example session gateway',
@@ -141,14 +149,13 @@ describe('production workflow credential boundaries', () => {
     expect(staticRelease.match(/secrets\.CLOUDFLARE_API_TOKEN/gu)).toHaveLength(
       7,
     );
-    expect(
-      workflow.slice(
-        0,
-        workflow.indexOf(
-          '      - name: Deploy the production example session gateway',
-        ),
-      ),
-    ).not.toContain('secrets.CLOUDFLARE_API_TOKEN');
+    const beforeOperatorProvider = workflow.slice(
+      0,
+      workflow.indexOf('      - name: Deploy the production operator provider'),
+    );
+    expect(beforeOperatorProvider).not.toContain(
+      'secrets.CLOUDFLARE_API_TOKEN',
+    );
   });
 
   it('guards the TableCards key before configuration and cannot disable production checks', async () => {
@@ -167,7 +174,7 @@ describe('production workflow credential boundaries', () => {
     const deploy = step(
       workflow,
       'Deploy and stamp the separate TableCards backend',
-      'Deploy the production example session gateway',
+      'Deploy the production operator provider',
     );
     for (const section of [target, configure, deploy]) {
       expect(section).toContain('secrets.TABLECARDS_CONVEX_DEPLOY_KEY');
@@ -179,5 +186,90 @@ describe('production workflow credential boundaries', () => {
     expect(configure).toContain(
       'convex env remove TABLECARDS_DEVELOPMENT_MOCKS_ENABLED',
     );
+  });
+
+  it('gates production operator setup on verified caps and preserves native secret stores', async () => {
+    const workflow = await readFile(workflowPath, 'utf8');
+    expect(workflow).toContain("BFF_OPERATOR_PRODUCTION_ENABLED: 'true'");
+    expect(workflow).toContain(
+      'BFF_OPERATOR_CAPS_VERIFIED: ${{ vars.BFF_OPERATOR_CAPS_VERIFIED }}',
+    );
+    expect(workflow).toContain(
+      'BFF_OPERATIONS_PROVIDER_BASE_URL: https://business-factory-ai-provider.kabytaa.workers.dev',
+    );
+
+    const preflight = step(
+      workflow,
+      'Check required operator production environment names',
+      'Deploy the BFF and rebuild the reviewed assets',
+    );
+    expect(preflight).toContain('if: env.BFF_OPERATOR_PRODUCTION_ENABLED');
+    expect(preflight).toContain('secrets.CONVEX_DEPLOY_KEY');
+    expect(preflight).toContain('convex env list --names-only');
+    expect(preflight).not.toContain('secrets.BFF_OPERATIONS_');
+    expect(preflight).not.toContain('secrets.BFF_OPERATION_EVENT_SECRETS_JSON');
+    for (const name of [
+      'BFF_OPERATIONS_RESEND_API_KEY',
+      'BFF_OPERATIONS_RESEND_WEBHOOK_SECRET',
+      'BFF_OPERATIONS_PROVIDER_SECRET',
+      'BFF_OPERATION_EVENT_SECRETS_JSON',
+    ]) {
+      expect(preflight).toContain(name);
+    }
+    expect(preflight).toContain(
+      'Required production environment name is missing',
+    );
+    expect(preflight).not.toContain('env get');
+
+    const provider = step(
+      workflow,
+      'Deploy the production operator provider',
+      'Configure production operator runtime',
+    );
+    expect(provider).toContain(
+      'platform/bff/ai-provider/wrangler.production.jsonc',
+    );
+    expect(provider).toContain('--var RUNTIME_ONLY:true');
+    expect(provider).toContain('--var LIVE_TEXT_ENABLED:true');
+    expect(provider).toContain('--var CAPS_VERIFIED:true');
+    expect(provider).toContain(
+      '--var RUNTIME_KNOWLEDGE_SELECTION_ENABLED:true',
+    );
+    expect(provider).toContain('secrets.CLOUDFLARE_API_TOKEN');
+    expect(provider).not.toContain('secrets.BFF_OPERATIONS_PROVIDER_SECRET');
+    expect(provider).not.toContain('secret put');
+
+    const configure = step(
+      workflow,
+      'Configure production operator runtime',
+      'Deploy the production example session gateway',
+    );
+    expect(configure).toContain('secrets.CONVEX_DEPLOY_KEY');
+    expect(configure).not.toContain('secrets.CLOUDFLARE_API_TOKEN');
+    expect(configure).not.toContain('secrets.EXAMPLE_CONVEX_DEPLOY_KEY');
+    expect(configure).not.toContain('secrets.TABLECARDS_CONVEX_DEPLOY_KEY');
+    expect(configure).not.toContain('secrets.BFF_OPERATIONS_');
+    expect(configure).not.toContain('secrets.BFF_OPERATION_EVENT_SECRETS_JSON');
+    for (const assignment of [
+      'BFF_OPERATIONS_AI_MODE live',
+      'BFF_OPERATIONS_MAIL_MODE live',
+      'BFF_OPERATIONS_CAPS_VERIFIED verified',
+      'BFF_OPERATIONS_PROVIDER_BASE_URL',
+    ]) {
+      expect(configure).toContain(`convex env set ${assignment}`);
+    }
+    expect(configure).not.toContain('convex env set BFF_OPERATIONS_RESEND');
+    expect(configure).not.toContain(
+      'convex env set BFF_OPERATIONS_PROVIDER_SECRET',
+    );
+    expect(configure).not.toContain(
+      'convex env set BFF_OPERATION_EVENT_SECRETS_JSON',
+    );
+    expect(
+      workflow.indexOf('Deploy the production operator provider'),
+    ).toBeLessThan(workflow.indexOf('Deploy the production backoffice'));
+    expect(
+      workflow.indexOf('Configure production operator runtime'),
+    ).toBeLessThan(workflow.indexOf('Deploy the production backoffice'));
   });
 });

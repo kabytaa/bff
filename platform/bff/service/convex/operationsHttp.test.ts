@@ -89,7 +89,7 @@ const auth: CustomerAuthConfiguration = {
   accountDefaults: DEFAULT_ACCOUNT_POLICY,
 };
 afterEach(() => vi.unstubAllEnvs());
-async function fixture() {
+async function fixture(operatorConfiguration = configuration) {
   vi.stubEnv('BFF_DEVELOPMENT_OPERATOR_WORK_ENABLED', 'enabled');
   vi.stubEnv('BFF_OPERATIONS_AI_MODE', 'mock');
   const t = convexTest(schema, modules);
@@ -107,7 +107,7 @@ async function fixture() {
   await t.mutation(internal.operations.configure, {
     environmentKey,
     expectedRevision: 0,
-    configuration,
+    configuration: operatorConfiguration,
   });
   return t;
 }
@@ -131,6 +131,51 @@ function streamData(text: string): Array<Record<string, unknown>> {
     .split('\n')
     .filter((line) => line.startsWith('data: ') && !line.includes('[DONE]'))
     .map((line) => JSON.parse(line.slice(6)) as Record<string, unknown>);
+}
+
+async function waitingHelper() {
+  const t = await fixture({
+    ...configuration,
+    pageCapabilities: [
+      {
+        name: 'open_create',
+        description: 'Offer the registered creator link.',
+        arguments: [],
+        result: [{ name: 'offered', type: 'boolean', required: true }],
+        destination: '/create',
+      },
+    ],
+  });
+  const body = {
+    ...turn('waiting_response_lost_synthetic01'),
+    capability: 'b'.repeat(43),
+  };
+  const saved = await t.mutation(internal.operationsState.helperTurn, {
+    environmentKey,
+    anonymousHandleHash: await sha256Base64Url(body.capability),
+    text: body.message.text,
+    idempotencyKey: body.message.id,
+    pageContext: body.page,
+  });
+  const claim = await t.mutation(internal.operationsState.claimRun, {
+    runId: saved.runId!,
+    provider: 'development-mock',
+  });
+  await t.mutation(internal.operationsState.pauseClientTool, {
+    runId: saved.runId!,
+    attemptId: claim!.attemptId,
+    callId: 'saved-browser-call',
+    name: 'open_create',
+    arguments: {},
+    pageContextFingerprint: await sha256Base64Url(JSON.stringify(body.page)),
+  });
+  const send = (input: unknown) =>
+    t.fetch('/v1/operations/helper', {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify(input),
+    });
+  return { t, body, saved, send };
 }
 
 describe('guarded Operator HTTP workflows', () => {
@@ -290,6 +335,73 @@ describe('guarded Operator HTTP workflows', () => {
       ).status,
     ).toBe(200);
     expect((await send(same)).status).toBe(409);
+  });
+  it('replays a saved waiting browser call after a lost response without another execution', async () => {
+    const { t, body, saved, send } = await waitingHelper();
+    const replay = await send(body);
+    expect(replay.status).toBe(200);
+    const parts = streamData(await replay.text());
+    expect(parts).toContainEqual({
+      type: 'tool-input-available',
+      toolCallId: 'saved-browser-call',
+      toolName: 'open_create',
+      input: {},
+    });
+    const session = parts.find((part) => part.type === 'data-session')
+      ?.data as { conversationId: string; capability: string };
+    expect(session.conversationId).toBe(saved.publicId);
+    expect(session.capability).toBe(body.capability);
+    const beforeResume = await t.run((ctx) => ctx.db.get(saved.runId!));
+    expect(beforeResume?.state).toBe('waiting_for_client');
+    expect(beforeResume?.attempts).toHaveLength(1);
+    expect((await send({ ...body, ...session })).status).toBe(200);
+    const resumed = await send({
+      environmentKey,
+      ...session,
+      page: body.page,
+      toolResults: [
+        {
+          toolCallId: 'saved-browser-call',
+          toolName: 'open_create',
+          output: { offered: true },
+          contextKey: 'anonymous:/',
+        },
+      ],
+    });
+    expect(resumed.status).toBe(200);
+    const answer = await resumed.text();
+    const completed = await send({ ...body, ...session });
+    expect(completed.status).toBe(200);
+    expect(await completed.text()).toBe(answer);
+    const afterResume = await t.run((ctx) => ctx.db.get(saved.runId!));
+    expect(afterResume?.state).toBe('completed');
+    expect(afterResume?.attempts).toHaveLength(2);
+  });
+  it('does not replay a waiting browser call across capability, question, page or configuration changes', async () => {
+    const { t, body, saved, send } = await waitingHelper();
+    const same = { ...body, conversationId: saved.publicId };
+    expect((await send({ ...same, capability: 'x'.repeat(43) })).status).toBe(
+      403,
+    );
+    expect((await send({ ...same, page: { key: '/changed' } })).status).toBe(
+      409,
+    );
+    expect(
+      (
+        await send({
+          ...same,
+          message: { ...same.message, text: 'A changed question' },
+        })
+      ).status,
+    ).toBe(409);
+    await t.mutation(internal.operations.configure, {
+      environmentKey,
+      expectedRevision: 1,
+      configuration,
+    });
+    expect((await send(same)).status).toBe(409);
+    const run = await t.run((ctx) => ctx.db.get(saved.runId!));
+    expect(run?.attempts).toHaveLength(1);
   });
   it('does not execute an already queued or running duplicate', async () => {
     const t = await fixture();

@@ -1,7 +1,7 @@
 # TableCards Application
 
 Created: 2026-09-28
-Updated: 2026-10-11
+Updated: 2026-10-14
 Status: Accepted — Build 3 no-charge preview deployed in development and production
 
 This document defines the customer-facing TableCards application experience:
@@ -17,6 +17,15 @@ optional company/style references; earlier acceptance is retained below.
 The [production release review](reviews/261007-build-3-production-release.md)
 records the merged release, actual desktop/mobile checks and unavailable
 personal Google credential round-trips. This is not a paying-customer launch.
+
+**2026-10-14 development revision:** shared checkout is available only to an
+operator-designated test Owner in an all-test workspace, not to every signed-in
+development user. Account explains eligibility and offers **Refresh availability**;
+completed grants say **Test-user simulation · no payment charged**. Normal users
+see an explicit no-real-payments-yet explanation. Removing designation stops
+new/pending purchases while preserving access/data; test workspace invitations
+require a designated test recipient. Backoffice owns designation. Production
+remains the historical preview described above until separately released.
 
 ## Repository baseline
 
@@ -166,8 +175,8 @@ Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,
 no-charge checkout page and returns to `/settings`; TableCards must never show
 a local dummy-payment selector. In Build 4 the same create-checkout contract may
-return the shared mock or Paddle in development and returns Paddle directly in
-production.
+return a mock for designated test users in either deployment, and Paddle for
+normal customers once live billing is implemented.
 
 ### Public navigation
 
@@ -539,8 +548,10 @@ failures instead expose Retry checkout with the original idempotency key; a
 usage refresh cannot silently hide a checkout failure. Rename and Owner-only
 permission errors do not offer a misleading usage retry.
 
-A paid `offer` query immediately starts BFF checkout using a tab-stored
-idempotency key and displays an opening status. Checkout success/cancel return
+A paid `offer` query starts BFF checkout only after current test-user/workspace
+eligibility loads, using a tab-stored idempotency key and an opening status.
+Ineligible users remain on Account with an explanation; the browser cannot enable
+checkout by changing flags. Checkout success/cancel return
 messages are shown and the query is replaced with the clean `/settings` route.
 Owner-only checkout is checked before starting it, and other members receive
 an ask-your-Owner explanation. The backend remains authoritative even if another
@@ -736,7 +747,7 @@ in the release review; real paid/subscription state is not claimed.
   remains final.
 - Offer gates come from BFF effective product access. Pricing copy and local
   catalog metadata do not authorize a feature.
-- Mock checkout requires explicit BFF deployment enablement and always states
+- Mock checkout requires current operator-designated test-user/workspace eligibility and always states
   that it charges nothing. TableCards contains no payment simulation screen.
 - Completing Studio checkout atomically applies its product grant and the
   accepted five-seat, Admin-enabled, invitation-enabled account policy. Hosted
@@ -966,8 +977,8 @@ actual SVG artwork references; they are not rendered-browser or PDF-content proo
 
 Build 4 keeps the checkout interface but adds Paddle selection, verified
 webhooks, paid-through renewal, subscription status and billing remediation
-without redesigning these pages. Development may select Paddle or mock;
-production returns Paddle directly. Build 5's development implementation adds
+without redesigning these pages. Normal customers use real provider checkout;
+designated test users may simulate checkout in either deployment. Build 5's development implementation adds
 Help/Feedback and contact to the existing application shell, with shared
 operator business/customer evidence. Its real development email gate passes;
 the capped live helper integration passes, but full model-quality evaluation is

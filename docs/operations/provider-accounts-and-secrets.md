@@ -1,8 +1,38 @@
 # Provider accounts, access and secrets
 
-Updated: 2026-10-11.
+Updated: 2026-10-14.
 
 This is the manual handoff for [ADR 0001 — Convex-first BFF stack](../architecture/adr/0001-convex-first-bff-stack.md). It records which accounts are needed, when they are needed and how access should be supplied. It must never contain credential values.
+
+## Operator production extension — 2026-10-14
+
+Andrew authorized the current PR/build's production release and existing
+credential use. This supersedes the historical development-only boundary below,
+not customer-launch or real-payment acceptance. Current publication evidence is
+in the [release review](../../projects/tablecards/docs/reviews/261014-operator-work-production.md).
+
+- Production has a dedicated Resend Full-access key, separate private provider
+  secret and environment-scoped event-reporting secret. They are stored through
+  native Convex/Worker secret tools, not in Git or duplicated in GitHub. CI checks
+  required variable names only and reconciles public runtime modes/URL. The
+  scoped GitHub Convex/Cloudflare deploy keys remain per-step credentials.
+- The new authenticated `bff-operator-prod` gateway uses unified billing with
+  global $3/day and $30/month fixed limits, request logging off and 200 requests
+  per 60 seconds. Cap readback and a temporary tiny-limit blocking proof passed;
+  original rules were restored exactly. No top-up, new plan or increase to
+  development caps. Concurrency overshoot remains possible.
+- Development mail is now `help-dev@tablecards.tofler.app`; production is
+  `help@tablecards.tofler.app`. The verified subdomain/DNS is reused without root
+  MX changes. Each BFF deployment has its own signed webhook secret. Signed
+  notifications for foreign/ambiguous routes are acknowledged before receipt
+  persistence or provider content fetch, with a second check for queued inbound
+  jobs. Distinct addresses alone are not adequate because Resend callbacks are
+  account-wide.
+- Production webhook `f39d1ee6-7171-42c1-b85e-5e84a318a7a1` is prepared disabled
+  until the reviewed backend/configuration is published. Consult the dated
+  release review for activation and real round-trip verification, not the older
+  development-only status below. Runtime keys created for production are fresh;
+  the earlier setup/temporary development credentials still warrant rotation.
 
 ## Operator work development access — 2026-10-10
 

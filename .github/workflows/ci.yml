@@ -69,6 +69,9 @@ jobs:
       TABLECARDS_ENVIRONMENT_KEY: ${{ vars.TABLECARDS_ENVIRONMENT_KEY }}
       TABLECARDS_CLOUDFLARE_AI_URL: ${{ vars.TABLECARDS_CLOUDFLARE_AI_URL }}
       TABLECARDS_AI_DAILY_BUDGET_USD: ${{ vars.TABLECARDS_AI_DAILY_BUDGET_USD }}
+      BFF_OPERATOR_PRODUCTION_ENABLED: 'true'
+      BFF_OPERATOR_CAPS_VERIFIED: ${{ vars.BFF_OPERATOR_CAPS_VERIFIED }}
+      BFF_OPERATIONS_PROVIDER_BASE_URL: https://business-factory-ai-provider.kabytaa.workers.dev
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -82,6 +85,27 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Preflight every production build and target
         run: pnpm production:build
+      - name: Check required operator production environment names
+        if: env.BFF_OPERATOR_PRODUCTION_ENABLED == 'true'
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          names="$(pnpm exec convex env list --names-only)"
+          missing=()
+          for name in \
+            BFF_OPERATIONS_RESEND_API_KEY \
+            BFF_OPERATIONS_RESEND_WEBHOOK_SECRET \
+            BFF_OPERATIONS_PROVIDER_SECRET \
+            BFF_OPERATION_EVENT_SECRETS_JSON; do
+            if ! grep -Fxq "$name" <<< "$names"; then
+              missing+=("$name")
+            fi
+          done
+          if ((${#missing[@]})); then
+            printf 'Required production environment name is missing: %s\n' "${missing[@]}" >&2
+            exit 1
+          fi
       - name: Deploy the BFF and rebuild the reviewed assets
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
@@ -144,6 +168,28 @@ jobs:
         run: |
           pnpm exec convex deploy --message "$GITHUB_SHA"
           pnpm exec convex env set TABLECARDS_BUILD_VERSION "$GITHUB_SHA"
+      - name: Deploy the production operator provider
+        if: env.BFF_OPERATOR_PRODUCTION_ENABLED == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          pnpm exec wrangler deploy \
+            --config platform/bff/ai-provider/wrangler.production.jsonc \
+            --var RUNTIME_ONLY:true \
+            --var LIVE_TEXT_ENABLED:true \
+            --var CAPS_VERIFIED:true \
+            --var RUNTIME_KNOWLEDGE_SELECTION_ENABLED:true
+      - name: Configure production operator runtime
+        if: env.BFF_OPERATOR_PRODUCTION_ENABLED == 'true'
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          pnpm exec convex env set BFF_OPERATIONS_AI_MODE live
+          pnpm exec convex env set BFF_OPERATIONS_MAIL_MODE live
+          pnpm exec convex env set BFF_OPERATIONS_CAPS_VERIFIED verified
+          pnpm exec convex env set BFF_OPERATIONS_PROVIDER_BASE_URL "$BFF_OPERATIONS_PROVIDER_BASE_URL"
       - name: Deploy the production example session gateway
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

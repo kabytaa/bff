@@ -34,7 +34,6 @@ import {
   updateAccountPolicyHandler,
 } from './lib/customerHttp';
 import { customerDevelopmentAutomationRouteEnabled } from './lib/customerCrypto';
-import { developmentProductAccessRouteEnabled } from './developmentProductAccess';
 import {
   commitUnitsHandler,
   currentProductAccessHandler,
@@ -46,6 +45,7 @@ import {
 } from './lib/productAccessHttp';
 import {
   cancelCheckoutHandler,
+  checkoutAvailabilityHandler,
   checkoutOptionsHandler,
   completeCheckoutHandler,
   createCheckoutHandler,
@@ -170,6 +170,12 @@ http.route({
 });
 
 http.route({
+  path: '/v1/checkouts/availability',
+  method: 'GET',
+  handler: httpAction(checkoutAvailabilityHandler),
+});
+
+http.route({
   path: '/v1/checkouts',
   method: 'GET',
   handler: httpAction(readCheckoutHandler),
@@ -224,13 +230,12 @@ http.route({
   handler: httpAction(releaseUnitsHandler),
 });
 
-if (developmentProductAccessRouteEnabled()) {
-  http.route({
-    path: '/v1/product-access/development',
-    method: 'POST',
-    handler: httpAction(setDevelopmentProductAccessHandler),
-  });
-}
+// Retired customer writer: keep a fail-closed response for legacy SDK clients.
+http.route({
+  path: '/v1/product-access/development',
+  method: 'POST',
+  handler: httpAction(setDevelopmentProductAccessHandler),
+});
 
 http.route({
   path: '/v1/accounts',
@@ -315,17 +320,10 @@ for (const path of [
   '/v1/product-access/units/reserve',
   '/v1/product-access/units/commit',
   '/v1/product-access/units/release',
+  '/v1/product-access/development',
 ] as const) {
   http.route({
     path,
-    method: 'OPTIONS',
-    handler: httpAction(customerApiOptionsHandler),
-  });
-}
-
-if (developmentProductAccessRouteEnabled()) {
-  http.route({
-    path: '/v1/product-access/development',
     method: 'OPTIONS',
     handler: httpAction(customerApiOptionsHandler),
   });

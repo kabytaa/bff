@@ -19,6 +19,22 @@ reason, this hosted suite is deliberately separate from the self-contained
 Artifacts go to this project's ignored `test-results/`, separate from local
 browser suites so concurrent validation cannot delete hosted traces.
 
+## Test-user checkout
+
+```bash
+pnpm exec playwright test --config projects/tablecards/e2e/playwright.test-users.config.ts
+```
+
+This focused desktop/phone journey registers a normal synthetic customer, checks
+checkout denial, enables its test-user flag through the real backoffice, completes
+shared no-charge checkout, then removes the flag and verifies access remains while
+new checkout is blocked. It uses the development admitted-operator token minting
+path; no real payment, email or inference is invoked. Traces/video are disabled.
+Existing paid-offer fixtures explicitly designate their verified synthetic Owner
+through the admitted public API immediately before checkout; general signup does
+not mark users. Test team recipients must also be designated before accepting a
+test-workspace invitation. No hidden seat/offer override replaces checkout.
+
 ## Focused Operator work development checks
 
 ```bash

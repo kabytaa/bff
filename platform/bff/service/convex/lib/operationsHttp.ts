@@ -333,6 +333,20 @@ export async function operationsHelper(ctx: ActionCtx, request: Request) {
           },
           headers: operationResponseHeaders(cors),
         });
+      if (turn.savedClientTool) {
+        const { messageId, mocked, ...toolCall } = turn.savedClientTool;
+        return createAssistantUIResponse({
+          text: '',
+          messageId,
+          mocked,
+          toolCalls: [toolCall],
+          session: {
+            conversationId: publicId,
+            ...(capability ? { capability } : {}),
+          },
+          headers: operationResponseHeaders(cors),
+        });
+      }
     }
     if (!runId)
       throw new OperationTransportError(
@@ -556,6 +570,15 @@ export async function operationsResendWebhook(
         400,
         'Event timestamp is invalid.',
       );
+    if (
+      !(await ctx.runQuery(internal.lib.operationsMailRouting.acceptsWebhook, {
+        eventType: parsed.type,
+        providerMessageId: parsed.data.email_id,
+        ...(parsed.data.from ? { sender: parsed.data.from } : {}),
+        recipients: parsed.data.to ?? [],
+      }))
+    )
+      return operationJson({ received: true, ignored: true });
     const receipt = await ctx.runMutation(
       internal.operationsState.recordWebhook,
       {

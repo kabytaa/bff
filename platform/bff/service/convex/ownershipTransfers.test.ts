@@ -175,6 +175,68 @@ async function startConfirmation(t: TestBackend, handleHash: string) {
 }
 
 describe('provider-confirmed ownership transfer', () => {
+  it('blocks ownership of a test workspace from passing to an unmarked member', async () => {
+    const t = convexTest({ schema, modules, transactionLimits: true });
+    await configure(t);
+    const { ownerUserId, targetUserId, handleHash } = await setupTeam(t);
+    const pkceChallenge = await startConfirmation(t, handleHash);
+    const handoffCodeHash = await sha256Base64Url(
+      'synthetic-test-transfer-code',
+    );
+    await t.mutation(internal.ownershipTransfers.completeProvider, {
+      environmentKey: 'example-development',
+      reference: 'transfer_reference_0001',
+      providerNonce: 'nonce_abcdefghijklmnopqrstuvwxyz012345',
+      provider: 'google',
+      issuer: 'https://accounts.google.com',
+      subject: 'google-owner',
+      authenticatedAt: Math.floor((baseTime + 2_000) / 1_000),
+      handoffCodeHash,
+      now: baseTime + 2_000,
+    });
+    const proofHash = await sha256Base64Url('synthetic-test-transfer-proof');
+    await t.mutation(internal.ownershipTransfers.exchangeProof, {
+      environmentKey: 'example-development',
+      handoffCodeHash,
+      pkceChallenge,
+      callbackUrl,
+      proofHash,
+      proofPublicId: 'transfer_test_proof_0001',
+      now: baseTime + 3_000,
+    });
+    await t.run(async (ctx) => {
+      const account = (await ctx.db.query('accounts').take(10)).find(
+        (a) => a.publicId === 'account_transfer_0001',
+      )!;
+      await ctx.db.insert('accountAccessGrants', {
+        environmentId: account.environmentId,
+        accountId: account._id,
+        offerKey: 'test',
+        offerRevision: 1,
+        source: 'test_mock',
+        featureFlags: [],
+        numericLimits: [],
+        unitGrants: [],
+        updatedByUserId: account.ownerUserId,
+        effectiveAt: baseTime,
+        createdAt: baseTime,
+        updatedAt: baseTime,
+      });
+    });
+    await expect(
+      t.mutation(internal.ownershipTransfers.transfer, {
+        environmentKey: 'example-development',
+        proofHash,
+        now: baseTime + 4_000,
+      }),
+    ).rejects.toMatchObject({ data: { code: 'FORBIDDEN' } });
+    const accounts = await t.run((ctx) => ctx.db.query('accounts').take(10));
+    const users = await t.run((ctx) => ctx.db.query('businessUsers').take(10));
+    expect(
+      users.find((u) => u._id === accounts[0]!.ownerUserId)?.publicId,
+    ).toBe(ownerUserId);
+    expect(targetUserId).not.toBe(ownerUserId);
+  });
   it('allows exact-owner development reauthentication and denies another user', async () => {
     const t = convexTest({ schema, modules, transactionLimits: true });
     await configure(t);

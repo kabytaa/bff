@@ -542,6 +542,15 @@ export const helperTurn = internalMutation({
         mocked: v.boolean(),
       }),
     ),
+    savedClientTool: v.optional(
+      v.object({
+        messageId: v.string(),
+        mocked: v.boolean(),
+        toolCallId: v.string(),
+        toolName: v.string(),
+        input: safePropertiesValidator,
+      }),
+    ),
   }),
   handler: async (ctx, args) => {
     const environment = await environmentByKey(ctx, args.environmentKey);
@@ -639,6 +648,7 @@ export const helperTurn = internalMutation({
       )
         return fail('CONFLICT', 'The question or page has changed');
       let savedAnswer;
+      let savedClientTool;
       let runId: Id<'botRuns'> | null = null;
       if (run.state === 'completed' && run.resultEntryId) {
         const answer = await ctx.db.get(run.resultEntryId);
@@ -655,6 +665,24 @@ export const helperTurn = internalMutation({
           text: answer.text,
           messageId: answer.publicId,
           mocked: run.attempts.at(-1)?.provider === 'development-mock',
+        };
+      } else if (
+        run.state === 'waiting_for_client' &&
+        run.pendingClientTool &&
+        conversation.activeRunId === run._id &&
+        run.configurationRevision ===
+          (environment.operatorWorkConfigurationRevision ?? 0) &&
+        run.attempts.length < OPERATOR_WORK_LIMITS.runAttempts
+      ) {
+        // The response or its browser continuation may have been lost. Replay
+        // the saved request for this exact authorized question, without a new
+        // model attempt or accepting a result outside the current checkpoint.
+        savedClientTool = {
+          messageId: run.publicId,
+          mocked: run.attempts.at(-1)?.provider === 'development-mock',
+          toolCallId: run.pendingClientTool.callId,
+          toolName: run.pendingClientTool.name,
+          input: run.pendingClientTool.arguments,
         };
       } else if (
         run.state === 'failed' &&
@@ -679,6 +707,7 @@ export const helperTurn = internalMutation({
         entryId: duplicate._id,
         duplicate: true,
         ...(savedAnswer ? { savedAnswer } : {}),
+        ...(savedClientTool ? { savedClientTool } : {}),
       };
     }
     await invalidateUnstartedSend(ctx, conversation, Date.now());

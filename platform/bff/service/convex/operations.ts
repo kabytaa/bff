@@ -1088,6 +1088,7 @@ export const customerDetail = query({
       id: v.string(),
       displayName: v.string(),
       verifiedEmail: v.string(),
+      isTestUser: v.boolean(),
       createdAt: v.number(),
     }),
     accounts: v.array(
@@ -1241,6 +1242,7 @@ export const customerDetail = query({
         id: user.publicId,
         displayName: user.displayName,
         verifiedEmail: user.verifiedEmail,
+        isTestUser: user.isTestUser === true,
         createdAt: user.createdAt,
       },
       accounts,

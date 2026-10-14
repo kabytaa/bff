@@ -9,6 +9,7 @@ export default defineConfig({
     '**/production-smoke.spec.ts',
     '**/operator-work.spec.ts',
     '**/operator-live.spec.ts',
+    '**/test-users.spec.ts',
   ],
   // Keep hosted artifacts separate from the repository's local browser suites.
   outputDir: './test-results',

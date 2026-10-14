@@ -66,6 +66,37 @@ function request(
   });
 }
 describe('private provider bridge', () => {
+  it('production rejects comparison/judge/experiment routes even with the private key and gates enabled', async () => {
+    const env = environment();
+    env.RUNTIME_ONLY = 'true';
+    env.LIVE_TEXT_ENABLED = 'true';
+    env.CAPS_VERIFIED = 'true';
+    env.KNOWLEDGE_SELECTION_ENABLED = 'true';
+    env.GENERATION_EXPERIMENTS_ENABLED = 'true';
+    for (const path of [
+      '/v1/chat/completions',
+      '/v1/judge/chat/completions',
+      '/v1/experiments/chat/completions',
+      '/v1/knowledge-selection',
+    ]) {
+      expect((await worker.fetch(request(path, '{}'), env)).status).toBe(404);
+    }
+    expect(env.AI.run).not.toHaveBeenCalled();
+    expect(
+      (await worker.fetch(request('/raster-preview', png, 'image/png'), env))
+        .status,
+    ).toBe(200);
+    expect(
+      (
+        await worker.fetch(
+          new Request('https://private.example/v1/runtime/chat/completions', {
+            method: 'POST',
+          }),
+          env,
+        )
+      ).status,
+    ).toBe(401);
+  });
   it('runs runtime Jev then Gemma through the actual SDK without exposing knowledge to the selector or executing a browser tool', async () => {
     const env = environment();
     env.LIVE_TEXT_ENABLED = 'true';

@@ -19,6 +19,7 @@ import {
   expectNoHorizontalPageOverflow,
   findUserId,
   logInFromLanding,
+  markCurrentUserAsTestUser,
   uniquePersona,
 } from './support/hosted';
 
@@ -74,7 +75,9 @@ async function activateOffer(
   await chooseDevelopmentOffer(page, offerName);
   await expect(
     page.getByText(
-      offerName === 'Free' ? 'Default access' : 'No-charge simulation',
+      offerName === 'Free'
+        ? 'Default access'
+        : 'Test-user simulation · no payment charged',
       { exact: true },
     ),
   ).toBeVisible();
@@ -398,6 +401,7 @@ test.describe('Studio accounts and teams', () => {
     const memberContext = await browser.newContext(contextOptions);
     const member = await memberContext.newPage();
     await logInFromLanding(member, memberPersona);
+    await markCurrentUserAsTestUser(member);
     await createSavedProject(member, 'Private member event');
 
     await owner.getByLabel('Verified email').fill(memberPersona.email);

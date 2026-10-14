@@ -1,6 +1,6 @@
 # Private Operator provider bridge
 
-`bff-ai-provider` is a shared development Worker with private service endpoints.
+`bff-ai-provider` is a shared Worker with private service endpoints.
 It contains no Business prompts, customer identity logic or public upload surface.
 
 - `POST /v1/chat/completions` accepts bounded OpenAI chat input for reviewed
@@ -50,8 +50,13 @@ It contains no Business prompts, customer identity logic or public upload surfac
   routes reject it. This does not change customer generation defaults.
 
 All endpoints require `Authorization: Bearer <PROVIDER_SECRET>` from trusted server code.
-Set the secret with Wrangler's secret command using the explicit development
-manifest. Never place it in files. No production manifest exists.
+Set the secret with Wrangler's secret command using the explicit target manifest.
+Never place it in files. `wrangler.production.jsonc` uses the separate
+`business-factory-ai-provider` Worker and `bff-operator-prod` gateway. Its
+`RUNTIME_ONLY=true` guard exposes only the two runtime endpoints and private
+raster conversion; comparison, experiments and judge endpoints return 404 even
+if their development gates are accidentally enabled. Production and development
+use different service secrets. Both manifests default to disabled inference.
 
 The checked-in manifest disables live text. Both `LIVE_TEXT_ENABLED=true` and
 `CAPS_VERIFIED=true`, plus a configured gateway ID, are required for inference.
@@ -113,7 +118,8 @@ setup token can manage Gateway/billing but direct inference returned HTTP
 401/code 10000; the Worker AI binding avoids needing a new REST inference key.
 Add `--var RUNTIME_KNOWLEDGE_SELECTION_ENABLED:true` for the accepted Gemma/Jev
 development customer checkpoint. The manifest remains fail-closed when this
-override is absent; production has no manifest and remains untouched.
+override is absent. The production delivery pipeline supplies the reviewed
+runtime-only overrides after its explicit verified-cap preflight.
 Add `--var GENERATION_EXPERIMENTS_ENABLED:true` only during an authorized paired
 generation test. Both experimental gates default false in the manifest.
 
@@ -121,6 +127,19 @@ Run under Node24:
 `pnpm exec nx run bff-ai-provider:test`, `:typecheck`, `:lint`, and `:build`.
 Build is Wrangler dry-run only. Actual deployment is coordinated with the main
 development delivery and uses `wrangler deploy --config platform/bff/ai-provider/wrangler.jsonc`.
+
+Production is published by the main-branch release workflow, not the development
+command above. On 2026-10-14 the production gateway's global USD 3/day and USD
+30/month fixed limits, authenticated unified billing and disabled request logging
+were read back. A temporary USD 0.000001 additional limit allowed one bounded
+32-token probe, then blocked the next with code 2045. The original two limits
+were restored and read back exactly; development limits were not changed. The
+GitHub production environment's `BFF_OPERATOR_CAPS_VERIFIED=verified` records that
+setup proof, not a guarantee against simultaneous-call overshoot. No top-up or
+plan purchase was made for this release. To pause customer text inference set
+`BFF_OPERATIONS_AI_MODE=disabled` on the exact BFF production deployment; prevent
+pending CI publication, which reconciles the approved live mode. Raster previews
+remain independent of the text gate.
 
 Reviewed answer tool definitions preserve OpenAI `function` envelopes, not older flat-model
 definitions; the binding executes inference only, never browser/backend tools.

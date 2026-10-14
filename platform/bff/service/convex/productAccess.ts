@@ -54,6 +54,7 @@ export const productAccessProjectionValidator = v.object({
   source: v.union(
     v.literal('default'),
     v.literal('development_mock'),
+    v.literal('test_mock'),
     v.literal('provider'),
   ),
   featureFlags: v.array(productFeatureFlagValidator),
@@ -335,6 +336,7 @@ export async function storeDevelopmentAccess(
     }[];
     readonly now: number;
   },
+  source: 'development_mock' | 'test_mock' = 'development_mock',
 ) {
   const context = await resolveAccountContext(ctx, args);
   const input: DevelopmentProductAccessGrantRequest =
@@ -350,10 +352,17 @@ export async function storeDevelopmentAccess(
     context.environment._id,
     context.account._id,
   );
+  if (existing?.source === 'provider')
+    return fail('FORBIDDEN', 'Test access cannot replace paid provider access');
+  if (existing?.source === 'test_mock' && source !== 'test_mock')
+    return fail(
+      'FORBIDDEN',
+      'Development grants cannot remove test-workspace isolation',
+    );
   const value = {
     offerKey: productAccessKeySchema.parse(input.offerKey),
     offerRevision: input.offerRevision,
-    source: 'development_mock' as const,
+    source,
     featureFlags: input.featureFlags,
     numericLimits: input.numericLimits,
     unitGrants: input.unitGrants.map((grant) => {

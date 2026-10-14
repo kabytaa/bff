@@ -18,8 +18,9 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
       <p className="eyebrow">TableCards no-charge preview</p>
       <h1 id="policy-title">{title}</h1>
       <p className="notice">
-        Updated October 7, 2026. This is a no-charge preview, not a commercial
-        launch. Checkout is a clearly labelled no-charge simulation.
+        Updated October 14, 2026. This is a no-charge preview, not a commercial
+        launch. No-charge test checkout is limited to operator-designated test
+        users in test-only workspaces.
       </p>
       {kind === 'privacy' ? (
         <>
@@ -30,7 +31,9 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             information. Saved projects store their event title, guest names,
             table labels, markers, design choices and uploaded artwork.
             Generated backgrounds and PDFs are also stored so you can return to
-            them.
+            them. Help conversations, submitted support messages, feedback,
+            permitted screenshots and limited product activity events are stored
+            to answer questions and investigate problems.
           </p>
           <h2>Where data goes</h2>
           <p>
@@ -43,6 +46,15 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             is used for generation, not saved as a separate library asset.
             Development also offers an explicitly labelled test-fixture engine
             that makes no AI calls.
+          </p>
+          <p>
+            AI help sends your question, relevant conversation history, assigned
+            product guidance and permitted customer context to Cloudflare. AI
+            can make mistakes; review its advice. Support email is sent and
+            received through Resend. Only PNG/JPEG attachments are supported;
+            Cloudflare processes them into private previews. We do not offer
+            original attachments as downloads. Do not include a private guest
+            list, passwords or payment details in help or support.
           </p>
           <h2>Your session and files</h2>
           <p>
@@ -60,9 +72,8 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
             Use synthetic guest names where possible. Archiving a project hides
             it from active projects; it is not deletion. Preview data can remain
             until operator cleanup. Automated retention, self-service deletion
-            and a public support channel are not yet provided. Contact the
-            person who invited you to this preview for a data request. Do not
-            upload sensitive personal or payment information.
+            are not yet provided. Use the support/feedback page for a data
+            request. Do not upload sensitive personal or payment information.
           </p>
         </>
       ) : kind === 'terms' ? (
@@ -78,11 +89,11 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
           </p>
           <h2>No-charge preview</h2>
           <p>
-            Prices shown describe proposed offers. This Build 3 preview uses
-            shared mock checkout and does not collect payment or start a real
-            paid subscription. Mock renewal and AI allowances simulate
-            successful payments for testing; they are not a promise of free
-            ongoing commercial access.
+            Prices shown describe proposed offers. Shared test checkout is
+            available only to designated test users in test-only workspaces. It
+            does not collect payment or start a real paid subscription. Mock
+            renewal and AI allowances simulate successful payments for testing;
+            they are not a promise of free ongoing commercial access.
           </p>
           <h2>Your content</h2>
           <p>
@@ -95,24 +106,28 @@ export function PolicyPage({ kind }: { readonly kind: PolicyKind }) {
           <p>
             Verified seller details, commercial terms, payment-provider
             disclosures, applicable cancellation and refund arrangements, and a
-            working public support channel must be established before real paid
-            checkout is enabled. This preview page does not claim that those
-            checks are complete.
+            customer-launch support arrangements must be established before real
+            paid checkout is enabled. This preview page does not claim that
+            those checks are complete.
           </p>
         </>
       ) : (
         <>
           <h2>Preview help</h2>
           <p>
-            For this no-charge preview, contact the operator who gave you
-            access. Include the page, the action you tried and any short error
+            For this no-charge preview, use Help or the support/feedback page.
+            Include the page, the action you tried and any short error
             reference. Never send a session cookie, access token, payment
             details or a private guest list.
           </p>
           <p>
-            A public support email and two-way support workflow are not
-            configured yet. They will be published before customer launch; this
-            page intentionally does not show an unmonitored or invented address.
+            Signed-in customers can submit a question, problem or feedback;
+            signed-out visitors can use the configured email contact shown
+            there. Follow-up is by email. AI support suggestions are reviewed by
+            an operator before sending; no response-time guarantee is made.
+          </p>
+          <p>
+            <Link to="/support/feedback">Contact support or send feedback</Link>
           </p>
         </>
       )}

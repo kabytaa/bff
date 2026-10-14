@@ -32,6 +32,7 @@ import type * as lib_errors from "../lib/errors.js";
 import type * as lib_operationsCore from "../lib/operationsCore.js";
 import type * as lib_operationsEmail from "../lib/operationsEmail.js";
 import type * as lib_operationsHttp from "../lib/operationsHttp.js";
+import type * as lib_operationsMailRouting from "../lib/operationsMailRouting.js";
 import type * as lib_operationsTransport from "../lib/operationsTransport.js";
 import type * as lib_operatorWorkConfiguration from "../lib/operatorWorkConfiguration.js";
 import type * as lib_productAccessHttp from "../lib/productAccessHttp.js";
@@ -83,6 +84,7 @@ declare const fullApi: ApiFromModules<{
   "lib/operationsCore": typeof lib_operationsCore;
   "lib/operationsEmail": typeof lib_operationsEmail;
   "lib/operationsHttp": typeof lib_operationsHttp;
+  "lib/operationsMailRouting": typeof lib_operationsMailRouting;
   "lib/operationsTransport": typeof lib_operationsTransport;
   "lib/operatorWorkConfiguration": typeof lib_operatorWorkConfiguration;
   "lib/productAccessHttp": typeof lib_productAccessHttp;

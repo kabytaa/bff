@@ -2,12 +2,30 @@
 
 > **Status**: Completed
 > **Created**: 2026-09-29
-> **Last updated**: 2026-09-29
+> **Last updated**: 2026-10-14
 > **Repository baseline**: `8e0e0cb`
 > **Source brainstorm**: None — direction supplied directly by the user on 2026-09-29
 >
 > Implementation plan based on the repository state inspected on 2026-09-29.
 > Production deployment is not authorized by this plan.
+
+## Approved revision — 2026-10-14
+
+Baseline `7a03c4f`, branch `build/operator-work-dev`: the shared mock checkout
+already exists. Andrew approved an optional Business-user `isTestUser` flag
+(absent=false) and additive grant source `test_mock`, no new tables/indexes or
+backfill. Operators designate registered customers in backoffice. New mock
+purchases require a test Owner, all-test workspace membership and no provider
+grant, rechecked before completion. Normal users cannot join/inherit a test
+workspace. Removing designation stops pending/future purchases without deleting
+existing access/data. Deployment mode/global mock switches no longer decide
+checkout eligibility. Legacy `development_mock` data remains unchanged.
+The old customer mock-grant endpoint is retired so development flags cannot
+bypass this boundary; internal trusted fixtures remain separately gated.
+Implementation/verification is development-only; production requires a separate
+release. The original completed plan and its historical evidence below are
+retained; current invariants are in the
+[shared data model](../../docs/architecture/shared-bff-data-model.md#accountaccessgrants).
 
 ## Repository Context Snapshot
 
@@ -367,3 +385,4 @@ charge or a production deployment.
 | ---------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-09-29 | Approved — execution requested | Initial implementation-ready plan created from the user's explicit shared-checkout correction.                                                                                            |
 | 2026-09-29 | Completed                      | Implemented the provider-neutral BFF checkout, deployed development, passed the Node 24 repository gate and all 19 hosted desktop/mobile acceptance cases, and left production unchanged. |
+| 2026-10-14 | Approved revision implemented | Operator-designated test-user checkout and workspace isolation deployed to development; two new and eight existing hosted desktop/phone journeys pass. Schema additions require no backfill; production remains unchanged. |

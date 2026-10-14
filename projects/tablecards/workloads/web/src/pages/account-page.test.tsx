@@ -48,6 +48,7 @@ beforeEach(() => {
     offerKey: 'free',
     offerName: 'Free',
     maxActiveProjects: 1,
+    mockCheckoutAvailable: true,
   });
   mocks.backend.listProjects.mockResolvedValue([]);
 });
@@ -63,6 +64,18 @@ function mount(entry = '/settings') {
 }
 
 describe('operation-specific Account recovery', () => {
+  it('does not start mock checkout for an ineligible user', async () => {
+    mocks.backend.getCurrentAccess.mockResolvedValue({
+      offerKey: 'free',
+      offerName: 'Free',
+      mockCheckoutAvailable: false,
+    });
+    mount('/settings?offer=planner_pro');
+    expect((await screen.findByRole('alert')).textContent).toContain(
+      'operator-designated test users',
+    );
+    expect(mocks.backend.startCheckout).not.toHaveBeenCalled();
+  });
   it('retries failed checkout with the original idempotency key instead of refreshing usage', async () => {
     mocks.backend.startCheckout
       .mockRejectedValueOnce(

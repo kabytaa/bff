@@ -95,6 +95,8 @@ interface ImagesInput {
   }): Promise<{ response(options?: { headers: HeadersInit }): Response }>;
 }
 export interface Environment {
+  /** Production exposes only the customer runtime and private raster conversion. */
+  RUNTIME_ONLY?: string;
   PROVIDER_SECRET: string;
   LIVE_TEXT_ENABLED: string;
   CAPS_VERIFIED: string;
@@ -343,6 +345,15 @@ export function normalizeCompletion(
 export default {
   async fetch(request: Request, env: Environment): Promise<Response> {
     const path = new URL(request.url).pathname;
+    if (
+      env.RUNTIME_ONLY === 'true' &&
+      ![
+        '/v1/runtime/chat/completions',
+        '/v1/runtime/knowledge-selection',
+        '/raster-preview',
+      ].includes(path)
+    )
+      return error('NOT_FOUND', 404);
     if (
       request.method !== 'POST' ||
       ![

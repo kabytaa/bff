@@ -15,6 +15,17 @@ history. Events without a verified customer link are not assigned by guesswork.
 Support has one current draft; Review shows the exact envelope,
 and explicit Send is the operator's approval. Notes remain operator-only.
 
+To enable no-charge checkout for a registered test customer, select the Business
+environment, open **Customers**, look up the exact email/public ID, then choose
+**Mark as test user → Enable test user**. This admitted-operator mutation checks
+the expected current value. The marker is per Business environment, not global.
+The customer can refresh Account availability without signing in again. Every
+workspace member must be marked for checkout; normal users cannot join a test
+workspace, and provider-paid access cannot be replaced. **Remove test-user
+status** stops new/pending purchases but preserves completed access/data. This
+capability works in either deployment once released there; current verification
+and deployment cover development only.
+
 Run under Node24: `pnpm exec nx run bff-backoffice:test`, `:typecheck`, `:lint`
 and `:build`. Production builds exclude development authentication. Hosted
 development uses `:build-development-auth` and

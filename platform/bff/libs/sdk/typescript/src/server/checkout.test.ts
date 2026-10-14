@@ -33,6 +33,29 @@ const request = {
 };
 
 describe('createBffCheckoutClient', () => {
+  it('reads current checkout eligibility without exposing a Business service secret', async () => {
+    const client = createBffCheckoutClient({
+      bffBaseUrl: 'https://example.convex.site',
+      environmentKey: 'example-production',
+      serviceToken: 'synthetic-checkout-service-secret-0001',
+      fetch: async (input, init) => {
+        expect(String(input)).toBe(
+          'https://example.convex.site/v1/checkouts/availability',
+        );
+        expect(init?.method).toBe('GET');
+        expect(new Headers(init?.headers).get('authorization')).toBe(
+          'Bearer synthetic-token',
+        );
+        expect(
+          new Headers(init?.headers).has('x-tofler-service-authorization'),
+        ).toBe(false);
+        return Response.json({ available: false });
+      },
+    });
+    expect(
+      await client.getAvailability({ contextToken: 'synthetic-token' }),
+    ).toEqual({ available: false });
+  });
   it('sends an authenticated provider-neutral checkout request', async () => {
     const calls: { input: string; init?: RequestInit }[] = [];
     const client = createBffCheckoutClient({

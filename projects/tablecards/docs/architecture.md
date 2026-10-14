@@ -1,7 +1,7 @@
 # TableCards architecture and data model
 
 Created: 2026-10-06
-Updated: 2026-10-09
+Updated: 2026-10-14
 Baseline: review checkpoint `3a948ad` on `feat/tablecards-application`, followed by the 2026-10-06 remediation implementation; deployed verification is recorded in dated reviews
 Scope: implemented Build 3 architecture; deployment evidence is separate from architecture approval
 
@@ -261,6 +261,19 @@ and bucket consumption are never overwritten; accounts already using that
 lifetime allocation cannot earn it again. No payment or provider call is involved.
 The compatible `accountAccessGrants.source` enum expansion was approved on
 2026-10-08; no TableCards schema change or data migration is required.
+
+The 2026-10-14 approved revision adds BFF `businessUsers.isTestUser` (optional,
+absent=false) and grant source `test_mock`, without a TableCards schema change.
+The shared server SDK reads `/v1/checkouts/availability` for the verified current
+account. TableCards exposes the result as `mockCheckoutAvailable`; unavailable
+or failed eligibility reads never enable a simulated purchase. Only a designated
+test Owner in a test-only workspace can start/complete one; real provider access
+cannot be replaced. Account shows no-charge/test status and a refresh control.
+Backoffice controls the flag; it is not an app preference or sign-up field.
+Completed access survives flag removal; pending/future purchases fail. See
+[shared invariants and rollout](../../../docs/architecture/shared-bff-data-model.md#accountaccessgrants).
+Development is the current deployment boundary; normal customers have no real
+billing path until Build 4.
 
 TableCards asks BFF to reserve `ai_background_batch`, amount `1`, and an
 idempotency key. It never chooses a bucket or billing period. BFF resolves a

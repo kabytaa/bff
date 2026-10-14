@@ -1,6 +1,6 @@
 # TableCards MVP Product Specification
 
-Updated: 2026-10-09.
+Updated: 2026-10-14.
 
 Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
@@ -207,9 +207,14 @@ policy atomically, so Studio immediately exposes its five seats, roles and
 invitations. The mock is verified in development and enabled for the published
 Build 3 production preview, with explicit notices that no money is charged.
 Its fresh authenticated production round-trip is not claimed by that deployment.
-Build 4 may
-let development choose mock or Paddle, while production checkout creation
-returns Paddle directly without changing the TableCards interface. Only
+**2026-10-14 revision:** new mock checkout is restricted to operator-designated
+test users, regardless of deployment. The Owner and all workspace members must
+be designated test users; test workspaces cannot admit normal users or replace
+provider-paid access. Removing designation blocks future/pending purchases and
+preserves completed access/data. This revision is deployed to development only;
+the published production preview above describes the earlier release.
+Build 4 supplies real checkout for normal customers, without changing the
+TableCards handoff. Only
 verified provider events may grant real paid access. The unit balance supports
 idempotent reserve, commit and release and never lives in the short-lived JWT.
 The monthly mock intentionally simulates a successful renewal every cycle;

@@ -6,6 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 
 import { TABLECARDS_AUTH_URL, TABLECARDS_WEB_URL } from '../playwright.config';
 import { readBrowserDownload } from './support/pdf';
+import { markCurrentUserAsTestUser } from './support/hosted';
 
 const execFileAsync = promisify(execFile);
 const bffSiteUrl = 'https://compassionate-buffalo-689.convex.site';
@@ -69,6 +70,7 @@ async function completeMockCheckout(
   offerId: 'planner_pro' | 'studio',
   offerName: 'Planner Pro' | 'Studio',
 ) {
+  await markCurrentUserAsTestUser(page);
   await page.goto(`/settings?offer=${offerId}`);
   await page.waitForURL(`${TABLECARDS_AUTH_URL}/checkout?**`);
   await expect(page.getByRole('heading', { name: offerName })).toBeVisible();
@@ -456,6 +458,7 @@ test('Studio owner can invite a recipient and promote the joined member', async 
     new URL(recipient.url()),
     recipientPersona,
   );
+  await markCurrentUserAsTestUser(recipient);
   await recipient.getByRole('button', { name: 'Accept invitation' }).click();
   await recipient.waitForURL(`${TABLECARDS_WEB_URL}/projects`);
 

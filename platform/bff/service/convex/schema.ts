@@ -430,6 +430,7 @@ export default defineSchema({
     verifiedEmail: v.string(),
     displayName: v.string(),
     pictureUrl: v.optional(v.string()),
+    isTestUser: v.optional(v.boolean()),
     firstSignInProvisioningCompletedAt: v.number(),
     activeMembershipCount: v.number(),
     ownedAccountCount: v.number(),
@@ -462,6 +463,7 @@ export default defineSchema({
     source: v.union(
       v.literal('default'),
       v.literal('development_mock'),
+      v.literal('test_mock'),
       v.literal('provider'),
     ),
     featureFlags: v.array(v.object({ key: v.string(), enabled: v.boolean() })),

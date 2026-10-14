@@ -4,7 +4,11 @@ import { resolve } from 'node:path';
 import { promisify } from 'node:util';
 
 import { assertProductionBundles } from './bundles';
-import { readBuildConfig, type BuildConfig } from './config';
+import {
+  readBuildConfig,
+  type BuildConfig,
+  type ProductionConfig,
+} from './config';
 
 const execFileAsync = promisify(execFile);
 
@@ -15,6 +19,38 @@ async function runNxTarget(
   await execFileAsync(resolve('node_modules/.bin/nx'), ['run', target], {
     encoding: 'utf8',
     env: { ...process.env, ...environment },
+    maxBuffer: 10 * 1024 * 1024,
+  });
+}
+
+export function operatorProviderDryRunArgs(
+  config: ProductionConfig,
+): string[] | undefined {
+  if (!config.operatorRuntime) return undefined;
+  return [
+    'deploy',
+    '--dry-run',
+    '--config',
+    'platform/bff/ai-provider/wrangler.production.jsonc',
+    '--outdir',
+    'dist/platform/bff/ai-provider-production',
+    '--var',
+    'RUNTIME_ONLY:true',
+    '--var',
+    'LIVE_TEXT_ENABLED:true',
+    '--var',
+    'CAPS_VERIFIED:true',
+    '--var',
+    'RUNTIME_KNOWLEDGE_SELECTION_ENABLED:true',
+  ];
+}
+
+async function runOperatorProviderDryRun(config: BuildConfig): Promise<void> {
+  const args = operatorProviderDryRunArgs(config);
+  if (!args) return;
+  await execFileAsync(resolve('node_modules/.bin/wrangler'), args, {
+    encoding: 'utf8',
+    env: process.env,
     maxBuffer: 10 * 1024 * 1024,
   });
 }
@@ -73,6 +109,8 @@ export async function buildProductionSurfaces(
       config.commitSha,
     );
   }
+
+  await runOperatorProviderDryRun(config);
 
   await assertProductionBundles(config);
   await Promise.all([

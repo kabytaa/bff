@@ -1,6 +1,6 @@
 # Operator work — development review
 
-Created: 2026-10-09; updated: 2026-10-13
+Created: 2026-10-09; updated: 2026-10-14
 Baseline: `41ba411`; implementation/evidence checkpoint `fa9b2bc` pushed on `build/operator-work-dev`
 Scope: shared Operator work and TableCards integration, development only
 Status: Gemma/Jev development checkpoint verified; broad comparison complete, 90–95% target unmet/deferred by Andrew
@@ -1216,3 +1216,68 @@ API calibration failed and no API/human-ground-truth claim replaces it. Fresh
 multilingual samples remain small. Production and customer launch stay excluded,
 rather than waived. Andrew's visual review is optional feedback, not a substitute
 for these checks.
+
+## 2026-10-14 — operator-designated test-user checkout
+
+Baseline `7a03c4f` on `build/operator-work-dev`; Andrew requested the prior-work
+commit/push first (completed), then approved the optional user flag and grant
+source. This feature's source remains uncommitted. Production publication is
+excluded. The schema/rollout contract is canonical in the
+[shared data model](../../../../docs/architecture/shared-bff-data-model.md#accountaccessgrants).
+
+- **Schema/data:** optional `businessUsers.isTestUser` (absent=false) and additive
+  `accountAccessGrants.source = test_mock`. No new table/index, backfill, deletion
+  or reclassification of old grants. TableCards has no database schema change.
+  Updated access-source consumers were deployed before creating test grants.
+- **Authority:** only an admitted operator can designate the exact Business-local
+  user, with an expected-value conflict check. Checkout rechecks the current test
+  Owner, all workspace members and absence of provider-paid access before create
+  and completion. New invitations/ownership transitions cannot admit a normal
+  user into a test workspace. Revocation blocks pending/new purchases but retains
+  completed access/data. Existing role, account, seat, usage and service-secret
+  boundaries remain in force; test designation does not grant operator rights.
+- **Independent Astra review:** caught a legacy internal writer that could strip
+  the `test_mock` source; replacement is now denied and tested with both old gates
+  enabled. A second bounded check caught the customer-accessible development
+  grant bypass. That endpoint now returns authenticated 403, regardless of old
+  development flags; two HTTP regressions cover marked and unmarked customers.
+  Historical grants and explicitly authorized internal fixtures are preserved.
+- **Repository validation:** final Node 24 `pnpm check` exits 0: formatting,
+  all-project lint/boundaries/types/unit tests, BFF/Example/TableCards integration,
+  builds, production-bundle exclusions, secret scanning and both local browser
+  suites pass. A fresh BFF integration run passes 160 tests; TableCards backend
+  passes 93, backoffice 19, contracts 55, SDK 59 and TableCards web 121.
+  Targeted checkout/product-access tests pass 25/25. Final `git diff --check`
+  passes. The cleanup pass retains source/tests/useful canonical documentation;
+  generated formatting churn, caches, browser state and credentials are excluded.
+- **Hosted UI, 2/2 pass:**
+  `pnpm exec playwright test --config projects/tablecards/e2e/playwright.test-users.config.ts`
+  exercises desktop Chromium and iPhone-sized WebKit: normal signup/checkout
+  denial, actual backoffice enable/confirmation, shared Studio test payment,
+  removal/confirmation, retained access and later-purchase denial. Direct legacy
+  grant attempts return 403 before and after designation. Both pages have no
+  horizontal overflow; synthetic rendered screenshots were inspected. Initial
+  added negative probes lacked the required Origin header; the fixture was fixed,
+  not the application's CSRF boundary. No physical-device claim is made.
+- **Existing hosted regressions, 8/8 pass:** ordinary hosted config with grep
+  `US-05|US-11|US-13|Studio owner can invite|professional project, preset` covers
+  Free/Event Pass, Planner Pro projects/uploads/presets, deterministic artwork
+  failure/release/success, Studio invitations, roles, account isolation and
+  same-principal ownership transfer on desktop/phone. Fixtures explicitly mark
+  only verified synthetic checkout owners/test recipients via the admitted public
+  API. Signup stays normal; no hidden seat/offer override replaces checkout.
+- **Deployment:** BFF `compassionate-buffalo-689`, TableCards backend
+  `scrupulous-hawk-991`, backoffice Worker
+  `45abcff6-1565-4410-8540-c98235c6443c`, TableCards Worker
+  `c9453f84-9aab-4f37-b494-2b16eb5241cd`. Only these changed development surfaces
+  were published. Auth/provider Workers, live bot configuration, gateway caps,
+  production code and real provider billing are unchanged. Tests used synthetic
+  users, no-charge checkout and explicitly selected artwork fixtures; no live
+  model, email or payment invocation was needed. Auth traces/video/private state
+  were not retained, and no credentials were added to the repository.
+
+For use: select the Business/environment in backoffice, open Customers, find a
+registered user by exact email/public ID, and confirm **Mark as test user**.
+Refresh TableCards Account availability. Test-only membership is required;
+designation cannot replace a real paid workspace. Production can support the
+same mechanism after a separately authorized release, not from this dev evidence.

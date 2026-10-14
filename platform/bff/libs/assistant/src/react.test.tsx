@@ -636,6 +636,77 @@ describe('Shared support UI authority and continuity', () => {
       });
     },
   );
+  it.each(['initial', 'continuation'] as const)(
+    'recovers a saved browser call when the %s response is lost',
+    async (lost) => {
+      const pending = () =>
+        helperStream([
+          { type: 'start', messageId: 'waiting-answer' },
+          {
+            type: 'data-session',
+            data: { conversationId: 'private-waiting', mocked: true },
+            transient: true,
+          },
+          {
+            type: 'tool-input-available',
+            toolCallId: 'saved-browser-call',
+            toolName: 'open_create',
+            input: {},
+          },
+          { type: 'finish', finishReason: 'tool-calls' },
+        ]);
+      if (lost === 'continuation') request.mockResolvedValueOnce(pending());
+      request
+        .mockRejectedValueOnce(new TypeError('Synthetic lost response'))
+        .mockResolvedValueOnce(pending())
+        .mockResolvedValueOnce(
+          helperStream([
+            { type: 'start', messageId: 'recovered-answer' },
+            { type: 'text-start', id: 'recovered-text' },
+            {
+              type: 'text-delta',
+              id: 'recovered-text',
+              delta: 'The creator link is ready.',
+            },
+            { type: 'text-end', id: 'recovered-text' },
+            { type: 'finish', finishReason: 'stop' },
+          ]),
+        );
+      render(helper());
+      fireEvent.change(screen.getByLabelText('Your question'), {
+        target: { value: 'Where can I create cards?' },
+      });
+      fireEvent.click(screen.getByRole('button', { name: 'Send question' }));
+      await screen.findByRole('alert');
+      fireEvent.click(screen.getByRole('button', { name: 'Retry answer' }));
+      await screen.findByText('The creator link is ready.');
+      const retryIndex = lost === 'initial' ? 1 : 2;
+      expect(request).toHaveBeenCalledTimes(retryIndex + 2);
+      const first = JSON.parse(String(request.mock.calls[0]?.[1]?.body));
+      const retry = JSON.parse(
+        String(request.mock.calls[retryIndex]?.[1]?.body),
+      );
+      expect(retry.message).toEqual(first.message);
+      expect(retry).not.toHaveProperty('toolResults');
+      const resumed = JSON.parse(
+        String(request.mock.calls[retryIndex + 1]?.[1]?.body),
+      );
+      expect(resumed.conversationId).toBe('private-waiting');
+      expect(resumed.toolResults).toEqual([
+        {
+          toolCallId: 'saved-browser-call',
+          toolName: 'open_create',
+          contextKey: 'user-one:account-one:/create',
+          output: {
+            offered: true,
+            destination: '/create',
+            label: 'Create cards',
+          },
+        },
+      ]);
+      expect(screen.queryByRole('alert')).toBeNull();
+    },
+  );
   it.each([
     { toolName: 'navigate', input: { url: 'javascript:alert(1)' } },
     { toolName: 'bad_external', input: {} },

@@ -1,4 +1,5 @@
 import { api } from '@bff/service-api';
+import { TestUserControl } from './test-user-control';
 import {
   useAction,
   useMutation,
@@ -451,6 +452,7 @@ function ScopedCustomers({ environment }: { environment: string }) {
                   {user.displayName}
                 </Link>
                 <span>{user.verifiedEmail}</span>
+                {user.isTestUser ? <span>Test user</span> : null}
                 <span>{user.id}</span>
                 <span>
                   Registered {timestamp(user.createdAt)} ·{' '}
@@ -495,6 +497,7 @@ function LiveCustomerDetail({
     userPublicId,
   });
   const [accountId, setAccountId] = useState<string>();
+  const setTestUser = useMutation(api.customerBackoffice.setTestUser);
   if (!detail)
     return (
       <LoadingPanel label="Loading customer, accounts and related evidence…" />
@@ -504,6 +507,18 @@ function LiveCustomerDetail({
   return (
     <>
       <Coverage coverage={detail.coverage} />
+      <TestUserControl
+        enabled={detail.user.isTestUser}
+        customer={detail.user.verifiedEmail}
+        onSave={(isTestUser) =>
+          setTestUser({
+            environmentKey: environment,
+            userPublicId,
+            isTestUser,
+            expectedIsTestUser: detail.user.isTestUser,
+          })
+        }
+      />
       <section className="operator-panel">
         <div className="operator-section-heading">
           <h2>Business events</h2>

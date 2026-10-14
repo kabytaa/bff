@@ -102,8 +102,9 @@ export function Component() {
           <p className="eyebrow">Simple pilot pricing</p>
           <h2>Start free, then pay for the workflow you need</h2>
           <p className="notice">
-            Preview checkout is a no-charge simulation. Prices shown describe
-            proposed offers, not a live charge or paid subscription.
+            Test checkout is a no-charge simulation for designated test users.
+            Prices shown describe proposed offers, not a live charge or paid
+            subscription.
           </p>
         </div>
         <div className="pricing-grid">

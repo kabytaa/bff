@@ -14,7 +14,7 @@ import {
   type MutationCtx,
 } from './_generated/server';
 import { fail } from './lib/errors';
-import { mockCheckoutEnabled } from './mockCheckout';
+import { requireTestCheckout, testCheckoutAvailable } from './mockCheckout';
 import {
   accountContextArgs,
   developmentProductUnitGrantValidator,
@@ -116,11 +116,9 @@ export const createForAccount = internalMutation({
   },
   returns: createResultValidator,
   handler: async (ctx, args) => {
-    if (!mockCheckoutEnabled()) {
-      return fail('FORBIDDEN', 'Mock checkout is disabled');
-    }
     const input = inputFromArgs(args);
     const context = await resolveAccountContext(ctx, args);
+    await requireTestCheckout(ctx, context);
     if (context.membership.role !== 'owner') {
       return fail('FORBIDDEN', 'Only the Owner can start checkout');
     }
@@ -246,12 +244,21 @@ export const readChallenge = internalQuery({
   },
 });
 
+export const availability = internalQuery({
+  args: accountContextArgs,
+  returns: v.object({ available: v.boolean() }),
+  handler: async (ctx, args) => ({
+    available: await testCheckoutAvailable(
+      ctx,
+      await resolveAccountContext(ctx, args),
+    ),
+  }),
+});
+
 export const complete = internalMutation({
   args: { environmentKey: v.string(), reference: v.string(), now: v.number() },
   returns: v.object({ redirectUrl: v.string() }),
   handler: async (ctx, args) => {
-    if (!mockCheckoutEnabled())
-      return fail('FORBIDDEN', 'Mock checkout is disabled');
     const { environment, attempt } = await findAttempt(
       ctx,
       args.environmentKey,
@@ -278,6 +285,8 @@ export const complete = internalMutation({
     if (membership?.role !== 'owner')
       return fail('FORBIDDEN', 'Only the Owner can complete checkout');
 
+    await requireTestCheckout(ctx, { environment, account, user, membership });
+
     await applyAccountPolicyOverrides(ctx, {
       environmentKey: environment.key,
       accountPublicId: account.publicId,
@@ -285,14 +294,18 @@ export const complete = internalMutation({
       policyOverrides: attempt.accountPolicy,
       now: args.now,
     });
-    await storeDevelopmentAccess(ctx, {
-      environmentKey: environment.key,
-      userPublicId: user.publicId,
-      accountPublicId: account.publicId,
-      membershipPublicId: membership.publicId,
-      ...attempt.grant,
-      now: args.now,
-    });
+    await storeDevelopmentAccess(
+      ctx,
+      {
+        environmentKey: environment.key,
+        userPublicId: user.publicId,
+        accountPublicId: account.publicId,
+        membershipPublicId: membership.publicId,
+        ...attempt.grant,
+        now: args.now,
+      },
+      'test_mock',
+    );
     await ctx.db.patch(attempt._id, {
       status: 'completed',
       completedAt: args.now,

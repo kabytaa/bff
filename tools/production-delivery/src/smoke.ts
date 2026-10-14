@@ -343,7 +343,53 @@ export async function checkProductionOnce(
     ['https://*.tofler.app', 'https://*.convex.cloud', 'https://*.convex.site'],
     (content) => assertExampleBundleContent(content, config),
   );
+  if (config.operatorRuntime)
+    await checkOperatorRuntimeProduction(config, fetcher);
   if (config.tablecards) await checkTableCardsProduction(config, fetcher);
+}
+
+async function checkOperatorRuntimeProduction(
+  config: SmokeConfig,
+  fetcher: Fetcher,
+): Promise<void> {
+  const operator = config.operatorRuntime;
+  if (!operator)
+    throw new Error('Operator runtime production configuration is required.');
+
+  for (const path of [
+    '/v1/runtime/chat/completions',
+    '/v1/runtime/knowledge-selection',
+    '/raster-preview',
+  ]) {
+    await assertExpectedStatus(
+      fetcher,
+      `${operator.providerBaseUrl}${path}`,
+      401,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: '{}',
+      },
+    );
+  }
+
+  for (const path of [
+    '/v1/chat/completions',
+    '/v1/judge/chat/completions',
+    '/v1/experiments/chat/completions',
+    '/v1/knowledge-selection',
+  ]) {
+    await assertExpectedStatus(
+      fetcher,
+      `${operator.providerBaseUrl}${path}`,
+      404,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: '{}',
+      },
+    );
+  }
 }
 
 async function checkTableCardsProduction(

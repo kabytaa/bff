@@ -1,5 +1,7 @@
 import {
   createCheckoutRequestSchema,
+  checkoutAvailabilitySchema,
+  type CheckoutAvailability,
   createCheckoutResponseSchema,
   productAccessErrorResponseSchema,
   type CreateCheckoutRequest,
@@ -23,6 +25,9 @@ export interface BffCheckoutRequestContext {
 }
 
 export interface BffCheckoutClient {
+  getAvailability(
+    context: BffCheckoutRequestContext,
+  ): Promise<CheckoutAvailability>;
   createCheckout(
     context: BffCheckoutRequestContext,
     request: CreateCheckoutRequest,
@@ -80,6 +85,41 @@ export function createBffCheckoutClient(
   const timeoutMilliseconds = options.timeoutMilliseconds ?? 10_000;
 
   return {
+    getAvailability: async (context) => {
+      if (
+        !context.contextToken ||
+        new TextEncoder().encode(context.contextToken).byteLength >
+          MAX_CONTEXT_TOKEN_BYTES
+      )
+        throw new Error('contextToken is invalid');
+      try {
+        const response = await fetchImplementation(
+          `${baseUrl}/v1/checkouts/availability`,
+          {
+            method: 'GET',
+            cache: 'no-store',
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${context.contextToken}`,
+              'x-tofler-environment': environmentKey,
+            },
+            signal: AbortSignal.timeout(timeoutMilliseconds),
+          },
+        );
+        const body = await readBoundedJson(response);
+        if (!response.ok) {
+          const error = productAccessErrorResponseSchema.safeParse(body);
+          throw new BffCheckoutError(
+            error.success ? error.data.error.code : 'RETRYABLE_UNAVAILABLE',
+            response.status,
+          );
+        }
+        return checkoutAvailabilitySchema.parse(body);
+      } catch (error) {
+        if (error instanceof BffCheckoutError) throw error;
+        throw new BffCheckoutError('RETRYABLE_UNAVAILABLE', 503);
+      }
+    },
     createCheckout: async (context, request) => {
       if (
         context.contextToken.length === 0 ||

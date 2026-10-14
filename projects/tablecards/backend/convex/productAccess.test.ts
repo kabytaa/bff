@@ -51,6 +51,8 @@ describe('fresh-account product access with development mocks disabled', () => {
       async (input: RequestInfo | URL, init?: RequestInit) => {
         const url = new URL(String(input));
         requests.push(url.pathname);
+        if (url.pathname === '/v1/checkouts/availability')
+          return Response.json({ available: false });
         if (url.pathname === '/v1/product-access') {
           return Response.json({
             version: 1,
@@ -121,6 +123,7 @@ describe('fresh-account product access with development mocks disabled', () => {
       '/v1/product-access',
       '/v1/product-access/default',
       '/v1/product-access/units',
+      '/v1/checkouts/availability',
     ]);
     expect(
       await t.run(async (ctx) => await ctx.db.query('aiBatches').take(1)),
@@ -133,6 +136,8 @@ describe('fresh-account product access with development mocks disabled', () => {
     vi.stubGlobal('fetch', async (input: RequestInfo | URL) => {
       const url = new URL(String(input));
       requests.push(url.pathname);
+      if (url.pathname === '/v1/checkouts/availability')
+        return Response.json({ available: false });
       if (url.pathname === '/v1/product-access') {
         return Response.json({
           version: 1,
@@ -180,6 +185,7 @@ describe('fresh-account product access with development mocks disabled', () => {
     expect(requests).toEqual([
       '/v1/product-access',
       '/v1/product-access/units',
+      '/v1/checkouts/availability',
     ]);
   });
 

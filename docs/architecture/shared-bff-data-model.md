@@ -1,6 +1,6 @@
 # Shared BFF Data Model
 
-Updated: 2026-10-08.
+Updated: 2026-10-14.
 
 This document explains the currently implemented shared BFF data model. The
 authoritative schema remains
@@ -79,6 +79,10 @@ the public user ID and the Business-facing profile: verified email, display
 name and optional picture. The same principal receives distinct Business-user
 records in different Businesses and in development versus production. Cached
 membership and ownership counts support transactional limit enforcement.
+
+Optional `isTestUser` is operator-controlled and scoped to this record's Business
+environment; absent means false. It does not change identity/roles, grant operator
+rights or bypass usage limits. Customers cannot set it through sign-up/profile data.
 
 ### `loginTransactions`
 
@@ -167,6 +171,23 @@ Existing rows remain valid. No new table, field or index is introduced, and no
 data migration is required.
 TableCards provisions missing Free grants on the next authorized product-access
 request, using the existing lifetime allocation key so prior usage stays spent.
+
+On 2026-10-14 Andrew approved additive source `test_mock` and optional
+`businessUsers.isTestUser`. New mock purchases require a designated test Owner,
+all current workspace members designated as test users, and no `provider` grant.
+Eligibility is rechecked on creation and completion, independent of deployment
+mode. Completion writes `test_mock`; invitation acceptance/ownership transfer
+cannot add a normal user to that workspace. Legacy development grant writers
+cannot remove this marker, and no mock writer can replace provider-paid access.
+The old customer `/v1/product-access/development` grant route returns 403 even
+when development gates are enabled; only internal trusted fixtures retain that
+legacy writer. No customer JWT can use it to bypass test checkout.
+Turning a user flag off stops future/pending purchases, without removing existing
+access or data. Historical `development_mock` grants remain valid and unchanged.
+No tables/indexes/backfill or destructive migration are needed. Rollout must update
+access-source consumers before creating test grants; only development is deployed
+by this task. `GET /v1/checkouts/availability` reads eligibility for the verified
+current account, not a browser-supplied test flag.
 
 ### `checkoutAttempts`
 
