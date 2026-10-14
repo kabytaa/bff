@@ -2,9 +2,9 @@
 
 Created: 2026-09-27
 Last updated: 2026-10-14
-Status: Build 3 no-charge production preview deployed; final release evidence below
+Status: No-charge production preview plus Operator/test-user checkpoint deployed and production-verified
 
-This runbook covers the Build 3 no-charge preview in development and production.
+This runbook covers the no-charge preview in development and production.
 Andrew authorized production setup, merge, deployment and verification on
 2026-10-07. Real Cloudflare generation is authorized with separate capped usage
 in each deployment. Real payment and customer launch remain later stages.
@@ -236,11 +236,21 @@ was applied after Andrew's confirmation. Production never accepts development
 identity grants, fixture AI or arbitrary offer selection. The shared no-charge
 checkout was intentionally enabled in that historical production release; it creates simulated grants, not verified
 paid subscriptions. The UI identifies these as **No-charge simulation**.
-The newer test-user-only checkout revision is production-authorized on
+The newer test-user-only checkout revision is production-deployed on
 2026-10-14; the current release review is authoritative for deployment evidence.
 Existing users are not automatically designated and historical simulated grants
 are preserved. New simulated purchases require the explicitly designated test
 Owner/all-test workspace, even in production.
+
+Production Operator configuration revision 1 enables Gemma 4 + Jev for helper
+and support and binds `help@tablecards.tofler.app`. Development revision 9 uses
+`help-dev@tablecards.tofler.app`. Production live AI, signed mail intake/receipt
+and reply correlation, private image regeneration and public desktop/phone
+smokes pass. [Shared provider operations](../../../platform/bff/ai-provider/README.md)
+owns the exact separate runtime/gateway and pause procedure. No comparison or
+judge routes are published in production. All substantive replies still need
+the operator's exact Send; opening Review is not approval. Native billing alerts
+remain unconfigured and are not a custom application alert feature.
 
 Production Convex requires the same private checkout/provider credentials as
 development, but different values: `BFF_CHECKOUT_SERVICE_TOKEN` matches its

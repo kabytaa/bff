@@ -25,7 +25,10 @@ separate Payments or customer-launch stages. Production release evidence and
 remaining checks are recorded in the
 [dated release review](../../projects/tablecards/docs/reviews/261014-operator-work-production.md).
 The release preserves the accepted Gemma/Jev quality checkpoint and spending
-caps; no new benchmark run or paid plan change is needed.
+caps; no new benchmark run or paid plan change is needed. The production
+checkpoint completed on 2026-10-14 at `b260092` after main CI, deployment,
+infrastructure smoke and bounded real provider/browser checks; the linked
+review preserves the unverified production-authenticated and later-launch boundaries.
 
 ## Repository context snapshot
 

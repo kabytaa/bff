@@ -53,7 +53,7 @@ See [shared BFF table explanations](../../../docs/architecture/shared-bff-data-m
 [SDK exports and contracts](../../../platform/bff/libs/sdk/typescript/README.md)
 and [ADR 0004](../../../docs/architecture/adr/0004-business-customer-auth-and-accounts.md).
 
-### Operator work integration — development
+### Operator work integration
 
 The [shared Operator architecture](../../../docs/architecture/operator-work.md)
 owns support histories, draft approval, mail, feedback, bot runs and reported
@@ -68,7 +68,11 @@ one-shot jobs report safe save/export/AI outcomes with a separate scoped service
 secret, stable deduplication and bounded retries; reporting failure cannot undo
 the product action. Existing events drive generic seven-day KPI counts. Project
 contents, guest names, prompts and product private files stay out of event payloads.
-Actual text/email transport remains mocked/disabled in this development release.
+Actual text/email transport is live in development. The independently isolated
+production route/mailboxes are deployed and verified under the
+[2026-10-14 production review](reviews/261014-operator-work-production.md).
+Provider credentials and deployment routing remain operational configuration,
+not Business content or browser props.
 
 ### Authentication and context
 

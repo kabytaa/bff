@@ -4,10 +4,11 @@ Updated: 2026-10-14.
 
 Status: Accepted MVP scope; Build 3 no-charge production preview deployed, not a paying-customer launch.
 
-Current release: the Build 3 preview on `main`, including the 2026-10-08
-welcome-credit fix; the
-[production release review](reviews/261007-build-3-production-release.md)
-records exact versions, production smoke and verification limits. The earlier
+The Build 3 preview, including the 2026-10-08 welcome-credit fix, is recorded in
+its [production release review](reviews/261007-build-3-production-release.md).
+The separately authorized 2026-10-14 Operator/test-user extension is deployed and
+production-verified in the [current release review](reviews/261014-operator-work-production.md).
+These remain no-charge previews, not real payment or customer-launch acceptance. The earlier
 PDF/session/Cloudflare [delta review](reviews/261007-pdf-session-and-live-ai-fixes.md),
 `d0c53e7`/`a914da0` acceptance and `b5aeae3` reconciliation remain historical evidence.
 
@@ -36,8 +37,8 @@ The 2026-10-07 investigation found missing Free welcome grants, separate from
 the fixed login/Projects crash. The 2026-10-08 fix initializes the promised one
 lifetime batch through the trusted Business backend on the next authorized
 access request, including for existing default accounts. Refreshing does not
-replenish used credits or replace an upgraded offer; production mocks stay
-disabled. Publication and verification are recorded in the
+replenish used credits or replace an upgraded offer; production artwork fixtures
+stay disabled. Test checkout follows the designation rules above. Publication and verification are recorded in the
 [welcome-credit evidence](reviews/261007-build-3-production-release.md#free-welcome-credit-provisioning--2026-10-08).
 
 The [initial 2026-10-06 independent review](reviews/261006-build-3-documentation-and-readiness.md)

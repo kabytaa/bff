@@ -14,18 +14,20 @@ deployment and recovery belong in [operations](operations.md).
 The [2026-10-07 corrections/review](reviews/261007-pdf-session-and-live-ai-fixes.md)
 records cards-only output, accurate public session actions, real capped AI and
 optional company/style references; earlier acceptance is retained below.
-The [production release review](reviews/261007-build-3-production-release.md)
-records the merged release, actual desktop/mobile checks and unavailable
+The [Build 3 release review](reviews/261007-build-3-production-release.md)
+records that merged release, actual desktop/mobile checks and unavailable
 personal Google credential round-trips. This is not a paying-customer launch.
+The 2026-10-14 Operator/test-user production extension is tracked in the
+[current release review](reviews/261014-operator-work-production.md).
 
-**2026-10-14 development revision:** shared checkout is available only to an
+**2026-10-14 revision:** shared checkout is available only to an
 operator-designated test Owner in an all-test workspace, not to every signed-in
 development user. Account explains eligibility and offers **Refresh availability**;
 completed grants say **Test-user simulation · no payment charged**. Normal users
 see an explicit no-real-payments-yet explanation. Removing designation stops
 new/pending purchases while preserving access/data; test workspace invitations
 require a designated test recipient. Backoffice owns designation. Production
-remains the historical preview described above until separately released.
+release is deployed and verified within the linked review's stated boundaries.
 
 ## Repository baseline
 
@@ -169,7 +171,8 @@ form lives at `/contact` and inside Help; `/support` is not a separate route.
 Help and Feedback are available across pages. Loading, validation, submission,
 confirmation and signed-out fallback states are tested with synthetic data.
 Actual development website/email intake, operator-approved follow-up and emailed
-survey submission also pass; production Operator work remains undeployed.
+survey submission also pass. Production publication and real provider checks
+are recorded separately in the current release review.
 
 Routes owned by later builds must not appear as dead navigation before their
 workflow exists. Build 3 sends paid-offer actions to a shared BFF-owned,

@@ -136,8 +136,10 @@ Historical records keep their original numbering. The separate Marketing, Legal,
 Maintenance and Launch builds below replace the old bundled Build 7 without
 adding scope or creating another roadmap.
 
-**Current focus: Operator work**, still in feature brainstorming, not approved
-for implementation. **Payments is on hold** for Paddle access/confirmed terms,
+**Current checkpoint: Operator work**, implemented and verified in development
+and the separately authorized 2026-10-14 no-charge production release.
+The [release review](../../projects/tablecards/docs/reviews/261014-operator-work-production.md)
+records publication, tests and accepted limitations. **Payments is on hold** for Paddle access/confirmed terms,
 not completed or removed. Non-billing customer/support work can proceed from
 the released identity and TableCards base; verified payment facts depend on
 Payments. Provider-neutral local work need not wait for hosted credentials.
@@ -151,23 +153,23 @@ setup, code work and production deployment still require their applicable author
 
 ## Grouped launch tasks
 
-| Reference | Name | Meaning / outcome | Current state and real dependencies |
-| --- | --- | --- | --- |
-| 1 | Foundation | Workspace, shared service, contracts and validation harness | Completed; no dependency |
-| 2 | Identity | Google authentication, accounts and shared SDK | Completed; Foundation |
-| 3 | TableCards | Import, designs, complete preview, PDF and no-charge checkout | Published preview; Foundation/Identity and product contract, not final customer launch |
-| 4 | Payments | Real checkout, subscriptions and paid-access lifecycle | On hold; TableCards, confirmed Paddle access/terms for hosted checks |
-| 5 | Operator work | Customer support, helper/support bots, business/customer visibility and usable backoffice | Active brainstorm; Identity/TableCards base; email transport for hosted support; verified billing facts after Payments |
-| 6 | Monitoring | Technical health, errors and actionable alerts, not business activity | Later MVP; deployed flows and configured telemetry/alert transport; required before launch |
-| 7 | Marketing | Positioning, launch messaging and first-user/pilot approach | Later MVP; accepted product promises and offers; detailed discussion deferred |
-| 8 | Legal | Required documents, notices and agreements | Later final review; actual product/data/commercial behavior; applicable notices and checkout agreement required earlier |
-| 9 | Maintenance | Final code-quality, shared-reuse and operating review, not maintenance bots | Later MVP; implemented flows/evidence; no blanket refactor authorization |
-| 10 | Launch | Final deployment, regression, recovery and customer-launch checks | All required build outcomes and applicable provider/physical acceptance |
-| — | Human blockers | Provider verification, credentials and physical/live checks Codex cannot complete | Andrew; activate only when actionable |
+| Reference | Name           | Meaning / outcome                                                                         | Current state and real dependencies                                                                                     |
+| --------- | -------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| 1         | Foundation     | Workspace, shared service, contracts and validation harness                               | Completed; no dependency                                                                                                |
+| 2         | Identity       | Google authentication, accounts and shared SDK                                            | Completed; Foundation                                                                                                   |
+| 3         | TableCards     | Import, designs, complete preview, PDF and no-charge checkout                             | Published preview; Foundation/Identity and product contract, not final customer launch                                  |
+| 4         | Payments       | Real checkout, subscriptions and paid-access lifecycle                                    | On hold; TableCards, confirmed Paddle access/terms for hosted checks                                                    |
+| 5         | Operator work  | Customer support, helper/support bots, business/customer visibility and usable backoffice | Current checkpoint production-verified; richer branding remains a goal; verified billing facts after Payments           |
+| 6         | Monitoring     | Technical health, errors and actionable alerts, not business activity                     | Later MVP; deployed flows and configured telemetry/alert transport; required before launch                              |
+| 7         | Marketing      | Positioning, launch messaging and first-user/pilot approach                               | Later MVP; accepted product promises and offers; detailed discussion deferred                                           |
+| 8         | Legal          | Required documents, notices and agreements                                                | Later final review; actual product/data/commercial behavior; applicable notices and checkout agreement required earlier |
+| 9         | Maintenance    | Final code-quality, shared-reuse and operating review, not maintenance bots               | Later MVP; implemented flows/evidence; no blanket refactor authorization                                                |
+| 10        | Launch         | Final deployment, regression, recovery and customer-launch checks                         | All required build outcomes and applicable provider/physical acceptance                                                 |
+| —         | Human blockers | Provider verification, credentials and physical/live checks Codex cannot complete         | Andrew; activate only when actionable                                                                                   |
 
 Codex owns implementation and review within accepted scope. Andrew owns the
 personal/provider/physical actions that cannot be delegated. The table does not
-authorize implementation of the active brainstorm or deployment.
+authorize new scope or bypass the applicable implementation/deployment gates.
 
 ### Build 1 — Foundation
 
@@ -203,8 +205,8 @@ Implement the accepted Free 25, one-event/500-card Event Pass, 25-active-project
 
 Andrew's 2026-10-14 revision restricts **new mock purchases** to operator-designated
 test users and test-only workspaces, independent of deployment. That revision's
-current scope ends at development; production remains the earlier published
-preview until separately released. Existing access/data is retained. The shared
+development scope was extended to production by Andrew's release request that
+day. The dated release review records actual publication. Existing access/data is retained. The shared
 checkout plan's dated revision and shared data model own the eligibility details.
 
 After deterministic predefined-design export works, add optional AI backgrounds using a benchmarked cost-efficient model. One typed account-owned unit reservation produces four choices; success commits the unit and provider failure releases it idempotently. Exercise the accepted lifetime/event/monthly allowances without putting mutable balances in JWTs or sending guest-list data to the provider. Ordinary predefined/uploaded designs and PDF export must remain usable when AI is unavailable.
@@ -245,6 +247,15 @@ Signed payment fixtures must let the full happy path run without a live charge a
 
 ### Build 5 — Operator work
 
+**Current delivery state — 2026-10-14:** the accepted
+[execution plan](../../.agent/plans/261009-operator-work.md) delivered shared
+support/helper, real development mail, private PNG/JPEG regeneration, events/KPIs,
+operator workflows and regression tooling. The authorized production checkpoint
+is deployed and smoke-verified in the linked release review. Gemma/Jev's accepted 84% strict
+checkpoint remains below the deferred 90–95% goal. Historical design entries
+below explain the decisions, not a new approval blocker; implemented contracts
+are canonical in the [architecture](../architecture/operator-work.md).
+
 **2026-10-09 regrouping — accepted:** Andrew wants one focused operator build:
 nontechnical business visibility, meaningful customer information and support
 handling, with related customer-facing help/contact abilities. Move the usable
@@ -252,7 +263,8 @@ backoffice, meaningful events and basic business-visibility scope formerly in
 Build 6 here. Technical monitoring is a separate later Build 6; logs, metrics,
 traces, uptime panels and monitoring-provider setup are not this build's scope.
 Company-wide Paperclip/Dots roles remain post-MVP. This accepts the delivery
-boundary, not the whole design, schemas or implementation.
+boundary; design/schema and implementation were subsequently approved separately
+on 2026-10-09, followed by production authorization on 2026-10-14.
 
 #### Customer support and helper/support assistance
 
@@ -269,7 +281,8 @@ support/sales department; no sales workflow, project/account-changing authority
 or automatic email/ticket submission follows. The
 [TableCards product contract](../../projects/tablecards/docs/product.md#support-feedback-and-operations)
 owns the Business-specific promise. Helpers remain optional/configurable for
-other Businesses; additional context, runtime and implementation remain unapproved.
+other Businesses; their configured context and the shared runtime follow the
+subsequently approved architecture and implementation plan.
 
 Add the required support capability as its own implementation slice rather than expanding Build 2. Signed-in customers can open `feedback` (including suggestions and missing-feature requests), `problem` or `question` cases through a shared website form, and anyone can email support. Signed-out visitors see Sign in and Send us an email options, with a public mail link and visible support address; no anonymous website form is required for MVP. The link opens a draft in the visitor's configured mail client, not an automatic send. Receive email messages without a contact-verification ceremony, apply spam controls and send the initial receipt; general help may proceed, but private support requires appropriate authenticated account authority. Signed-in submissions carry trusted environment/user/account context; public intake must not invent account authority. Operators review history, handle status and reply through the shared backoffice. Substantive replies are as needed; ticket AI suggests drafts for an operator to review and send, not autonomous replies. Customer follow-up uses email, with inbound replies joining the same case. Provide a monitored support address for people who cannot sign in; authenticated private-support continuation and detailed form behavior remain to define. No customer ticket-history or conversation/reply pages in the Business website for MVP.
 
@@ -281,7 +294,10 @@ friction justifies it. BFF case ownership and email follow-up are unchanged.
 
 Emails use Business-configured styling and a logo, with shared BFF rendering;
 reuse existing auth presentation where appropriate rather than duplicate brand
-settings. Exact logo/configuration contracts and editing controls remain open.
+settings. The implemented release uses configured Business sender/name/copy and
+escaped HTML/plain-text fallback. Rich logo/accent mail branding remains an
+unimplemented goal without an approved logo schema/editor; it is not represented
+as already delivered.
 Initial receipt delivery must be retry-safe, bounded against abuse and email
 loops, and distinguish received, sent/delivered, answered and resolved. A receipt
 does not verify contact/account identity or promise a substantive response/SLA.

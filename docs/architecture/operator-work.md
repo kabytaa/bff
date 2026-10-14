@@ -1,11 +1,13 @@
 # Operator work — architecture
 
-Created: 2026-10-09 · Updated: 2026-10-13 · Implementation baseline: `41ba411` · **Gemma/Jev helper and support checkpoint verified in development; production excluded**
+Created: 2026-10-09 · Updated: 2026-10-14 · Implementation baseline: `41ba411` · **Gemma/Jev checkpoint deployed and verified in production; no-charge preview**
 
 Short review view of the [detailed brainstorm](../../.agent/brainstorms/261008-customer-operations-backoffice.md#proposed-erd).
 Andrew approved the design/schema on 2026-10-09. The
 [plan](../../.agent/plans/261009-operator-work.md) records implementation and
-verification; production remains untouched.
+verification. Andrew separately authorized production on 2026-10-14; the
+[release review](../../projects/tablecards/docs/reviews/261014-operator-work-production.md)
+owns actual publication/smoke evidence and limits.
 
 **Execution authorization — 2026-10-09:** after documentation checkpoint `41ba411`,
 Andrew authorized unattended implementation and verification ending at development,
@@ -15,7 +17,9 @@ storage with optional `businessEnvironments.operatorWork` and optional
 `operatorWorkConfigurationRevision`, plus indexed optional receiving-address/reply-domain
 bindings. Existing rows remain disabled/revision zero when absent; no backfill,
 required-field change, deletion or TableCards domain-table migration. Provider
-credentials remain outside these fields. Production is not authorized.
+credentials remain outside these fields. That original authorization excluded
+production; the dated 2026-10-14 release request supersedes that restriction,
+without authorizing real payments or customer launch.
 
 ## ERD
 

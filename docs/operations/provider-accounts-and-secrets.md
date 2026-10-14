@@ -28,9 +28,10 @@ in the [release review](../../projects/tablecards/docs/reviews/261014-operator-w
   persistence or provider content fetch, with a second check for queued inbound
   jobs. Distinct addresses alone are not adequate because Resend callbacks are
   account-wide.
-- Production webhook `f39d1ee6-7171-42c1-b85e-5e84a318a7a1` is prepared disabled
-  until the reviewed backend/configuration is published. Consult the dated
-  release review for activation and real round-trip verification, not the older
+- Production webhook `f39d1ee6-7171-42c1-b85e-5e84a318a7a1` was enabled after
+  the loop-protected backend/configuration was published. Real receipt delivery,
+  scoped inbound follow-up, private PNG regeneration and cross-deployment
+  isolation passed. Consult the dated release review, not the older
   development-only status below. Runtime keys created for production are fresh;
   the earlier setup/temporary development credentials still warrant rotation.
 
