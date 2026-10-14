@@ -181,6 +181,9 @@ test('shared Help bubble and support entry are usable without development contro
       inferenceCalls += 1;
   });
   await page.goto('/');
+  await expect(
+    page.getByRole('banner').getByRole('link', { name: 'Log in', exact: true }),
+  ).toBeVisible();
   const bubble = page.getByRole('button', { name: 'Help', exact: true });
   await expect(bubble).toBeVisible();
   await bubble.click();
@@ -243,12 +246,26 @@ test('policies and deep links describe the no-charge boundary on phone and deskt
   for (const route of ['privacy', 'terms', 'contact']) {
     await page.goto(`/${route}`);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(
-      page.getByText(/no-charge preview, not a commercial launch/u),
-    ).toBeVisible();
+    if (route === 'contact') {
+      await expect(
+        page.getByText('TableCards no-charge preview', { exact: true }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole('link', { name: 'Send us an email', exact: true }),
+      ).toHaveAttribute('href', /^mailto:help@tablecards\.tofler\.app\?/u);
+    } else {
+      await expect(
+        page.getByText(/no-charge preview, not a commercial launch/u),
+      ).toBeVisible();
+    }
     await expectContained(page);
     await page.evaluate(() => document.fonts.ready.then(() => undefined));
-    const back = page.getByRole('link', { name: 'Back to TableCards' });
+    const back =
+      route === 'contact'
+        ? page
+            .getByRole('banner')
+            .getByRole('link', { name: 'TableCards home', exact: true })
+        : page.getByRole('link', { name: 'Back to TableCards' });
     if (info.project.use.isMobile) await back.tap();
     else await back.click();
     await expect(page).toHaveURL('https://tablecards.tofler.app/');
